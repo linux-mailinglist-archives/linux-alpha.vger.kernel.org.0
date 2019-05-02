@@ -2,47 +2,156 @@ Return-Path: <linux-alpha-owner@vger.kernel.org>
 X-Original-To: lists+linux-alpha@lfdr.de
 Delivered-To: lists+linux-alpha@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id ADAA41207D
-	for <lists+linux-alpha@lfdr.de>; Thu,  2 May 2019 18:46:29 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 24C6E120A9
+	for <lists+linux-alpha@lfdr.de>; Thu,  2 May 2019 18:56:14 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726614AbfEBQq2 convert rfc822-to-8bit (ORCPT
-        <rfc822;lists+linux-alpha@lfdr.de>); Thu, 2 May 2019 12:46:28 -0400
-Received: from static-189-206-130-57.alestra.net.mx ([189.206.130.57]:37971
-        "EHLO mail.lux.mx" rhost-flags-OK-FAIL-OK-OK) by vger.kernel.org
-        with ESMTP id S1726203AbfEBQq2 (ORCPT
-        <rfc822;linux-alpha@vger.kernel.org>); Thu, 2 May 2019 12:46:28 -0400
-X-Greylist: delayed 395 seconds by postgrey-1.27 at vger.kernel.org; Thu, 02 May 2019 12:46:28 EDT
+        id S1726193AbfEBQ4N (ORCPT <rfc822;lists+linux-alpha@lfdr.de>);
+        Thu, 2 May 2019 12:56:13 -0400
+Received: from pegase1.c-s.fr ([93.17.236.30]:38953 "EHLO pegase1.c-s.fr"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1726472AbfEBQ4M (ORCPT <rfc822;linux-alpha@vger.kernel.org>);
+        Thu, 2 May 2019 12:56:12 -0400
+Received: from localhost (mailhub1-int [192.168.12.234])
+        by localhost (Postfix) with ESMTP id 44w1cS5Fwsz9v0Sx;
+        Thu,  2 May 2019 18:56:08 +0200 (CEST)
+Authentication-Results: localhost; dkim=pass
+        reason="1024-bit key; insecure key"
+        header.d=c-s.fr header.i=@c-s.fr header.b=b8I7W1X+; dkim-adsp=pass;
+        dkim-atps=neutral
+X-Virus-Scanned: Debian amavisd-new at c-s.fr
+Received: from pegase1.c-s.fr ([192.168.12.234])
+        by localhost (pegase1.c-s.fr [192.168.12.234]) (amavisd-new, port 10024)
+        with ESMTP id 4wFI9OSqYAkB; Thu,  2 May 2019 18:56:08 +0200 (CEST)
+Received: from messagerie.si.c-s.fr (messagerie.si.c-s.fr [192.168.25.192])
+        by pegase1.c-s.fr (Postfix) with ESMTP id 44w1cS3z29z9v0Sy;
+        Thu,  2 May 2019 18:56:08 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=c-s.fr; s=mail;
+        t=1556816168; bh=Q15LZ3d9bdq9dEoD9BccUn9mlT4iR41PhF1gwPGTDdo=;
+        h=Subject:To:Cc:References:From:Date:In-Reply-To:From;
+        b=b8I7W1X+eD9E6f4QICHVyiGb2O+HBaJpc4Gwg6pUFtlpNKygpjn8VED8m8xg+JkOB
+         IY+qSAZGLB4WFz+ZuAhNE6IOZlIPudaswik9x6vnbwMIKU3+fxYh/fSD0okZc5lnaA
+         cdvwJC11zLQtHCiz8Kggoo4ZlThkHqB1Sg9CxUag=
 Received: from localhost (localhost [127.0.0.1])
-        by mail.lux.mx (Postfix) with ESMTP id 60993664D9;
-        Thu,  2 May 2019 11:34:10 -0500 (CDT)
-Received: from mail.lux.mx ([127.0.0.1])
-        by localhost (mail.lux.mx [127.0.0.1]) (amavisd-new, port 10032)
-        with ESMTP id DOf0LnDZd7k9; Thu,  2 May 2019 11:34:09 -0500 (CDT)
-Received: from mail.lux.mx (localhost [127.0.0.1])
-        by mail.lux.mx (Postfix) with ESMTPS id DE8A466AD5;
-        Thu,  2 May 2019 11:34:08 -0500 (CDT)
-Received: from [172.20.10.4] (unknown [223.225.70.146])
-        by mail.lux.mx (Postfix) with ESMTPSA id C68A46672B;
-        Thu,  2 May 2019 11:33:30 -0500 (CDT)
-Content-Type: text/plain; charset="iso-8859-1"
+        by messagerie.si.c-s.fr (Postfix) with ESMTP id 3A25B8B8FE;
+        Thu,  2 May 2019 18:56:10 +0200 (CEST)
+X-Virus-Scanned: amavisd-new at c-s.fr
+Received: from messagerie.si.c-s.fr ([127.0.0.1])
+        by localhost (messagerie.si.c-s.fr [127.0.0.1]) (amavisd-new, port 10023)
+        with ESMTP id RamEpSyy5iYB; Thu,  2 May 2019 18:56:10 +0200 (CEST)
+Received: from PO15451 (unknown [192.168.4.90])
+        by messagerie.si.c-s.fr (Postfix) with ESMTP id CE4878B899;
+        Thu,  2 May 2019 18:56:08 +0200 (CEST)
+Subject: Re: [PATCH 12/15] powerpc/nohash/64: switch to generic version of pte
+ allocation
+To:     Mike Rapoport <rppt@linux.ibm.com>,
+        Andrew Morton <akpm@linux-foundation.org>
+Cc:     Michal Hocko <mhocko@suse.com>,
+        Catalin Marinas <catalin.marinas@arm.com>,
+        Palmer Dabbelt <palmer@sifive.com>, linux-mips@vger.kernel.org,
+        Guo Ren <guoren@kernel.org>, linux-hexagon@vger.kernel.org,
+        linux-riscv@lists.infradead.org, linux-arch@vger.kernel.org,
+        Helge Deller <deller@gmx.de>, x86@kernel.org,
+        Russell King <linux@armlinux.org.uk>,
+        Matthew Wilcox <willy@infradead.org>,
+        Geert Uytterhoeven <geert@linux-m68k.org>,
+        Matt Turner <mattst88@gmail.com>,
+        Sam Creasey <sammy@sammy.net>, Arnd Bergmann <arnd@arndb.de>,
+        linux-um@lists.infradead.org, Richard Weinberger <richard@nod.at>,
+        linux-m68k@lists.linux-m68k.org, Greentime Hu <green.hu@gmail.com>,
+        nios2-dev@lists.rocketboards.org, Guan Xuetao <gxt@pku.edu.cn>,
+        linux-arm-kernel@lists.infradead.org, linux-parisc@vger.kernel.org,
+        linux-kernel@vger.kernel.org, Richard Kuo <rkuo@codeaurora.org>,
+        Paul Burton <paul.burton@mips.com>,
+        linux-alpha@vger.kernel.org, Ley Foon Tan <lftan@altera.com>,
+        linuxppc-dev@lists.ozlabs.org
+References: <1556810922-20248-1-git-send-email-rppt@linux.ibm.com>
+ <1556810922-20248-13-git-send-email-rppt@linux.ibm.com>
+From:   Christophe Leroy <christophe.leroy@c-s.fr>
+Message-ID: <adcb6ae6-48d9-5ba9-2732-a0ab1d96667c@c-s.fr>
+Date:   Thu, 2 May 2019 18:56:07 +0200
+User-Agent: Mozilla/5.0 (Windows NT 6.1; WOW64; rv:60.0) Gecko/20100101
+ Thunderbird/60.6.1
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8BIT
-Content-Description: Mail message body
-Subject: RE
-To:     Recipients <mv12836@masvision.mx>
-From:   "Ella Golan" <mv12836@masvision.mx>
-Date:   Thu, 02 May 2019 09:32:48 -0700
-Reply-To: 3173910591@qq.com
-Message-Id: <20190502163330.C68A46672B@mail.lux.mx>
+In-Reply-To: <1556810922-20248-13-git-send-email-rppt@linux.ibm.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: fr
+Content-Transfer-Encoding: 8bit
 Sender: linux-alpha-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-alpha.vger.kernel.org>
 X-Mailing-List: linux-alpha@vger.kernel.org
 
-My name is Ms Ella Golan, I'm the Chief Executive Officer (C.P.A) of the First International Bank of Israel (FIBI).
-I'm getting in touch with you in regards to a very important and urgent matter.
-Kindly respond back at your earliest convenience so
-I can provide you the details.
 
-Faithfully,
-Ms Ella Golan
+
+Le 02/05/2019 à 17:28, Mike Rapoport a écrit :
+> The 64-bit book-E powerpc implements pte_alloc_one(),
+> pte_alloc_one_kernel(), pte_free_kernel() and pte_free() the same way as
+> the generic version.
+
+Will soon be converted to the same as the 3 other PPC subarches, see
+https://patchwork.ozlabs.org/patch/1091590/
+
+Christophe
+
+> 
+> Switch it to the generic version that does exactly the same thing.
+> 
+> Signed-off-by: Mike Rapoport <rppt@linux.ibm.com>
+> ---
+>   arch/powerpc/include/asm/nohash/64/pgalloc.h | 35 ++--------------------------
+>   1 file changed, 2 insertions(+), 33 deletions(-)
+> 
+> diff --git a/arch/powerpc/include/asm/nohash/64/pgalloc.h b/arch/powerpc/include/asm/nohash/64/pgalloc.h
+> index 66d086f..bfb53a0 100644
+> --- a/arch/powerpc/include/asm/nohash/64/pgalloc.h
+> +++ b/arch/powerpc/include/asm/nohash/64/pgalloc.h
+> @@ -11,6 +11,8 @@
+>   #include <linux/cpumask.h>
+>   #include <linux/percpu.h>
+>   
+> +#include <asm-generic/pgalloc.h>	/* for pte_{alloc,free}_one */
+> +
+>   struct vmemmap_backing {
+>   	struct vmemmap_backing *list;
+>   	unsigned long phys;
+> @@ -92,39 +94,6 @@ static inline void pmd_free(struct mm_struct *mm, pmd_t *pmd)
+>   	kmem_cache_free(PGT_CACHE(PMD_CACHE_INDEX), pmd);
+>   }
+>   
+> -
+> -static inline pte_t *pte_alloc_one_kernel(struct mm_struct *mm)
+> -{
+> -	return (pte_t *)__get_free_page(GFP_KERNEL | __GFP_ZERO);
+> -}
+> -
+> -static inline pgtable_t pte_alloc_one(struct mm_struct *mm)
+> -{
+> -	struct page *page;
+> -	pte_t *pte;
+> -
+> -	pte = (pte_t *)__get_free_page(GFP_KERNEL | __GFP_ZERO | __GFP_ACCOUNT);
+> -	if (!pte)
+> -		return NULL;
+> -	page = virt_to_page(pte);
+> -	if (!pgtable_page_ctor(page)) {
+> -		__free_page(page);
+> -		return NULL;
+> -	}
+> -	return page;
+> -}
+> -
+> -static inline void pte_free_kernel(struct mm_struct *mm, pte_t *pte)
+> -{
+> -	free_page((unsigned long)pte);
+> -}
+> -
+> -static inline void pte_free(struct mm_struct *mm, pgtable_t ptepage)
+> -{
+> -	pgtable_page_dtor(ptepage);
+> -	__free_page(ptepage);
+> -}
+> -
+>   static inline void pgtable_free(void *table, int shift)
+>   {
+>   	if (!shift) {
+> 
