@@ -2,130 +2,91 @@ Return-Path: <linux-alpha-owner@vger.kernel.org>
 X-Original-To: lists+linux-alpha@lfdr.de
 Delivered-To: lists+linux-alpha@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id E5E301225A
-	for <lists+linux-alpha@lfdr.de>; Thu,  2 May 2019 21:09:52 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 88B6912465
+	for <lists+linux-alpha@lfdr.de>; Fri,  3 May 2019 00:01:00 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726193AbfEBTJw (ORCPT <rfc822;lists+linux-alpha@lfdr.de>);
-        Thu, 2 May 2019 15:09:52 -0400
-Received: from mail-eopbgr740135.outbound.protection.outlook.com ([40.107.74.135]:50333
-        "EHLO NAM01-BN3-obe.outbound.protection.outlook.com"
-        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
-        id S1726120AbfEBTJv (ORCPT <rfc822;linux-alpha@vger.kernel.org>);
-        Thu, 2 May 2019 15:09:51 -0400
+        id S1726022AbfEBWA7 (ORCPT <rfc822;lists+linux-alpha@lfdr.de>);
+        Thu, 2 May 2019 18:00:59 -0400
+Received: from mail-ot1-f66.google.com ([209.85.210.66]:44033 "EHLO
+        mail-ot1-f66.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726128AbfEBWA7 (ORCPT
+        <rfc822;linux-alpha@vger.kernel.org>); Thu, 2 May 2019 18:00:59 -0400
+Received: by mail-ot1-f66.google.com with SMTP id d24so3543048otl.11
+        for <linux-alpha@vger.kernel.org>; Thu, 02 May 2019 15:00:59 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=wavesemi.onmicrosoft.com; s=selector1-wavecomp-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=3uRzdcIsJFDRPuamLXXcZJewA+rYe1vjm3/bXx2cTtI=;
- b=UoDeGPVhr6JZ7JNyhlHHRROKNEf0NVYR3XZ6bqIqahCovm96BewjlvjGgoNstrrWx8X2FGIWt1hlA2voOr4yKZ2l5wY2wSULDuWJE5gc4fbfJvODff2SAeUk1Q2LbkGhLrcmCIJnuqlUVwJoIDAarSwHlNhS+xIjPE2/ZV/K//w=
-Received: from MWHPR2201MB1277.namprd22.prod.outlook.com (10.174.162.17) by
- MWHPR2201MB1022.namprd22.prod.outlook.com (10.174.167.23) with Microsoft SMTP
- Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.1856.10; Thu, 2 May 2019 19:09:48 +0000
-Received: from MWHPR2201MB1277.namprd22.prod.outlook.com
- ([fe80::b9d6:bf19:ec58:2765]) by MWHPR2201MB1277.namprd22.prod.outlook.com
- ([fe80::b9d6:bf19:ec58:2765%7]) with mapi id 15.20.1835.018; Thu, 2 May 2019
- 19:09:48 +0000
-From:   Paul Burton <paul.burton@mips.com>
-To:     Mike Rapoport <rppt@linux.ibm.com>
-CC:     Andrew Morton <akpm@linux-foundation.org>,
-        Arnd Bergmann <arnd@arndb.de>,
-        Catalin Marinas <catalin.marinas@arm.com>,
-        Geert Uytterhoeven <geert@linux-m68k.org>,
-        Greentime Hu <green.hu@gmail.com>,
-        Guan Xuetao <gxt@pku.edu.cn>, Guo Ren <guoren@kernel.org>,
-        Helge Deller <deller@gmx.de>, Ley Foon Tan <lftan@altera.com>,
-        Matthew Wilcox <willy@infradead.org>,
-        Matt Turner <mattst88@gmail.com>,
-        Michael Ellerman <mpe@ellerman.id.au>,
-        Michal Hocko <mhocko@suse.com>,
-        Palmer Dabbelt <palmer@sifive.com>,
-        Richard Kuo <rkuo@codeaurora.org>,
-        Richard Weinberger <richard@nod.at>,
-        Russell King <linux@armlinux.org.uk>,
-        Sam Creasey <sammy@sammy.net>,
-        "x86@kernel.org" <x86@kernel.org>,
-        "linux-alpha@vger.kernel.org" <linux-alpha@vger.kernel.org>,
-        "linux-arch@vger.kernel.org" <linux-arch@vger.kernel.org>,
-        "linux-arm-kernel@lists.infradead.org" 
-        <linux-arm-kernel@lists.infradead.org>,
-        "linux-hexagon@vger.kernel.org" <linux-hexagon@vger.kernel.org>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-        "linux-m68k@lists.linux-m68k.org" <linux-m68k@lists.linux-m68k.org>,
-        "linux-mips@vger.kernel.org" <linux-mips@vger.kernel.org>,
-        "linux-parisc@vger.kernel.org" <linux-parisc@vger.kernel.org>,
-        "linuxppc-dev@lists.ozlabs.org" <linuxppc-dev@lists.ozlabs.org>,
-        "linux-riscv@lists.infradead.org" <linux-riscv@lists.infradead.org>,
-        "linux-um@lists.infradead.org" <linux-um@lists.infradead.org>,
-        "nios2-dev@lists.rocketboards.org" <nios2-dev@lists.rocketboards.org>
-Subject: Re: [PATCH 08/15] mips: switch to generic version of pte allocation
-Thread-Topic: [PATCH 08/15] mips: switch to generic version of pte allocation
-Thread-Index: AQHVAPvhYRXSn9iSl02DVsubJsLUFKZYMz4A
-Date:   Thu, 2 May 2019 19:09:47 +0000
-Message-ID: <20190502190945.rrrxfxo3rbhgc3cx@pburton-laptop>
-References: <1556810922-20248-1-git-send-email-rppt@linux.ibm.com>
- <1556810922-20248-9-git-send-email-rppt@linux.ibm.com>
-In-Reply-To: <1556810922-20248-9-git-send-email-rppt@linux.ibm.com>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-clientproxiedby: BY5PR16CA0008.namprd16.prod.outlook.com
- (2603:10b6:a03:1a0::21) To MWHPR2201MB1277.namprd22.prod.outlook.com
- (2603:10b6:301:24::17)
-user-agent: NeoMutt/20180716
-authentication-results: spf=none (sender IP is )
- smtp.mailfrom=pburton@wavecomp.com; 
-x-ms-exchange-messagesentrepresentingtype: 1
-x-originating-ip: [12.94.197.246]
-x-ms-publictraffictype: Email
-x-ms-office365-filtering-correlation-id: 91079f33-430b-47c0-f67b-08d6cf31be4b
-x-microsoft-antispam: BCL:0;PCL:0;RULEID:(2390118)(7020095)(4652040)(8989299)(4534185)(4627221)(201703031133081)(201702281549075)(8990200)(5600141)(711020)(4605104)(2017052603328)(7193020);SRVR:MWHPR2201MB1022;
-x-ms-traffictypediagnostic: MWHPR2201MB1022:
-x-microsoft-antispam-prvs: <MWHPR2201MB10220E9C1EE86CAAD5D4533BC1340@MWHPR2201MB1022.namprd22.prod.outlook.com>
-x-ms-oob-tlc-oobclassifiers: OLM:6790;
-x-forefront-prvs: 0025434D2D
-x-forefront-antispam-report: SFV:NSPM;SFS:(10019020)(7916004)(346002)(136003)(376002)(39840400004)(366004)(396003)(199004)(189003)(6116002)(25786009)(3846002)(99286004)(6512007)(6486002)(71190400001)(6436002)(53936002)(4326008)(71200400001)(68736007)(9686003)(76176011)(229853002)(52116002)(6246003)(305945005)(7736002)(7406005)(7416002)(64756008)(66446008)(66476007)(73956011)(6916009)(66556008)(478600001)(66946007)(33716001)(6506007)(386003)(54906003)(42882007)(316002)(256004)(14444005)(66066001)(81156014)(5660300002)(8936002)(58126008)(81166006)(2906002)(486006)(26005)(476003)(446003)(44832011)(102836004)(1076003)(8676002)(186003)(14454004)(11346002)(4744005)(41533002);DIR:OUT;SFP:1102;SCL:1;SRVR:MWHPR2201MB1022;H:MWHPR2201MB1277.namprd22.prod.outlook.com;FPR:;SPF:None;LANG:en;PTR:InfoNoRecords;A:1;MX:1;
-received-spf: None (protection.outlook.com: wavecomp.com does not designate
- permitted sender hosts)
-x-ms-exchange-senderadcheck: 1
-x-microsoft-antispam-message-info: M0XTyWwxLd3yYpP2blH3NYKZ4bTHNO3PM20OCTP+DzZIHyYhQH9pfCtE+IiXKjd8NNv5X3Dd/rlNUfRK8P/qw9sW43SPzJBAlmY9ams9neR9CePfEzRVcw/XEAcVa+RQOKr5ncqBxc6KQ8sWUZS8DNT0t4fZEftl/zkE67d2830JYqraQ8tgl8T3+Q6WjbCnCuleR7jesV4G37l39dVlcmWqv1fOJRWiI4TVnP+xAOOWVX8Xqx8/a0eaGfBME3TFz8Ug1vg8TirGdknFPO8BLK8tR9d77vo2WyCBSDiAL1NF7vixTzpQGrOtu5iwuSF+RtyVT+vXlYbSPuoxprV4UKBEl9qbd4Yipk1eBxldrxqQUW46PMgZGLnbKxjqZfIINmsQFoMzGqH4Z25w00m7AbkZWLv+kToXQh0ohU67Bfc=
-Content-Type: text/plain; charset="us-ascii"
-Content-ID: <5F06A475B76E7846961ABC0FB62B828B@namprd22.prod.outlook.com>
-Content-Transfer-Encoding: quoted-printable
+        d=gmail.com; s=20161025;
+        h=mime-version:reply-to:from:date:message-id:subject:to;
+        bh=nMP8AFkuDxVQ8RKcbw3n8nmKTeOxi/ZqXhfwMRbGzmA=;
+        b=rUZxSMZd1nXu5PRuP+1ktgz+sD7KIZiNzl0aHZ2UKiIJA2wekgzL3SV9DE83mC2rmd
+         e3O5iv07x3Qzxnpm/6PSjKqRmbJiZZ5MnonuHNfSJmtjbMger57NNn8Gb/ISgYTZFRcN
+         KO9dC273cSj/5KY8LlzCh8ttcTVqssJUOG6KU8ZEPJaTwzEf5yf1X0IihoWHa25nLbaI
+         +tWEAj6jAvR40/qWXlCAY+EifX00BzHvwvzA2W7rFsFFy1m0GUJ5DA36bDzNbieQbNvH
+         wnVoaG05INfm7+SvCOrhEq+B8APscJtQMG9WLECs1+kSE0q2EmQWTCmPJ7wXnq3M5UkA
+         oclg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:reply-to:from:date:message-id
+         :subject:to;
+        bh=nMP8AFkuDxVQ8RKcbw3n8nmKTeOxi/ZqXhfwMRbGzmA=;
+        b=uGOHeBfZZrkjXB0mmFAj76ofopA77bhr4aGB9ph1dl/WQFVryXdeL92nlaviMXc29k
+         djEqRGhacJWYaEa5U0Llwgu9SCHzJfsHnLt6Ba2PqE/51CltJ0yU2fTQUz0T3um3h1pG
+         /OzGUwNxMgMLHXM3WckMALP+87C+lTgaCS+yWrceM3lTFE3EUMk3VHTTe9iDG5b8woeH
+         UWlcQxVw7qoXVXoa5E+BfEWCp7u6/Dm92UjYrVg6aGsbusGiYR87nW2QlsztSLPInxMF
+         sey9Kx1iMhRz/MUSXNExfqDO+QSQH7B4a3IPFBmG+bKO2we+LMsNrHVToj7zjIvyVUFY
+         8myQ==
+X-Gm-Message-State: APjAAAXBEvYkX7xsrOom8g90YIBxoSMJyTanwx5aiT8BdArsKcwfykVQ
+        ZMPvTsQOFPI9tYkmovbPnSpuERXxRRXoWCMARAA=
+X-Google-Smtp-Source: APXvYqwjlKOxEg47wlf8zUI5NfLT305DPgSakt4eWtLe65O0Lreno5WpPt/jLkkPAdZCCuD92VHm89AnJ6HSSYcbbnc=
+X-Received: by 2002:a05:6830:196:: with SMTP id q22mr3952805ota.127.1556834458817;
+ Thu, 02 May 2019 15:00:58 -0700 (PDT)
 MIME-Version: 1.0
-X-OriginatorOrg: mips.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 91079f33-430b-47c0-f67b-08d6cf31be4b
-X-MS-Exchange-CrossTenant-originalarrivaltime: 02 May 2019 19:09:47.6013
- (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 463607d3-1db3-40a0-8a29-970c56230104
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: MWHPR2201MB1022
+Received: by 2002:ac9:1225:0:0:0:0:0 with HTTP; Thu, 2 May 2019 15:00:57 -0700 (PDT)
+Reply-To: martinaisabel33@gmail.com
+From:   Mrs Martina Isabel <martinaisabel113@gmail.com>
+Date:   Fri, 3 May 2019 00:00:57 +0200
+Message-ID: <CADO7QewxJsM5VtrQcNJRnfrjzEAzLAvQMFrjNwRvT6TFCacuRQ@mail.gmail.com>
+Subject: I want you to contact my Church Pastor in Burkina-Faso, his name is (
+ Rev.Father Joseph Michael ) , his Email Address: ( rev.fatherjosephmichael@gmail.com
+ )
+To:     undisclosed-recipients:;
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-alpha-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-alpha.vger.kernel.org>
 X-Mailing-List: linux-alpha@vger.kernel.org
 
-Hi Mike,
+Dear  Friend.
 
-On Thu, May 02, 2019 at 06:28:35PM +0300, Mike Rapoport wrote:
-> MIPS allocates kernel PTE pages with
->=20
-> 	__get_free_pages(GFP_KERNEL | __GFP_ZERO, PTE_ORDER)
->=20
-> and user PTE pages with
->=20
-> 	alloc_pages(GFP_KERNEL | __GFP_ZERO, PTE_ORDER)
 
-That bit isn't quite true - we don't use __GFP_ZERO in pte_alloc_one() &
-instead call clear_highpage() on the allocated page. Not that I have a
-problem with using __GFP_ZERO - it seems like the more optimal choice.
-It just might be worth mentioning the change & expected equivalent
-behavior.
+May the Peace of the Lord be Upon You.
 
-Otherwise:
 
-    Acked-by: Paul Burton <paul.burton@mips.com>
+am very very busy with my new partener hear. in Country  ( Vintner.  )
 
-Thanks,
-    Paul
+
+Pls I  want you to contact my Church  Pastor in Burkina-Faso, his name
+is ( Rev.Father Joseph Michael ) , his Email Address: (
+rev.fatherjosephmichael@gmail.com )
+
+please ask him to send you the total sum of  ( $ 850,000 USD  ) only
+which I kept for you inside ATM Card as compensation for all your past
+efforts and attempts to assist me in this matter.
+
+so feel free to get in touched with my Pastor -( Rev Father Joseph
+Michael.)  and then direct him on how to send the ATM Card to you,
+Please do let me know immediately you receive the ATM Card so that we
+can share the joy together after all the sufferings at that time.
+
+
+I  want you to contact my Church  Pastor in Burkina-Faso, his name is
+( Rev.Father Joseph Michael ) , his Email Address: (
+rev.fatherjosephmichael@gmail.com )
+
+am waiting to hear from you as you may contacted the Rev Father Joseph
+Michael.. for your Fund  ( $ 850 dollars only. )  your  ATM Card to
+you,
+
+am waiting to you.
+Thanks
+Yours Sister
+Mrs.Martina Isabel.
