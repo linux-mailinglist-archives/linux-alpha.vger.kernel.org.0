@@ -2,91 +2,115 @@ Return-Path: <linux-alpha-owner@vger.kernel.org>
 X-Original-To: lists+linux-alpha@lfdr.de
 Delivered-To: lists+linux-alpha@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 88B6912465
-	for <lists+linux-alpha@lfdr.de>; Fri,  3 May 2019 00:01:00 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 1005E12B34
+	for <lists+linux-alpha@lfdr.de>; Fri,  3 May 2019 12:05:25 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726022AbfEBWA7 (ORCPT <rfc822;lists+linux-alpha@lfdr.de>);
-        Thu, 2 May 2019 18:00:59 -0400
-Received: from mail-ot1-f66.google.com ([209.85.210.66]:44033 "EHLO
-        mail-ot1-f66.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726128AbfEBWA7 (ORCPT
-        <rfc822;linux-alpha@vger.kernel.org>); Thu, 2 May 2019 18:00:59 -0400
-Received: by mail-ot1-f66.google.com with SMTP id d24so3543048otl.11
-        for <linux-alpha@vger.kernel.org>; Thu, 02 May 2019 15:00:59 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=mime-version:reply-to:from:date:message-id:subject:to;
-        bh=nMP8AFkuDxVQ8RKcbw3n8nmKTeOxi/ZqXhfwMRbGzmA=;
-        b=rUZxSMZd1nXu5PRuP+1ktgz+sD7KIZiNzl0aHZ2UKiIJA2wekgzL3SV9DE83mC2rmd
-         e3O5iv07x3Qzxnpm/6PSjKqRmbJiZZ5MnonuHNfSJmtjbMger57NNn8Gb/ISgYTZFRcN
-         KO9dC273cSj/5KY8LlzCh8ttcTVqssJUOG6KU8ZEPJaTwzEf5yf1X0IihoWHa25nLbaI
-         +tWEAj6jAvR40/qWXlCAY+EifX00BzHvwvzA2W7rFsFFy1m0GUJ5DA36bDzNbieQbNvH
-         wnVoaG05INfm7+SvCOrhEq+B8APscJtQMG9WLECs1+kSE0q2EmQWTCmPJ7wXnq3M5UkA
-         oclg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:reply-to:from:date:message-id
-         :subject:to;
-        bh=nMP8AFkuDxVQ8RKcbw3n8nmKTeOxi/ZqXhfwMRbGzmA=;
-        b=uGOHeBfZZrkjXB0mmFAj76ofopA77bhr4aGB9ph1dl/WQFVryXdeL92nlaviMXc29k
-         djEqRGhacJWYaEa5U0Llwgu9SCHzJfsHnLt6Ba2PqE/51CltJ0yU2fTQUz0T3um3h1pG
-         /OzGUwNxMgMLHXM3WckMALP+87C+lTgaCS+yWrceM3lTFE3EUMk3VHTTe9iDG5b8woeH
-         UWlcQxVw7qoXVXoa5E+BfEWCp7u6/Dm92UjYrVg6aGsbusGiYR87nW2QlsztSLPInxMF
-         sey9Kx1iMhRz/MUSXNExfqDO+QSQH7B4a3IPFBmG+bKO2we+LMsNrHVToj7zjIvyVUFY
-         8myQ==
-X-Gm-Message-State: APjAAAXBEvYkX7xsrOom8g90YIBxoSMJyTanwx5aiT8BdArsKcwfykVQ
-        ZMPvTsQOFPI9tYkmovbPnSpuERXxRRXoWCMARAA=
-X-Google-Smtp-Source: APXvYqwjlKOxEg47wlf8zUI5NfLT305DPgSakt4eWtLe65O0Lreno5WpPt/jLkkPAdZCCuD92VHm89AnJ6HSSYcbbnc=
-X-Received: by 2002:a05:6830:196:: with SMTP id q22mr3952805ota.127.1556834458817;
- Thu, 02 May 2019 15:00:58 -0700 (PDT)
+        id S1727240AbfECKFS (ORCPT <rfc822;lists+linux-alpha@lfdr.de>);
+        Fri, 3 May 2019 06:05:18 -0400
+Received: from usa-sjc-mx-foss1.foss.arm.com ([217.140.101.70]:57752 "EHLO
+        foss.arm.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1725777AbfECKFS (ORCPT <rfc822;linux-alpha@vger.kernel.org>);
+        Fri, 3 May 2019 06:05:18 -0400
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.72.51.249])
+        by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id F3CB1374;
+        Fri,  3 May 2019 03:05:16 -0700 (PDT)
+Received: from lakrids.cambridge.arm.com (usa-sjc-imap-foss1.foss.arm.com [10.72.51.249])
+        by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 9CC463F557;
+        Fri,  3 May 2019 03:05:11 -0700 (PDT)
+Date:   Fri, 3 May 2019 11:05:09 +0100
+From:   Mark Rutland <mark.rutland@arm.com>
+To:     Mike Rapoport <rppt@linux.ibm.com>
+Cc:     Andrew Morton <akpm@linux-foundation.org>,
+        Arnd Bergmann <arnd@arndb.de>,
+        Catalin Marinas <catalin.marinas@arm.com>,
+        Geert Uytterhoeven <geert@linux-m68k.org>,
+        Greentime Hu <green.hu@gmail.com>,
+        Guan Xuetao <gxt@pku.edu.cn>, Guo Ren <guoren@kernel.org>,
+        Helge Deller <deller@gmx.de>, Ley Foon Tan <lftan@altera.com>,
+        Matthew Wilcox <willy@infradead.org>,
+        Matt Turner <mattst88@gmail.com>,
+        Michael Ellerman <mpe@ellerman.id.au>,
+        Michal Hocko <mhocko@suse.com>,
+        Palmer Dabbelt <palmer@sifive.com>,
+        Paul Burton <paul.burton@mips.com>,
+        Richard Kuo <rkuo@codeaurora.org>,
+        Richard Weinberger <richard@nod.at>,
+        Russell King <linux@armlinux.org.uk>,
+        Sam Creasey <sammy@sammy.net>, x86@kernel.org,
+        linux-alpha@vger.kernel.org, linux-arch@vger.kernel.org,
+        linux-arm-kernel@lists.infradead.org,
+        linux-hexagon@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-m68k@lists.linux-m68k.org, linux-mips@vger.kernel.org,
+        linux-parisc@vger.kernel.org, linuxppc-dev@lists.ozlabs.org,
+        linux-riscv@lists.infradead.org, linux-um@lists.infradead.org,
+        nios2-dev@lists.rocketboards.org
+Subject: Re: [PATCH 04/15] arm64: switch to generic version of pte allocation
+Message-ID: <20190503100508.GB47811@lakrids.cambridge.arm.com>
+References: <1556810922-20248-1-git-send-email-rppt@linux.ibm.com>
+ <1556810922-20248-5-git-send-email-rppt@linux.ibm.com>
 MIME-Version: 1.0
-Received: by 2002:ac9:1225:0:0:0:0:0 with HTTP; Thu, 2 May 2019 15:00:57 -0700 (PDT)
-Reply-To: martinaisabel33@gmail.com
-From:   Mrs Martina Isabel <martinaisabel113@gmail.com>
-Date:   Fri, 3 May 2019 00:00:57 +0200
-Message-ID: <CADO7QewxJsM5VtrQcNJRnfrjzEAzLAvQMFrjNwRvT6TFCacuRQ@mail.gmail.com>
-Subject: I want you to contact my Church Pastor in Burkina-Faso, his name is (
- Rev.Father Joseph Michael ) , his Email Address: ( rev.fatherjosephmichael@gmail.com
- )
-To:     undisclosed-recipients:;
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <1556810922-20248-5-git-send-email-rppt@linux.ibm.com>
+User-Agent: Mutt/1.11.1+11 (2f07cb52) (2018-12-01)
 Sender: linux-alpha-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-alpha.vger.kernel.org>
 X-Mailing-List: linux-alpha@vger.kernel.org
 
-Dear  Friend.
+Hi,
 
+On Thu, May 02, 2019 at 06:28:31PM +0300, Mike Rapoport wrote:
+> The PTE allocations in arm64 are identical to the generic ones modulo the
+> GFP flags.
+> 
+> Using the generic pte_alloc_one() functions ensures that the user page
+> tables are allocated with __GFP_ACCOUNT set.
+> 
+> The arm64 definition of PGALLOC_GFP is removed and replaced with
+> GFP_PGTABLE_USER for p[gum]d_alloc_one() and for KVM memory cache.
+> 
+> The mappings created with create_pgd_mapping() are now using
+> GFP_PGTABLE_KERNEL.
+> 
+> The conversion to the generic version of pte_free_kernel() removes the NULL
+> check for pte.
+> 
+> The pte_free() version on arm64 is identical to the generic one and
+> can be simply dropped.
+> 
+> Signed-off-by: Mike Rapoport <rppt@linux.ibm.com>
+> ---
+>  arch/arm64/include/asm/pgalloc.h | 43 ++++------------------------------------
+>  arch/arm64/mm/mmu.c              |  2 +-
+>  arch/arm64/mm/pgd.c              |  4 ++--
+>  virt/kvm/arm/mmu.c               |  2 +-
+>  4 files changed, 8 insertions(+), 43 deletions(-)
 
-May the Peace of the Lord be Upon You.
+[...]
 
+> diff --git a/arch/arm64/mm/pgd.c b/arch/arm64/mm/pgd.c
+> index 289f911..2ef1a53 100644
+> --- a/arch/arm64/mm/pgd.c
+> +++ b/arch/arm64/mm/pgd.c
+> @@ -31,9 +31,9 @@ static struct kmem_cache *pgd_cache __ro_after_init;
+>  pgd_t *pgd_alloc(struct mm_struct *mm)
+>  {
+>  	if (PGD_SIZE == PAGE_SIZE)
+> -		return (pgd_t *)__get_free_page(PGALLOC_GFP);
+> +		return (pgd_t *)__get_free_page(GFP_PGTABLE_USER);
+>  	else
+> -		return kmem_cache_alloc(pgd_cache, PGALLOC_GFP);
+> +		return kmem_cache_alloc(pgd_cache, GFP_PGTABLE_USER);
+>  }
 
-am very very busy with my new partener hear. in Country  ( Vintner.  )
+In efi_virtmap_init() we use pgd_alloc() to allocate a pgd for EFI
+runtime services, which we map with a special kernel page table.
 
+I'm not sure if accounting that is problematic, as it's allocated in a
+kernel thread off the back of an early_initcall.
 
-Pls I  want you to contact my Church  Pastor in Burkina-Faso, his name
-is ( Rev.Father Joseph Michael ) , his Email Address: (
-rev.fatherjosephmichael@gmail.com )
+Just to check, Is that sound, or do we need a pgd_alloc_kernel()?
 
-please ask him to send you the total sum of  ( $ 850,000 USD  ) only
-which I kept for you inside ATM Card as compensation for all your past
-efforts and attempts to assist me in this matter.
-
-so feel free to get in touched with my Pastor -( Rev Father Joseph
-Michael.)  and then direct him on how to send the ATM Card to you,
-Please do let me know immediately you receive the ATM Card so that we
-can share the joy together after all the sufferings at that time.
-
-
-I  want you to contact my Church  Pastor in Burkina-Faso, his name is
-( Rev.Father Joseph Michael ) , his Email Address: (
-rev.fatherjosephmichael@gmail.com )
-
-am waiting to hear from you as you may contacted the Rev Father Joseph
-Michael.. for your Fund  ( $ 850 dollars only. )  your  ATM Card to
-you,
-
-am waiting to you.
-Thanks
-Yours Sister
-Mrs.Martina Isabel.
+Thanks,
+Mark.
