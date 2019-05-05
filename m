@@ -2,157 +2,60 @@ Return-Path: <linux-alpha-owner@vger.kernel.org>
 X-Original-To: lists+linux-alpha@lfdr.de
 Delivered-To: lists+linux-alpha@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 2CBC0131F9
-	for <lists+linux-alpha@lfdr.de>; Fri,  3 May 2019 18:18:31 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 753A713D0C
+	for <lists+linux-alpha@lfdr.de>; Sun,  5 May 2019 06:11:40 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727460AbfECQSa (ORCPT <rfc822;lists+linux-alpha@lfdr.de>);
-        Fri, 3 May 2019 12:18:30 -0400
-Received: from mail.kernel.org ([198.145.29.99]:55792 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726267AbfECQSa (ORCPT <rfc822;linux-alpha@vger.kernel.org>);
-        Fri, 3 May 2019 12:18:30 -0400
-Received: from guoren-Inspiron-7460 (23.83.240.247.16clouds.com [23.83.240.247])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
-        (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 1DE0020651;
-        Fri,  3 May 2019 16:18:13 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1556900308;
-        bh=1gc+88gGR8xs/HHG6j+3eKyXyw0MdhLPFZmbxDlan0s=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=ORHT3+AoYShsuuQO5PFoH4MN9lIuD27v03opdUhE7D6MhJ3ZFlrne2bcwdb1S/99e
-         JNCnsuMLUbfOQundyleyVhRpdJdwc193k7lyiJTj+1sl9zI38iCZlnHNebbBFtS/8d
-         UBobcwP26APlYC3LB4Vq9ec4UDgXUUcThKhfVnBY=
-Date:   Sat, 4 May 2019 00:18:08 +0800
-From:   Guo Ren <guoren@kernel.org>
-To:     Mike Rapoport <rppt@linux.ibm.com>
-Cc:     Michal Hocko <mhocko@suse.com>,
-        Catalin Marinas <catalin.marinas@arm.com>,
-        Palmer Dabbelt <palmer@sifive.com>, linux-mips@vger.kernel.org,
-        Michael Ellerman <mpe@ellerman.id.au>,
-        linux-hexagon@vger.kernel.org, linux-riscv@lists.infradead.org,
-        linux-arch@vger.kernel.org, Richard Weinberger <richard@nod.at>,
-        Helge Deller <deller@gmx.de>, x86@kernel.org,
-        Russell King <linux@armlinux.org.uk>,
-        Matthew Wilcox <willy@infradead.org>,
-        Geert Uytterhoeven <geert@linux-m68k.org>,
-        Matt Turner <mattst88@gmail.com>,
-        Sam Creasey <sammy@sammy.net>, Arnd Bergmann <arnd@arndb.de>,
-        linux-um@lists.infradead.org, linux-m68k@lists.linux-m68k.org,
-        Greentime Hu <green.hu@gmail.com>,
-        nios2-dev@lists.rocketboards.org, Guan Xuetao <gxt@pku.edu.cn>,
-        linux-arm-kernel@lists.infradead.org, linux-parisc@vger.kernel.org,
-        linux-kernel@vger.kernel.org, Richard Kuo <rkuo@codeaurora.org>,
-        Paul Burton <paul.burton@mips.com>,
-        linux-alpha@vger.kernel.org, Ley Foon Tan <lftan@altera.com>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        linuxppc-dev@lists.ozlabs.org
-Subject: Re: [PATCH 05/15] csky: switch to generic version of pte allocation
-Message-ID: <20190503161808.GA11596@guoren-Inspiron-7460>
-References: <1556810922-20248-1-git-send-email-rppt@linux.ibm.com>
- <1556810922-20248-6-git-send-email-rppt@linux.ibm.com>
- <20190503160348.GA9526@guoren-Inspiron-7460>
+        id S1726273AbfEEELj (ORCPT <rfc822;lists+linux-alpha@lfdr.de>);
+        Sun, 5 May 2019 00:11:39 -0400
+Received: from es50001.diputaciodetarragona.cat ([195.76.233.47]:58643 "EHLO
+        es50001.diputaciodetarragona.cat" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1726237AbfEEELj (ORCPT
+        <rfc822;linux-alpha@vger.kernel.org>);
+        Sun, 5 May 2019 00:11:39 -0400
+X-Greylist: delayed 581 seconds by postgrey-1.27 at vger.kernel.org; Sun, 05 May 2019 00:11:38 EDT
+Received: from es50001.diputaciodetarragona.cat (localhost.localdomain [127.0.0.1])
+        by localhost (Email Security Appliance) with SMTP id 09B351416A94_CCE6031B;
+        Sun,  5 May 2019 04:01:53 +0000 (GMT)
+Received: from correu.valls.cat (unknown [195.53.107.5])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (Client did not present a certificate)
+        by es50001.diputaciodetarragona.cat (Sophos Email Appliance) with ESMTPS id 52026142408B_CCE6030F;
+        Sun,  5 May 2019 04:01:52 +0000 (GMT)
+Received: from localhost (localhost.localdomain [127.0.0.1])
+        by correu.valls.cat (Postfix) with ESMTP id 4E1BE28004E;
+        Sun,  5 May 2019 06:03:21 +0200 (CEST)
+Received: from correu.valls.cat ([127.0.0.1])
+        by localhost (correu02.vallsnet.local [127.0.0.1]) (amavisd-new, port 10032)
+        with ESMTP id dVKaX821zXGI; Sun,  5 May 2019 06:03:21 +0200 (CEST)
+Received: from localhost (localhost.localdomain [127.0.0.1])
+        by correu.valls.cat (Postfix) with ESMTP id A066C2804F0;
+        Sun,  5 May 2019 06:03:19 +0200 (CEST)
+X-Virus-Scanned: amavisd-new at correu02.vallsnet.local
+Received: from correu.valls.cat ([127.0.0.1])
+        by localhost (correu02.vallsnet.local [127.0.0.1]) (amavisd-new, port 10026)
+        with ESMTP id yz56dugr6guf; Sun,  5 May 2019 06:03:19 +0200 (CEST)
+Received: from correu01.vallsnet.local (correu01.vallsnet.local [10.65.4.2])
+        by correu.valls.cat (Postfix) with ESMTP id 1FC2328004E;
+        Sun,  5 May 2019 06:03:13 +0200 (CEST)
+Date:   Sun, 5 May 2019 06:02:49 +0200 (CEST)
+From:   Gav <turisme@valls.cat>
+Reply-To: Gav <2154233057@qq.com>
+Message-ID: <2122144104.3580132.1557028969669.JavaMail.zimbra@valls.cat>
+Subject: Hi gorgeous
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20190503160348.GA9526@guoren-Inspiron-7460>
-User-Agent: Mutt/1.5.24 (2015-08-30)
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: 7bit
+X-Originating-IP: [134.91.230.32]
+X-Mailer: Zimbra 8.8.12_GA_3794 (zclient/8.8.12_GA_3794)
+Thread-Index: uGCE0F9u1Zgs1d6vrPXTGOsXzMv/CQ==
+Thread-Topic: Hi gorgeous
+X-SASI-RCODE: 200
+To:     unlisted-recipients:; (no To-header on input)
 Sender: linux-alpha-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-alpha.vger.kernel.org>
 X-Mailing-List: linux-alpha@vger.kernel.org
 
-On Sat, May 04, 2019 at 12:03:48AM +0800, Guo Ren wrote:
-> Hi Mike,
-> 
-> Acked-by: Guo Ren <ren_guo@c-sky.com>
-> 
-> On Thu, May 02, 2019 at 06:28:32PM +0300, Mike Rapoport wrote:
-> > The csky implementation pte_alloc_one(), pte_free_kernel() and pte_free()
-> > is identical to the generic except of lack of __GFP_ACCOUNT for the user
-> > PTEs allocation.
-> > 
-> > Switch csky to use generic version of these functions.
-> Ok.
-> 
-> > 
-> > The csky implementation of pte_alloc_one_kernel() is not replaced because
-> > it does not clear the allocated page but rather sets each PTE in it to a
-> > non-zero value.
-> Yes, we must set each PTE to _PAGE_GLOBAL because hardware refill the
-> MMU TLB entry with two PTEs and it use the result of pte0.global | pte1.global.
-                                                       ^^^^^^^^^^^^^^^^^^^^^^^^^
-                                              correct: pte0.global & pte1.global
-> If pte0 is valid and pte1 is invalid, we must set _PAGE_GLOBAL in
-> invalid pte entry. Fortunately, there is no performance issue.
-> 
-> > 
-> > The pte_free_kernel() and pte_free() versions on csky are identical to the
-> > generic ones and can be simply dropped.
-> Ok.
-> 
-> Best Regards
->  Guo Ren
-> 
-> > 
-> > Signed-off-by: Mike Rapoport <rppt@linux.ibm.com>
-> > ---
-> >  arch/csky/include/asm/pgalloc.h | 30 +++---------------------------
-> >  1 file changed, 3 insertions(+), 27 deletions(-)
-> > 
-> > diff --git a/arch/csky/include/asm/pgalloc.h b/arch/csky/include/asm/pgalloc.h
-> > index d213bb4..98c571670 100644
-> > --- a/arch/csky/include/asm/pgalloc.h
-> > +++ b/arch/csky/include/asm/pgalloc.h
-> > @@ -8,6 +8,9 @@
-> >  #include <linux/mm.h>
-> >  #include <linux/sched.h>
-> >  
-> > +#define __HAVE_ARCH_PTE_ALLOC_ONE_KERNEL
-> > +#include <asm-generic/pgalloc.h>	/* for pte_{alloc,free}_one */
-> > +
-> >  static inline void pmd_populate_kernel(struct mm_struct *mm, pmd_t *pmd,
-> >  					pte_t *pte)
-> >  {
-> > @@ -39,33 +42,6 @@ static inline pte_t *pte_alloc_one_kernel(struct mm_struct *mm)
-> >  	return pte;
-> >  }
-> >  
-> > -static inline struct page *pte_alloc_one(struct mm_struct *mm)
-> > -{
-> > -	struct page *pte;
-> > -
-> > -	pte = alloc_pages(GFP_KERNEL | __GFP_ZERO, 0);
-> > -	if (!pte)
-> > -		return NULL;
-> > -
-> > -	if (!pgtable_page_ctor(pte)) {
-> > -		__free_page(pte);
-> > -		return NULL;
-> > -	}
-> > -
-> > -	return pte;
-> > -}
-> > -
-> > -static inline void pte_free_kernel(struct mm_struct *mm, pte_t *pte)
-> > -{
-> > -	free_pages((unsigned long)pte, PTE_ORDER);
-> > -}
-> > -
-> > -static inline void pte_free(struct mm_struct *mm, pgtable_t pte)
-> > -{
-> > -	pgtable_page_dtor(pte);
-> > -	__free_pages(pte, PTE_ORDER);
-> > -}
-> > -
-> >  static inline void pgd_free(struct mm_struct *mm, pgd_t *pgd)
-> >  {
-> >  	free_pages((unsigned long)pgd, PGD_ORDER);
-> > -- 
-> > 2.7.4
-> > 
-> 
-> _______________________________________________
-> linux-riscv mailing list
-> linux-riscv@lists.infradead.org
-> http://lists.infradead.org/mailman/listinfo/linux-riscv
+My name is Gavin. I want to get to know you better, if I may be so bold. I consider myself an honest man, and I am currently looking for a relationship in which I feel loved. Please tell me more about yourself, if you don't mind.
+
+Gavin.
