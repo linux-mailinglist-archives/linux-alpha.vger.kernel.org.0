@@ -2,59 +2,73 @@ Return-Path: <linux-alpha-owner@vger.kernel.org>
 X-Original-To: lists+linux-alpha@lfdr.de
 Delivered-To: lists+linux-alpha@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 9B9662A772
-	for <lists+linux-alpha@lfdr.de>; Sun, 26 May 2019 02:18:32 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id DBB2A2AA87
+	for <lists+linux-alpha@lfdr.de>; Sun, 26 May 2019 17:50:00 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727504AbfEZASb (ORCPT <rfc822;lists+linux-alpha@lfdr.de>);
-        Sat, 25 May 2019 20:18:31 -0400
-Received: from mail-ot1-f67.google.com ([209.85.210.67]:43569 "EHLO
-        mail-ot1-f67.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727496AbfEZASb (ORCPT
+        id S1726875AbfEZPt7 (ORCPT <rfc822;lists+linux-alpha@lfdr.de>);
+        Sun, 26 May 2019 11:49:59 -0400
+Received: from sonic306-21.consmr.mail.ne1.yahoo.com ([66.163.189.83]:43175
+        "EHLO sonic306-21.consmr.mail.ne1.yahoo.com" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1727833AbfEZPt7 (ORCPT
         <rfc822;linux-alpha@vger.kernel.org>);
-        Sat, 25 May 2019 20:18:31 -0400
-Received: by mail-ot1-f67.google.com with SMTP id i8so11877300oth.10
-        for <linux-alpha@vger.kernel.org>; Sat, 25 May 2019 17:18:30 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=mime-version:reply-to:from:date:message-id:subject:to;
-        bh=pEV9zcUBDdcOVEKzqcFzrKvMRL50HticHy9hrhvTWG4=;
-        b=YfyaIoIE6VHn38bAGsqu93LoZeTd1tYiHSIaKlyxzy86TwTQZ4DxUy5kzAHl/peo9p
-         Nk/eSYwtttlatMcR1r2p39RQNRFGQbWbExOPJlDHjCBvvjpdNnUZJinHIWz/m2PF58/t
-         K8v1YOYuUHX3mRY5dT/uVfyRMjaMw5HlD2lYA8Hh19AYNyTYyO3WC4lu3pQ9mOuZR7Ye
-         cWbRTjq7R7RyvnOXM3i7LBoQV8k/d0CdvZ+izgZQNfRzJFnqvLgiodPAakXq0McKaH3C
-         FO4P44jTgn2IzRMIrmV7Dnp7zEd0WXZ8dZOjgd6QZPulgZuIX95KRCWJgQ1FuP3/kCty
-         mdJA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:reply-to:from:date:message-id
-         :subject:to;
-        bh=pEV9zcUBDdcOVEKzqcFzrKvMRL50HticHy9hrhvTWG4=;
-        b=RchdM6Rsv1o74TjGjL47dqD08xhYM7UPOsQjcs/aLD+c7I0hvCZZowv1EHk5oNiNUv
-         0KqN9oM62oeXRXvavWA1wKqwaswWq0kmFHDyU7AVobwfiTbTHQIHsPISsdbmADkfdPrU
-         2bmYb+ucWJwlxHp4Hs2y+uw3Tt2blyL2ZODVTbjQ40zpdRhtRJD8UmibbFWtLDUMa/SQ
-         YwihBCf9z6CO7Uxo+9Xn01iqwhZIitByF+8WvsZZJDqFdU93LShKYtkb4d9AP6NFLsbI
-         Yu10wfzQyosutEFukzS6wZeQM3eUSAsxygMHiK/P2rdmBKKNNkdnabgaRYg2GWKrxcyG
-         DOrQ==
-X-Gm-Message-State: APjAAAWOYRQKANOfv2V3bZSvumsOPZQFubnfBJxSKyN+p0qtm92+XlOZ
-        7LcyFikKGPYi6++GBqbs/iJHh/5LhNppiNcRZTE=
-X-Google-Smtp-Source: APXvYqx3gWuVkD3+IAIZrfOyoWC6nihJKvt3gzSa39Ftj46MJQZ3PM2/7aMdjFh201RGE9uA17gLEAmxLX6MBv/xrtw=
-X-Received: by 2002:a9d:80b:: with SMTP id 11mr33770360oty.347.1558829910613;
- Sat, 25 May 2019 17:18:30 -0700 (PDT)
+        Sun, 26 May 2019 11:49:59 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=yahoo.com; s=s2048; t=1558885798; bh=FCjWGTqDRXQUUN8ivg02MDhbiDKrvltOcpc7W52q/3U=; h=Date:From:Reply-To:Subject:References:From:Subject; b=p8lV/joolu5crMcaFYOakgmMEXSU89ws7n+JxmWxYjDIVEF48pKOyskhiN45IJizMT61U5moQTe8HP2maQVJAlG8Qtx3K/KT6fLZtQPBa6/bIoNscswy2srQR4T5bPOTZgp+wWjunBSwnHBoRrPS9t8y7CRZB4qXRAWeyVSYE74G/zvyGp2MhFb0yScannxyTPlI/WTwc0UlB5Fl3B/rFrlNvoZnEziNH9la3PRQxAOoiG21negz/TDje4F2J1dEViNh91an+HxV3+FGXW1sNQpc1rmTgy7Z7L+i3yuIJevEBYc7VUwWvM7/HuuLmVRSOl0QMPCoWP3e/SiJzgWbqQ==
+X-YMail-OSG: jSfUWIkVM1lFCYK2YHcwT7K9xQsUl0Oc5_Rj9gT5zxnNnlRgmSn8iQeq0yZfamU
+ myr3yILo212nkdrY59dfpg3OZyCKYecKvhX9TzGjtGcti2zne8LZ78cBgg4lC64kl0kY36DOpbGi
+ jOLq3DoHJ2gunI4ryTh7Dsh5mQnkFp98_CG93BKGI0H2FrOtycoyjXPcmzgskoFD5GC7wTv2ocRJ
+ hQbRKqmQfWiIa.B2f3NUZ2DGstac5LEx.rUt6yOvHAaRk_0j8eOjGyF0J2g5bogQZs9jfk4kJW1R
+ MihmgA6YMWbzAbnGPwD7evZJWYAisVl4tcEwpBEeZ7FnzlvAVImIANL6v2IMnJJJJ8zkipXNuVjd
+ yCT44OmhDHXTvFWbmuZIP5.8QwXt3Y7HEiLe66dSva7T2cuIHBBAZGg8cQReuiom5dkzGdJxUbBc
+ INbc0fWCVLLLa7Tv28CTzvdQYMUy1Bd7mvqpqScF0RxKy7_IWXQG0yU2X6HpdCFQcZTarINwHBeh
+ asGoer5ZWl4ucpv3UJ7Aq0t8AQhp.FLR7TM3KpOPRzeeS9ZRHyfM_O4Q.2Wg12XiQA0A6nhh2n3Q
+ 9QNWYlrW_ZDltGlTHjpDHTcbFW25WCTfNTvS5xSz5aUJwZzj1rsaFuFC6k8OJjMhZH_o8QSAMi89
+ _jXEiVLAUM1jTBiVXO0TvnJKEYhWoEp0JpYBLEA1AFBCbwFecWbnGomhzT9NRak4jp4pDn6Txyys
+ 1_Zzccc069LRuGaCXN4aqjucNU.6QEp4J1ZuFtTtE3t3ko8NmPVWfmV_4fhYmvXgIhNQqYatqwfu
+ LW9GApOchXgEp.LIkF82Pt.z1.zbX2XT4Q2p2DRrwf4aRdN0Yb7_3PbERZvq_O2IG8cQIIvz_464
+ WXD67JdSC0l8rOS7XO5KqMeA3e5jWTQfHKVxjlv1Uom5flGFJDCfPp.P8IVMUr8e5U9q9YM7BKGv
+ UanDm_dWtPGZ4BHj2xFsCjWjTkic4.hEO19216bs0TsV_DkZU.qnH1ax15vWctYZEwx_OtWDcyxV
+ qGStZINrCpneEGjI2Z8prM7zXcp9AtL1FuzYJ4TOBhsj2ElIrZD7KigcBGY3KrZaOYCgGaZoyRH1
+ WYmzfYMdJZpCoqnL3vYRHBEmkPj6GDAGitWNF8Q88kR6c7CvDRftv9YuATFiu1fksRtsA_SCuszh
+ kvBWeeSh1oBMMvYoMpadegIq3wjpUsGO_xjkCy22QnhLNUrwbDO7PndR9s08-
+Received: from sonic.gate.mail.ne1.yahoo.com by sonic306.consmr.mail.ne1.yahoo.com with HTTP; Sun, 26 May 2019 15:49:58 +0000
+Date:   Sun, 26 May 2019 15:49:54 +0000 (UTC)
+From:   Ms Lisa Hugh <lisa.hugh101@gmail.com>
+Reply-To: Ms Lisa Hugh <ms.lisahugh000@gmail.com>
+Message-ID: <855196847.7802943.1558885794550@mail.yahoo.com>
+Subject: URGENT REPLY FOR THIS BUSINESS...
 MIME-Version: 1.0
-Received: by 2002:ac9:1c3:0:0:0:0:0 with HTTP; Sat, 25 May 2019 17:18:30 -0700 (PDT)
-Reply-To: pilf156@gmail.com
-From:   FRANCIS PILE <kontome3@gmail.com>
-Date:   Sun, 26 May 2019 00:18:30 +0000
-Message-ID: <CALZiea92y5+h9dCOAwp+e-Uq+V=3mFsZT1YKb9iBwNQwjCtt2A@mail.gmail.com>
-Subject: Re:
-To:     undisclosed-recipients:;
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+References: <855196847.7802943.1558885794550.ref@mail.yahoo.com>
+X-Mailer: WebService/1.1.13634 YahooMailBasic Mozilla/5.0 (Windows NT 6.2; Win64; x64; rv:66.0) Gecko/20100101 Firefox/66.0
+To:     unlisted-recipients:; (no To-header on input)
 Sender: linux-alpha-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-alpha.vger.kernel.org>
 X-Mailing-List: linux-alpha@vger.kernel.org
 
--- 
-I need your cooperation to transfer $7 million in your bank account
-and you will be entitled to 40% of the money, reply for more details
-if you are capable.
+
+
+Dear Friend,
+
+I am  Ms Lisa Hugh work with the department of Audit and accounting manager here in the Bank,
+
+There is this fund that was keep in my custody years ago,please i need your assistance for the transferring of thIs fund to your bank account for both of us benefit for life time investment and the amount is  (US$4.5M DOLLARS).
+
+I have every inquiry details to make the bank believe you and release the fund in within 5 banking working days with your full co-operation with me after success.
+
+Note/ 50% for you why 50% for me after success of the transfer to your bank account.
+
+Below information is what i need from you so will can be reaching each other .
+
+1)Full name ...
+2)Private telephone number...
+3)Age...
+4)Nationality...
+5)Occupation ...
+
+
+Thanks.
+
+
+Ms Lisa Hugh
