@@ -2,69 +2,69 @@ Return-Path: <linux-alpha-owner@vger.kernel.org>
 X-Original-To: lists+linux-alpha@lfdr.de
 Delivered-To: lists+linux-alpha@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 431EB2C546
-	for <lists+linux-alpha@lfdr.de>; Tue, 28 May 2019 13:20:32 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id C0CD92C85F
+	for <lists+linux-alpha@lfdr.de>; Tue, 28 May 2019 16:12:44 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726532AbfE1LU1 (ORCPT <rfc822;lists+linux-alpha@lfdr.de>);
-        Tue, 28 May 2019 07:20:27 -0400
-Received: from mx2.suse.de ([195.135.220.15]:47178 "EHLO mx1.suse.de"
-        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
-        id S1726313AbfE1LU1 (ORCPT <rfc822;linux-alpha@vger.kernel.org>);
-        Tue, 28 May 2019 07:20:27 -0400
-X-Virus-Scanned: by amavisd-new at test-mx.suse.de
-Received: from relay2.suse.de (unknown [195.135.220.254])
-        by mx1.suse.de (Postfix) with ESMTP id BC855AE3F;
-        Tue, 28 May 2019 11:20:24 +0000 (UTC)
-Date:   Tue, 28 May 2019 13:20:23 +0200
-From:   Cyril Hrubis <chrubis@suse.cz>
-To:     Florian Weimer <fweimer@redhat.com>
-Cc:     Andreas Schwab <schwab@linux-m68k.org>,
-        lkml <linux-kernel@vger.kernel.org>, linux-alpha@vger.kernel.org,
-        linux-arm-kernel@lists.infradead.org, linux-ia64@vger.kernel.org,
-        linux-m68k@lists.linux-m68k.org, Michal Simek <monstr@monstr.eu>,
-        linux-mips@vger.kernel.org, linux-parisc@vger.kernel.org,
-        linuxppc-dev@lists.ozlabs.org, linux-s390@vger.kernel.org,
-        linux-sh@vger.kernel.org, sparclinux@vger.kernel.org,
-        linux-xtensa@linux-xtensa.org, linux-fsdevel@vger.kernel.org,
-        linux-api@vger.kernel.org
-Subject: Re: [PATCH] [RFC] Remove bdflush syscall stub
-Message-ID: <20190528112022.GA16683@rei>
-References: <20190528101012.11402-1-chrubis@suse.cz>
- <mvmr28idgfu.fsf@linux-m68k.org>
- <20190528104017.GA11969@rei>
- <87ftoyg7t3.fsf@oldenburg2.str.redhat.com>
+        id S1726638AbfE1OMj (ORCPT <rfc822;lists+linux-alpha@lfdr.de>);
+        Tue, 28 May 2019 10:12:39 -0400
+Received: from foss.arm.com ([217.140.101.70]:58252 "EHLO foss.arm.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1726437AbfE1OMj (ORCPT <rfc822;linux-alpha@vger.kernel.org>);
+        Tue, 28 May 2019 10:12:39 -0400
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.72.51.249])
+        by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 2D36780D;
+        Tue, 28 May 2019 07:12:39 -0700 (PDT)
+Received: from arrakis.emea.arm.com (arrakis.cambridge.arm.com [10.1.196.78])
+        by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id C10193F5AF;
+        Tue, 28 May 2019 07:12:35 -0700 (PDT)
+Date:   Tue, 28 May 2019 15:12:33 +0100
+From:   Catalin Marinas <catalin.marinas@arm.com>
+To:     Masahiro Yamada <yamada.masahiro@socionext.com>
+Cc:     linux-kbuild@vger.kernel.org, Paul Walmsley <paul@pwsan.com>,
+        Firoz Khan <firoz.khan@linaro.org>,
+        Richard Henderson <rth@twiddle.net>,
+        Matt Turner <mattst88@gmail.com>,
+        linux-riscv@lists.infradead.org, linux-s390@vger.kernel.org,
+        Greentime Hu <green.hu@gmail.com>, Guo Ren <guoren@kernel.org>,
+        Palmer Dabbelt <palmer@sifive.com>,
+        Will Deacon <will.deacon@arm.com>,
+        linux-arm-kernel@lists.infradead.org,
+        Albert Ou <aou@eecs.berkeley.edu>,
+        Luc Van Oostenryck <luc.vanoostenryck@gmail.com>,
+        Heiko Carstens <heiko.carstens@de.ibm.com>,
+        Ivan Kokshaysky <ink@jurassic.park.msu.ru>,
+        linux-kernel@vger.kernel.org, Vincent Chen <deanbo422@gmail.com>,
+        linux-alpha@vger.kernel.org,
+        Martin Schwidefsky <schwidefsky@de.ibm.com>
+Subject: Re: [PATCH 4/5] kconfig: make arch/*/configs/defconfig the default
+ of KBUILD_DEFCONFIG
+Message-ID: <20190528141232.GC32006@arrakis.emea.arm.com>
+References: <20190527143725.12542-1-yamada.masahiro@socionext.com>
+ <20190527143725.12542-4-yamada.masahiro@socionext.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <87ftoyg7t3.fsf@oldenburg2.str.redhat.com>
+In-Reply-To: <20190527143725.12542-4-yamada.masahiro@socionext.com>
 User-Agent: Mutt/1.10.1 (2018-07-13)
 Sender: linux-alpha-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-alpha.vger.kernel.org>
 X-Mailing-List: linux-alpha@vger.kernel.org
 
-Hi!
-> >> > I've tested the patch on i386. Before the patch calling bdflush() with
-> >> > attempt to tune a variable returned 0 and after the patch the syscall
-> >> > fails with EINVAL.
-> >> 
-> >> Should be ENOSYS, doesn't it?
-> >
-> > My bad, the LTP syscall wrapper handles ENOSYS and produces skipped
-> > results based on that.
-> >
-> > EINVAL is what you get for not yet implemented syscalls, i.e. new
-> > syscall on old kernel.
-> 
-> EINVAL?  Is that a bdflush-specific thing, test-specific, or is itmore
-> general?
-> 
-> glibc has fallback paths that test for ENOSYS only.  EINVAL will be
-> passed to the application, skipping fallback.  For missing system calls,
-> this is not what we want.
+On Mon, May 27, 2019 at 11:37:24PM +0900, Masahiro Yamada wrote:
+> diff --git a/arch/arm64/Makefile b/arch/arm64/Makefile
+> index b025304bde46..970c41a30ed3 100644
+> --- a/arch/arm64/Makefile
+> +++ b/arch/arm64/Makefile
+> @@ -30,8 +30,6 @@ LDFLAGS_vmlinux	+= --fix-cortex-a53-843419
+>    endif
+>  endif
+>  
+> -KBUILD_DEFCONFIG := defconfig
+> -
+>  # Check for binutils support for specific extensions
+>  lseinstr := $(call as-instr,.arch_extension lse,-DCONFIG_AS_LSE=1)
 
-The syscall returns ENOSYS after this change, sorry for the confusion.
+For arm64:
 
--- 
-Cyril Hrubis
-chrubis@suse.cz
+Acked-by: Catalin Marinas <catalin.marinas@arm.com>
