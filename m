@@ -2,98 +2,70 @@ Return-Path: <linux-alpha-owner@vger.kernel.org>
 X-Original-To: lists+linux-alpha@lfdr.de
 Delivered-To: lists+linux-alpha@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 1B76244126
-	for <lists+linux-alpha@lfdr.de>; Thu, 13 Jun 2019 18:12:31 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 55BB644428
+	for <lists+linux-alpha@lfdr.de>; Thu, 13 Jun 2019 18:36:54 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1731528AbfFMQMP (ORCPT <rfc822;lists+linux-alpha@lfdr.de>);
-        Thu, 13 Jun 2019 12:12:15 -0400
-Received: from smtp5-g21.free.fr ([212.27.42.5]:32442 "EHLO smtp5-g21.free.fr"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S2391625AbfFMQMO (ORCPT <rfc822;linux-alpha@vger.kernel.org>);
-        Thu, 13 Jun 2019 12:12:14 -0400
-Received: from heffalump.sk2.org (unknown [88.186.243.14])
-        by smtp5-g21.free.fr (Postfix) with ESMTPS id 4DB325FFB9;
-        Thu, 13 Jun 2019 18:12:12 +0200 (CEST)
-Received: from steve by heffalump.sk2.org with local (Exim 4.89)
-        (envelope-from <steve@sk2.org>)
-        id 1hbSKh-0004Qa-LM; Thu, 13 Jun 2019 18:12:11 +0200
-From:   Stephen Kitt <steve@sk2.org>
-To:     x86@kernel.org, linux-alpha@vger.kernel.org,
-        linux-arm-kernel@lists.infradead.org, linux-mips@vger.kernel.org
-Cc:     linux-kernel@vger.kernel.org, Stephen Kitt <steve@sk2.org>
-Subject: [PATCH] Drop unused isa_page_to_bus
-Date:   Thu, 13 Jun 2019 18:11:55 +0200
-Message-Id: <20190613161155.16946-1-steve@sk2.org>
-X-Mailer: git-send-email 2.11.0
+        id S1730796AbfFMQfM (ORCPT <rfc822;lists+linux-alpha@lfdr.de>);
+        Thu, 13 Jun 2019 12:35:12 -0400
+Received: from mail-qt1-f193.google.com ([209.85.160.193]:42397 "EHLO
+        mail-qt1-f193.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726870AbfFMQfM (ORCPT
+        <rfc822;linux-alpha@vger.kernel.org>);
+        Thu, 13 Jun 2019 12:35:12 -0400
+Received: by mail-qt1-f193.google.com with SMTP id s15so23262695qtk.9
+        for <linux-alpha@vger.kernel.org>; Thu, 13 Jun 2019 09:35:11 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=mime-version:reply-to:from:date:message-id:subject:to;
+        bh=ndLbVc4YuDC0PogE180jqFPF8e9fHYCJU9QL8OO6uNs=;
+        b=TRNeQzmiMmJ6yKsRepEgpICRoKyv4svzzL2k0evci9T0RaNijxUpeyKAp+ZpKbdMDC
+         Ox0nwn/bSugrfmW1RT/8KssOVI7ogaF60XiRum+kMtrtpVx0sD6ykzAbkylhMDoQZdxf
+         Rcjjb6FgYBwGJiK5/K6cDcBQ0472oJ+ojVWU/bukzgv8lThgurhmg79WG8YqaLLjefQa
+         erDO13rmkYxi397mcC5SSJ2HzKBs7CYlyIeO5wTWHMDNdxzGUCy/IiRLBbeGKnZPyDmU
+         B3i3uAG6/OD3A6WPqIw0kDgV7o5NVn6xYD63uK838StkyIxLwQx/k+BvwOFHLQ/i+5KH
+         WMTg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:reply-to:from:date:message-id
+         :subject:to;
+        bh=ndLbVc4YuDC0PogE180jqFPF8e9fHYCJU9QL8OO6uNs=;
+        b=iFifxqvxALrH028WkwoC2oT85uBgGB0K2Mk/d4QXGmpxnz4nwBzgBBAuY0wZ7ceXjR
+         6FlC4bnFqgCX5vDxo+2jqeivQouDzpwL2aKjA7MiM+Bu/g+rSq7gnpgAMlkFrogsq+H+
+         tHh6gCL+ef5BdvHMXYWfn2xyQKjj2AumeiAI5PFCSy2kZI8eKFzCiTvGoCAdz+Hmv9m1
+         JbhALgLjDDPeObhbjAoayB6TGitcxmlInixKgdUJbL5wp2onLPawWf09sJjZCZ2AhqLU
+         BFIgY3iJCPRKmFzNu6N/I3nYcaf1ZPjGo9fhoTRghht9zSpfrET+eBF7wysvKzW77/n4
+         jvTA==
+X-Gm-Message-State: APjAAAWv+HJ9XoWHKhOyXhm8KoHrREpPugPp2uJBe8PgOp6jtNfKFBj0
+        oYn5K4XsgpqoGvXpVcneokjSwDiVrh/XhZk2/cc=
+X-Google-Smtp-Source: APXvYqwjP9Y2tz2QKJSmEbEN905lo8fABk4dCgvpTTQnsTlhYvv6WlyB7ukZfM/zzbcU/vkZzYW6NeiBv4xRrKENeuc=
+X-Received: by 2002:aed:2063:: with SMTP id 90mr37980741qta.307.1560443711134;
+ Thu, 13 Jun 2019 09:35:11 -0700 (PDT)
+MIME-Version: 1.0
+Received: by 2002:a0c:a005:0:0:0:0:0 with HTTP; Thu, 13 Jun 2019 09:35:10
+ -0700 (PDT)
+Reply-To: eddywilliam0002@gmail.com
+From:   eddy william <ed7293954@gmail.com>
+Date:   Thu, 13 Jun 2019 18:35:10 +0200
+Message-ID: <CAN9EptJPaJ3b6CXO_u=PGjE12DdunUr3GR-fsLzJ0Wg7zt-X+w@mail.gmail.com>
+Subject: hello
+To:     undisclosed-recipients:;
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-alpha-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-alpha.vger.kernel.org>
 X-Mailing-List: linux-alpha@vger.kernel.org
 
-isa_page_to_bus is deprecated and no longer used anywhere, this patch
-removes it entirely.
+Hello
 
-Signed-off-by: Stephen Kitt <steve@sk2.org>
----
- arch/alpha/include/asm/io.h | 5 -----
- arch/arm/include/asm/io.h   | 1 -
- arch/mips/include/asm/io.h  | 2 --
- arch/x86/include/asm/io.h   | 1 -
- 4 files changed, 9 deletions(-)
+My name is Eddy William I am a lawyer by profession. I wish to offer you
+the next of kin to my client. You will inherit the sum of ($14.2 Million)
+dollars my client left in the bank before his death.
 
-diff --git a/arch/alpha/include/asm/io.h b/arch/alpha/include/asm/io.h
-index ccf9d65166bb..af2c0063dc75 100644
---- a/arch/alpha/include/asm/io.h
-+++ b/arch/alpha/include/asm/io.h
-@@ -93,11 +93,6 @@ static inline void * phys_to_virt(unsigned long address)
- 
- #define page_to_phys(page)	page_to_pa(page)
- 
--static inline dma_addr_t __deprecated isa_page_to_bus(struct page *page)
--{
--	return page_to_phys(page);
--}
--
- /* Maximum PIO space address supported?  */
- #define IO_SPACE_LIMIT 0xffff
- 
-diff --git a/arch/arm/include/asm/io.h b/arch/arm/include/asm/io.h
-index 7e22c81398c4..f96ec93679b7 100644
---- a/arch/arm/include/asm/io.h
-+++ b/arch/arm/include/asm/io.h
-@@ -33,7 +33,6 @@
-  * ISA I/O bus memory addresses are 1:1 with the physical address.
-  */
- #define isa_virt_to_bus virt_to_phys
--#define isa_page_to_bus page_to_phys
- #define isa_bus_to_virt phys_to_virt
- 
- /*
-diff --git a/arch/mips/include/asm/io.h b/arch/mips/include/asm/io.h
-index 29997e42480e..1790274c27eb 100644
---- a/arch/mips/include/asm/io.h
-+++ b/arch/mips/include/asm/io.h
-@@ -149,8 +149,6 @@ static inline void *isa_bus_to_virt(unsigned long address)
- 	return phys_to_virt(address);
- }
- 
--#define isa_page_to_bus page_to_phys
--
- /*
-  * However PCI ones are not necessarily 1:1 and therefore these interfaces
-  * are forbidden in portable PCI drivers.
-diff --git a/arch/x86/include/asm/io.h b/arch/x86/include/asm/io.h
-index a06a9f8294ea..6bed97ff6db2 100644
---- a/arch/x86/include/asm/io.h
-+++ b/arch/x86/include/asm/io.h
-@@ -165,7 +165,6 @@ static inline unsigned int isa_virt_to_bus(volatile void *address)
- {
- 	return (unsigned int)virt_to_phys(address);
- }
--#define isa_page_to_bus(page)	((unsigned int)page_to_phys(page))
- #define isa_bus_to_virt		phys_to_virt
- 
- /*
--- 
-2.11.0
+My client is a citizen of your country who died in auto crash with his wife
+and only son. I will be entitled with 50% of the total fund while 50% will
+be for you.
 
+Please contact my private email here for more details:eddywilliam0003@gmail.com
+
+Many thanks in advance,
+Mr.Eddy William,
