@@ -2,39 +2,98 @@ Return-Path: <linux-alpha-owner@vger.kernel.org>
 X-Original-To: lists+linux-alpha@lfdr.de
 Delivered-To: lists+linux-alpha@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 2E22C3C342
-	for <lists+linux-alpha@lfdr.de>; Tue, 11 Jun 2019 07:10:56 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 1B76244126
+	for <lists+linux-alpha@lfdr.de>; Thu, 13 Jun 2019 18:12:31 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2391238AbfFKFKN convert rfc822-to-8bit (ORCPT
-        <rfc822;lists+linux-alpha@lfdr.de>); Tue, 11 Jun 2019 01:10:13 -0400
-Received: from slot0.etcslc.ga ([85.204.116.123]:50736 "EHLO slot0.etcslc.ga"
+        id S1731528AbfFMQMP (ORCPT <rfc822;lists+linux-alpha@lfdr.de>);
+        Thu, 13 Jun 2019 12:12:15 -0400
+Received: from smtp5-g21.free.fr ([212.27.42.5]:32442 "EHLO smtp5-g21.free.fr"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S2390911AbfFKFKN (ORCPT <rfc822;linux-alpha@vger.kernel.org>);
-        Tue, 11 Jun 2019 01:10:13 -0400
-X-Greylist: delayed 627 seconds by postgrey-1.27 at vger.kernel.org; Tue, 11 Jun 2019 01:10:11 EDT
-Content-Type: text/plain; charset="iso-8859-1"
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8BIT
-Content-Description: Mail message body
-Subject: Quation needed For June Inquiry
-To:     Recipients <purchase@greattrades.ga>
-From:   "Jpexcc Salesi" <purchase@greattrades.ga>
-Date:   Tue, 11 Jun 2019 07:50:18 +0300
-Reply-To: jpexcc@aol.com
-Message-ID: <0.0.0.D0A.1D520111CA6662E.0@slot0.etcslc.ga>
+        id S2391625AbfFMQMO (ORCPT <rfc822;linux-alpha@vger.kernel.org>);
+        Thu, 13 Jun 2019 12:12:14 -0400
+Received: from heffalump.sk2.org (unknown [88.186.243.14])
+        by smtp5-g21.free.fr (Postfix) with ESMTPS id 4DB325FFB9;
+        Thu, 13 Jun 2019 18:12:12 +0200 (CEST)
+Received: from steve by heffalump.sk2.org with local (Exim 4.89)
+        (envelope-from <steve@sk2.org>)
+        id 1hbSKh-0004Qa-LM; Thu, 13 Jun 2019 18:12:11 +0200
+From:   Stephen Kitt <steve@sk2.org>
+To:     x86@kernel.org, linux-alpha@vger.kernel.org,
+        linux-arm-kernel@lists.infradead.org, linux-mips@vger.kernel.org
+Cc:     linux-kernel@vger.kernel.org, Stephen Kitt <steve@sk2.org>
+Subject: [PATCH] Drop unused isa_page_to_bus
+Date:   Thu, 13 Jun 2019 18:11:55 +0200
+Message-Id: <20190613161155.16946-1-steve@sk2.org>
+X-Mailer: git-send-email 2.11.0
 Sender: linux-alpha-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-alpha.vger.kernel.org>
 X-Mailing-List: linux-alpha@vger.kernel.org
 
-Hello dear,
+isa_page_to_bus is deprecated and no longer used anywhere, this patch
+removes it entirely.
+
+Signed-off-by: Stephen Kitt <steve@sk2.org>
+---
+ arch/alpha/include/asm/io.h | 5 -----
+ arch/arm/include/asm/io.h   | 1 -
+ arch/mips/include/asm/io.h  | 2 --
+ arch/x86/include/asm/io.h   | 1 -
+ 4 files changed, 9 deletions(-)
+
+diff --git a/arch/alpha/include/asm/io.h b/arch/alpha/include/asm/io.h
+index ccf9d65166bb..af2c0063dc75 100644
+--- a/arch/alpha/include/asm/io.h
++++ b/arch/alpha/include/asm/io.h
+@@ -93,11 +93,6 @@ static inline void * phys_to_virt(unsigned long address)
  
-We are in the market for your products after meeting at your stand during last expo.
+ #define page_to_phys(page)	page_to_pa(page)
  
-Please kindly send us your latest catalog and price list so as to start a new project/order as promised during the exhibition. 
+-static inline dma_addr_t __deprecated isa_page_to_bus(struct page *page)
+-{
+-	return page_to_phys(page);
+-}
+-
+ /* Maximum PIO space address supported?  */
+ #define IO_SPACE_LIMIT 0xffff
  
-I would appreciate your response about the above details required so we can revert back to you asap.
+diff --git a/arch/arm/include/asm/io.h b/arch/arm/include/asm/io.h
+index 7e22c81398c4..f96ec93679b7 100644
+--- a/arch/arm/include/asm/io.h
++++ b/arch/arm/include/asm/io.h
+@@ -33,7 +33,6 @@
+  * ISA I/O bus memory addresses are 1:1 with the physical address.
+  */
+ #define isa_virt_to_bus virt_to_phys
+-#define isa_page_to_bus page_to_phys
+ #define isa_bus_to_virt phys_to_virt
  
-Kind regards
+ /*
+diff --git a/arch/mips/include/asm/io.h b/arch/mips/include/asm/io.h
+index 29997e42480e..1790274c27eb 100644
+--- a/arch/mips/include/asm/io.h
++++ b/arch/mips/include/asm/io.h
+@@ -149,8 +149,6 @@ static inline void *isa_bus_to_virt(unsigned long address)
+ 	return phys_to_virt(address);
+ }
  
-Rhema Zoeh
+-#define isa_page_to_bus page_to_phys
+-
+ /*
+  * However PCI ones are not necessarily 1:1 and therefore these interfaces
+  * are forbidden in portable PCI drivers.
+diff --git a/arch/x86/include/asm/io.h b/arch/x86/include/asm/io.h
+index a06a9f8294ea..6bed97ff6db2 100644
+--- a/arch/x86/include/asm/io.h
++++ b/arch/x86/include/asm/io.h
+@@ -165,7 +165,6 @@ static inline unsigned int isa_virt_to_bus(volatile void *address)
+ {
+ 	return (unsigned int)virt_to_phys(address);
+ }
+-#define isa_page_to_bus(page)	((unsigned int)page_to_phys(page))
+ #define isa_bus_to_virt		phys_to_virt
+ 
+ /*
+-- 
+2.11.0
+
