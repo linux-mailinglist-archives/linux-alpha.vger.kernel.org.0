@@ -2,70 +2,58 @@ Return-Path: <linux-alpha-owner@vger.kernel.org>
 X-Original-To: lists+linux-alpha@lfdr.de
 Delivered-To: lists+linux-alpha@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 545AE482F5
-	for <lists+linux-alpha@lfdr.de>; Mon, 17 Jun 2019 14:50:15 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 35FA24A89D
+	for <lists+linux-alpha@lfdr.de>; Tue, 18 Jun 2019 19:39:43 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726286AbfFQMtm (ORCPT <rfc822;lists+linux-alpha@lfdr.de>);
-        Mon, 17 Jun 2019 08:49:42 -0400
-Received: from mail-qt1-f194.google.com ([209.85.160.194]:45027 "EHLO
-        mail-qt1-f194.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725995AbfFQMtm (ORCPT
-        <rfc822;linux-alpha@vger.kernel.org>);
-        Mon, 17 Jun 2019 08:49:42 -0400
-Received: by mail-qt1-f194.google.com with SMTP id x47so10439930qtk.11
-        for <linux-alpha@vger.kernel.org>; Mon, 17 Jun 2019 05:49:41 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=mime-version:reply-to:from:date:message-id:subject:to;
-        bh=d6cp5lLEYX1NgjT7O9JHG7TIte4Jp7jyu/1K24ySFWg=;
-        b=ktbQvFsJIf+N1fkXir10WlSccsP/1xfmsSWZa5mjM94aoc04b7AZ/pWGv8A4BdzF33
-         pWX/eXVWI3v3/CtafE4u22xrRuB6IUgmvJLr8+Acsa3n/vTJ4bmPNFhCMaBmPIQUWTv5
-         A9SqF/OCDsY+Kk8tBUWJuUY7INUyjKyaYmiK07Cj4feVm8YbxVgKHUh/6opXsPLUCvXG
-         czymtAyMGq9RxSjzhsYAxgPc3VtfWsSPWAKX/+thxq5jcRs5MYONHmwgYxtd0Np7Uh+7
-         QVWkZguv+6KuzFuEYGh7Y29ejYa5M4nR7HKT8JhTVlN9R8Zt1Lu9R267M6bHj/44Yu2T
-         YVbQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:reply-to:from:date:message-id
-         :subject:to;
-        bh=d6cp5lLEYX1NgjT7O9JHG7TIte4Jp7jyu/1K24ySFWg=;
-        b=LMh+LsIeufOs7luX0hvXPnpvluPYJWYfpqmgWkDsiHrBJekimA71iD2IwI4cCNV4ME
-         jrMQ6JfLI5i8K7ttptYJ1uVABADh0e/AsbYgq7ZPSY1FespT0UeNl02lb73XEXCqnetR
-         knlsQvIKzJ133CXm1n8Lk0aFXJzP9xrWjZiXYTHf7vs1fMq9ORDHsws1USqQasyguFp2
-         j6aYE6qo8yQooSH4TNbO9CNpl6MPZISA+FxBqe2Zckh4dAtifitp9faGYysdS6pwVPAr
-         xAK8OE8eGDZ8jCfSCUl27JCqbN9BkvRO0HdzDPvZZXom2fjnY7lUS7wFJh9LUDxkSbWL
-         RQJA==
-X-Gm-Message-State: APjAAAWq5OOcFK+lSZYmwj+aPlBX68HqfanjqUc/1DxjfQ27LYhguHxK
-        IEL1Ifmp06nPZRLFh4dxHtC4iQ9NZ9mSF4WfIg==
-X-Google-Smtp-Source: APXvYqz4Vm5pQARMrZaAtyB6WEMg7T4Ny7+8+8wYOVrstwsWprpf7FHbwV6mwHskEkJkQmsN51bnhk9aVc9yGuTMIq0=
-X-Received: by 2002:a0c:9274:: with SMTP id 49mr5728943qvz.119.1560775781353;
- Mon, 17 Jun 2019 05:49:41 -0700 (PDT)
+        id S1729491AbfFRRio (ORCPT <rfc822;lists+linux-alpha@lfdr.de>);
+        Tue, 18 Jun 2019 13:38:44 -0400
+Received: from smtp2.ono.com ([62.42.230.179]:18612 "EHLO smtp2.ono.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1729477AbfFRRio (ORCPT <rfc822;linux-alpha@vger.kernel.org>);
+        Tue, 18 Jun 2019 13:38:44 -0400
+X-Junkmail-Premium-Raw: score=26/50,refid=2.7.2:2019.6.18.165417:17:26.894,ip=62.42.230.133,rules=__HAS_MSGID,
+ __SANE_MSGID, MSGID_JMAIL_DEFAULT, INVALID_MSGID_NO_FQDN, __HAS_FROM,
+ FROM_NAME_PHRASE, FROM_NAME_ALLCAPS, __HAS_REPLYTO, __FRAUD_WEBMAIL_REPLYTO,
+ BLANK_SUBJECT, __MIME_VERSION, __CT, __CT_TEXT_PLAIN, __CTE, MISSING_HEADERS,
+ __ANY_URI, __FRAUD_BODY_WEBMAIL, __URI_NO_WWW, __NO_HTML_TAG_RAW,
+ BODYTEXTP_SIZE_400_LESS, BODY_SIZE_200_299, BODYTEXTP_SIZE_3000_LESS,
+ __MIME_TEXT_P1, __MIME_TEXT_ONLY, __URI_NS, HTML_00_01, HTML_00_10,
+ BODY_SIZE_5000_LESS, __FRAUD_WEBMAIL, WEBMAIL_REPLYTO_NOT_FROM,
+ FRAUD_WEBMAIL_R_NOT_F, __MIME_TEXT_P, FRAUD_LITTLE_BODY,
+ __PHISH_SPEAR_STRUCTURE_1, BODY_SIZE_1000_LESS, BODY_SIZE_2000_LESS,
+ SMALL_BODY, __PHISH_SPEAR_STRUCTURE_2, REPLYTO_FROM_DIFF_ADDY, NO_URI_HTTPS,
+ BODY_SIZE_7000_LESS, TO_MALFORMED
+Received: from resprs03 (62.42.230.133) by smtp2.ono.com (9.0.019.09-1)
+        id 5CAF0F5D03693A66; Tue, 18 Jun 2019 19:30:26 +0200
+Received: from (149.126.75.9) by webmailcpr03n.ono.com;  Tue, 18 Jun 2019 19:30:24 +0200
+Message-ID: <33042059.649451560879024452.JavaMail.defaultUser@defaultHost>
+Date:   Tue, 18 Jun 2019 19:30:24 +0200 (CEST)
+From:   DR ALBERT ZONGO <rjpd@ono.com>
+Reply-To: dralbertddzongo@gmail.com
+Subject: 
 MIME-Version: 1.0
-Received: by 2002:ac8:231c:0:0:0:0:0 with HTTP; Mon, 17 Jun 2019 05:49:40
- -0700 (PDT)
-Reply-To: eddywilliam0002@gmail.com
-From:   eddy william <smithhason13@gmail.com>
-Date:   Mon, 17 Jun 2019 14:49:40 +0200
-Message-ID: <CAE9dMzZbys2bf_9ytzsrf+UwgZupAbS2CS=va2=eSJ63woV4yQ@mail.gmail.com>
-Subject: hello
-To:     undisclosed-recipients:;
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain;charset="UTF-8"
+Content-Transfer-Encoding: 7bit
+To:     unlisted-recipients:; (no To-header on input)
 Sender: linux-alpha-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-alpha.vger.kernel.org>
 X-Mailing-List: linux-alpha@vger.kernel.org
 
-Hello
 
-My name is Eddy William I am a lawyer by profession. I wish to offer you
-the next of kin to my client. You will inherit the sum of ($14.2 Million)
-dollars my client left in the bank before his death.
 
-My client is a citizen of your country who died in auto crash with his wife
-and only son. I will be entitled with 50% of the total fund while 50% will
-be for you.
 
-Please contact my private email here for more details:eddywilliam0002@gmail.com
+--
+Greetings,
 
-Many thanks in advance,
-Mr.Eddy William,
+I have an intending proposal for you please i need you to contact my 
+private
+
+ E-mail (dralbertddzongo@gmail.com) for more updates,
+
+Best Wishes.
+
+DR ALBERT ZONGO
+
+--
+
