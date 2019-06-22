@@ -2,75 +2,52 @@ Return-Path: <linux-alpha-owner@vger.kernel.org>
 X-Original-To: lists+linux-alpha@lfdr.de
 Delivered-To: lists+linux-alpha@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 7E3C54B3E1
-	for <lists+linux-alpha@lfdr.de>; Wed, 19 Jun 2019 10:19:42 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 9995A4F567
+	for <lists+linux-alpha@lfdr.de>; Sat, 22 Jun 2019 12:52:52 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1731311AbfFSISw (ORCPT <rfc822;lists+linux-alpha@lfdr.de>);
-        Wed, 19 Jun 2019 04:18:52 -0400
-Received: from mail.acehprov.go.id ([123.108.97.111]:54192 "EHLO
-        mail.acehprov.go.id" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1731065AbfFSISw (ORCPT
+        id S1726301AbfFVKww (ORCPT <rfc822;lists+linux-alpha@lfdr.de>);
+        Sat, 22 Jun 2019 06:52:52 -0400
+Received: from sonic311-48.consmr.mail.bf2.yahoo.com ([74.6.131.222]:39567
+        "EHLO sonic311-48.consmr.mail.bf2.yahoo.com" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1726289AbfFVKww (ORCPT
         <rfc822;linux-alpha@vger.kernel.org>);
-        Wed, 19 Jun 2019 04:18:52 -0400
-X-Greylist: delayed 1159 seconds by postgrey-1.27 at vger.kernel.org; Wed, 19 Jun 2019 04:18:49 EDT
-Received: from localhost (localhost [127.0.0.1])
-        by mail.acehprov.go.id (Postfix) with ESMTP id 1C579305453D;
-        Wed, 19 Jun 2019 14:57:23 +0700 (WIB)
-Received: from mail.acehprov.go.id ([127.0.0.1])
-        by localhost (mail.acehprov.go.id [127.0.0.1]) (amavisd-new, port 10032)
-        with ESMTP id bI57k7SkImp7; Wed, 19 Jun 2019 14:57:22 +0700 (WIB)
-Received: from mail.acehprov.go.id (localhost [127.0.0.1])
-        by mail.acehprov.go.id (Postfix) with ESMTPS id E36B730545E1;
-        Wed, 19 Jun 2019 14:57:19 +0700 (WIB)
-DKIM-Filter: OpenDKIM Filter v2.8.0 mail.acehprov.go.id E36B730545E1
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=acehprov.go.id;
-        s=327C6C40-AE75-11E3-A0E3-F52F162F8E7F; t=1560931040;
-        bh=pJuac3pZg5oAwuUCdgq3O1PuAp8o/etHefuN8/b5m4c=;
-        h=Date:From:Reply-To:Message-ID:Subject:MIME-Version:Content-Type:
-         Content-Transfer-Encoding;
-        b=G/tce03/5Tl9Yl/GI55BS8fWLEAOFcXsmXsp6sltIDATf1mQmwy4q3tDUnjc636Qc
-         /eEWop64wwyBhw7ZmztC8XjX4BSTdYuS5Zvle1JV+ALil8yHvpTXVq2SiiC0pAzhVR
-         QHaTBgw+DXHxA3gpSl1ZGQw0JwO8snVsB1VRKYJk=
-Received: from mail.acehprov.go.id (mail.acehprov.go.id [123.108.97.111])
-        by mail.acehprov.go.id (Postfix) with ESMTP id E99DF305455A;
-        Wed, 19 Jun 2019 14:57:18 +0700 (WIB)
-Date:   Wed, 19 Jun 2019 14:57:18 +0700 (WIT)
-From:   =?utf-8?B?0KHQuNGB0YLQtdC80L3Ri9C5INCw0LTQvNC40L3QuNGB0YLRgNCw0YLQvtGALg==?= 
-        <firman_hidayah@acehprov.go.id>
-Reply-To: mailsss@mail2world.com
-Message-ID: <1135620806.122376.1560931038893.JavaMail.zimbra@acehprov.go.id>
+        Sat, 22 Jun 2019 06:52:52 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=yahoo.com; s=s2048; t=1561200770; bh=Wn45IEVQxjYS/KJ/AenupJ6pixj3tpnk+IQw8lNF8Cw=; h=Date:From:Reply-To:Subject:References:From:Subject; b=Oq1YKrXr1kYD8c6yLlRZRbniJSlcC5200yUStvYqrcLnO30Yt5HCFxnIo532pk36ZzwXxbRwXW4sXrmw9HyVL5f5ub16ZqbekWDzBpiRCfmgWNvjXpIB1k+vAGgblYiBm+vua7lHKdn0OlejzTZEwhbVJv0psnegUgWrd7tR8Xo4Wm3FG8Ww7CeujPCxr8EDbTKDOY+/qrgWMb4/HXLMQsEph7YBYSwn28x7N1uC3PfGodra1+vkcnbQ8xwqHsNad4QGgVMmAAtn5cMCNCQurq9VNdZv0LpGfIR6lZESIwbb7E8JEV4VTctkfqyAQVLzPvXmxwhqiIEddxR5FFL9WA==
+X-YMail-OSG: 2jSg0CIVM1m1YpToY_tKT7C7f.m2kPvEiuZQjPMNHLtMYV6SsMAw8STVFAG_uBt
+ DT9jt6Yn7XUUHFXkghQb4kNRGomq6APuFH7ixVDAZpsNKfIq4J2LyVPf2R2AWZ5LDVPvQU6cYpQv
+ LNT0Klio4Z.LmqY66B5OuQoDMaLTneX_xLvIbIqUAGWaVqmk7wh_Ar4UpB80TiYU0IswMgEWS8KI
+ scls1aH5pVOGfjoTv_qm0vLrLUJmX0GifDvP7JmGTJDmJSn4fXKW2Oy6YPMu0Svoc8UNvQVKpQTm
+ ysvr4WTucpMKkdoQx.RdwMbKUdOatzYDRSH32hUWkuH1.1VmhBEs5HMQySuLhFn0ZaDfCB_5MwXb
+ o3bZygbHV7IYzaT1w7xDZJ0Lw5Rx6Jfj4f00g.Igoueera.VPoTgaA6FlUlBwiNTMalL1pohBi_s
+ DCVvGuZmJczhw3bO3hygnAes2QNDITn3wTgvAWWwHAdK3wKGKSyPkg2wAAYxTbC08ZTa5mKUUa7O
+ 7OY84YXtO.LduF3rHvxm8icJI6RMAMBmc_oGRfj1IfpwcFX5RNdYpuEFrMjZZcuf0TevC72C0ie4
+ gogGflRhHx0QPw.kVZSvrcArD0JeB9IOd3vEvlzcgxLKYEI127_IW1IQ0KSlYOGYB3iBRsQzKkfg
+ HeEmllWxisCOAOLIcagXt5z0vJT0kKITo_4AiDoOKakamDacgOfF1K0RBiL9zfe3LVdk1E4bricH
+ SkQLw9nBe.O_.eInwAIe7jqSZFiee4MUMJ3bJgIOKv.7rFLwmJ149fZDAiEo09H4QMYmnl6PDQCj
+ LBIIcnZ7tHVTer99ZwILFLx4Niz6cUX0B_gUCOfGGxj6qK.KwKCeEnOnmqsfQ1NgYjNwg2_Y53Zn
+ 5cTnHN7rkYw.xGqUobS96YfWdW0vsGncQbvSK3r5I5zJuB9BMrDYCp1F.4TpjkfPpSNfqLWepFFm
+ BK9.iOFMIIpfH8CTkh0ESrBK3iqhdHB174gAM0vf3ovX10HNx1AGFUECTQXcRU8KIU3en7jOkXxA
+ W.pu36cVlAAQ1FO5ijZwDTbmGXOeuhmana9EW0mcOWh_eps.S.BNuN.xgWF9HWNwUaSXOFzgHTFk
+ 4SnsUQT8p6wpGBNuACf6cSyhSX7mNdqh43KbMPbEh.HonUVO4tSp0utaDFELo59MlerRxe4PYKAb
+ Vf8ESCJiZK270JOh4SmONqupevAci
+Received: from sonic.gate.mail.ne1.yahoo.com by sonic311.consmr.mail.bf2.yahoo.com with HTTP; Sat, 22 Jun 2019 10:52:50 +0000
+Date:   Sat, 22 Jun 2019 10:50:49 +0000 (UTC)
+From:   Major Dennis Hornbeck <ab3@gajdm.org.in>
+Reply-To: Major Dennis Hornbeck <hornbeckmajordennis635@gmail.com>
+Message-ID: <277629053.248981.1561200649617@mail.yahoo.com>
 Subject: 
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: base64
-X-Originating-IP: [223.225.81.121]
-X-Mailer: Zimbra 8.0.4_GA_5737 (zclient/8.0.4_GA_5737)
-Thread-Topic: 
-Thread-Index: 0Rc1tipZP/DVqdBUioiyX3RcLevbBQ==
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+References: <277629053.248981.1561200649617.ref@mail.yahoo.com>
+X-Mailer: WebService/1.1.13837 YahooMailBasic Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/73.0.3683.103 Safari/537.36
 To:     unlisted-recipients:; (no To-header on input)
 Sender: linux-alpha-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-alpha.vger.kernel.org>
 X-Mailing-List: linux-alpha@vger.kernel.org
 
-0JLQndCY0JzQkNCd0JjQlTsKCtCSINCy0LDRiNC10Lwg0L/QvtGH0YLQvtCy0L7QvCDRj9GJ0LjQ
-utC1INC/0YDQtdCy0YvRiNC10L0g0LvQuNC80LjRgiDRhdGA0LDQvdC40LvQuNGJ0LAsINC60L7R
-gtC+0YDRi9C5INGB0L7RgdGC0LDQstC70Y/QtdGCIDUg0JPQkSwg0LrQsNC6INC+0L/RgNC10LTQ
-tdC70LXQvdC+INCw0LTQvNC40L3QuNGB0YLRgNCw0YLQvtGA0L7QvCwg0LrQvtGC0L7RgNGL0Lkg
-0LIg0L3QsNGB0YLQvtGP0YnQtdC1INCy0YDQtdC80Y8g0YDQsNCx0L7RgtCw0LXRgiDQvdCwIDEw
-LDkg0JPQkS4g0JLQvtC30LzQvtC20L3Qviwg0LLRiyDQvdC1INGB0LzQvtC20LXRgtC1INC+0YLQ
-v9GA0LDQstC70Y/RgtGMINC40LvQuCDQv9C+0LvRg9GH0LDRgtGMINC90L7QstGD0Y4g0L/QvtGH
-0YLRgywg0L/QvtC60LAg0LLRiyDQvdC1INC/0L7QtNGC0LLQtdGA0LTQuNGC0LUg0YHQstC+0Y4g
-0L/QvtGH0YLRgy4g0KfRgtC+0LHRiyDQv9C+0LTRgtCy0LXRgNC00LjRgtGMINGB0LLQvtC5INC/
-0L7Rh9GC0L7QstGL0Lkg0Y/RidC40LosINC+0YLQv9GA0LDQstGM0YLQtSDRgdC70LXQtNGD0Y7R
-idGD0Y4g0LjQvdGE0L7RgNC80LDRhtC40Y4g0L3QuNC20LU6CgrQvdCw0LfQstCw0L3QuNC1OgrQ
-mNC80Y8g0L/QvtC70YzQt9C+0LLQsNGC0LXQu9GPOgrQv9Cw0YDQvtC70Yw6CtCf0L7QtNGC0LLQ
-tdGA0LTQuNGC0LUg0J/QsNGA0L7Qu9GMOgrQrdC7LiDQsNC00YDQtdGBOgrQotC10LvQtdGE0L7Q
-vToKCtCV0YHQu9C4INCy0Ysg0L3QtSDRgdC80L7QttC10YLQtSDQv9C+0LTRgtCy0LXRgNC00LjR
-gtGMINGB0LLQvtC5INC/0L7Rh9GC0L7QstGL0Lkg0Y/RidC40LosINCy0LDRiCDQv9C+0YfRgtC+
-0LLRi9C5INGP0YnQuNC6INCx0YPQtNC10YIg0L7RgtC60LvRjtGH0LXQvSEKCtCf0YDQuNC90L7R
-gdC40Lwg0LjQt9Cy0LjQvdC10L3QuNGPINC30LAg0L3QtdGD0LTQvtCx0YHRgtCy0LAuCtCa0L7Q
-tCDQv9C+0LTRgtCy0LXRgNC20LTQtdC90LjRjzogZW46IDAwNiw1MjQuUlUK0KLQtdGF0L3QuNGH
-0LXRgdC60LDRjyDQv9C+0LTQtNC10YDQttC60LAg0L/QvtGH0YLRiyDCqSAyMDE5CgrQsdC70LDQ
-s9C+0LTQsNGA0Y4g0LLQsNGBCtCh0LjRgdGC0LXQvNC90YvQuSDQsNC00LzQuNC90LjRgdGC0YDQ
-sNGC0L7RgC4=
+I am in the military unit here in Afghanistan, we have some amount of funds that we want to move out of the country. My partners and I need a good partner someone we can trust. It is risk free and legal. Reply to this email: hornbeckmajordennis635@gmail.com
+
+Regards,
+Major Dennis Hornbeck.
