@@ -2,101 +2,53 @@ Return-Path: <linux-alpha-owner@vger.kernel.org>
 X-Original-To: lists+linux-alpha@lfdr.de
 Delivered-To: lists+linux-alpha@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id C684C5C1D7
-	for <lists+linux-alpha@lfdr.de>; Mon,  1 Jul 2019 19:18:14 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 8AFC35C1EC
+	for <lists+linux-alpha@lfdr.de>; Mon,  1 Jul 2019 19:25:46 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727094AbfGARSO (ORCPT <rfc822;lists+linux-alpha@lfdr.de>);
-        Mon, 1 Jul 2019 13:18:14 -0400
-Received: from mail-eopbgr1310049.outbound.protection.outlook.com ([40.107.131.49]:43008
-        "EHLO APC01-SG2-obe.outbound.protection.outlook.com"
-        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
-        id S1726840AbfGARSO (ORCPT <rfc822;linux-alpha@vger.kernel.org>);
-        Mon, 1 Jul 2019 13:18:14 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=teoenmingcorp.onmicrosoft.com; s=selector1-teoenmingcorp-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=aUO2PrLu7Ugi5JricAmXVnnu6HYmgnO2cn4Q+vj5+gc=;
- b=OMxkuP8YpKP0DesOBxw6E3Pvn0PYOCOZ4I2xvDXILUgt7UzDCEs2AdiSShtfx0QUUE5VPuyoCO20zRNOQmdHx/Lm3NcDDSErTT/APlsbvOgLOyIcJjsjlJpa5wqO7oe1w1JZNRXcwCvIY5Lqw+YfhsYiB5zCDgEETzCsMUjCoaM=
-Received: from SG2PR01MB2141.apcprd01.prod.exchangelabs.com (10.170.143.19) by
- SG2PR01MB2169.apcprd01.prod.exchangelabs.com (20.177.81.206) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.2032.18; Mon, 1 Jul 2019 17:18:09 +0000
-Received: from SG2PR01MB2141.apcprd01.prod.exchangelabs.com
- ([fe80::d503:3d71:ce06:19d2]) by SG2PR01MB2141.apcprd01.prod.exchangelabs.com
- ([fe80::d503:3d71:ce06:19d2%6]) with mapi id 15.20.2032.019; Mon, 1 Jul 2019
- 17:18:09 +0000
-From:   Turritopsis Dohrnii Teo En Ming <ceo@teo-en-ming-corp.com>
-To:     "linux-alpha@vger.kernel.org" <linux-alpha@vger.kernel.org>
-CC:     Turritopsis Dohrnii Teo En Ming <ceo@teo-en-ming-corp.com>
-Subject: Alpha Systems Ceased Production and Sales After April 2007?
-Thread-Topic: Alpha Systems Ceased Production and Sales After April 2007?
-Thread-Index: AdUwMM+Mbddb3JhVRFm9aPB5hXdPLA==
-Date:   Mon, 1 Jul 2019 17:18:09 +0000
-Message-ID: <SG2PR01MB2141098BC5DEA9F82EFF543287F90@SG2PR01MB2141.apcprd01.prod.exchangelabs.com>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-authentication-results: spf=none (sender IP is )
- smtp.mailfrom=ceo@teo-en-ming-corp.com; 
-x-originating-ip: [118.189.211.120]
-x-ms-publictraffictype: Email
-x-ms-office365-filtering-correlation-id: 1fb0947b-890c-48c7-1599-08d6fe481718
-x-microsoft-antispam: BCL:0;PCL:0;RULEID:(2390118)(7020095)(4652040)(7021145)(8989299)(4534185)(7022145)(4603075)(4627221)(201702281549075)(8990200)(7048125)(7024125)(7027125)(7023125)(5600148)(711020)(4605104)(1401327)(2017052603328)(7193020);SRVR:SG2PR01MB2169;
-x-ms-traffictypediagnostic: SG2PR01MB2169:
-x-ms-exchange-purlcount: 4
-x-microsoft-antispam-prvs: <SG2PR01MB2169D55D952BA5083F24240787F90@SG2PR01MB2169.apcprd01.prod.exchangelabs.com>
-x-ms-oob-tlc-oobclassifiers: OLM:6430;
-x-forefront-prvs: 00851CA28B
-x-forefront-antispam-report: SFV:NSPM;SFS:(10009020)(366004)(376002)(39830400003)(136003)(346002)(396003)(199004)(189003)(966005)(66066001)(8936002)(6506007)(5660300002)(476003)(2906002)(7696005)(186003)(81156014)(86362001)(52536014)(66446008)(64756008)(81166006)(66946007)(99286004)(73956011)(66476007)(8676002)(6116002)(486006)(6916009)(3846002)(316002)(102836004)(68736007)(76116006)(55016002)(107886003)(2351001)(26005)(53936002)(4744005)(25786009)(14454004)(74316002)(508600001)(9686003)(71190400001)(305945005)(71200400001)(6306002)(256004)(33656002)(2501003)(4326008)(66556008)(6436002)(5640700003)(7736002);DIR:OUT;SFP:1101;SCL:1;SRVR:SG2PR01MB2169;H:SG2PR01MB2141.apcprd01.prod.exchangelabs.com;FPR:;SPF:None;LANG:en;PTR:InfoNoRecords;A:1;MX:1;
-received-spf: None (protection.outlook.com: teo-en-ming-corp.com does not
- designate permitted sender hosts)
-x-ms-exchange-senderadcheck: 1
-x-microsoft-antispam-message-info: wwGuj72zsw+mF6fWthmlGNp2zH/vrfDIBDZkZvDIu0CE5otrtD1iwbkt26XexvugPKMtPKoz1GFHfS6QwZtItMIPsXkztX3miJH86tqimOYKSZ+0P2DA3rYLqYhPkQwDTvwsTizPfc6BP4wEcGTapwInQ9Nr1BBsR2BnKmb28TkePTmjjEoOAcWdjDviYnMIO1NuaLqtRdFWi/nT5+OflpRgjEZREjtN+02m10SIFalHSV9dj+JyZzMARxYghJ0yaMaY/cB7uClBSD+JzNb4V1so0ryYS3obmAcgmTomJKgu4OWUnDxZNGE1OySqHDUPLuEyogQWnBvD8OnxrnsdDgFeiW3UD4wMdqcRvxSO4t+EnngnHB0arHU7X9Qnu4ehihY3/vAZZmDs6dpNK+maMPmpvQfwmKxjtc62Qy2DWIk=
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: quoted-printable
+        id S1729004AbfGARZp (ORCPT <rfc822;lists+linux-alpha@lfdr.de>);
+        Mon, 1 Jul 2019 13:25:45 -0400
+Received: from sonic306-36.consmr.mail.bf2.yahoo.com ([74.6.132.235]:38567
+        "EHLO sonic306-36.consmr.mail.bf2.yahoo.com" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1729456AbfGARZp (ORCPT
+        <rfc822;linux-alpha@vger.kernel.org>);
+        Mon, 1 Jul 2019 13:25:45 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=yahoo.com; s=s2048; t=1562001944; bh=QFQXNGn0FJohU3l97Cng3z90qjIEAqAKmbCVyMu/adQ=; h=Date:From:Reply-To:Subject:References:From:Subject; b=Io9NL4lnVvdtK8VRVGLxZ8rA/ytXf2PNU5x/h3MaFo7Hb7b2OPZLVGspmb61RE5rZ9PqqoN1esVCurf9vURU1fjUxFGdAfc1RP+6pIbuELIQsK6YEJvvo9XUz3UNWqC3A/I9SefoNQdRZowftz07ZMnSkG8l03MloiJDh7QJ2T8QFH+mg8e/eEvw0BnTX2KY+deFfnko+W6uhvmkfV7pEH7HsszQ4x7ofbhXn5ez0Ih/xKPBScb+g9lMQnvCoIpH5kwRfY8Bstg2pwgjZOVHQ9fT6mYWO6pWyjnmk5gfUvD4t2BFtSskDEvgHrgZkd/7+lyE2xVEsbkGOAtAsNtNLA==
+X-YMail-OSG: owEhKTEVM1mxv1RUXQTuBXbn0W9dKpRWFvq52iZw927uEW2d0GbhsKKoutdQ5mg
+ dGU1saTEaeA1Ua4tez5.glnlbkxwkjyj8xoYPT0Norx64ugkaR2JYtG3x_e24hoeB2_pzMN._KTN
+ csaS1TLRinota2PsamLloCauxznnv8gK7VFbDTkT4kFnB93ENGfyq7Cw61vcR.nZfwpzWuuOivgh
+ NbpzlwDzUw10slcKItdm5pHiwFFU6PCpH5NfPYkvFk7E_ziSe7C_7yQvr2L2j8tZ7lfjOeBN6lI5
+ l8aR6HAIx1WTilOL7VPA12AY_eEGHnmS1h4gONIxQQwTI3kXzV8xg8AB7sPecjDYlzOjIO5uvOd1
+ Wj94UDglNfEi2NCqyR9wdfWT39rP23z8uU0KXdk9q2x6vVxuaDawvdZ1sTwGBmzkYxzurZZXc_J_
+ 33i7POi0DVCPwTqhnbZrud1BWXsActRCNQqmPuZejfXpZ8vABmW7dwq4qZjXnjNhCXoCu2UxHczf
+ 7qt.xqlJwGM3VzgpFoM.rXq8ZueI1HWHCDH4S_2YlMoUEEpSt4JPmeXtI7Ra1Vb2UNXR0brHzJfF
+ KfQ_mXPoAauW28R2As0GzLupY0G636TEKi7fBJ.IO16rO5052oteu.ytXVZKABNrOrgbnwR42xCK
+ 3muMi3FxqqKhtNKHNJtbe7IreDxQcxYivAgLayMg0H34OgwCufWCBT2jawMGSb2MJ.kzFG4x_4xX
+ gaTFy05qOaOti2xY3XGfklWDlPCGolBij_39hsMR5mwcDn7d9vKYGJ2CqafP52e8TZr2QYN2312u
+ t4OUsc6MXuDF4bXFWajw4fWtFoabYxpwG696d5lA9F4Mg.sIIv1HCVX.Hdhp1eKWhFfbsY5p4.ON
+ FrgrUnrjTyFU5q14Vr6d19NJ48V7JXsgXE1DtAkOPHM3ZJJ4jVfLDn2YbScldfYFySMaBnySKrrF
+ rRsxPI1JCZku9W5alhmadWIrAYEKuWTvd0whTblF6P3eUb36U9a1aE_JsoSai3vnJK3Xg2oEnTpJ
+ _13MQFLB19xZdPC.wApMJ36M0mI48khQdUtxnEXKpDPhSb5OzkDt7rswiJQBdyehWnkG_9pysHB0
+ MGtsheKxCDoAgJNdoTNFh2SYI0_iOewtvN0nHtYg342EbgcIuktrJsdCRx.xNwJm6sVTkHSPrVeK
+ oWqY_Mv.f77QEUGU.UJKWrwdwykVQhz6bzCRI48_TSS.iOCcRirarGmQDskknQhsjYqx4h8dfJbh
+ aByTVMD_ziSGfLJC4sn2e3NU-
+Received: from sonic.gate.mail.ne1.yahoo.com by sonic306.consmr.mail.bf2.yahoo.com with HTTP; Mon, 1 Jul 2019 17:25:44 +0000
+Date:   Mon, 1 Jul 2019 17:23:43 +0000 (UTC)
+From:   Major Dennis Hornbeck <bc65@bacman.online>
+Reply-To: Major Dennis Hornbeck <hornbeckmajordennis637@gmail.com>
+Message-ID: <1468183126.914512.1562001823079@mail.yahoo.com>
+Subject: 
 MIME-Version: 1.0
-X-OriginatorOrg: teo-en-ming-corp.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 1fb0947b-890c-48c7-1599-08d6fe481718
-X-MS-Exchange-CrossTenant-originalarrivaltime: 01 Jul 2019 17:18:09.6519
- (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 23b3f6ae-c453-4b93-aec9-f17508e5885c
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: ceo@teo-en-ming-corp.com
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: SG2PR01MB2169
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+References: <1468183126.914512.1562001823079.ref@mail.yahoo.com>
+X-Mailer: WebService/1.1.13913 YahooMailBasic Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/73.0.3683.103 Safari/537.36
+To:     unlisted-recipients:; (no To-header on input)
 Sender: linux-alpha-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-alpha.vger.kernel.org>
 X-Mailing-List: linux-alpha@vger.kernel.org
 
-Good morning from Singapore,
+I am in the military unit here in Afghanistan, we have some amount of funds that we want to move out of the country. My partners and I need a good partner someone we can trust. It is risk free and legal. Reply to this email: hornbeckmajordennis637@gmail.com
 
-Alpha systems ceased production and sales after April 2007?=20
-
-Thank you.
-
------BEGIN EMAIL SIGNATURE-----
-
-The Gospel for all Targeted Individuals (TIs):
-
-[The New York Times] Microwave Weapons Are Prime Suspect in Ills of
-U.S. Embassy Workers
-
-Link: https://www.nytimes.com/2018/09/01/science/sonic-attack-cuba-microwav=
-e.html
-
-***************************************************************************=
-*****************
-
-Singaporean Mr. Turritopsis Dohrnii Teo En Ming's Academic
-Qualifications as at 14 Feb 2019
-
-[1] https://tdtemcerts.wordpress.com/
-
-[2] https://tdtemcerts.blogspot.sg/
-
-[3] https://www.scribd.com/user/270125049/Teo-En-Ming
-
------END EMAIL SIGNATURE-----
-
+Regards,
+Major Dennis Hornbeck.
