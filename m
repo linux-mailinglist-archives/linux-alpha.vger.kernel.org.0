@@ -2,125 +2,62 @@ Return-Path: <linux-alpha-owner@vger.kernel.org>
 X-Original-To: lists+linux-alpha@lfdr.de
 Delivered-To: lists+linux-alpha@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id AC0A55C6C3
-	for <lists+linux-alpha@lfdr.de>; Tue,  2 Jul 2019 03:50:28 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 21FE260D4E
+	for <lists+linux-alpha@lfdr.de>; Fri,  5 Jul 2019 23:49:40 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726846AbfGBBu2 (ORCPT <rfc822;lists+linux-alpha@lfdr.de>);
-        Mon, 1 Jul 2019 21:50:28 -0400
-Received: from mail-io1-f66.google.com ([209.85.166.66]:42609 "EHLO
-        mail-io1-f66.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726803AbfGBBu2 (ORCPT
-        <rfc822;linux-alpha@vger.kernel.org>); Mon, 1 Jul 2019 21:50:28 -0400
-Received: by mail-io1-f66.google.com with SMTP id u19so24833353ior.9
-        for <linux-alpha@vger.kernel.org>; Mon, 01 Jul 2019 18:50:27 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=mime-version:sender:from:date:message-id:subject:to
-         :content-transfer-encoding;
-        bh=O0aGPzxpn5jU2+jECo0xtLyN2fgRg5n6CQlLcFfTgKQ=;
-        b=P60l1urugyEsBh1MvzW5ajA5MpXXg887dKM/XfFF1SOUBwiIxvOxxwMub/4Y8uGvGC
-         vTxc53lNCmrbSP5LMY+5ajhN9Avny3dRA7iyP2SzCxbAC8GTb/O92SIhWPHxR+t8G7yj
-         52Bx/C+I48uhtuPKwKjyZy2FDkFhj7KK2qVrSd2FHl0Ap6FQZ8E2+NNpBiFyA0+4Y9lu
-         UmhUJfKI2BgQUN9PP53evzH1CQXZ4X3X2JjW4OsMAwCsrQfbVLPGAgkqViJY0kKtMFsd
-         T85MWjwPXTzBcrzkL+y5REy6qo+SB9zWpUAh6ItQqQ9NsGBEM38vDtLRPO0t7RI9eNOy
-         8YIg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:sender:from:date:message-id:subject
-         :to:content-transfer-encoding;
-        bh=O0aGPzxpn5jU2+jECo0xtLyN2fgRg5n6CQlLcFfTgKQ=;
-        b=Mrw+hZYIQfIz81n91TN8e9fq+qaG6+qYNwmZbTh+iB4lDvMMRQUJmpmadRoNLh6Uci
-         qhIFcsWPzqrDCQ+P2aCR5RUTYRNkK810h86JvF2KXUTXVXInmsPYBSfl0rDRG/eLJgHO
-         cN/RRwW9BCFFa6nXgjvUyNyASn4HOKwKMJfm8S6f32D/5lQlR4PoDo8rjUipKuxzqaJ6
-         tw4VErauDIIfVPLB/+xAWF1NjgNchwroj63pOsRjuLZPdu+1Bd5AZoGWBYSdRGdrYIko
-         24GQzYn/8f7yeh07ZaK46UgrRl4dm100FtJzr8kLs8P520aAuDobQKlGj68Qa0P6mfqt
-         mYVw==
-X-Gm-Message-State: APjAAAUFQE/nfvl5BaN4R8a22xuUORRUyRupzW9azk0sDDMsmTVT17Q4
-        v0TscPEnkaqZiRkWBU02NNA+o5MZF19jLUqEtU0=
-X-Google-Smtp-Source: APXvYqzz2RqOiX2xSpzb3KyB5X83kQ6aAxvOvGgOunpyz/MTz/dsMA6WqNeld30DJJk+TmIjGK86k0KPGrvuOjdTRZs=
-X-Received: by 2002:a02:11c2:: with SMTP id 185mr33375098jaf.8.1562032227200;
- Mon, 01 Jul 2019 18:50:27 -0700 (PDT)
+        id S1728104AbfGEVtj (ORCPT <rfc822;lists+linux-alpha@lfdr.de>);
+        Fri, 5 Jul 2019 17:49:39 -0400
+Received: from out12.masterobox.work ([178.156.202.12]:42704 "EHLO
+        slot0.mathewsons.ga" rhost-flags-OK-FAIL-OK-OK) by vger.kernel.org
+        with ESMTP id S1725882AbfGEVtj (ORCPT
+        <rfc822;linux-alpha@vger.kernel.org>); Fri, 5 Jul 2019 17:49:39 -0400
+X-Greylist: delayed 623 seconds by postgrey-1.27 at vger.kernel.org; Fri, 05 Jul 2019 17:49:37 EDT
+DKIM-Signature: v=1; a=rsa-sha1; c=relaxed/relaxed; s=dkim; d=mathewsons.ga;
+ h=Content-Type:MIME-Version:Content-Transfer-Encoding:Content-Description:Subject:To:From:Date:Reply-To:Message-ID; i=purchase@mathewsons.ga;
+ bh=onxYcir3NvpNjk2I/gjm/O+ljxo=;
+ b=AE9arMlCzZJNmc4rIX9JPlqg5GudcOZhxGFP96qBi7OYarw/TTUR+yJq079qN0oQXxCBORSHH6At
+   n4rNCNMiqAFyJKK0fw6sBXLWjI8EUGh+jXonu9kd5g5Mb+z1BzzGJv9V29ggTRrCxw7VSaYSkZjf
+   aNt6/08CyMofxzeEperuUPSAxbUPNdqXhj/75KO/nuanhazYK+zyG3qr3giEtj+y54fZknUdY7Fj
+   aMZ9+Nl8/+UhNiIvhWRBYt4Y+soWI38qNuw9mBfnECet0XhVHIcckZqdDf9fXcfE85pI+CtgUj42
+   hJIziUW7xG19s4zVom31dG+QTxUvNwQQHJuOjA==
+DomainKey-Signature: a=rsa-sha1; c=nofws; q=dns; s=dkim; d=mathewsons.ga;
+ b=JvwqzllsHLr3+H6pNhKA4BSRjiRzvEUI6RayMAzsrRFE6158+WyKZL851Z7knPtVfFgq+eF4tKJh
+   Mwr1z8xEB3Re60o6LyUc4pxegZwPknW2EDMirRgA2NREH0SNWhW4/pmjxMbYtsSQ35UunEd1qY8i
+   YadwMr2q/xi2KUZsWAamTM2S5gwY8wvRXYQomuuTc5Lc0KfSgS3x78GW0l2IV+rLzkQAsIDKs7Ch
+   NN9C018sREfICb6xsxRIJzidTg7jF1P3qcvYY69JDQiS6QbH9koNP5uDeJOiPDzXkEB+w0Nz0dqm
+   FI1g9u7qDbya8AzaXZEu74zXTyu8SYsoN2257w==;
+Content-Type: text/plain; charset="iso-8859-1"
 MIME-Version: 1.0
-Received: by 2002:a02:54ca:0:0:0:0:0 with HTTP; Mon, 1 Jul 2019 18:50:26 -0700 (PDT)
-From:   Mr Jarrah Mohmmed <jarrahmohamed10@gmail.com>
-Date:   Mon, 1 Jul 2019 18:50:26 -0700
-X-Google-Sender-Auth: ODf-HWbAhyUJhis5hXnYbZfft0g
-Message-ID: <CAMDCNK3Cv0z38rGHfkdNTPVnpRmG8f19YR5SvOwRoSnzChfr0g@mail.gmail.com>
-Subject: YOUR URGENT RESPOND IS NEEDED
-To:     undisclosed-recipients:;
-Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
+Content-Description: Mail message body
+Subject: Quotes needed For July Shipments
+To:     Recipients <purchase@mathewsons.ga>
+From:   "Sales -Jpexcc." <purchase@mathewsons.ga>
+Date:   Sat, 06 Jul 2019 00:39:05 +0300
+Reply-To: jpexcc@aol.com
+Message-ID: <0.0.4D.12D.1D53379E0115B52.0@slot0.mathewsons.ga>
 Sender: linux-alpha-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-alpha.vger.kernel.org>
 X-Mailing-List: linux-alpha@vger.kernel.org
 
-My Dear Friend,
+Hello dear,
+ =
 
-Before I introduce myself, I wish to inform you that this letter is
-not a hoax mail and I urge you to treat it serious. This letter must
-come to you as a big surprise, but I believe it is only a day that
-people meet and become great friends and business partners. Please I
-want you to read this letter very carefully and I must apologize for
-barging this message into your mail box without any formal
-introduction due to the urgency and confidentiality of this business
-and I know that this message will come to you as a surprise. Please
-this is not a joke and I will not like you to joke with it ok, with
-due respect to your person and much sincerity of purpose, I make this
-contact with you as I believe that you can be of great assistance to
-me. My name is Mr. Jarrah Mohmmed, from Burkina Faso, West Africa. I
-work in United Bank for Africa (UBA) as telex manager, please see this
-as a confidential message and do not reveal it to another person and
-let me know whether you can be of assistance regarding my proposal
-below because it is top secret.
+We are in the market for your products after meeting at your stand during l=
+ast expo.
+ =
 
-I am about to retire from active Banking service to start a new life
-but I am skeptical to reveal this particular secret to a stranger. You
-must assure me that everything will be handled confidentially because
-we are not going to suffer again in life. It has been 10 years now
-that most of the greedy African Politicians used our bank to launder
-money overseas through the help of their Political advisers. Most of
-the funds which they transferred out of the shores of Africa were gold
-and oil money that was supposed to have been used to develop the
-continent. Their Political advisers always inflated the amounts before
-transferring to foreign accounts, so I also used the opportunity to
-divert part of the funds hence I am aware that there is no official
-trace of how much was transferred as all the accounts used for such
-transfers were being closed after transfer. I acted as the Bank
-Officer to most of the politicians and when I discovered that they
-were using me to succeed in their greedy act; I also cleaned some of
-their banking records from the Bank files and no one cared to ask me
-because the money was too much for them to control. They laundered
-over $5billion Dollars during the process.
+Please kindly send us your latest catalog and price list so as to start a n=
+ew project/order as promised during the exhibition. =
 
-Before I send this message to you, I have already diverted ($18million
-Dollars) to an escrow account belonging to no one in the bank. The
-bank is anxious now to know who the beneficiary to the funds is
-because they have made a lot of profits with the funds. It is more
-than Eight years now and most of the politicians are no longer using
-our bank to transfer funds overseas. The ($10.5million Dollars) has
-been laying waste in our bank and I don=E2=80=99t want to retire from the b=
-ank
-without transferring the funds to a foreign account to enable me share
-the proceeds with the receiver (a foreigner). The money will be shared
-60% for me and 40% for you. There is no one coming to ask you about
-the funds because I secured everything. I only want you to assist me
-by providing a reliable bank account where the funds can be
-transferred.
+ =
 
-You are not to face any difficulties or legal implications as I am
-going to handle the transfer personally. If you are capable of
-receiving the funds, do let me know immediately to enable me give you
-a detailed information on what to do. For me, I have not stolen the
-money from anyone because the other people that took the whole money
-did not face any problems. This is my chance to grab my own life
-opportunity but you must keep the details of the funds secret to avoid
-any leakages as no one in the bank knows about my plans. Please get
-back to me if you are interested and capable to handle this project, I
-shall intimate you on what to do when I hear from your confirmation
-and acceptance. If you are capable of being my trusted associate, do
-declare your consent to me I am looking forward to hear Email Address
-(jarrahmohamed10@gmail.com)
-Thanks with my best regards.
+I would appreciate your response about the above details required so we can=
+ revert back to you asap.
+ =
 
-Mr. Jarrah Mohmmed
+Kind regards
+ =
+
+Rhema Zoeh
