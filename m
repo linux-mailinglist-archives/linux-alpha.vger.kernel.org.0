@@ -2,69 +2,133 @@ Return-Path: <linux-alpha-owner@vger.kernel.org>
 X-Original-To: lists+linux-alpha@lfdr.de
 Delivered-To: lists+linux-alpha@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id F172264A66
-	for <lists+linux-alpha@lfdr.de>; Wed, 10 Jul 2019 18:02:38 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 17C3866571
+	for <lists+linux-alpha@lfdr.de>; Fri, 12 Jul 2019 06:15:37 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728359AbfGJQCf (ORCPT <rfc822;lists+linux-alpha@lfdr.de>);
-        Wed, 10 Jul 2019 12:02:35 -0400
-Received: from mail-qt1-f196.google.com ([209.85.160.196]:40570 "EHLO
-        mail-qt1-f196.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726333AbfGJQCe (ORCPT
+        id S1727630AbfGLEPg (ORCPT <rfc822;lists+linux-alpha@lfdr.de>);
+        Fri, 12 Jul 2019 00:15:36 -0400
+Received: from zeniv.linux.org.uk ([195.92.253.2]:60074 "EHLO
+        ZenIV.linux.org.uk" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727061AbfGLEPg (ORCPT
         <rfc822;linux-alpha@vger.kernel.org>);
-        Wed, 10 Jul 2019 12:02:34 -0400
-Received: by mail-qt1-f196.google.com with SMTP id a15so2977648qtn.7
-        for <linux-alpha@vger.kernel.org>; Wed, 10 Jul 2019 09:02:34 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=mime-version:reply-to:from:date:message-id:subject:to;
-        bh=AC+JysO1v7hiMPuJ82baaEu63vs9RmmoelhSWD247e8=;
-        b=B6k0mel78DMU3QnumvI1r0iwk1gqYDtwNkZ4w/+U92FO0EKuhDpiQZjlfarQkgCF59
-         vbEU3K0Ib+txq48TJuCnn1ixXYprkJyUzMMBlz3n/6vY9PbLYL5CJCDWdtOiSmemIovi
-         5FsROWZrrsVpzQibzAYrjoxZZp5VXWxi2aULYb+ZvLK6txKQSBcNMACF4DHlhV0XrooW
-         UotS3vc39K1aMR6gMm80Tm6wzPo2psgx4MqSSa+NvEf5EWaV0G0GkQh46sb6tkgUAP5d
-         Zyf+l4IA5kGGLSjlQUDmwfbp1WUrE75e9PG7DWAUQI4qqogIKYtEcbCvLSMIGS24oMRy
-         BuJw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:reply-to:from:date:message-id
-         :subject:to;
-        bh=AC+JysO1v7hiMPuJ82baaEu63vs9RmmoelhSWD247e8=;
-        b=l5XrwdroWuPiOM1DHmPYMm0YtpB7zr4G70BNcgnZq1egjjmm3gg58uQp1enfKYPq14
-         25LBZsA7F+IHIMgy5cwK0xOZ729z9m7uxoOY7xRhq5yaGaZ67QPQOcFzesKSOUcApohH
-         aqQiFTC/bgVE164YeE4R3+SiklcJAVBi2uQeizKOuWNOCmIhWWbhqCBwUyZ4CGl/NhMh
-         uUs75lOj7RJyQhNrIzoHhONthitY1NMNX9ATUXfu5TT2y2CgYfwQVVdjhGhsywuC8wJg
-         Z/Ep6z38rr6yyGfFQLiIDqGIrndOsN3DMJukw8xk7wytOUt1kpbzmSdGE1UYePlRVmd/
-         riPQ==
-X-Gm-Message-State: APjAAAUOzZghdagv3k5UjKG4AfePvKMuH71Q1LFR9KzwiouoJYge9ofK
-        XXcqPVGyxJ3cFDW/Nl1YecjNR+VzHDBROb38f5c=
-X-Google-Smtp-Source: APXvYqweQ6GJXAg3ZDMp21rRPfEmHqAMDYNqYLubm9bUUApbyq4BP81MwlR1eQQaCusIhvucg5hnlqlQNFsmkLvazA8=
-X-Received: by 2002:ac8:16a2:: with SMTP id r31mr24223312qtj.302.1562774554041;
- Wed, 10 Jul 2019 09:02:34 -0700 (PDT)
+        Fri, 12 Jul 2019 00:15:36 -0400
+Received: from viro by ZenIV.linux.org.uk with local (Exim 4.92 #3 (Red Hat Linux))
+        id 1hlmxT-000330-0Q; Fri, 12 Jul 2019 04:14:55 +0000
+Date:   Fri, 12 Jul 2019 05:14:54 +0100
+From:   Al Viro <viro@zeniv.linux.org.uk>
+To:     Aleksa Sarai <cyphar@cyphar.com>
+Cc:     Jeff Layton <jlayton@kernel.org>,
+        "J. Bruce Fields" <bfields@fieldses.org>,
+        Arnd Bergmann <arnd@arndb.de>,
+        David Howells <dhowells@redhat.com>,
+        Shuah Khan <shuah@kernel.org>,
+        Shuah Khan <skhan@linuxfoundation.org>,
+        Andy Lutomirski <luto@kernel.org>,
+        Christian Brauner <christian@brauner.io>,
+        Eric Biederman <ebiederm@xmission.com>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Alexei Starovoitov <ast@kernel.org>,
+        Kees Cook <keescook@chromium.org>,
+        Jann Horn <jannh@google.com>, Tycho Andersen <tycho@tycho.ws>,
+        David Drysdale <drysdale@google.com>,
+        Chanho Min <chanho.min@lge.com>,
+        Oleg Nesterov <oleg@redhat.com>, Aleksa Sarai <asarai@suse.de>,
+        Linus Torvalds <torvalds@linux-foundation.org>,
+        containers@lists.linux-foundation.org, linux-alpha@vger.kernel.org,
+        linux-api@vger.kernel.org, linux-arch@vger.kernel.org,
+        linux-arm-kernel@lists.infradead.org,
+        linux-fsdevel@vger.kernel.org, linux-ia64@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-kselftest@vger.kernel.org,
+        linux-m68k@lists.linux-m68k.org, linux-mips@vger.kernel.org,
+        linux-parisc@vger.kernel.org, linuxppc-dev@lists.ozlabs.org,
+        linux-s390@vger.kernel.org, linux-sh@vger.kernel.org,
+        linux-xtensa@linux-xtensa.org, sparclinux@vger.kernel.org
+Subject: Re: [PATCH v9 01/10] namei: obey trailing magic-link DAC permissions
+Message-ID: <20190712041454.GG17978@ZenIV.linux.org.uk>
+References: <20190706145737.5299-1-cyphar@cyphar.com>
+ <20190706145737.5299-2-cyphar@cyphar.com>
 MIME-Version: 1.0
-Received: by 2002:a0c:d684:0:0:0:0:0 with HTTP; Wed, 10 Jul 2019 09:02:33
- -0700 (PDT)
-Reply-To: eddywilliam0003@gmail.com
-From:   eddy william <kagnalex@gmail.com>
-Date:   Wed, 10 Jul 2019 18:02:33 +0200
-Message-ID: <CACemp=6mXNj7rVHCTXyO9ebpMF0HedyiK=vrFaee=fjUoRR2UA@mail.gmail.com>
-Subject: hello
-To:     undisclosed-recipients:;
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20190706145737.5299-2-cyphar@cyphar.com>
+User-Agent: Mutt/1.11.3 (2019-02-01)
 Sender: linux-alpha-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-alpha.vger.kernel.org>
 X-Mailing-List: linux-alpha@vger.kernel.org
 
-Hello
+On Sun, Jul 07, 2019 at 12:57:28AM +1000, Aleksa Sarai wrote:
 
-My name is Eddy William I am a lawyer by profession. I wish to offer you
-the next of kin to my client. You will inherit the sum of ($14.2 Million)
-dollars my client left in the bank before his death.
+> @@ -514,7 +516,14 @@ static void set_nameidata(struct nameidata *p, int dfd, struct filename *name)
+>  	p->stack = p->internal;
+>  	p->dfd = dfd;
+>  	p->name = name;
+> -	p->total_link_count = old ? old->total_link_count : 0;
+> +	p->total_link_count = 0;
+> +	p->acc_mode = 0;
+> +	p->opath_mask = FMODE_PATH_READ | FMODE_PATH_WRITE;
+> +	if (old) {
+> +		p->total_link_count = old->total_link_count;
+> +		p->acc_mode = old->acc_mode;
+> +		p->opath_mask = old->opath_mask;
+> +	}
 
-My client is a citizen of your country who died in auto crash with his wife
-and only son. I will be entitled with 50% of the total fund while 50% will
-be for you.
-Please contact my private email here for more details:eddywilliam0003gmail.com
+Huh?  Could somebody explain why traversals of NFS4 referrals should inherit
+->acc_mode and ->opath_mask?
 
-Many thanks in advance,
-Mr.Eddy William ,
+>  static __always_inline
+> -const char *get_link(struct nameidata *nd)
+> +const char *get_link(struct nameidata *nd, bool trailing)
+>  {
+>  	struct saved *last = nd->stack + nd->depth - 1;
+>  	struct dentry *dentry = last->link.dentry;
+> @@ -1081,6 +1134,44 @@ const char *get_link(struct nameidata *nd)
+>  		} else {
+>  			res = get(dentry, inode, &last->done);
+>  		}
+> +		/* If we just jumped it was because of a magic-link. */
+> +		if (unlikely(nd->flags & LOOKUP_JUMPED)) {
+
+That's not quite guaranteed (it is possible to bind a symlink on top
+of a regular file, and you will get LOOKUP_JUMPED on the entry into
+trailing_symlink() when looking the result up).  Moreover, why bother
+with LOOKUP_JUMPED here?  See that
+	nd->last_type = LAST_BIND;
+several lines prior?  That's precisely to be able to recognize those
+suckers.
+
+And _that_ would've avoided another piece of ugliness - your LOOKUP_JUMPED
+kludge forces you to handle that cra^Wsclero^Wvaluable security hardening
+in get_link(), instead of trailing_symlink() where you apparently want
+it to be.  Simply because nd_jump_root() done later in get_link() will set
+LOOKUP_JUMPED for absolute symlinks, confusing your test.
+
+Moreover, I'm not sure that trailing_symlink() is the right place for
+that either - I would be rather tempted to fold do_o_path() into
+path_openat(), inline path_lookupat() there (as in
+        s = path_init(nd, flags);
+
+        while (!(error = link_path_walk(s, nd))
+                && ((error = lookup_last(nd)) > 0)) {
+                s = trailing_symlink(nd);
+        }
+        if (!error)
+                error = complete_walk(nd);
+        if (!error && nd->flags & LOOKUP_DIRECTORY)
+                if (!d_can_lookup(nd->path.dentry))
+                        error = -ENOTDIR;
+        if (!error) {
+                audit_inode(nd->name, nd->path.dentry, 0);
+                error = vfs_open(&nd->path, file);
+        }
+        terminate_walk(nd);
+- we don't need LOOKUP_DOWN there) and then we only care about the
+two callers of trailing_symlink() that are in path_openat().  Which
+is where you have your ->acc_mode and ->opath_mask without the need
+to dump them into nameidata.  Or to bring that mess into the
+things like stat(2) et.al. - it simply doesn't belong there.
+
+In any case, this "bool trailing" is completely wrong; whether that
+check belongs in trailing_symlink() or (some of) its callers, putting
+it into get_link() is a mistake, forced by kludgy check for procfs-style
+symlinks.
