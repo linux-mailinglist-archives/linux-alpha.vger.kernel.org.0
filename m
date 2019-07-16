@@ -2,53 +2,54 @@ Return-Path: <linux-alpha-owner@vger.kernel.org>
 X-Original-To: lists+linux-alpha@lfdr.de
 Delivered-To: lists+linux-alpha@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 996226A923
-	for <lists+linux-alpha@lfdr.de>; Tue, 16 Jul 2019 15:06:49 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 1160D6AF54
+	for <lists+linux-alpha@lfdr.de>; Tue, 16 Jul 2019 20:56:06 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728121AbfGPNGr (ORCPT <rfc822;lists+linux-alpha@lfdr.de>);
-        Tue, 16 Jul 2019 09:06:47 -0400
-Received: from mail-pf1-f193.google.com ([209.85.210.193]:45346 "EHLO
-        mail-pf1-f193.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1728137AbfGPNGq (ORCPT
+        id S2388406AbfGPS4F (ORCPT <rfc822;lists+linux-alpha@lfdr.de>);
+        Tue, 16 Jul 2019 14:56:05 -0400
+Received: from mail-wr1-f65.google.com ([209.85.221.65]:35286 "EHLO
+        mail-wr1-f65.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S2388385AbfGPSz7 (ORCPT
         <rfc822;linux-alpha@vger.kernel.org>);
-        Tue, 16 Jul 2019 09:06:46 -0400
-Received: by mail-pf1-f193.google.com with SMTP id r1so9081059pfq.12
-        for <linux-alpha@vger.kernel.org>; Tue, 16 Jul 2019 06:06:45 -0700 (PDT)
+        Tue, 16 Jul 2019 14:55:59 -0400
+Received: by mail-wr1-f65.google.com with SMTP id y4so22109366wrm.2
+        for <linux-alpha@vger.kernel.org>; Tue, 16 Jul 2019 11:55:58 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=brauner.io; s=google;
         h=date:from:to:cc:subject:message-id:references:mime-version
          :content-disposition:in-reply-to:user-agent;
-        bh=HndzIrwk0eloZ/VKZJ3ivaH1s8315qlKpsro16xZw70=;
-        b=b8dhUBZSz3RGMnHXa2eQUBcpb0Fr1c6vhDDwn4sy14RwoF3LeMqo4GwVei/eUCKLfN
-         2ysAKK0S6zo65plaT8Lmyu1cdKbX5vv5C3GPTJPIInad+mBHinkOAREnbCNuxmpL9VDG
-         fvZUIwNFnzQNqEmzHkL0RRQ1MQkDpVZLaNNcaAVC/zAYUxremZf5+M3FMQbomiyN3wH4
-         zc2zC/xff3jM5dpplZUlTKdEFImIprhxsju27ez6MU1i0OsgFNq72UzfzJW9Togr4CqO
-         YkkRxSa2wlAwsL/E0oFuYOap/7lvKcKnsDSBvmk5MITFO2BYwQSiCBv4/QcWtaXdxpFP
-         2++g==
+        bh=HII1jGmOqJ+ZHDKFI1WGLRVkv6rLuJXcbXOQGuTO2qs=;
+        b=fLx81Axc7fZXcKYyn4FdWmT0VEDGlHROQXan6kCDS1lBwXYOSOZICuwNpupEPxZ1KA
+         wYSXFaoVOjGfUCkS+d8cHlAhu3M2pxovWkqnQFOwALA9QBVmnRkxZxo8H9luuiBMYElW
+         teY5CswjSiHPAphop6UNge3b8FVvFOdl6ZPhV/lGeX4EdVgwNRrnGQgmpMB8qwN4h6Vz
+         CUQTMLSjShRSEkdrxPF+i2v0KnEMWmD2NuZDGJaVq93w9O/93sXEJ13J+BUqFv+mqIR0
+         a2nSPFa0W7ZgTdiFK5BAgfXI4EwftEfi8ScyprvmIm71SEiMx2Gq30N3zYyTNzblFVBj
+         IDqQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:date:from:to:cc:subject:message-id:references
          :mime-version:content-disposition:in-reply-to:user-agent;
-        bh=HndzIrwk0eloZ/VKZJ3ivaH1s8315qlKpsro16xZw70=;
-        b=e4FZObze1eaE9cgDYyI237b0jDwX84k5E+NyH0zPjfrD1QV6sbhGeHwKFD1+avdbyQ
-         3FcUiGiYNSks0tIV8CNyHCiKUYRnk+7oGUT2lj5KIrrJu9E8Ew7lkCbwSGSKLRC7Zxl5
-         jIVRUHvQoWLf4RSTATM5/KfVwCPEZM0du8HLAT8NCTJs1q12m1+8lzknbtpve9P8RLZH
-         MkICJkpmEXuOOxDzfvm5AzWSKz3/qvDt4jP00zNl1K1ARdzjBAbqRofUpHCbb2/qLm4H
-         KqsvVlaJ0LQGiQfxS97PDyQEbI6Y74wpupgPFP8rYhjX3w4yddwoyfj04R0aIX3AGOJD
-         VeKw==
-X-Gm-Message-State: APjAAAVWqLb6VLKlTaMGa/TjyY8Q14QkXXGMCFGei/Bcq85IKbprAYYz
-        bXHrsyVHpuRHTL/fa1bmyoM=
-X-Google-Smtp-Source: APXvYqxc7HGOD0D5gu8WnhNrsT1I3LmFfpI6lWg9smWBUfjHYlbiTNFFnqhLddSt9tTLEeru8OLm5Q==
-X-Received: by 2002:a63:b1d:: with SMTP id 29mr33615344pgl.103.1563282405436;
-        Tue, 16 Jul 2019 06:06:45 -0700 (PDT)
-Received: from brauner.io ([172.58.30.188])
-        by smtp.gmail.com with ESMTPSA id a12sm42618252pje.3.2019.07.16.06.06.37
+        bh=HII1jGmOqJ+ZHDKFI1WGLRVkv6rLuJXcbXOQGuTO2qs=;
+        b=C92fPBCpHTugHBCl/mH5n1cB1/55ryrRVh0f81qQuQHwjkMea3syPEWb/zkK/RtMGU
+         64X45eFkCgpdFOMygv6Iv1B5lvl2Gnw4y8DuXbQysfZLqPc3XFBXtLWP58klvUYUAuxn
+         MvAJ0n1BInCkyP+M/IeYDhVWqIkSu8ri1ZxGAtaewfcHeIEZFjIIdNggsSWNrBdbgaIC
+         huYhN/CZ8T8h7rPeady5M6DaNiiGtDOT9ie6/T9Gg3oI4a/nM1Y9dsBFLPebwkoh4Kmr
+         NwF0YdRjEKTKGGWyBSIwOZo9FKYKImAYTbGQwFW174fwjcvHJhYfQ52EdR5Mz77oYO6M
+         ke1A==
+X-Gm-Message-State: APjAAAWNf3h2fys15FmCQDrGYhe7WhsJjp/5BxWe8nd7pQyyfsmpimsf
+        hvMBhbyPESrdNtqPywRcPuk=
+X-Google-Smtp-Source: APXvYqxjOiZ+/ZmqnAl0iYfzzo4MAVdDizISydYdFT08PVtYYgV0sowV+fqLU0s1PX6fcTCrkIj0Fw==
+X-Received: by 2002:adf:f8cf:: with SMTP id f15mr36779432wrq.333.1563303357931;
+        Tue, 16 Jul 2019 11:55:57 -0700 (PDT)
+Received: from brauner.io ([213.220.153.21])
+        by smtp.gmail.com with ESMTPSA id j33sm48044545wre.42.2019.07.16.11.55.56
         (version=TLS1_3 cipher=AEAD-AES256-GCM-SHA384 bits=256/256);
-        Tue, 16 Jul 2019 06:06:44 -0700 (PDT)
-Date:   Tue, 16 Jul 2019 15:06:33 +0200
+        Tue, 16 Jul 2019 11:55:57 -0700 (PDT)
+Date:   Tue, 16 Jul 2019 20:55:55 +0200
 From:   Christian Brauner <christian@brauner.io>
-To:     Christian Borntraeger <borntraeger@de.ibm.com>
-Cc:     linux-kernel@vger.kernel.org, arnd@arndb.de,
+To:     Sven Schnelle <svens@stackframe.org>
+Cc:     Christian Borntraeger <borntraeger@de.ibm.com>,
+        linux-kernel@vger.kernel.org, arnd@arndb.de,
         linux-arch@vger.kernel.org, linux-alpha@vger.kernel.org,
         linux-ia64@vger.kernel.org, linux-m68k@lists.linux-m68k.org,
         linux-mips@vger.kernel.org, linux-parisc@vger.kernel.org,
@@ -57,121 +58,48 @@ Cc:     linux-kernel@vger.kernel.org, arnd@arndb.de,
         Vasily Gorbik <gor@linux.ibm.com>,
         Heiko Carstens <heiko.carstens@de.ibm.com>, mpe@ellerman.id.au
 Subject: Re: [PATCH 1/2] arch: mark syscall number 435 reserved for clone3
-Message-ID: <20190716130631.tohj4ub54md25dys@brauner.io>
+Message-ID: <20190716185554.gwpppirvmxgvnkgb@brauner.io>
 References: <20190714192205.27190-1-christian@brauner.io>
  <20190714192205.27190-2-christian@brauner.io>
  <e14eb2f9-43cb-0b9d-dec4-b7e7dcd62091@de.ibm.com>
+ <20190716130631.tohj4ub54md25dys@brauner.io>
+ <20190716185310.GA12537@t470p.stackframe.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <e14eb2f9-43cb-0b9d-dec4-b7e7dcd62091@de.ibm.com>
+In-Reply-To: <20190716185310.GA12537@t470p.stackframe.org>
 User-Agent: NeoMutt/20180716
 Sender: linux-alpha-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-alpha.vger.kernel.org>
 X-Mailing-List: linux-alpha@vger.kernel.org
 
-On Mon, Jul 15, 2019 at 03:56:04PM +0200, Christian Borntraeger wrote:
-> I think Vasily already has a clone3 patch for s390x with 435. 
+On Tue, Jul 16, 2019 at 08:53:10PM +0200, Sven Schnelle wrote:
+> Hi,
+> 
+> [Adding Helge to CC list]
+> 
+> On Tue, Jul 16, 2019 at 03:06:33PM +0200, Christian Brauner wrote:
+> > On Mon, Jul 15, 2019 at 03:56:04PM +0200, Christian Borntraeger wrote:
+> > > I think Vasily already has a clone3 patch for s390x with 435. 
+> > 
+> > A quick follow-up on this. Helge and Michael have asked whether there
+> > are any tests for clone3. Yes, there will be and I try to have them
+> > ready by the end of the this or next week for review. In the meantime I
+> > hope the following minimalistic test program that just verifies very
+> > very basic functionality (It's not pretty.) will help you test:
+> > [..]
+> 
+> On PA-RISC this seems to work fine with Helge's patch to wire up the
+> clone3 syscall.
 
-A quick follow-up on this. Helge and Michael have asked whether there
-are any tests for clone3. Yes, there will be and I try to have them
-ready by the end of the this or next week for review. In the meantime I
-hope the following minimalistic test program that just verifies very
-very basic functionality (It's not pretty.) will help you test:
+I think I already responded to Helge before and yes, I think that parisc
+doesn't do anything special for fork, vfork, clone, and by extension
+also probably doesn't need to for clone3.
+It should only be a problem for arches that require mucking explicitly
+with arguments of clone-like syscalls.
+In any case, I saw Helge's patch and I think I might've missed to add an
+Acked-by but feel free to add it.
 
-#define _GNU_SOURCE
-#include <err.h>
-#include <errno.h>
-#include <fcntl.h>
-#include <linux/sched.h>
-#include <linux/types.h>
-#include <sched.h>
-#include <signal.h>
-#include <stdint.h>
-#include <stdio.h>
-#include <stdlib.h>
-#include <sys/mount.h>
-#include <sys/socket.h>
-#include <sys/stat.h>
-#include <sys/syscall.h>
-#include <sys/sysmacros.h>
-#include <sys/types.h>
-#include <sys/un.h>
-#include <sys/wait.h>
-#include <unistd.h>
-
-#ifndef CLONE_PIDFD
-#define CLONE_PIDFD 0x00001000
-#endif
-
-#ifndef __NR_clone3
-#define __NR_clone3 -1
-#endif
-
-static pid_t sys_clone3(struct clone_args *args)
-{
-	return syscall(__NR_clone3, args, sizeof(struct clone_args));
-}
-
-static int wait_for_pid(pid_t pid)
-{
-	int status, ret;
-
-again:
-	ret = waitpid(pid, &status, 0);
-	if (ret == -1) {
-		if (errno == EINTR)
-			goto again;
-
-		return -1;
-	}
-
-	if (ret != pid)
-		goto again;
-
-	if (!WIFEXITED(status) || WEXITSTATUS(status) != 0)
-		return -1;
-
-	return 0;
-}
-
-#define ptr_to_u64(ptr) ((__u64)((uintptr_t)(ptr)))
-
-int main(int argc, char *argv[])
-{
-	int pidfd = -1;
-	pid_t parent_tid = -1, pid = -1;
-	struct clone_args args = {0};
-
-	args.parent_tid = ptr_to_u64(&parent_tid); /* CLONE_PARENT_SETTID */
-	args.pidfd = ptr_to_u64(&pidfd); /* CLONE_PIDFD */
-	args.flags = CLONE_PIDFD | CLONE_PARENT_SETTID;
-	args.exit_signal = SIGCHLD;
-
-	pid = sys_clone3(&args);
-	if (pid < 0) {
-		fprintf(stderr, "%s - Failed to create new process\n", strerror(errno));
-		exit(EXIT_FAILURE);
-	}
-
-	if (pid == 0) {
-		printf("Child process with pid %d\n", getpid());
-		exit(EXIT_SUCCESS);
-	}
-
-	printf("Parent process received child's pid %d as return value\n", pid);
-	printf("Parent process received child's pidfd %d\n", *(int *)args.pidfd);
-	printf("Parent process received child's pid %d as return argument\n",
-	       *(pid_t *)args.parent_tid);
-
-	if (wait_for_pid(pid))
-		exit(EXIT_FAILURE);
-
-	if (pid != *(pid_t *)args.parent_tid)
-		exit(EXIT_FAILURE);
-
-	close(pidfd);
-
-	return 0;
-}
+Thanks for testing it and sorry that I couldn't test!
+Christian
