@@ -2,110 +2,93 @@ Return-Path: <linux-alpha-owner@vger.kernel.org>
 X-Original-To: lists+linux-alpha@lfdr.de
 Delivered-To: lists+linux-alpha@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 2A9CB6ECF0
-	for <lists+linux-alpha@lfdr.de>; Sat, 20 Jul 2019 02:10:39 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 7BF286F20A
+	for <lists+linux-alpha@lfdr.de>; Sun, 21 Jul 2019 08:47:52 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1732614AbfGTAK2 (ORCPT <rfc822;lists+linux-alpha@lfdr.de>);
-        Fri, 19 Jul 2019 20:10:28 -0400
-Received: from mx1.mailbox.org ([80.241.60.212]:35184 "EHLO mx1.mailbox.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1730015AbfGTAK2 (ORCPT <rfc822;linux-alpha@vger.kernel.org>);
-        Fri, 19 Jul 2019 20:10:28 -0400
-Received: from smtp2.mailbox.org (smtp2.mailbox.org [80.241.60.241])
-        (using TLSv1.2 with cipher ECDHE-RSA-CHACHA20-POLY1305 (256/256 bits))
-        (No client certificate requested)
-        by mx1.mailbox.org (Postfix) with ESMTPS id 503C9501CC;
-        Sat, 20 Jul 2019 02:10:21 +0200 (CEST)
-X-Virus-Scanned: amavisd-new at heinlein-support.de
-Received: from smtp2.mailbox.org ([80.241.60.241])
-        by spamfilter05.heinlein-hosting.de (spamfilter05.heinlein-hosting.de [80.241.56.123]) (amavisd-new, port 10030)
-        with ESMTP id wYoKm814sQqS; Sat, 20 Jul 2019 02:10:12 +0200 (CEST)
-Date:   Sat, 20 Jul 2019 10:09:30 +1000
-From:   Aleksa Sarai <cyphar@cyphar.com>
-To:     shuah <shuah@kernel.org>
-Cc:     Al Viro <viro@zeniv.linux.org.uk>,
-        Jeff Layton <jlayton@kernel.org>,
-        "J. Bruce Fields" <bfields@fieldses.org>,
-        Arnd Bergmann <arnd@arndb.de>,
-        David Howells <dhowells@redhat.com>,
-        Shuah Khan <skhan@linuxfoundation.org>,
-        Eric Biederman <ebiederm@xmission.com>,
-        Andy Lutomirski <luto@kernel.org>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Alexei Starovoitov <ast@kernel.org>,
-        Kees Cook <keescook@chromium.org>,
-        Jann Horn <jannh@google.com>,
-        Christian Brauner <christian@brauner.io>,
-        Tycho Andersen <tycho@tycho.ws>,
-        David Drysdale <drysdale@google.com>,
-        Chanho Min <chanho.min@lge.com>,
-        Oleg Nesterov <oleg@redhat.com>, Aleksa Sarai <asarai@suse.de>,
-        Linus Torvalds <torvalds@linux-foundation.org>,
-        containers@lists.linux-foundation.org, linux-alpha@vger.kernel.org,
-        linux-api@vger.kernel.org, linux-arch@vger.kernel.org,
-        linux-arm-kernel@lists.infradead.org,
-        linux-fsdevel@vger.kernel.org, linux-ia64@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-kselftest@vger.kernel.org,
-        linux-m68k@lists.linux-m68k.org, linux-mips@vger.kernel.org,
-        linux-parisc@vger.kernel.org, linuxppc-dev@lists.ozlabs.org,
-        linux-s390@vger.kernel.org, linux-sh@vger.kernel.org,
-        linux-xtensa@linux-xtensa.org, sparclinux@vger.kernel.org
-Subject: Re: [PATCH v10 8/9] kselftest: save-and-restore errno to allow for
- %m formatting
-Message-ID: <20190720000930.g3jyjupgimptuubl@yavin>
-References: <20190719164225.27083-1-cyphar@cyphar.com>
- <20190719164225.27083-9-cyphar@cyphar.com>
- <b32d95a1-8a49-65ef-4ddd-fe86a7ca01d5@kernel.org>
+        id S1725933AbfGUGrv (ORCPT <rfc822;lists+linux-alpha@lfdr.de>);
+        Sun, 21 Jul 2019 02:47:51 -0400
+Received: from mail.ampi.com.tw ([211.22.54.232]:36654 "EHLO
+        HQIMSVA.ampi.com.tw" rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org
+        with ESMTP id S1725830AbfGUGrv (ORCPT
+        <rfc822;linux-alpha@vger.kernel.org>);
+        Sun, 21 Jul 2019 02:47:51 -0400
+X-Greylist: delayed 1441 seconds by postgrey-1.27 at vger.kernel.org; Sun, 21 Jul 2019 02:47:50 EDT
+Received: from HQIMSVA.ampi.com.tw (unknown [127.0.0.1])
+        by IMSVA (Postfix) with ESMTP id E687FFC242;
+        Sun, 21 Jul 2019 14:23:47 +0800 (CST)
+Received: from HQIMSVA.ampi.com.tw (unknown [127.0.0.1])
+        by IMSVA (Postfix) with ESMTP id CE74FFC236;
+        Sun, 21 Jul 2019 14:23:47 +0800 (CST)
+Received: from mail.ampi.com.tw (unknown [192.168.1.248])
+        by HQIMSVA.ampi.com.tw (Postfix) with ESMTPS;
+        Sun, 21 Jul 2019 14:23:47 +0800 (CST)
+Received: from ampi.com.tw (localhost [127.0.0.1])
+        by mail.ampi.com.tw (8.14.4/8.14.4) with ESMTP id x6L6UaEO008085;
+        Sun, 21 Jul 2019 14:30:36 +0800
+From:   "=?UTF-8?Q?PMB_=EF=BF=BD?=\=?UTF-8?Q?=EF=BF=BD?=}=?UTF-8?Q?=EF=BF=BDa?=" 
+        <re_shu@ampi.com.tw>
+Reply-To: yrc.co.ltd.jp@hotmail.com
+Subject: RE
+Date:   Sun, 21 Jul 2019 14:30:36 +0800
+Message-Id: <20190721063031.M11027@ampi.com.tw>
+X-Mailer: OpenWebMail 3.00_beta4 20140806 79bb7cc
+X-OriginatingIP: 105.112.98.71 (re_shu)
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
-        protocol="application/pgp-signature"; boundary="636rtrosv3xeor7c"
-Content-Disposition: inline
-In-Reply-To: <b32d95a1-8a49-65ef-4ddd-fe86a7ca01d5@kernel.org>
+Content-Type: text/plain; charset=utf-8
+To:     undisclosed-recipients:;
+X-TM-AS-GCONF: 00
+X-TM-AS-Product-Ver: IMSVA-9.1.0.1600-8.5.0.1020-24782.005
+X-TM-AS-Result: No-4.527-5.0-31-10
+X-imss-scan-details: No-4.527-5.0-31-10
+X-TMASE-Version: IMSVA-9.1.0.1600-8.5.1020-24782.005
+X-TMASE-Result: 10-4.527200-10.000000
+X-TMASE-MatchedRID: NVd9t7aJM2dEN1lrY4B1Df48iDghCUMx+JrusXmPH9gJEXxmav2ijB6m
+        H3EG+jcfeEsd0ktnjr831HzuueQGju/Pzxjxyhd5SdzZs8Odv6qs/vMFnvXRhlIwpPWB00V2V45
+        xebOrd5Jf3/muWhRDq51cIkNY9iUDnKg65KVB+P0q+YfQqUJoXJdVhpfI8IEDmbdPE3zcujgs3j
+        1Y8+uIxR8GgtDrJ1crnMvC67olx74/fJqz2fxZF/chnc7wRcMU+WTbxKBj+esgbDoGOzjZ62Xpd
+        FT3sj5Mime1Av5S+OR7wldoFev5rw9bh4WEvKYfvHKClHGjjr3V+4fM7EOkuDtRBnJrWkwP4bZt
+        9+qxj0P+quxBz2an+l+24nCsUSFNei68po9xfQascQW+NCamorJz0UuwlI0dPcCXjNqUmkXfd+P
+        6wwCt8xoxTJ4LSy1oFQs4aFTGDtIyW6LbcL+0zDOjkTNGR4oq1mz8dMl3h/K+cGd9O9QU5TgHS1
+        xUOOxWovlg3yH363HRXm0uOnmo177XShnjyRg6kIvYAgU40apQgM35Z0mqSLPS0dNMJOiaHdyTD
+        eYcI9Ea9ETZoom49UersMJuvMO5
+X-TMASE-SNAP-Result: 1.821001.0001-0-1-12:0,22:0,33:0,34:0-0
 Sender: linux-alpha-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-alpha.vger.kernel.org>
 X-Mailing-List: linux-alpha@vger.kernel.org
 
+Dear:
 
---636rtrosv3xeor7c
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+Yokohama Rubber Manufacturing Company requires a reputable individual and 
+company representation for our delinquent accounts customers in America 
+and North America. We are seeking for representation for our business 
+interest in America and North America.
 
-On 2019-07-19, shuah <shuah@kernel.org> wrote:
-> On 7/19/19 10:42 AM, Aleksa Sarai wrote:
-> > Previously, using "%m" in a ksft_* format string can result in strange
-> > output because the errno value wasn't saved before calling other libc
-> > functions. The solution is to simply save and restore the errno before
-> > we format the user-supplied format string.
-> >=20
-> > Signed-off-by: Aleksa Sarai <cyphar@cyphar.com>
-> [...]
-> Hi Aleksa,
->=20
-> Can you send this patch separate from the patch series. I will apply
-> this as bug fix to 5.3-rc2 or rc3.
->=20
-> This isn't part of this series anyway and I would like to get this in
-> right away.
+We are currently having a high volume of delinquent customers in this 
+region. Haven't fully respected and completed our own side of the supply 
+obligations,  we need an Agent representative who can assist in handling 
+our delinquent account collections in your region.
 
-Done, and I'll drop it in v11 after the rest gets reviewed.
+Upon your prompt acceptance of the above proposal, we shall be requiring 
+your details  as  listed bellow.
 
---=20
-Aleksa Sarai
-Senior Software Engineer (Containers)
-SUSE Linux GmbH
-<https://www.cyphar.com/>
+Full Names:
+Full Contact Address:
+Occupation:
+Company Name: (If Any)
+Tel:
+Cell Phone Number:
+Fax Numbers:
+Age:
 
---636rtrosv3xeor7c
-Content-Type: application/pgp-signature; name="signature.asc"
+Please accept our warmest appreciation of your decision in offering your 
+services as we look forward to your prompt response.
 
------BEGIN PGP SIGNATURE-----
 
-iHUEABYIAB0WIQSxZm6dtfE8gxLLfYqdlLljIbnQEgUCXTJbtgAKCRCdlLljIbnQ
-ErjeAQDm5ltY062NGtOMR1eaop8IvTWe5GYu7R+vym5BewUWYgD9HGmujOKl8CQ5
-rJXhxSxnaze1/BDj2gUmfSjSP3IJNwo=
-=CHUB
------END PGP SIGNATURE-----
+Note: You shall be entitle to 10% of every collection from our clients.
 
---636rtrosv3xeor7c--
+Regards,
+Head of Tire
+Takaharu Fushimi
+Yokohama Rubber Manufacturing Company
+
