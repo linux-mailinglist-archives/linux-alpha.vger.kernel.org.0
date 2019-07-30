@@ -2,74 +2,105 @@ Return-Path: <linux-alpha-owner@vger.kernel.org>
 X-Original-To: lists+linux-alpha@lfdr.de
 Delivered-To: lists+linux-alpha@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 6B9F4782B7
-	for <lists+linux-alpha@lfdr.de>; Mon, 29 Jul 2019 02:09:28 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id D3B9779ED8
+	for <lists+linux-alpha@lfdr.de>; Tue, 30 Jul 2019 04:44:15 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726417AbfG2AJ1 (ORCPT <rfc822;lists+linux-alpha@lfdr.de>);
-        Sun, 28 Jul 2019 20:09:27 -0400
-Received: from mail-vs1-f68.google.com ([209.85.217.68]:45626 "EHLO
-        mail-vs1-f68.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726554AbfG2AJ1 (ORCPT
+        id S1731384AbfG3CoK (ORCPT <rfc822;lists+linux-alpha@lfdr.de>);
+        Mon, 29 Jul 2019 22:44:10 -0400
+Received: from mail-pf1-f196.google.com ([209.85.210.196]:35643 "EHLO
+        mail-pf1-f196.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1730921AbfG3CoJ (ORCPT
         <rfc822;linux-alpha@vger.kernel.org>);
-        Sun, 28 Jul 2019 20:09:27 -0400
-Received: by mail-vs1-f68.google.com with SMTP id h28so39633107vsl.12
-        for <linux-alpha@vger.kernel.org>; Sun, 28 Jul 2019 17:09:26 -0700 (PDT)
+        Mon, 29 Jul 2019 22:44:09 -0400
+Received: by mail-pf1-f196.google.com with SMTP id u14so29031168pfn.2;
+        Mon, 29 Jul 2019 19:44:08 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=mime-version:reply-to:from:date:message-id:subject:to;
-        bh=BrTkYGT/CoRQ7U7g4N9efxmX5N2ln4oVBYUSCIHtobA=;
-        b=nA6g8ZBtncN4gxkSkXwacC6U0ZLzBqHalX2ch3+Uubgj9Ie81xWMI13LULGvwuLB6r
-         qHOjRzIux4PWx/g/MWkezj24wVkLAM+rrd+WT5+RohqJQ9H7N9yv8W6YfSg4wF/g9ftM
-         oh86ij7mnvAE3zqYPD7CgYiUGMHPfCyZCGDcjAfx1C33NyJk7D3w4La9a95UTsjt5XYF
-         xSm7n6irbOKUdOm+C0d9me/kFR76C0ULt2M8ACWuaYeFS267A8AKpemLOO3gGFVDzVOV
-         5K0Mp+SFu6zaMgsMHZdDvL8vTOVhu8AbYC3f7Kg/kcokf6gXY9LlntnkEi6cTOmJ7gel
-         IPPQ==
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=P/oAL9ofxFqbhCpen6x+V4iB48WMRp4QBpRHUGHCpmA=;
+        b=Tj0gXvOUsDfjz4D5pRbR819A6O5NQZT+M5zPLp0+B66zRGysFaReydFyhXsh7lNNCr
+         wiafLBNNfPElcZQtSF70CKp0ubFEITO9XJpZ9YF4yFayQz8RC+GQeSSrj4+05iiPLmuK
+         2gr8rq3y18K+qg6MHC6RLmWEL6BxlELZNBZD7P+JaIgoahtkxbdK5uy7yxlERaZ2c1mO
+         om7/94MFbTVVazRljk0SsOm7z0brUjSuEdnDwjk2gp/7jNUQ1500q8bn3bPpp2fkmMvZ
+         SvszVfAxvpTD4qOf85rb7g4FV4m/VmMrw5qrrRZlLeTkpi7iCZWnKdRHNJZyMjY5YO6h
+         pwVw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:reply-to:from:date:message-id
-         :subject:to;
-        bh=BrTkYGT/CoRQ7U7g4N9efxmX5N2ln4oVBYUSCIHtobA=;
-        b=TimFuMkOjp8iy0OdX0zMjbapfnAew0/uDx66nJ9D/9lrkVM5mFPhoyx9Ezu+98gCA5
-         hfRT4JPs/nmQhyDCPMVHUTVB66+NUExrjtnalcuf8JCFEeuxX09/KbiCePc9U85aiPlG
-         0X0vKZJMj3ZPOq0fQHz3WY3rui2mCw1YDWkZNVYHrvtjENkepDdbCSk8+UPbd3cruKQM
-         tkhUOuZ0hAL4kCv/cmPaWD3yiH18nfPOOgFzE3IT5ko4UjsFiedBNa9HlohJOWP49qV9
-         l8/Pfa0yAGTf74OwPd0cU+kIzXx9clpR/ZwoI+Ahwqwp+qcLPCTQwGUx54cabWp60wYT
-         mgLw==
-X-Gm-Message-State: APjAAAWFoel0lbuvI3C/YaXtx5IlM0E5s0LPNFbZ2Md5lD9cwXHv6Flj
-        WzkI0UWQ2zzAwmLlNkJGErnSdG3TqZ/UnJ1RPcQ=
-X-Google-Smtp-Source: APXvYqzs0WizS8rAMSQB8gpo/d1NKXr6IgEv85hMwvJw7YK4dwqNUFe3AXMg3+Lmt6lZYGQUgkDIOHngCppe6bxfBS0=
-X-Received: by 2002:a67:db02:: with SMTP id z2mr61864948vsj.211.1564358966188;
- Sun, 28 Jul 2019 17:09:26 -0700 (PDT)
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=P/oAL9ofxFqbhCpen6x+V4iB48WMRp4QBpRHUGHCpmA=;
+        b=qH553bvBGismMwr9vJ1pePcaePA6L/CALKkEBjK5UUHKc01iiUeN+et6YT+dbHn//L
+         GwowlDXUILyYO5zQTZCdxx8jP5SWq1GDg+z/1bQGoXy76I+sJLHbRuqStCe21yDVRufD
+         NkdKn4KOs+XtKuyWwT+dhzNspWRY7WT0QNh9F+046Qz+L09H56fEG7L0a+l4CyXgHmab
+         ymGlltEkgprP4guuym4Tb77NluwC2piU+3QAd2uz/vxXLpJU6kcil9jLCPOzG3FWLr8f
+         IwlLMNMswqvnE3Ldcu5skGf2YXvd2tUhp/VddQEW4YwltyifqGJIKz4j5+T22wMvikmd
+         Gvng==
+X-Gm-Message-State: APjAAAW49hgxbxBZro6OFf/lcOKW9OkTQyJMKrvZ7wj9SsNUnjTr2I0K
+        93SVUbTO3RePwUc26Gn+JWU=
+X-Google-Smtp-Source: APXvYqwCB7fPp1uuBktnCHfexv2TXgUVmtZxuoXTALSVRgKw9qhLBJ+hqNmOyzqZ8R6oPIJ21rQ03A==
+X-Received: by 2002:a17:90b:d82:: with SMTP id bg2mr72812664pjb.87.1564454648564;
+        Mon, 29 Jul 2019 19:44:08 -0700 (PDT)
+Received: from suzukaze.ipads-lab.se.sjtu.edu.cn ([89.31.126.54])
+        by smtp.gmail.com with ESMTPSA id 67sm29330228pfd.177.2019.07.29.19.44.05
+        (version=TLS1_3 cipher=AEAD-AES256-GCM-SHA384 bits=256/256);
+        Mon, 29 Jul 2019 19:44:07 -0700 (PDT)
+From:   Chuhong Yuan <hslester96@gmail.com>
+Cc:     Richard Henderson <rth@twiddle.net>,
+        Ivan Kokshaysky <ink@jurassic.park.msu.ru>,
+        Matt Turner <mattst88@gmail.com>, linux-alpha@vger.kernel.org,
+        linux-kernel@vger.kernel.org, Chuhong Yuan <hslester96@gmail.com>
+Subject: [PATCH] alpha: Replace strncmp with str_has_prefix
+Date:   Tue, 30 Jul 2019 10:44:01 +0800
+Message-Id: <20190730024401.17152-1-hslester96@gmail.com>
+X-Mailer: git-send-email 2.20.1
 MIME-Version: 1.0
-Received: by 2002:a67:80c8:0:0:0:0:0 with HTTP; Sun, 28 Jul 2019 17:09:25
- -0700 (PDT)
-Reply-To: williamrobert416@gmail.com
-From:   "Mr. Robert William" <officialuse87@gmail.com>
-Date:   Mon, 29 Jul 2019 01:09:25 +0100
-Message-ID: <CAD00q09_CPtbbwEXjTJaNiaaGEbP_-Er7hzSsjO53Fz1uAyHtA@mail.gmail.com>
-Subject: Its Urgent
-To:     undisclosed-recipients:;
-Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
+To:     unlisted-recipients:; (no To-header on input)
 Sender: linux-alpha-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-alpha.vger.kernel.org>
 X-Mailing-List: linux-alpha@vger.kernel.org
 
+In commit b6b2735514bc
+("tracing: Use str_has_prefix() instead of using fixed sizes")
+the newly introduced str_has_prefix() was used
+to replace error-prone strncmp(str, const, len).
+Here fix codes with the same pattern.
+
+Signed-off-by: Chuhong Yuan <hslester96@gmail.com>
+---
+ arch/alpha/boot/tools/objstrip.c | 3 ++-
+ arch/alpha/kernel/setup.c        | 2 +-
+ 2 files changed, 3 insertions(+), 2 deletions(-)
+
+diff --git a/arch/alpha/boot/tools/objstrip.c b/arch/alpha/boot/tools/objstrip.c
+index 825a16f5f622..4738aaf76c3d 100644
+--- a/arch/alpha/boot/tools/objstrip.c
++++ b/arch/alpha/boot/tools/objstrip.c
+@@ -148,7 +148,8 @@ main (int argc, char *argv[])
+ #ifdef __ELF__
+     elf = (struct elfhdr *) buf;
+ 
+-    if (elf->e_ident[0] == 0x7f && strncmp((char *)elf->e_ident + 1, "ELF", 3) == 0) {
++	if (elf->e_ident[0] == 0x7f &&
++		str_has_prefix((char *)elf->e_ident + 1, "ELF")) {
+ 	if (elf->e_type != ET_EXEC) {
+ 	    fprintf(stderr, "%s: %s is not an ELF executable\n",
+ 		    prog_name, inname);
+diff --git a/arch/alpha/kernel/setup.c b/arch/alpha/kernel/setup.c
+index 5d4c76a77a9f..e82e45d5fd96 100644
+--- a/arch/alpha/kernel/setup.c
++++ b/arch/alpha/kernel/setup.c
+@@ -466,7 +466,7 @@ setup_arch(char **cmdline_p)
+ #ifndef alpha_using_srm
+ 	/* Assume that we've booted from SRM if we haven't booted from MILO.
+ 	   Detect the later by looking for "MILO" in the system serial nr.  */
+-	alpha_using_srm = strncmp((const char *)hwrpb->ssn, "MILO", 4) != 0;
++	alpha_using_srm = !str_has_prefix((const char *)hwrpb->ssn, "MILO");
+ #endif
+ #ifndef alpha_using_qemu
+ 	/* Similarly, look for QEMU.  */
 -- 
-Hello,
+2.20.1
 
-I am Eng. Robert William, a retired Marine Engineer residing in
-Trinidad & Tobago.
-Unfortunately i am admitted to the hospital for a cancer (Sickness)
-over a year now,my doctor reported that i have only few months to pass
-away. Please i need your consent to invest my money (USD$1.8 Million)
-in any business of your
-
-choice in your country before i die, i have no other relatives not
-even children because i lost my family in a fire disaster in 2005.
-Please i need your urgent and
-
-kind response to enable me send you more information on how to contact
-my bank as my next of kin to process the fund into your bank account.
-
-Mr Robert William
