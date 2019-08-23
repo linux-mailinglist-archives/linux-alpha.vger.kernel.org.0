@@ -2,53 +2,67 @@ Return-Path: <linux-alpha-owner@vger.kernel.org>
 X-Original-To: lists+linux-alpha@lfdr.de
 Delivered-To: lists+linux-alpha@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 70B3D99F96
-	for <lists+linux-alpha@lfdr.de>; Thu, 22 Aug 2019 21:13:47 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id B9B129AFDC
+	for <lists+linux-alpha@lfdr.de>; Fri, 23 Aug 2019 14:46:34 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726142AbfHVTNS convert rfc822-to-8bit (ORCPT
-        <rfc822;lists+linux-alpha@lfdr.de>); Thu, 22 Aug 2019 15:13:18 -0400
-Received: from mail.physics.pub.ro ([141.85.216.3]:53450 "EHLO
-        physics1.physics.pub.ro" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1730531AbfHVTNS (ORCPT
+        id S2394446AbfHWMq0 (ORCPT <rfc822;lists+linux-alpha@lfdr.de>);
+        Fri, 23 Aug 2019 08:46:26 -0400
+Received: from mail-qk1-f193.google.com ([209.85.222.193]:39427 "EHLO
+        mail-qk1-f193.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S2388016AbfHWMq0 (ORCPT
         <rfc822;linux-alpha@vger.kernel.org>);
-        Thu, 22 Aug 2019 15:13:18 -0400
-X-Greylist: delayed 27521 seconds by postgrey-1.27 at vger.kernel.org; Thu, 22 Aug 2019 15:13:17 EDT
-Received: from localhost (localhost.localdomain [127.0.0.1])
-        by physics1.physics.pub.ro (Postfix) with ESMTP id AB4ABE3B62D;
-        Thu, 22 Aug 2019 13:30:51 +0300 (EEST)
-X-Virus-Scanned: amavisd-new at physics.pub.ro
-Received: from physics1.physics.pub.ro ([127.0.0.1])
-        by localhost (physics1.physics.pub.ro [127.0.0.1]) (amavisd-new, port 10026)
-        with ESMTP id heo26o3JkLZr; Thu, 22 Aug 2019 13:30:51 +0300 (EEST)
-Received: from [10.51.176.174] (unknown [105.4.6.61])
-        by physics1.physics.pub.ro (Postfix) with ESMTPSA id D18EBE3B5A7;
-        Thu, 22 Aug 2019 13:30:43 +0300 (EEST)
-Content-Type: text/plain; charset="utf-8"
+        Fri, 23 Aug 2019 08:46:26 -0400
+Received: by mail-qk1-f193.google.com with SMTP id 125so8028909qkl.6
+        for <linux-alpha@vger.kernel.org>; Fri, 23 Aug 2019 05:46:25 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=googlemail.com; s=20161025;
+        h=mime-version:reply-to:from:date:message-id:subject:to
+         :content-transfer-encoding;
+        bh=zXK8wSxYeU6mTfAA+o9q9brcj/U7vzDk9wL4rKw+72U=;
+        b=huKZZ4POd9oGNIf154cX8OkhY1BZkUXyM/wHgwrskECom+bBIKCS8xu/ylm4iM7QIV
+         eogEVwnrbv2hYwmXkYbixytBWFC6QHDmYMYDsJ6F7DETQbK1byviARNOXxbukjKWnCYK
+         4G237kicNQMqsK6kMLVRYH5v/xQwm0DTMywt5IiyJEL9rUkvbxhLeBrXKli0Mufe8Qx8
+         BYAMyCTuP9l7XAvjV5ewLwhi5337SWGnTJ7FUPyQS6Zvx7xa16cvfzbIQlT8V2Q1Rjy4
+         hORmMSdl7Gdjb3kuM1ETCPvVYa9/Tsq6oVFbEVx2IwQsxbYqU/SPYXL0rSpSBiKjE0BX
+         xtxQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:reply-to:from:date:message-id
+         :subject:to:content-transfer-encoding;
+        bh=zXK8wSxYeU6mTfAA+o9q9brcj/U7vzDk9wL4rKw+72U=;
+        b=tMN6bO+vFzpXXeDgbMfOXNiImUe02G/QePRfJuPi6yxFK7VMYpZRMfKQTEvMADb8mb
+         ccdOxAzNeGxvArc3/95OgcBMPfeWpa5bwphJn//HcnWGFG2V+NKSF4xRS0ma/hwF6w1K
+         CbVUmLvN1tj9/CLikaZu7T8mqB6rvZs9SAgGa7zcFj347J3gR2+2YcmwV7F2OMsmox38
+         cpRRe8PQH+UuV6aroaKErMsZ9Q7zSd/0At34PeomNGAh6QX2sAy/Pig4auEwpR1bePSc
+         bqeNGZW/gYe5WOxvIKo4L5MACd8z/kLr3nmYtGV2gFupta5u1nGMmB3BqqhlwkNVcYlY
+         0ajA==
+X-Gm-Message-State: APjAAAX2i0dioIJrZ0AMSVzga4Og0KjH3xAQkHLt/ZxfgKA9RNt2dZcc
+        jo21K+2uf/qGf4haoof1DffOUS+n6+Aajq8KrHU=
+X-Google-Smtp-Source: APXvYqwTtgJ0b4v2N1iG2eAj2ET9qJsxABPAQ97C4+6lkVM3Om2VKNiwag0A9lz3Gg4SNGfNzUZpEmnSqUjv3zDyvOE=
+X-Received: by 2002:a37:86c4:: with SMTP id i187mr3780600qkd.464.1566564385533;
+ Fri, 23 Aug 2019 05:46:25 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8BIT
-Content-Description: Mail message body
-Subject: =?utf-8?q?Wohlt=C3=A4tigkeitsspende_von_2=2E000=2E000_Millionen_Euro?=
-To:     Recipients <niculae-tiberiu.puscas@physics.pub.ro>
-From:   ''Tayeb Souami'' <niculae-tiberiu.puscas@physics.pub.ro>
-Date:   Thu, 22 Aug 2019 12:30:39 +0200
-Reply-To: Tayebsouam.spende@gmail.com
-Message-Id: <20190822103043.D18EBE3B5A7@physics1.physics.pub.ro>
+Received: by 2002:ac8:1401:0:0:0:0:0 with HTTP; Fri, 23 Aug 2019 05:46:25
+ -0700 (PDT)
+Reply-To: linelink008@gmail.com
+From:   AZIM HASHIM PREMJI <davisfundinginc1@googlemail.com>
+Date:   Fri, 23 Aug 2019 05:46:25 -0700
+Message-ID: <CADmRoGO3-sWYMd_PkNyVQYTJS704KkRQ_cHf_f=GwdX7S6iY_A@mail.gmail.com>
+Subject: =?UTF-8?Q?HERZLICHEN_GL=C3=9CCKWUNSCH_=E2=82=AC_1=2C000=2E000=2C00_wurde_an_Si?=
+        =?UTF-8?Q?e_gespendet?=
+To:     undisclosed-recipients:;
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 Sender: linux-alpha-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-alpha.vger.kernel.org>
 X-Mailing-List: linux-alpha@vger.kernel.org
 
-Lieber Freund,
-
-Ich bin Herr Tayeb Souami, New Jersey, Vereinigte Staaten von Amerika, der Mega-Gewinner von $ 315million In Mega Millions Jackpot, spende ich an 5 zufällige Personen, wenn Sie diese E-Mail erhalten, dann wurde Ihre E-Mail nach einem Spinball ausgewählt.Ich habe den größten Teil meines Vermögens auf eine Reihe von Wohltätigkeitsorganisationen und Organisationen verteilt.Ich habe mich freiwillig dazu entschieden, die Summe von € 2.000.000,00 an Sie als eine der ausgewählten 5 zu spenden, um meine Gewinne zu überprüfen, sehen Sie bitte meine You Tube Seite unten.
-
-UHR MICH HIER: https://www.youtube.com/watch?v=Z6ui8ZDQ6Ks
-
-Das ist dein Spendencode: [TS530342018]
-
-Antworten Sie mit dem SPENDE-CODE an diese E-Mail:Tayebsouam.spende@gmail.com
-
-Ich hoffe, Sie und Ihre Familie glücklich zu machen.
-
-Grüße
-Herr Tayeb Souami
+Ich bin der Vorsitzende von Wipro Limited. Ich habe 25 Prozent meines
+pers=C3=B6nlichen Verm=C3=B6gens verschenkt
+f=C3=BCr die Wohlfahrt. Und ich habe zugesagt, den Rest von 25% dieses Jahr
+2019 an zu vergeben
+Privatpersonen .. Ich habe mich entschieden, Ihnen =E2=82=AC1.000.000,00 zu
+spenden. Wenn du bist
+Interesse an meiner Spende, kontaktieren Sie mich f=C3=BCr weitere Informat=
+ionen.
