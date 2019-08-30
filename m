@@ -2,185 +2,157 @@ Return-Path: <linux-alpha-owner@vger.kernel.org>
 X-Original-To: lists+linux-alpha@lfdr.de
 Delivered-To: lists+linux-alpha@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 3E089A1B35
-	for <lists+linux-alpha@lfdr.de>; Thu, 29 Aug 2019 15:19:42 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 91756A2C84
+	for <lists+linux-alpha@lfdr.de>; Fri, 30 Aug 2019 03:55:32 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726739AbfH2NTl (ORCPT <rfc822;lists+linux-alpha@lfdr.de>);
-        Thu, 29 Aug 2019 09:19:41 -0400
-Received: from mx2.mailbox.org ([80.241.60.215]:52156 "EHLO mx2.mailbox.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726283AbfH2NTl (ORCPT <rfc822;linux-alpha@vger.kernel.org>);
-        Thu, 29 Aug 2019 09:19:41 -0400
-Received: from smtp2.mailbox.org (smtp2.mailbox.org [80.241.60.241])
-        (using TLSv1.2 with cipher ECDHE-RSA-CHACHA20-POLY1305 (256/256 bits))
-        (No client certificate requested)
-        by mx2.mailbox.org (Postfix) with ESMTPS id C76B2A10EE;
-        Thu, 29 Aug 2019 15:19:33 +0200 (CEST)
-X-Virus-Scanned: amavisd-new at heinlein-support.de
-Received: from smtp2.mailbox.org ([80.241.60.241])
-        by spamfilter05.heinlein-hosting.de (spamfilter05.heinlein-hosting.de [80.241.56.123]) (amavisd-new, port 10030)
-        with ESMTP id YERUiiJJutp0; Thu, 29 Aug 2019 15:19:27 +0200 (CEST)
-Date:   Thu, 29 Aug 2019 23:19:04 +1000
-From:   Aleksa Sarai <cyphar@cyphar.com>
-To:     Rasmus Villemoes <linux@rasmusvillemoes.dk>
-Cc:     Daniel Colascione <dancol@google.com>,
-        Al Viro <viro@zeniv.linux.org.uk>,
-        Jeff Layton <jlayton@kernel.org>,
-        "J. Bruce Fields" <bfields@fieldses.org>,
-        Arnd Bergmann <arnd@arndb.de>,
-        David Howells <dhowells@redhat.com>,
-        Shuah Khan <shuah@kernel.org>,
-        Shuah Khan <skhan@linuxfoundation.org>,
-        Christian Brauner <christian@brauner.io>,
-        Eric Biederman <ebiederm@xmission.com>,
-        Andy Lutomirski <luto@kernel.org>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Alexei Starovoitov <ast@kernel.org>,
-        Kees Cook <keescook@chromium.org>,
-        Jann Horn <jannh@google.com>, Tycho Andersen <tycho@tycho.ws>,
-        David Drysdale <drysdale@google.com>,
-        Chanho Min <chanho.min@lge.com>,
-        Oleg Nesterov <oleg@redhat.com>, Aleksa Sarai <asarai@suse.de>,
-        Linus Torvalds <torvalds@linux-foundation.org>,
-        containers@lists.linux-foundation.org, linux-alpha@vger.kernel.org,
-        Linux API <linux-api@vger.kernel.org>,
-        linux-arch@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-        Linux FS Devel <linux-fsdevel@vger.kernel.org>,
-        linux-ia64@vger.kernel.org,
-        linux-kernel <linux-kernel@vger.kernel.org>,
-        "open list:KERNEL SELFTEST FRAMEWORK" 
-        <linux-kselftest@vger.kernel.org>, linux-m68k@lists.linux-m68k.org,
-        linux-mips@vger.kernel.org, linux-parisc@vger.kernel.org,
-        linuxppc-dev@lists.ozlabs.org, linux-s390@vger.kernel.org,
-        linux-sh@vger.kernel.org, linux-xtensa@linux-xtensa.org,
-        sparclinux@vger.kernel.org
-Subject: Re: [PATCH RESEND v11 7/8] open: openat2(2) syscall
-Message-ID: <20190829131904.bkbalbtqt6j3gwcp@yavin>
-References: <20190820033406.29796-1-cyphar@cyphar.com>
- <20190820033406.29796-8-cyphar@cyphar.com>
- <CAKOZuesfxRBJe314rkTKXtjXdz6ki3uAUBYVbu5Q2rd3=ADphQ@mail.gmail.com>
- <20190829121527.u2uvdyeatme5cgkb@yavin>
- <899401fa-ff0a-2ce9-8826-09904efab2d2@rasmusvillemoes.dk>
+        id S1727361AbfH3Bzb (ORCPT <rfc822;lists+linux-alpha@lfdr.de>);
+        Thu, 29 Aug 2019 21:55:31 -0400
+Received: from mail-eopbgr1300055.outbound.protection.outlook.com ([40.107.130.55]:49493
+        "EHLO APC01-HK2-obe.outbound.protection.outlook.com"
+        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
+        id S1727216AbfH3Bzb (ORCPT <rfc822;linux-alpha@vger.kernel.org>);
+        Thu, 29 Aug 2019 21:55:31 -0400
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=NBZTwzsMLaCUrD6qvGv1eFKUYQ26QnUaWG9WPiC0HhorzQAdhdHmezHq9QA93LtZE8FnJ912aPLlmFRBup9gymwq+491Q3qz6hWB0KfhNiwLeBKJ9IJmktqv1ZRcHOG8yksagFd334WMJJ8PSSYBxuaLO6YV6ccuWaww8hDJrOOGPJijoytAro8IL4pvl1/CwG9iqFZzieLr5J6ksC7snzO01Hiu70ZKiTDpHkflNZjWPexXUtrR29rE++vIdzKyTGaJNYF4w+foujNGJYTX/6zrKYlpm0tP3wXHfX/qHUlV2ToCxuQVPROiS2+/WgcxDEeQQ1ulv5LrR8VSZ4Gpzw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=z4isZp/PzGBjqlMvBYOKyg33r5kkCtHtvwX4lv1gu04=;
+ b=lSjf8jjNG163w5VAUTTEQeYdJJw2Ufaq4Vy9PGdwvpaRboTkUdkaQf1Z80lNfK4Wz08k7lzTJ9+ygUojzhKV/IRyhV8oHkSepqD8YFs4hB/LstPMdUWElWd0KDuoXQRq2gSqebM4DPCqcNwy+eN0FAO1ypk3stePjSjvdiMtBYhNQC+zh6cHCICPzrKmL1lN4zMF3JlLAmzhHxnUadgrlA+9wwFgrr68U0NJbPb64dUIjjIfLT5kZcBiZhKynFo4UvQdcSmSgJ2RI40qJ5Aeksqj6vu/PCJO4f6HCHAnUt8TN/koGpEZ2Xwv0CBKg+t2qxlK2ILNY10V+bA0N9HIHg==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=teo-en-ming-corp.com; dmarc=pass action=none
+ header.from=teo-en-ming-corp.com; dkim=pass header.d=teo-en-ming-corp.com;
+ arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=teoenmingcorp.onmicrosoft.com; s=selector1-teoenmingcorp-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=z4isZp/PzGBjqlMvBYOKyg33r5kkCtHtvwX4lv1gu04=;
+ b=OWUJQKe27BTaUFSl3zfal4TERUaBikAZNJbD/Wb8YYoa97tiWKQ+DRVsjGFrRaLqbwI4+NaVfMe0PgS3HehiE0XVOf/MqkctDCPGvktEfLaqyt+zhsKtEFZdveabMCu26s0LwI6rHceIuKimRCspdCTqhGwxXUmSOOpQBEFOuZw=
+Received: from SG2PR01MB2141.apcprd01.prod.exchangelabs.com (10.170.143.19) by
+ SG2PR01MB2159.apcprd01.prod.exchangelabs.com (10.170.143.15) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.2199.21; Fri, 30 Aug 2019 01:55:25 +0000
+Received: from SG2PR01MB2141.apcprd01.prod.exchangelabs.com
+ ([fe80::508e:ee77:4ba7:9278]) by SG2PR01MB2141.apcprd01.prod.exchangelabs.com
+ ([fe80::508e:ee77:4ba7:9278%7]) with mapi id 15.20.2199.021; Fri, 30 Aug 2019
+ 01:55:25 +0000
+From:   Turritopsis Dohrnii Teo En Ming <ceo@teo-en-ming-corp.com>
+To:     "linux-alpha@vger.kernel.org" <linux-alpha@vger.kernel.org>
+CC:     Turritopsis Dohrnii Teo En Ming <ceo@teo-en-ming-corp.com>
+Subject: Singaporean Mr. Teo En Ming's Refugee Seeking Attempts
+Thread-Topic: Singaporean Mr. Teo En Ming's Refugee Seeking Attempts
+Thread-Index: AdVe1fiJRY/GwJkFTry/lRwY+a1FyQ==
+Date:   Fri, 30 Aug 2019 01:55:25 +0000
+Message-ID: <SG2PR01MB2141992828A3A71FDEB7D6BC87BD0@SG2PR01MB2141.apcprd01.prod.exchangelabs.com>
+Accept-Language: en-US
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+authentication-results: spf=none (sender IP is )
+ smtp.mailfrom=ceo@teo-en-ming-corp.com; 
+x-originating-ip: [118.189.211.120]
+x-ms-publictraffictype: Email
+x-ms-office365-filtering-correlation-id: 164f430b-721f-4517-3f85-08d72ced205d
+x-microsoft-antispam: BCL:0;PCL:0;RULEID:(2390118)(7020095)(4652040)(7021145)(8989299)(4534185)(7022145)(4603075)(4627221)(201702281549075)(8990200)(7048125)(7024125)(7027125)(7023125)(5600166)(711020)(4605104)(1401327)(2017052603328)(7193020);SRVR:SG2PR01MB2159;
+x-ms-traffictypediagnostic: SG2PR01MB2159:
+x-ms-exchange-purlcount: 7
+x-ms-exchange-transport-forked: True
+x-microsoft-antispam-prvs: <SG2PR01MB2159361E3463FF559D42861B87BD0@SG2PR01MB2159.apcprd01.prod.exchangelabs.com>
+x-ms-oob-tlc-oobclassifiers: OLM:7219;
+x-forefront-prvs: 0145758B1D
+x-forefront-antispam-report: SFV:NSPM;SFS:(10009020)(396003)(376002)(366004)(39830400003)(346002)(136003)(199004)(189003)(53936002)(66946007)(76116006)(102836004)(66556008)(66476007)(66446008)(64756008)(3846002)(6116002)(6916009)(305945005)(2501003)(14444005)(74316002)(6436002)(5640700003)(2351001)(6306002)(7736002)(55016002)(2906002)(256004)(66066001)(9686003)(25786009)(52536014)(316002)(966005)(86362001)(7696005)(508600001)(14454004)(99286004)(71200400001)(71190400001)(8936002)(486006)(33656002)(81166006)(107886003)(476003)(81156014)(8676002)(26005)(5660300002)(6506007)(186003)(4326008);DIR:OUT;SFP:1101;SCL:1;SRVR:SG2PR01MB2159;H:SG2PR01MB2141.apcprd01.prod.exchangelabs.com;FPR:;SPF:None;LANG:en;PTR:InfoNoRecords;A:1;MX:1;
+received-spf: None (protection.outlook.com: teo-en-ming-corp.com does not
+ designate permitted sender hosts)
+x-ms-exchange-senderadcheck: 1
+x-microsoft-antispam-message-info: lR/pQToIfQknVUhnx6jmUjuG50rIr7qc4ie9O4PRt24blx6nn3ziKONjU/RExf7EE3oKsdMrcFCXgH+MY/p9ZrriAI1lwWyuIh/PusQQvyO2YS8SL3q3PpF9cApc8n70FFY9kKgGfCrpdFemlETqmQSjoGPTtTCTThnmf7UxmdpAa7MDKoNDuOM2WUtQcgfT5BfX6ZlsDeq49+LmpoUy3rnOQM/tOuaeZI64sgMz05Cx+ewInGsGQxg1vNudVYEw3+ApWxBXo5mVzKrLH+6/qptVkFMtg2+ABilJZm5K25PZp2nXCVAiAM7GsiWr0zmQSUXOx2yF7cv6/4vCFE/8MpE7iE2KQxB8JfJJo30Y4dYoqQiugZLATTErf0qIKo9+1VHxVqToBlHCQJyHWUe3WLkd8LsQzq8764HmzHnl49g=
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: quoted-printable
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
-        protocol="application/pgp-signature"; boundary="itirvnprc6jjrbl3"
-Content-Disposition: inline
-In-Reply-To: <899401fa-ff0a-2ce9-8826-09904efab2d2@rasmusvillemoes.dk>
+X-OriginatorOrg: teo-en-ming-corp.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 164f430b-721f-4517-3f85-08d72ced205d
+X-MS-Exchange-CrossTenant-originalarrivaltime: 30 Aug 2019 01:55:25.6968
+ (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 23b3f6ae-c453-4b93-aec9-f17508e5885c
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: YIYP5VYcKwmp9n5iVYQy0K2nPYhia45KQ5RtMf4BL4SmjojdB+gI1U06FtCAvyzmzmkORGFn8SClgOmx1C8A646ketfXx8ifmFJi7RbWuKI=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: SG2PR01MB2159
 Sender: linux-alpha-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-alpha.vger.kernel.org>
 X-Mailing-List: linux-alpha@vger.kernel.org
 
+Subject: Singaporean Mr. Teo En Ming's Refugee Seeking Attempts
 
---itirvnprc6jjrbl3
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+In reverse chronological order:
 
-On 2019-08-29, Rasmus Villemoes <linux@rasmusvillemoes.dk> wrote:
-> On 29/08/2019 14.15, Aleksa Sarai wrote:
-> > On 2019-08-24, Daniel Colascione <dancol@google.com> wrote:
->=20
-> >> Why pad the structure when new functionality (perhaps accommodated via
-> >> a larger structure) could be signaled by passing a new flag? Adding
-> >> reserved fields to a structure with a size embedded in the ABI makes a
-> >> lot of sense --- e.g., pthread_mutex_t can't grow. But this structure
-> >> can grow, so the reservation seems needless to me.
-> >=20
-> > Quite a few folks have said that ->reserved is either unnecessary or
-> > too big. I will be changing this, though I am not clear what the best
-> > way of extending the structure is. If anyone has a strong opinion on
-> > this (or an alternative to the ones listed below), please chime in. I
-> > don't have any really strong attachment to this aspect of the API.
-> >=20
-> > There appear to be a few ways we can do it (that all have precedence
-> > with other syscalls):
-> >=20
-> >  1. Use O_* flags to indicate extensions.
-> >  2. A separate "version" field that is incremented when we change.
-> >  3. Add a size_t argument to openat2(2).
-> >  4. Reserve space (as in this patchset).
-> >=20
-> > (My personal preference would be (3), followed closely by (2).)
->=20
-> 3, definitely, and instead of having to invent a new scheme for every
-> new syscall, make that the default pattern by providing a helper
+[1] Petition to the Government of Taiwan for Refugee Status, 5th August 201=
+9 Monday
 
-Sure (though hopefully I don't need to immediately go and refactor all
-the existing size_t syscalls). I will be presenting about this patchset
-at the containers microconference at LPC (in a few weeks), so I'll hold
-of on any API-related rewrites until after that.
+Photo #1: At the building of the National Immigration Agency, Ministry of t=
+he Interior, Taipei, Taiwan, 5th August 2019
 
-> int __copy_abi_struct(void *kernel, size_t ksize, const void __user
-> *user, size_t usize)
-> {
-> 	size_t copy =3D min(ksize, usize);
->=20
-> 	if (copy_from_user(kernel, user, copy))
-> 		return -EFAULT;
->=20
-> 	if (usize > ksize) {
-> 		/* maybe a separate "return user_is_zero(user + ksize, usize -
-> ksize);" helper */
-> 		char c;
-> 		user +=3D ksize;
-> 		usize -=3D ksize;
-> 		while (usize--) {
-> 			if (get_user(c, user++))
-> 				return -EFAULT;
-> 			if (c)
-> 				return -EINVAL;
+Photo #2: Queue ticket at the National Immigration Agency, Ministry of the =
+Interior, Taipei, Taiwan, 5th August 2019
 
-This part would probably be better done with memchr_inv() and
-copy_from_user() (and probably should put an upper limit on usize), but
-I get what you mean.
+Photo #3: Submission of documents/petition to the National Immigration Agen=
+cy, Ministry of the Interior, Taipei, Taiwan, 5th August 2019
 
-> 		}
-> 	} else if (ksize > usize) {
-> 		memset(kernel + usize, 0, ksize - usize);
-> 	}
-> 	return 0;
-> }
-> #define copy_abi_struct(kernel, user, usize)	\
-> 	__copy_abi_struct(kernel, sizeof(*kernel), user, usize)
->
-> > Both (1) and (2) have the problem that the "struct version" is inside
-> > the struct so we'd need to copy_from_user() twice. This isn't the end of
-> > the world, it just feels a bit less clean than is ideal. (3) fixes that
-> > problem, at the cost of making the API slightly more cumbersome to use
-> > directly (though again glibc could wrap that away).
->=20
-> I don't see how 3 is cumbersome to use directly. Userspace code does
-> struct openat_of_the_day args =3D {.field1 =3D x, .field3 =3D y} and pass=
-es
-> &args, sizeof(args). What does glibc need to do beyond its usual munging
-> of the userspace ABI registers to the syscall ABI registers?
+Photos #4 and #5: Acknowledgement of Receipt for the submission of document=
+s/petition from the National Immigration Agency, Ministry of the Interior, =
+Taipei, Taiwan, 5th August 2019
 
-I'd argue that
+References:
 
-    ret =3D openat2(AT_FDCWD, "foo", &how, sizeof(how)); // (3)
+(a) Petition to the Government of Taiwan for Refugee Status, 5th August 201=
+9 Monday (Blogspot)
 
-is slightly less pretty than
+Link: https://tdtemcerts.blogspot.sg/2019/08/petition-to-government-of-taiw=
+an-for.html
 
-    ret =3D openat2(AT_FDCWD, "foo", &how); // (1), (2), (4)
+(b) Petition to the Government of Taiwan for Refugee Status, 5th August 201=
+9 Monday (Wordpress)
 
-But it's not really that bad. Forget I said anything.
+Link: https://tdtemcerts.wordpress.com/2019/08/23/petition-to-the-governmen=
+t-of-taiwan-for-refugee-status/
 
---=20
-Aleksa Sarai
-Senior Software Engineer (Containers)
-SUSE Linux GmbH
-<https://www.cyphar.com/>
+[2] Application for Refugee Status at the United Nations Refugee Agency, Ba=
+ngkok, Thailand, 21st March 2017 Tuesday
 
---itirvnprc6jjrbl3
-Content-Type: application/pgp-signature; name="signature.asc"
+References:
 
------BEGIN PGP SIGNATURE-----
+(a) [YOUTUBE] Vlog: The Road to Application for Refugee Status at UNHCR Ban=
+gkok
 
-iHUEABYIAB0WIQSxZm6dtfE8gxLLfYqdlLljIbnQEgUCXWfQxQAKCRCdlLljIbnQ
-EoMSAP9J0uy3xcD3flC3cANph5LKQ2g0JWnMb61ew5LWDORVogD/UGWciY+tdPiy
-YNHs2UcBt9SEH1MNpEIgf2GN6RoyaQI=
-=ne2z
------END PGP SIGNATURE-----
+Link: https://www.youtube.com/watch?v=3DutpuAa1eUNI
 
---itirvnprc6jjrbl3--
+YouTube video Published on March 22nd, 2017
+
+
+
+
+
+-----BEGIN EMAIL SIGNATURE-----
+
+The Gospel for all Targeted Individuals (TIs):
+
+[The New York Times] Microwave Weapons Are Prime Suspect in Ills of
+U.S. Embassy Workers
+
+Link: https://www.nytimes.com/2018/09/01/science/sonic-attack-cuba-microwav=
+e.html
+
+***************************************************************************=
+*****************
+
+Singaporean Mr. Turritopsis Dohrnii Teo En Ming's Academic
+Qualifications as at 14 Feb 2019
+
+[1] https://tdtemcerts.wordpress.com/
+
+[2] https://tdtemcerts.blogspot.sg/
+
+[3] https://www.scribd.com/user/270125049/Teo-En-Ming
+
+-----END EMAIL SIGNATURE-----
+
