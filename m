@@ -2,64 +2,48 @@ Return-Path: <linux-alpha-owner@vger.kernel.org>
 X-Original-To: lists+linux-alpha@lfdr.de
 Delivered-To: lists+linux-alpha@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 77E39A6328
-	for <lists+linux-alpha@lfdr.de>; Tue,  3 Sep 2019 09:55:02 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 41BFBA63F2
+	for <lists+linux-alpha@lfdr.de>; Tue,  3 Sep 2019 10:32:26 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727884AbfICHy6 (ORCPT <rfc822;lists+linux-alpha@lfdr.de>);
-        Tue, 3 Sep 2019 03:54:58 -0400
-Received: from bombadil.infradead.org ([198.137.202.133]:34456 "EHLO
-        bombadil.infradead.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726946AbfICHy5 (ORCPT
-        <rfc822;linux-alpha@vger.kernel.org>); Tue, 3 Sep 2019 03:54:57 -0400
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-        d=infradead.org; s=bombadil.20170209; h=In-Reply-To:Content-Type:MIME-Version
-        :References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
-        Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
-        Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:
-        List-Help:List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
-         bh=G28iE/deGPG0P4VQTMIwzwCBVO7DdIpw/n7sMkoDPlI=; b=Gx11pokC7ZUSl6Ij7jfDO7foa
-        BzXtIUvI7BsKuZKZpzM+5G7ZKYV2bgimYA3TvtJtVnJmrEnfKf4/DZYEwLbWECE1CXBm38zkHi+33
-        uAl73vaUfsiml7p5HmwBrZr7owO5zm1VQYk0wiXRzfwITffEOTqlRY2wp1pjlRiwzPUUqryDTiTVk
-        SaUovfNgliw3iF28YkNVvFDQ7BMk89W+Cy4V6ekrFWKmxau3LTU03Zy3bshbvteHJqKf62dyihpPN
-        8pJwTi952NtGpBG4HsfMuKd9nAW69xR2W9ZRvjh33aDIekkJwH93lq1b+vDAJoxE1OTiWvP+L+OnS
-        cx2bk6/1Q==;
-Received: from j217100.upc-j.chello.nl ([24.132.217.100] helo=noisy.programming.kicks-ass.net)
-        by bombadil.infradead.org with esmtpsa (Exim 4.92 #3 (Red Hat Linux))
-        id 1i53dU-0008BU-Bc; Tue, 03 Sep 2019 07:53:56 +0000
-Received: from hirez.programming.kicks-ass.net (hirez.programming.kicks-ass.net [192.168.1.225])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (Client did not present a certificate)
-        by noisy.programming.kicks-ass.net (Postfix) with ESMTPS id 6470330116F;
-        Tue,  3 Sep 2019 09:53:16 +0200 (CEST)
-Received: by hirez.programming.kicks-ass.net (Postfix, from userid 1000)
-        id 6EFC529C073C2; Tue,  3 Sep 2019 09:53:52 +0200 (CEST)
-Date:   Tue, 3 Sep 2019 09:53:52 +0200
-From:   Peter Zijlstra <peterz@infradead.org>
-To:     Ingo Molnar <mingo@kernel.org>
-Cc:     Yunsheng Lin <linyunsheng@huawei.com>, dalias@libc.org,
-        linux-sh@vger.kernel.org, catalin.marinas@arm.com,
-        dave.hansen@linux.intel.com, heiko.carstens@de.ibm.com,
-        linuxarm@huawei.com, jiaxun.yang@flygoat.com,
-        linux-mips@vger.kernel.org, mwb@linux.vnet.ibm.com,
-        paulus@samba.org, hpa@zytor.com, sparclinux@vger.kernel.org,
-        chenhc@lemote.com, will@kernel.org, cai@lca.pw,
-        linux-s390@vger.kernel.org, ysato@users.sourceforge.jp,
-        mpe@ellerman.id.au, x86@kernel.org, rppt@linux.ibm.com,
-        borntraeger@de.ibm.com, dledford@redhat.com, mingo@redhat.com,
-        jeffrey.t.kirsher@intel.com, benh@kernel.crashing.org,
-        jhogan@kernel.org, nfont@linux.vnet.ibm.com, mattst88@gmail.com,
-        len.brown@intel.com, gor@linux.ibm.com, anshuman.khandual@arm.com,
-        bp@alien8.de, luto@kernel.org, tglx@linutronix.de,
-        naveen.n.rao@linux.vnet.ibm.com,
-        linux-arm-kernel@lists.infradead.org, rth@twiddle.net,
-        axboe@kernel.dk, linuxppc-dev@lists.ozlabs.org,
-        linux-kernel@vger.kernel.org, ralf@linux-mips.org,
-        tbogendoerfer@suse.de, paul.burton@mips.com,
-        linux-alpha@vger.kernel.org, ink@jurassic.park.msu.ru,
-        akpm@linux-foundation.org, robin.murphy@arm.com,
-        davem@davemloft.net
-Subject: [PATCH] x86/mm: Fix cpumask_of_node() error condition
-Message-ID: <20190903075352.GY2369@hirez.programming.kicks-ass.net>
+        id S1728429AbfICIcC (ORCPT <rfc822;lists+linux-alpha@lfdr.de>);
+        Tue, 3 Sep 2019 04:32:02 -0400
+Received: from szxga05-in.huawei.com ([45.249.212.191]:5729 "EHLO huawei.com"
+        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
+        id S1728373AbfICIcB (ORCPT <rfc822;linux-alpha@vger.kernel.org>);
+        Tue, 3 Sep 2019 04:32:01 -0400
+Received: from DGGEMS405-HUB.china.huawei.com (unknown [172.30.72.59])
+        by Forcepoint Email with ESMTP id 2C5574F5198C842DE6B7;
+        Tue,  3 Sep 2019 16:31:57 +0800 (CST)
+Received: from [127.0.0.1] (10.74.191.121) by DGGEMS405-HUB.china.huawei.com
+ (10.3.19.205) with Microsoft SMTP Server id 14.3.439.0; Tue, 3 Sep 2019
+ 16:31:48 +0800
+Subject: Re: [PATCH v2 2/9] x86: numa: check the node id consistently for x86
+To:     Peter Zijlstra <peterz@infradead.org>
+CC:     <dalias@libc.org>, <linux-sh@vger.kernel.org>,
+        <catalin.marinas@arm.com>, <dave.hansen@linux.intel.com>,
+        <heiko.carstens@de.ibm.com>, <linuxarm@huawei.com>,
+        <jiaxun.yang@flygoat.com>, <linux-kernel@vger.kernel.org>,
+        <mwb@linux.vnet.ibm.com>, <paulus@samba.org>, <hpa@zytor.com>,
+        <sparclinux@vger.kernel.org>, <chenhc@lemote.com>,
+        <will@kernel.org>, <linux-s390@vger.kernel.org>,
+        <ysato@users.sourceforge.jp>, <mpe@ellerman.id.au>,
+        <x86@kernel.org>, <rppt@linux.ibm.com>, <borntraeger@de.ibm.com>,
+        <dledford@redhat.com>, <mingo@redhat.com>,
+        <jeffrey.t.kirsher@intel.com>, <benh@kernel.crashing.org>,
+        <jhogan@kernel.org>, <nfont@linux.vnet.ibm.com>,
+        <mattst88@gmail.com>, <len.brown@intel.com>, <gor@linux.ibm.com>,
+        <anshuman.khandual@arm.com>, <ink@jurassic.park.msu.ru>,
+        <cai@lca.pw>, <luto@kernel.org>, <tglx@linutronix.de>,
+        <naveen.n.rao@linux.vnet.ibm.com>,
+        <linux-arm-kernel@lists.infradead.org>, <rth@twiddle.net>,
+        <axboe@kernel.dk>, <robin.murphy@arm.com>,
+        <linux-mips@vger.kernel.org>, <ralf@linux-mips.org>,
+        <tbogendoerfer@suse.de>, <paul.burton@mips.com>,
+        <linux-alpha@vger.kernel.org>, <bp@alien8.de>,
+        <akpm@linux-foundation.org>, <linuxppc-dev@lists.ozlabs.org>,
+        <davem@davemloft.net>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        "Rafael J. Wysocki" <rjw@rjwysocki.net>
 References: <1567231103-13237-1-git-send-email-linyunsheng@huawei.com>
  <1567231103-13237-3-git-send-email-linyunsheng@huawei.com>
  <20190831085539.GG2369@hirez.programming.kicks-ass.net>
@@ -67,55 +51,109 @@ References: <1567231103-13237-1-git-send-email-linyunsheng@huawei.com>
  <20190831161247.GM2369@hirez.programming.kicks-ass.net>
  <ae64285f-5134-4147-7b02-34bb5d519e8c@huawei.com>
  <20190902072542.GN2369@hirez.programming.kicks-ass.net>
- <20190902181731.GB35858@gmail.com>
+ <5fa2aa99-89fa-cd41-b090-36a23cfdeb73@huawei.com>
+ <20190902125644.GQ2369@hirez.programming.kicks-ass.net>
+ <1f48081c-c9d6-8f3e-9559-8b0bec98f125@huawei.com>
+ <20190903071111.GU2369@hirez.programming.kicks-ass.net>
+From:   Yunsheng Lin <linyunsheng@huawei.com>
+Message-ID: <06eee8d0-ce56-03da-30a5-6b07e989a5e0@huawei.com>
+Date:   Tue, 3 Sep 2019 16:31:11 +0800
+User-Agent: Mozilla/5.0 (Windows NT 6.1; WOW64; rv:52.0) Gecko/20100101
+ Thunderbird/52.2.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20190902181731.GB35858@gmail.com>
-User-Agent: Mutt/1.10.1 (2018-07-13)
+In-Reply-To: <20190903071111.GU2369@hirez.programming.kicks-ass.net>
+Content-Type: text/plain; charset="utf-8"
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+X-Originating-IP: [10.74.191.121]
+X-CFilter-Loop: Reflected
 Sender: linux-alpha-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-alpha.vger.kernel.org>
 X-Mailing-List: linux-alpha@vger.kernel.org
 
-On Mon, Sep 02, 2019 at 08:17:31PM +0200, Ingo Molnar wrote:
+On 2019/9/3 15:11, Peter Zijlstra wrote:
+> On Tue, Sep 03, 2019 at 02:19:04PM +0800, Yunsheng Lin wrote:
+>> On 2019/9/2 20:56, Peter Zijlstra wrote:
+>>> On Mon, Sep 02, 2019 at 08:25:24PM +0800, Yunsheng Lin wrote:
+>>>> On 2019/9/2 15:25, Peter Zijlstra wrote:
+>>>>> On Mon, Sep 02, 2019 at 01:46:51PM +0800, Yunsheng Lin wrote:
+>>>>>> On 2019/9/1 0:12, Peter Zijlstra wrote:
+>>>>>
+>>>>>>> 1) because even it is not set, the device really does belong to a node.
+>>>>>>> It is impossible a device will have magic uniform access to memory when
+>>>>>>> CPUs cannot.
+>>>>>>
+>>>>>> So it means dev_to_node() will return either NUMA_NO_NODE or a
+>>>>>> valid node id?
+>>>>>
+>>>>> NUMA_NO_NODE := -1, which is not a valid node number. It is also, like I
+>>>>> said, not a valid device location on a NUMA system.
+>>>>>
+>>>>> Just because ACPI/BIOS is shit, doesn't mean the device doesn't have a
+>>>>> node association. It just means we don't know and might have to guess.
+>>>>
+>>>> How do we guess the device's location when ACPI/BIOS does not set it?
+>>>
+>>> See device_add(), it looks to the device's parent and on NO_NODE, puts
+>>> it there.
+>>>
+>>> Lacking any hints, just stick it to node0 and print a FW_BUG or
+>>> something.
+>>>
+>>>> It seems dev_to_node() does not do anything about that and leave the
+>>>> job to the caller or whatever function that get called with its return
+>>>> value, such as cpumask_of_node().
+>>>
+>>> Well, dev_to_node() doesn't do anything; nor should it. It are the
+>>> callers of set_dev_node() that should be taking care.
+>>>
+>>> Also note how device_add() sets the device node to the parent device's
+>>> node on NUMA_NO_NODE. Arguably we should change it to complain when it
+>>> finds NUMA_NO_NODE and !parent.
+>>
+>> Is it possible that the node id set by device_add() become invalid
+>> if the node is offlined, then dev_to_node() may return a invalid
+>> node id.
+> 
+> In that case I would expect the device to go away too. Once the memory
+> controller goes away, the PCI bus connected to it cannot continue to
+> function.
 
-> Nitpicking: please also fix the kernel message to say ">=".
+Ok. To summarize the discussion in order to for me to understand it
+correctly:
 
-Full patch below.
+1) Make sure device_add() set to default node0 to a device if
+   ACPI/BIOS does not set the node id and it has not no parent device.
 
----
-Subject: x86/mm: Fix cpumask_of_node() error condition
+2) Use '(unsigned)node_id >= nr_node_ids' to fix the
+   CONFIG_DEBUG_PER_CPU_MAPS version of cpumask_of_node() for x86
+   and arm64, x86 just has a fix from you now, a patch for arm64 is
+   also needed.
 
-When CONFIG_DEBUG_PER_CPU_MAPS we validate that the @node argument of
-cpumask_of_node() is a valid node_id. It however forgets to check for
-negative numbers. Fix this by explicitly casting to unsigned.
+3) Maybe fix some other the sign bug for node id checking through the
+   kernel using the '(unsigned)node_id >= nr_node_ids'.
 
-  (unsigned)node >= nr_node_ids
+Please see if I understand it correctly or miss something.
+Maybe I can begin by sending a patch about item one to see if everyone
+is ok with the idea?
 
-verifies: 0 <= node < nr_node_ids
 
-Also ammend the error message to match the condition.
+> 
+>> From the comment in select_fallback_rq(), it seems that a node can
+>> be offlined, not sure if node offline process has taken cared of that?
+>>
+>> 	/*
+>>          * If the node that the CPU is on has been offlined, cpu_to_node()
+>>          * will return -1. There is no CPU on the node, and we should
+>>          * select the CPU on the other node.
+>>          */
+> 
+> Ugh, so I disagree with that notion. cpu_to_node() mapping should be
+> fixed, you simply cannot change it after boot, too much stuff relies on
+> it.
+> 
+> Setting cpu_to_node to -1 on node offline is just wrong. But alas, it
+> seems this is already so.
 
-Acked-by: Ingo Molnar <mingo@kernel.org>
-Signed-off-by: Peter Zijlstra (Intel) <peterz@infradead.org>
----
- arch/x86/mm/numa.c | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/arch/x86/mm/numa.c b/arch/x86/mm/numa.c
-index e6dad600614c..4123100e0eaf 100644
---- a/arch/x86/mm/numa.c
-+++ b/arch/x86/mm/numa.c
-@@ -861,9 +861,9 @@ void numa_remove_cpu(int cpu)
-  */
- const struct cpumask *cpumask_of_node(int node)
- {
--	if (node >= nr_node_ids) {
-+	if ((unsigned)node >= nr_node_ids) {
- 		printk(KERN_WARNING
--			"cpumask_of_node(%d): node > nr_node_ids(%u)\n",
-+			"cpumask_of_node(%d): (unsigned)node >= nr_node_ids(%u)\n",
- 			node, nr_node_ids);
- 		dump_stack();
- 		return cpu_none_mask;
