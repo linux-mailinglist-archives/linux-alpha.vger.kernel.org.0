@@ -2,57 +2,58 @@ Return-Path: <linux-alpha-owner@vger.kernel.org>
 X-Original-To: lists+linux-alpha@lfdr.de
 Delivered-To: lists+linux-alpha@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 2318EA94C3
-	for <lists+linux-alpha@lfdr.de>; Wed,  4 Sep 2019 23:15:42 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id E1561A9540
+	for <lists+linux-alpha@lfdr.de>; Wed,  4 Sep 2019 23:37:12 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729366AbfIDVPl (ORCPT <rfc822;lists+linux-alpha@lfdr.de>);
-        Wed, 4 Sep 2019 17:15:41 -0400
-Received: from mail-lj1-f195.google.com ([209.85.208.195]:46410 "EHLO
-        mail-lj1-f195.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726495AbfIDVPl (ORCPT
-        <rfc822;linux-alpha@vger.kernel.org>); Wed, 4 Sep 2019 17:15:41 -0400
-Received: by mail-lj1-f195.google.com with SMTP id e17so131816ljf.13
-        for <linux-alpha@vger.kernel.org>; Wed, 04 Sep 2019 14:15:39 -0700 (PDT)
+        id S1727741AbfIDVhM (ORCPT <rfc822;lists+linux-alpha@lfdr.de>);
+        Wed, 4 Sep 2019 17:37:12 -0400
+Received: from mail-lf1-f66.google.com ([209.85.167.66]:42194 "EHLO
+        mail-lf1-f66.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727900AbfIDVhL (ORCPT
+        <rfc822;linux-alpha@vger.kernel.org>); Wed, 4 Sep 2019 17:37:11 -0400
+Received: by mail-lf1-f66.google.com with SMTP id u13so188520lfm.9
+        for <linux-alpha@vger.kernel.org>; Wed, 04 Sep 2019 14:37:10 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=linux-foundation.org; s=google;
         h=mime-version:references:in-reply-to:from:date:message-id:subject:to
          :cc;
-        bh=hgF2nRVhP2Z9Hk/CZOFcXhAAs++h0MvE3fMY8xcOeYw=;
-        b=V0fXrvG/y6fw7T3tD/KUlmTDsOhByRFRgMw+QxPA9hiU5TDgpngn7HfopRM+i/LJMb
-         k2AA+nRMkFxYb/ldSeHBR5el3bmmhNNCMxw9ToB+OOlkWRR6wchZHlLiKsQK9TmfmvjP
-         dVvrUijYkfU5Fh9X3uECYhU3OGmtsUJMmdGfk=
+        bh=afyKDAGEEGBbAV94gj2UOZt2XiwokGAAZY9fEg48q/g=;
+        b=NaaXzsE03/A0aggT0JGsMPgqMPOgw689sbkH2wUyL6Wp3qKaZ1pKjDt9q3nSCqMPah
+         2e4dX/SHASPLfri+fuLDS7WlObVzMB0uCQ613gb+lr0h/VEtc5FGRP26lR62YK8De+Ct
+         /QjcaW9K7a4FCLT2Siyb/L/tVCZoNkYi2RP38=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
          :message-id:subject:to:cc;
-        bh=hgF2nRVhP2Z9Hk/CZOFcXhAAs++h0MvE3fMY8xcOeYw=;
-        b=WTiKxmTXHXjwi57B8yxZR6+WwfImryxplNiTpPT91kae9iegFynLFKWVzxqALT9IiU
-         Ucp5bgzDBxSbnZIv5FZCZxmbOyOb+CZ0p6ewGLaPtBubEjLGbp3WicEnRCRtTCQkJMBh
-         1qN0Ri8WymttdjLxJ9Vn8IhQ9+rAg8nyoa8CTER3x2f+fMP38da1SNx5+GcINbU++inY
-         afCjWhIqH9ILRwm1H3T7KoJenuBmW0TwqMrTWNEnp40dw1WOVo7NvUegPshFa3gLVeMr
-         0VQkvRoNgd+RbhPQEeIC+24FilJDPoq8SWSXCFMU4GfP84WNulCK+1HCD0ExzmIcychy
-         hw3A==
-X-Gm-Message-State: APjAAAU62oMzR89PwxFvD04uVb0pXjxkGQEaHbtODODjBBvkS0OwiPcU
-        RDIHNn0Ua+HAM64xzytlqoeHOR8U91o=
-X-Google-Smtp-Source: APXvYqz+SHu8CZ5otdFAhDX3ScL5sabwlwGdj1GTDD90T9ENjcfi7stdnWK0V2kBSsxahr0tVAo2xQ==
-X-Received: by 2002:a2e:8817:: with SMTP id x23mr24508769ljh.51.1567631738917;
-        Wed, 04 Sep 2019 14:15:38 -0700 (PDT)
-Received: from mail-lj1-f170.google.com (mail-lj1-f170.google.com. [209.85.208.170])
-        by smtp.gmail.com with ESMTPSA id o20sm3558981ljg.31.2019.09.04.14.15.38
+        bh=afyKDAGEEGBbAV94gj2UOZt2XiwokGAAZY9fEg48q/g=;
+        b=cZ8m5UxYZHvpcNg8/fLK+gbrVTfpQXz5rq7TBOYZ3vGD38FKohSqbY4TBO0uqFtymC
+         cxk7cv3fjFVX/Wbb36ga4tS8Tx9lPKueBc9TMRvUApRyR/wLYEJYqXbeDbkzN17zDrpu
+         ZcBH0HWqWCTaMU4Yv+yGNR/EXH8DwBAVqlvnFaSg6oe/pDgwvKfRKNVVBQ2Zo0xCdbjj
+         Qf0uF0mgE9ZOR2YgJsFII6DpgekVWOQ7vjhQS92nWULmcu8HWvslOJaRJAfpTD+h7fTS
+         PRZ4WAjGU4iT563x+tyAVWOv/Gy1fEe5S6rm/kLYV1Ob+iX64BOfe00PgOloo7HBqM4+
+         WMgA==
+X-Gm-Message-State: APjAAAXYSEfMeLwsTX7k9rp3t5Ev+sVHDeBXyq4XSc6BZ7dtJ7iEbLoG
+        eiTnuuGAPMe1JBBnX1wzw+7HOJYrAPg=
+X-Google-Smtp-Source: APXvYqwxvrSlm3AGrgH0eE1rxXj98yj4eY20S8AdIu5SbheJuSnwcH4OmDXv9EnbSDIIjdv9LRIyDg==
+X-Received: by 2002:a19:117:: with SMTP id 23mr141557lfb.115.1567633028922;
+        Wed, 04 Sep 2019 14:37:08 -0700 (PDT)
+Received: from mail-lf1-f46.google.com (mail-lf1-f46.google.com. [209.85.167.46])
+        by smtp.gmail.com with ESMTPSA id b205sm12483lfg.72.2019.09.04.14.37.05
         for <linux-alpha@vger.kernel.org>
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 04 Sep 2019 14:15:38 -0700 (PDT)
-Received: by mail-lj1-f170.google.com with SMTP id d5so148501lja.10
-        for <linux-alpha@vger.kernel.org>; Wed, 04 Sep 2019 14:15:38 -0700 (PDT)
-X-Received: by 2002:a2e:8507:: with SMTP id j7mr10579330lji.156.1567631404184;
- Wed, 04 Sep 2019 14:10:04 -0700 (PDT)
+        Wed, 04 Sep 2019 14:37:07 -0700 (PDT)
+Received: by mail-lf1-f46.google.com with SMTP id u13so188391lfm.9
+        for <linux-alpha@vger.kernel.org>; Wed, 04 Sep 2019 14:37:05 -0700 (PDT)
+X-Received: by 2002:a05:6512:512:: with SMTP id o18mr154625lfb.170.1567633024273;
+ Wed, 04 Sep 2019 14:37:04 -0700 (PDT)
 MIME-Version: 1.0
 References: <20190904201933.10736-1-cyphar@cyphar.com> <20190904201933.10736-11-cyphar@cyphar.com>
-In-Reply-To: <20190904201933.10736-11-cyphar@cyphar.com>
+ <CAHk-=wiod1rQMU+6Zew=cLE8uX4tUdf42bM5eKngMnNVS2My7g@mail.gmail.com> <CAHk-=wiHRW3Z9xPRiExi9jLjB0cdGhM=3vaW+b80mjuRcbORyw@mail.gmail.com>
+In-Reply-To: <CAHk-=wiHRW3Z9xPRiExi9jLjB0cdGhM=3vaW+b80mjuRcbORyw@mail.gmail.com>
 From:   Linus Torvalds <torvalds@linux-foundation.org>
-Date:   Wed, 4 Sep 2019 14:09:48 -0700
-X-Gmail-Original-Message-ID: <CAHk-=wiod1rQMU+6Zew=cLE8uX4tUdf42bM5eKngMnNVS2My7g@mail.gmail.com>
-Message-ID: <CAHk-=wiod1rQMU+6Zew=cLE8uX4tUdf42bM5eKngMnNVS2My7g@mail.gmail.com>
+Date:   Wed, 4 Sep 2019 14:36:48 -0700
+X-Gmail-Original-Message-ID: <CAHk-=wiExfaVhUTvKj7hR6DG4C2+oy6usz0Sa6QbPr5EgDH28w@mail.gmail.com>
+Message-ID: <CAHk-=wiExfaVhUTvKj7hR6DG4C2+oy6usz0Sa6QbPr5EgDH28w@mail.gmail.com>
 Subject: Re: [PATCH v12 10/12] namei: aggressively check for nd->root escape
  on ".." resolution
 To:     Aleksa Sarai <cyphar@cyphar.com>
@@ -103,47 +104,28 @@ Precedence: bulk
 List-ID: <linux-alpha.vger.kernel.org>
 X-Mailing-List: linux-alpha@vger.kernel.org
 
-On Wed, Sep 4, 2019 at 1:23 PM Aleksa Sarai <cyphar@cyphar.com> wrote:
+On Wed, Sep 4, 2019 at 2:35 PM Linus Torvalds
+<torvalds@linux-foundation.org> wrote:
 >
-> This patch allows for LOOKUP_BENEATH and LOOKUP_IN_ROOT to safely permit
-> ".." resolution (in the case of LOOKUP_BENEATH the resolution will still
-> fail if ".." resolution would resolve a path outside of the root --
-> while LOOKUP_IN_ROOT will chroot(2)-style scope it). Magic-link jumps
-> are still disallowed entirely because now they could result in
-> inconsistent behaviour if resolution encounters a subsequent ".."[*].
+> On Wed, Sep 4, 2019 at 2:09 PM Linus Torvalds
+> <torvalds@linux-foundation.org> wrote:
+> >
+> > So you'd have three stages:
+> >
+> >  1) ".." always returns -EXDEV
+> >
+> >  2) ".." returns -EXDEV if there was a concurrent rename/mount
+> >
+> >  3) ".." returns -EXDEV if there was a concurrent rename/mount and we
+> > reset the sequence numbers and check if you escaped.
+>
+> In fact, I wonder if this should return -EAGAIN instead - to say that
+> "retrying may work".
 
-This is the only patch in the series that makes me go "umm".
+And here "this" was meant to be "case 2" - I was moving the quoted
+text around and didn't fix my wording, so now it is ambiguous or
+implies #3, which would be crazy.
 
-Why is it ok to re-initialize m_seq, which is used by other things
-too? I think it's because we're out of RCU lookup, but there's no
-comment about it, and it looks iffy to me. I'd rather have a separate
-sequence count that doesn't have two users with different lifetime
-rules.
+Sorry for the confusion,
 
-But even apart from that, I think from a "patch continuity" standpoint
-it would be better to introduce the sequence counts as just an error
-condition first - iow, not have the "path_is_under()" check, but just
-return -EXDEV if the sequence number doesn't match.
-
-So you'd have three stages:
-
- 1) ".." always returns -EXDEV
-
- 2) ".." returns -EXDEV if there was a concurrent rename/mount
-
- 3) ".." returns -EXDEV if there was a concurrent rename/mount and we
-reset the sequence numbers and check if you escaped.
-
-becasue the sequence number reset really does make me go "hmm", plus I
-get this nagging little feeling in the back of my head that you can
-cause nasty O(n^2) lookup cost behavior with deep paths, lots of "..",
-and repeated path_is_under() calls.
-
-So (1) sounds safe. (2) sounds simple. And (3) is where I think subtle
-things start happening.
-
-Also, I'm not 100% convinced that (3) is needed at all. I think the
-retry could be done in user space instead, which needs to have a
-fallback anyway. Yes? No?
-
-                 Linus
+            Linus
