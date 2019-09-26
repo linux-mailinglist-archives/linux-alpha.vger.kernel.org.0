@@ -2,96 +2,168 @@ Return-Path: <linux-alpha-owner@vger.kernel.org>
 X-Original-To: lists+linux-alpha@lfdr.de
 Delivered-To: lists+linux-alpha@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id B52D9BF293
-	for <lists+linux-alpha@lfdr.de>; Thu, 26 Sep 2019 14:12:03 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id E455FBF88B
+	for <lists+linux-alpha@lfdr.de>; Thu, 26 Sep 2019 19:58:26 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1725819AbfIZMMD (ORCPT <rfc822;lists+linux-alpha@lfdr.de>);
-        Thu, 26 Sep 2019 08:12:03 -0400
-Received: from merlin.infradead.org ([205.233.59.134]:35780 "EHLO
-        merlin.infradead.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725815AbfIZMMC (ORCPT
+        id S1727995AbfIZR55 (ORCPT <rfc822;lists+linux-alpha@lfdr.de>);
+        Thu, 26 Sep 2019 13:57:57 -0400
+Received: from mail-pf1-f196.google.com ([209.85.210.196]:37587 "EHLO
+        mail-pf1-f196.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727996AbfIZR4W (ORCPT
         <rfc822;linux-alpha@vger.kernel.org>);
-        Thu, 26 Sep 2019 08:12:02 -0400
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-        d=infradead.org; s=merlin.20170209; h=In-Reply-To:Content-Type:MIME-Version:
-        References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
-        Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
-        Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:
-        List-Help:List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
-         bh=QmSB+iJQpid0KK6OgKLqID3ggufRi3prpqIsy8HQWNc=; b=KVBm0ALWj1UZADG6S1S003WTm
-        6Y/Z2mNgsSiMdagtvJlukp3nGNsy545VNOD+MXDGI+CgrWveZsq3kwIiK+W1LpQFSlw2FO8gUGdVM
-        W2VBJT0Xlb+/aHD/PsZOmPJdK4xvYogq73w0VV+DZOF+NK+Pw3EhlTl3L/B56oc0gDiH5L7IOTOmh
-        9SS8hCDwrkF/LGwTT8i48Krgh9Vh7dcBpmex2wkYQ8Bfn7Fuyfe20YRVwniKWyJcj4Nza9/eRfeAA
-        s7HghavBEgLci7cWRly+tTQOqfAmcSTvyTWhdg9bVpOtanHW5Wossu0KBHPpav8mRaq/Jr31Cr0YE
-        u4u0ZZw0Q==;
-Received: from j217100.upc-j.chello.nl ([24.132.217.100] helo=noisy.programming.kicks-ass.net)
-        by merlin.infradead.org with esmtpsa (Exim 4.92.2 #3 (Red Hat Linux))
-        id 1iDSb7-00059a-Ne; Thu, 26 Sep 2019 12:10:14 +0000
-Received: from hirez.programming.kicks-ass.net (hirez.programming.kicks-ass.net [192.168.1.225])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (Client did not present a certificate)
-        by noisy.programming.kicks-ass.net (Postfix) with ESMTPS id 77211305BD3;
-        Thu, 26 Sep 2019 14:09:21 +0200 (CEST)
-Received: by hirez.programming.kicks-ass.net (Postfix, from userid 1000)
-        id C40552013B759; Thu, 26 Sep 2019 14:10:07 +0200 (CEST)
-Date:   Thu, 26 Sep 2019 14:10:07 +0200
-From:   Peter Zijlstra <peterz@infradead.org>
-To:     Michal Hocko <mhocko@kernel.org>
-Cc:     Yunsheng Lin <linyunsheng@huawei.com>, catalin.marinas@arm.com,
-        will@kernel.org, mingo@redhat.com, bp@alien8.de, rth@twiddle.net,
-        ink@jurassic.park.msu.ru, mattst88@gmail.com,
-        benh@kernel.crashing.org, paulus@samba.org, mpe@ellerman.id.au,
-        heiko.carstens@de.ibm.com, gor@linux.ibm.com,
-        borntraeger@de.ibm.com, ysato@users.sourceforge.jp,
-        dalias@libc.org, davem@davemloft.net, ralf@linux-mips.org,
-        paul.burton@mips.com, jhogan@kernel.org, jiaxun.yang@flygoat.com,
-        chenhc@lemote.com, akpm@linux-foundation.org, rppt@linux.ibm.com,
-        anshuman.khandual@arm.com, tglx@linutronix.de, cai@lca.pw,
-        robin.murphy@arm.com, linux-arm-kernel@lists.infradead.org,
-        linux-kernel@vger.kernel.org, hpa@zytor.com, x86@kernel.org,
-        dave.hansen@linux.intel.com, luto@kernel.org, len.brown@intel.com,
-        axboe@kernel.dk, dledford@redhat.com, jeffrey.t.kirsher@intel.com,
-        linux-alpha@vger.kernel.org, naveen.n.rao@linux.vnet.ibm.com,
-        mwb@linux.vnet.ibm.com, linuxppc-dev@lists.ozlabs.org,
-        linux-s390@vger.kernel.org, linux-sh@vger.kernel.org,
-        sparclinux@vger.kernel.org, tbogendoerfer@suse.de,
-        linux-mips@vger.kernel.org, rafael@kernel.org,
-        gregkh@linuxfoundation.org
-Subject: Re: [PATCH v6] numa: make node_to_cpumask_map() NUMA_NO_NODE aware
-Message-ID: <20190926121007.GB4581@hirez.programming.kicks-ass.net>
-References: <20190924120943.GP2349@hirez.programming.kicks-ass.net>
- <20190924122500.GP23050@dhcp22.suse.cz>
- <20190924124325.GQ2349@hirez.programming.kicks-ass.net>
- <20190924125936.GR2349@hirez.programming.kicks-ass.net>
- <20190924131939.GS23050@dhcp22.suse.cz>
- <20190925104040.GD4553@hirez.programming.kicks-ass.net>
- <20190925132544.GL23050@dhcp22.suse.cz>
- <20190925163154.GF4553@hirez.programming.kicks-ass.net>
- <20190925214526.GA4643@worktop.programming.kicks-ass.net>
- <20190926090559.GA4581@hirez.programming.kicks-ass.net>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20190926090559.GA4581@hirez.programming.kicks-ass.net>
-User-Agent: Mutt/1.10.1 (2018-07-13)
+        Thu, 26 Sep 2019 13:56:22 -0400
+Received: by mail-pf1-f196.google.com with SMTP id y5so2265031pfo.4
+        for <linux-alpha@vger.kernel.org>; Thu, 26 Sep 2019 10:56:21 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=chromium.org; s=google;
+        h=from:to:cc:subject:date:message-id;
+        bh=QEG/EaNbne2aV7OKhHfoYngDByBBcJ0cppuY/pozywQ=;
+        b=C+3Ew31NmGJo/s34rbNfqjLTRqvYTUPk4Fzn1v6DxaCv0bUz5Itel2G7bPEbzOO7la
+         fZED90J+wL+qVcUlkffN4PYCPS/j/nBCQCnH3CopXImwLAl74lL+UhVoxl4VitCgKmD2
+         8kak6FLso8A712fVwjhhMVHLwKEZrzvyynFis=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id;
+        bh=QEG/EaNbne2aV7OKhHfoYngDByBBcJ0cppuY/pozywQ=;
+        b=o3lVKQuG9ECe0ffK56tphF6LgnpLJDSmMWuMvtxEPz1Out5VToP637/q+Pp/wpMkj0
+         xJTpSE1Ng3DmkiPYmTHc2q0gSMp/TnzWYBfJCgVKsEWmbLd2hvC5GYbHdZ1jQ8olTj/a
+         GgOHgDIWlJhBMA4oHSkBnrMhGvvMsTYgxURHjj+KgFpaPO7KxDOFt64Vcc0BPFEFR9+W
+         7QnSFCd+DKIQMGs6TFs6dPwuRmPUVPNHoOQHSnGwv4Tf+g7kxHr+kpQzYwhaJzFp/Yex
+         QZfxj4PmRazREZh4Alt4TzrAQCZSVDMGpAEDoc0ganJEHPFcL3fy+N1pMFpUtM8dwCNV
+         /Jgw==
+X-Gm-Message-State: APjAAAUlwuDPr5JHGFuwylfL8CL2jyi9AmPQB9WfomfN+PiSoOZl4MBo
+        M2rEPzg53lETTFyATq4o3HFWPg==
+X-Google-Smtp-Source: APXvYqyGBYTkR69ROZhnYj3Ai7+SxN5uk+xjkc2oWKjzkLJSeo/f2CV0bxk4Z/YCXLw5XMrEqBkdJw==
+X-Received: by 2002:a63:355:: with SMTP id 82mr4552661pgd.81.1569520580971;
+        Thu, 26 Sep 2019 10:56:20 -0700 (PDT)
+Received: from www.outflux.net (smtp.outflux.net. [198.145.64.163])
+        by smtp.gmail.com with ESMTPSA id q3sm2995021pgj.54.2019.09.26.10.56.16
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 26 Sep 2019 10:56:17 -0700 (PDT)
+From:   Kees Cook <keescook@chromium.org>
+To:     Thomas Gleixner <tglx@linutronix.de>
+Cc:     Kees Cook <keescook@chromium.org>,
+        Rick Edgecombe <rick.p.edgecombe@intel.com>,
+        Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
+        "H. Peter Anvin" <hpa@zytor.com>,
+        Dave Hansen <dave.hansen@linux.intel.com>,
+        Andy Lutomirski <luto@kernel.org>,
+        Arnd Bergmann <arnd@arndb.de>, linux-arch@vger.kernel.org,
+        linuxppc-dev@lists.ozlabs.org, linux-alpha@vger.kernel.org,
+        linux-ia64@vger.kernel.org, linux-s390@vger.kernel.org,
+        linux-c6x-dev@linux-c6x.org,
+        Yoshinori Sato <ysato@users.sourceforge.jp>,
+        Michal Simek <monstr@monstr.eu>, linux-parisc@vger.kernel.org,
+        linux-xtensa@linux-xtensa.org, x86@kernel.org,
+        linux-kernel@vger.kernel.org
+Subject: [PATCH 00/29] vmlinux.lds.h: Refactor EXCEPTION_TABLE and NOTES
+Date:   Thu, 26 Sep 2019 10:55:33 -0700
+Message-Id: <20190926175602.33098-1-keescook@chromium.org>
+X-Mailer: git-send-email 2.17.1
 Sender: linux-alpha-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-alpha.vger.kernel.org>
 X-Mailing-List: linux-alpha@vger.kernel.org
 
-On Thu, Sep 26, 2019 at 11:05:59AM +0200, Peter Zijlstra wrote:
-> On Wed, Sep 25, 2019 at 11:45:26PM +0200, Peter Zijlstra wrote:
-> > [    7.149889] [Firmware Bug]: device: 'pci0000:7f': no node assigned on NUMA capable HW
-> > [    7.882888] [Firmware Bug]: device: 'pci0000:ff': no node assigned on NUMA capable HW
-> 
-> Going by the limited number of intel numa boxes I have, it looks like:
-> 
->   socket = (~busid) >> (8-n)
+This series works to move the linker sections for NOTES and
+EXCEPTION_TABLE into the RO_DATA area, where they belong on most
+(all?) architectures. The problem being addressed was the discovery
+by Rick Edgecombe that the exception table was accidentally marked
+executable while he was developing his execute-only-memory series. When
+permissions were flipped from readable-and-executable to only-executable,
+the exception table became unreadable, causing things to explode rather
+badly. :)
 
-Bah, I got my notes mixed up, it should be: busid >> (8-n)
+Roughly speaking, the steps are:
 
-> where 'n' is the number of bits required to encode the largest socket
-> id, ie 1 for 2-socket and 2 for 4 socket.
-> 
-> For 8 socket systems we start using pci domains, and things get more
-> 'interesting' :/
+- regularize the linker names for PT_NOTE and PT_LOAD program headers
+  (to "note" and "text" respectively)
+- regularize restoration of linker section to program header assignment
+  (when PT_NOTE exists)
+- move NOTES into RO_DATA
+- finish macro naming conversions for RO_DATA and RW_DATA
+- move EXCEPTION_TABLE into RO_DATA on architectures where this is clear
+- clean up some x86-specific reporting of kernel memory resources
+- switch x86 linker fill byte from x90 (NOP) to 0xcc (INT3), just because
+  I finally realized what that trailing ": 0x9090" meant -- and we should
+  trap, not slide, if execution lands in section padding
+
+Since these changes are treewide, I'd love to get architecture-maintainer
+Acks and either have this live in x86 -tip or in my own tree, however
+people think it should go.
+
+Thanks!
+
+-Kees
+
+Kees Cook (29):
+  powerpc: Rename "notes" PT_NOTE to "note"
+  powerpc: Remove PT_NOTE workaround
+  powerpc: Rename PT_LOAD identifier "kernel" to "text"
+  alpha: Rename PT_LOAD identifier "kernel" to "text"
+  ia64: Rename PT_LOAD identifier "code" to "text"
+  s390: Move RO_DATA into "text" PT_LOAD Program Header
+  x86: Restore "text" Program Header with dummy section
+  vmlinux.lds.h: Provide EMIT_PT_NOTE to indicate export of .notes
+  vmlinux.lds.h: Move Program Header restoration into NOTES macro
+  vmlinux.lds.h: Move NOTES into RO_DATA
+  vmlinux.lds.h: Replace RODATA with RO_DATA
+  vmlinux.lds.h: Replace RO_DATA_SECTION with RO_DATA
+  vmlinux.lds.h: Replace RW_DATA_SECTION with RW_DATA
+  vmlinux.lds.h: Allow EXCEPTION_TABLE to live in RO_DATA
+  x86: Actually use _etext for end of text segment
+  x86: Move EXCEPTION_TABLE to RO_DATA segment
+  alpha: Move EXCEPTION_TABLE to RO_DATA segment
+  arm64: Move EXCEPTION_TABLE to RO_DATA segment
+  c6x: Move EXCEPTION_TABLE to RO_DATA segment
+  h8300: Move EXCEPTION_TABLE to RO_DATA segment
+  ia64: Move EXCEPTION_TABLE to RO_DATA segment
+  microblaze: Move EXCEPTION_TABLE to RO_DATA segment
+  parisc: Move EXCEPTION_TABLE to RO_DATA segment
+  powerpc: Move EXCEPTION_TABLE to RO_DATA segment
+  xtensa: Move EXCEPTION_TABLE to RO_DATA segment
+  x86/mm: Remove redundant &s on addresses
+  x86/mm: Report which part of kernel image is freed
+  x86/mm: Report actual image regions in /proc/iomem
+  x86: Use INT3 instead of NOP for linker fill bytes
+
+ arch/alpha/kernel/vmlinux.lds.S      | 18 +++++-----
+ arch/arc/kernel/vmlinux.lds.S        |  6 ++--
+ arch/arm/kernel/vmlinux-xip.lds.S    |  4 +--
+ arch/arm/kernel/vmlinux.lds.S        |  4 +--
+ arch/arm64/kernel/vmlinux.lds.S      |  9 ++---
+ arch/c6x/kernel/vmlinux.lds.S        |  8 ++---
+ arch/csky/kernel/vmlinux.lds.S       |  5 ++-
+ arch/h8300/kernel/vmlinux.lds.S      |  9 ++---
+ arch/hexagon/kernel/vmlinux.lds.S    |  5 ++-
+ arch/ia64/kernel/vmlinux.lds.S       | 20 +++++------
+ arch/m68k/kernel/vmlinux-nommu.lds   |  4 +--
+ arch/m68k/kernel/vmlinux-std.lds     |  2 +-
+ arch/m68k/kernel/vmlinux-sun3.lds    |  2 +-
+ arch/microblaze/kernel/vmlinux.lds.S |  8 ++---
+ arch/mips/kernel/vmlinux.lds.S       | 15 ++++----
+ arch/nds32/kernel/vmlinux.lds.S      |  5 ++-
+ arch/nios2/kernel/vmlinux.lds.S      |  5 ++-
+ arch/openrisc/kernel/vmlinux.lds.S   |  7 ++--
+ arch/parisc/kernel/vmlinux.lds.S     | 11 +++---
+ arch/powerpc/kernel/vmlinux.lds.S    | 37 ++++---------------
+ arch/riscv/kernel/vmlinux.lds.S      |  5 ++-
+ arch/s390/kernel/vmlinux.lds.S       | 12 +++----
+ arch/sh/kernel/vmlinux.lds.S         |  3 +-
+ arch/sparc/kernel/vmlinux.lds.S      |  3 +-
+ arch/um/include/asm/common.lds.S     |  3 +-
+ arch/unicore32/kernel/vmlinux.lds.S  |  5 ++-
+ arch/x86/include/asm/processor.h     |  2 +-
+ arch/x86/include/asm/sections.h      |  1 -
+ arch/x86/kernel/setup.c              | 12 ++++++-
+ arch/x86/kernel/vmlinux.lds.S        | 16 ++++-----
+ arch/x86/mm/init.c                   |  8 ++---
+ arch/x86/mm/init_64.c                | 16 +++++----
+ arch/x86/mm/pti.c                    |  2 +-
+ arch/xtensa/kernel/vmlinux.lds.S     |  8 ++---
+ include/asm-generic/vmlinux.lds.h    | 53 ++++++++++++++++++++--------
+ 35 files changed, 159 insertions(+), 174 deletions(-)
+
+-- 
+2.17.1
+
