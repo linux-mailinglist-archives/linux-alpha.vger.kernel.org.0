@@ -2,30 +2,48 @@ Return-Path: <linux-alpha-owner@vger.kernel.org>
 X-Original-To: lists+linux-alpha@lfdr.de
 Delivered-To: lists+linux-alpha@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 6C553C2F9D
-	for <lists+linux-alpha@lfdr.de>; Tue,  1 Oct 2019 11:05:58 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id E892FC3970
+	for <lists+linux-alpha@lfdr.de>; Tue,  1 Oct 2019 17:48:22 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729841AbfJAJF5 (ORCPT <rfc822;lists+linux-alpha@lfdr.de>);
-        Tue, 1 Oct 2019 05:05:57 -0400
-Received: from mail.kernel.org ([198.145.29.99]:42840 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1729642AbfJAJF5 (ORCPT <rfc822;linux-alpha@vger.kernel.org>);
-        Tue, 1 Oct 2019 05:05:57 -0400
-Received: from willie-the-truck (236.31.169.217.in-addr.arpa [217.169.31.236])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 2A4D8205F4;
-        Tue,  1 Oct 2019 09:05:53 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1569920756;
-        bh=JRJjwuTCLks0eTr+fTI0jHF7WDR7bCyYfOCyezjDUU0=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=NiMkUD4EMfYhkUFgPPXqTXTSigYXcehiFZXr4ob1nkn4XKixJIOt4mWuwY67wbOYS
-         lN0AGvUo98AhTsltpUiBCpglj9Jd6heH+2IlkTUxYH/l4z8+PrtKKVnnqbVdR1hNNA
-         TdN/lHE0WF4MNGKjk+62gB67mLRgJS+UueJWkATI=
-Date:   Tue, 1 Oct 2019 10:05:50 +0100
-From:   Will Deacon <will@kernel.org>
-To:     Kees Cook <keescook@chromium.org>
+        id S1727282AbfJAPsO (ORCPT <rfc822;lists+linux-alpha@lfdr.de>);
+        Tue, 1 Oct 2019 11:48:14 -0400
+Received: from mail-pf1-f193.google.com ([209.85.210.193]:37967 "EHLO
+        mail-pf1-f193.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727313AbfJAPsO (ORCPT
+        <rfc822;linux-alpha@vger.kernel.org>); Tue, 1 Oct 2019 11:48:14 -0400
+Received: by mail-pf1-f193.google.com with SMTP id h195so8287692pfe.5
+        for <linux-alpha@vger.kernel.org>; Tue, 01 Oct 2019 08:48:13 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=chromium.org; s=google;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to;
+        bh=aHMpO9J+CUbgrwJq2FPC5hQWPjIgrqNx/lVINe55yAg=;
+        b=jpLjP0sVOqJ1io2GkUXKgc45cxfb7B1taqxOFsmCAMNJmlj5/fV9ZG/T16NITs4W9q
+         cvbqYDNjPkgubuNgZtxJd+JdNRYNQcuTsRwBP+njU1INPXE7gYMZOi6b7xlFMKDrD14J
+         DKcbIR540vNINUnM0FJ0c/BvYD5Gp0RtEXiDQ=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to;
+        bh=aHMpO9J+CUbgrwJq2FPC5hQWPjIgrqNx/lVINe55yAg=;
+        b=ZfhAb5SIiWGA0TL2wjQMAnHITqmMbzYTwsi7+c97QrMKKwLflIAzmzGuzIx+KtuEMH
+         4VL4JFS4mCBPxR0Sp1Tvme3+HuB/Dswo8CYLq4diyt9f4/eEEpB8CD5sZe4CeJFcJ4d1
+         X/6DSjMSJhxbACgZ86JBjmM7yLOmDgEFrOSxuTFkQJJ5PsChTp9whgxYKF6BotJISzY8
+         gcUVw0hw0GBEHvVQgPMzt/XQEmvOTMOthAlb1ON81sjlxbbHm5XTiW98odQrBBipKm/l
+         XeZ6/Cyj+vbYEPW1v6at2agZUCsg8SLuuXw8PAogXws5UCWSPOFCebG1DsFxwmtUF2ab
+         iL5Q==
+X-Gm-Message-State: APjAAAXUI9rTAHuHHdxZFKW2sLBVgUaRcuOvYfAvIeCWL1LifsfRtZDy
+        BxMLejBr4hvTK8Xz5BSM+sL05g==
+X-Google-Smtp-Source: APXvYqyO5jsKdDXhDO3bZGk1Keogaj2M/8EIIuQkcNmk5YSzFsJ5w0LY+0szmD2PzpB1320gFGeS9A==
+X-Received: by 2002:a62:14c2:: with SMTP id 185mr27818394pfu.47.1569944893417;
+        Tue, 01 Oct 2019 08:48:13 -0700 (PDT)
+Received: from www.outflux.net (smtp.outflux.net. [198.145.64.163])
+        by smtp.gmail.com with ESMTPSA id x18sm1559678pge.76.2019.10.01.08.48.12
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 01 Oct 2019 08:48:12 -0700 (PDT)
+Date:   Tue, 1 Oct 2019 08:48:11 -0700
+From:   Kees Cook <keescook@chromium.org>
+To:     Will Deacon <will@kernel.org>
 Cc:     Thomas Gleixner <tglx@linutronix.de>,
         Rick Edgecombe <rick.p.edgecombe@intel.com>,
         Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
@@ -40,66 +58,77 @@ Cc:     Thomas Gleixner <tglx@linutronix.de>,
         Michal Simek <monstr@monstr.eu>, linux-parisc@vger.kernel.org,
         linux-xtensa@linux-xtensa.org, x86@kernel.org,
         linux-kernel@vger.kernel.org
-Subject: Re: [PATCH 14/29] vmlinux.lds.h: Allow EXCEPTION_TABLE to live in
- RO_DATA
-Message-ID: <20191001090549.xxbqarn36unvowrm@willie-the-truck>
+Subject: Re: [PATCH 18/29] arm64: Move EXCEPTION_TABLE to RO_DATA segment
+Message-ID: <201910010846.D0712C1@keescook>
 References: <20190926175602.33098-1-keescook@chromium.org>
- <20190926175602.33098-15-keescook@chromium.org>
+ <20190926175602.33098-19-keescook@chromium.org>
+ <20191001090355.blnaqlf4rfzucpb2@willie-the-truck>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20190926175602.33098-15-keescook@chromium.org>
-User-Agent: NeoMutt/20170113 (1.7.2)
+In-Reply-To: <20191001090355.blnaqlf4rfzucpb2@willie-the-truck>
 Sender: linux-alpha-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-alpha.vger.kernel.org>
 X-Mailing-List: linux-alpha@vger.kernel.org
 
-On Thu, Sep 26, 2019 at 10:55:47AM -0700, Kees Cook wrote:
-> Many architectures have an EXCEPTION_TABLE that needs only to be
-> read-only. As such, it should live in RO_DATA. This creates a macro to
-> identify this case for the architectures that can move EXCEPTION_TABLE
-> into RO_DATA.
+On Tue, Oct 01, 2019 at 10:03:56AM +0100, Will Deacon wrote:
+> Hi Kees,
 > 
-> Signed-off-by: Kees Cook <keescook@chromium.org>
-> ---
->  include/asm-generic/vmlinux.lds.h | 12 ++++++++++++
->  1 file changed, 12 insertions(+)
+> On Thu, Sep 26, 2019 at 10:55:51AM -0700, Kees Cook wrote:
+> > The EXCEPTION_TABLE is read-only, so collapse it into RO_DATA.
+> > 
+> > Signed-off-by: Kees Cook <keescook@chromium.org>
+> > ---
+> >  arch/arm64/kernel/vmlinux.lds.S | 6 ++++--
+> >  1 file changed, 4 insertions(+), 2 deletions(-)
+> > 
+> > diff --git a/arch/arm64/kernel/vmlinux.lds.S b/arch/arm64/kernel/vmlinux.lds.S
+> > index 81d94e371c95..c6ba2eee0ee8 100644
+> > --- a/arch/arm64/kernel/vmlinux.lds.S
+> > +++ b/arch/arm64/kernel/vmlinux.lds.S
+> > @@ -5,6 +5,8 @@
+> >   * Written by Martin Mares <mj@atrey.karlin.mff.cuni.cz>
+> >   */
+> >  
+> > +#define RO_DATA_EXCEPTION_TABLE_ALIGN	8
+> > +
+> >  #include <asm-generic/vmlinux.lds.h>
+> >  #include <asm/cache.h>
+> >  #include <asm/kernel-pgtable.h>
+> > @@ -135,8 +137,8 @@ SECTIONS
+> >  	. = ALIGN(SEGMENT_ALIGN);
+> >  	_etext = .;			/* End of text section */
+> >  
+> > -	RO_DATA(PAGE_SIZE)		/* everything from this point to     */
+> > -	EXCEPTION_TABLE(8)		/* __init_begin will be marked RO NX */
+> > +	/* everything from this point to __init_begin will be marked RO NX */
+> > +	RO_DATA(PAGE_SIZE)
+> >  
+> >  	. = ALIGN(PAGE_SIZE);
 > 
-> diff --git a/include/asm-generic/vmlinux.lds.h b/include/asm-generic/vmlinux.lds.h
-> index d57a28786bb8..35a6cba39d9f 100644
-> --- a/include/asm-generic/vmlinux.lds.h
-> +++ b/include/asm-generic/vmlinux.lds.h
-> @@ -69,6 +69,17 @@
->  #define NOTES_HEADERS_RESTORE
->  #endif
->  
-> +/*
-> + * Some architectures have non-executable read-only exception tables.
-> + * They can be added to the RO_DATA segment by specifying their desired
-> + * alignment.
-> + */
-> +#ifdef RO_DATA_EXCEPTION_TABLE_ALIGN
-> +#define RO_DATA_EXCEPTION_TABLE	EXCEPTION_TABLE(RO_DATA_EXCEPTION_TABLE_ALIGN)
-> +#else
-> +#define RO_DATA_EXCEPTION_TABLE
-> +#endif
-> +
->  /* Align . to a 8 byte boundary equals to maximum function alignment. */
->  #define ALIGN_FUNCTION()  . = ALIGN(8)
->  
-> @@ -508,6 +519,7 @@
->  		__stop___modver = .;					\
->  	}								\
->  									\
-> +	RO_DATA_EXCEPTION_TABLE						\
->  	NOTES								\
->  									\
->  	. = ALIGN((align));						\
+> Do you reckon it would be worth merging this last ALIGN directive into the
+> RO_DATA definition too? Given that we want to map the thing read-only, it
+> really has to be aligned either side.
 
-I had to read this one to understand the later arm64 change. It looks
-fine to me, so:
+Actually, taking a closer look, this appears to be redundant: RO_DATA()
+ends with:
 
-Acked-by: Will Deacon <will@kernel.org>
+	. = ALIGN(align)
 
-Will
+(where "align" is the "PAGE_SIZE" argument to RO_DATA())
+
+> Anyway, that's only a nit, so:
+> 
+> Acked-by: Will Deacon <will@kernel.org>
+
+Thanks!
+
+> P.S. Please CC the arm64 maintainers on arm64 patches -- I nearly missed
+> this one!
+
+Okay, I can re-expand my list. I originally had done this but it was
+getting to be a rather large set of people. :)
+
+-- 
+Kees Cook
