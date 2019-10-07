@@ -2,78 +2,129 @@ Return-Path: <linux-alpha-owner@vger.kernel.org>
 X-Original-To: lists+linux-alpha@lfdr.de
 Delivered-To: lists+linux-alpha@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id E9B4EC962D
-	for <lists+linux-alpha@lfdr.de>; Thu,  3 Oct 2019 03:29:52 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 16E73CDCCE
+	for <lists+linux-alpha@lfdr.de>; Mon,  7 Oct 2019 10:05:34 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727618AbfJCB3w (ORCPT <rfc822;lists+linux-alpha@lfdr.de>);
-        Wed, 2 Oct 2019 21:29:52 -0400
-Received: from eddie.linux-mips.org ([148.251.95.138]:43768 "EHLO
-        cvs.linux-mips.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726214AbfJCB3w (ORCPT
-        <rfc822;linux-alpha@vger.kernel.org>); Wed, 2 Oct 2019 21:29:52 -0400
-Received: (from localhost user: 'macro', uid#1010) by eddie.linux-mips.org
-        with ESMTP id S23992741AbfJCB3r1Jipn (ORCPT
-        <rfc822;linux-alpha@vger.kernel.org> + 2 others);
-        Thu, 3 Oct 2019 03:29:47 +0200
-Date:   Thu, 3 Oct 2019 02:29:47 +0100 (BST)
-From:   "Maciej W. Rozycki" <macro@linux-mips.org>
-To:     Thomas Bogendoerfer <tsbogend@alpha.franken.de>
-cc:     Helge Deller <deller@gmx.de>,
-        John David Anglin <dave.anglin@bell.net>,
-        Arlie Davis <arlied@google.com>, Andrew Lunn <andrew@lunn.ch>,
-        netdev@vger.kernel.org, linux-parisc@vger.kernel.org,
+        id S1727028AbfJGIFc (ORCPT <rfc822;lists+linux-alpha@lfdr.de>);
+        Mon, 7 Oct 2019 04:05:32 -0400
+Received: from smtp-4.orcon.net.nz ([60.234.4.59]:52097 "EHLO
+        smtp-4.orcon.net.nz" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726889AbfJGIFc (ORCPT
+        <rfc822;linux-alpha@vger.kernel.org>); Mon, 7 Oct 2019 04:05:32 -0400
+X-Greylist: delayed 1052 seconds by postgrey-1.27 at vger.kernel.org; Mon, 07 Oct 2019 04:05:30 EDT
+Received: from [121.99.228.40] (port=39233 helo=tower)
+        by smtp-4.orcon.net.nz with esmtpa (Exim 4.90_1)
+        (envelope-from <mcree@orcon.net.nz>)
+        id 1iHNkL-0005hT-Hg; Mon, 07 Oct 2019 20:47:57 +1300
+Date:   Mon, 7 Oct 2019 20:47:52 +1300
+From:   Michael Cree <mcree@orcon.net.nz>
+To:     Linus Torvalds <torvalds@linux-foundation.org>
+Cc:     linux-arch <linux-arch@vger.kernel.org>,
         linux-alpha@vger.kernel.org
-Subject: Re: Bug report (with fix) for DEC Tulip driver (de2104x.c)
-In-Reply-To: <20190918132736.GA9231@alpha.franken.de>
-Message-ID: <alpine.LFD.2.21.1910030146380.29399@eddie.linux-mips.org>
-References: <CAK-9enMxA68mRYFG=2zD02guvCqe-aa3NO0YZuJcTdBWn5MPqg@mail.gmail.com> <20190917212844.GJ9591@lunn.ch> <CAK-9enOx8xt_+t6-rpCGEL0j-HJGm=sFXYq9-pgHQ26AwrGm5Q@mail.gmail.com> <df0f961d-2d53-63e3-8087-6f0b09e14317@bell.net> <f71e9773-5cfb-f20b-956f-d98b11a5d4a7@gmx.de>
- <20190918132736.GA9231@alpha.franken.de>
-User-Agent: Alpine 2.21 (LFD 202 2017-01-01)
+Subject: Re: Unaligned user pointer issues..
+Message-ID: <20191007074752.GA3441@tower>
+Mail-Followup-To: Michael Cree <mcree@orcon.net.nz>,
+        Linus Torvalds <torvalds@linux-foundation.org>,
+        linux-arch <linux-arch@vger.kernel.org>,
+        linux-alpha@vger.kernel.org
+References: <CAHk-=wiGqnJc6obUGSAsP8YCFEb_ZhD2Zfz-aWxdS_E_R_1xVw@mail.gmail.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8BIT
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <CAHk-=wiGqnJc6obUGSAsP8YCFEb_ZhD2Zfz-aWxdS_E_R_1xVw@mail.gmail.com>
+User-Agent: Mutt/1.10.1 (2018-07-13)
+X-GeoIP: NZ
+X-Spam_score: -2.9
+X-Spam_score_int: -28
+X-Spam_bar: --
 Sender: linux-alpha-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-alpha.vger.kernel.org>
 X-Mailing-List: linux-alpha@vger.kernel.org
 
-On Wed, 18 Sep 2019, Thomas Bogendoerfer wrote:
-
-> > >> Likewise, I'm at a loss for testing with real hardware. It's hard to
-> > >> find such things, now.
-> > > How does de2104x compare to ds2142/43?  I have a c3750 with ds2142/43 tulip.  Helge
-> > > or some others might have a machine with a de2104x.
-> > 
-> > The machines we could test are
-> > * a C240 with a DS21140 tulip chip (Sven has one),
-> > * a C3000 or similiar with DS21142 and/or DS21143 (me).
-> > 
-> > If the patch does not show any regressions, I'd suggest to
-> > apply it upstream.
+On Sun, Oct 06, 2019 at 08:25:05PM -0700, Linus Torvalds wrote:
+> So Guenther Roeck reported that my fancy readdir() user access
+> optimization broke alpha and sparc64 boot for him.
 > 
-> 2114x chips use a different driver, so it won't help here.
+> (It really improves things on x86 - I swear! The cost of telling the
+> CPU over and over again to "please allow user space accesses" is
+> horrendously high, so doing the whole "user_access_begin()/end() just
+> _once_ per dirent is a big deal).
+> 
+> It turns out that it's broken on at least alpha because it does that
+> filename copy to user space by hand, and the "linux_filldir64"
+> structure is set up so that the name part is basically never aligned.
+> So when it does the word copies, it does them as unaligned
+> "put_user()" invocations.
+> 
+> I'll fix it, never fear, since it's clearly a horrible performance
+> pessimization on architectures that don't deal unaligned accesses
+> well.
+> 
+> However, at least on alpha, it's not just that unaligned user accesses
+> were slow, they didn't actually _work_.
+> 
+> And that's a problem.
+> 
+> Because they are easy to trigger from user space even without any new
+> readdir code.
+> 
+> This trivial program causes a kernel oops on alpha:
+> 
+>   #define _GNU_SOURCE
+>   #include <unistd.h>
+>   #include <sys/mman.h>
+> 
+>   int main(int argc, char **argv)
+>   {
+>         void *mymap;
+>         uid_t *bad_ptr = (void *) 0x01;
+> 
+>         /* Create unpopulated memory area */
+>         mymap = mmap(NULL, 16384,
+>                 PROT_READ | PROT_WRITE,
+>                 MAP_PRIVATE | MAP_ANONYMOUS,
+>                 -1, 0);
+> 
+>         /* Unaligned uidpointer in that memory area */
+>         bad_ptr = mymap+1;
+> 
+>         /* Make the kernel do put_user() on it */
+>         return getresuid(bad_ptr, bad_ptr+1, bad_ptr+2);
+>   }
+> 
+> because getresuid() does "put_user()" on that unaligned pointer, and
+> it looks like something goes badly sideways when it first takes the
+> unaligned trap, and then the unaligned trap handler gets an exception
+> on the emulation code.
+> 
+> I'm not sure what the alpha bug is (I looked at the code just long
+> enough to see that it _tries_ to do the exception handling), but the
+> fact that apparently I broke at least sparc64 too makes me suspect
+> that other architectures have this issue too.
+> 
+> So hey, can I ask architecture maintainers to try the above trivial
+> program and see how it works (or doesn't)?
+> 
+> On alpha, when Guenther tried my silly test-program, he reported:
+> 
+>   # ./mmtest
+>   Unable to handle kernel paging request at virtual address 0000000000000004
+>   mmtest(75): Oops -1
+>   pc = [<0000000000000004>]  ra = [<fffffc0000311584>]  ps = 0000    Not tainted
+>   pc is at 0x4
+>   ra is at entSys+0xa4/0xc0
+>   v0 = fffffffffffffff2  t0 = 0000000000000000  t1 = 0000000000000000
+>   ...
+> 
+> which is not what is supposed to happen ;)
 
- Asking at `linux-alpha' (cc-ed) might help; these chips used to be 
-ubiquitous with older Alpha systems, so someone subscribed there might be 
-able to step in and help right away.  Also testing with an Alpha always 
-has the advantage of exposing any weak ordering issues.
+Testing the above on an XP1000 running 5.4.0-rc2 built for Alpha
+DP264 reveals no problems.  No Oops reported.  Unaligned access
+count goes up by three in /proc/cpuinfo as expected.  But
+interestingly the kernel unaligned access count is quite high
+(14000 or so) on this kernel after boot whereas with the 5.2.y
+kernel I was recently running it was zero.
 
- Myself I have an AS 300 (or AS 250 really as I suspect a mismatch between 
-the enclosure and the MB; the two systems are almost identical anyway) and 
-it does have a real 21040 chip on its riser I/O module.  However I have 
-never got to setting up Linux on that machine and it may take me a bit to 
-get it running suitably to get any verification done I'm afraid.
-
- NB for the original 21040 part "DECchip 21040 Ethernet LAN Controller for 
-PCI Hardware Reference Manual", Order Number: EC-N0752-72, available here:
-<ftp://ftp.netbsd.org/pub/NetBSD/misc/dec-docs/ec-n0752-72.ps.gz> is 
-probably more relevant, although in the area concerned here it seems the 
-same.
-
- Finally I don't expect any race condition in possibly examining control 
-bits in the transmit interrupt handler as this is what the descriptor 
-ownership bit guards against -- only when a descriptor is owned by the 
-host accesses from the CPU side are allowed, and then it is safe to fiddle 
-with any field.
-
-  Maciej
+Cheers,
+Michael.
