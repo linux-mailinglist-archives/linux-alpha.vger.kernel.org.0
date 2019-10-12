@@ -2,56 +2,97 @@ Return-Path: <linux-alpha-owner@vger.kernel.org>
 X-Original-To: lists+linux-alpha@lfdr.de
 Delivered-To: lists+linux-alpha@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 3A12CD50CD
-	for <lists+linux-alpha@lfdr.de>; Sat, 12 Oct 2019 18:01:33 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 26780D50D3
+	for <lists+linux-alpha@lfdr.de>; Sat, 12 Oct 2019 18:04:56 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728732AbfJLQBa (ORCPT <rfc822;lists+linux-alpha@lfdr.de>);
-        Sat, 12 Oct 2019 12:01:30 -0400
-Received: from nms02.ip-net.mgrs.ru ([178.237.242.9]:45450 "EHLO
-        nms02.ip-net.mgrs.ru" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727115AbfJLP7a (ORCPT
+        id S1729257AbfJLQEz (ORCPT <rfc822;lists+linux-alpha@lfdr.de>);
+        Sat, 12 Oct 2019 12:04:55 -0400
+Received: from mail-qt1-f193.google.com ([209.85.160.193]:33002 "EHLO
+        mail-qt1-f193.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727939AbfJLQCx (ORCPT
         <rfc822;linux-alpha@vger.kernel.org>);
-        Sat, 12 Oct 2019 11:59:30 -0400
-Received: from User (localhost.localdomain [127.0.0.1])
-        by nms02.ip-net.mgrs.ru (Postfix) with SMTP id 562F84E11B6;
-        Sat, 12 Oct 2019 08:16:18 +0300 (MSK)
-Reply-To: <kepe19655@aol.com>
-From:   "Mr. Henk Boelens" <info@wholeearth.com>
-To:     henkboelens2016@contractor.net
-Subject: GOOD DAY?
-Date:   Fri, 11 Oct 2019 22:17:04 -0700
+        Sat, 12 Oct 2019 12:02:53 -0400
+Received: by mail-qt1-f193.google.com with SMTP id r5so18625370qtd.0
+        for <linux-alpha@vger.kernel.org>; Sat, 12 Oct 2019 09:02:52 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=mime-version:reply-to:from:date:message-id:subject:to
+         :content-transfer-encoding;
+        bh=115n8fVPcb6FFdMlLEXy4f+oj6Xj6AxVK8mXd42SbSI=;
+        b=CGxTjducfs3i9fL9ZR/VcEs9UZRrWGrQ2h8205POiIL9yO/40CKYwPWD71NnFVxR5l
+         N6obY98Vpq4vgEOSnYTswhKpfbN/U6HjKuojF3XjAVOFHqO7hVtA0rg8tsB9ETz7oC/N
+         TIQz7gc5w0oatZqPJnwX57eKBIMYj/OowfUdngO85pbGuB/VTIyC10dEXpmRvaoaVZmf
+         Oj9NQp6s+EndxjTshCZlxqlmj0e80CAXX2bcLfQULS7n11/NCfv15eJ56YHj/WchAWXH
+         al6sFAZOZG11qrPIUTuqTjX+GRry17qnGDjAhq13inFg5F2GTgaxexcMYrx14XBTPXNi
+         SfgQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:reply-to:from:date:message-id
+         :subject:to:content-transfer-encoding;
+        bh=115n8fVPcb6FFdMlLEXy4f+oj6Xj6AxVK8mXd42SbSI=;
+        b=eWzzE0LnGm1AYOR8eV3Ek/w+Y/24heUxK0L/d9vpXw6+JR6KwsfrDqoSyLQTmH1ozS
+         sXfXxLSDNa5fibKnPyP2znACzadYIs2RiGcJJj+AXsAzl/WCvYolITW2PtMkh0UbMh90
+         O0t0iVMiz1595ULkvsn1WUrDit/uRnoCHDCl1arc/GU1gbtR6YdOAu8Upv2rt/VNVoD+
+         ULubVKtsvzhg5FR+yeZW1X4yhqEha5DwywM3xYVzd3J3hB6ruzu2K9NF68hDDIeDJlMh
+         j6WXSS0QYPf4qFzfWf2WD+/B5Q3/CO9SI+j4mgrtbDshSafyumT0+3LyiYGfTzgyvuIl
+         EkDA==
+X-Gm-Message-State: APjAAAXUYNZkQoK3gtejdHh+LuCpnBsw7uAD7ikSEUGbiANR/r5GxCW1
+        /6BHqiHtmzTMixyx3AomVmRHHWimv59Eu6e3bn4=
+X-Google-Smtp-Source: APXvYqxIJ55vEKe7JqfFUqWpUX+HFLn9NxIYRwXDaTvESKfz64imklWfqUOF8EfZgXOON5gnn+AQtKzCyF5Mx07h2to=
+X-Received: by 2002:ad4:4342:: with SMTP id q2mr22403420qvs.42.1570896171755;
+ Sat, 12 Oct 2019 09:02:51 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain;
-        charset="Windows-1251"
-Content-Transfer-Encoding: 7bit
-X-Priority: 3
-X-MSMail-Priority: Normal
-X-Mailer: Microsoft Outlook Express 6.00.2600.0000
-X-MimeOLE: Produced By Microsoft MimeOLE V6.00.2600.0000
-Message-Id: <20191012051619.562F84E11B6@nms02.ip-net.mgrs.ru>
+Received: by 2002:a0c:f245:0:0:0:0:0 with HTTP; Sat, 12 Oct 2019 09:02:51
+ -0700 (PDT)
+Reply-To: ayishagddafio@mail.com
+From:   Aisha Gadafi <aishagddafi680@gmail.com>
+Date:   Sat, 12 Oct 2019 09:02:51 -0700
+Message-ID: <CAO3Jird+CkVKKsRDZ6WE7Ba9BpHx23EnoiaCOxEDFx1xpK7KSA@mail.gmail.com>
+Subject: Dear Friend (Assalamu Alaikum),
+To:     undisclosed-recipients:;
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 Sender: linux-alpha-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-alpha.vger.kernel.org>
 X-Mailing-List: linux-alpha@vger.kernel.org
 
-Western Associate Bank
-Bank Address:Tower Building 83 Hull Road
-Oxwich Brussels Belgium
+--=20
+Lieber Freund (Assalamu Alaikum),
 
-Dear Friend
+Ich bin vor einer privaten Suche auf Ihren E-Mail-Kontakt gesto=C3=9Fen
+Ihre Hilfe. Mein Name ist Aisha Al-Qaddafi, alleinerziehende Mutter und Wit=
+we
+mit drei Kindern. Ich bin die einzige biologische Tochter des sp=C3=A4ten L=
+ibyers
+Pr=C3=A4sident (Oberst Muammar Gaddafi).
 
-Please accept my apologies if this request does not meet your personal ethics as it is not intended to cause you any embarrassment in what ever form. I got your
-contact email address from the internet directory and decided to contact you for this transaction that is based on trust and your outstanding. I have an interesting business proposal for you that will be of immense benefit to both of us. Although this may be hard for you to believe because i know that there is absolutely going to be a great doubt and distrust in your heart in respect of this email as this might sound strange to you and coupled with the fact that, so many individuals have taken possession of the Internet to facilitate their nefarious deeds, thereby making it extremely difficult for genuine and legitimate persons to get attention and recognition. Please grant me the benefit of doubt and hear me out.
+Ich habe Investmentfonds im Wert von siebenundzwanzig Millionen und
+f=C3=BCnfhunderttausend
+United State Dollar (27.500.000,00 $) und ich brauche eine
+vertrauensw=C3=BCrdige Investition
+Manager / Partner wegen meines aktuellen Fl=C3=BCchtlingsstatus bin ich jed=
+och
+Interesse an Ihnen f=C3=BCr die Unterst=C3=BCtzung von Investitionsprojekte=
+n in
+Ihrem Land, kann sein
+Von dort aus k=C3=B6nnen wir in n=C3=A4chster Zukunft eine Gesch=C3=A4ftsbe=
+ziehung aufbauen.
 
-My name is Henk Boelens . I work with Western Associate Bank here in Belgium as a branch bank manager. I discovered an abandoned sum of GBP 19,850,000.00 (Nineteen Million Eight Hundred And Fifty Thousand British Pounds) in an account that belongs to one of our foreign customers Late Dr. Erin Jacobson, an American citizen who unfortunately lost his life and his entire family in Montana plane crash on March 23, 2009, on their way to a group ski vacation. The choice of contacting you is aroused from the geographical nature of where you live, particularly due to the sensitivity of this transaction and the confidentiality herein. Now our bank has been waiting for any of the relatives to come up for the claim but nobody has done that. I personally tried to locate any member of his family but have been unsuccessful in locating the relatives for 7 years now, i have also checked the deposit documents and discovered that he did not declare any next of kin on the deposit.
+Ich bin gerne bereit, mit Ihnen das Verh=C3=A4ltnis der Beteiligungsquote z=
+u teilen
+st=C3=BCtzen Sie sich auf die zuk=C3=BCnftigen Investitionen, die Gewinne e=
+rzielen.
 
-Now the Management of our bank as instructed me to look for the next of kin or they will convert the funds into the Government Treasury Account as unclaimed funds and the funds will be wasted. Therefore, I cannot claim these funds without presenting a foreigner to stand as next of kin. This is reason why I contacted you to seek your consent to present you as an next of kin so that the funds will be release to you, then we share it 55% for me and 45% for you because am not a
-greedy person and is deal between me and you.
+Wenn Sie bereit sind, dieses Projekt in meinem Namen durchzuf=C3=BChren,
+antworten Sie bitte dringend
+Damit ich Ihnen mehr Informationen =C3=BCber die Investmentfonds geben kann=
+.
 
-I have employed the service of an Attorney who will secure all necessary legal documents that could be used to back up this claim. All the attorney need to do is to fill in your names to the documents and legalize it in the Court here to prove you as the legitimate next of kin to the late depositor Dr. Erin Jacobson then the bank will release the funds to you as the rightful beneficiary.
+Ihre dringende Antwort wird gesch=C3=A4tzt. Schreiben Sie mir an diese
+E-Mail-Adresse (
+ayishagddafio@mail.com ) zur weiteren Diskussion.
 
-This is a fair deal without any risk attached either on your part or on my part as long as we comply with the laws governing the claiming of funds in our establishment. All I require is your honest co-operation to enable us see this deal through, and with my position in the bank as a bank manager, I will do every thing possible to protect your interest and to make sure everything workout successfully.
-
-If you are interested in this deal, kindly send me your complete information, your full names and address, Your Private telephone and Fax numbers, and Cell phone so that the attorney will start processing the necessary paperwork that would facilitate the release of the funds to you.
-
-Mr. Henk Boelens
+Freundliche Gr=C3=BC=C3=9Fe
+Frau Aisha Al-Gaddafi
+Antwort an: ayishagddafio@mail.com
