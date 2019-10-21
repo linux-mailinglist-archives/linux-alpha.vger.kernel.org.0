@@ -2,61 +2,120 @@ Return-Path: <linux-alpha-owner@vger.kernel.org>
 X-Original-To: lists+linux-alpha@lfdr.de
 Delivered-To: lists+linux-alpha@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 0485EDE24C
-	for <lists+linux-alpha@lfdr.de>; Mon, 21 Oct 2019 04:43:27 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 80ED1DE5A1
+	for <lists+linux-alpha@lfdr.de>; Mon, 21 Oct 2019 09:58:44 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726873AbfJUCn0 (ORCPT <rfc822;lists+linux-alpha@lfdr.de>);
-        Sun, 20 Oct 2019 22:43:26 -0400
-Received: from [185.116.42.18] ([185.116.42.18]:30603 "EHLO swnlsrv_1"
-        rhost-flags-FAIL-FAIL-FAIL-FAIL) by vger.kernel.org with ESMTP
-        id S1726778AbfJUCn0 (ORCPT <rfc822;linux-alpha@vger.kernel.org>);
-        Sun, 20 Oct 2019 22:43:26 -0400
-Received: from 127.0.0.1 (localhost [127.0.0.1])
-        by swnlsrv_1 (Postfix) with SMTP id BD1F3CA95FD;
-        Sat, 19 Oct 2019 03:09:37 +0200 (CEST)
-Received: from [144.18.21.197] by 127.0.0.1 id r4UYz28UYT2v for <kema@intnet.mu>; Fri, 18 Oct 2019 20:07:50 -0500
-Message-ID: <q9$-$$t0akh-y-9$$k3$y470@kn8mk>
-From:   "Mr Barrister Hans Erich" <Barrister_Hans@stationlibraryjhelum.com>
-Reply-To: "Mr Barrister Hans Erich" <Barrister_Hans@stationlibraryjhelum.com>
-To:     kema@intnet.mu
-Subject: RE:PERSONAL LETTER FROM MRS RASHIA AMIRA
-Date:   Fri, 18 Oct 19 20:07:50 GMT
-X-Mailer: Microsoft Outlook Express 5.00.2919.6700
+        id S1727406AbfJUH6n (ORCPT <rfc822;lists+linux-alpha@lfdr.de>);
+        Mon, 21 Oct 2019 03:58:43 -0400
+Received: from mail.kernel.org ([198.145.29.99]:47006 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1727239AbfJUH6n (ORCPT <rfc822;linux-alpha@vger.kernel.org>);
+        Mon, 21 Oct 2019 03:58:43 -0400
+Received: from mail-wr1-f50.google.com (mail-wr1-f50.google.com [209.85.221.50])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+        (No client certificate requested)
+        by mail.kernel.org (Postfix) with ESMTPSA id 77CC5218AC;
+        Mon, 21 Oct 2019 07:58:41 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=default; t=1571644721;
+        bh=HaNxatOx3Yl+LjuXNZSg9j6rwSnjKUPc8eLVmd61SU0=;
+        h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+        b=luHraHozlqKNUHwEUrw+p/CKnNkzg4GhLnRI3IQVw1ZUnmvt4Cwl7ABV+5EzHS34g
+         CqVlZgKrjSy7nsjEnaLPBzt8i8/jWykyodKl+iP31wL1BC0A++0dn8emaiIgMxVUqa
+         6AeBtKgvcbANkPSenLQVsuD5VltHn5JOl0JQoRvI=
+Received: by mail-wr1-f50.google.com with SMTP id e11so3977103wrv.4;
+        Mon, 21 Oct 2019 00:58:41 -0700 (PDT)
+X-Gm-Message-State: APjAAAV4W1flYsylqq7vFVqeS8VJ1GRc94UTgTHPcKHekPMu1UneTyX2
+        fiut8z6q/ojUxrW+GLZU26l8jt0rhpc0sk23yzg=
+X-Google-Smtp-Source: APXvYqzvF6HJCASpTMUMf7HweDv3Hno9oEAxiqhI3GBGEOPTWQrWQiETxVnKLeVHbQ3ma/xucSMvECIDZp2EBxJkKe8=
+X-Received: by 2002:adf:ebcb:: with SMTP id v11mr17344477wrn.24.1571644719802;
+ Mon, 21 Oct 2019 00:58:39 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: multipart/alternative;
-        boundary="5._8E.172_A_.937.FA6_FE_"
-X-Priority: 3
-X-MSMail-Priority: Normal
+References: <20191017174554.29840-1-hch@lst.de> <20191017174554.29840-21-hch@lst.de>
+In-Reply-To: <20191017174554.29840-21-hch@lst.de>
+From:   Guo Ren <guoren@kernel.org>
+Date:   Mon, 21 Oct 2019 15:58:28 +0800
+X-Gmail-Original-Message-ID: <CAJF2gTQ_VeBfi1uaafgtp+uA2skq-w2px12ig=5QD1O9J+PgbA@mail.gmail.com>
+Message-ID: <CAJF2gTQ_VeBfi1uaafgtp+uA2skq-w2px12ig=5QD1O9J+PgbA@mail.gmail.com>
+Subject: Re: [PATCH 20/21] csky: remove ioremap_cache
+To:     Christoph Hellwig <hch@lst.de>
+Cc:     Arnd Bergmann <arnd@arndb.de>, Michal Simek <monstr@monstr.eu>,
+        Greentime Hu <green.hu@gmail.com>,
+        Vincent Chen <deanbo422@gmail.com>,
+        Guan Xuetao <gxt@pku.edu.cn>, x86@kernel.org,
+        linux-alpha@vger.kernel.org, linux-snps-arc@lists.infradead.org,
+        linux-arm-kernel@lists.infradead.org,
+        linux-hexagon@vger.kernel.org, linux-ia64@vger.kernel.org,
+        linux-m68k@lists.linux-m68k.org, linux-mips@vger.kernel.org,
+        nios2-dev@lists.rocketboards.org, openrisc@lists.librecores.org,
+        linux-parisc@vger.kernel.org, linux-riscv@lists.infradead.org,
+        linux-s390@vger.kernel.org, linux-sh@vger.kernel.org,
+        sparclinux@vger.kernel.org, linux-xtensa@linux-xtensa.org,
+        linux-mtd@lists.infradead.org,
+        linux-arch <linux-arch@vger.kernel.org>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-alpha-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-alpha.vger.kernel.org>
 X-Mailing-List: linux-alpha@vger.kernel.org
 
+Acked-by: Guo Ren <guoren@kernel.org>
 
---5._8E.172_A_.937.FA6_FE_
-Content-Type: text/plain;
-Content-Transfer-Encoding: quoted-printable
+On Fri, Oct 18, 2019 at 1:47 AM Christoph Hellwig <hch@lst.de> wrote:
+>
+> No driver that can be used on csky uses ioremap_cache, and this
+> interface has been deprecated in favor of memremap.
+>
+> Signed-off-by: Christoph Hellwig <hch@lst.de>
+> ---
+>  arch/csky/include/asm/io.h | 2 --
+>  arch/csky/mm/ioremap.c     | 7 -------
+>  2 files changed, 9 deletions(-)
+>
+> diff --git a/arch/csky/include/asm/io.h b/arch/csky/include/asm/io.h
+> index a4b9fb616faa..f572605d5ad5 100644
+> --- a/arch/csky/include/asm/io.h
+> +++ b/arch/csky/include/asm/io.h
+> @@ -36,13 +36,11 @@
+>  /*
+>   * I/O memory mapping functions.
+>   */
+> -extern void __iomem *ioremap_cache(phys_addr_t addr, size_t size);
+>  extern void __iomem *__ioremap(phys_addr_t addr, size_t size, pgprot_t prot);
+>  extern void iounmap(void *addr);
+>
+>  #define ioremap(addr, size)            __ioremap((addr), (size), pgprot_noncached(PAGE_KERNEL))
+>  #define ioremap_wc(addr, size)         __ioremap((addr), (size), pgprot_writecombine(PAGE_KERNEL))
+> -#define ioremap_cache                  ioremap_cache
+>
+>  #include <asm-generic/io.h>
+>
+> diff --git a/arch/csky/mm/ioremap.c b/arch/csky/mm/ioremap.c
+> index e13cd3497628..ae78256a56fd 100644
+> --- a/arch/csky/mm/ioremap.c
+> +++ b/arch/csky/mm/ioremap.c
+> @@ -44,13 +44,6 @@ void __iomem *__ioremap(phys_addr_t phys_addr, size_t size, pgprot_t prot)
+>  }
+>  EXPORT_SYMBOL(__ioremap);
+>
+> -void __iomem *ioremap_cache(phys_addr_t phys_addr, size_t size)
+> -{
+> -       return __ioremap_caller(phys_addr, size, PAGE_KERNEL,
+> -                               __builtin_return_address(0));
+> -}
+> -EXPORT_SYMBOL(ioremap_cache);
+> -
+>  void iounmap(void __iomem *addr)
+>  {
+>         vunmap((void *)((unsigned long)addr & PAGE_MASK));
+> --
+> 2.20.1
+>
 
-Greetings
 
-My name is Barrister Hans Erich.
+-- 
+Best Regards
+ Guo Ren
 
-I have a client who is interested to invest in your country, she is a well=
- known politician in her country and deserve a lucrative investment partne=
-rship with you outside her country without any delay   Please can you mana=
-ge such investment please Kindly reply for further details.
-
-Your full names ---------
-
-
-Your urgent response will be appreciated
-
-Thank you and God bless you.
-
-Barrister Hans Erich
-
-Yours sincerely,
-Barrister Hans Erich
-
---5._8E.172_A_.937.FA6_FE_--
-
+ML: https://lore.kernel.org/linux-csky/
