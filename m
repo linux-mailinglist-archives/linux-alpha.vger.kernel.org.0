@@ -2,132 +2,177 @@ Return-Path: <linux-alpha-owner@vger.kernel.org>
 X-Original-To: lists+linux-alpha@lfdr.de
 Delivered-To: lists+linux-alpha@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 091B2E8386
-	for <lists+linux-alpha@lfdr.de>; Tue, 29 Oct 2019 09:53:52 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id DDB15E9147
+	for <lists+linux-alpha@lfdr.de>; Tue, 29 Oct 2019 22:14:05 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729637AbfJ2Ixv (ORCPT <rfc822;lists+linux-alpha@lfdr.de>);
-        Tue, 29 Oct 2019 04:53:51 -0400
-Received: from mx2.suse.de ([195.135.220.15]:60248 "EHLO mx1.suse.de"
-        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
-        id S1727377AbfJ2Ixv (ORCPT <rfc822;linux-alpha@vger.kernel.org>);
-        Tue, 29 Oct 2019 04:53:51 -0400
-X-Virus-Scanned: by amavisd-new at test-mx.suse.de
-Received: from relay2.suse.de (unknown [195.135.220.254])
-        by mx1.suse.de (Postfix) with ESMTP id A3A1DB43E;
-        Tue, 29 Oct 2019 08:53:44 +0000 (UTC)
-Date:   Tue, 29 Oct 2019 09:53:36 +0100
-From:   Michal Hocko <mhocko@kernel.org>
-To:     Yunsheng Lin <linyunsheng@huawei.com>
-Cc:     Greg KH <gregkh@linuxfoundation.org>,
-        Peter Zijlstra <peterz@infradead.org>,
-        Robin Murphy <robin.murphy@arm.com>, catalin.marinas@arm.com,
-        will@kernel.org, mingo@redhat.com, bp@alien8.de, rth@twiddle.net,
-        ink@jurassic.park.msu.ru, mattst88@gmail.com,
-        benh@kernel.crashing.org, paulus@samba.org, mpe@ellerman.id.au,
-        heiko.carstens@de.ibm.com, gor@linux.ibm.com,
-        borntraeger@de.ibm.com, ysato@users.sourceforge.jp,
-        dalias@libc.org, davem@davemloft.net, ralf@linux-mips.org,
-        paul.burton@mips.com, jhogan@kernel.org, jiaxun.yang@flygoat.com,
-        chenhc@lemote.com, akpm@linux-foundation.org, rppt@linux.ibm.com,
-        anshuman.khandual@arm.com, tglx@linutronix.de, cai@lca.pw,
-        linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
-        hpa@zytor.com, x86@kernel.org, dave.hansen@linux.intel.com,
-        luto@kernel.org, len.brown@intel.com, axboe@kernel.dk,
-        dledford@redhat.com, jeffrey.t.kirsher@intel.com,
-        linux-alpha@vger.kernel.org, naveen.n.rao@linux.vnet.ibm.com,
-        mwb@linux.vnet.ibm.com, linuxppc-dev@lists.ozlabs.org,
-        linux-s390@vger.kernel.org, linux-sh@vger.kernel.org,
-        sparclinux@vger.kernel.org, tbogendoerfer@suse.de,
-        linux-mips@vger.kernel.org, rafael@kernel.org, bhelgaas@google.com,
-        linux-pci@vger.kernel.org, "Rafael J. Wysocki" <rjw@rjwysocki.net>,
-        lenb@kernel.org, linux-acpi@vger.kernel.org
-Subject: Re: [PATCH v6] numa: make node_to_cpumask_map() NUMA_NO_NODE aware
-Message-ID: <20191029085336.GF31513@dhcp22.suse.cz>
-References: <20190925104108.GE4553@hirez.programming.kicks-ass.net>
- <47fa4cee-8528-7c23-c7de-7be1b65aa2ae@huawei.com>
- <bec80499-86d9-bf1f-df23-9044a8099992@arm.com>
- <a5f0fc80-8e88-b781-77ce-1213e5d62125@huawei.com>
- <20191010073212.GB18412@dhcp22.suse.cz>
- <6cc94f9b-0d79-93a8-5ec2-4f6c21639268@huawei.com>
- <20191011111539.GX2311@hirez.programming.kicks-ass.net>
- <7fad58d6-5126-e8b8-a7d8-a91814da53ba@huawei.com>
- <20191012074014.GA2037204@kroah.com>
- <1ec704df-97a5-04b7-1f20-8e3db19440a3@huawei.com>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <1ec704df-97a5-04b7-1f20-8e3db19440a3@huawei.com>
-User-Agent: Mutt/1.10.1 (2018-07-13)
+        id S1729288AbfJ2VOF (ORCPT <rfc822;lists+linux-alpha@lfdr.de>);
+        Tue, 29 Oct 2019 17:14:05 -0400
+Received: from mail-pf1-f180.google.com ([209.85.210.180]:45245 "EHLO
+        mail-pf1-f180.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1728707AbfJ2VOF (ORCPT
+        <rfc822;linux-alpha@vger.kernel.org>);
+        Tue, 29 Oct 2019 17:14:05 -0400
+Received: by mail-pf1-f180.google.com with SMTP id c7so9353332pfo.12
+        for <linux-alpha@vger.kernel.org>; Tue, 29 Oct 2019 14:14:03 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=chromium.org; s=google;
+        h=from:to:cc:subject:date:message-id;
+        bh=tvuo3Ns0E4Fiim71b6F+/V34tv+uW7W3PecAxYDk1kI=;
+        b=kjmJ2PRco2QbnnQ6/Lb5HykXKFCW8bMSMkr+JBAd0YCZqAHZUBgyl2XlQchiLsBsZA
+         VWyGFqzEFLvF5puyLHdyKCM+5hmQj5PuueBjIKUK8Jn2QPWeJZWfexDjBm6I6dRaBLQj
+         uENAgaybqP2QWV47BGcYFOi14iqWSDuRPGxb4=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id;
+        bh=tvuo3Ns0E4Fiim71b6F+/V34tv+uW7W3PecAxYDk1kI=;
+        b=Ng2uLeEfOszJ5Apc72UqkctSn6SqXLIRrSc6qdwjNB8RYDNpWXUIik9PWcjU3c67nu
+         0cTNefaAZoEiha+e9lS/z+13UQCHX5YR+TbZ4AKiv65DMREhV2OfhKayS4VjYvRZy7cC
+         vdesXySnZx7d/mV3xqJyBGp6ZWINBTtazvTgior6vALd97/t9w9QeIs/42G1nbTz2M0j
+         RTA4vpvTSiNFZRUyad9siwUXlGGXUVbCM/h9EvJyH1pvqGZ3CPOghmZpnZRgvfWwSPP2
+         qA2adZPGlSXc6AFi6o1xzujL2wxIpBvX2+th/RWo6O5MPouoUIohnEf7ugK82NZWTJn2
+         h2LQ==
+X-Gm-Message-State: APjAAAU5VXs/KIsw0STiM9fqyicBunyxNs6k8w4UH5VMMgXJ/NwHUVWJ
+        7UrwehbwsdRM4qXa6bbpnO/T6Q==
+X-Google-Smtp-Source: APXvYqxG6K5OnJmD5FS0dzSHIwPfA6+/IkLP3MyheBThwDhBc+0h1IEDuELusvnpNyG3iWLjyHi91w==
+X-Received: by 2002:a63:471b:: with SMTP id u27mr28891174pga.96.1572383642989;
+        Tue, 29 Oct 2019 14:14:02 -0700 (PDT)
+Received: from www.outflux.net (smtp.outflux.net. [198.145.64.163])
+        by smtp.gmail.com with ESMTPSA id x7sm51799pff.0.2019.10.29.14.13.59
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 29 Oct 2019 14:14:00 -0700 (PDT)
+From:   Kees Cook <keescook@chromium.org>
+To:     Borislav Petkov <bp@alien8.de>
+Cc:     Kees Cook <keescook@chromium.org>,
+        Rick Edgecombe <rick.p.edgecombe@intel.com>,
+        Segher Boessenkool <segher@kernel.crashing.org>,
+        Dave Hansen <dave.hansen@linux.intel.com>,
+        Andy Lutomirski <luto@kernel.org>,
+        Arnd Bergmann <arnd@arndb.de>,
+        Michael Ellerman <mpe@ellerman.id.au>,
+        Heiko Carstens <heiko.carstens@de.ibm.com>,
+        Will Deacon <will@kernel.org>, linux-arch@vger.kernel.org,
+        linux-arm-kernel@lists.infradead.org,
+        linuxppc-dev@lists.ozlabs.org, linux-alpha@vger.kernel.org,
+        linux-ia64@vger.kernel.org, linux-s390@vger.kernel.org,
+        linux-c6x-dev@linux-c6x.org,
+        Yoshinori Sato <ysato@users.sourceforge.jp>,
+        Michal Simek <monstr@monstr.eu>
+Subject: [PATCH v3 00/29] vmlinux.lds.h: Refactor EXCEPTION_TABLE and NOTES
+Date:   Tue, 29 Oct 2019 14:13:22 -0700
+Message-Id: <20191029211351.13243-1-keescook@chromium.org>
+X-Mailer: git-send-email 2.17.1
 Sender: linux-alpha-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-alpha.vger.kernel.org>
 X-Mailing-List: linux-alpha@vger.kernel.org
 
-On Mon 28-10-19 17:20:33, Yunsheng Lin wrote:
-> On 2019/10/12 15:40, Greg KH wrote:
-> > On Sat, Oct 12, 2019 at 02:17:26PM +0800, Yunsheng Lin wrote:
-> >> add pci and acpi maintainer
-> >> cc linux-pci@vger.kernel.org and linux-acpi@vger.kernel.org
-> >>
-> >> On 2019/10/11 19:15, Peter Zijlstra wrote:
-> >>> On Fri, Oct 11, 2019 at 11:27:54AM +0800, Yunsheng Lin wrote:
-> >>>> But I failed to see why the above is related to making node_to_cpumask_map()
-> >>>> NUMA_NO_NODE aware?
-> >>>
-> >>> Your initial bug is for hns3, which is a PCI device, which really _MUST_
-> >>> have a node assigned.
-> >>>
-> >>> It not having one, is a straight up bug. We must not silently accept
-> >>> NO_NODE there, ever.
-> >>>
-> >>
-> >> I suppose you mean reporting a lack of affinity when the node of a pcie
-> >> device is not set by "not silently accept NO_NODE".
-> > 
-> > If the firmware of a pci device does not provide the node information,
-> > then yes, warn about that.
-> > 
-> >> As Greg has asked about in [1]:
-> >> what is a user to do when the user sees the kernel reporting that?
-> >>
-> >> We may tell user to contact their vendor for info or updates about
-> >> that when they do not know about their system well enough, but their
-> >> vendor may get away with this by quoting ACPI spec as the spec
-> >> considering this optional. Should the user believe this is indeed a
-> >> fw bug or a misreport from the kernel?
-> > 
-> > Say it is a firmware bug, if it is a firmware bug, that's simple.
-> > 
-> >> If this kind of reporting is common pratice and will not cause any
-> >> misunderstanding, then maybe we can report that.
-> > 
-> > Yes, please do so, that's the only way those boxes are ever going to get
-> > fixed.  And go add the test to the "firmware testing" tool that is based
-> > on Linux that Intel has somewhere, to give vendors a chance to fix this
-> > before they ship hardware.
-> > 
-> > This shouldn't be a big deal, we warn of other hardware bugs all the
-> > time.
-> 
-> Hi, all.
-> 
-> The warning for the above case has been added in [1].
-> 
-> So maybe it makes sense to make node_to_cpumask_map() NUMA_NO_NODE aware
-> now?
-> 
-> If Yes, this patch still can be applied to the latest linus' tree cleanly,
-> Do I need to resend it?
-> 
+Arch maintainers: please send Acks (if you haven't already) for your
+respective linker script changes; the intention is for this series to land
+via -tip. See patch #1 for an extended rationale for the "note" vs "notes"
+naming. If "notes" is strongly desired, we can perform that change on
+top of this series. For now, I prefer to leave things as they were in v2.
 
-By this patch you mean http://lkml.kernel.org/r/1568724534-146242-1-git-send-email-linyunsheng@huawei.com
-right?
+v3: Add new Acks, clarify "note" vs "notes" renaming
+v2: https://lore.kernel.org/lkml/20191011000609.29728-1-keescook@chromium.org
+v1: https://lore.kernel.org/lkml/20190926175602.33098-1-keescook@chromium.org
 
-I would just resend it unless there is still a clear disagreement over
-it.
 
-> [1] https://lore.kernel.org/linux-pci/1571467543-26125-1-git-send-email-linyunsheng@huawei.com/
+This series works to move the linker sections for NOTES and
+EXCEPTION_TABLE into the RO_DATA area, where they belong on most
+(all?) architectures. The problem being addressed was the discovery
+by Rick Edgecombe that the exception table was accidentally marked
+executable while he was developing his execute-only-memory series. When
+permissions were flipped from readable-and-executable to only-executable,
+the exception table became unreadable, causing things to explode rather
+badly. :)
+
+Roughly speaking, the steps are:
+
+- regularize the linker names for PT_NOTE and PT_LOAD program headers
+  (to "note" and "text" respectively)
+- regularize restoration of linker section to program header assignment
+  (when PT_NOTE exists)
+- move NOTES into RO_DATA
+- finish macro naming conversions for RO_DATA and RW_DATA
+- move EXCEPTION_TABLE into RO_DATA on architectures where this is clear
+- clean up some x86-specific reporting of kernel memory resources
+- switch x86 linker fill byte from x90 (NOP) to 0xcc (INT3), just because
+  I finally realized what that trailing ": 0x9090" meant -- and we should
+  trap, not slide, if execution lands in section padding
+
+Thanks!
+
+-Kees
+
+
+Kees Cook (29):
+  powerpc: Rename "notes" PT_NOTE to "note"
+  powerpc: Remove PT_NOTE workaround
+  powerpc: Rename PT_LOAD identifier "kernel" to "text"
+  alpha: Rename PT_LOAD identifier "kernel" to "text"
+  ia64: Rename PT_LOAD identifier "code" to "text"
+  s390: Move RO_DATA into "text" PT_LOAD Program Header
+  x86: Restore "text" Program Header with dummy section
+  vmlinux.lds.h: Provide EMIT_PT_NOTE to indicate export of .notes
+  vmlinux.lds.h: Move Program Header restoration into NOTES macro
+  vmlinux.lds.h: Move NOTES into RO_DATA
+  vmlinux.lds.h: Replace RODATA with RO_DATA
+  vmlinux.lds.h: Replace RO_DATA_SECTION with RO_DATA
+  vmlinux.lds.h: Replace RW_DATA_SECTION with RW_DATA
+  vmlinux.lds.h: Allow EXCEPTION_TABLE to live in RO_DATA
+  x86: Actually use _etext for end of text segment
+  x86: Move EXCEPTION_TABLE to RO_DATA segment
+  alpha: Move EXCEPTION_TABLE to RO_DATA segment
+  arm64: Move EXCEPTION_TABLE to RO_DATA segment
+  c6x: Move EXCEPTION_TABLE to RO_DATA segment
+  h8300: Move EXCEPTION_TABLE to RO_DATA segment
+  ia64: Move EXCEPTION_TABLE to RO_DATA segment
+  microblaze: Move EXCEPTION_TABLE to RO_DATA segment
+  parisc: Move EXCEPTION_TABLE to RO_DATA segment
+  powerpc: Move EXCEPTION_TABLE to RO_DATA segment
+  xtensa: Move EXCEPTION_TABLE to RO_DATA segment
+  x86/mm: Remove redundant &s on addresses
+  x86/mm: Report which part of kernel image is freed
+  x86/mm: Report actual image regions in /proc/iomem
+  x86: Use INT3 instead of NOP for linker fill bytes
+
+ arch/alpha/kernel/vmlinux.lds.S      | 18 +++++-----
+ arch/arc/kernel/vmlinux.lds.S        |  6 ++--
+ arch/arm/kernel/vmlinux-xip.lds.S    |  4 +--
+ arch/arm/kernel/vmlinux.lds.S        |  4 +--
+ arch/arm64/kernel/vmlinux.lds.S      | 10 +++---
+ arch/c6x/kernel/vmlinux.lds.S        |  8 ++---
+ arch/csky/kernel/vmlinux.lds.S       |  5 ++-
+ arch/h8300/kernel/vmlinux.lds.S      |  9 ++---
+ arch/hexagon/kernel/vmlinux.lds.S    |  5 ++-
+ arch/ia64/kernel/vmlinux.lds.S       | 20 +++++------
+ arch/m68k/kernel/vmlinux-nommu.lds   |  4 +--
+ arch/m68k/kernel/vmlinux-std.lds     |  2 +-
+ arch/m68k/kernel/vmlinux-sun3.lds    |  2 +-
+ arch/microblaze/kernel/vmlinux.lds.S |  8 ++---
+ arch/mips/kernel/vmlinux.lds.S       | 15 ++++----
+ arch/nds32/kernel/vmlinux.lds.S      |  5 ++-
+ arch/nios2/kernel/vmlinux.lds.S      |  5 ++-
+ arch/openrisc/kernel/vmlinux.lds.S   |  7 ++--
+ arch/parisc/kernel/vmlinux.lds.S     | 11 +++---
+ arch/powerpc/kernel/vmlinux.lds.S    | 37 ++++---------------
+ arch/riscv/kernel/vmlinux.lds.S      |  5 ++-
+ arch/s390/kernel/vmlinux.lds.S       | 12 +++----
+ arch/sh/kernel/vmlinux.lds.S         |  3 +-
+ arch/sparc/kernel/vmlinux.lds.S      |  3 +-
+ arch/um/include/asm/common.lds.S     |  3 +-
+ arch/unicore32/kernel/vmlinux.lds.S  |  5 ++-
+ arch/x86/include/asm/processor.h     |  2 +-
+ arch/x86/include/asm/sections.h      |  1 -
+ arch/x86/kernel/setup.c              | 12 ++++++-
+ arch/x86/kernel/vmlinux.lds.S        | 16 ++++-----
+ arch/x86/mm/init.c                   |  8 ++---
+ arch/x86/mm/init_64.c                | 16 +++++----
+ arch/x86/mm/pti.c                    |  2 +-
+ arch/xtensa/kernel/vmlinux.lds.S     |  8 ++---
+ include/asm-generic/vmlinux.lds.h    | 53 ++++++++++++++++++++--------
+ 35 files changed, 159 insertions(+), 175 deletions(-)
 
 -- 
-Michal Hocko
-SUSE Labs
+2.17.1
+
