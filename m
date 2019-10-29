@@ -2,43 +2,43 @@ Return-Path: <linux-alpha-owner@vger.kernel.org>
 X-Original-To: lists+linux-alpha@lfdr.de
 Delivered-To: lists+linux-alpha@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id E26F7E9177
-	for <lists+linux-alpha@lfdr.de>; Tue, 29 Oct 2019 22:14:21 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 56B71E9179
+	for <lists+linux-alpha@lfdr.de>; Tue, 29 Oct 2019 22:14:22 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729620AbfJ2VOV (ORCPT <rfc822;lists+linux-alpha@lfdr.de>);
+        id S1729650AbfJ2VOV (ORCPT <rfc822;lists+linux-alpha@lfdr.de>);
         Tue, 29 Oct 2019 17:14:21 -0400
-Received: from mail-pg1-f193.google.com ([209.85.215.193]:38685 "EHLO
-        mail-pg1-f193.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1729601AbfJ2VOT (ORCPT
+Received: from mail-pl1-f196.google.com ([209.85.214.196]:37205 "EHLO
+        mail-pl1-f196.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1729658AbfJ2VOU (ORCPT
         <rfc822;linux-alpha@vger.kernel.org>);
-        Tue, 29 Oct 2019 17:14:19 -0400
-Received: by mail-pg1-f193.google.com with SMTP id w3so10506636pgt.5
-        for <linux-alpha@vger.kernel.org>; Tue, 29 Oct 2019 14:14:17 -0700 (PDT)
+        Tue, 29 Oct 2019 17:14:20 -0400
+Received: by mail-pl1-f196.google.com with SMTP id p13so8316748pll.4
+        for <linux-alpha@vger.kernel.org>; Tue, 29 Oct 2019 14:14:20 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=chromium.org; s=google;
         h=from:to:cc:subject:date:message-id:in-reply-to:references;
-        bh=O8SEsfE9Vx0Hoh9SzPjKsL9yL1yAPo1QWRZUpqQZ5BE=;
-        b=MVZa5dInIYyT6ti5/NzPmeCXtnqhowzk1esSCyG5Z9GszZCjPRJs6Uq1nYd3sgJ/iy
-         I5nUIKu579OFsUgb17L62TPPY9/qPbLOFHiVmTqqoh0Us96LJOlq47Tr0Nf+DbCIpYU0
-         LT6TLHPIsd3z+g0ec+N7peRpjdVoC7wJzSqzk=
+        bh=MEsYo+M8tYJs19WnuB4vdd58NV32mqrr8UAWRisKZTU=;
+        b=f2FbJvCtFWHO/PiUM7kk3jgX43oU4XmC9+BVH030UEoubuOC35/yq1Vxz3YIyzzX4X
+         9vSX2ek3xx8SYe8xfqNt6w2OHUse3QV5HiMflSjNVd1ZV9FIFgw/svZgxkboibuub7UK
+         TkhzTDzbbW0G+NnReGf7SnuowrEuVc3WK/Nrw=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references;
-        bh=O8SEsfE9Vx0Hoh9SzPjKsL9yL1yAPo1QWRZUpqQZ5BE=;
-        b=LM7NQKcoTQTqZ4y5+nBg5AX+4M56+mUlcoEZhKLHgytp0Ho6h2PTQ7uD0sAE0hX7+m
-         4TGJ66CeoyM6RC8suwNlB5LEzgQscfEw23np+B1hi9m5lPbe/EbKsCWFzAB7wxZnHaUt
-         ucGf09hGGvMqF+2Fb/Q6SWbWb2AzRYN+v9aCisVqwM/4qhRk0hboAHNtMcvmY+RU46b4
-         /nQeHBuif67EEeE2CP1KAxQFt55+Lkm8TqSb2ggXTqSsOkA7XLeb/RFyIq89WJWzAART
-         2MlGd4wmCU4l8FP4hNl+9chYbm99j4cr2CgNh0874VWtBb4BXS9EvT47ITv+f1/+2Jj6
-         56fA==
-X-Gm-Message-State: APjAAAUq55dZZYikvM8AlIig2WExWyHXSocrLXDB01WI1BkqNh7ejpcQ
-        zixyfspGyjKzVp6fx3TJYxMNzw==
-X-Google-Smtp-Source: APXvYqxMUhvu1n5WvrxswEvafiIeF+Kxf/nCho5z0X/7ybjlTknoEC2LOXXwkMiKGbP/o5SDd9yzaA==
-X-Received: by 2002:a63:5c4a:: with SMTP id n10mr30299789pgm.120.1572383657598;
-        Tue, 29 Oct 2019 14:14:17 -0700 (PDT)
+        bh=MEsYo+M8tYJs19WnuB4vdd58NV32mqrr8UAWRisKZTU=;
+        b=tg96zwPOIIZ1hxU8SqzjOnhg4KEwigajvWApOGOej7UBtNCzXbXYTWmWYvNP59wjsv
+         +fKEXHV3JupQsBivtl2UpghtHVzB0U/JIidIUwnw9BRrxMTjA6nGEj7FO+2y+bKoA+ho
+         a3Yz8EPNrhW1JtL+rLCc7Qj5MNXzRz9Ds+cih6TsHiFOnhk/M6wGPrWicveWZ0LV3mPJ
+         O8gA1WnQZmtLR1cBFyHwvdL+Ub2IeeMlLW3IzWrgTI1+qozt6PnjsJFwaj+biuw1J7xI
+         LgcEQIgwRCzanNvExnw1Z837PAUsWl9teMvOCz1RJ5r/HWyR4hwf7oQZmLrZXU0zMM4a
+         YuSQ==
+X-Gm-Message-State: APjAAAXT3d6mrb0kriX+lCsBjVP5iPtM+KjAyOMEy13wvDh6Vt5aKUBC
+        PSuyVWojTRiMhr6S+WBURggOHA==
+X-Google-Smtp-Source: APXvYqxq5RdW9havwXr/jObPzo9m9LuMSWXQx/Mt2ubHSOXQkbBFYrB/WgI2zXx68jvK7z0oHjV5OA==
+X-Received: by 2002:a17:902:8b89:: with SMTP id ay9mr786046plb.234.1572383659751;
+        Tue, 29 Oct 2019 14:14:19 -0700 (PDT)
 Received: from www.outflux.net (smtp.outflux.net. [198.145.64.163])
-        by smtp.gmail.com with ESMTPSA id w2sm43191pjt.1.2019.10.29.14.14.05
+        by smtp.gmail.com with ESMTPSA id c69sm123102pga.69.2019.10.29.14.14.05
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
         Tue, 29 Oct 2019 14:14:12 -0700 (PDT)
 From:   Kees Cook <keescook@chromium.org>
@@ -58,9 +58,9 @@ Cc:     Kees Cook <keescook@chromium.org>,
         linux-c6x-dev@linux-c6x.org,
         Yoshinori Sato <ysato@users.sourceforge.jp>,
         Michal Simek <monstr@monstr.eu>
-Subject: [PATCH v3 14/29] vmlinux.lds.h: Allow EXCEPTION_TABLE to live in RO_DATA
-Date:   Tue, 29 Oct 2019 14:13:36 -0700
-Message-Id: <20191029211351.13243-15-keescook@chromium.org>
+Subject: [PATCH v3 15/29] x86: Actually use _etext for end of text segment
+Date:   Tue, 29 Oct 2019 14:13:37 -0700
+Message-Id: <20191029211351.13243-16-keescook@chromium.org>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <20191029211351.13243-1-keescook@chromium.org>
 References: <20191029211351.13243-1-keescook@chromium.org>
@@ -69,47 +69,98 @@ Precedence: bulk
 List-ID: <linux-alpha.vger.kernel.org>
 X-Mailing-List: linux-alpha@vger.kernel.org
 
-Many architectures have an EXCEPTION_TABLE that only needs to
-be readable. As such, it should live in RO_DATA. Create a macro to
-identify this case for the architectures that can move EXCEPTION_TABLE
-into RO_DATA.
+Various calculations are using the end of the exception table (which
+does not need to be executable) as the end of the text segment. Instead,
+in preparation for moving the exception table into RO_DATA, move _etext
+after the exception table and update the calculations.
 
 Signed-off-by: Kees Cook <keescook@chromium.org>
-Acked-by: Will Deacon <will@kernel.org>
 ---
- include/asm-generic/vmlinux.lds.h | 12 ++++++++++++
- 1 file changed, 12 insertions(+)
+ arch/x86/include/asm/sections.h | 1 -
+ arch/x86/kernel/vmlinux.lds.S   | 7 +++----
+ arch/x86/mm/init_64.c           | 6 +++---
+ arch/x86/mm/pti.c               | 2 +-
+ 4 files changed, 7 insertions(+), 9 deletions(-)
 
-diff --git a/include/asm-generic/vmlinux.lds.h b/include/asm-generic/vmlinux.lds.h
-index 356078e50a5c..9867d8e41eed 100644
---- a/include/asm-generic/vmlinux.lds.h
-+++ b/include/asm-generic/vmlinux.lds.h
-@@ -69,6 +69,17 @@
- #define NOTES_HEADERS_RESTORE
+diff --git a/arch/x86/include/asm/sections.h b/arch/x86/include/asm/sections.h
+index 71b32f2570ab..036c360910c5 100644
+--- a/arch/x86/include/asm/sections.h
++++ b/arch/x86/include/asm/sections.h
+@@ -6,7 +6,6 @@
+ #include <asm/extable.h>
+ 
+ extern char __brk_base[], __brk_limit[];
+-extern struct exception_table_entry __stop___ex_table[];
+ extern char __end_rodata_aligned[];
+ 
+ #if defined(CONFIG_X86_64)
+diff --git a/arch/x86/kernel/vmlinux.lds.S b/arch/x86/kernel/vmlinux.lds.S
+index 41362e90142d..a1a758e25b2b 100644
+--- a/arch/x86/kernel/vmlinux.lds.S
++++ b/arch/x86/kernel/vmlinux.lds.S
+@@ -143,15 +143,14 @@ SECTIONS
+ 		*(.text.__x86.indirect_thunk)
+ 		__indirect_thunk_end = .;
  #endif
+-
+-		/* End of text section */
+-		_etext = .;
+ 	} :text = 0x9090
  
-+/*
-+ * Some architectures have non-executable read-only exception tables.
-+ * They can be added to the RO_DATA segment by specifying their desired
-+ * alignment.
-+ */
-+#ifdef RO_EXCEPTION_TABLE_ALIGN
-+#define RO_EXCEPTION_TABLE	EXCEPTION_TABLE(RO_EXCEPTION_TABLE_ALIGN)
-+#else
-+#define RO_EXCEPTION_TABLE
-+#endif
+ 	EXCEPTION_TABLE(16)
+ 
+-	/* .text should occupy whole number of pages */
++	/* End of text section, which should occupy whole number of pages */
++	_etext = .;
+ 	. = ALIGN(PAGE_SIZE);
 +
- /* Align . to a 8 byte boundary equals to maximum function alignment. */
- #define ALIGN_FUNCTION()  . = ALIGN(8)
+ 	X86_ALIGN_RODATA_BEGIN
+ 	RO_DATA(PAGE_SIZE)
+ 	X86_ALIGN_RODATA_END
+diff --git a/arch/x86/mm/init_64.c b/arch/x86/mm/init_64.c
+index a6b5c653727b..26299e9ce6da 100644
+--- a/arch/x86/mm/init_64.c
++++ b/arch/x86/mm/init_64.c
+@@ -1263,7 +1263,7 @@ int kernel_set_to_readonly;
+ void set_kernel_text_rw(void)
+ {
+ 	unsigned long start = PFN_ALIGN(_text);
+-	unsigned long end = PFN_ALIGN(__stop___ex_table);
++	unsigned long end = PFN_ALIGN(_etext);
  
-@@ -513,6 +524,7 @@
- 		__stop___modver = .;					\
- 	}								\
- 									\
-+	RO_EXCEPTION_TABLE						\
- 	NOTES								\
- 									\
- 	. = ALIGN((align));						\
+ 	if (!kernel_set_to_readonly)
+ 		return;
+@@ -1282,7 +1282,7 @@ void set_kernel_text_rw(void)
+ void set_kernel_text_ro(void)
+ {
+ 	unsigned long start = PFN_ALIGN(_text);
+-	unsigned long end = PFN_ALIGN(__stop___ex_table);
++	unsigned long end = PFN_ALIGN(_etext);
+ 
+ 	if (!kernel_set_to_readonly)
+ 		return;
+@@ -1301,7 +1301,7 @@ void mark_rodata_ro(void)
+ 	unsigned long start = PFN_ALIGN(_text);
+ 	unsigned long rodata_start = PFN_ALIGN(__start_rodata);
+ 	unsigned long end = (unsigned long) &__end_rodata_hpage_align;
+-	unsigned long text_end = PFN_ALIGN(&__stop___ex_table);
++	unsigned long text_end = PFN_ALIGN(&_etext);
+ 	unsigned long rodata_end = PFN_ALIGN(&__end_rodata);
+ 	unsigned long all_end;
+ 
+diff --git a/arch/x86/mm/pti.c b/arch/x86/mm/pti.c
+index 7f2140414440..44a9f068eee0 100644
+--- a/arch/x86/mm/pti.c
++++ b/arch/x86/mm/pti.c
+@@ -574,7 +574,7 @@ static void pti_clone_kernel_text(void)
+ 	 */
+ 	unsigned long start = PFN_ALIGN(_text);
+ 	unsigned long end_clone  = (unsigned long)__end_rodata_aligned;
+-	unsigned long end_global = PFN_ALIGN((unsigned long)__stop___ex_table);
++	unsigned long end_global = PFN_ALIGN((unsigned long)_etext);
+ 
+ 	if (!pti_kernel_image_global_ok())
+ 		return;
 -- 
 2.17.1
 
