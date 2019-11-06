@@ -2,63 +2,86 @@ Return-Path: <linux-alpha-owner@vger.kernel.org>
 X-Original-To: lists+linux-alpha@lfdr.de
 Delivered-To: lists+linux-alpha@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 22CC5F0EAB
-	for <lists+linux-alpha@lfdr.de>; Wed,  6 Nov 2019 07:03:54 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id AEAADF0EEE
+	for <lists+linux-alpha@lfdr.de>; Wed,  6 Nov 2019 07:32:59 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1731045AbfKFGDx (ORCPT <rfc822;lists+linux-alpha@lfdr.de>);
-        Wed, 6 Nov 2019 01:03:53 -0500
-Received: from mail-wm1-f65.google.com ([209.85.128.65]:38635 "EHLO
-        mail-wm1-f65.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1729872AbfKFGDx (ORCPT
-        <rfc822;linux-alpha@vger.kernel.org>); Wed, 6 Nov 2019 01:03:53 -0500
-Received: by mail-wm1-f65.google.com with SMTP id z19so1916265wmk.3;
-        Tue, 05 Nov 2019 22:03:51 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=message-id:from:mime-version:content-transfer-encoding
-         :content-description:subject:to:date:reply-to:return-receipt-to;
-        bh=UWoVnrsPGgfR1CLP9SZ6a6DaKaxJp62ZGXznpuoukCk=;
-        b=nBzjOlYRBSo4o7dG/oLs5VYgWV4OvPVSxneFbUfmggBHCjqbzV2WMFTwKzEKPqiRTX
-         t5sEfrWShRC3xtR6vkCt9IjbGKvWaG8VtD1uRH+nRE9JjSPXKY4YSwcsCDLHoegwD9VI
-         tG1ysZApNAlW8xr87eRvZjpW5bB5W63Qp0AZQmZcNVCnSZbbkrK/Lbz8UAauHgRWKj0X
-         3RS0JQBS8eMmKVyVKyfL3xZTeYIDaZVw9QlhyFq37gAc5ghMyrpFnpqSpk0d1z/VmUQs
-         koKLTbwT3mBvsD14cM51omOhQ02ItG6dlWwChJ1DtuSGYo96byh3iUHqexq73XTXfEZg
-         L97w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:message-id:from:mime-version
-         :content-transfer-encoding:content-description:subject:to:date
-         :reply-to:return-receipt-to;
-        bh=UWoVnrsPGgfR1CLP9SZ6a6DaKaxJp62ZGXznpuoukCk=;
-        b=Swap+HtpmvaBNkCdOTbYXsmwYfvG6YOVdAfs4QC2pRwkABCq2m4yL1OWi2dN8ZHnlD
-         mWJLea6X8xwrj0NET2vsXwXiZaxrc9v4RiQcZ/UCn8FH4nBbSDDoOpMpZPOMRN0e1SVY
-         71UUdo8vdMxkuZS0Ju94rC45Vb7EM1/88iLz91gnRnyVMgFRHZDYsep1UejCJVLHxzAA
-         tXwAhFfSw3luc5/q19zyOPAkQmFJREsUMIYxecLl0KdnUyOS6fqVucoY6BMELOPtlsdh
-         pPopRnpcePEJEumTqPlo8CaamOp+NisamBRqw6IF8wH/JsGI5+EWFKUeXCgUbgTfyQq/
-         KXrA==
-X-Gm-Message-State: APjAAAX6X8Uysb4NIHNssyZ/W7LAazeLQSfSpc4WVOqewcpgjS8G0p8B
-        UmLDEhNTkImX6KdPHwG5cLI=
-X-Google-Smtp-Source: APXvYqzJrWjMbcTbrdjxk8Oqhk7DPV/FX24c4NKUSkVjgWAZtFr8EZSdbE8tM6t2mfYpeybvej06Lw==
-X-Received: by 2002:a1c:9d07:: with SMTP id g7mr777042wme.53.1573020230965;
-        Tue, 05 Nov 2019 22:03:50 -0800 (PST)
-Received: from hp-PC.Home ([196.170.246.139])
-        by smtp.gmail.com with ESMTPSA id b196sm2024211wmd.24.2019.11.05.22.03.46
-        (version=TLS1 cipher=AES128-SHA bits=128/128);
-        Tue, 05 Nov 2019 22:03:50 -0800 (PST)
-Message-ID: <5dc26246.1c69fb81.dae0b.b371@mx.google.com>
-From:   Katie Higgins <kstiehiggins900@gmail.com>
-X-Google-Original-From: "Katie Higgins" <katiehiggins144@gmail.com>
-Content-Type: text/plain; charset="iso-8859-1"
+        id S1725995AbfKFGc7 (ORCPT <rfc822;lists+linux-alpha@lfdr.de>);
+        Wed, 6 Nov 2019 01:32:59 -0500
+Received: from werkudoro.jatengprov.go.id ([103.9.227.34]:37156 "EHLO
+        werkudoro.jatengprov.go.id" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1725806AbfKFGc6 (ORCPT
+        <rfc822;linux-alpha@vger.kernel.org>);
+        Wed, 6 Nov 2019 01:32:58 -0500
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+        d=jatengprov.go.id; s=default; h=Message-ID:Reply-To:To:From:Date:
+        Content-Transfer-Encoding:Content-Type:MIME-Version:Sender:Subject:Cc:
+        Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
+        Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Id:
+        List-Help:List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
+         bh=G4HwPqwiZuWN6wUEqWP4L79JnOMRowOKtgX0r1xdE78=; b=t6PALyRRMrYtJ5aYHg4y8tXEq
+        xBlZ4Z8m9w2GNoKZe1ArA7FLjaOaYi2bTmOPP6IFNPGItD12Quw3O1/fFLT+yC1Ll+4FXKH9tal3e
+        +7so3X3ueYwSUHdIOqeV4Br7VpfrUlHhxxJmQYA70TigMGhz3JgE1IkF8tDQvkd6qEODLgN/NOYZh
+        4fB7WNlrxv4xMDWf69faRRHsl1vCnba7SgTuF7SJyi3TujqiZ3U60Bue8ZfjLNA+nj+IGIyYrRGQU
+        dSkluqXbfHnE60/riYpZYfsDF2+qe4XwtCmINnvPAke+zZmue6cavvxg6ZCKLEeEFfRKJolljzXB0
+        5Ora02rNw==;
+Received: from localhost ([127.0.0.1]:42104 helo=werkudoro.jatengprov.go.id)
+        by werkudoro.jatengprov.go.id with esmtpa (Exim 4.92)
+        (envelope-from <bpsdmd@jatengprov.go.id>)
+        id 1iSErM-0002Il-9G; Wed, 06 Nov 2019 13:32:05 +0700
 MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-Content-Description: Mail message body
-Subject: RE:
-To:     Recipients <katiehiggins144@gmail.com>
-Date:   Wed, 06 Nov 2019 06:03:36 +0000
-Reply-To: katiehiggins144@gmail.com
+Content-Type: text/plain; charset=UTF-8;
+ format=flowed
+Content-Transfer-Encoding: 8bit
+Date:   Wed, 06 Nov 2019 13:32:04 +0700
+From:   =?UTF-8?Q?=D0=B0=D0=B4=D0=BC=D0=B8=D0=BD=D0=B8=D1=81=D1=82=D1=80?=
+         =?UTF-8?Q?=D0=B0=D1=82=D0=BE=D1=80?= <bpsdmd@jatengprov.go.id>
+To:     undisclosed-recipients:;
+Reply-To: mailsss@mail2world.com
+Mail-Reply-To: mailsss@mail2world.com
+Message-ID: <5f0a114cf8c80f5eee855c6264b6d747@jatengprov.go.id>
+X-Sender: bpsdmd@jatengprov.go.id
+User-Agent: Roundcube Webmail/1.3.8
+X-OutGoing-Spam-Status: No, score=3.3
+X-AntiAbuse: This header was added to track abuse, please include it with any abuse report
+X-AntiAbuse: Primary Hostname - werkudoro.jatengprov.go.id
+X-AntiAbuse: Original Domain - vger.kernel.org
+X-AntiAbuse: Originator/Caller UID/GID - [47 12] / [47 12]
+X-AntiAbuse: Sender Address Domain - jatengprov.go.id
+X-Get-Message-Sender-Via: werkudoro.jatengprov.go.id: authenticated_id: bpsdmd@jatengprov.go.id
+X-Authenticated-Sender: werkudoro.jatengprov.go.id: bpsdmd@jatengprov.go.id
+X-Source: 
+X-Source-Args: 
+X-Source-Dir: 
 Sender: linux-alpha-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-alpha.vger.kernel.org>
 X-Mailing-List: linux-alpha@vger.kernel.org
 
-Kann ich bitte mit dir reden?
+
+
+-- 
+внимания;
+
+Ваши сообщения превысил лимит памяти, который составляет 5 Гб, 
+определенных администратором, который в настоящее время работает на 
+10.9GB, Вы не сможете отправить или получить новую почту, пока вы 
+повторно не проверить ваш почтовый ящик почты. Чтобы восстановить 
+работоспособность Вашего почтового ящика, отправьте следующую информацию 
+ниже:
+
+имя:
+Имя пользователя:
+пароль:
+Подтверждение пароля:
+Адрес электронной почты:
+телефон:
+
+Если вы не в состоянии перепроверить сообщения, ваш почтовый ящик будет 
+отключен!
+
+Приносим извинения за неудобства.
+Проверочный код: EN: Ru...776774990..2019
+Почты технической поддержки ©2019
+
+спасибо
+системы администратор
