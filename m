@@ -2,86 +2,125 @@ Return-Path: <linux-alpha-owner@vger.kernel.org>
 X-Original-To: lists+linux-alpha@lfdr.de
 Delivered-To: lists+linux-alpha@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id AEAADF0EEE
-	for <lists+linux-alpha@lfdr.de>; Wed,  6 Nov 2019 07:32:59 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 9C6E8F1037
+	for <lists+linux-alpha@lfdr.de>; Wed,  6 Nov 2019 08:29:19 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1725995AbfKFGc7 (ORCPT <rfc822;lists+linux-alpha@lfdr.de>);
-        Wed, 6 Nov 2019 01:32:59 -0500
-Received: from werkudoro.jatengprov.go.id ([103.9.227.34]:37156 "EHLO
-        werkudoro.jatengprov.go.id" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1725806AbfKFGc6 (ORCPT
-        <rfc822;linux-alpha@vger.kernel.org>);
-        Wed, 6 Nov 2019 01:32:58 -0500
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-        d=jatengprov.go.id; s=default; h=Message-ID:Reply-To:To:From:Date:
-        Content-Transfer-Encoding:Content-Type:MIME-Version:Sender:Subject:Cc:
-        Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
-        Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Id:
-        List-Help:List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
-         bh=G4HwPqwiZuWN6wUEqWP4L79JnOMRowOKtgX0r1xdE78=; b=t6PALyRRMrYtJ5aYHg4y8tXEq
-        xBlZ4Z8m9w2GNoKZe1ArA7FLjaOaYi2bTmOPP6IFNPGItD12Quw3O1/fFLT+yC1Ll+4FXKH9tal3e
-        +7so3X3ueYwSUHdIOqeV4Br7VpfrUlHhxxJmQYA70TigMGhz3JgE1IkF8tDQvkd6qEODLgN/NOYZh
-        4fB7WNlrxv4xMDWf69faRRHsl1vCnba7SgTuF7SJyi3TujqiZ3U60Bue8ZfjLNA+nj+IGIyYrRGQU
-        dSkluqXbfHnE60/riYpZYfsDF2+qe4XwtCmINnvPAke+zZmue6cavvxg6ZCKLEeEFfRKJolljzXB0
-        5Ora02rNw==;
-Received: from localhost ([127.0.0.1]:42104 helo=werkudoro.jatengprov.go.id)
-        by werkudoro.jatengprov.go.id with esmtpa (Exim 4.92)
-        (envelope-from <bpsdmd@jatengprov.go.id>)
-        id 1iSErM-0002Il-9G; Wed, 06 Nov 2019 13:32:05 +0700
+        id S1731325AbfKFH3S (ORCPT <rfc822;lists+linux-alpha@lfdr.de>);
+        Wed, 6 Nov 2019 02:29:18 -0500
+Received: from mail-pf1-f196.google.com ([209.85.210.196]:37563 "EHLO
+        mail-pf1-f196.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1729683AbfKFH3S (ORCPT
+        <rfc822;linux-alpha@vger.kernel.org>); Wed, 6 Nov 2019 02:29:18 -0500
+Received: by mail-pf1-f196.google.com with SMTP id p24so11675305pfn.4;
+        Tue, 05 Nov 2019 23:29:16 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=subject:to:references:cc:from:message-id:date:user-agent
+         :mime-version:in-reply-to:content-transfer-encoding;
+        bh=CZXGdk9uFu2d7V8fak5kkfAh72DjR9+d3K1XsYdLz38=;
+        b=oGcJVGIO9nAfwZ9U9gs9P3ysGflXOrasF6qEiEhb6WpEy/r0O4b4WcXcLFHBABCJ7R
+         QUOnBvxM0K+ORQ5GEwdd68Rbvuyj5JajApo+O20Qk7aw+1UO9FWS+6+LzSfRmtqSLrdq
+         xvCHWuUmC+aEABOOmXkQjFb1AvmC1AZ+Bwjcb+sSQtS1GRTuQLMEbpuch+Wd9OB5B9nR
+         MEP3ZWqL3l8J6HAnG5DRusZtOBOPsYcpMAZ4FMs88UBSyQ00BeMuWCLwvOdu7PSHWk++
+         XtgmclZQxAc89Qmj6l/gKcwAVt76pZv/YKMWttV48g2arcZGneYo8SkwGAFkxvqsnIJf
+         JInQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:subject:to:references:cc:from:message-id:date
+         :user-agent:mime-version:in-reply-to:content-transfer-encoding;
+        bh=CZXGdk9uFu2d7V8fak5kkfAh72DjR9+d3K1XsYdLz38=;
+        b=Q4lV1Xswzj4qqatwb2ujC9gH4pkWhafFPB07X3XWK5E4TIvxWZf5BonxcBXijR+sP3
+         KO7Jawtje/RgwKtFxzHCm/bUSdoEMzjUIedL1L0PziiLoe9Y5lVRb1/B5zuqH+Tk5TuK
+         ZvtMULnCb9GaFGUQYrXl5lNqDotlk4LwdnAd4S912B99Y5r/RY8FwSw4p9sNHIrwjw4f
+         GtipFVCOqm4/Npf3aGZqvb5CK2Y8G7n2OCX2yDErC+b722KDa0HWxcEqz/tMdNWeWnmT
+         3qnKNu+i+IA5jBxR1KyKPpV5G9CoTYdTyP0kAqylNa1fhiIqJbFWFOC/hS4JNyiOyFu4
+         c90w==
+X-Gm-Message-State: APjAAAWRqo10a89mb3Iuje+7KWXGLTsaLpeuTAj21ItbCJq+/93JjN+v
+        YDUbWDkzAVXGLLdoxi44CR0=
+X-Google-Smtp-Source: APXvYqxBVXh1jmjAePr3S1g4NtkWBhTLAIl9OTaZqYXb6wMgMaiO3o4Y3mgSEbDLjoLjMA38tOeOfg==
+X-Received: by 2002:a62:90:: with SMTP id 138mr1557534pfa.209.1573025356612;
+        Tue, 05 Nov 2019 23:29:16 -0800 (PST)
+Received: from [192.168.1.101] (122-58-182-39-adsl.sparkbb.co.nz. [122.58.182.39])
+        by smtp.gmail.com with ESMTPSA id h13sm26505185pfr.98.2019.11.05.23.29.01
+        (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+        Tue, 05 Nov 2019 23:29:15 -0800 (PST)
+Subject: Re: [PATCH v3 05/13] m68k: mm: use pgtable-nopXd instead of
+ 4level-fixup
+To:     Geert Uytterhoeven <geert@linux-m68k.org>,
+        Mike Rapoport <rppt@kernel.org>
+References: <1572850587-20314-1-git-send-email-rppt@kernel.org>
+ <1572850587-20314-6-git-send-email-rppt@kernel.org>
+ <CAMuHMdUG3V7uxzhbetw75vVeobeP0-bQySb3r=0V5XujUF123g@mail.gmail.com>
+ <20191104094748.GB23288@rapoport-lnx>
+ <CAMuHMdVHsNyLxhaxZcVdLvQ1PUnb=2_+ECPWVD0234V+qu+kOw@mail.gmail.com>
+Cc:     Linux MM <linux-mm@kvack.org>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Anton Ivanov <anton.ivanov@cambridgegreys.com>,
+        Arnd Bergmann <arnd@arndb.de>,
+        "David S. Miller" <davem@davemloft.net>,
+        Greentime Hu <green.hu@gmail.com>,
+        Greg Ungerer <gerg@linux-m68k.org>,
+        Helge Deller <deller@gmx.de>,
+        "James E.J. Bottomley" <James.Bottomley@hansenpartnership.com>,
+        Jeff Dike <jdike@addtoit.com>,
+        "Kirill A. Shutemov" <kirill@shutemov.name>,
+        Linus Torvalds <torvalds@linux-foundation.org>,
+        Mark Salter <msalter@redhat.com>,
+        Matt Turner <mattst88@gmail.com>,
+        Michal Simek <monstr@monstr.eu>, Peter Rosin <peda@axentia.se>,
+        Richard Weinberger <richard@nod.at>,
+        Rolf Eike Beer <eike-kernel@sf-tec.de>,
+        Russell King <linux@armlinux.org.uk>,
+        Sam Creasey <sammy@sammy.net>,
+        Vincent Chen <deanbo422@gmail.com>,
+        Vineet Gupta <Vineet.Gupta1@synopsys.com>,
+        alpha <linux-alpha@vger.kernel.org>,
+        Linux-Arch <linux-arch@vger.kernel.org>,
+        Linux ARM <linux-arm-kernel@lists.infradead.org>,
+        linux-c6x-dev@linux-c6x.org,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        linux-m68k <linux-m68k@lists.linux-m68k.org>,
+        Parisc List <linux-parisc@vger.kernel.org>,
+        linux-um@lists.infradead.org,
+        sparclinux <sparclinux@vger.kernel.org>,
+        Mike Rapoport <rppt@linux.ibm.com>
+From:   Michael Schmitz <schmitzmic@gmail.com>
+Message-ID: <15fafca0-e4c4-1f46-4f19-9b2a177f7d6b@gmail.com>
+Date:   Wed, 6 Nov 2019 20:28:59 +1300
+User-Agent: Mozilla/5.0 (X11; Linux ppc; rv:45.0) Gecko/20100101
+ Icedove/45.4.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8;
- format=flowed
-Content-Transfer-Encoding: 8bit
-Date:   Wed, 06 Nov 2019 13:32:04 +0700
-From:   =?UTF-8?Q?=D0=B0=D0=B4=D0=BC=D0=B8=D0=BD=D0=B8=D1=81=D1=82=D1=80?=
-         =?UTF-8?Q?=D0=B0=D1=82=D0=BE=D1=80?= <bpsdmd@jatengprov.go.id>
-To:     undisclosed-recipients:;
-Reply-To: mailsss@mail2world.com
-Mail-Reply-To: mailsss@mail2world.com
-Message-ID: <5f0a114cf8c80f5eee855c6264b6d747@jatengprov.go.id>
-X-Sender: bpsdmd@jatengprov.go.id
-User-Agent: Roundcube Webmail/1.3.8
-X-OutGoing-Spam-Status: No, score=3.3
-X-AntiAbuse: This header was added to track abuse, please include it with any abuse report
-X-AntiAbuse: Primary Hostname - werkudoro.jatengprov.go.id
-X-AntiAbuse: Original Domain - vger.kernel.org
-X-AntiAbuse: Originator/Caller UID/GID - [47 12] / [47 12]
-X-AntiAbuse: Sender Address Domain - jatengprov.go.id
-X-Get-Message-Sender-Via: werkudoro.jatengprov.go.id: authenticated_id: bpsdmd@jatengprov.go.id
-X-Authenticated-Sender: werkudoro.jatengprov.go.id: bpsdmd@jatengprov.go.id
-X-Source: 
-X-Source-Args: 
-X-Source-Dir: 
+In-Reply-To: <CAMuHMdVHsNyLxhaxZcVdLvQ1PUnb=2_+ECPWVD0234V+qu+kOw@mail.gmail.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Transfer-Encoding: 7bit
 Sender: linux-alpha-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-alpha.vger.kernel.org>
 X-Mailing-List: linux-alpha@vger.kernel.org
 
+Hi Geert,
 
+Am 04.11.2019 um 22:53 schrieb Geert Uytterhoeven:
+>>> This indeed boots fine on ARAnyM, which emulates on 68040.
+>>> It would be good to have some boot testing on '020/030, too.
+>>
+>> To be honest, I have no idea how to to that :)
+>
+> Sure. This was more a request for the fellow m68k users.
 
--- 
-внимания;
+I heard you :-) Still doing more regression testing on the latest SCSI 
+fix, but I can schedule this next.
 
-Ваши сообщения превысил лимит памяти, который составляет 5 Гб, 
-определенных администратором, который в настоящее время работает на 
-10.9GB, Вы не сможете отправить или получить новую почту, пока вы 
-повторно не проверить ваш почтовый ящик почты. Чтобы восстановить 
-работоспособность Вашего почтового ящика, отправьте следующую информацию 
-ниже:
+Cheers,
 
-имя:
-Имя пользователя:
-пароль:
-Подтверждение пароля:
-Адрес электронной почты:
-телефон:
+	Michael
 
-Если вы не в состоянии перепроверить сообщения, ваш почтовый ящик будет 
-отключен!
-
-Приносим извинения за неудобства.
-Проверочный код: EN: Ru...776774990..2019
-Почты технической поддержки ©2019
-
-спасибо
-системы администратор
+> But don't worry too much about it.  If it breaks '020/'030, we can fix
+> that later.
+>
+> Thanks!
+>
+> Gr{oetje,eeting}s,
+>
+>                         Geert
+>
