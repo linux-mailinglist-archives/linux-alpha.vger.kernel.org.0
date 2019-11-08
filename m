@@ -2,103 +2,158 @@ Return-Path: <linux-alpha-owner@vger.kernel.org>
 X-Original-To: lists+linux-alpha@lfdr.de
 Delivered-To: lists+linux-alpha@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 9EC47F52BF
-	for <lists+linux-alpha@lfdr.de>; Fri,  8 Nov 2019 18:42:32 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 35E7AF53C5
+	for <lists+linux-alpha@lfdr.de>; Fri,  8 Nov 2019 19:51:25 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726446AbfKHRmH (ORCPT <rfc822;lists+linux-alpha@lfdr.de>);
-        Fri, 8 Nov 2019 12:42:07 -0500
-Received: from iolanthe.rowland.org ([192.131.102.54]:56410 "HELO
-        iolanthe.rowland.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with SMTP id S1726121AbfKHRmG (ORCPT
-        <rfc822;linux-alpha@vger.kernel.org>); Fri, 8 Nov 2019 12:42:06 -0500
-Received: (qmail 4415 invoked by uid 2102); 8 Nov 2019 12:42:05 -0500
-Received: from localhost (sendmail-bs@127.0.0.1)
-  by localhost with SMTP; 8 Nov 2019 12:42:05 -0500
-Date:   Fri, 8 Nov 2019 12:42:05 -0500 (EST)
-From:   Alan Stern <stern@rowland.harvard.edu>
-X-X-Sender: stern@iolanthe.rowland.org
+        id S1727655AbfKHSu6 (ORCPT <rfc822;lists+linux-alpha@lfdr.de>);
+        Fri, 8 Nov 2019 13:50:58 -0500
+Received: from mail.kernel.org ([198.145.29.99]:47710 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1726394AbfKHSu6 (ORCPT <rfc822;linux-alpha@vger.kernel.org>);
+        Fri, 8 Nov 2019 13:50:58 -0500
+Received: from paulmck-ThinkPad-P72.home (unknown [213.233.155.162])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by mail.kernel.org (Postfix) with ESMTPSA id 0442F2178F;
+        Fri,  8 Nov 2019 18:50:56 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=default; t=1573239057;
+        bh=dFDcpZXiMmZsmjjgE4UFkW3p5h3lhoxIHSMwIhFg4Qc=;
+        h=Date:From:To:Cc:Subject:Reply-To:References:In-Reply-To:From;
+        b=gohOviOZonK9pYKk2xMt6H+3xKQzS+dgmS23ekbrgUnC3/lNDNv2UHS2iO3LHMgaZ
+         JQgrxSdaDpU0d77GN+27jCK5U3kU1Li0Uv/P/egvXnnXdHeFI9NbvlsM9ooVcprEae
+         iF4p0Yjo5R2xlT8wDiT+aK1rgjoVJHHl/7pBDiNg=
+Received: by paulmck-ThinkPad-P72.home (Postfix, from userid 1000)
+        id 7282E35204A1; Fri,  8 Nov 2019 10:50:51 -0800 (PST)
+Date:   Fri, 8 Nov 2019 10:50:51 -0800
+From:   "Paul E. McKenney" <paulmck@kernel.org>
 To:     Will Deacon <will@kernel.org>
-cc:     linux-kernel@vger.kernel.org, Yunjae Lee <lyj7694@gmail.com>,
+Cc:     linux-kernel@vger.kernel.org, Yunjae Lee <lyj7694@gmail.com>,
         SeongJae Park <sj38.park@gmail.com>,
-        "Paul E. McKenney" <paulmck@kernel.org>,
         Josh Triplett <josh@joshtriplett.org>,
         Matt Turner <mattst88@gmail.com>,
         Ivan Kokshaysky <ink@jurassic.park.msu.ru>,
         Richard Henderson <rth@twiddle.net>,
         Peter Zijlstra <peterz@infradead.org>,
+        Alan Stern <stern@rowland.harvard.edu>,
         Michael Ellerman <mpe@ellerman.id.au>,
         "Michael S. Tsirkin" <mst@redhat.com>,
         Jason Wang <jasowang@redhat.com>,
         Arnd Bergmann <arnd@arndb.de>, Joe Perches <joe@perches.com>,
-        Boqun Feng <boqun.feng@gmail.com>,
-        <linux-alpha@vger.kernel.org>,
-        <virtualization@lists.linux-foundation.org>
-Subject: Re: [PATCH 10/13] tools/memory-model: Remove smp_read_barrier_depends()
- from informal doc
-In-Reply-To: <20191108170120.22331-11-will@kernel.org>
-Message-ID: <Pine.LNX.4.44L0.1911081241460.1498-100000@iolanthe.rowland.org>
+        Boqun Feng <boqun.feng@gmail.com>, linux-alpha@vger.kernel.org,
+        virtualization@lists.linux-foundation.org
+Subject: Re: [PATCH 00/13] Finish off [smp_]read_barrier_depends()
+Message-ID: <20191108185051.GA20975@paulmck-ThinkPad-P72>
+Reply-To: paulmck@kernel.org
+References: <20191108170120.22331-1-will@kernel.org>
 MIME-Version: 1.0
-Content-Type: TEXT/PLAIN; charset=US-ASCII
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20191108170120.22331-1-will@kernel.org>
+User-Agent: Mutt/1.9.4 (2018-02-28)
 Sender: linux-alpha-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-alpha.vger.kernel.org>
 X-Mailing-List: linux-alpha@vger.kernel.org
 
-On Fri, 8 Nov 2019, Will Deacon wrote:
-
-> 'smp_read_barrier_depends()' has gone the way of mmiowb() and so many
-> esoteric memory barriers before it. Drop the two mentions of this
-> deceased barrier from the LKMM informal explanation document.
+On Fri, Nov 08, 2019 at 05:01:07PM +0000, Will Deacon wrote:
+> Hi all,
 > 
-> Signed-off-by: Will Deacon <will@kernel.org>
-> ---
->  .../Documentation/explanation.txt             | 26 +++++++++----------
->  1 file changed, 12 insertions(+), 14 deletions(-)
+> Although [smp_]read_barrier_depends() became part of READ_ONCE() in
+> commit 76ebbe78f739 ("locking/barriers: Add implicit
+> smp_read_barrier_depends() to READ_ONCE()"), it still limps on in the
+> Linux memory model with the sinister hope of attracting innocent new
+> users so that it becomes impossible to remove altogether.
 > 
-> diff --git a/tools/memory-model/Documentation/explanation.txt b/tools/memory-model/Documentation/explanation.txt
-> index 488f11f6c588..3050bf67b8d0 100644
-> --- a/tools/memory-model/Documentation/explanation.txt
-> +++ b/tools/memory-model/Documentation/explanation.txt
-> @@ -1118,12 +1118,10 @@ maintain at least the appearance of FIFO order.
->  In practice, this difficulty is solved by inserting a special fence
->  between P1's two loads when the kernel is compiled for the Alpha
->  architecture.  In fact, as of version 4.15, the kernel automatically
-> -adds this fence (called smp_read_barrier_depends() and defined as
-> -nothing at all on non-Alpha builds) after every READ_ONCE() and atomic
-> -load.  The effect of the fence is to cause the CPU not to execute any
-> -po-later instructions until after the local cache has finished
-> -processing all the stores it has already received.  Thus, if the code
-> -was changed to:
-> +adds this fence after every READ_ONCE() and atomic load on Alpha.  The
-> +effect of the fence is to cause the CPU not to execute any po-later
-> +instructions until after the local cache has finished processing all
-> +the stores it has already received.  Thus, if the code was changed to:
->  
->  	P1()
->  	{
-> @@ -1142,14 +1140,14 @@ READ_ONCE() or another synchronization primitive rather than accessed
->  directly.
->  
->  The LKMM requires that smp_rmb(), acquire fences, and strong fences
-> -share this property with smp_read_barrier_depends(): They do not allow
-> -the CPU to execute any po-later instructions (or po-later loads in the
-> -case of smp_rmb()) until all outstanding stores have been processed by
-> -the local cache.  In the case of a strong fence, the CPU first has to
-> -wait for all of its po-earlier stores to propagate to every other CPU
-> -in the system; then it has to wait for the local cache to process all
-> -the stores received as of that time -- not just the stores received
-> -when the strong fence began.
-> +share this property: They do not allow the CPU to execute any po-later
-> +instructions (or po-later loads in the case of smp_rmb()) until all
-> +outstanding stores have been processed by the local cache.  In the
-> +case of a strong fence, the CPU first has to wait for all of its
-> +po-earlier stores to propagate to every other CPU in the system; then
-> +it has to wait for the local cache to process all the stores received
-> +as of that time -- not just the stores received when the strong fence
-> +began.
->  
->  And of course, none of this matters for any architecture other than
->  Alpha.
+> Let's strike before it's too late: there's only one user outside of
+> arch/alpha/ and that lives in the vhost code which I don't think you
+> can actually compile for Alpha. Even if you could, it appears to be
+> redundant. The rest of these patches remove any mention of the barrier
+> from Documentation and comments, as well as removing its use from the
+> Alpha backend and finally dropping it from the memory model completely.
+> 
+> After this series, there are still two places where it is mentioned:
+> 
+>   1. The Korean translation of memory-barriers.txt. I'd appreciate some
+>      help fixing this because it's not entirely a straightforward
+>      deletion.
+> 
+>   2. The virtio vring tests under tools/. This is userspace code so I'm
+>      not too fussed about it.
+> 
+> There's a chunk of header reshuffling at the start of the series so that
+> READ_ONCE() can sensibly be overridden by arch code.
+> 
+> Feedback welcome.
 
-Acked-by: Alan Stern <stern@rowland.harvard.edu>
+For the series:
 
+Acked-by: Paul E. McKenney <paulmck@kernel.org>
+
+> Cheers,
+> 
+> Will
+> 
+> Cc: Yunjae Lee <lyj7694@gmail.com>
+> Cc: SeongJae Park <sj38.park@gmail.com>
+> Cc: "Paul E. McKenney" <paulmck@kernel.org>
+> Cc: Josh Triplett <josh@joshtriplett.org>
+> Cc: Matt Turner <mattst88@gmail.com>
+> Cc: Ivan Kokshaysky <ink@jurassic.park.msu.ru>
+> Cc: Richard Henderson <rth@twiddle.net>
+> Cc: Peter Zijlstra <peterz@infradead.org>
+> Cc: Alan Stern <stern@rowland.harvard.edu>
+> Cc: Michael Ellerman <mpe@ellerman.id.au>
+> Cc: "Michael S. Tsirkin" <mst@redhat.com>
+> Cc: Jason Wang <jasowang@redhat.com>
+> Cc: Arnd Bergmann <arnd@arndb.de>
+> Cc: Joe Perches <joe@perches.com>
+> Cc: Boqun Feng <boqun.feng@gmail.com>
+> Cc: linux-alpha@vger.kernel.org
+> Cc: virtualization@lists.linux-foundation.org
+> 
+> --->8
+> 
+> Will Deacon (13):
+>   compiler.h: Split {READ,WRITE}_ONCE definitions out into rwonce.h
+>   READ_ONCE: Undefine internal __READ_ONCE_SIZE macro after use
+>   READ_ONCE: Allow __READ_ONCE_SIZE cases to be overridden by the
+>     architecture
+>   vhost: Remove redundant use of read_barrier_depends() barrier
+>   alpha: Override READ_ONCE() with barriered implementation
+>   READ_ONCE: Remove smp_read_barrier_depends() invocation
+>   alpha: Replace smp_read_barrier_depends() usage with smp_[r]mb()
+>   locking/barriers: Remove definitions for [smp_]read_barrier_depends()
+>   Documentation/barriers: Remove references to
+>     [smp_]read_barrier_depends()
+>   tools/memory-model: Remove smp_read_barrier_depends() from informal
+>     doc
+>   powerpc: Remove comment about read_barrier_depends()
+>   include/linux: Remove smp_read_barrier_depends() from comments
+>   checkpatch: Remove checks relating to [smp_]read_barrier_depends()
+> 
+>  .../RCU/Design/Requirements/Requirements.html |  11 +-
+>  Documentation/memory-barriers.txt             | 156 +-----------------
+>  arch/alpha/include/asm/atomic.h               |  16 +-
+>  arch/alpha/include/asm/barrier.h              |  61 +------
+>  arch/alpha/include/asm/pgtable.h              |  10 +-
+>  arch/alpha/include/asm/rwonce.h               |  22 +++
+>  arch/powerpc/include/asm/barrier.h            |   2 -
+>  drivers/vhost/vhost.c                         |   5 -
+>  include/asm-generic/Kbuild                    |   1 +
+>  include/asm-generic/barrier.h                 |  17 --
+>  include/asm-generic/rwonce.h                  | 131 +++++++++++++++
+>  include/linux/compiler.h                      | 114 +------------
+>  include/linux/compiler_attributes.h           |  12 ++
+>  include/linux/percpu-refcount.h               |   2 +-
+>  include/linux/ptr_ring.h                      |   2 +-
+>  mm/memory.c                                   |   2 +-
+>  scripts/checkpatch.pl                         |   9 +-
+>  .../Documentation/explanation.txt             |  26 ++-
+>  18 files changed, 217 insertions(+), 382 deletions(-)
+>  create mode 100644 arch/alpha/include/asm/rwonce.h
+>  create mode 100644 include/asm-generic/rwonce.h
+> 
+> -- 
+> 2.24.0.rc1.363.gb1bccd3e3d-goog
+> 
