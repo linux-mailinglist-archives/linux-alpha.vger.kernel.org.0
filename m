@@ -2,80 +2,93 @@ Return-Path: <linux-alpha-owner@vger.kernel.org>
 X-Original-To: lists+linux-alpha@lfdr.de
 Delivered-To: lists+linux-alpha@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id CF700F57C3
-	for <lists+linux-alpha@lfdr.de>; Fri,  8 Nov 2019 21:06:31 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 66440F57F9
+	for <lists+linux-alpha@lfdr.de>; Fri,  8 Nov 2019 21:06:55 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2387561AbfKHTjU (ORCPT <rfc822;lists+linux-alpha@lfdr.de>);
-        Fri, 8 Nov 2019 14:39:20 -0500
-Received: from mail.kernel.org ([198.145.29.99]:57976 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1727233AbfKHTjU (ORCPT <rfc822;linux-alpha@vger.kernel.org>);
-        Fri, 8 Nov 2019 14:39:20 -0500
-Received: from localhost.localdomain (c-73-231-172-41.hsd1.ca.comcast.net [73.231.172.41])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id D217D206A3;
-        Fri,  8 Nov 2019 19:39:17 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1573241958;
-        bh=ZAG84ge+L09XKgou0cB1i9iO9e81rb3QTPdTqxlkr0M=;
-        h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-        b=oOxy4Wdb4vPsF8JbCZye3J9lKbP/LMOZJElWEhVMQVaYL7+6B1J0BGc9MF2bWwzIe
-         hJQ4mkhDTLCWz1YMTNy3sdABtaukOID5braecKND/vaunUuII+0rvnF1cM4tNsnIHJ
-         g/+gXCN4sGzLG0kAmdQW86n+ifO0YSktrgbS0Gu8=
-Date:   Fri, 8 Nov 2019 11:39:17 -0800
-From:   Andrew Morton <akpm@linux-foundation.org>
-To:     Mike Rapoport <rppt@kernel.org>
-Cc:     linux-mm@kvack.org, Anton Ivanov <anton.ivanov@cambridgegreys.com>,
-        Arnd Bergmann <arnd@arndb.de>,
-        "David S. Miller" <davem@davemloft.net>,
-        Geert Uytterhoeven <geert@linux-m68k.org>,
-        Greentime Hu <green.hu@gmail.com>,
-        Greg Ungerer <gerg@linux-m68k.org>,
-        Helge Deller <deller@gmx.de>,
-        "James E.J. Bottomley" <James.Bottomley@HansenPartnership.com>,
-        Jeff Dike <jdike@addtoit.com>,
-        "Kirill A. Shutemov" <kirill@shutemov.name>,
-        Linus Torvalds <torvalds@linux-foundation.org>,
-        Mark Salter <msalter@redhat.com>,
+        id S2388701AbfKHT5d convert rfc822-to-8bit (ORCPT
+        <rfc822;lists+linux-alpha@lfdr.de>); Fri, 8 Nov 2019 14:57:33 -0500
+Received: from mout.kundenserver.de ([212.227.126.131]:50579 "EHLO
+        mout.kundenserver.de" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S2388678AbfKHT5d (ORCPT
+        <rfc822;linux-alpha@vger.kernel.org>); Fri, 8 Nov 2019 14:57:33 -0500
+Received: from mail-qk1-f169.google.com ([209.85.222.169]) by
+ mrelayeu.kundenserver.de (mreue009 [212.227.15.129]) with ESMTPSA (Nemesis)
+ id 1N7zJj-1hpgym2s8x-0151yp; Fri, 08 Nov 2019 20:57:31 +0100
+Received: by mail-qk1-f169.google.com with SMTP id h15so6339492qka.13;
+        Fri, 08 Nov 2019 11:57:31 -0800 (PST)
+X-Gm-Message-State: APjAAAVmtIn+xsVYCTCzLtPfK6bfCyoI+heb1Ny+7/sidNHAzVRIbLNu
+        wTxoflQFzvlPZWpjJmCEEOr+4R8zUcG6EZByXok=
+X-Google-Smtp-Source: APXvYqwbEOv9N5n3ZVSMCaT2AayZZFizNM7xZNN/vq5TItdY6JMB/hXbfpzfEILBcvqaJNvSbipOgEpXoOH0B2jqyjk=
+X-Received: by 2002:a37:4f13:: with SMTP id d19mr10475357qkb.138.1573243050314;
+ Fri, 08 Nov 2019 11:57:30 -0800 (PST)
+MIME-Version: 1.0
+References: <20191108170120.22331-1-will@kernel.org> <20191108170120.22331-2-will@kernel.org>
+In-Reply-To: <20191108170120.22331-2-will@kernel.org>
+From:   Arnd Bergmann <arnd@arndb.de>
+Date:   Fri, 8 Nov 2019 20:57:14 +0100
+X-Gmail-Original-Message-ID: <CAK8P3a0f=WvSQSBQ4t0FmEkcFE_mC3oARxaeTviTSkSa-D2qhg@mail.gmail.com>
+Message-ID: <CAK8P3a0f=WvSQSBQ4t0FmEkcFE_mC3oARxaeTviTSkSa-D2qhg@mail.gmail.com>
+Subject: Re: [PATCH 01/13] compiler.h: Split {READ,WRITE}_ONCE definitions out
+ into rwonce.h
+To:     Will Deacon <will@kernel.org>
+Cc:     "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+        Yunjae Lee <lyj7694@gmail.com>,
+        SeongJae Park <sj38.park@gmail.com>,
+        "Paul E. McKenney" <paulmck@kernel.org>,
+        Josh Triplett <josh@joshtriplett.org>,
         Matt Turner <mattst88@gmail.com>,
-        Michal Simek <monstr@monstr.eu>, Peter Rosin <peda@axentia.se>,
-        Richard Weinberger <richard@nod.at>,
-        Rolf Eike Beer <eike-kernel@sf-tec.de>,
-        Russell King <linux@armlinux.org.uk>,
-        Sam Creasey <sammy@sammy.net>,
-        Vincent Chen <deanbo422@gmail.com>,
-        Vineet Gupta <Vineet.Gupta1@synopsys.com>,
-        linux-alpha@vger.kernel.org, linux-arch@vger.kernel.org,
-        linux-arm-kernel@lists.infradead.org, linux-c6x-dev@linux-c6x.org,
-        linux-kernel@vger.kernel.org, linux-m68k@vger.kernel.org,
-        linux-parisc@vger.kernel.org, linux-um@lists.infradead.org,
-        sparclinux@vger.kernel.org, Mike Rapoport <rppt@linux.ibm.com>
-Subject: Re: [PATCH v4 05/13] m68k: mm: use pgtable-nopXd instead of
- 4level-fixup
-Message-Id: <20191108113917.a9c6ebb8373cc95fd684b734@linux-foundation.org>
-In-Reply-To: <1572938135-31886-6-git-send-email-rppt@kernel.org>
-References: <1572938135-31886-1-git-send-email-rppt@kernel.org>
-        <1572938135-31886-6-git-send-email-rppt@kernel.org>
-X-Mailer: Sylpheed 3.5.1 (GTK+ 2.24.31; x86_64-pc-linux-gnu)
-Mime-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+        Ivan Kokshaysky <ink@jurassic.park.msu.ru>,
+        Richard Henderson <rth@twiddle.net>,
+        Peter Zijlstra <peterz@infradead.org>,
+        Alan Stern <stern@rowland.harvard.edu>,
+        Michael Ellerman <mpe@ellerman.id.au>,
+        "Michael S. Tsirkin" <mst@redhat.com>,
+        Jason Wang <jasowang@redhat.com>,
+        Joe Perches <joe@perches.com>,
+        Boqun Feng <boqun.feng@gmail.com>,
+        alpha <linux-alpha@vger.kernel.org>,
+        virtualization@lists.linux-foundation.org,
+        Christian Borntraeger <borntraeger@de.ibm.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8BIT
+X-Provags-ID: V03:K1:WN2iI+qyF2aSt8E8GeKGmxpYo3P2QxddmHwDuUf+2xOBmvCiXN1
+ kfo03Y5w0Ed4/W8YtsfC67k8nnzv9O2z9711Ijn03wGaGTixokJJiaw8tAHBJ9cYCbCssiz
+ Y2PsFV9C1+nQzCzb82xfQ06UlKQRgwLbbTKvxd2E7K8Gy5O38Glw7sMriEYvgOHRMSuO3q1
+ GaxO+KieHHsxR9s9J7o2Q==
+X-Spam-Flag: NO
+X-UI-Out-Filterresults: notjunk:1;V03:K0:bYkMvnYhV+E=:5i3VTKBS0g9a2FZ+pwIr/h
+ YGXwH9EYPtpdpROfWmYRD8/qsvV5WJtT9N4XydZgBoxBTkEKg4CUMYzn/GpaQjz5kMOXfnF1f
+ MppuGBcAI5xDJpx7/bOD4Cjt2zvLYJIaCzH8cU5MHM01uUndyxLEcA5KoAzUzexHN34ly4Di6
+ 3K9cuWzfla586x0lmwdxYkBLCbwApbKUc29p5d4sx2jS28pTqqGYovQdriPQ2INaUIjitX68x
+ yHQYLiEv4gTceKnDvGfN85XlUEH2xH9/2l2uHpaHXPp7raydECobeYgohHlLS+g59JjHzdFQX
+ Bc3ah8+euWPyRK+Etayp9cnuiqm/UmdNIcPdoKbsDEugcMW9BAQ2qDSurObGnIH15EnnZvfEF
+ 4LheLtq4DWgU72V2Rr2vPTZco1DXkJ4w7kAcxDs3Ts36ZJpjjaTxzoUvrmkWFKu3o1NsSSdtz
+ 6diG03KThrYLE4Aza5PiV3jt6QL1NvcR6M9nARqhQFzOG6ObZm9QZI0TrTvADlKe1LFVJ3s6m
+ RGkpxNSrGt/7D/zBz3UDeBXB3tANmBEZnLr5smBbJE7mKI12z0vVNmX6rU4Bva5fg2YdqGNWN
+ k48lfUG2+PJqzcbKozpHvqN52rswG2476rp2jPCIlPr0KZY8MT3DwUm4zkIUnzivZRPRtGaUS
+ 5YWKXSsJ09jptgYVHmIMccRcFrauU+PmsavJHTP1hXeXeRUrrM56JrFtOlm5G5ZsEKxftZrnh
+ 6aYlRvZkotFNPVdZ+jZRQ4V+hPXC+AWwMExucHXDN+2dQl0g0TJvKPOqJwnvu/oLxHjf6cGDz
+ MGDr1slo0ciqEUpnP5XOlbKcNg127ZJTOUv1v9gMGYx8HUrai2US24TbwHYvbYPFl9siebGd4
+ pM58UcjGFKWFvwd3Z9Dg==
 Sender: linux-alpha-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-alpha.vger.kernel.org>
 X-Mailing-List: linux-alpha@vger.kernel.org
 
-On Tue,  5 Nov 2019 09:15:27 +0200 Mike Rapoport <rppt@kernel.org> wrote:
+On Fri, Nov 8, 2019 at 6:01 PM Will Deacon <will@kernel.org> wrote:
+>
+> In preparation for allowing architectures to define their own
+> implementation of the 'READ_ONCE()' macro, move the generic
+> '{READ,WRITE}_ONCE()' definitions out of the unwieldy 'linux/compiler.h'
+> and into a new 'rwonce.h' header under 'asm-generic'.
 
-> m68k has two or three levels of page tables and can use appropriate
-> pgtable-nopXd and folding of the upper layers.
-> 
-> Replace usage of include/asm-generic/4level-fixup.h and explicit
-> definitions of __PAGETABLE_PxD_FOLDED in m68k with
-> include/asm-generic/pgtable-nopmd.h for two-level configurations and with
-> include/asm-generic/pgtable-nopud.h for three-lelve configurations and
-> adjust page table manipulation macros and functions accordingly.
+Adding Christian Bornträger to Cc, he originally added the
+READ_ONCE()/WRITE_ONCE()
+code.
 
-This one was messed up by linux-next changes in arch/m68k/mm/kmap.c. 
-Can you please take a look?
+I wonder if it would be appropriate now to revert back to a much simpler version
+of these helpers for any modern compiler. As I understand, only gcc-4.6 and
+gcc4.7 actually need the song-and-dance version with the union and switch/case,
+while for others, we can might be able back to a macro doing a volatile access.
+
+     Arnd
