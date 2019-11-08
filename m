@@ -2,30 +2,23 @@ Return-Path: <linux-alpha-owner@vger.kernel.org>
 X-Original-To: lists+linux-alpha@lfdr.de
 Delivered-To: lists+linux-alpha@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id EEFD9F5219
-	for <lists+linux-alpha@lfdr.de>; Fri,  8 Nov 2019 18:05:09 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 9EC47F52BF
+	for <lists+linux-alpha@lfdr.de>; Fri,  8 Nov 2019 18:42:32 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1731465AbfKHRCP (ORCPT <rfc822;lists+linux-alpha@lfdr.de>);
-        Fri, 8 Nov 2019 12:02:15 -0500
-Received: from mail.kernel.org ([198.145.29.99]:46482 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1731291AbfKHRCP (ORCPT <rfc822;linux-alpha@vger.kernel.org>);
-        Fri, 8 Nov 2019 12:02:15 -0500
-Received: from localhost.localdomain (236.31.169.217.in-addr.arpa [217.169.31.236])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
-        (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id D3D1621D7B;
-        Fri,  8 Nov 2019 17:02:11 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1573232534;
-        bh=TBvj3ZAD/90gzZRZ4Bq7ZuAaAzf+ONWHDHtJ37qd9aY=;
-        h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=x6OOuDwHn0375jbO8T0CHJu4VFrTm+4reQ6H9i4/OduaNg9PuHeaqLsD9Cc7aN5uc
-         BZh2RnBJUvSgPh4Zi3uk5VYzcI4RwV3uF6RCRrB2M5XT3/ex1h/cNKgFmotwZkGJ0N
-         AnsKDTQSfZIEcITFJukKF69zGgyZsEHi2e45V5qc=
-From:   Will Deacon <will@kernel.org>
-To:     linux-kernel@vger.kernel.org
-Cc:     Will Deacon <will@kernel.org>, Yunjae Lee <lyj7694@gmail.com>,
+        id S1726446AbfKHRmH (ORCPT <rfc822;lists+linux-alpha@lfdr.de>);
+        Fri, 8 Nov 2019 12:42:07 -0500
+Received: from iolanthe.rowland.org ([192.131.102.54]:56410 "HELO
+        iolanthe.rowland.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with SMTP id S1726121AbfKHRmG (ORCPT
+        <rfc822;linux-alpha@vger.kernel.org>); Fri, 8 Nov 2019 12:42:06 -0500
+Received: (qmail 4415 invoked by uid 2102); 8 Nov 2019 12:42:05 -0500
+Received: from localhost (sendmail-bs@127.0.0.1)
+  by localhost with SMTP; 8 Nov 2019 12:42:05 -0500
+Date:   Fri, 8 Nov 2019 12:42:05 -0500 (EST)
+From:   Alan Stern <stern@rowland.harvard.edu>
+X-X-Sender: stern@iolanthe.rowland.org
+To:     Will Deacon <will@kernel.org>
+cc:     linux-kernel@vger.kernel.org, Yunjae Lee <lyj7694@gmail.com>,
         SeongJae Park <sj38.park@gmail.com>,
         "Paul E. McKenney" <paulmck@kernel.org>,
         Josh Triplett <josh@joshtriplett.org>,
@@ -33,61 +26,79 @@ Cc:     Will Deacon <will@kernel.org>, Yunjae Lee <lyj7694@gmail.com>,
         Ivan Kokshaysky <ink@jurassic.park.msu.ru>,
         Richard Henderson <rth@twiddle.net>,
         Peter Zijlstra <peterz@infradead.org>,
-        Alan Stern <stern@rowland.harvard.edu>,
         Michael Ellerman <mpe@ellerman.id.au>,
         "Michael S. Tsirkin" <mst@redhat.com>,
         Jason Wang <jasowang@redhat.com>,
         Arnd Bergmann <arnd@arndb.de>, Joe Perches <joe@perches.com>,
-        Boqun Feng <boqun.feng@gmail.com>, linux-alpha@vger.kernel.org,
-        virtualization@lists.linux-foundation.org
-Subject: [PATCH 13/13] checkpatch: Remove checks relating to [smp_]read_barrier_depends()
-Date:   Fri,  8 Nov 2019 17:01:20 +0000
-Message-Id: <20191108170120.22331-14-will@kernel.org>
-X-Mailer: git-send-email 2.20.1
-In-Reply-To: <20191108170120.22331-1-will@kernel.org>
-References: <20191108170120.22331-1-will@kernel.org>
+        Boqun Feng <boqun.feng@gmail.com>,
+        <linux-alpha@vger.kernel.org>,
+        <virtualization@lists.linux-foundation.org>
+Subject: Re: [PATCH 10/13] tools/memory-model: Remove smp_read_barrier_depends()
+ from informal doc
+In-Reply-To: <20191108170120.22331-11-will@kernel.org>
+Message-ID: <Pine.LNX.4.44L0.1911081241460.1498-100000@iolanthe.rowland.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: TEXT/PLAIN; charset=US-ASCII
 Sender: linux-alpha-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-alpha.vger.kernel.org>
 X-Mailing-List: linux-alpha@vger.kernel.org
 
-The '[smp_]read_barrier_depends()' macros no longer exist, so we don't
-need to deal with them in the checkpatch script.
+On Fri, 8 Nov 2019, Will Deacon wrote:
 
-Signed-off-by: Will Deacon <will@kernel.org>
----
- scripts/checkpatch.pl | 9 +--------
- 1 file changed, 1 insertion(+), 8 deletions(-)
+> 'smp_read_barrier_depends()' has gone the way of mmiowb() and so many
+> esoteric memory barriers before it. Drop the two mentions of this
+> deceased barrier from the LKMM informal explanation document.
+> 
+> Signed-off-by: Will Deacon <will@kernel.org>
+> ---
+>  .../Documentation/explanation.txt             | 26 +++++++++----------
+>  1 file changed, 12 insertions(+), 14 deletions(-)
+> 
+> diff --git a/tools/memory-model/Documentation/explanation.txt b/tools/memory-model/Documentation/explanation.txt
+> index 488f11f6c588..3050bf67b8d0 100644
+> --- a/tools/memory-model/Documentation/explanation.txt
+> +++ b/tools/memory-model/Documentation/explanation.txt
+> @@ -1118,12 +1118,10 @@ maintain at least the appearance of FIFO order.
+>  In practice, this difficulty is solved by inserting a special fence
+>  between P1's two loads when the kernel is compiled for the Alpha
+>  architecture.  In fact, as of version 4.15, the kernel automatically
+> -adds this fence (called smp_read_barrier_depends() and defined as
+> -nothing at all on non-Alpha builds) after every READ_ONCE() and atomic
+> -load.  The effect of the fence is to cause the CPU not to execute any
+> -po-later instructions until after the local cache has finished
+> -processing all the stores it has already received.  Thus, if the code
+> -was changed to:
+> +adds this fence after every READ_ONCE() and atomic load on Alpha.  The
+> +effect of the fence is to cause the CPU not to execute any po-later
+> +instructions until after the local cache has finished processing all
+> +the stores it has already received.  Thus, if the code was changed to:
+>  
+>  	P1()
+>  	{
+> @@ -1142,14 +1140,14 @@ READ_ONCE() or another synchronization primitive rather than accessed
+>  directly.
+>  
+>  The LKMM requires that smp_rmb(), acquire fences, and strong fences
+> -share this property with smp_read_barrier_depends(): They do not allow
+> -the CPU to execute any po-later instructions (or po-later loads in the
+> -case of smp_rmb()) until all outstanding stores have been processed by
+> -the local cache.  In the case of a strong fence, the CPU first has to
+> -wait for all of its po-earlier stores to propagate to every other CPU
+> -in the system; then it has to wait for the local cache to process all
+> -the stores received as of that time -- not just the stores received
+> -when the strong fence began.
+> +share this property: They do not allow the CPU to execute any po-later
+> +instructions (or po-later loads in the case of smp_rmb()) until all
+> +outstanding stores have been processed by the local cache.  In the
+> +case of a strong fence, the CPU first has to wait for all of its
+> +po-earlier stores to propagate to every other CPU in the system; then
+> +it has to wait for the local cache to process all the stores received
+> +as of that time -- not just the stores received when the strong fence
+> +began.
+>  
+>  And of course, none of this matters for any architecture other than
+>  Alpha.
 
-diff --git a/scripts/checkpatch.pl b/scripts/checkpatch.pl
-index 6fcc66afb088..7f5a368206bf 100755
---- a/scripts/checkpatch.pl
-+++ b/scripts/checkpatch.pl
-@@ -5787,8 +5787,7 @@ sub process {
- 		my $barriers = qr{
- 			mb|
- 			rmb|
--			wmb|
--			read_barrier_depends
-+			wmb
- 		}x;
- 		my $barrier_stems = qr{
- 			mb__before_atomic|
-@@ -5829,12 +5828,6 @@ sub process {
- 			}
- 		}
- 
--# check for smp_read_barrier_depends and read_barrier_depends
--		if (!$file && $line =~ /\b(smp_|)read_barrier_depends\s*\(/) {
--			WARN("READ_BARRIER_DEPENDS",
--			     "$1read_barrier_depends should only be used in READ_ONCE or DEC Alpha code\n" . $herecurr);
--		}
--
- # check of hardware specific defines
- 		if ($line =~ m@^.\s*\#\s*if.*\b(__i386__|__powerpc64__|__sun__|__s390x__)\b@ && $realfile !~ m@include/asm-@) {
- 			CHK("ARCH_DEFINES",
--- 
-2.24.0.rc1.363.gb1bccd3e3d-goog
+Acked-by: Alan Stern <stern@rowland.harvard.edu>
 
