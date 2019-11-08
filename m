@@ -2,132 +2,194 @@ Return-Path: <linux-alpha-owner@vger.kernel.org>
 X-Original-To: lists+linux-alpha@lfdr.de
 Delivered-To: lists+linux-alpha@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 52842F5995
-	for <lists+linux-alpha@lfdr.de>; Fri,  8 Nov 2019 22:24:42 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 95D19F59A6
+	for <lists+linux-alpha@lfdr.de>; Fri,  8 Nov 2019 22:24:50 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1732959AbfKHVPq (ORCPT <rfc822;lists+linux-alpha@lfdr.de>);
-        Fri, 8 Nov 2019 16:15:46 -0500
-Received: from mout.kundenserver.de ([212.227.17.10]:52805 "EHLO
+        id S1732820AbfKHVRz (ORCPT <rfc822;lists+linux-alpha@lfdr.de>);
+        Fri, 8 Nov 2019 16:17:55 -0500
+Received: from mout.kundenserver.de ([212.227.17.13]:45817 "EHLO
         mout.kundenserver.de" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1732944AbfKHVPp (ORCPT
-        <rfc822;linux-alpha@vger.kernel.org>); Fri, 8 Nov 2019 16:15:45 -0500
+        with ESMTP id S1726095AbfKHVRz (ORCPT
+        <rfc822;linux-alpha@vger.kernel.org>); Fri, 8 Nov 2019 16:17:55 -0500
 Received: from threadripper.lan ([149.172.19.189]) by mrelayeu.kundenserver.de
  (mreue107 [212.227.15.145]) with ESMTPA (Nemesis) id
- 1MBE3k-1idfB62d2c-00ChQV; Fri, 08 Nov 2019 22:13:54 +0100
+ 1MwgOK-1hjJ0r0tOk-00yBGN; Fri, 08 Nov 2019 22:17:39 +0100
 From:   Arnd Bergmann <arnd@arndb.de>
 To:     y2038@lists.linaro.org, Richard Henderson <rth@twiddle.net>,
         Ivan Kokshaysky <ink@jurassic.park.msu.ru>,
-        Matt Turner <mattst88@gmail.com>
+        Matt Turner <mattst88@gmail.com>,
+        Thomas Gleixner <tglx@linutronix.de>
 Cc:     linux-kernel@vger.kernel.org, Arnd Bergmann <arnd@arndb.de>,
         Deepa Dinamani <deepa.kernel@gmail.com>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Cyrill Gorcunov <gorcunov@gmail.com>,
-        Will Deacon <will@kernel.org>,
-        =?UTF-8?q?Michal=20Koutn=C3=BD?= <mkoutny@suse.com>,
-        Catalin Marinas <catalin.marinas@arm.com>,
-        Dave Hansen <dave.hansen@linux.intel.com>,
+        Christian Brauner <christian@brauner.io>,
+        Heiko Carstens <heiko.carstens@de.ibm.com>,
+        Anna-Maria Gleixner <anna-maria@linutronix.de>,
         linux-alpha@vger.kernel.org
-Subject: [PATCH 11/23] y2038: rusage: use __kernel_old_timeval
-Date:   Fri,  8 Nov 2019 22:12:10 +0100
-Message-Id: <20191108211323.1806194-2-arnd@arndb.de>
+Subject: [PATCH 19/23] y2038: use compat_{get,set}_itimer on alpha
+Date:   Fri,  8 Nov 2019 22:12:18 +0100
+Message-Id: <20191108211323.1806194-10-arnd@arndb.de>
 X-Mailer: git-send-email 2.20.0
 In-Reply-To: <20191108210236.1296047-1-arnd@arndb.de>
 References: <20191108210236.1296047-1-arnd@arndb.de>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-Provags-ID: V03:K1:ccHgshTWM+8bd3ARSVMsRuKkh2xp2UsGP2nSeaQ4JIi6tssxXxX
- Ksc3ikHH0cvgfaaztiNxX2CA4M+Vpy+c174W7J82D3dRrGrnyPssN3YkhqOJl4UWmIO+gbA
- agHARrixznilq2Wuz/W8WEdYBVFHiiV/YAO+jxkRGfTb8j7isXTK1lMvsGAaljnSpEG5tr7
- YONctU0hfEGMMd9SvQr1w==
+X-Provags-ID: V03:K1:E3gQKHDY/P5Y9zeE38VfQQ9wJ3KSPGVX2xBd4RGUHKVBkeQ3cnh
+ IkqObZNllWa36SZ83QqDO/3CSSqK5L1RxS4HiP7Gz1x9tR5rNAkZqcsi1zd97to4Urku7br
+ wOB5TOqXT1CjZTRrO9u4pIvL/sKlKt0CEF8I4WVxfmUUkcu3jXo/fbLhOpTLguvEuaXNDuu
+ IwKMBcMOQlfd8/jxNENKw==
 X-Spam-Flag: NO
-X-UI-Out-Filterresults: notjunk:1;V03:K0:+IIOzgpyUfs=:iMdRdlqkxA2961O/fF/WN8
- CcJxoL2fphhDAhIBltVa6+Gt61QsWjNTOFQiqp1MqYVPg9/LFi3ErQAAVruRV7YdbfSaa9mGJ
- 1r0WVU7G6r8giQHEnP6SQFW4nWLjxin/D1KCbvlc6qSAjJ6vVFl0ueyjfQ+Fi4LX+s1oncHJW
- vDOYP+1To6pKCk7ZKQrtDy/rhEA0NTXarJh4gni94dM0HE/D0a7pCESI0iC2N4wjJdsbWvjBO
- 60olqAnUxBnn6DtJ9x7sg7fW2EkXkq9J4rZdAq8+n5fw8SRGLdV2YIdQGLGelKWDPMFrgZK1p
- G1ZNTYGy4XVQ+WRyzx4kFgQ2gfTeQBMS3uSasDhy/3DqXfNfY+9gEZlZoGHsls9UU4FSpt4QT
- naE81is5oZu5XB8WhhpmPgVbYzsS9KW8Hee3J7LIfeoUP6FSTxtUCfoiTw5E/VrneZm6t/F6d
- Iaop9Xga2XLJk/okoECprtGYovshzNQ2ju85E/aKRw5+IRMqM1+q867osQynyE8K1T0Ry0LXT
- OxIAszMbmXBnTRWViedHLRhWC54m0tpQ2w26mI8SqDO2fK7RyyE3jsPnMNaEocMILUGQ+hTxk
- egLHmH0JhSPS/PEumYbci3Xc4Xm1npOZXkoL4hTAAQWNMDDBaElo70zMEXWIoEZJqLKM47vrQ
- ZaqAvVVZUxRGlVmTRDpY/wHuXlsLIsvTB5zTs3f6fTystOzNzqC2xOpL1zox3J//miiRJgN6w
- 1OQ/pXgBPQ/C9hmGqy3EkDdGMMiO+bpfvLWawHn/qvQrGpxGmGlS21ycwg9KbUiiHqRuiXcAv
- SBFxzIBWer/VjW7mpIVfMsHuzbNS/YGKGPHCjciAEMG1GdYbGaL5uVxJJh/ISJGG1W68JlKYo
- tVVXn5q/6uLeJPWY91Jw==
+X-UI-Out-Filterresults: notjunk:1;V03:K0:e/W+TxPQhaM=:ml/G9/qCjz5DPXfgmu4Q4t
+ yZe2Hg0nRciRf2WuBQZW/Os8at/YT+JfAVd8YSPJobZaGTAYEdkdNZ8QjbXRD4RU9n+FIKPYi
+ 7UwA2pXMgUWD3YqOuKCyHXYf7c/TMD0AEKjHm2CGb+P6bGSQkFY9JVHfyfa/uooG6du+p4kTi
+ /+Czem+gkKCBl2npeJeRYC+9myim/rmPn3tRAwHtUWcVUxQyZTL+LEDtPRWrkit1u8ucjFz2o
+ /uzORPNSEPTgi+yBTiBgb6rPAacISnj8GhYslwR9xV5O4rhrZt/o0knlvqJ1OOHRHr7YGgAkt
+ 2e7XN4C918xz/sStEaWB0WUwsBpFoXbwZ4eVkIEYsnlgrBEytl4mM3mGQS5nQwRFblH1/4t1r
+ TZCIlc+mhWGQMAkMNWF56ETeL9+0Pv4ycy2UJrtXDVOoEwkCEujRWdRJj6nbi9PVrP8FwWSu0
+ 6fLrkR34CMHqE9UJxdud/zddxZeLF5D8oJp/LBeKqiLSnlnCZFzMw2jIyR3ZtBo7eNyckaFOO
+ K81KuQ85Dg+q+hukG9UrVDDsqI3mBV8o+iI2SgLa82qIJM0pYgg4PYJRbRJ4bF//AXW5QvrAo
+ 2WpYGNn81uIU6NoSfveSz+6t5DuP7FkMF3nM9z3+0ZOmABNidQI9dPGZkrD+66boSLJDoDbrH
+ HlvqmkedrVT5W0cOkd9cfOz8zxTDLWctcT5BqJ6X0imQRlZnvB30Ui9eYNGI3RQVJirnu3dj9
+ LbCh36iw3QSump2JYcsCSduGbRTQZ5mo0Vhvu2mbq4jUwf9caYjIQyOasgoFdWtf/Wk79yW7j
+ 7OtWtCjpQLM6DDnwJBinuRAUNxOu95fI9kVSzywIoQ912E9IGurxNTfOsreC1IUMlgn5UDFEB
+ 67TnwtzMWoelIJ6k7u6w==
 Sender: linux-alpha-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-alpha.vger.kernel.org>
 X-Mailing-List: linux-alpha@vger.kernel.org
 
-There are two 'struct timeval' fields in 'struct rusage'.
-
-Unfortunately the definition of timeval is now ambiguous when used in
-user space with a libc that has a 64-bit time_t, and this also changes
-the 'rusage' definition in user space in a way that is incompatible with
-the system call interface.
-
-While there is no good solution to avoid all ambiguity here, change
-the definition in the kernel headers to be compatible with the kernel
-ABI, using __kernel_old_timeval as an unambiguous base type.
-
-In previous discussions, there was also a plan to add a replacement
-for rusage based on 64-bit timestamps and nanosecond resolution,
-i.e. 'struct __kernel_timespec'. I have patches for that as well,
-if anyone thinks we should do that.
+The itimer handling for the old alpha osf_setitimer/osf_getitimer
+system calls is identical to the compat version of getitimer/setitimer,
+so just use those directly.
 
 Signed-off-by: Arnd Bergmann <arnd@arndb.de>
 ---
-Question: should we also rename 'struct rusage' into 'struct __kernel_rusage'
-here, to make them completely unambiguous?
----
- arch/alpha/kernel/osf_sys.c   | 2 +-
- include/uapi/linux/resource.h | 4 ++--
- kernel/sys.c                  | 4 ++--
- 3 files changed, 5 insertions(+), 5 deletions(-)
+ arch/alpha/kernel/osf_sys.c            | 65 --------------------------
+ arch/alpha/kernel/syscalls/syscall.tbl |  4 +-
+ kernel/time/itimer.c                   |  4 +-
+ 3 files changed, 4 insertions(+), 69 deletions(-)
 
 diff --git a/arch/alpha/kernel/osf_sys.c b/arch/alpha/kernel/osf_sys.c
-index bf497b8b0ec6..bbe7a0da6264 100644
+index bbe7a0da6264..94e4cde8071a 100644
 --- a/arch/alpha/kernel/osf_sys.c
 +++ b/arch/alpha/kernel/osf_sys.c
-@@ -963,7 +963,7 @@ put_tv32(struct timeval32 __user *o, struct timespec64 *i)
+@@ -971,30 +971,6 @@ put_tv_to_tv32(struct timeval32 __user *o, struct __kernel_old_timeval *i)
+ 			    sizeof(struct timeval32));
  }
  
- static inline long
--put_tv_to_tv32(struct timeval32 __user *o, struct timeval *i)
-+put_tv_to_tv32(struct timeval32 __user *o, struct __kernel_old_timeval *i)
+-static inline long
+-get_it32(struct itimerval *o, struct itimerval32 __user *i)
+-{
+-	struct itimerval32 itv;
+-	if (copy_from_user(&itv, i, sizeof(struct itimerval32)))
+-		return -EFAULT;
+-	o->it_interval.tv_sec = itv.it_interval.tv_sec;
+-	o->it_interval.tv_usec = itv.it_interval.tv_usec;
+-	o->it_value.tv_sec = itv.it_value.tv_sec;
+-	o->it_value.tv_usec = itv.it_value.tv_usec;
+-	return 0;
+-}
+-
+-static inline long
+-put_it32(struct itimerval32 __user *o, struct itimerval *i)
+-{
+-	return copy_to_user(o, &(struct itimerval32){
+-				.it_interval.tv_sec = o->it_interval.tv_sec,
+-				.it_interval.tv_usec = o->it_interval.tv_usec,
+-				.it_value.tv_sec = o->it_value.tv_sec,
+-				.it_value.tv_usec = o->it_value.tv_usec},
+-			    sizeof(struct itimerval32));
+-}
+-
+ static inline void
+ jiffies_to_timeval32(unsigned long jiffies, struct timeval32 *value)
  {
- 	return copy_to_user(o, &(struct timeval32){
- 				.tv_sec = i->tv_sec,
-diff --git a/include/uapi/linux/resource.h b/include/uapi/linux/resource.h
-index cc00fd079631..74ef57b38f9f 100644
---- a/include/uapi/linux/resource.h
-+++ b/include/uapi/linux/resource.h
-@@ -22,8 +22,8 @@
- #define	RUSAGE_THREAD	1		/* only the calling thread */
+@@ -1039,47 +1015,6 @@ SYSCALL_DEFINE2(osf_settimeofday, struct timeval32 __user *, tv,
  
- struct	rusage {
--	struct timeval ru_utime;	/* user time used */
--	struct timeval ru_stime;	/* system time used */
-+	struct __kernel_old_timeval ru_utime;	/* user time used */
-+	struct __kernel_old_timeval ru_stime;	/* system time used */
- 	__kernel_long_t	ru_maxrss;	/* maximum resident set size */
- 	__kernel_long_t	ru_ixrss;	/* integral shared memory size */
- 	__kernel_long_t	ru_idrss;	/* integral unshared data size */
-diff --git a/kernel/sys.c b/kernel/sys.c
-index a611d1d58c7d..d3aef31e24dc 100644
---- a/kernel/sys.c
-+++ b/kernel/sys.c
-@@ -1763,8 +1763,8 @@ void getrusage(struct task_struct *p, int who, struct rusage *r)
- 	unlock_task_sighand(p, &flags);
+ asmlinkage long sys_ni_posix_timers(void);
  
- out:
--	r->ru_utime = ns_to_timeval(utime);
--	r->ru_stime = ns_to_timeval(stime);
-+	r->ru_utime = ns_to_kernel_old_timeval(utime);
-+	r->ru_stime = ns_to_kernel_old_timeval(stime);
+-SYSCALL_DEFINE2(osf_getitimer, int, which, struct itimerval32 __user *, it)
+-{
+-	struct itimerval kit;
+-	int error;
+-
+-	if (!IS_ENABLED(CONFIG_POSIX_TIMERS))
+-		return sys_ni_posix_timers();
+-
+-	error = do_getitimer(which, &kit);
+-	if (!error && put_it32(it, &kit))
+-		error = -EFAULT;
+-
+-	return error;
+-}
+-
+-SYSCALL_DEFINE3(osf_setitimer, int, which, struct itimerval32 __user *, in,
+-		struct itimerval32 __user *, out)
+-{
+-	struct itimerval kin, kout;
+-	int error;
+-
+-	if (!IS_ENABLED(CONFIG_POSIX_TIMERS))
+-		return sys_ni_posix_timers();
+-
+-	if (in) {
+-		if (get_it32(&kin, in))
+-			return -EFAULT;
+-	} else
+-		memset(&kin, 0, sizeof(kin));
+-
+-	error = do_setitimer(which, &kin, out ? &kout : NULL);
+-	if (error || !out)
+-		return error;
+-
+-	if (put_it32(out, &kout))
+-		return -EFAULT;
+-
+-	return 0;
+-
+-}
+-
+ SYSCALL_DEFINE2(osf_utimes, const char __user *, filename,
+ 		struct timeval32 __user *, tvs)
+ {
+diff --git a/arch/alpha/kernel/syscalls/syscall.tbl b/arch/alpha/kernel/syscalls/syscall.tbl
+index 728fe028c02c..8e13b0b2928d 100644
+--- a/arch/alpha/kernel/syscalls/syscall.tbl
++++ b/arch/alpha/kernel/syscalls/syscall.tbl
+@@ -89,10 +89,10 @@
+ 80	common	setgroups			sys_setgroups
+ 81	common	osf_old_getpgrp			sys_ni_syscall
+ 82	common	setpgrp				sys_setpgid
+-83	common	osf_setitimer			sys_osf_setitimer
++83	common	osf_setitimer			compat_sys_setitimer
+ 84	common	osf_old_wait			sys_ni_syscall
+ 85	common	osf_table			sys_ni_syscall
+-86	common	osf_getitimer			sys_osf_getitimer
++86	common	osf_getitimer			compat_sys_getitimer
+ 87	common	gethostname			sys_gethostname
+ 88	common	sethostname			sys_sethostname
+ 89	common	getdtablesize			sys_getdtablesize
+diff --git a/kernel/time/itimer.c b/kernel/time/itimer.c
+index c52ebb40b60b..4664c6addf69 100644
+--- a/kernel/time/itimer.c
++++ b/kernel/time/itimer.c
+@@ -111,7 +111,7 @@ SYSCALL_DEFINE2(getitimer, int, which, struct itimerval __user *, value)
+ 	return error;
+ }
  
- 	if (who != RUSAGE_CHILDREN) {
- 		struct mm_struct *mm = get_task_mm(p);
+-#ifdef CONFIG_COMPAT
++#if defined(CONFIG_COMPAT) || defined(CONFIG_ALPHA)
+ struct old_itimerval32 {
+ 	struct old_timeval32	it_interval;
+ 	struct old_timeval32	it_value;
+@@ -324,7 +324,7 @@ SYSCALL_DEFINE3(setitimer, int, which, struct itimerval __user *, value,
+ 	return 0;
+ }
+ 
+-#ifdef CONFIG_COMPAT
++#if defined(CONFIG_COMPAT) || defined(CONFIG_ALPHA)
+ static int get_old_itimerval32(struct itimerval *o, const struct old_itimerval32 __user *i)
+ {
+ 	struct old_itimerval32 v32;
 -- 
 2.20.0
 
