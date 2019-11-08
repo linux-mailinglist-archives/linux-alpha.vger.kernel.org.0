@@ -2,93 +2,83 @@ Return-Path: <linux-alpha-owner@vger.kernel.org>
 X-Original-To: lists+linux-alpha@lfdr.de
 Delivered-To: lists+linux-alpha@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 66440F57F9
-	for <lists+linux-alpha@lfdr.de>; Fri,  8 Nov 2019 21:06:55 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 751E3F5894
+	for <lists+linux-alpha@lfdr.de>; Fri,  8 Nov 2019 21:43:02 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2388701AbfKHT5d convert rfc822-to-8bit (ORCPT
-        <rfc822;lists+linux-alpha@lfdr.de>); Fri, 8 Nov 2019 14:57:33 -0500
-Received: from mout.kundenserver.de ([212.227.126.131]:50579 "EHLO
+        id S1731132AbfKHUfM (ORCPT <rfc822;lists+linux-alpha@lfdr.de>);
+        Fri, 8 Nov 2019 15:35:12 -0500
+Received: from mout.kundenserver.de ([217.72.192.73]:52165 "EHLO
         mout.kundenserver.de" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S2388678AbfKHT5d (ORCPT
-        <rfc822;linux-alpha@vger.kernel.org>); Fri, 8 Nov 2019 14:57:33 -0500
-Received: from mail-qk1-f169.google.com ([209.85.222.169]) by
- mrelayeu.kundenserver.de (mreue009 [212.227.15.129]) with ESMTPSA (Nemesis)
- id 1N7zJj-1hpgym2s8x-0151yp; Fri, 08 Nov 2019 20:57:31 +0100
-Received: by mail-qk1-f169.google.com with SMTP id h15so6339492qka.13;
-        Fri, 08 Nov 2019 11:57:31 -0800 (PST)
-X-Gm-Message-State: APjAAAVmtIn+xsVYCTCzLtPfK6bfCyoI+heb1Ny+7/sidNHAzVRIbLNu
-        wTxoflQFzvlPZWpjJmCEEOr+4R8zUcG6EZByXok=
-X-Google-Smtp-Source: APXvYqwbEOv9N5n3ZVSMCaT2AayZZFizNM7xZNN/vq5TItdY6JMB/hXbfpzfEILBcvqaJNvSbipOgEpXoOH0B2jqyjk=
-X-Received: by 2002:a37:4f13:: with SMTP id d19mr10475357qkb.138.1573243050314;
- Fri, 08 Nov 2019 11:57:30 -0800 (PST)
-MIME-Version: 1.0
-References: <20191108170120.22331-1-will@kernel.org> <20191108170120.22331-2-will@kernel.org>
-In-Reply-To: <20191108170120.22331-2-will@kernel.org>
+        with ESMTP id S1727477AbfKHUfL (ORCPT
+        <rfc822;linux-alpha@vger.kernel.org>); Fri, 8 Nov 2019 15:35:11 -0500
+Received: from threadripper.lan ([149.172.19.189]) by mrelayeu.kundenserver.de
+ (mreue107 [212.227.15.145]) with ESMTPA (Nemesis) id
+ 1MUXd0-1iKLFU3ITg-00QQen; Fri, 08 Nov 2019 21:35:00 +0100
 From:   Arnd Bergmann <arnd@arndb.de>
-Date:   Fri, 8 Nov 2019 20:57:14 +0100
-X-Gmail-Original-Message-ID: <CAK8P3a0f=WvSQSBQ4t0FmEkcFE_mC3oARxaeTviTSkSa-D2qhg@mail.gmail.com>
-Message-ID: <CAK8P3a0f=WvSQSBQ4t0FmEkcFE_mC3oARxaeTviTSkSa-D2qhg@mail.gmail.com>
-Subject: Re: [PATCH 01/13] compiler.h: Split {READ,WRITE}_ONCE definitions out
- into rwonce.h
-To:     Will Deacon <will@kernel.org>
-Cc:     "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-        Yunjae Lee <lyj7694@gmail.com>,
-        SeongJae Park <sj38.park@gmail.com>,
-        "Paul E. McKenney" <paulmck@kernel.org>,
-        Josh Triplett <josh@joshtriplett.org>,
-        Matt Turner <mattst88@gmail.com>,
-        Ivan Kokshaysky <ink@jurassic.park.msu.ru>,
-        Richard Henderson <rth@twiddle.net>,
-        Peter Zijlstra <peterz@infradead.org>,
-        Alan Stern <stern@rowland.harvard.edu>,
-        Michael Ellerman <mpe@ellerman.id.au>,
-        "Michael S. Tsirkin" <mst@redhat.com>,
-        Jason Wang <jasowang@redhat.com>,
-        Joe Perches <joe@perches.com>,
-        Boqun Feng <boqun.feng@gmail.com>,
-        alpha <linux-alpha@vger.kernel.org>,
-        virtualization@lists.linux-foundation.org,
-        Christian Borntraeger <borntraeger@de.ibm.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 8BIT
-X-Provags-ID: V03:K1:WN2iI+qyF2aSt8E8GeKGmxpYo3P2QxddmHwDuUf+2xOBmvCiXN1
- kfo03Y5w0Ed4/W8YtsfC67k8nnzv9O2z9711Ijn03wGaGTixokJJiaw8tAHBJ9cYCbCssiz
- Y2PsFV9C1+nQzCzb82xfQ06UlKQRgwLbbTKvxd2E7K8Gy5O38Glw7sMriEYvgOHRMSuO3q1
- GaxO+KieHHsxR9s9J7o2Q==
+To:     y2038@lists.linaro.org, John Stultz <john.stultz@linaro.org>,
+        Thomas Gleixner <tglx@linutronix.de>
+Cc:     linux-kernel@vger.kernel.org, Arnd Bergmann <arnd@arndb.de>,
+        stable@vger.kernel.org, Deepa Dinamani <deepa.kernel@gmail.com>,
+        linux-alpha@vger.kernel.org, netdev@vger.kernel.org,
+        Stephen Boyd <sboyd@kernel.org>
+Subject: [PATCH 1/8] y2038: timex: remove incorrect time_t truncation
+Date:   Fri,  8 Nov 2019 21:34:24 +0100
+Message-Id: <20191108203435.112759-2-arnd@arndb.de>
+X-Mailer: git-send-email 2.20.0
+In-Reply-To: <20191108203435.112759-1-arnd@arndb.de>
+References: <20191108203435.112759-1-arnd@arndb.de>
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
+X-Provags-ID: V03:K1:dsvYf++PaRS643RBIcfftXOiikOLND2cOaNKY9DSf4lXSBk9638
+ lhMQnUQ5oC+UdORdW39GRI2YOYmmzkdt2K8YdgnKGU+Q1xAfY/croquox+EBMHjxSXARGT9
+ 0KoXD79AZobQRGcB4BAfLqfv+dMyxMf9KaFtVcRIAA16T+1NEtuZVuDeIlASU8CyEkGCHNx
+ gAYJo1aZa8zydstxki2/w==
 X-Spam-Flag: NO
-X-UI-Out-Filterresults: notjunk:1;V03:K0:bYkMvnYhV+E=:5i3VTKBS0g9a2FZ+pwIr/h
- YGXwH9EYPtpdpROfWmYRD8/qsvV5WJtT9N4XydZgBoxBTkEKg4CUMYzn/GpaQjz5kMOXfnF1f
- MppuGBcAI5xDJpx7/bOD4Cjt2zvLYJIaCzH8cU5MHM01uUndyxLEcA5KoAzUzexHN34ly4Di6
- 3K9cuWzfla586x0lmwdxYkBLCbwApbKUc29p5d4sx2jS28pTqqGYovQdriPQ2INaUIjitX68x
- yHQYLiEv4gTceKnDvGfN85XlUEH2xH9/2l2uHpaHXPp7raydECobeYgohHlLS+g59JjHzdFQX
- Bc3ah8+euWPyRK+Etayp9cnuiqm/UmdNIcPdoKbsDEugcMW9BAQ2qDSurObGnIH15EnnZvfEF
- 4LheLtq4DWgU72V2Rr2vPTZco1DXkJ4w7kAcxDs3Ts36ZJpjjaTxzoUvrmkWFKu3o1NsSSdtz
- 6diG03KThrYLE4Aza5PiV3jt6QL1NvcR6M9nARqhQFzOG6ObZm9QZI0TrTvADlKe1LFVJ3s6m
- RGkpxNSrGt/7D/zBz3UDeBXB3tANmBEZnLr5smBbJE7mKI12z0vVNmX6rU4Bva5fg2YdqGNWN
- k48lfUG2+PJqzcbKozpHvqN52rswG2476rp2jPCIlPr0KZY8MT3DwUm4zkIUnzivZRPRtGaUS
- 5YWKXSsJ09jptgYVHmIMccRcFrauU+PmsavJHTP1hXeXeRUrrM56JrFtOlm5G5ZsEKxftZrnh
- 6aYlRvZkotFNPVdZ+jZRQ4V+hPXC+AWwMExucHXDN+2dQl0g0TJvKPOqJwnvu/oLxHjf6cGDz
- MGDr1slo0ciqEUpnP5XOlbKcNg127ZJTOUv1v9gMGYx8HUrai2US24TbwHYvbYPFl9siebGd4
- pM58UcjGFKWFvwd3Z9Dg==
+X-UI-Out-Filterresults: notjunk:1;V03:K0:1nRjZ/tmDjg=:emR5zWF51M5/vEo+98Qgj5
+ lnbGKVBN8OwOj2FSuvwsPCgcN6LedIvlNOmNcBKcifHK40VgpKjAFw2tfBI9Pb9lOCisZHMlQ
+ UgYJBlUEX2GrQSQBuRRgLPsrsEFg8nAt5dl0UdiO2vrCaYoHrs3ssjTNh77iLW3qkjUfcPA/r
+ TLt2R1Ir5LhoMlH5kH9/p7N8FndtLd3Y3wyDbRThOuG7NzJp5DEiHgENEHoLEvpS4YW/kZSWM
+ 2R0R1JiGtePuEDlkNZQnnRvAem3cCKuFMhbk5lEvSQDO5xWR+rV1nnyq1taJX9Thu5smjAbjP
+ NiJLOb9M+SBxTVhQgzorOSfX7GDqlIZE6LLW2eRc/v7vNTLLWys2+qfw2zZLBLZtdQxMf9XRo
+ UNKNJR3sXpJnqnQJywDVKLKrnS6/+gv2+VL/xoQNcBoGDnZbjm2EKnxJVuZJ1MqSb4h8bpdD4
+ jVoo0Q3Jia5qgDYIJx4cqCmXe8SvOyVWNlI5xNnZSMQDVJwk3C+G9xeu4wGC6Y70VEI+Jq0uG
+ my9rYqeWWl/kYJKkQtupze2O70ykbmjRDmCCwcf0RJdp/bBkDWg96ROBzcZiPjuHi9yNkF8z8
+ 664Js3Dn+0KQ22oAb7M58v9laXjw1l1T0VxaaMLE/b3P6tydF0ciIRrcrLuJwqrRv+w6h6gme
+ GUnRujq4IU2xuU91uKfsvlGrbIcXJOOKhxgdkl4AZyUcb6TnYO9IIxlslvmpXVV+PSw6B2hXQ
+ DcSLQDJmcx9Qy66IRjuTUQ3HlGodY38IH5p3onsw70wnIIEZ01F+I9xFf+q4tZhwQ78OesHYu
+ m6wUEUrXwZ3xXgMfnYU8MPbmDMYVB5muevfSfy5ckxLrsP0w8XZ0rOPRQxffJLajGaSxb5YF6
+ by1mEgUmD5heT8jjdxbQ==
 Sender: linux-alpha-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-alpha.vger.kernel.org>
 X-Mailing-List: linux-alpha@vger.kernel.org
 
-On Fri, Nov 8, 2019 at 6:01 PM Will Deacon <will@kernel.org> wrote:
->
-> In preparation for allowing architectures to define their own
-> implementation of the 'READ_ONCE()' macro, move the generic
-> '{READ,WRITE}_ONCE()' definitions out of the unwieldy 'linux/compiler.h'
-> and into a new 'rwonce.h' header under 'asm-generic'.
+A cast to 'time_t' was accidentally left in place during the
+conversion of __do_adjtimex() to 64-bit timestamps, so the
+resulting value is incorrectly truncated.
 
-Adding Christian Bornträger to Cc, he originally added the
-READ_ONCE()/WRITE_ONCE()
-code.
+Remove the cast so the 64-bit time gets propagated correctly.
 
-I wonder if it would be appropriate now to revert back to a much simpler version
-of these helpers for any modern compiler. As I understand, only gcc-4.6 and
-gcc4.7 actually need the song-and-dance version with the union and switch/case,
-while for others, we can might be able back to a macro doing a volatile access.
+Cc: stable@vger.kernel.org
+Fixes: ead25417f82e ("timex: use __kernel_timex internally")
+Signed-off-by: Arnd Bergmann <arnd@arndb.de>
+---
+ kernel/time/ntp.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-     Arnd
+diff --git a/kernel/time/ntp.c b/kernel/time/ntp.c
+index 65eb796610dc..069ca78fb0bf 100644
+--- a/kernel/time/ntp.c
++++ b/kernel/time/ntp.c
+@@ -771,7 +771,7 @@ int __do_adjtimex(struct __kernel_timex *txc, const struct timespec64 *ts,
+ 	/* fill PPS status fields */
+ 	pps_fill_timex(txc);
+ 
+-	txc->time.tv_sec = (time_t)ts->tv_sec;
++	txc->time.tv_sec = ts->tv_sec;
+ 	txc->time.tv_usec = ts->tv_nsec;
+ 	if (!(time_status & STA_NANO))
+ 		txc->time.tv_usec = ts->tv_nsec / NSEC_PER_USEC;
+-- 
+2.20.0
+
