@@ -2,81 +2,148 @@ Return-Path: <linux-alpha-owner@vger.kernel.org>
 X-Original-To: lists+linux-alpha@lfdr.de
 Delivered-To: lists+linux-alpha@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id CCBA4F4FDB
-	for <lists+linux-alpha@lfdr.de>; Fri,  8 Nov 2019 16:36:17 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id E3068F51DC
+	for <lists+linux-alpha@lfdr.de>; Fri,  8 Nov 2019 18:01:34 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727033AbfKHPgR (ORCPT <rfc822;lists+linux-alpha@lfdr.de>);
-        Fri, 8 Nov 2019 10:36:17 -0500
-Received: from mail-wr1-f67.google.com ([209.85.221.67]:41846 "EHLO
-        mail-wr1-f67.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726438AbfKHPgQ (ORCPT
-        <rfc822;linux-alpha@vger.kernel.org>); Fri, 8 Nov 2019 10:36:16 -0500
-Received: by mail-wr1-f67.google.com with SMTP id p4so7521073wrm.8
-        for <linux-alpha@vger.kernel.org>; Fri, 08 Nov 2019 07:36:15 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=baylibre-com.20150623.gappssmtp.com; s=20150623;
-        h=from:to:cc:subject:date:message-id;
-        bh=9lMgRNG2cJGG8AVeRQHErI9Gl3XI9KK/U31d8R3ejsQ=;
-        b=EWNepT2WAfQMuRY60vzjXFgqPnRfaJU3DzL/cj1ATfS4TGT6MpPVYa3DtzO31+GY9U
-         vlzIMrIyyXu3srvKdjem8uigYtg+lTS+x/T92CG9/SBuSyIsS7RYo8uBBuyvyjfoLeWW
-         yZqDgtQmGMf9uk3FfTgemAWGIAqlBkVUFBC42XPIuVhMbttBjDtbaKjx6ken+aS2hDMD
-         tz0emFkFCXwHC3dp3nQrWR561uI8jBBybT0ovHdWIZ74nV7TVtQf94Vq7sJf1TXcxcv1
-         OL3LyD1xu/P6yHHnz5cWE6OqYBXaE9mm3K3xUEzwELESrCEGVlic3EbtfcYcZn2x1NwQ
-         ot0w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id;
-        bh=9lMgRNG2cJGG8AVeRQHErI9Gl3XI9KK/U31d8R3ejsQ=;
-        b=uOOMs2lsGU4aSGtAS1vm3dOkbob9Am2LBHj5RDFuRG5FCB8D0hp4Av/JIQS9UiWYRZ
-         /tmONG61+OIdYP6EqcRvlwKhJ7m1QHuh51tlc9sbuGTOPPSHtikbWiRM2CzMmfuoijzB
-         s41LoR0ET2vRJi9YjBF+nmRGMj5ENN8fPRwW9TPBW/dqzCdaY4caeJWSVD7C0HIamQTL
-         uuNR1ASRWexGv/QfxfCGcW53DoKcFFUFS+NC6dCpEfnlfNzQ4VTQ5DME4szFTtn6YmHK
-         s36ZH/Nk78rdomaZ0M+N/v6oa0KPLFivcw5HD58z1XYUTaAJY+ppqOByCpaJNicdonhI
-         HU/Q==
-X-Gm-Message-State: APjAAAVMK4yYQBT86BV9C2FBy8hPbLuU6H/Zf9F3qAAim/vKVofDAP1s
-        VTsnGDfiUqn/2mwunqdNyfvk/Q==
-X-Google-Smtp-Source: APXvYqwWS/q1mGxIc2fbqY27w5J8g01MN+wCCoW1rgz0kKv0EGBVn7dxIb2E7BSFHsFLrS7qaNJgxg==
-X-Received: by 2002:adf:e712:: with SMTP id c18mr8638572wrm.127.1573227374707;
-        Fri, 08 Nov 2019 07:36:14 -0800 (PST)
-Received: from localhost.localdomain ([51.15.160.169])
-        by smtp.googlemail.com with ESMTPSA id z6sm7422500wro.18.2019.11.08.07.36.13
-        (version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-        Fri, 08 Nov 2019 07:36:13 -0800 (PST)
-From:   Corentin Labbe <clabbe@baylibre.com>
-To:     ink@jurassic.park.msu.ru, mattst88@gmail.com, rth@twiddle.net
-Cc:     linux-alpha@vger.kernel.org, linux-kernel@vger.kernel.org,
-        Corentin Labbe <clabbe@baylibre.com>
-Subject: [PATCH] alpha: __udiv_qrnnd should be exported
-Date:   Fri,  8 Nov 2019 15:36:08 +0000
-Message-Id: <1573227368-32686-1-git-send-email-clabbe@baylibre.com>
-X-Mailer: git-send-email 2.7.4
+        id S1727168AbfKHRB3 (ORCPT <rfc822;lists+linux-alpha@lfdr.de>);
+        Fri, 8 Nov 2019 12:01:29 -0500
+Received: from mail.kernel.org ([198.145.29.99]:45174 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1726446AbfKHRB3 (ORCPT <rfc822;linux-alpha@vger.kernel.org>);
+        Fri, 8 Nov 2019 12:01:29 -0500
+Received: from localhost.localdomain (236.31.169.217.in-addr.arpa [217.169.31.236])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+        (No client certificate requested)
+        by mail.kernel.org (Postfix) with ESMTPSA id F381821848;
+        Fri,  8 Nov 2019 17:01:24 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=default; t=1573232488;
+        bh=HTcHAMijQqVgRO6zCy9ZrheDnl8HQLiX8Rjta3usTZ0=;
+        h=From:To:Cc:Subject:Date:From;
+        b=ZnWS1X2b0PUCeQpWpi2502WQVdkfXFyqK1xdBOQWZhgk7zTcKcKSAZL/qE4C3Q06o
+         rkWqf8YjsJ+izdbJEavvUi+ZRPkK1LjbvsGyHiO1nEhJnG1ewGF22bNKulG62FV4/N
+         vsurK/YtoTCaD5wquc8vQ05h7NCU1xoFxOK2VWag=
+From:   Will Deacon <will@kernel.org>
+To:     linux-kernel@vger.kernel.org
+Cc:     Will Deacon <will@kernel.org>, Yunjae Lee <lyj7694@gmail.com>,
+        SeongJae Park <sj38.park@gmail.com>,
+        "Paul E. McKenney" <paulmck@kernel.org>,
+        Josh Triplett <josh@joshtriplett.org>,
+        Matt Turner <mattst88@gmail.com>,
+        Ivan Kokshaysky <ink@jurassic.park.msu.ru>,
+        Richard Henderson <rth@twiddle.net>,
+        Peter Zijlstra <peterz@infradead.org>,
+        Alan Stern <stern@rowland.harvard.edu>,
+        Michael Ellerman <mpe@ellerman.id.au>,
+        "Michael S. Tsirkin" <mst@redhat.com>,
+        Jason Wang <jasowang@redhat.com>,
+        Arnd Bergmann <arnd@arndb.de>, Joe Perches <joe@perches.com>,
+        Boqun Feng <boqun.feng@gmail.com>, linux-alpha@vger.kernel.org,
+        virtualization@lists.linux-foundation.org
+Subject: [PATCH 00/13] Finish off [smp_]read_barrier_depends()
+Date:   Fri,  8 Nov 2019 17:01:07 +0000
+Message-Id: <20191108170120.22331-1-will@kernel.org>
+X-Mailer: git-send-email 2.20.1
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 Sender: linux-alpha-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-alpha.vger.kernel.org>
 X-Mailing-List: linux-alpha@vger.kernel.org
 
-When building an alpha kernel with mpi set as module, I hit this build
-error:
-ERROR: "__udiv_qrnnd" [lib/mpi/mpi.ko] undefined!
-make[2]: *** [scripts/Makefile.modpost:92: __modpost] Error 1
-make[1]: *** [Makefile:1266: modules] Error 2
+Hi all,
 
-This is due to __udiv_qrnnd not exported.
-Signed-off-by: Corentin Labbe <clabbe@baylibre.com>
----
- arch/alpha/math-emu/math.c | 2 ++
- 1 file changed, 2 insertions(+)
+Although [smp_]read_barrier_depends() became part of READ_ONCE() in
+commit 76ebbe78f739 ("locking/barriers: Add implicit
+smp_read_barrier_depends() to READ_ONCE()"), it still limps on in the
+Linux memory model with the sinister hope of attracting innocent new
+users so that it becomes impossible to remove altogether.
 
-diff --git a/arch/alpha/math-emu/math.c b/arch/alpha/math-emu/math.c
-index d568cd9a3e43..5617ac0889b8 100644
---- a/arch/alpha/math-emu/math.c
-+++ b/arch/alpha/math-emu/math.c
-@@ -401,3 +401,5 @@ alpha_fp_emul_imprecise (struct pt_regs *regs, unsigned long write_mask)
- egress:
- 	return si_code;
- }
-+
-+EXPORT_SYMBOL(__udiv_qrnnd);
+Let's strike before it's too late: there's only one user outside of
+arch/alpha/ and that lives in the vhost code which I don't think you
+can actually compile for Alpha. Even if you could, it appears to be
+redundant. The rest of these patches remove any mention of the barrier
+from Documentation and comments, as well as removing its use from the
+Alpha backend and finally dropping it from the memory model completely.
+
+After this series, there are still two places where it is mentioned:
+
+  1. The Korean translation of memory-barriers.txt. I'd appreciate some
+     help fixing this because it's not entirely a straightforward
+     deletion.
+
+  2. The virtio vring tests under tools/. This is userspace code so I'm
+     not too fussed about it.
+
+There's a chunk of header reshuffling at the start of the series so that
+READ_ONCE() can sensibly be overridden by arch code.
+
+Feedback welcome.
+
+Cheers,
+
+Will
+
+Cc: Yunjae Lee <lyj7694@gmail.com>
+Cc: SeongJae Park <sj38.park@gmail.com>
+Cc: "Paul E. McKenney" <paulmck@kernel.org>
+Cc: Josh Triplett <josh@joshtriplett.org>
+Cc: Matt Turner <mattst88@gmail.com>
+Cc: Ivan Kokshaysky <ink@jurassic.park.msu.ru>
+Cc: Richard Henderson <rth@twiddle.net>
+Cc: Peter Zijlstra <peterz@infradead.org>
+Cc: Alan Stern <stern@rowland.harvard.edu>
+Cc: Michael Ellerman <mpe@ellerman.id.au>
+Cc: "Michael S. Tsirkin" <mst@redhat.com>
+Cc: Jason Wang <jasowang@redhat.com>
+Cc: Arnd Bergmann <arnd@arndb.de>
+Cc: Joe Perches <joe@perches.com>
+Cc: Boqun Feng <boqun.feng@gmail.com>
+Cc: linux-alpha@vger.kernel.org
+Cc: virtualization@lists.linux-foundation.org
+
+--->8
+
+Will Deacon (13):
+  compiler.h: Split {READ,WRITE}_ONCE definitions out into rwonce.h
+  READ_ONCE: Undefine internal __READ_ONCE_SIZE macro after use
+  READ_ONCE: Allow __READ_ONCE_SIZE cases to be overridden by the
+    architecture
+  vhost: Remove redundant use of read_barrier_depends() barrier
+  alpha: Override READ_ONCE() with barriered implementation
+  READ_ONCE: Remove smp_read_barrier_depends() invocation
+  alpha: Replace smp_read_barrier_depends() usage with smp_[r]mb()
+  locking/barriers: Remove definitions for [smp_]read_barrier_depends()
+  Documentation/barriers: Remove references to
+    [smp_]read_barrier_depends()
+  tools/memory-model: Remove smp_read_barrier_depends() from informal
+    doc
+  powerpc: Remove comment about read_barrier_depends()
+  include/linux: Remove smp_read_barrier_depends() from comments
+  checkpatch: Remove checks relating to [smp_]read_barrier_depends()
+
+ .../RCU/Design/Requirements/Requirements.html |  11 +-
+ Documentation/memory-barriers.txt             | 156 +-----------------
+ arch/alpha/include/asm/atomic.h               |  16 +-
+ arch/alpha/include/asm/barrier.h              |  61 +------
+ arch/alpha/include/asm/pgtable.h              |  10 +-
+ arch/alpha/include/asm/rwonce.h               |  22 +++
+ arch/powerpc/include/asm/barrier.h            |   2 -
+ drivers/vhost/vhost.c                         |   5 -
+ include/asm-generic/Kbuild                    |   1 +
+ include/asm-generic/barrier.h                 |  17 --
+ include/asm-generic/rwonce.h                  | 131 +++++++++++++++
+ include/linux/compiler.h                      | 114 +------------
+ include/linux/compiler_attributes.h           |  12 ++
+ include/linux/percpu-refcount.h               |   2 +-
+ include/linux/ptr_ring.h                      |   2 +-
+ mm/memory.c                                   |   2 +-
+ scripts/checkpatch.pl                         |   9 +-
+ .../Documentation/explanation.txt             |  26 ++-
+ 18 files changed, 217 insertions(+), 382 deletions(-)
+ create mode 100644 arch/alpha/include/asm/rwonce.h
+ create mode 100644 include/asm-generic/rwonce.h
+
 -- 
-2.23.0
+2.24.0.rc1.363.gb1bccd3e3d-goog
 
