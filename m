@@ -2,140 +2,81 @@ Return-Path: <linux-alpha-owner@vger.kernel.org>
 X-Original-To: lists+linux-alpha@lfdr.de
 Delivered-To: lists+linux-alpha@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 65F25F4236
-	for <lists+linux-alpha@lfdr.de>; Fri,  8 Nov 2019 09:35:55 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id CCBA4F4FDB
+	for <lists+linux-alpha@lfdr.de>; Fri,  8 Nov 2019 16:36:17 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1730551AbfKHIfo (ORCPT <rfc822;lists+linux-alpha@lfdr.de>);
-        Fri, 8 Nov 2019 03:35:44 -0500
-Received: from mail-oi1-f196.google.com ([209.85.167.196]:42177 "EHLO
-        mail-oi1-f196.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725975AbfKHIfo (ORCPT
-        <rfc822;linux-alpha@vger.kernel.org>); Fri, 8 Nov 2019 03:35:44 -0500
-Received: by mail-oi1-f196.google.com with SMTP id i185so4547724oif.9;
-        Fri, 08 Nov 2019 00:35:43 -0800 (PST)
+        id S1727033AbfKHPgR (ORCPT <rfc822;lists+linux-alpha@lfdr.de>);
+        Fri, 8 Nov 2019 10:36:17 -0500
+Received: from mail-wr1-f67.google.com ([209.85.221.67]:41846 "EHLO
+        mail-wr1-f67.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726438AbfKHPgQ (ORCPT
+        <rfc822;linux-alpha@vger.kernel.org>); Fri, 8 Nov 2019 10:36:16 -0500
+Received: by mail-wr1-f67.google.com with SMTP id p4so7521073wrm.8
+        for <linux-alpha@vger.kernel.org>; Fri, 08 Nov 2019 07:36:15 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=baylibre-com.20150623.gappssmtp.com; s=20150623;
+        h=from:to:cc:subject:date:message-id;
+        bh=9lMgRNG2cJGG8AVeRQHErI9Gl3XI9KK/U31d8R3ejsQ=;
+        b=EWNepT2WAfQMuRY60vzjXFgqPnRfaJU3DzL/cj1ATfS4TGT6MpPVYa3DtzO31+GY9U
+         vlzIMrIyyXu3srvKdjem8uigYtg+lTS+x/T92CG9/SBuSyIsS7RYo8uBBuyvyjfoLeWW
+         yZqDgtQmGMf9uk3FfTgemAWGIAqlBkVUFBC42XPIuVhMbttBjDtbaKjx6ken+aS2hDMD
+         tz0emFkFCXwHC3dp3nQrWR561uI8jBBybT0ovHdWIZ74nV7TVtQf94Vq7sJf1TXcxcv1
+         OL3LyD1xu/P6yHHnz5cWE6OqYBXaE9mm3K3xUEzwELESrCEGVlic3EbtfcYcZn2x1NwQ
+         ot0w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=h1uMs1sJfEiNP+XnwLWOA56bVLhvU2oQuJJbSb2fF04=;
-        b=nBhN2te7LQ1CRA2mpkLtrzNCCqbZbiCnSqlQIGMcJ1WVsvYH8Y+awsROOtshd7+qP9
-         wQsrFpVQTLQyvD4QtMuLII59EU5dYLXp9J+Y8dKdVocmENFmqw5qBHVqwfCeWQPQs1ly
-         ow3mvH5fOyhLGRBgvkQtIQbowfFfuioAhKB+vVjweuyltUtznKE7YIUS1lnCmsfVZr5O
-         yJOslCSjakSXvEP1UEv8busj/guBmcYflbuGQgAKfTiyPp9CCRPU0zMyTs30uhQ5kCVA
-         C5S+CifoVaOznWY+iFMMrTTnpkdk3omrQh24B2ouwYbWsfue3EttbAc+asoSr/qy8O2g
-         tB5w==
-X-Gm-Message-State: APjAAAV6Lo6KFeicuIdIdrDN86NewmNW3VzfGhQ9wGHjy+jj80BcKQ0E
-        vD4VZqjQu2sJh9DYZHWUCdz3pD2sSu7+Q9ZWvPg=
-X-Google-Smtp-Source: APXvYqxOUOr/TBH5H/Et++6eJWrvXzscFQJINZxRtWaYCdbXL4E/D5dDGUqtPMP+MwKaU6AtU89yWbI44eh67jVJ2zk=
-X-Received: by 2002:aca:3a86:: with SMTP id h128mr8105952oia.131.1573202142533;
- Fri, 08 Nov 2019 00:35:42 -0800 (PST)
-MIME-Version: 1.0
-References: <1572938135-31886-1-git-send-email-rppt@kernel.org> <1572938135-31886-6-git-send-email-rppt@kernel.org>
-In-Reply-To: <1572938135-31886-6-git-send-email-rppt@kernel.org>
-From:   Geert Uytterhoeven <geert@linux-m68k.org>
-Date:   Fri, 8 Nov 2019 09:35:31 +0100
-Message-ID: <CAMuHMdXqaw_k=XiY0RYvvR+smE-5tbTBzWiAZOFev731vR3q3A@mail.gmail.com>
-Subject: Re: [PATCH v4 05/13] m68k: mm: use pgtable-nopXd instead of 4level-fixup
-To:     Mike Rapoport <rppt@kernel.org>
-Cc:     Linux MM <linux-mm@kvack.org>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Anton Ivanov <anton.ivanov@cambridgegreys.com>,
-        Arnd Bergmann <arnd@arndb.de>,
-        "David S. Miller" <davem@davemloft.net>,
-        Greentime Hu <green.hu@gmail.com>,
-        Greg Ungerer <gerg@linux-m68k.org>,
-        Helge Deller <deller@gmx.de>,
-        "James E.J. Bottomley" <James.Bottomley@hansenpartnership.com>,
-        Jeff Dike <jdike@addtoit.com>,
-        "Kirill A. Shutemov" <kirill@shutemov.name>,
-        Linus Torvalds <torvalds@linux-foundation.org>,
-        Mark Salter <msalter@redhat.com>,
-        Matt Turner <mattst88@gmail.com>,
-        Michal Simek <monstr@monstr.eu>, Peter Rosin <peda@axentia.se>,
-        Richard Weinberger <richard@nod.at>,
-        Rolf Eike Beer <eike-kernel@sf-tec.de>,
-        Russell King <linux@armlinux.org.uk>,
-        Sam Creasey <sammy@sammy.net>,
-        Vincent Chen <deanbo422@gmail.com>,
-        Vineet Gupta <Vineet.Gupta1@synopsys.com>,
-        alpha <linux-alpha@vger.kernel.org>,
-        Linux-Arch <linux-arch@vger.kernel.org>,
-        Linux ARM <linux-arm-kernel@lists.infradead.org>,
-        linux-c6x-dev@linux-c6x.org,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        linux-m68k <linux-m68k@lists.linux-m68k.org>,
-        Parisc List <linux-parisc@vger.kernel.org>,
-        linux-um@lists.infradead.org,
-        sparclinux <sparclinux@vger.kernel.org>,
-        Mike Rapoport <rppt@linux.ibm.com>
-Content-Type: text/plain; charset="UTF-8"
+        h=x-gm-message-state:from:to:cc:subject:date:message-id;
+        bh=9lMgRNG2cJGG8AVeRQHErI9Gl3XI9KK/U31d8R3ejsQ=;
+        b=uOOMs2lsGU4aSGtAS1vm3dOkbob9Am2LBHj5RDFuRG5FCB8D0hp4Av/JIQS9UiWYRZ
+         /tmONG61+OIdYP6EqcRvlwKhJ7m1QHuh51tlc9sbuGTOPPSHtikbWiRM2CzMmfuoijzB
+         s41LoR0ET2vRJi9YjBF+nmRGMj5ENN8fPRwW9TPBW/dqzCdaY4caeJWSVD7C0HIamQTL
+         uuNR1ASRWexGv/QfxfCGcW53DoKcFFUFS+NC6dCpEfnlfNzQ4VTQ5DME4szFTtn6YmHK
+         s36ZH/Nk78rdomaZ0M+N/v6oa0KPLFivcw5HD58z1XYUTaAJY+ppqOByCpaJNicdonhI
+         HU/Q==
+X-Gm-Message-State: APjAAAVMK4yYQBT86BV9C2FBy8hPbLuU6H/Zf9F3qAAim/vKVofDAP1s
+        VTsnGDfiUqn/2mwunqdNyfvk/Q==
+X-Google-Smtp-Source: APXvYqwWS/q1mGxIc2fbqY27w5J8g01MN+wCCoW1rgz0kKv0EGBVn7dxIb2E7BSFHsFLrS7qaNJgxg==
+X-Received: by 2002:adf:e712:: with SMTP id c18mr8638572wrm.127.1573227374707;
+        Fri, 08 Nov 2019 07:36:14 -0800 (PST)
+Received: from localhost.localdomain ([51.15.160.169])
+        by smtp.googlemail.com with ESMTPSA id z6sm7422500wro.18.2019.11.08.07.36.13
+        (version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
+        Fri, 08 Nov 2019 07:36:13 -0800 (PST)
+From:   Corentin Labbe <clabbe@baylibre.com>
+To:     ink@jurassic.park.msu.ru, mattst88@gmail.com, rth@twiddle.net
+Cc:     linux-alpha@vger.kernel.org, linux-kernel@vger.kernel.org,
+        Corentin Labbe <clabbe@baylibre.com>
+Subject: [PATCH] alpha: __udiv_qrnnd should be exported
+Date:   Fri,  8 Nov 2019 15:36:08 +0000
+Message-Id: <1573227368-32686-1-git-send-email-clabbe@baylibre.com>
+X-Mailer: git-send-email 2.7.4
 Sender: linux-alpha-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-alpha.vger.kernel.org>
 X-Mailing-List: linux-alpha@vger.kernel.org
 
-Hi Mike,
+When building an alpha kernel with mpi set as module, I hit this build
+error:
+ERROR: "__udiv_qrnnd" [lib/mpi/mpi.ko] undefined!
+make[2]: *** [scripts/Makefile.modpost:92: __modpost] Error 1
+make[1]: *** [Makefile:1266: modules] Error 2
 
-On Tue, Nov 5, 2019 at 8:16 AM Mike Rapoport <rppt@kernel.org> wrote:
-> From: Mike Rapoport <rppt@linux.ibm.com>
->
-> m68k has two or three levels of page tables and can use appropriate
-> pgtable-nopXd and folding of the upper layers.
->
-> Replace usage of include/asm-generic/4level-fixup.h and explicit
-> definitions of __PAGETABLE_PxD_FOLDED in m68k with
-> include/asm-generic/pgtable-nopmd.h for two-level configurations and with
-> include/asm-generic/pgtable-nopud.h for three-lelve configurations and
-> adjust page table manipulation macros and functions accordingly.
->
-> Signed-off-by: Mike Rapoport <rppt@linux.ibm.com>
-> Acked-by: Greg Ungerer <gerg@linux-m68k.org>
+This is due to __udiv_qrnnd not exported.
+Signed-off-by: Corentin Labbe <clabbe@baylibre.com>
+---
+ arch/alpha/math-emu/math.c | 2 ++
+ 1 file changed, 2 insertions(+)
 
-Acked-by: Geert Uytterhoeven <geert@linux-m68k.org>
-
-One forgotten error message update below.
-
-> --- a/arch/m68k/mm/kmap.c
-> +++ b/arch/m68k/mm/kmap.c
-> @@ -258,18 +265,23 @@ void __iounmap(void *addr, unsigned long size)
->  {
->         unsigned long virtaddr = (unsigned long)addr;
->         pgd_t *pgd_dir;
-> +       p4d_t *p4d_dir;
-> +       pud_t *pud_dir;
->         pmd_t *pmd_dir;
->         pte_t *pte_dir;
->
->         while ((long)size > 0) {
->                 pgd_dir = pgd_offset_k(virtaddr);
-> -               if (pgd_bad(*pgd_dir)) {
-> -                       printk("iounmap: bad pgd(%08lx)\n", pgd_val(*pgd_dir));
-> -                       pgd_clear(pgd_dir);
-> +               p4d_dir = p4d_offset(pgd_dir, virtaddr);
-> +               pud_dir = pud_offset(p4d_dir, virtaddr);
-> +               if (pud_bad(*pud_dir)) {
-> +                       printk("iounmap: bad pgd(%08lx)\n", pud_val(*pud_dir));
-
-bad pud
-
-> +                       pud_clear(pud_dir);
->                         return;
->                 }
-> -               pmd_dir = pmd_offset(pgd_dir, virtaddr);
-> +               pmd_dir = pmd_offset(pud_dir, virtaddr);
->
-> +#if CONFIG_PGTABLE_LEVELS == 3
->                 if (CPU_IS_020_OR_030) {
->                         int pmd_off = (virtaddr/PTRTREESIZE) & 15;
->                         int pmd_type = pmd_dir->pmd[pmd_off] & _DESCTYPE_MASK;
-
-Gr{oetje,eeting}s,
-
-                        Geert
-
+diff --git a/arch/alpha/math-emu/math.c b/arch/alpha/math-emu/math.c
+index d568cd9a3e43..5617ac0889b8 100644
+--- a/arch/alpha/math-emu/math.c
++++ b/arch/alpha/math-emu/math.c
+@@ -401,3 +401,5 @@ alpha_fp_emul_imprecise (struct pt_regs *regs, unsigned long write_mask)
+ egress:
+ 	return si_code;
+ }
++
++EXPORT_SYMBOL(__udiv_qrnnd);
 -- 
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
+2.23.0
 
-In personal conversations with technical people, I call myself a hacker. But
-when I'm talking to journalists I just say "programmer" or something like that.
-                                -- Linus Torvalds
