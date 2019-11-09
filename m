@@ -2,194 +2,107 @@ Return-Path: <linux-alpha-owner@vger.kernel.org>
 X-Original-To: lists+linux-alpha@lfdr.de
 Delivered-To: lists+linux-alpha@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 95D19F59A6
-	for <lists+linux-alpha@lfdr.de>; Fri,  8 Nov 2019 22:24:50 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 44A4CF5F82
+	for <lists+linux-alpha@lfdr.de>; Sat,  9 Nov 2019 15:26:43 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1732820AbfKHVRz (ORCPT <rfc822;lists+linux-alpha@lfdr.de>);
-        Fri, 8 Nov 2019 16:17:55 -0500
-Received: from mout.kundenserver.de ([212.227.17.13]:45817 "EHLO
-        mout.kundenserver.de" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726095AbfKHVRz (ORCPT
-        <rfc822;linux-alpha@vger.kernel.org>); Fri, 8 Nov 2019 16:17:55 -0500
-Received: from threadripper.lan ([149.172.19.189]) by mrelayeu.kundenserver.de
- (mreue107 [212.227.15.145]) with ESMTPA (Nemesis) id
- 1MwgOK-1hjJ0r0tOk-00yBGN; Fri, 08 Nov 2019 22:17:39 +0100
-From:   Arnd Bergmann <arnd@arndb.de>
-To:     y2038@lists.linaro.org, Richard Henderson <rth@twiddle.net>,
-        Ivan Kokshaysky <ink@jurassic.park.msu.ru>,
-        Matt Turner <mattst88@gmail.com>,
-        Thomas Gleixner <tglx@linutronix.de>
-Cc:     linux-kernel@vger.kernel.org, Arnd Bergmann <arnd@arndb.de>,
-        Deepa Dinamani <deepa.kernel@gmail.com>,
-        Christian Brauner <christian@brauner.io>,
-        Heiko Carstens <heiko.carstens@de.ibm.com>,
-        Anna-Maria Gleixner <anna-maria@linutronix.de>,
-        linux-alpha@vger.kernel.org
-Subject: [PATCH 19/23] y2038: use compat_{get,set}_itimer on alpha
-Date:   Fri,  8 Nov 2019 22:12:18 +0100
-Message-Id: <20191108211323.1806194-10-arnd@arndb.de>
-X-Mailer: git-send-email 2.20.0
-In-Reply-To: <20191108210236.1296047-1-arnd@arndb.de>
-References: <20191108210236.1296047-1-arnd@arndb.de>
+        id S1726289AbfKIO0m (ORCPT <rfc822;lists+linux-alpha@lfdr.de>);
+        Sat, 9 Nov 2019 09:26:42 -0500
+Received: from mail-ot1-f66.google.com ([209.85.210.66]:36338 "EHLO
+        mail-ot1-f66.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726282AbfKIO0m (ORCPT
+        <rfc822;linux-alpha@vger.kernel.org>); Sat, 9 Nov 2019 09:26:42 -0500
+Received: by mail-ot1-f66.google.com with SMTP id f10so7714142oto.3;
+        Sat, 09 Nov 2019 06:26:41 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=Fkse6mn+BlbyKaVzVIbzg4CVFkjF596d7A0VyrrgtRU=;
+        b=nFyS+o87e/FWAnmqpwZbiiJKxtutgLkNwjvAongX5FrQROqYIVKJZi6ZoDP2MpigxA
+         RMsRWqhc3CrR6z+KJXTLgmSc3XMo8R1lQ/+0kllXkbccPZ2cov+u0vHO6Vbfn+V603nl
+         NNvlAOrhucViLbbjytXef50v6YCiNofD8byUwYKM5YCs7Jrq2yL+FBIJiLVK9PqlOnM3
+         44EEsGJLBmgkvZ5T6N/VD39CFIXfmqPb/ZpZeJ5abEEDBlILhf2xuH1G89h+JbRSJqck
+         7wp/NGYXT5SvoUB09whkYX4aPMoG6OEEpyeMlIe1xjC/UfUk1gu9z7Xkfp5o4F7qd/dt
+         NVHA==
+X-Gm-Message-State: APjAAAVaU0w9iSJnEC4kFcFRbqDvMr6K5T9fxaWyUWbbVh6JX9JfTHmQ
+        Tq5/QEJ8wPeUNOsQqpTAkV4khR4AuLn9a90bHr8=
+X-Google-Smtp-Source: APXvYqwpjgCj+NHQWmmo7wlASzZaObwnisMuzQQ68HgJW5L0F4ZE2XkJ/WLy2vxRTaOAABifbqXLM9wt0RfHZ30Isk4=
+X-Received: by 2002:a9d:422:: with SMTP id 31mr13203157otc.107.1573309600743;
+ Sat, 09 Nov 2019 06:26:40 -0800 (PST)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Provags-ID: V03:K1:E3gQKHDY/P5Y9zeE38VfQQ9wJ3KSPGVX2xBd4RGUHKVBkeQ3cnh
- IkqObZNllWa36SZ83QqDO/3CSSqK5L1RxS4HiP7Gz1x9tR5rNAkZqcsi1zd97to4Urku7br
- wOB5TOqXT1CjZTRrO9u4pIvL/sKlKt0CEF8I4WVxfmUUkcu3jXo/fbLhOpTLguvEuaXNDuu
- IwKMBcMOQlfd8/jxNENKw==
-X-Spam-Flag: NO
-X-UI-Out-Filterresults: notjunk:1;V03:K0:e/W+TxPQhaM=:ml/G9/qCjz5DPXfgmu4Q4t
- yZe2Hg0nRciRf2WuBQZW/Os8at/YT+JfAVd8YSPJobZaGTAYEdkdNZ8QjbXRD4RU9n+FIKPYi
- 7UwA2pXMgUWD3YqOuKCyHXYf7c/TMD0AEKjHm2CGb+P6bGSQkFY9JVHfyfa/uooG6du+p4kTi
- /+Czem+gkKCBl2npeJeRYC+9myim/rmPn3tRAwHtUWcVUxQyZTL+LEDtPRWrkit1u8ucjFz2o
- /uzORPNSEPTgi+yBTiBgb6rPAacISnj8GhYslwR9xV5O4rhrZt/o0knlvqJ1OOHRHr7YGgAkt
- 2e7XN4C918xz/sStEaWB0WUwsBpFoXbwZ4eVkIEYsnlgrBEytl4mM3mGQS5nQwRFblH1/4t1r
- TZCIlc+mhWGQMAkMNWF56ETeL9+0Pv4ycy2UJrtXDVOoEwkCEujRWdRJj6nbi9PVrP8FwWSu0
- 6fLrkR34CMHqE9UJxdud/zddxZeLF5D8oJp/LBeKqiLSnlnCZFzMw2jIyR3ZtBo7eNyckaFOO
- K81KuQ85Dg+q+hukG9UrVDDsqI3mBV8o+iI2SgLa82qIJM0pYgg4PYJRbRJ4bF//AXW5QvrAo
- 2WpYGNn81uIU6NoSfveSz+6t5DuP7FkMF3nM9z3+0ZOmABNidQI9dPGZkrD+66boSLJDoDbrH
- HlvqmkedrVT5W0cOkd9cfOz8zxTDLWctcT5BqJ6X0imQRlZnvB30Ui9eYNGI3RQVJirnu3dj9
- LbCh36iw3QSump2JYcsCSduGbRTQZ5mo0Vhvu2mbq4jUwf9caYjIQyOasgoFdWtf/Wk79yW7j
- 7OtWtCjpQLM6DDnwJBinuRAUNxOu95fI9kVSzywIoQ912E9IGurxNTfOsreC1IUMlgn5UDFEB
- 67TnwtzMWoelIJ6k7u6w==
+References: <1572938135-31886-1-git-send-email-rppt@kernel.org>
+ <1572938135-31886-6-git-send-email-rppt@kernel.org> <20191108113917.a9c6ebb8373cc95fd684b734@linux-foundation.org>
+In-Reply-To: <20191108113917.a9c6ebb8373cc95fd684b734@linux-foundation.org>
+From:   Geert Uytterhoeven <geert@linux-m68k.org>
+Date:   Sat, 9 Nov 2019 15:26:29 +0100
+Message-ID: <CAMuHMdXdoFSVno4WT=F6Q1UwEaZ6AQJmhNUqPpYHJm6uh165iw@mail.gmail.com>
+Subject: Re: [PATCH v4 05/13] m68k: mm: use pgtable-nopXd instead of 4level-fixup
+To:     Andrew Morton <akpm@linux-foundation.org>
+Cc:     Mike Rapoport <rppt@kernel.org>, Linux MM <linux-mm@kvack.org>,
+        Anton Ivanov <anton.ivanov@cambridgegreys.com>,
+        Arnd Bergmann <arnd@arndb.de>,
+        "David S. Miller" <davem@davemloft.net>,
+        Greentime Hu <green.hu@gmail.com>,
+        Greg Ungerer <gerg@linux-m68k.org>,
+        Helge Deller <deller@gmx.de>,
+        "James E.J. Bottomley" <James.Bottomley@hansenpartnership.com>,
+        Jeff Dike <jdike@addtoit.com>,
+        "Kirill A. Shutemov" <kirill@shutemov.name>,
+        Linus Torvalds <torvalds@linux-foundation.org>,
+        Mark Salter <msalter@redhat.com>,
+        Matt Turner <mattst88@gmail.com>,
+        Michal Simek <monstr@monstr.eu>, Peter Rosin <peda@axentia.se>,
+        Richard Weinberger <richard@nod.at>,
+        Rolf Eike Beer <eike-kernel@sf-tec.de>,
+        Russell King <linux@armlinux.org.uk>,
+        Sam Creasey <sammy@sammy.net>,
+        Vincent Chen <deanbo422@gmail.com>,
+        Vineet Gupta <Vineet.Gupta1@synopsys.com>,
+        alpha <linux-alpha@vger.kernel.org>,
+        Linux-Arch <linux-arch@vger.kernel.org>,
+        Linux ARM <linux-arm-kernel@lists.infradead.org>,
+        linux-c6x-dev@linux-c6x.org,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        "Linux/m68k" <linux-m68k@vger.kernel.org>,
+        Parisc List <linux-parisc@vger.kernel.org>,
+        linux-um@lists.infradead.org,
+        sparclinux <sparclinux@vger.kernel.org>,
+        Mike Rapoport <rppt@linux.ibm.com>
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-alpha-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-alpha.vger.kernel.org>
 X-Mailing-List: linux-alpha@vger.kernel.org
 
-The itimer handling for the old alpha osf_setitimer/osf_getitimer
-system calls is identical to the compat version of getitimer/setitimer,
-so just use those directly.
+Hi Andrew,
 
-Signed-off-by: Arnd Bergmann <arnd@arndb.de>
----
- arch/alpha/kernel/osf_sys.c            | 65 --------------------------
- arch/alpha/kernel/syscalls/syscall.tbl |  4 +-
- kernel/time/itimer.c                   |  4 +-
- 3 files changed, 4 insertions(+), 69 deletions(-)
+On Fri, Nov 8, 2019 at 8:39 PM Andrew Morton <akpm@linux-foundation.org> wrote:
+> On Tue,  5 Nov 2019 09:15:27 +0200 Mike Rapoport <rppt@kernel.org> wrote:
+> > m68k has two or three levels of page tables and can use appropriate
+> > pgtable-nopXd and folding of the upper layers.
+> >
+> > Replace usage of include/asm-generic/4level-fixup.h and explicit
+> > definitions of __PAGETABLE_PxD_FOLDED in m68k with
+> > include/asm-generic/pgtable-nopmd.h for two-level configurations and with
+> > include/asm-generic/pgtable-nopud.h for three-lelve configurations and
+> > adjust page table manipulation macros and functions accordingly.
+>
+> This one was messed up by linux-next changes in arch/m68k/mm/kmap.c.
+> Can you please take a look?
 
-diff --git a/arch/alpha/kernel/osf_sys.c b/arch/alpha/kernel/osf_sys.c
-index bbe7a0da6264..94e4cde8071a 100644
---- a/arch/alpha/kernel/osf_sys.c
-+++ b/arch/alpha/kernel/osf_sys.c
-@@ -971,30 +971,6 @@ put_tv_to_tv32(struct timeval32 __user *o, struct __kernel_old_timeval *i)
- 			    sizeof(struct timeval32));
- }
- 
--static inline long
--get_it32(struct itimerval *o, struct itimerval32 __user *i)
--{
--	struct itimerval32 itv;
--	if (copy_from_user(&itv, i, sizeof(struct itimerval32)))
--		return -EFAULT;
--	o->it_interval.tv_sec = itv.it_interval.tv_sec;
--	o->it_interval.tv_usec = itv.it_interval.tv_usec;
--	o->it_value.tv_sec = itv.it_value.tv_sec;
--	o->it_value.tv_usec = itv.it_value.tv_usec;
--	return 0;
--}
--
--static inline long
--put_it32(struct itimerval32 __user *o, struct itimerval *i)
--{
--	return copy_to_user(o, &(struct itimerval32){
--				.it_interval.tv_sec = o->it_interval.tv_sec,
--				.it_interval.tv_usec = o->it_interval.tv_usec,
--				.it_value.tv_sec = o->it_value.tv_sec,
--				.it_value.tv_usec = o->it_value.tv_usec},
--			    sizeof(struct itimerval32));
--}
--
- static inline void
- jiffies_to_timeval32(unsigned long jiffies, struct timeval32 *value)
- {
-@@ -1039,47 +1015,6 @@ SYSCALL_DEFINE2(osf_settimeofday, struct timeval32 __user *, tv,
- 
- asmlinkage long sys_ni_posix_timers(void);
- 
--SYSCALL_DEFINE2(osf_getitimer, int, which, struct itimerval32 __user *, it)
--{
--	struct itimerval kit;
--	int error;
--
--	if (!IS_ENABLED(CONFIG_POSIX_TIMERS))
--		return sys_ni_posix_timers();
--
--	error = do_getitimer(which, &kit);
--	if (!error && put_it32(it, &kit))
--		error = -EFAULT;
--
--	return error;
--}
--
--SYSCALL_DEFINE3(osf_setitimer, int, which, struct itimerval32 __user *, in,
--		struct itimerval32 __user *, out)
--{
--	struct itimerval kin, kout;
--	int error;
--
--	if (!IS_ENABLED(CONFIG_POSIX_TIMERS))
--		return sys_ni_posix_timers();
--
--	if (in) {
--		if (get_it32(&kin, in))
--			return -EFAULT;
--	} else
--		memset(&kin, 0, sizeof(kin));
--
--	error = do_setitimer(which, &kin, out ? &kout : NULL);
--	if (error || !out)
--		return error;
--
--	if (put_it32(out, &kout))
--		return -EFAULT;
--
--	return 0;
--
--}
--
- SYSCALL_DEFINE2(osf_utimes, const char __user *, filename,
- 		struct timeval32 __user *, tvs)
- {
-diff --git a/arch/alpha/kernel/syscalls/syscall.tbl b/arch/alpha/kernel/syscalls/syscall.tbl
-index 728fe028c02c..8e13b0b2928d 100644
---- a/arch/alpha/kernel/syscalls/syscall.tbl
-+++ b/arch/alpha/kernel/syscalls/syscall.tbl
-@@ -89,10 +89,10 @@
- 80	common	setgroups			sys_setgroups
- 81	common	osf_old_getpgrp			sys_ni_syscall
- 82	common	setpgrp				sys_setpgid
--83	common	osf_setitimer			sys_osf_setitimer
-+83	common	osf_setitimer			compat_sys_setitimer
- 84	common	osf_old_wait			sys_ni_syscall
- 85	common	osf_table			sys_ni_syscall
--86	common	osf_getitimer			sys_osf_getitimer
-+86	common	osf_getitimer			compat_sys_getitimer
- 87	common	gethostname			sys_gethostname
- 88	common	sethostname			sys_sethostname
- 89	common	getdtablesize			sys_getdtablesize
-diff --git a/kernel/time/itimer.c b/kernel/time/itimer.c
-index c52ebb40b60b..4664c6addf69 100644
---- a/kernel/time/itimer.c
-+++ b/kernel/time/itimer.c
-@@ -111,7 +111,7 @@ SYSCALL_DEFINE2(getitimer, int, which, struct itimerval __user *, value)
- 	return error;
- }
- 
--#ifdef CONFIG_COMPAT
-+#if defined(CONFIG_COMPAT) || defined(CONFIG_ALPHA)
- struct old_itimerval32 {
- 	struct old_timeval32	it_interval;
- 	struct old_timeval32	it_value;
-@@ -324,7 +324,7 @@ SYSCALL_DEFINE3(setitimer, int, which, struct itimerval __user *, value,
- 	return 0;
- }
- 
--#ifdef CONFIG_COMPAT
-+#if defined(CONFIG_COMPAT) || defined(CONFIG_ALPHA)
- static int get_old_itimerval32(struct itimerval *o, const struct old_itimerval32 __user *i)
- {
- 	struct old_itimerval32 v32;
--- 
-2.20.0
+You mean due to the rename and move of __iounmap() to __free_io_area()
+in commit aa3a1664285d0bec ("m68k: rename __iounmap and mark it static")?
 
+Commit 42d6c83d6180f800 ("m68k: mm: use pgtable-nopXd instead of
+4level-fixup") in next-20191108 looks good to me.
+
+Gr{oetje,eeting}s,
+
+                        Geert
+
+--
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
+
+In personal conversations with technical people, I call myself a hacker. But
+when I'm talking to journalists I just say "programmer" or something like that.
+                                -- Linus Torvalds
