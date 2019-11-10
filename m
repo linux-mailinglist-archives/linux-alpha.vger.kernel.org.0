@@ -2,55 +2,67 @@ Return-Path: <linux-alpha-owner@vger.kernel.org>
 X-Original-To: lists+linux-alpha@lfdr.de
 Delivered-To: lists+linux-alpha@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 6ABB4F6B3B
-	for <lists+linux-alpha@lfdr.de>; Sun, 10 Nov 2019 21:15:33 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 1345AF6B66
+	for <lists+linux-alpha@lfdr.de>; Sun, 10 Nov 2019 21:45:01 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727065AbfKJUPb (ORCPT <rfc822;lists+linux-alpha@lfdr.de>);
-        Sun, 10 Nov 2019 15:15:31 -0500
-Received: from static-dsl-170.87-197-152.telecom.sk ([87.197.152.170]:36654
-        "EHLO sldom.sldom" rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org
-        with ESMTP id S1726935AbfKJUPb (ORCPT
+        id S1727097AbfKJUpA (ORCPT <rfc822;lists+linux-alpha@lfdr.de>);
+        Sun, 10 Nov 2019 15:45:00 -0500
+Received: from mail-io1-f66.google.com ([209.85.166.66]:46499 "EHLO
+        mail-io1-f66.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726800AbfKJUpA (ORCPT
         <rfc822;linux-alpha@vger.kernel.org>);
-        Sun, 10 Nov 2019 15:15:31 -0500
-Received: from 127.0.0.1 (localhost [127.0.0.1])
-        by sldom.sldom (Postfix) with SMTP id 81BB924C655;
-        Fri,  8 Nov 2019 16:09:05 +0100 (CET)
-Received: from [133.169.254.0] by 127.0.0.1 with SMTP; Fri, 08 Nov 2019 16:02:18 +0100
-Message-ID: <0r26kb5n516-l9io3r3$z07e69y@btl1.smt7t69u>
-From:   "Simon Oliver" <olivia_simon@lihat.dds-akaun.com>
-Reply-To: "Simon Oliver" <olivia_simon@lihat.dds-akaun.com>
-To:     nmgqmmp@eyou.com
-Subject: Seeking Investment Opportunities
-Date:   Fri, 08 Nov 19 16:02:18 GMT
-X-Mailer: Microsoft Outlook, Build 10.0.2616
+        Sun, 10 Nov 2019 15:45:00 -0500
+Received: by mail-io1-f66.google.com with SMTP id c6so12208794ioo.13;
+        Sun, 10 Nov 2019 12:44:59 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=yaSU/J7wlwhTU7SEKEjJAOkDsbzoJGXODvxt454XJLw=;
+        b=KtlviDbx5K8fQa8EmJ8dUdQnS1D25sFLvv2BnO2y7dXoCuUhulaZO74INtMIofaTnK
+         VSVZztuWWj7q4rrcrHVu3cnF2vmzUckJjbtc5el/QxweFP48BFjiaaNA19BC5VG9zsHf
+         c6aeY/UjfmFSeehd0ik8DWnkOufaXDmX6Sykm+HJzLofRSOFzbN0dGTSvsocWi7A7wpo
+         dxeq6+AQu484WIh/EWR4zlREMoUXumyCY82AsEZOdIpJ1YPJXtAUejzCJ0NT4bVu8c2t
+         CsLdoHuV3G/OO41dQBMANVf0QE1VdqLwQZe+91mkuxG8vARrlqF1YAieAYJX+14kYlJP
+         Y3kw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=yaSU/J7wlwhTU7SEKEjJAOkDsbzoJGXODvxt454XJLw=;
+        b=eQ12r9rVr33emIBwsiJDT0BZ9ew1ai7S2reCvR/Vg2uxzUQZYRQ3Bl1YkKnxrhlOyy
+         6TIgfY3sz0qVzGBVr1wHHablqU9H9PufijSkX2J6O34qyUeXxv4AhreS6TztgRY2TkvQ
+         NcWGSzOrMdkafOzJu4bG3vOzLDqu/6jcIMsnTdR8shaTkdlFDq7IHlZ7+vnHZq1JcC0Q
+         +uYbOaEaibn5Q4qQlJiPsCQlKnKyPixXnYZ/5fQe5tRP4dNPUOUlL9Kc+RYepnFOldk4
+         snu4/R1fJbHuTv+h413rXNYCwjlVEV1wA7qo1yHcEk27SU4Fk0cCBHMt1t1dSQyS4HHj
+         6zOw==
+X-Gm-Message-State: APjAAAXR+qcjkqkmvr9QH2dzKDfnEezf0Fc5onFBlERd38ptlarKIASC
+        4yWqtJAJTBeMd0QA4IFv44tUWT5txT7q0vPF76Y=
+X-Google-Smtp-Source: APXvYqxUtHARm63QIbtf3dnp/mGo21LjhNNOLCCRMHawHaZzV1Uw/kjAiyImL9JKD0L6y84nu5mO5CwtpN3rCYvInds=
+X-Received: by 2002:a02:a402:: with SMTP id c2mr8814473jal.5.1573418699329;
+ Sun, 10 Nov 2019 12:44:59 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: multipart/alternative;
-        boundary="9F_D1EA9D._"
-X-Priority: 3
-X-MSMail-Priority: Normal
+References: <20191108203435.112759-1-arnd@arndb.de> <20191108203435.112759-2-arnd@arndb.de>
+In-Reply-To: <20191108203435.112759-2-arnd@arndb.de>
+From:   Deepa Dinamani <deepa.kernel@gmail.com>
+Date:   Sun, 10 Nov 2019 12:44:47 -0800
+Message-ID: <CABeXuvqFmQU+Qr_2nqTwDO_mKWdcym=DP+4v4ray=GYgUFRetw@mail.gmail.com>
+Subject: Re: [PATCH 1/8] y2038: timex: remove incorrect time_t truncation
+To:     Arnd Bergmann <arnd@arndb.de>
+Cc:     y2038 Mailman List <y2038@lists.linaro.org>,
+        John Stultz <john.stultz@linaro.org>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        "# 3.4.x" <stable@vger.kernel.org>,
+        alpha <linux-alpha@vger.kernel.org>,
+        Linux Network Devel Mailing List <netdev@vger.kernel.org>,
+        Stephen Boyd <sboyd@kernel.org>
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-alpha-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-alpha.vger.kernel.org>
 X-Mailing-List: linux-alpha@vger.kernel.org
 
+Thanks for fixing the bug.
 
---9F_D1EA9D._
-Content-Type: text/plain;
-Content-Transfer-Encoding: quoted-printable
-
-I consider it very important to introduce to you my client who is interest=
-ed to invest $250 million to $500 million dollars in a reputable project  =
-investment, She is well known in her country holding a political office .
-
-She deserve a secret investment outside her country without direct involve=
-ment.  she needs an experience individual or company that can profitably i=
-nvestment and manage the above funds for the period of 15 years or more.
-
-Forward your details to me for further discussion (e.g)  Your name, Teleph=
-one number and Occupation.
-
-Thank you
-Oliver Simon
-
---9F_D1EA9D._--
-
+Acked-by: Deepa Dinamani <deepa.kernel@gmail.com>
