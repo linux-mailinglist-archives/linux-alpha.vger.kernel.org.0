@@ -2,112 +2,120 @@ Return-Path: <linux-alpha-owner@vger.kernel.org>
 X-Original-To: lists+linux-alpha@lfdr.de
 Delivered-To: lists+linux-alpha@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 4B125F70D9
-	for <lists+linux-alpha@lfdr.de>; Mon, 11 Nov 2019 10:33:08 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 7EA66F7163
+	for <lists+linux-alpha@lfdr.de>; Mon, 11 Nov 2019 11:09:28 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727020AbfKKJdG convert rfc822-to-8bit (ORCPT
-        <rfc822;lists+linux-alpha@lfdr.de>); Mon, 11 Nov 2019 04:33:06 -0500
-Received: from mout.kundenserver.de ([212.227.126.130]:37501 "EHLO
+        id S1726829AbfKKKJ1 (ORCPT <rfc822;lists+linux-alpha@lfdr.de>);
+        Mon, 11 Nov 2019 05:09:27 -0500
+Received: from mout.kundenserver.de ([217.72.192.75]:51191 "EHLO
         mout.kundenserver.de" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727323AbfKKJdF (ORCPT
+        with ESMTP id S1726791AbfKKKJ1 (ORCPT
         <rfc822;linux-alpha@vger.kernel.org>);
-        Mon, 11 Nov 2019 04:33:05 -0500
-Received: from mail-qt1-f169.google.com ([209.85.160.169]) by
- mrelayeu.kundenserver.de (mreue012 [212.227.15.129]) with ESMTPSA (Nemesis)
- id 1N3Xvv-1hmXq031f9-010c8d; Mon, 11 Nov 2019 10:33:03 +0100
-Received: by mail-qt1-f169.google.com with SMTP id i17so3427310qtq.1;
-        Mon, 11 Nov 2019 01:33:03 -0800 (PST)
-X-Gm-Message-State: APjAAAURrjL9lSo1/lhXvCwwaHgw4a7Egm+xqt4M4B/vnou+5fvBE93I
-        o/IXm5K/AdyiDnMYa4NzpnSeMGx5sPcF2k9GNAk=
-X-Google-Smtp-Source: APXvYqwOhN6uGhpVV7oJjqzny+sTYzdo1sn49fbiHpAlcC9Kw6k8lGkjxmDhtfyM6aJGaXQYZ3jsCTErYxjUnsB4S54=
-X-Received: by 2002:ac8:67d9:: with SMTP id r25mr24767924qtp.7.1573464782536;
- Mon, 11 Nov 2019 01:33:02 -0800 (PST)
+        Mon, 11 Nov 2019 05:09:27 -0500
+Received: from mail-qt1-f174.google.com ([209.85.160.174]) by
+ mrelayeu.kundenserver.de (mreue106 [212.227.15.145]) with ESMTPSA (Nemesis)
+ id 1MplsZ-1i6pZu2YgP-00qAkb; Mon, 11 Nov 2019 11:09:23 +0100
+Received: by mail-qt1-f174.google.com with SMTP id p20so15068843qtq.5;
+        Mon, 11 Nov 2019 02:09:22 -0800 (PST)
+X-Gm-Message-State: APjAAAWMTElxLIn+TusbrWobNiXOjtpxQMS46Ez741GNIi710E9PfCEJ
+        U/6/TCNLB077W7zb1GM5toTYM3dBYCJyDVtd06o=
+X-Google-Smtp-Source: APXvYqwUFI9CNnIwrAVKasmsTd09tLHKshCq1NYJLSrtULcDmOA+h22x7/m2tzlDDqS3Yhkmt+6zqdhU/D75oBqf0Ro=
+X-Received: by 2002:aed:3e41:: with SMTP id m1mr16150881qtf.142.1573466961656;
+ Mon, 11 Nov 2019 02:09:21 -0800 (PST)
 MIME-Version: 1.0
-References: <20191108170120.22331-1-will@kernel.org> <20191108170120.22331-2-will@kernel.org>
- <CAK8P3a0f=WvSQSBQ4t0FmEkcFE_mC3oARxaeTviTSkSa-D2qhg@mail.gmail.com> <93f80017-d65e-7c3a-29b0-d9a568d08f58@de.ibm.com>
-In-Reply-To: <93f80017-d65e-7c3a-29b0-d9a568d08f58@de.ibm.com>
+References: <20191029064834.23438-1-hch@lst.de> <20191029064834.23438-11-hch@lst.de>
+In-Reply-To: <20191029064834.23438-11-hch@lst.de>
 From:   Arnd Bergmann <arnd@arndb.de>
-Date:   Mon, 11 Nov 2019 10:32:46 +0100
-X-Gmail-Original-Message-ID: <CAK8P3a21KdGKMDDPs3jc9XEg3=LbzFnGwVm+xDTB+EqGXiZorA@mail.gmail.com>
-Message-ID: <CAK8P3a21KdGKMDDPs3jc9XEg3=LbzFnGwVm+xDTB+EqGXiZorA@mail.gmail.com>
-Subject: Re: [PATCH 01/13] compiler.h: Split {READ,WRITE}_ONCE definitions out
- into rwonce.h
-To:     Christian Borntraeger <borntraeger@de.ibm.com>
-Cc:     Will Deacon <will@kernel.org>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-        Yunjae Lee <lyj7694@gmail.com>,
-        SeongJae Park <sj38.park@gmail.com>,
-        "Paul E. McKenney" <paulmck@kernel.org>,
-        Josh Triplett <josh@joshtriplett.org>,
-        Matt Turner <mattst88@gmail.com>,
-        Ivan Kokshaysky <ink@jurassic.park.msu.ru>,
-        Richard Henderson <rth@twiddle.net>,
-        Peter Zijlstra <peterz@infradead.org>,
-        Alan Stern <stern@rowland.harvard.edu>,
-        Michael Ellerman <mpe@ellerman.id.au>,
-        "Michael S. Tsirkin" <mst@redhat.com>,
-        Jason Wang <jasowang@redhat.com>,
-        Joe Perches <joe@perches.com>,
-        Boqun Feng <boqun.feng@gmail.com>,
+Date:   Mon, 11 Nov 2019 11:09:05 +0100
+X-Gmail-Original-Message-ID: <CAK8P3a2o4R+E2hTrHrmNy7K1ki3_98aWE5a-fjkQ_NWW=xd_gQ@mail.gmail.com>
+Message-ID: <CAK8P3a2o4R+E2hTrHrmNy7K1ki3_98aWE5a-fjkQ_NWW=xd_gQ@mail.gmail.com>
+Subject: Re: [PATCH 10/21] asm-generic: ioremap_uc should behave the same with
+ and without MMU
+To:     Christoph Hellwig <hch@lst.de>
+Cc:     Guo Ren <guoren@kernel.org>, Michal Simek <monstr@monstr.eu>,
+        Greentime Hu <green.hu@gmail.com>,
+        Vincent Chen <deanbo422@gmail.com>,
+        Guan Xuetao <gxt@pku.edu.cn>,
+        "the arch/x86 maintainers" <x86@kernel.org>,
         alpha <linux-alpha@vger.kernel.org>,
-        virtualization@lists.linux-foundation.org
+        "open list:SYNOPSYS ARC ARCHITECTURE" 
+        <linux-snps-arc@lists.infradead.org>,
+        Linux ARM <linux-arm-kernel@lists.infradead.org>,
+        "open list:QUALCOMM HEXAGON..." <linux-hexagon@vger.kernel.org>,
+        linux-ia64@vger.kernel.org,
+        linux-m68k <linux-m68k@lists.linux-m68k.org>,
+        linux-mips@vger.kernel.org,
+        "moderated list:NIOS2 ARCHITECTURE" 
+        <nios2-dev@lists.rocketboards.org>, openrisc@lists.librecores.org,
+        Parisc List <linux-parisc@vger.kernel.org>,
+        linux-riscv@lists.infradead.org,
+        linux-s390 <linux-s390@vger.kernel.org>,
+        Linux-sh list <linux-sh@vger.kernel.org>,
+        sparclinux <sparclinux@vger.kernel.org>,
+        linux-xtensa@linux-xtensa.org,
+        linux-mtd <linux-mtd@lists.infradead.org>,
+        linux-arch <linux-arch@vger.kernel.org>,
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 8BIT
-X-Provags-ID: V03:K1:5vTUeZVKZsm8p4fRceaPnnbV7UUKqQe+zXfZWql/hhv4b8yiJK5
- IqdJHHEoHwgfYywSYW6BDZaAFENI20ZZvi60GP5zq7dmTsPIb1rBCRU/v5J5BWt1HxQSgCl
- 3QFgCRm4+wMgHwlsVWvTxb8JPePQKjcHNpr4KLw7Paj+GuEUS6dHx133Sp/Ge/VzbAEj+Xy
- 2EES4VTSoF7OO8uMKC4xw==
+X-Provags-ID: V03:K1:WLrPbPJDqsNolBBa0EtV84o8X3QWGuIcje+jyjzvu8qxYvKalRW
+ vVo3TWozXagE9Gvkhv9RKhJCAXh4rrcVLnVGcy2T4hm5OBp58YkOEUFIh/Am/mvfM7WC+1g
+ 94Ejh/WA6YNMtjZhLH3lXLLLVeLx0FrPhlZupRdQqVfwuImvK9gIMd+COj25ZFAUArh4v9w
+ Wv1F7eDVgjndwTfa+DiwQ==
 X-Spam-Flag: NO
-X-UI-Out-Filterresults: notjunk:1;V03:K0:HmaHvMo4ELQ=:dWEo9CK8fojEWWfVWxtit/
- b4ptuDBuqPdE4BczXGK65KQTt3ALnytgcwtHgXMEsKUbC8bYkISOiW5I+0tG/V+OEN0sQS8dE
- nXb+rQEDMb0MyMQUYHGMfOybKwMDmwQWDuG0SV5mKk4yBFyZXmEVMafPwx49uKITx+s0+4gDN
- pWdWFfQGubOYUfVgJSLWBrZIi3SqM3X8lLe6Aj7zRck8tk/LqVUDsW7/ZuYYtcsUcSo9Gp5Fl
- UJKuVY66G/eim3V5ctB2w2YQSkfmZUDk18z5M5Qf+Si5YTRt4IOUhRJWcjel58vaZBfS9RWfk
- RQgZh7QlD9oUD0HH+pXhZ47rE4rpMybQWOJfvSQJFnkL0+3B6XGiZSXEIl7uFs7EAjo/3cEXp
- 80gYOec8DoOInGxngQ7q/jy+OFiZI/LVFgddCvcw/FbnOFxxrm+Ql5X7DxQey9f9WTPmWgNsA
- B8/PQcmGAcjRpIFD0HMzCH5vILlQUKrb02NE4ADGxnGFyKfWDxUtTcEiupDyup2y19Jf+br/6
- IQ9oCcaWt2PjpVHmJCamgDmQgFiUZ3Jybozp11mIgfmsKHHls8wU+W/FS3lLjOQIp0tEuX9z7
- Gsp7g8npa66aVaSLCnzuMBJgTBznyQHQRoxOP9Gbj85tCshhjJUr0JYy4jgxOmGDdF03guem7
- Hvd7nBxRAT2j3E6uv/NJyTdXE19p0RU7WpK5mf70+utvySbWMA6Wd4aOxNrwv71ZJ1/j0CABx
- XI4kA0GLvbQ/kRGAejBel87kBzeGeJsvFqsrT7qeONyicTVdY5vp3RoKsMZk3imHbGw4VG7uI
- dhApGCHk42wHAw6Q7B07GB43y/OciYsDnFbCRzoGjc1+f8UrqyHEn46a2ZHnOhc3io7ooLl71
- 7mPRFREm6/O4DINcGiXg==
+X-UI-Out-Filterresults: notjunk:1;V03:K0:3DPxP3/AzH8=:DPOxQ1enriSFjxUu68vquX
+ eGUcgshsAuMmTHkBY5dxmuUJPWWz6fubUKJoFZWeGiMRwxNYkQUHc74ubpDvEsEBOlQQ5kT8u
+ f/aCJbLJc1CN7aYnn/FNDsbkGVuMUEpJE2tQVGEUyLPelCunzAJzsnukVx350hKhiVoG36wBL
+ F3M/LNcc4vQE2KyZ7k7dfwsNgMUyYkUuiumKsP7EyaFU21YGtAQQjDL2ESuolSjkyTiGN5+jH
+ G25CY3eWC9gJz/qY2zMyJ1QW1Mh46wHFF5wt+/j3PQHeltjdtINqad1SZ7OHQ/sEJkb9fbOBt
+ 9yyHmhrgWHj/dN55PM0GPvDdfe/5WlR3RDW46+W5XuZrPXJyk7FCNGxmtYlpvaA7D+PD1OPVR
+ Ynfbi7O0CwVvlXzkvcjkRSEFFt4NYYcQy38A8NuxlRKVD/KL3uiCpxULhcPefsOtyWv4ecOSd
+ CapTeIfnKNX7x8k3nxIrClwuCl01JQ1dHjqOwtbJSkf/JdQq1Mg+QRs1FmCVzafhM1mOL43Ab
+ joYrEOzkOqPXLk9jXVvPuhAaoLoA3mP+DzFLVi1LF2iteAkmCqwdYNxlozO5bWCKFDECBEKvS
+ ECBSQGX4K++EgBVd3QVoBipRwQMCLSpwD8tGk/dAPNG1cp6T00k88oSatqHkbN20tZrzvPnwz
+ SyXdghQoLAHldOS9pIwizYXHqPmexdevUFWkAvVI1jPN1DybWWAQxUy6kVswrrVaFLUYpqWEp
+ xr7k3KMT4BWFHMXUTuqI6PqyLm2zQou5Quti0hyT/vEOzOmrKm9cTozfJuvWjcGZ7dT+Gohp9
+ hTPghZ5YdHuzcD0z2FaoD+G3QwPOi6fjkvhrW/e7iOJ/phyVUx2hqY3mfT1NmmBL7muZMzFXl
+ nZROTB/e9eIAWJvNN9og==
 Sender: linux-alpha-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-alpha.vger.kernel.org>
 X-Mailing-List: linux-alpha@vger.kernel.org
 
-On Mon, Nov 11, 2019 at 9:10 AM Christian Borntraeger
-<borntraeger@de.ibm.com> wrote:
-> On 08.11.19 20:57, Arnd Bergmann wrote:
-> > On Fri, Nov 8, 2019 at 6:01 PM Will Deacon <will@kernel.org> wrote:
-> >>
-> >> In preparation for allowing architectures to define their own
-> >> implementation of the 'READ_ONCE()' macro, move the generic
-> >> '{READ,WRITE}_ONCE()' definitions out of the unwieldy 'linux/compiler.h'
-> >> and into a new 'rwonce.h' header under 'asm-generic'.
-> >
-> > Adding Christian Bornträger to Cc, he originally added the
-> > READ_ONCE()/WRITE_ONCE()
-> > code.
-> >
-> > I wonder if it would be appropriate now to revert back to a much simpler version
-> > of these helpers for any modern compiler. As I understand, only gcc-4.6 and
-> > gcc4.7 actually need the song-and-dance version with the union and switch/case,
-> > while for others, we can might be able back to a macro doing a volatile access.
+On Tue, Oct 29, 2019 at 7:49 AM Christoph Hellwig <hch@lst.de> wrote:
 >
-> As far as I know this particular issue with  volatile access on aggregate types
-> was fixed in gcc 4.8. On the other hand we know that the current construct will
-> work on all compilers. Not so sure about the orignal ACCESS_ONCE implementation.
+> Whatever reason there is for the existence of ioremap_uc, and the fact
+> that it returns NULL by default on architectures with an MMU applies
+> equally to nommu architectures, so don't provide different defaults.
 
-I've seen problems with clang on the current version, leading to unnecessary
-temporaries being spilled to the stack in some cases, so I think it would still
-help to simplify it.
+Makes sense.
 
-We probably don't want the exact ACCESS_ONCE() implementation back
-that existed before, but rather something that implements the stricter
-READ_ONCE() and WRITE_ONCE(). I'd probably also want to avoid the
-__builtin_memcpy() exception for odd-sized accesses and instead have
-a separate way to do those.
+> In practice the difference is meaningless as the only portable driver
+> that uses ioremap_uc is atyfb which probably doesn't show up on nommu
+> devices.
+
+
+
+> +/*
+> + * ioremap_uc is special in that we do require an explicit architecture
+> + * implementation.  In general you do now want to use this function in a
+> + * driver and use plain ioremap, which is uncached by default.  Similarly
+> + * architectures should not implement it unless they have a very good
+> + * reason.
+> + */
+> +#ifndef ioremap_uc
+> +#define ioremap_uc ioremap_uc
+> +static inline void __iomem *ioremap_uc(phys_addr_t offset, size_t size)
+> +{
+> +       return NULL;
+> +}
+> +#endif
+
+Maybe we could move the definition into the atyfb driver itself?
+
+As I understand it, the difference between ioremap()/ioremap_nocache()
+and ioremap_uc() only exists on pre-PAT x86-32 systems (i.e. 486, P5,
+Ppro, PII, K6, VIA C3), while on more modern systems (all non-x86,
+PentiumIII, Athlon, VIA C7)  those three are meant to be synonyms
+anyway.
 
       Arnd
