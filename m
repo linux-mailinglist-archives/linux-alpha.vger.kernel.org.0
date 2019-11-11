@@ -2,74 +2,106 @@ Return-Path: <linux-alpha-owner@vger.kernel.org>
 X-Original-To: lists+linux-alpha@lfdr.de
 Delivered-To: lists+linux-alpha@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 18CBDF77F1
-	for <lists+linux-alpha@lfdr.de>; Mon, 11 Nov 2019 16:43:29 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id EDD77F794A
+	for <lists+linux-alpha@lfdr.de>; Mon, 11 Nov 2019 17:58:23 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726910AbfKKPn2 (ORCPT <rfc822;lists+linux-alpha@lfdr.de>);
-        Mon, 11 Nov 2019 10:43:28 -0500
-Received: from mail-oi1-f196.google.com ([209.85.167.196]:38855 "EHLO
+        id S1726908AbfKKQ6S (ORCPT <rfc822;lists+linux-alpha@lfdr.de>);
+        Mon, 11 Nov 2019 11:58:18 -0500
+Received: from mail-oi1-f196.google.com ([209.85.167.196]:38250 "EHLO
         mail-oi1-f196.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726906AbfKKPn2 (ORCPT
+        with ESMTP id S1726879AbfKKQ6S (ORCPT
         <rfc822;linux-alpha@vger.kernel.org>);
-        Mon, 11 Nov 2019 10:43:28 -0500
-Received: by mail-oi1-f196.google.com with SMTP id a14so11863852oid.5;
-        Mon, 11 Nov 2019 07:43:27 -0800 (PST)
+        Mon, 11 Nov 2019 11:58:18 -0500
+Received: by mail-oi1-f196.google.com with SMTP id a14so12092567oid.5;
+        Mon, 11 Nov 2019 08:58:17 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
          :message-id:subject:to:cc;
-        bh=z6HV/05PdJu45/hjcLEgqCV/MZrUUiKc/hGTBlNfe2o=;
-        b=lS7wmM84K+nqv6P7kCkOCFHebPJJTnPUS0IqRB1NV0HqL9HzAa1FK9UAIySx4+DCCT
-         B4GKd9QqPIhorz4mxOGWMJ3FHuR+CRIoQ0/i5OA/LKJrAuUWjEo/TdOs9WViA44Zb8VY
-         S8KnaM0Dxi8tW8fcHtvJj0lI87b+2F2QoNpPgetL0dfhfpAoUZkewoP73VpK2MAuwyv3
-         GW+YEhV96Zl6kdrDSVHZsMnBm43WLhLt02sF81f+i8tZeai9smtu4srf4RSQKikajx9o
-         Y0aetk1p8lElkpe3lxFpFs2xLRvzE+KjprNWrc0n5PVh+FhvQuR8EIx5hl7uoFbEHb0p
-         DRzA==
-X-Gm-Message-State: APjAAAVpbKGcLJd4Ma7c1thaa+8n17mxl7zlH54vUZJ2GoihJs8oPzv+
-        PWvxTNf2QtekGYBuQ5bzHWgB+YZIIvR0zd23mUWzALqE
-X-Google-Smtp-Source: APXvYqw4gi4nZZm2xB7kPcwoljXBgj5176ujC7Yt4McOjXIfa4RgNiSfcPXRGbvEXmIiQzj40xZCa+zJEl1fnriA0cc=
-X-Received: by 2002:aca:882:: with SMTP id 124mr1163674oii.54.1573487006964;
- Mon, 11 Nov 2019 07:43:26 -0800 (PST)
+        bh=N5Vcj3yE2rkXP4doP0O2V7gRihUnv+nSjX4pf/13Rw8=;
+        b=CBQ8W26nBhfvyynYKCEr3k8TGOtrtm34pDWrxm8OKM7Um9zQELtwz7Umd1M/a6q8Mi
+         Onlte7cJBZM/IajBJgyVCrO1wacbaIh/ws+ue+BsmgLhbtThvvFKBs602VdJbQkt/CXu
+         CmWa51IaSDH4hnQUuJpCm2FcvVpAXPYVqoDA8mWAFIRfCnxU9gKgBFR2QJ1aZfoWWhiz
+         WoIdYP+9++Y2feuBw5/gKL2Ke8sd2f6XlgPYionZf2kwaaityTsdGBnoMNtP12Y2XWFF
+         RLAkdyR+pOj1alVTcfuWhByYoYDkHMH1MgKwbB9k63qBkauP4Yor8yI9HM/Yr8ZLo6MR
+         bs0w==
+X-Gm-Message-State: APjAAAUHXO2fEm89dRaWb3V9JHhwcK3sJ+QcJL7RokoyXfyCOgZip+hS
+        JiDyK5/jBvsdjxM3r2XN9eFHc5BwGqc8LxHCzOw=
+X-Google-Smtp-Source: APXvYqy/vMjYcYeqIvTqdLd5GGnLez7ZmWGDKl5AqUc+6PF8GisVTiuTjJisyx2dw7CZpTj+GRrxuJBIdtOSyrbYjfw=
+X-Received: by 2002:aca:fc92:: with SMTP id a140mr23499698oii.153.1573491497306;
+ Mon, 11 Nov 2019 08:58:17 -0800 (PST)
 MIME-Version: 1.0
-References: <20191111151344.7401-1-geert@linux-m68k.org>
-In-Reply-To: <20191111151344.7401-1-geert@linux-m68k.org>
+References: <20191011000609.29728-1-keescook@chromium.org> <20191011000609.29728-12-keescook@chromium.org>
+In-Reply-To: <20191011000609.29728-12-keescook@chromium.org>
 From:   Geert Uytterhoeven <geert@linux-m68k.org>
-Date:   Mon, 11 Nov 2019 16:36:18 +0100
-Message-ID: <CAMuHMdXenPQJQn1qVL494cB89GZAcZqXMVhw4PW+ZgSqdgtAyQ@mail.gmail.com>
-Subject: Re: Build regressions/improvements in v5.4-rc7
-To:     Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
-Cc:     linux-s390 <linux-s390@vger.kernel.org>,
+Date:   Mon, 11 Nov 2019 17:58:06 +0100
+Message-ID: <CAMuHMdXfPyti1wFBb0hhf3CeDSQ=zVv7cV-taeYCmDswMQkXPQ@mail.gmail.com>
+Subject: Re: [PATCH v2 11/29] vmlinux.lds.h: Replace RODATA with RO_DATA
+To:     Kees Cook <keescook@chromium.org>
+Cc:     Borislav Petkov <bp@alien8.de>,
+        Rick Edgecombe <rick.p.edgecombe@intel.com>,
+        Dave Hansen <dave.hansen@linux.intel.com>,
+        Andy Lutomirski <luto@kernel.org>,
+        Arnd Bergmann <arnd@arndb.de>,
+        Michael Ellerman <mpe@ellerman.id.au>,
+        Heiko Carstens <heiko.carstens@de.ibm.com>,
+        Will Deacon <will@kernel.org>,
+        Linux-Arch <linux-arch@vger.kernel.org>,
+        Linux ARM <linux-arm-kernel@lists.infradead.org>,
+        linuxppc-dev <linuxppc-dev@lists.ozlabs.org>,
         alpha <linux-alpha@vger.kernel.org>,
-        MTD Maling List <linux-mtd@lists.infradead.org>,
-        Arnd Bergmann <arnd@arndb.de>
+        "linux-ia64@vger.kernel.org" <linux-ia64@vger.kernel.org>,
+        linux-s390 <linux-s390@vger.kernel.org>,
+        linux-c6x-dev@linux-c6x.org,
+        Yoshinori Sato <ysato@users.sourceforge.jp>,
+        Michal Simek <monstr@monstr.eu>,
+        Parisc List <linux-parisc@vger.kernel.org>,
+        linux-xtensa@linux-xtensa.org,
+        "the arch/x86 maintainers" <x86@kernel.org>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
 Content-Type: text/plain; charset="UTF-8"
 Sender: linux-alpha-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-alpha.vger.kernel.org>
 X-Mailing-List: linux-alpha@vger.kernel.org
 
-On Mon, Nov 11, 2019 at 4:18 PM Geert Uytterhoeven <geert@linux-m68k.org> wrote:
-> JFYI, when comparing v5.4-rc7[1] to v5.4-rc6[3], the summaries are:
->   - build errors: +0/-2
->   - build warnings: +48/-70
+Hi Kees,
 
-  + /kisskb/src/fs/ubifs/orphan.c: warning: format '%lu' expects
-argument of type 'long unsigned int', but argument 4 has type 'ino_t'
-[-Wformat]:  => 140:3, 132:3
+On Fri, Oct 11, 2019 at 2:07 AM Kees Cook <keescook@chromium.org> wrote:
+> There's no reason to keep the RODATA macro: replace the callers with
+> the expected RO_DATA macro.
+>
+> Signed-off-by: Kees Cook <keescook@chromium.org>
+> ---
+>  arch/alpha/kernel/vmlinux.lds.S      | 2 +-
+>  arch/ia64/kernel/vmlinux.lds.S       | 2 +-
+>  arch/microblaze/kernel/vmlinux.lds.S | 2 +-
+>  arch/mips/kernel/vmlinux.lds.S       | 2 +-
+>  arch/um/include/asm/common.lds.S     | 2 +-
+>  arch/xtensa/kernel/vmlinux.lds.S     | 2 +-
+>  include/asm-generic/vmlinux.lds.h    | 4 +---
+>  7 files changed, 7 insertions(+), 9 deletions(-)
 
-s390x/s390-all{mod,yes}config
+Somehow you missed:
 
-Why is ino_t unsigned int on s390x and alpha, while it's unsigned long
-everywhere else?
+    arch/m68k/kernel/vmlinux-std.lds:  RODATA
+    arch/m68k/kernel/vmlinux-sun3.lds:      RODATA
 
-> [1] http://kisskb.ellerman.id.au/kisskb/branch/linus/head/31f4f5b495a62c9a8b15b1c3581acd5efeb9af8c/ (232 out of 242 configs)
-> [3] http://kisskb.ellerman.id.au/kisskb/branch/linus/head/a99d8080aaf358d5d23581244e5da23b35e340b9/ (232 out of 242 configs)
+Leading to build failures in next-20191111:
+
+    /opt/cross/kisskb/gcc-4.6.3-nolibc/m68k-linux/bin/m68k-linux-ld:./arch/m68k/kernel/vmlinux.lds:29:
+syntax error
+    make[1]: *** [/kisskb/src/Makefile:1075: vmlinux] Error 1
+
+Reported-by: noreply@ellerman.id.au
+http://kisskb.ellerman.id.au/kisskb/buildresult/14022846/
 
 Gr{oetje,eeting}s,
 
                         Geert
 
--- 
+
+--
 Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
 
 In personal conversations with technical people, I call myself a hacker. But
