@@ -2,104 +2,117 @@ Return-Path: <linux-alpha-owner@vger.kernel.org>
 X-Original-To: lists+linux-alpha@lfdr.de
 Delivered-To: lists+linux-alpha@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id DDC0AF9B74
-	for <lists+linux-alpha@lfdr.de>; Tue, 12 Nov 2019 22:09:19 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 1873DF9DA4
+	for <lists+linux-alpha@lfdr.de>; Wed, 13 Nov 2019 00:01:34 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726952AbfKLVJT (ORCPT <rfc822;lists+linux-alpha@lfdr.de>);
-        Tue, 12 Nov 2019 16:09:19 -0500
-Received: from mail-lj1-f195.google.com ([209.85.208.195]:35064 "EHLO
-        mail-lj1-f195.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726645AbfKLVJT (ORCPT
+        id S1727196AbfKLXBa (ORCPT <rfc822;lists+linux-alpha@lfdr.de>);
+        Tue, 12 Nov 2019 18:01:30 -0500
+Received: from mail-pl1-f195.google.com ([209.85.214.195]:34307 "EHLO
+        mail-pl1-f195.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727069AbfKLXB3 (ORCPT
         <rfc822;linux-alpha@vger.kernel.org>);
-        Tue, 12 Nov 2019 16:09:19 -0500
-Received: by mail-lj1-f195.google.com with SMTP id r7so52597ljg.2;
-        Tue, 12 Nov 2019 13:09:17 -0800 (PST)
+        Tue, 12 Nov 2019 18:01:29 -0500
+Received: by mail-pl1-f195.google.com with SMTP id h13so177551plr.1
+        for <linux-alpha@vger.kernel.org>; Tue, 12 Nov 2019 15:01:29 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
+        d=chromium.org; s=google;
         h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to:user-agent;
-        bh=JPZechq2eKF4wwi+8Qv9lfknYNyHmyO47xHG86HtDMs=;
-        b=fU7vwVcrYm0D0uGcCtgj0ZXXNmSaBK8mJoOPiWQqqTejkcej/6TWQmT8eSkDCn4Jf/
-         Pr2gGz0366EnVZSFzSalSEisx2UYQv2iLejrLZdy1/PmVkbxERC3U08mvKGfl9VnXNhD
-         eG8dWD0PWDMQeFRVeCN43IAJViixazSac7nKrm6Fz0aYjflN8BCjXd5ENVGOk77tH5uw
-         s3NkaypO210iBobuYM8NgwwjOPZiL7rOKlV8y5tKqjIUGChDU8CHOoS8IjSCasdyn/Az
-         8r8Jf/O/RZu2evBDlSN/59MIt33XBDP+Hh1Kf9RP7DSKpnhoeCmsrxJjGsdlouvXvDlp
-         rZxA==
+         :content-disposition:in-reply-to;
+        bh=nExhpa8NtyhyvUyh20F6httON+9jpHubOC8X4R1/1QI=;
+        b=c4HijsXEjZGJqE7HF/OLTdBXGVnY9qLmNBULMzMpbSwMDUdlWMyYkBAj7Jv9KvJQq9
+         uQ/fhhX6CbwBVqkc6vhI0J9bVR6S+eypweTAwvYsABomRnDDk1wGcU2hJ/fV4/K6uu+1
+         c9+G8zkVxO8gfkNV8xNJ/wUCIdP5veO1BJPEs=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to:user-agent;
-        bh=JPZechq2eKF4wwi+8Qv9lfknYNyHmyO47xHG86HtDMs=;
-        b=WLUcuqz1o/05TlKnpeX9SqJp8IvhikGpgMrRpgTDSLOs6of3p4qa6Jm8wgeuvzl2zq
-         ORjUuX0+hCOTYNiNs2IGGfn2jeSLezpXncBjULLT4or5FWTJ1d8oHolqG3erFvUNrpxn
-         QPMx8NAsfOMuDmmZZEXoqsBdxchIPI1/jcK7UjYKY3tMKhtPcDISVjlPsX70SPxDqsqY
-         QDdsunebGgO9tZaMAY2oAkv6vFqr6lW8BOqcEepsqMsvKM+KP9QfiqmikqNHmAKNpMdU
-         w4TcksGZ1uLit0EiaJeZCO2WvNOhI7aaAeua0hZaWXuhW07NdmUfPvDIov2P23Fvi44E
-         R7bg==
-X-Gm-Message-State: APjAAAUJfhXPwjaGOzJj5lqzDIPWgpO5OkJTTqbLpWDTjHXH+vzo0Z9L
-        5l37hEVFYrDnxb6qC5VIpPA=
-X-Google-Smtp-Source: APXvYqyo8cgTa2EjqKxK1NhWe5i3Yoq8ReGunMfOjSn81p4+F4lqwfdn3S7sooJZvNF/Jg8C9ieggg==
-X-Received: by 2002:a2e:9802:: with SMTP id a2mr21941492ljj.254.1573592957014;
-        Tue, 12 Nov 2019 13:09:17 -0800 (PST)
-Received: from uranus.localdomain ([5.18.102.224])
-        by smtp.gmail.com with ESMTPSA id u5sm9400286ljg.68.2019.11.12.13.09.15
+         :mime-version:content-disposition:in-reply-to;
+        bh=nExhpa8NtyhyvUyh20F6httON+9jpHubOC8X4R1/1QI=;
+        b=NqVJX31Kw/YsfPKdpO4BrexicL3GLnvzQWFarFCJ40UHiCcFBetSvMWmWikn6Iztxu
+         Y3kyo0grPGAd7d68y8JaLwIHFpxrTf5+fDADDGCwCqpu1y23nDJsFUFEs4fyUEg0MZ6A
+         sAuHbAszxQWgZa1PAi4/9MwtlBDxPugWaLtrwnwOzZwGKC2Q4LbyyiM6g0uIDJfy3KAw
+         7DZ4CLaWiSrnAHJ5KZyN8IAfX3b3DRipFOJK71aQAs/WNHHldWHRbIHx9qLcSrgeIG93
+         yimIYwILwq3gMB8hHXzKGzYFwlDAJ8Rl82HqsolpqalQr/AJNy9CccnRjZu1+vyiteMj
+         KC9g==
+X-Gm-Message-State: APjAAAWjMGoNncaYgRIoev0HYI5OkODjvOOkjX6Q8aS2/FxWsEtIs28r
+        GsiE+K/P0XJmUjQ0yWdaTcig7w==
+X-Google-Smtp-Source: APXvYqy/dNw+1S0sgv4o54+xgQ9m/sDAbXJguDm6De1m1sF3Ucjez84Z50LDqlIQCV97XGMiY2eUjw==
+X-Received: by 2002:a17:902:b282:: with SMTP id u2mr266015plr.301.1573599688858;
+        Tue, 12 Nov 2019 15:01:28 -0800 (PST)
+Received: from www.outflux.net (smtp.outflux.net. [198.145.64.163])
+        by smtp.gmail.com with ESMTPSA id em16sm159840pjb.21.2019.11.12.15.01.27
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 12 Nov 2019 13:09:15 -0800 (PST)
-Received: by uranus.localdomain (Postfix, from userid 1000)
-        id 5B4884605D3; Wed, 13 Nov 2019 00:09:15 +0300 (MSK)
-Date:   Wed, 13 Nov 2019 00:09:15 +0300
-From:   Cyrill Gorcunov <gorcunov@gmail.com>
-To:     Arnd Bergmann <arnd@arndb.de>
-Cc:     y2038@lists.linaro.org, Richard Henderson <rth@twiddle.net>,
-        Ivan Kokshaysky <ink@jurassic.park.msu.ru>,
-        Matt Turner <mattst88@gmail.com>, linux-kernel@vger.kernel.org,
-        Deepa Dinamani <deepa.kernel@gmail.com>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Will Deacon <will@kernel.org>,
-        Michal =?iso-8859-1?Q?Koutn=FD?= <mkoutny@suse.com>,
-        Catalin Marinas <catalin.marinas@arm.com>,
-        Dave Hansen <dave.hansen@linux.intel.com>,
-        linux-alpha@vger.kernel.org
-Subject: Re: [PATCH 11/23] y2038: rusage: use __kernel_old_timeval
-Message-ID: <20191112210915.GD5130@uranus>
-References: <20191108210236.1296047-1-arnd@arndb.de>
- <20191108211323.1806194-2-arnd@arndb.de>
+        Tue, 12 Nov 2019 15:01:27 -0800 (PST)
+Date:   Tue, 12 Nov 2019 15:01:26 -0800
+From:   Kees Cook <keescook@chromium.org>
+To:     Aleksa Sarai <cyphar@cyphar.com>
+Cc:     Al Viro <viro@zeniv.linux.org.uk>,
+        Jeff Layton <jlayton@kernel.org>,
+        "J. Bruce Fields" <bfields@fieldses.org>,
+        Arnd Bergmann <arnd@arndb.de>,
+        David Howells <dhowells@redhat.com>,
+        Shuah Khan <shuah@kernel.org>,
+        Shuah Khan <skhan@linuxfoundation.org>,
+        Ingo Molnar <mingo@redhat.com>,
+        Peter Zijlstra <peterz@infradead.org>,
+        Eric Biederman <ebiederm@xmission.com>,
+        Andy Lutomirski <luto@kernel.org>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Alexei Starovoitov <ast@kernel.org>,
+        Jann Horn <jannh@google.com>, Tycho Andersen <tycho@tycho.ws>,
+        David Drysdale <drysdale@google.com>,
+        Chanho Min <chanho.min@lge.com>,
+        Oleg Nesterov <oleg@redhat.com>,
+        Rasmus Villemoes <linux@rasmusvillemoes.dk>,
+        Alexander Shishkin <alexander.shishkin@linux.intel.com>,
+        Jiri Olsa <jolsa@redhat.com>,
+        Namhyung Kim <namhyung@kernel.org>,
+        Christian Brauner <christian@brauner.io>,
+        Aleksa Sarai <asarai@suse.de>,
+        Linus Torvalds <torvalds@linux-foundation.org>,
+        containers@lists.linux-foundation.org, linux-alpha@vger.kernel.org,
+        linux-api@vger.kernel.org, libc-alpha@sourceware.org,
+        linux-arch@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+        linux-fsdevel@vger.kernel.org, linux-ia64@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-kselftest@vger.kernel.org,
+        linux-m68k@lists.linux-m68k.org, linux-mips@vger.kernel.org,
+        linux-parisc@vger.kernel.org, linuxppc-dev@lists.ozlabs.org,
+        linux-s390@vger.kernel.org, linux-sh@vger.kernel.org,
+        linux-xtensa@linux-xtensa.org, sparclinux@vger.kernel.org
+Subject: Re: [PATCH v15 0/9] open: introduce openat2(2) syscall
+Message-ID: <201911121457.7D02692@keescook>
+References: <20191105090553.6350-1-cyphar@cyphar.com>
+ <20191111132404.y523iqicbn6fivx5@yavin.dot.cyphar.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20191108211323.1806194-2-arnd@arndb.de>
-User-Agent: Mutt/1.12.1 (2019-06-15)
+In-Reply-To: <20191111132404.y523iqicbn6fivx5@yavin.dot.cyphar.com>
 Sender: linux-alpha-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-alpha.vger.kernel.org>
 X-Mailing-List: linux-alpha@vger.kernel.org
 
-On Fri, Nov 08, 2019 at 10:12:10PM +0100, Arnd Bergmann wrote:
-> There are two 'struct timeval' fields in 'struct rusage'.
+On Tue, Nov 12, 2019 at 12:24:04AM +1100, Aleksa Sarai wrote:
+> On 2019-11-05, Aleksa Sarai <cyphar@cyphar.com> wrote:
+> > This patchset is being developed here:
+> >   <https://github.com/cyphar/linux/tree/openat2/master>
+> > 
+> > Patch changelog:
+> >  v15:
+> >   * Fix code style for LOOKUP_IN_ROOT handling in path_init(). [Linus Torvalds]
+> >   * Split out patches for each individual LOOKUP flag.
+> >   * Reword commit messages to give more background information about the
+> >     series, as well as mention the semantics of each flag in more detail.
+> > [...]
 > 
-> Unfortunately the definition of timeval is now ambiguous when used in
-> user space with a libc that has a 64-bit time_t, and this also changes
-> the 'rusage' definition in user space in a way that is incompatible with
-> the system call interface.
-> 
-> While there is no good solution to avoid all ambiguity here, change
-> the definition in the kernel headers to be compatible with the kernel
-> ABI, using __kernel_old_timeval as an unambiguous base type.
-> 
-> In previous discussions, there was also a plan to add a replacement
-> for rusage based on 64-bit timestamps and nanosecond resolution,
-> i.e. 'struct __kernel_timespec'. I have patches for that as well,
-> if anyone thinks we should do that.
-> 
-> Signed-off-by: Arnd Bergmann <arnd@arndb.de>
-> ---
-> Question: should we also rename 'struct rusage' into 'struct __kernel_rusage'
-> here, to make them completely unambiguous?
+> Ping -- this patch hasn't been touched for a week. Thanks.
 
-The patch looks ok to me. I must confess I looked into rusage long ago
-so __kernel_timespec type used in uapi made me nervious at first,
-but then i found that we've this type defined in time_types.h uapi
-so userspace should be safe. I also like the idea of __kernel_rusage
-but definitely on top of the series.
+If I've been following correctly, everyone is happy with this series.
+(i.e. Linus's comment appear to have been addressed.)
 
-Reviewed-by: Cyrill Gorcunov <gorcunov@gmail.com>
+Perhaps the next question is should this go via a pull request by you to
+Linus directly during the v5.5 merge window, via akpm, via akpm, via
+Christian, or some other path? Besides Linus, it's not been clear who
+should "claim" this series. :)
+
+-- 
+Kees Cook
