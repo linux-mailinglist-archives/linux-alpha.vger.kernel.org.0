@@ -2,120 +2,104 @@ Return-Path: <linux-alpha-owner@vger.kernel.org>
 X-Original-To: lists+linux-alpha@lfdr.de
 Delivered-To: lists+linux-alpha@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 548C0F9B45
-	for <lists+linux-alpha@lfdr.de>; Tue, 12 Nov 2019 21:55:13 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id DDC0AF9B74
+	for <lists+linux-alpha@lfdr.de>; Tue, 12 Nov 2019 22:09:19 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726896AbfKLUzM (ORCPT <rfc822;lists+linux-alpha@lfdr.de>);
-        Tue, 12 Nov 2019 15:55:12 -0500
-Received: from mail-pf1-f193.google.com ([209.85.210.193]:47046 "EHLO
-        mail-pf1-f193.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726388AbfKLUzM (ORCPT
+        id S1726952AbfKLVJT (ORCPT <rfc822;lists+linux-alpha@lfdr.de>);
+        Tue, 12 Nov 2019 16:09:19 -0500
+Received: from mail-lj1-f195.google.com ([209.85.208.195]:35064 "EHLO
+        mail-lj1-f195.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726645AbfKLVJT (ORCPT
         <rfc822;linux-alpha@vger.kernel.org>);
-        Tue, 12 Nov 2019 15:55:12 -0500
-Received: by mail-pf1-f193.google.com with SMTP id 193so14165846pfc.13
-        for <linux-alpha@vger.kernel.org>; Tue, 12 Nov 2019 12:55:12 -0800 (PST)
+        Tue, 12 Nov 2019 16:09:19 -0500
+Received: by mail-lj1-f195.google.com with SMTP id r7so52597ljg.2;
+        Tue, 12 Nov 2019 13:09:17 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google;
+        d=gmail.com; s=20161025;
         h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to;
-        bh=p3sGAQxZSRJH4UZHNpIdLrEGYPs7j+wXkkL7B23DozY=;
-        b=jzJxHJOhBgrxXGo+3hwTEULMtqhW32uUMjkXF6xooOB4YLF0fDp9kjF2ZcEXOqjPmZ
-         wb3eB6O717UcTt+tyAbO8B80zA3u9jbuMXSpdMqJOUrOIw/6tlJouhIZBM+a5PnCN1vj
-         lat++UKcoOXZLI/EBlS4RFvn1FgV/ybJGuQ4A=
+         :content-disposition:in-reply-to:user-agent;
+        bh=JPZechq2eKF4wwi+8Qv9lfknYNyHmyO47xHG86HtDMs=;
+        b=fU7vwVcrYm0D0uGcCtgj0ZXXNmSaBK8mJoOPiWQqqTejkcej/6TWQmT8eSkDCn4Jf/
+         Pr2gGz0366EnVZSFzSalSEisx2UYQv2iLejrLZdy1/PmVkbxERC3U08mvKGfl9VnXNhD
+         eG8dWD0PWDMQeFRVeCN43IAJViixazSac7nKrm6Fz0aYjflN8BCjXd5ENVGOk77tH5uw
+         s3NkaypO210iBobuYM8NgwwjOPZiL7rOKlV8y5tKqjIUGChDU8CHOoS8IjSCasdyn/Az
+         8r8Jf/O/RZu2evBDlSN/59MIt33XBDP+Hh1Kf9RP7DSKpnhoeCmsrxJjGsdlouvXvDlp
+         rZxA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to;
-        bh=p3sGAQxZSRJH4UZHNpIdLrEGYPs7j+wXkkL7B23DozY=;
-        b=leYytOKxfS10rza4A6o8pmQ6/c5biVhfZdHzSuNXW84t4tJ+MmUcWamnYmY8PAlPHU
-         h6AsxKY+25WwlJLXqo3X4Ok4RO1BrrKnHbzF+mJKNpXZu+2mOFgvJvLOssy11ozPN0tT
-         qSCgiTBMFGgT5EBEDKVlgcM/u6mYIpxunVKk8ptfcN+eOkV8qB2QD6T/pK00kh0XkQD+
-         zX+VYFGDGviwwTfmWf6eMNK3g0DEramwMdb95gK9X9eOeg31n9+spvP2ake8/LDh1iEn
-         IzGEQblVJPamp1p+vn6CaWzKiNgM5/oCXL6hx52mPRFpRL/59NJbmukkj6RVbgj1ELOs
-         hw6g==
-X-Gm-Message-State: APjAAAUJqBHc0RzBrMUucd0CA7qF/MJhm5CZBj9OXUzMfrBx5NTYH3z5
-        TR1owXITnV0wcckzN1202Kjk1Q==
-X-Google-Smtp-Source: APXvYqwhpXomPvDY55lP5tiV27rDluqLmojMV7DK9uMTENiwD2XDmRYC37Ogc+dw1yE3QtfbhDL3ZQ==
-X-Received: by 2002:a17:90a:cd03:: with SMTP id d3mr9056375pju.137.1573592111764;
-        Tue, 12 Nov 2019 12:55:11 -0800 (PST)
-Received: from www.outflux.net (smtp.outflux.net. [198.145.64.163])
-        by smtp.gmail.com with ESMTPSA id l74sm11993pje.29.2019.11.12.12.55.10
+         :mime-version:content-disposition:in-reply-to:user-agent;
+        bh=JPZechq2eKF4wwi+8Qv9lfknYNyHmyO47xHG86HtDMs=;
+        b=WLUcuqz1o/05TlKnpeX9SqJp8IvhikGpgMrRpgTDSLOs6of3p4qa6Jm8wgeuvzl2zq
+         ORjUuX0+hCOTYNiNs2IGGfn2jeSLezpXncBjULLT4or5FWTJ1d8oHolqG3erFvUNrpxn
+         QPMx8NAsfOMuDmmZZEXoqsBdxchIPI1/jcK7UjYKY3tMKhtPcDISVjlPsX70SPxDqsqY
+         QDdsunebGgO9tZaMAY2oAkv6vFqr6lW8BOqcEepsqMsvKM+KP9QfiqmikqNHmAKNpMdU
+         w4TcksGZ1uLit0EiaJeZCO2WvNOhI7aaAeua0hZaWXuhW07NdmUfPvDIov2P23Fvi44E
+         R7bg==
+X-Gm-Message-State: APjAAAUJfhXPwjaGOzJj5lqzDIPWgpO5OkJTTqbLpWDTjHXH+vzo0Z9L
+        5l37hEVFYrDnxb6qC5VIpPA=
+X-Google-Smtp-Source: APXvYqyo8cgTa2EjqKxK1NhWe5i3Yoq8ReGunMfOjSn81p4+F4lqwfdn3S7sooJZvNF/Jg8C9ieggg==
+X-Received: by 2002:a2e:9802:: with SMTP id a2mr21941492ljj.254.1573592957014;
+        Tue, 12 Nov 2019 13:09:17 -0800 (PST)
+Received: from uranus.localdomain ([5.18.102.224])
+        by smtp.gmail.com with ESMTPSA id u5sm9400286ljg.68.2019.11.12.13.09.15
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 12 Nov 2019 12:55:10 -0800 (PST)
-Date:   Tue, 12 Nov 2019 12:55:09 -0800
-From:   Kees Cook <keescook@chromium.org>
-To:     Geert Uytterhoeven <geert@linux-m68k.org>
-Cc:     Borislav Petkov <bp@alien8.de>,
-        Rick Edgecombe <rick.p.edgecombe@intel.com>,
-        Dave Hansen <dave.hansen@linux.intel.com>,
-        Andy Lutomirski <luto@kernel.org>,
-        Arnd Bergmann <arnd@arndb.de>,
-        Michael Ellerman <mpe@ellerman.id.au>,
-        Heiko Carstens <heiko.carstens@de.ibm.com>,
+        Tue, 12 Nov 2019 13:09:15 -0800 (PST)
+Received: by uranus.localdomain (Postfix, from userid 1000)
+        id 5B4884605D3; Wed, 13 Nov 2019 00:09:15 +0300 (MSK)
+Date:   Wed, 13 Nov 2019 00:09:15 +0300
+From:   Cyrill Gorcunov <gorcunov@gmail.com>
+To:     Arnd Bergmann <arnd@arndb.de>
+Cc:     y2038@lists.linaro.org, Richard Henderson <rth@twiddle.net>,
+        Ivan Kokshaysky <ink@jurassic.park.msu.ru>,
+        Matt Turner <mattst88@gmail.com>, linux-kernel@vger.kernel.org,
+        Deepa Dinamani <deepa.kernel@gmail.com>,
+        Thomas Gleixner <tglx@linutronix.de>,
         Will Deacon <will@kernel.org>,
-        Linux-Arch <linux-arch@vger.kernel.org>,
-        Linux ARM <linux-arm-kernel@lists.infradead.org>,
-        linuxppc-dev <linuxppc-dev@lists.ozlabs.org>,
-        alpha <linux-alpha@vger.kernel.org>,
-        "linux-ia64@vger.kernel.org" <linux-ia64@vger.kernel.org>,
-        linux-s390 <linux-s390@vger.kernel.org>,
-        linux-c6x-dev@linux-c6x.org,
-        Yoshinori Sato <ysato@users.sourceforge.jp>,
-        Michal Simek <monstr@monstr.eu>,
-        Parisc List <linux-parisc@vger.kernel.org>,
-        linux-xtensa@linux-xtensa.org,
-        the arch/x86 maintainers <x86@kernel.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
-Subject: Re: [PATCH v2 11/29] vmlinux.lds.h: Replace RODATA with RO_DATA
-Message-ID: <201911121252.25720DC6@keescook>
-References: <20191011000609.29728-1-keescook@chromium.org>
- <20191011000609.29728-12-keescook@chromium.org>
- <CAMuHMdXfPyti1wFBb0hhf3CeDSQ=zVv7cV-taeYCmDswMQkXPQ@mail.gmail.com>
- <201911110922.17A2112B0@keescook>
- <CAMuHMdUJ8QPvqf51nVmOg1Zm20SNT7pXR72z=qmco=ecwawZ7A@mail.gmail.com>
+        Michal =?iso-8859-1?Q?Koutn=FD?= <mkoutny@suse.com>,
+        Catalin Marinas <catalin.marinas@arm.com>,
+        Dave Hansen <dave.hansen@linux.intel.com>,
+        linux-alpha@vger.kernel.org
+Subject: Re: [PATCH 11/23] y2038: rusage: use __kernel_old_timeval
+Message-ID: <20191112210915.GD5130@uranus>
+References: <20191108210236.1296047-1-arnd@arndb.de>
+ <20191108211323.1806194-2-arnd@arndb.de>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <CAMuHMdUJ8QPvqf51nVmOg1Zm20SNT7pXR72z=qmco=ecwawZ7A@mail.gmail.com>
+In-Reply-To: <20191108211323.1806194-2-arnd@arndb.de>
+User-Agent: Mutt/1.12.1 (2019-06-15)
 Sender: linux-alpha-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-alpha.vger.kernel.org>
 X-Mailing-List: linux-alpha@vger.kernel.org
 
-On Mon, Nov 11, 2019 at 07:08:51PM +0100, Geert Uytterhoeven wrote:
-> Hi Kees,
+On Fri, Nov 08, 2019 at 10:12:10PM +0100, Arnd Bergmann wrote:
+> There are two 'struct timeval' fields in 'struct rusage'.
 > 
-> On Mon, Nov 11, 2019 at 6:23 PM Kees Cook <keescook@chromium.org> wrote:
-> > On Mon, Nov 11, 2019 at 05:58:06PM +0100, Geert Uytterhoeven wrote:
-> > > On Fri, Oct 11, 2019 at 2:07 AM Kees Cook <keescook@chromium.org> wrote:
-> > > > There's no reason to keep the RODATA macro: replace the callers with
-> > > > the expected RO_DATA macro.
-> > > >
-> > > > Signed-off-by: Kees Cook <keescook@chromium.org>
-> > > > ---
-> > > >  arch/alpha/kernel/vmlinux.lds.S      | 2 +-
-> > > >  arch/ia64/kernel/vmlinux.lds.S       | 2 +-
-> > > >  arch/microblaze/kernel/vmlinux.lds.S | 2 +-
-> > > >  arch/mips/kernel/vmlinux.lds.S       | 2 +-
-> > > >  arch/um/include/asm/common.lds.S     | 2 +-
-> > > >  arch/xtensa/kernel/vmlinux.lds.S     | 2 +-
-> > > >  include/asm-generic/vmlinux.lds.h    | 4 +---
-> > > >  7 files changed, 7 insertions(+), 9 deletions(-)
-> > >
-> > > Somehow you missed:
-> > >
-> > >     arch/m68k/kernel/vmlinux-std.lds:  RODATA
-> > >     arch/m68k/kernel/vmlinux-sun3.lds:      RODATA
-> >
-> > Argh. I've sent a patch; sorry and thanks for catching this. For my own
-> > cross-build testing, which defconfig targets will hit these two linker
-> > scripts?
+> Unfortunately the definition of timeval is now ambiguous when used in
+> user space with a libc that has a 64-bit time_t, and this also changes
+> the 'rusage' definition in user space in a way that is incompatible with
+> the system call interface.
 > 
-> vmlinux-sun3.lds: sun3_defconfig
-> vmlinux-std.lds: All other classic 680x0 targets with an MMU, e.g. plain
->                  defconfig aka multi_defconfig.
+> While there is no good solution to avoid all ambiguity here, change
+> the definition in the kernel headers to be compatible with the kernel
+> ABI, using __kernel_old_timeval as an unambiguous base type.
+> 
+> In previous discussions, there was also a plan to add a replacement
+> for rusage based on 64-bit timestamps and nanosecond resolution,
+> i.e. 'struct __kernel_timespec'. I have patches for that as well,
+> if anyone thinks we should do that.
+> 
+> Signed-off-by: Arnd Bergmann <arnd@arndb.de>
+> ---
+> Question: should we also rename 'struct rusage' into 'struct __kernel_rusage'
+> here, to make them completely unambiguous?
 
-Excellent, thank you; I've updated my multi-arch build list. :)
+The patch looks ok to me. I must confess I looked into rusage long ago
+so __kernel_timespec type used in uapi made me nervious at first,
+but then i found that we've this type defined in time_types.h uapi
+so userspace should be safe. I also like the idea of __kernel_rusage
+but definitely on top of the series.
 
--- 
-Kees Cook
+Reviewed-by: Cyrill Gorcunov <gorcunov@gmail.com>
