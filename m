@@ -2,119 +2,108 @@ Return-Path: <linux-alpha-owner@vger.kernel.org>
 X-Original-To: lists+linux-alpha@lfdr.de
 Delivered-To: lists+linux-alpha@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 8465AFAB54
-	for <lists+linux-alpha@lfdr.de>; Wed, 13 Nov 2019 08:53:08 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 537EFFADE5
+	for <lists+linux-alpha@lfdr.de>; Wed, 13 Nov 2019 11:02:37 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726486AbfKMHxD (ORCPT <rfc822;lists+linux-alpha@lfdr.de>);
-        Wed, 13 Nov 2019 02:53:03 -0500
-Received: from mout-p-201.mailbox.org ([80.241.56.171]:42506 "EHLO
-        mout-p-201.mailbox.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725976AbfKMHxD (ORCPT
+        id S1726597AbfKMKCh (ORCPT <rfc822;lists+linux-alpha@lfdr.de>);
+        Wed, 13 Nov 2019 05:02:37 -0500
+Received: from mout.kundenserver.de ([212.227.126.130]:49543 "EHLO
+        mout.kundenserver.de" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726339AbfKMKCg (ORCPT
         <rfc822;linux-alpha@vger.kernel.org>);
-        Wed, 13 Nov 2019 02:53:03 -0500
-Received: from smtp1.mailbox.org (smtp1.mailbox.org [80.241.60.240])
-        (using TLSv1.2 with cipher ECDHE-RSA-CHACHA20-POLY1305 (256/256 bits))
-        (No client certificate requested)
-        by mout-p-201.mailbox.org (Postfix) with ESMTPS id 47CcKk24kPzQlBh;
-        Wed, 13 Nov 2019 08:52:58 +0100 (CET)
-X-Virus-Scanned: amavisd-new at heinlein-support.de
-Received: from smtp1.mailbox.org ([80.241.60.240])
-        by spamfilter03.heinlein-hosting.de (spamfilter03.heinlein-hosting.de [80.241.56.117]) (amavisd-new, port 10030)
-        with ESMTP id Bp_N38N4yiqo; Wed, 13 Nov 2019 08:52:50 +0100 (CET)
-Date:   Wed, 13 Nov 2019 18:52:27 +1100
-From:   Aleksa Sarai <cyphar@cyphar.com>
-To:     Al Viro <viro@zeniv.linux.org.uk>
-Cc:     Jeff Layton <jlayton@kernel.org>,
-        "J. Bruce Fields" <bfields@fieldses.org>,
-        Arnd Bergmann <arnd@arndb.de>,
-        David Howells <dhowells@redhat.com>,
-        Shuah Khan <shuah@kernel.org>,
-        Shuah Khan <skhan@linuxfoundation.org>,
-        Ingo Molnar <mingo@redhat.com>,
-        Peter Zijlstra <peterz@infradead.org>,
-        Christian Brauner <christian.brauner@ubuntu.com>,
-        Jann Horn <jannh@google.com>,
-        Linus Torvalds <torvalds@linux-foundation.org>,
-        Eric Biederman <ebiederm@xmission.com>,
-        Andy Lutomirski <luto@kernel.org>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Alexei Starovoitov <ast@kernel.org>,
-        Kees Cook <keescook@chromium.org>,
-        Tycho Andersen <tycho@tycho.ws>,
-        David Drysdale <drysdale@google.com>,
-        Chanho Min <chanho.min@lge.com>,
-        Oleg Nesterov <oleg@redhat.com>,
-        Rasmus Villemoes <linux@rasmusvillemoes.dk>,
-        Alexander Shishkin <alexander.shishkin@linux.intel.com>,
-        Jiri Olsa <jolsa@redhat.com>,
-        Namhyung Kim <namhyung@kernel.org>,
-        Christian Brauner <christian@brauner.io>,
-        Aleksa Sarai <asarai@suse.de>,
-        containers@lists.linux-foundation.org, linux-alpha@vger.kernel.org,
-        linux-api@vger.kernel.org, libc-alpha@sourceware.org,
-        linux-arch@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-        linux-fsdevel@vger.kernel.org, linux-ia64@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-kselftest@vger.kernel.org,
-        linux-m68k@lists.linux-m68k.org, linux-mips@vger.kernel.org,
-        linux-parisc@vger.kernel.org, linuxppc-dev@lists.ozlabs.org,
-        linux-s390@vger.kernel.org, linux-sh@vger.kernel.org,
-        linux-xtensa@linux-xtensa.org, sparclinux@vger.kernel.org
-Subject: Re: [PATCH v15 6/9] namei: LOOKUP_{IN_ROOT,BENEATH}: permit limited
- ".." resolution
-Message-ID: <20191113075227.lu5b5uvc2nuk76uk@yavin.dot.cyphar.com>
-References: <20191105090553.6350-1-cyphar@cyphar.com>
- <20191105090553.6350-7-cyphar@cyphar.com>
- <20191113020917.GC26530@ZenIV.linux.org.uk>
+        Wed, 13 Nov 2019 05:02:36 -0500
+Received: from mail-qv1-f47.google.com ([209.85.219.47]) by
+ mrelayeu.kundenserver.de (mreue010 [212.227.15.129]) with ESMTPSA (Nemesis)
+ id 1MnJQq-1i5QHX0JUK-00jKlY; Wed, 13 Nov 2019 11:02:35 +0100
+Received: by mail-qv1-f47.google.com with SMTP id g18so548363qvp.8;
+        Wed, 13 Nov 2019 02:02:34 -0800 (PST)
+X-Gm-Message-State: APjAAAX7yCrHijEkYTtxKki5faVfaT/9hMAymSqjcuIPHR64yKFmaJRH
+        IpWuhPwlb02Hp0Vjk5cyvF86Qz729PGdm0dEZQM=
+X-Google-Smtp-Source: APXvYqxbIHpxk0EyGSyHb1LEOjNnUvGvKxcvxzDIdZZXuIRehWsSbAYkCnmOs9TK0Ul2nMncLZEPqfoW9Ge9/rMdXp4=
+X-Received: by 2002:a05:6214:2c2:: with SMTP id g2mr1912289qvu.210.1573639353874;
+ Wed, 13 Nov 2019 02:02:33 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
-        protocol="application/pgp-signature"; boundary="qprdfpbfkuvffdu5"
-Content-Disposition: inline
-In-Reply-To: <20191113020917.GC26530@ZenIV.linux.org.uk>
+References: <20191108210236.1296047-1-arnd@arndb.de> <20191108211323.1806194-2-arnd@arndb.de>
+ <20191112210915.GD5130@uranus>
+In-Reply-To: <20191112210915.GD5130@uranus>
+From:   Arnd Bergmann <arnd@arndb.de>
+Date:   Wed, 13 Nov 2019 11:02:12 +0100
+X-Gmail-Original-Message-ID: <CAK8P3a03FRfTsXADH+xfLsWxCu54JXvXbb-OdyGXXf88RNP34w@mail.gmail.com>
+Message-ID: <CAK8P3a03FRfTsXADH+xfLsWxCu54JXvXbb-OdyGXXf88RNP34w@mail.gmail.com>
+Subject: Re: [PATCH 11/23] y2038: rusage: use __kernel_old_timeval
+To:     Cyrill Gorcunov <gorcunov@gmail.com>
+Cc:     y2038 Mailman List <y2038@lists.linaro.org>,
+        Richard Henderson <rth@twiddle.net>,
+        Ivan Kokshaysky <ink@jurassic.park.msu.ru>,
+        Matt Turner <mattst88@gmail.com>,
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+        Deepa Dinamani <deepa.kernel@gmail.com>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Will Deacon <will@kernel.org>,
+        =?UTF-8?Q?Michal_Koutn=C3=BD?= <mkoutny@suse.com>,
+        Catalin Marinas <catalin.marinas@arm.com>,
+        Dave Hansen <dave.hansen@linux.intel.com>,
+        alpha <linux-alpha@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
+X-Provags-ID: V03:K1:YIPfmykULQ1zK4fCM0+v3SRSEDJy816mv2/j4VwFYT5i34gtSMd
+ QL4HmsWsze7QHJoImBkX5KB7kfJq+PtHLTvM1twH/jcq0NbUxIYfUzFeW9qSPEMTXggGIeu
+ 0IGmj3YVOAG3pVHWz4Ps4+zp4iek85QLXTAfKjuPTEQkankeP5MXMkC7D3JRZYIuX7rop7Z
+ N5XvuOL9HU5Gn4ovyV9sw==
+X-Spam-Flag: NO
+X-UI-Out-Filterresults: notjunk:1;V03:K0:6TymcqjPZJY=:xKPDKgq+K9+YU+TaJA0rXF
+ CNmz6Rc+4HzXN8jO3B9eQa/dtWoX8SvjrqNfLdyybDStmElrOOBG8dEe3KTAcFmbZxIctG6/u
+ vaRFnmni5NbHjhUsUoC1p0pVNt222XcGY6EamNFesetUT9jHKacmd5zm7Kb4UDUs5g5YURFVW
+ yXI1VP9/dlt0Ojugunnph8LDp+0jQtwDm82BUXjuKFts1+kgzwwaCDZdMAW2FI7ZgwKS/f9uO
+ menFyYrp177LVpbgg5+i9OEtJoOdSES1vcBS/+ej1lMg01prJ+VwmIbT6Nz7PcaOCkHdsLnW/
+ FwrABKkF1wkUOKA9qwm3d8eqfgmT12zaag6Veq4jJ4XQk75e+I/WXPQrcfe79P1+ZKeVZpHaZ
+ hxTI1HccCsALBnzm6HLutwd/8XGgJ1pbbQqycff+ZSebSWRENCJMRtRQxY9q/5uPpWVhTiju+
+ xzjQeY59qYB57E5kzfWl0eo+mVGLWCNtwBW0QRA6IYCz4qU0fPYFGeBV3YWjkRIwwsWLJUqkH
+ yp/FTnjBiRF0WYNFG6w/4yz8XOAm4M5qPP9GuYa2ABQ5UiDvyL29zbnDIWJMSxKs1ruwg7Z2y
+ 3v+vKrCwbQo5qUjbLlzEmg+g9aAkH+215khbyjEfqqeTnR/ASIdgZhXirK+d6g+yZ+kMp+xwv
+ pPwHom34YqKf8q16l6Zyfe0iWJ1lHOVWvciFrlgtQ0+nk/X2uf40N/vU+dWAkXyEUrMrLTPqJ
+ zZf3fP0Uky4R35jBs0K9uXzM7spTJRkIL6xIRxdngfHNOY0NZUOmbkdyqiVa/jKF3Si3fp0BZ
+ EKYf1waxLnfM2if9SLJAPwFGIEud+jslibyyQum3tnxdnhcjfQsB63Z0abHiQGJp9oHugMDtp
+ sqISJpt2u+44RViAu/RQ==
 Sender: linux-alpha-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-alpha.vger.kernel.org>
 X-Mailing-List: linux-alpha@vger.kernel.org
 
+On Tue, Nov 12, 2019 at 10:09 PM Cyrill Gorcunov <gorcunov@gmail.com> wrote:
+>
+> On Fri, Nov 08, 2019 at 10:12:10PM +0100, Arnd Bergmann wrote:
 
---qprdfpbfkuvffdu5
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+> > ---
+> > Question: should we also rename 'struct rusage' into 'struct __kernel_rusage'
+> > here, to make them completely unambiguous?
+>
+> The patch looks ok to me. I must confess I looked into rusage long ago
+> so __kernel_timespec type used in uapi made me nervious at first,
+> but then i found that we've this type defined in time_types.h uapi
+> so userspace should be safe. I also like the idea of __kernel_rusage
+> but definitely on top of the series.
 
-On 2019-11-13, Al Viro <viro@zeniv.linux.org.uk> wrote:
-> On Tue, Nov 05, 2019 at 08:05:50PM +1100, Aleksa Sarai wrote:
->=20
-> > One other possible alternative (which previous versions of this patch
-> > used) would be to check with path_is_under() if there was a racing
-> > rename or mount (after re-taking the relevant seqlocks). While this does
-> > work, it results in possible O(n*m) behaviour if there are many renames
-> > or mounts occuring *anywhere on the system*.
->=20
-> BTW, do you realize that open-by-fhandle (or working nfsd, for that matte=
-r)
-> will trigger arseloads of write_seqlock(&rename_lock) simply on d_splice_=
-alias()
-> bringing disconnected subtrees in contact with parent?
+There are clearly too many time types at the moment, but I'm in the
+process of throwing out the ones we no longer need now.
 
-I wasn't aware of that -- that makes path_is_under() even less viable.
-I'll reword it to be clearer that path_is_under() isn't a good idea and
-why we went with -EAGAIN over an in-kernel retry.
+I do have a number patches implementing other variants for the syscall,
+and I suppose that if we end up adding __kernel_rusage, that would
+have to go with a set of syscalls using 64-bit seconds/nanoseconds
+rather than the old 32/64 microseconds. I don't know what other
+changes remain that anyone would want from sys_waitid() now that
+it does support pidfd.
 
---=20
-Aleksa Sarai
-Senior Software Engineer (Containers)
-SUSE Linux GmbH
-<https://www.cyphar.com/>
+If there is still a need for a new waitid() replacement, that should take
+that new __kernel_rusage I think, but until then I hope we are fine
+with today's getrusage+waitid based on the current struct rusage.
 
---qprdfpbfkuvffdu5
-Content-Type: application/pgp-signature; name="signature.asc"
+BSD has wait6() to return separate rusage structures for 'self' and
+'children', but I could not find any application (using the freebsd
+sources and debian code search) that actually uses that information,
+so there might not be any demand for that.
 
------BEGIN PGP SIGNATURE-----
+> Reviewed-by: Cyrill Gorcunov <gorcunov@gmail.com>
 
-iHUEABYIAB0WIQSxZm6dtfE8gxLLfYqdlLljIbnQEgUCXcu2OAAKCRCdlLljIbnQ
-EtqZAQCjNdiANKBF7WCOTHUeD48U+o/7WczR7I/1WTsCcSBp9gEA6HgEdHKRHmol
-+5Fvn3Eg1Tya83fWQgWoVLu8i6CUUwE=
-=voMa
------END PGP SIGNATURE-----
+Thanks,
 
---qprdfpbfkuvffdu5--
+      Arnd
