@@ -2,69 +2,77 @@ Return-Path: <linux-alpha-owner@vger.kernel.org>
 X-Original-To: lists+linux-alpha@lfdr.de
 Delivered-To: lists+linux-alpha@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 1C03DFE2B1
-	for <lists+linux-alpha@lfdr.de>; Fri, 15 Nov 2019 17:27:49 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id CCC8BFE40D
+	for <lists+linux-alpha@lfdr.de>; Fri, 15 Nov 2019 18:34:45 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727537AbfKOQ1s (ORCPT <rfc822;lists+linux-alpha@lfdr.de>);
-        Fri, 15 Nov 2019 11:27:48 -0500
-Received: from sonic316-11.consmr.mail.bf2.yahoo.com ([74.6.130.121]:39754
-        "EHLO sonic316-11.consmr.mail.bf2.yahoo.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1727520AbfKOQ1s (ORCPT
-        <rfc822;linux-alpha@vger.kernel.org>);
-        Fri, 15 Nov 2019 11:27:48 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=yahoo.com; s=s2048; t=1573835267; bh=sgFa7Cs4ss6n8sA+brLiAjHMpjB11xRWsbVGUlCB1X4=; h=Date:From:Reply-To:Subject:From:Subject; b=n4zG5RWorBfhRqGFQ7plRYBYWHlj9gYauh0BpjI8l7BF/YfyksVeg6gllDyIk//mgRMx3fpT8DYBVtptyDniJ4v21r+hHeQSi85ohgR4e/hbEeDBKcE04FIo3JTW9mvccB9TGBp4JyzfOqUmDg+LDAD95xs3bftm1D9dBUgBrLS3GpiRJGJaavv0Z89yzTrQieRQU+SLVfxvo3HM2rlKUScOYJaIOXmXgfgahNRfVS3d1Ip7XCAe/AWFrn/V5QhRWRQGKzo0MNoIeiaU272+lLuwnwBHoo2e1U8Wenu7aNhm4xnMS0+5jIWlyfyeXmg4giVu9FnxFAlE1CQMuyTxdA==
-X-YMail-OSG: .KZi1GUVM1ke_Db7qo_I_MdsHQPaJ1yTOpG4Z.ZkdQZoBXVLr6PBo9AVWBUEnlb
- kJfFHzsp09rXcve0NjbAgeIUmNFUDTYsSEPQrAKMJpMN3QT2BKYmNwfmlgh6U1tTpoDQktCW7It9
- kUKuPTb4sTKyaAVrICybUJh9T8umaCoXb5beMh.TSy8sEJBj2WT.tuaAFlf8f72rxndiw0n0YsVS
- VIdH_6JUAtcGC0_McibIwcS9VV3EppA5hOZvBC7avJmjcfRdoWJf4VHBiFfHbqRfdfI9WusCUlrl
- hU.0iAoScvL0FNt3iOBLJTjI8Dw48YJORjHD0XhCTXZusoWcIM9wR3AhEtfDM9dSICEz1MnYh8_V
- ipR5u6wB4IYpnTxUco8q43tiUBULCYrowaiBBq4B1.fK6tLZ7VW92iaLSfZ8N_.urMKcmRAZzMlN
- W_SSNTHdAL4tQWf0C.nRBk1OCXNFfZ6BremXwByjZltOHVX7EjUEWiN6kaFlR40UMhbzrRW8P84V
- gWWMEPfvdGeWVBfjGP6IA7PCb0_kQfHdTC0S56tj7uA4MT.RAP630Da93Fqbc507jBqoWUEzNmbS
- S.NhA.iDWPXipvGIXJcSgcKCa2pDtjpABNLN3P_EGPeaqzKz1krXANgsC.vf8I6myp9PnBlEs4yB
- IOocnYvG9Gwu8wd9xGJBhRBtutXrCAY9C43SIjb9xotjhu9HWlbYiCrWPXn6kQaHbtmC5ziZn5xJ
- XrxYTPqLj2W6sPeEESJxthewshWyxEhH3YhcD1qh2igxzc5TXFlNnBGYSVh5NM6Uv0hWKdfH9eFE
- 9ljIWt_qSrXMs2NILrntKjVr45UkRQOdCr1Ux6yiNVKdNCmMlS3g.MKmFfEpQRXde8wqtsxYUaNR
- IVLaXZvG8zGYOsTr9dM5wdlNPG5JTmznhmY.H1AILOVpwoRSCTSpQzq.zWZOaWqM4rnFO2ExzqzY
- 6zQQcIlZk4EBZnUfxNZHAJdbEn9UFlHUY8TQHS25noQ2bOJC.KsFXFnqiTNORMIzqQlQtF9Jpeta
- U4bY4hwGSLQikAM3rIQ2x3QHMlDqQMfLLCsxoxVdJZRH374Q9Z46oNYJz3_UKr7ez_cxQp2irKo9
- XwEjyU58DiB9qDZAQ5qqcQDm88sxhGX61wMJbvq0zXh2yo.CKONbVq5eDUIEaCb82dmwOuWEU83v
- Azh.5jjfbItGrXCnRMLEgNBmS5EvfS62qw7Dan.ZuAXgoxoW7oiJSXaNGGryvRb6yWzInOyB_t1T
- qiNh_dS0s8zhqItcDz7Xre4BiGGJnHIkFrI3kigQhft3q5WsjC3z3K7VYXfelfFDKYxPptGB1W5P
- FWQFN
-Received: from sonic.gate.mail.ne1.yahoo.com by sonic316.consmr.mail.bf2.yahoo.com with HTTP; Fri, 15 Nov 2019 16:27:47 +0000
-Date:   Fri, 15 Nov 2019 16:27:44 +0000 (UTC)
-From:   "Dr. Youssef Bakary," <mrs.nathaliehamon888@gmail.com>
-Reply-To: dr.youssefbakary1960@gmail.com
-Message-ID: <1375579144.536090.1573835264383@mail.yahoo.com>
-Subject: Dear Friend
+        id S1727606AbfKORep (ORCPT <rfc822;lists+linux-alpha@lfdr.de>);
+        Fri, 15 Nov 2019 12:34:45 -0500
+Received: from mail.hgs.gob.ec ([190.214.19.83]:35992 "HELO mail.hgs.gob.ec"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with SMTP
+        id S1727540AbfKORep (ORCPT <rfc822;linux-alpha@vger.kernel.org>);
+        Fri, 15 Nov 2019 12:34:45 -0500
+Received: from localhost (localhost [127.0.0.1])
+        by mail.hgs.gob.ec (Postfix) with ESMTP id 205569FAE9C;
+        Thu, 14 Nov 2019 16:04:35 -0500 (-05)
+Received: from mail.hgs.gob.ec ([127.0.0.1])
+        by localhost (mail.hgs.gob.ec [127.0.0.1]) (amavisd-new, port 10032)
+        with ESMTP id S8bhnm2_M6xT; Thu, 14 Nov 2019 16:04:34 -0500 (-05)
+Received: from localhost (localhost [127.0.0.1])
+        by mail.hgs.gob.ec (Postfix) with ESMTP id CF8859FA2A2;
+        Thu, 14 Nov 2019 16:03:49 -0500 (-05)
+DKIM-Filter: OpenDKIM Filter v2.10.3 mail.hgs.gob.ec CF8859FA2A2
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=hgs.gob.ec;
+        s=DD120D66-D63F-11E9-9729-9452E74E1CB4; t=1573765429;
+        bh=oYeOwTtTK4mcRNNK0JGL7ZOgP8mm7StpJG1pujYq4Z0=;
+        h=MIME-Version:To:From:Date:Message-Id;
+        b=hNvHuJ4n8/mE27hwkUiQI8lHhWveJXWA8vCJBHtBqmhXQH9l0HgSd9Rk9HMeDXmd6
+         L44VXn3AlJPQ/ly/b5jESJxdjkgpHOnD4hLrZMtXaJhVWpFSVrhRKjiig/+N8ZiaxU
+         VQ8syKUGsp8+iq4UjmpSHDzbSfkTHxpwNoa4HfToz2JaAHzNfjgFzVetFPkiSeKJyM
+         obWAjmzXFZkWUbodyo4e6Gitn6eieMdtjHybmq8h7vCqEu5i1KuZagZJ9wQEL644Lj
+         FPgpxQlPiQe3mDDSPmyUMwKtWXnBrcLZDhuBghqq/P85dJbDwANqAxiF028fk0Dcax
+         nkGnm/PEvOWDA==
+X-Virus-Scanned: amavisd-new at hgs.gob.ec
+Received: from mail.hgs.gob.ec ([127.0.0.1])
+        by localhost (mail.hgs.gob.ec [127.0.0.1]) (amavisd-new, port 10026)
+        with ESMTP id h-joy-hqWNCR; Thu, 14 Nov 2019 16:03:49 -0500 (-05)
+Received: from [10.32.142.65] (unknown [105.4.7.6])
+        by mail.hgs.gob.ec (Postfix) with ESMTPSA id 38B06A0A5BE;
+        Thu, 14 Nov 2019 16:03:00 -0500 (-05)
+Content-Type: text/plain; charset="iso-8859-1"
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: quoted-printable
-To:     unlisted-recipients:; (no To-header on input)
+Content-Description: Mail message body
+Subject: =?utf-8?q?Wohlt=C3=A4tigkeitsspende_von_2=2E000=2E000=2E000_Euro?=
+To:     Recipients <dietetica@hgs.gob.ec>
+From:   ''Charles jackson'' <dietetica@hgs.gob.ec>
+Date:   Thu, 14 Nov 2019 23:02:51 +0200
+Reply-To: charlesjacksonjr001@gmail.com
+Message-Id: <20191114210301.38B06A0A5BE@mail.hgs.gob.ec>
 Sender: linux-alpha-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-alpha.vger.kernel.org>
 X-Mailing-List: linux-alpha@vger.kernel.org
 
-Dear Friend
+Lieber Freund,
 
-I am Dr. Youssef Bakary, I Have a Business Proposal of $5.3 million For You=
-.
-I am aware of the unsafe nature of the internet, and was compelled to use t=
-his medium due to the nature of this project. I have access to very vital i=
-nformation that can be used to transfer this huge amount of money, which ma=
-y culminate into the investment of the said=20
-funds into your company or any lucrative venture in your country.
-If you will like to assist me as a partner then indicate your interest, aft=
-er which we shall both discuss the modalities and the sharing percentage.Up=
-on receipt of your reply on your expression of Interest
- I will give you full details, on how the business will be executed I am op=
-en for negotiation.=20
-Thanks for your anticipated cooperation.
-Note you might receive this message in your inbox or spam or junk folder, d=
-epends on your web host or server network.
+Ich bin Herr Charles W Jackson, North Carolina, Vereinigte Staaten von Amer=
+ika, der Mega-Gewinner von 344 Millionen US-Dollar. Beim Mega-Millions-Jack=
+pot spende ich an 5 zuf&auml;llige Personen. Wenn Sie diese E-Mail erhalten=
+, wurde Ihre E-Mail zu einem Spinball, den ich am h&auml;ufigsten verteilt =
+habe von meinem Verm&ouml;gen an eine Reihe von Wohlt&auml;tigkeitsorganisa=
+tionen. Ich habe mich freiwillig entschlossen, Ihnen als einer der ausgew&a=
+uml;hlten 5 einen Betrag von &euro; 2.000.000,00 zu spenden, um meine Gewin=
+ne zu &uuml;berpr&uuml;fen.
+Dies ist Ihr Spendencode: [CJ530342019]
 
-Thanks=E2=80=99
-Best Regards
-Dr. Youssef Bakary,
+www.youtube.com/watch?v=3DBSr8myiLPMQ
+
+Antworten Sie auf diese E-Mail mit dem SPENDER-CODE: =
+
+
+charlesjacksonjr001@gmail.com
+
+Ich hoffe, Sie und Ihre Familie gl&uuml;cklich zu machen
+
+Sch&ouml;ne Gr&uuml;&szlig;e
+Mr. Charles Jackson
