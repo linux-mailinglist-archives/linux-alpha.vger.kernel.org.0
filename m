@@ -2,87 +2,69 @@ Return-Path: <linux-alpha-owner@vger.kernel.org>
 X-Original-To: lists+linux-alpha@lfdr.de
 Delivered-To: lists+linux-alpha@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 3CA0BFE1CE
-	for <lists+linux-alpha@lfdr.de>; Fri, 15 Nov 2019 16:49:45 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 1C03DFE2B1
+	for <lists+linux-alpha@lfdr.de>; Fri, 15 Nov 2019 17:27:49 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727688AbfKOPto (ORCPT <rfc822;lists+linux-alpha@lfdr.de>);
-        Fri, 15 Nov 2019 10:49:44 -0500
-Received: from mail-io1-f67.google.com ([209.85.166.67]:45277 "EHLO
-        mail-io1-f67.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727606AbfKOPtm (ORCPT
+        id S1727537AbfKOQ1s (ORCPT <rfc822;lists+linux-alpha@lfdr.de>);
+        Fri, 15 Nov 2019 11:27:48 -0500
+Received: from sonic316-11.consmr.mail.bf2.yahoo.com ([74.6.130.121]:39754
+        "EHLO sonic316-11.consmr.mail.bf2.yahoo.com" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1727520AbfKOQ1s (ORCPT
         <rfc822;linux-alpha@vger.kernel.org>);
-        Fri, 15 Nov 2019 10:49:42 -0500
-Received: by mail-io1-f67.google.com with SMTP id v17so10885871iol.12
-        for <linux-alpha@vger.kernel.org>; Fri, 15 Nov 2019 07:49:42 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=mime-version:reply-to:from:date:message-id:subject:to;
-        bh=X5NAAOrJ3bS32ihsXavVCESX6DNfXdWEE7aVqtLVIHM=;
-        b=T96mBsWswYjsm0w7ecYkWpV509ib/ulk9bHbI0Xwo0rzkePegh7rSfOcmzGbyf8vTc
-         lns/HOXyf4/6jOYDVIgZ/CZyIfN2m2y88qVdmXSABhNsP0MXDIRsHGSOOd7wWkwuGiQx
-         ehcoBpFXp6INIFq3jwmveina1L3fsWjpzHRhMvlhwo8OJ8Dy4xuFXwCrYZiL/Ja/dmiU
-         sEvBblBcC09ww5H/W1Li3rJXBc1TYjMn46kjeboNwYGUiqFeNnjz46iJxarBlBzUTpau
-         7EU4w1MkRxjhgPFrJ2/ipVqnuE4IawmENFYcW1JVUg9OFLrEKZvfb77T8+3XayPV4Zd+
-         KrHA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:reply-to:from:date:message-id
-         :subject:to;
-        bh=X5NAAOrJ3bS32ihsXavVCESX6DNfXdWEE7aVqtLVIHM=;
-        b=Yok6wf+mb2Zm+3eusgxD77pg2z7uqfpfzdWW93Q/mGcxr/+I8C999adWxkYxeEGvz2
-         K+pC6H6whSozdikO7YTlj5wJmOkTpY+/YLAlCWNG1KC9BhJVk2QZz4uw31Y+EVZer/oU
-         Pu39CtD4FEZC6b+X6I26o6f0KjlQf0BOwgQknvB0JmK5DPcLOWVcdzuAm2LfIxHvRr/T
-         oTInCcZqGpvlPlRs44HUA1ELgr7WdKssXuyMb16zpq3VHaitEQHbDJDCzWVNyBgWqFUj
-         6p6X5bK2spibNw/Lq6/s7dGkA26EONZedOkhUuypRUQX9ekkgrBJd4VmZpCgkpnzlWUJ
-         rYyQ==
-X-Gm-Message-State: APjAAAXxYkmCQo8JMHYJgRixyJ9p/nIFZbihJNapZmiWxKdcHjSIKObH
-        f7ERHzXH4rgphc3D8SdmLJcjPOwZMVhyeHmDFg==
-X-Google-Smtp-Source: APXvYqxEj1beLI6zhjihT/lmX2Dk324PGcIr8veC5c+0F/PFQKT7AeNYgljOGh72OwNqCMMZvqGkvMbSAqCkDjgGkjg=
-X-Received: by 2002:a5e:8e02:: with SMTP id a2mr1343031ion.269.1573832982053;
- Fri, 15 Nov 2019 07:49:42 -0800 (PST)
+        Fri, 15 Nov 2019 11:27:48 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=yahoo.com; s=s2048; t=1573835267; bh=sgFa7Cs4ss6n8sA+brLiAjHMpjB11xRWsbVGUlCB1X4=; h=Date:From:Reply-To:Subject:From:Subject; b=n4zG5RWorBfhRqGFQ7plRYBYWHlj9gYauh0BpjI8l7BF/YfyksVeg6gllDyIk//mgRMx3fpT8DYBVtptyDniJ4v21r+hHeQSi85ohgR4e/hbEeDBKcE04FIo3JTW9mvccB9TGBp4JyzfOqUmDg+LDAD95xs3bftm1D9dBUgBrLS3GpiRJGJaavv0Z89yzTrQieRQU+SLVfxvo3HM2rlKUScOYJaIOXmXgfgahNRfVS3d1Ip7XCAe/AWFrn/V5QhRWRQGKzo0MNoIeiaU272+lLuwnwBHoo2e1U8Wenu7aNhm4xnMS0+5jIWlyfyeXmg4giVu9FnxFAlE1CQMuyTxdA==
+X-YMail-OSG: .KZi1GUVM1ke_Db7qo_I_MdsHQPaJ1yTOpG4Z.ZkdQZoBXVLr6PBo9AVWBUEnlb
+ kJfFHzsp09rXcve0NjbAgeIUmNFUDTYsSEPQrAKMJpMN3QT2BKYmNwfmlgh6U1tTpoDQktCW7It9
+ kUKuPTb4sTKyaAVrICybUJh9T8umaCoXb5beMh.TSy8sEJBj2WT.tuaAFlf8f72rxndiw0n0YsVS
+ VIdH_6JUAtcGC0_McibIwcS9VV3EppA5hOZvBC7avJmjcfRdoWJf4VHBiFfHbqRfdfI9WusCUlrl
+ hU.0iAoScvL0FNt3iOBLJTjI8Dw48YJORjHD0XhCTXZusoWcIM9wR3AhEtfDM9dSICEz1MnYh8_V
+ ipR5u6wB4IYpnTxUco8q43tiUBULCYrowaiBBq4B1.fK6tLZ7VW92iaLSfZ8N_.urMKcmRAZzMlN
+ W_SSNTHdAL4tQWf0C.nRBk1OCXNFfZ6BremXwByjZltOHVX7EjUEWiN6kaFlR40UMhbzrRW8P84V
+ gWWMEPfvdGeWVBfjGP6IA7PCb0_kQfHdTC0S56tj7uA4MT.RAP630Da93Fqbc507jBqoWUEzNmbS
+ S.NhA.iDWPXipvGIXJcSgcKCa2pDtjpABNLN3P_EGPeaqzKz1krXANgsC.vf8I6myp9PnBlEs4yB
+ IOocnYvG9Gwu8wd9xGJBhRBtutXrCAY9C43SIjb9xotjhu9HWlbYiCrWPXn6kQaHbtmC5ziZn5xJ
+ XrxYTPqLj2W6sPeEESJxthewshWyxEhH3YhcD1qh2igxzc5TXFlNnBGYSVh5NM6Uv0hWKdfH9eFE
+ 9ljIWt_qSrXMs2NILrntKjVr45UkRQOdCr1Ux6yiNVKdNCmMlS3g.MKmFfEpQRXde8wqtsxYUaNR
+ IVLaXZvG8zGYOsTr9dM5wdlNPG5JTmznhmY.H1AILOVpwoRSCTSpQzq.zWZOaWqM4rnFO2ExzqzY
+ 6zQQcIlZk4EBZnUfxNZHAJdbEn9UFlHUY8TQHS25noQ2bOJC.KsFXFnqiTNORMIzqQlQtF9Jpeta
+ U4bY4hwGSLQikAM3rIQ2x3QHMlDqQMfLLCsxoxVdJZRH374Q9Z46oNYJz3_UKr7ez_cxQp2irKo9
+ XwEjyU58DiB9qDZAQ5qqcQDm88sxhGX61wMJbvq0zXh2yo.CKONbVq5eDUIEaCb82dmwOuWEU83v
+ Azh.5jjfbItGrXCnRMLEgNBmS5EvfS62qw7Dan.ZuAXgoxoW7oiJSXaNGGryvRb6yWzInOyB_t1T
+ qiNh_dS0s8zhqItcDz7Xre4BiGGJnHIkFrI3kigQhft3q5WsjC3z3K7VYXfelfFDKYxPptGB1W5P
+ FWQFN
+Received: from sonic.gate.mail.ne1.yahoo.com by sonic316.consmr.mail.bf2.yahoo.com with HTTP; Fri, 15 Nov 2019 16:27:47 +0000
+Date:   Fri, 15 Nov 2019 16:27:44 +0000 (UTC)
+From:   "Dr. Youssef Bakary," <mrs.nathaliehamon888@gmail.com>
+Reply-To: dr.youssefbakary1960@gmail.com
+Message-ID: <1375579144.536090.1573835264383@mail.yahoo.com>
+Subject: Dear Friend
 MIME-Version: 1.0
-Received: by 2002:a02:7749:0:0:0:0:0 with HTTP; Fri, 15 Nov 2019 07:49:41
- -0800 (PST)
-Reply-To: moneygram.1820@outlook.fr
-From:   "Ms.Mary Coster" <info.zennitbankplcnigerian@gmail.com>
-Date:   Fri, 15 Nov 2019 16:49:41 +0100
-Message-ID: <CABHzvrkUQbbmg0Gr7foD3OjAJiY7Fd37=SW3mU=fnOPOcOyNdQ@mail.gmail.com>
-Subject: Goodnews, I have deposited your transfer total amount US$4.8million
- Dollars with Money Gram this morning. we agreed you will be receiving it
- $5000.00 daily.
-To:     undisclosed-recipients:;
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
+To:     unlisted-recipients:; (no To-header on input)
 Sender: linux-alpha-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-alpha.vger.kernel.org>
 X-Mailing-List: linux-alpha@vger.kernel.org
 
-Attn, Dear
-Goodnews, I have deposited your transfer total amount US$4.8million
-Dollars with Money Gram this morning. we agreed you will be receiving
-it $5000.00 daily.
-Contact Mr. John Dave Director, Money Gram to pick up your first Money
-Gram payment $5000.00 today.
-Contact Person; Mr. John Dave Director, Money Gram,International
-Remittance-Benin
-Email; moneygram.1820@outlook.fr
-Telephone; +229 62619517
-Please re-confirm your address to him once again such as listed below.
-1.Your Full Name..............................
-2.Address.........................
-3.Country....................
-4.Sex.........................................
-5.Your telephone numbers..........................
-6. Copy of your ID...........................
-This is to avoid sending your funds to wrong person, He is waiting to
-hear from you urgent today.
-Let me know once you pick up your transfer $5000.00 today.
-Finally, Note I have paid for the service fees, but only money will
-send to him is $90.00 transfer fee before you can pick up the transfer
-today.
-Ask, Mr. John Dave Director, Money Gram to give you direction where to
-send your transfer fee $90.00 only to Him Immediately so that you can
-pick up $5000.00 us dollars today.
-Thanks for undrstanding.
-Mary Coster
-m.coster@aol.com
+Dear Friend
+
+I am Dr. Youssef Bakary, I Have a Business Proposal of $5.3 million For You=
+.
+I am aware of the unsafe nature of the internet, and was compelled to use t=
+his medium due to the nature of this project. I have access to very vital i=
+nformation that can be used to transfer this huge amount of money, which ma=
+y culminate into the investment of the said=20
+funds into your company or any lucrative venture in your country.
+If you will like to assist me as a partner then indicate your interest, aft=
+er which we shall both discuss the modalities and the sharing percentage.Up=
+on receipt of your reply on your expression of Interest
+ I will give you full details, on how the business will be executed I am op=
+en for negotiation.=20
+Thanks for your anticipated cooperation.
+Note you might receive this message in your inbox or spam or junk folder, d=
+epends on your web host or server network.
+
+Thanks=E2=80=99
+Best Regards
+Dr. Youssef Bakary,
