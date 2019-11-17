@@ -2,42 +2,46 @@ Return-Path: <linux-alpha-owner@vger.kernel.org>
 X-Original-To: lists+linux-alpha@lfdr.de
 Delivered-To: lists+linux-alpha@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 62833FFA5B
-	for <lists+linux-alpha@lfdr.de>; Sun, 17 Nov 2019 15:59:48 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 484B2FFCBC
+	for <lists+linux-alpha@lfdr.de>; Mon, 18 Nov 2019 02:10:52 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726134AbfKQO7r (ORCPT <rfc822;lists+linux-alpha@lfdr.de>);
-        Sun, 17 Nov 2019 09:59:47 -0500
-Received: from [211.53.128.215] ([211.53.128.215]:42893 "EHLO MAIL.isd.co.kr"
-        rhost-flags-FAIL-FAIL-OK-FAIL) by vger.kernel.org with ESMTP
-        id S1726109AbfKQO7r (ORCPT <rfc822;linux-alpha@vger.kernel.org>);
-        Sun, 17 Nov 2019 09:59:47 -0500
-Received: from 192.168.1.163 (217.217.179.17) by MAIL.isd.co.kr (10.10.10.22)
- with Microsoft SMTP Server id 14.3.123.3; Sun, 17 Nov 2019 23:57:18 +0900
-Date:   Sun, 17 Nov 2019 15:57:43 +0100
-From:   Peter Wong <choimj@isd.co.kr>
-Reply-To: Peter Wong <peterwongpwhk@gmail.com>
-To:     <linux-alpha@vger.kernel.org>
-Message-ID: <18227071.1111.1574002668277.JavaMail.cash@211.53.128.215>
-Subject: Investment opportunity
+        id S1726073AbfKRBKm (ORCPT <rfc822;lists+linux-alpha@lfdr.de>);
+        Sun, 17 Nov 2019 20:10:42 -0500
+Received: from proxy.kru.ru ([94.137.254.140]:25438 "EHLO proxy-xen.kru.kem"
+        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
+        id S1725905AbfKRBKm (ORCPT <rfc822;linux-alpha@vger.kernel.org>);
+        Sun, 17 Nov 2019 20:10:42 -0500
+Received: from mail.kru.ru (localhost [127.0.0.1])
+        by proxy-xen.kru.kem (Postfix) with ESMTP id D5D9676DE1B;
+        Mon, 18 Nov 2019 06:39:12 +0700 (+07)
 MIME-Version: 1.0
-Content-Type: text/plain; charset="us-ascii"
+Content-Type: text/plain; charset=US-ASCII;
+ format=flowed
 Content-Transfer-Encoding: 7bit
-X-Originating-IP: [217.217.179.17]
+Date:   Mon, 18 Nov 2019 00:39:12 +0100
+From:   FRANK KALUNGA <office@kru.ru>
+To:     undisclosed-recipients:;
+Subject: Re: REMADE FROM MY LAST EMAILl TO YOU
+Reply-To: frkal20@gmail.com
+Mail-Reply-To: frkal20@gmail.com
+Message-ID: <731d5acd1c598bda66e8c2a8ad2634bd@kru.ru>
+X-Sender: office@kru.ru
+User-Agent: Roundcube Webmail/1.3.6
 Sender: linux-alpha-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-alpha.vger.kernel.org>
 X-Mailing-List: linux-alpha@vger.kernel.org
 
-Greetings,
-
-Find attached email very confidential. reply for more details
-
-Thanks.
-Peter Wong
 
 
+-- 
+Good Day,
 
+FYI, this is the second mail am sending to you yet no response from your 
+side.Reference private investors who are seeking investments in your 
+Country/Company. I had also sent you earlier their basic information for 
+your consideration but yet to hear from you. Kindly confirm that you got 
+my message as I await for your response
 
-----------------------------------------------------
-This email was sent by the shareware version of Postman Professional.
-
+Sincere regards,
+FRANK KALUNGA
