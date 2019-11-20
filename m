@@ -2,78 +2,64 @@ Return-Path: <linux-alpha-owner@vger.kernel.org>
 X-Original-To: lists+linux-alpha@lfdr.de
 Delivered-To: lists+linux-alpha@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id D19181037B3
-	for <lists+linux-alpha@lfdr.de>; Wed, 20 Nov 2019 11:38:02 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 11B31103BC7
+	for <lists+linux-alpha@lfdr.de>; Wed, 20 Nov 2019 14:37:57 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728763AbfKTKiC (ORCPT <rfc822;lists+linux-alpha@lfdr.de>);
-        Wed, 20 Nov 2019 05:38:02 -0500
-Received: from bilbo.ozlabs.org ([203.11.71.1]:58827 "EHLO ozlabs.org"
+        id S1728330AbfKTNhr (ORCPT <rfc822;lists+linux-alpha@lfdr.de>);
+        Wed, 20 Nov 2019 08:37:47 -0500
+Received: from mail.kernel.org ([198.145.29.99]:44788 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1728616AbfKTKiC (ORCPT <rfc822;linux-alpha@vger.kernel.org>);
-        Wed, 20 Nov 2019 05:38:02 -0500
-Received: from authenticated.ozlabs.org (localhost [127.0.0.1])
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-         key-exchange ECDHE (P-256) server-signature RSA-PSS (4096 bits) server-digest SHA256)
+        id S1729804AbfKTNhq (ORCPT <rfc822;linux-alpha@vger.kernel.org>);
+        Wed, 20 Nov 2019 08:37:46 -0500
+Received: from localhost.localdomain (unknown [118.189.143.39])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
         (No client certificate requested)
-        by mail.ozlabs.org (Postfix) with ESMTPSA id 47Hzfp2kJlz9sPc;
-        Wed, 20 Nov 2019 21:37:54 +1100 (AEDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ellerman.id.au;
-        s=201909; t=1574246278;
-        bh=3p1/+Y2XGImhWJp2Nfr1Vtn9hbxxW6xCuiO/qlCWHs8=;
-        h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
-        b=rRRCPct7qxNjUoAWjW+qjiY8Kr3Tw3xNCLARmyKqEVyL++OKOBFQIJamuKslc0nbo
-         ZbfwIM3mtOBt0P5b1BPx1hd8ea3qB7nXXlIUjCBwq55BHhkEsiYXW0SXEUy1hSxZRG
-         kzq9gZZOYdY5PQQpTmZVSW8UKRV/ENRAOwNibjCo7M4XgZrbk6oHYO1hCmftgt5el4
-         hgIkt5tj1sDdv2h4MRNYO4VF0OR5fRbpkWD9HaxhR81lLDChjbUl4D3IQ+l2cbl5d/
-         bwmb8hjNZt/PcpvEcjt0VG1nBWGFp8wr9tyiJiT0/YN4zp/7RinHLSE7+CkjcEIhlN
-         fgIV931xHcIGw==
-From:   Michael Ellerman <mpe@ellerman.id.au>
-To:     Will Deacon <will@kernel.org>, linux-kernel@vger.kernel.org
-Cc:     Will Deacon <will@kernel.org>, Yunjae Lee <lyj7694@gmail.com>,
-        SeongJae Park <sj38.park@gmail.com>,
-        "Paul E. McKenney" <paulmck@kernel.org>,
-        Josh Triplett <josh@joshtriplett.org>,
-        Matt Turner <mattst88@gmail.com>,
-        Ivan Kokshaysky <ink@jurassic.park.msu.ru>,
+        by mail.kernel.org (Postfix) with ESMTPSA id 4053E224D2;
+        Wed, 20 Nov 2019 13:37:44 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=default; t=1574257065;
+        bh=hazMNUg9PRvxksU8yeX4lRwxGM728y08V0zP20EqwiM=;
+        h=From:To:Cc:Subject:Date:From;
+        b=L8bfaAutRh+HtGrOOlh5aqi6KAWJkmTMhzdQX3PuZpORhh/dPqZIc7JmvFSnBrgi+
+         DY4lCnnOWXQ6FK2XRYoJW9d6O1jMN+CJLUqWwgbPyCVeL0Fr5RnwVljOt24xvph05j
+         ap2fk4WUqa1cPX/k///Q1XAeorY7+6OKT34n08xU=
+From:   Krzysztof Kozlowski <krzk@kernel.org>
+To:     linux-kernel@vger.kernel.org
+Cc:     Krzysztof Kozlowski <krzk@kernel.org>,
         Richard Henderson <rth@twiddle.net>,
-        Peter Zijlstra <peterz@infradead.org>,
-        Alan Stern <stern@rowland.harvard.edu>,
-        "Michael S. Tsirkin" <mst@redhat.com>,
-        Jason Wang <jasowang@redhat.com>,
-        Arnd Bergmann <arnd@arndb.de>, Joe Perches <joe@perches.com>,
-        Boqun Feng <boqun.feng@gmail.com>, linux-alpha@vger.kernel.org,
-        virtualization@lists.linux-foundation.org
-Subject: Re: [PATCH 11/13] powerpc: Remove comment about read_barrier_depends()
-In-Reply-To: <20191108170120.22331-12-will@kernel.org>
-References: <20191108170120.22331-1-will@kernel.org> <20191108170120.22331-12-will@kernel.org>
-Date:   Wed, 20 Nov 2019 21:37:52 +1100
-Message-ID: <87imnebzpb.fsf@mpe.ellerman.id.au>
-MIME-Version: 1.0
-Content-Type: text/plain
+        Ivan Kokshaysky <ink@jurassic.park.msu.ru>,
+        Matt Turner <mattst88@gmail.com>, linux-alpha@vger.kernel.org
+Subject: [PATCH] alpha: Fix Kconfig indentation
+Date:   Wed, 20 Nov 2019 21:37:41 +0800
+Message-Id: <20191120133741.12404-1-krzk@kernel.org>
+X-Mailer: git-send-email 2.17.1
 Sender: linux-alpha-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-alpha.vger.kernel.org>
 X-Mailing-List: linux-alpha@vger.kernel.org
 
-Will Deacon <will@kernel.org> writes:
-> 'read_barrier_depends()' doesn't exist anymore so stop talking about it.
->
-> Signed-off-by: Will Deacon <will@kernel.org>
-> ---
->  arch/powerpc/include/asm/barrier.h | 2 --
->  1 file changed, 2 deletions(-)
->
-> diff --git a/arch/powerpc/include/asm/barrier.h b/arch/powerpc/include/asm/barrier.h
-> index fbe8df433019..123adcefd40f 100644
-> --- a/arch/powerpc/include/asm/barrier.h
-> +++ b/arch/powerpc/include/asm/barrier.h
-> @@ -18,8 +18,6 @@
->   * mb() prevents loads and stores being reordered across this point.
->   * rmb() prevents loads being reordered across this point.
->   * wmb() prevents stores being reordered across this point.
-> - * read_barrier_depends() prevents data-dependent loads being reordered
-> - *	across this point (nop on PPC).
+Adjust indentation from spaces to tab (+optional two spaces) as in
+coding style with command like:
+	$ sed -e 's/^        /\t/' -i */Kconfig
 
-Acked-by: Michael Ellerman <mpe@ellerman.id.au>
+Signed-off-by: Krzysztof Kozlowski <krzk@kernel.org>
+---
+ arch/alpha/Kconfig | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-cheers
+diff --git a/arch/alpha/Kconfig b/arch/alpha/Kconfig
+index ef179033a7c2..30a6291355cb 100644
+--- a/arch/alpha/Kconfig
++++ b/arch/alpha/Kconfig
+@@ -545,7 +545,7 @@ config NR_CPUS
+ 	default "4" if !ALPHA_GENERIC && !ALPHA_MARVEL
+ 	help
+ 	  MARVEL support can handle a maximum of 32 CPUs, all the others
+-          with working support have a maximum of 4 CPUs.
++	  with working support have a maximum of 4 CPUs.
+ 
+ config ARCH_DISCONTIGMEM_ENABLE
+ 	bool "Discontiguous Memory Support"
+-- 
+2.17.1
+
