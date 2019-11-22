@@ -2,64 +2,77 @@ Return-Path: <linux-alpha-owner@vger.kernel.org>
 X-Original-To: lists+linux-alpha@lfdr.de
 Delivered-To: lists+linux-alpha@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 11B31103BC7
-	for <lists+linux-alpha@lfdr.de>; Wed, 20 Nov 2019 14:37:57 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 27E3D1067FE
+	for <lists+linux-alpha@lfdr.de>; Fri, 22 Nov 2019 09:26:44 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728330AbfKTNhr (ORCPT <rfc822;lists+linux-alpha@lfdr.de>);
-        Wed, 20 Nov 2019 08:37:47 -0500
-Received: from mail.kernel.org ([198.145.29.99]:44788 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1729804AbfKTNhq (ORCPT <rfc822;linux-alpha@vger.kernel.org>);
-        Wed, 20 Nov 2019 08:37:46 -0500
-Received: from localhost.localdomain (unknown [118.189.143.39])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
-        (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 4053E224D2;
-        Wed, 20 Nov 2019 13:37:44 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1574257065;
-        bh=hazMNUg9PRvxksU8yeX4lRwxGM728y08V0zP20EqwiM=;
-        h=From:To:Cc:Subject:Date:From;
-        b=L8bfaAutRh+HtGrOOlh5aqi6KAWJkmTMhzdQX3PuZpORhh/dPqZIc7JmvFSnBrgi+
-         DY4lCnnOWXQ6FK2XRYoJW9d6O1jMN+CJLUqWwgbPyCVeL0Fr5RnwVljOt24xvph05j
-         ap2fk4WUqa1cPX/k///Q1XAeorY7+6OKT34n08xU=
-From:   Krzysztof Kozlowski <krzk@kernel.org>
-To:     linux-kernel@vger.kernel.org
-Cc:     Krzysztof Kozlowski <krzk@kernel.org>,
-        Richard Henderson <rth@twiddle.net>,
-        Ivan Kokshaysky <ink@jurassic.park.msu.ru>,
-        Matt Turner <mattst88@gmail.com>, linux-alpha@vger.kernel.org
-Subject: [PATCH] alpha: Fix Kconfig indentation
-Date:   Wed, 20 Nov 2019 21:37:41 +0800
-Message-Id: <20191120133741.12404-1-krzk@kernel.org>
-X-Mailer: git-send-email 2.17.1
+        id S1726792AbfKVI0f (ORCPT <rfc822;lists+linux-alpha@lfdr.de>);
+        Fri, 22 Nov 2019 03:26:35 -0500
+Received: from mail-qk1-f194.google.com ([209.85.222.194]:41041 "EHLO
+        mail-qk1-f194.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727130AbfKVI0f (ORCPT
+        <rfc822;linux-alpha@vger.kernel.org>);
+        Fri, 22 Nov 2019 03:26:35 -0500
+Received: by mail-qk1-f194.google.com with SMTP id m125so5535670qkd.8
+        for <linux-alpha@vger.kernel.org>; Fri, 22 Nov 2019 00:26:34 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=mime-version:reply-to:from:date:message-id:subject:to;
+        bh=KPbcLzmN3JirQxcIsMNAPGvvWsFgMpVPgXZTiKQLiRk=;
+        b=Od3fT0tf3/qBRdHORgnZm/7cPcP3RhQ4oPbMg2WYjZTpBRt5q6jSvlKc3wF8ZnRYJB
+         U1rykwZWwzuhh74StEmq/hcGkix+s63QWqtjVTRnOD8iOAaLeWdg32nVNQbn3A5nEtU6
+         FLZGmae7+gj4RgKuBL09KUtoTVbd/v3j+XecpXCRD+yX6rCQtoW/sn7ovSN364T5b5fP
+         ZVZIjCZ21fzHjeLBzvUM/WkQj/ca0nrFGyodNREstNtzyOv/gnMCZpdk1o76w38KptMc
+         ijxMxbBi5hCTst4rwsWCS03RAz1ezJO1sbsDSPm23cgiwRC9Dky+wQW/5aN5vcP6ShyK
+         p32g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:reply-to:from:date:message-id
+         :subject:to;
+        bh=KPbcLzmN3JirQxcIsMNAPGvvWsFgMpVPgXZTiKQLiRk=;
+        b=rl5pLNo8AC4Cf5I84gv8Vl6aV2t6ZdNQC9IpfrIvvaEUN8B3iXjA+cpWTaag/eP+TP
+         3sefi59tjNUGyfD/q+zGolhrFOI9WppI4k1g11JH59jbFT5isZlIVBwoJ4rVH6BVhJAC
+         THxV/x920IFZX2IUP8VbJvwsbiaeMjx682q3iAOlpLfGyBSlwGNuTlC6WS0vSF0dcAd5
+         wQLpbr+NFN7BWtlUX2JVQIkdkc3gU706lQf4VdErb4cJFAw4nTN4brfyN4tb2U/4qG5E
+         WX/W0Oyu27xQfc8GfcZOGRxJbEO/l4x+BS/uf9As0c42VuzQFafTlWwgIP4AWkWw1lNH
+         jpmA==
+X-Gm-Message-State: APjAAAUWrxzCthIsylZhmCo1lomD8y0cbZgeVBG3H3iLJ1r3pjokbqw7
+        +4p6xNDUd/UlG7yBXeRvAZvSUNxpATAgriagzsg=
+X-Google-Smtp-Source: APXvYqxABzON7JUKAx0cH6lHpb8SThWFOOr3RxDXQXyxGDIGq8o/yZQfU7q7/AD9b92Ccw674IsRPqaW4bToGKJ9Ufc=
+X-Received: by 2002:a37:9103:: with SMTP id t3mr12088733qkd.318.1574411193903;
+ Fri, 22 Nov 2019 00:26:33 -0800 (PST)
+MIME-Version: 1.0
+Received: by 2002:ad4:5051:0:0:0:0:0 with HTTP; Fri, 22 Nov 2019 00:26:33
+ -0800 (PST)
+Reply-To: m.lirnalaboso@yandex.com
+From:   "Mr.Tapioka Lirnalaboso" <tapiokalomalaboso68@gmail.com>
+Date:   Fri, 22 Nov 2019 09:26:33 +0100
+Message-ID: <CAEwu5ZGP8TPKrZArGUmD6DP-36MLD4WFZ5g8LWXuXZ+OePvvrg@mail.gmail.com>
+Subject: very very urgent
+To:     undisclosed-recipients:;
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-alpha-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-alpha.vger.kernel.org>
 X-Mailing-List: linux-alpha@vger.kernel.org
 
-Adjust indentation from spaces to tab (+optional two spaces) as in
-coding style with command like:
-	$ sed -e 's/^        /\t/' -i */Kconfig
+Iam Mr Taptoka Lornalaboso.
 
-Signed-off-by: Krzysztof Kozlowski <krzk@kernel.org>
----
- arch/alpha/Kconfig | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+I have a Geniue business transaction of 18.5 Million Us Dollars to do
+with You Hence You Co-operate with me I am assured you that within (7)
+seven banking working days, this said amount will enter your given
+Bank account with immediate alacrity. If you agree to my business
+proposal, further details of the transfer will be forwarded to you as
+soon as I receive your wiliness to join hand with me. Am awaiting your
+urgent response with this informations Name:...................
+Sex:...............
+Age:...................
+Occupation:........
+Address:...............
+Tel/ Fax:...............
+State:.............
+Country Of origin:..........
 
-diff --git a/arch/alpha/Kconfig b/arch/alpha/Kconfig
-index ef179033a7c2..30a6291355cb 100644
---- a/arch/alpha/Kconfig
-+++ b/arch/alpha/Kconfig
-@@ -545,7 +545,7 @@ config NR_CPUS
- 	default "4" if !ALPHA_GENERIC && !ALPHA_MARVEL
- 	help
- 	  MARVEL support can handle a maximum of 32 CPUs, all the others
--          with working support have a maximum of 4 CPUs.
-+	  with working support have a maximum of 4 CPUs.
- 
- config ARCH_DISCONTIGMEM_ENABLE
- 	bool "Discontiguous Memory Support"
--- 
-2.17.1
+You have to contact me through my private e-mail at
+(m.lirnalaboso@yandex.com)
 
+Have a nice day!!
