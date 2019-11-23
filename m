@@ -2,77 +2,66 @@ Return-Path: <linux-alpha-owner@vger.kernel.org>
 X-Original-To: lists+linux-alpha@lfdr.de
 Delivered-To: lists+linux-alpha@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 27E3D1067FE
-	for <lists+linux-alpha@lfdr.de>; Fri, 22 Nov 2019 09:26:44 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id BE3FB107E49
+	for <lists+linux-alpha@lfdr.de>; Sat, 23 Nov 2019 13:09:11 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726792AbfKVI0f (ORCPT <rfc822;lists+linux-alpha@lfdr.de>);
-        Fri, 22 Nov 2019 03:26:35 -0500
-Received: from mail-qk1-f194.google.com ([209.85.222.194]:41041 "EHLO
-        mail-qk1-f194.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727130AbfKVI0f (ORCPT
+        id S1726494AbfKWMJL (ORCPT <rfc822;lists+linux-alpha@lfdr.de>);
+        Sat, 23 Nov 2019 07:09:11 -0500
+Received: from server.lionleather100.site ([68.66.241.200]:57596 "EHLO
+        server.lionleather100.site" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1726463AbfKWMJK (ORCPT
         <rfc822;linux-alpha@vger.kernel.org>);
-        Fri, 22 Nov 2019 03:26:35 -0500
-Received: by mail-qk1-f194.google.com with SMTP id m125so5535670qkd.8
-        for <linux-alpha@vger.kernel.org>; Fri, 22 Nov 2019 00:26:34 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=mime-version:reply-to:from:date:message-id:subject:to;
-        bh=KPbcLzmN3JirQxcIsMNAPGvvWsFgMpVPgXZTiKQLiRk=;
-        b=Od3fT0tf3/qBRdHORgnZm/7cPcP3RhQ4oPbMg2WYjZTpBRt5q6jSvlKc3wF8ZnRYJB
-         U1rykwZWwzuhh74StEmq/hcGkix+s63QWqtjVTRnOD8iOAaLeWdg32nVNQbn3A5nEtU6
-         FLZGmae7+gj4RgKuBL09KUtoTVbd/v3j+XecpXCRD+yX6rCQtoW/sn7ovSN364T5b5fP
-         ZVZIjCZ21fzHjeLBzvUM/WkQj/ca0nrFGyodNREstNtzyOv/gnMCZpdk1o76w38KptMc
-         ijxMxbBi5hCTst4rwsWCS03RAz1ezJO1sbsDSPm23cgiwRC9Dky+wQW/5aN5vcP6ShyK
-         p32g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:reply-to:from:date:message-id
-         :subject:to;
-        bh=KPbcLzmN3JirQxcIsMNAPGvvWsFgMpVPgXZTiKQLiRk=;
-        b=rl5pLNo8AC4Cf5I84gv8Vl6aV2t6ZdNQC9IpfrIvvaEUN8B3iXjA+cpWTaag/eP+TP
-         3sefi59tjNUGyfD/q+zGolhrFOI9WppI4k1g11JH59jbFT5isZlIVBwoJ4rVH6BVhJAC
-         THxV/x920IFZX2IUP8VbJvwsbiaeMjx682q3iAOlpLfGyBSlwGNuTlC6WS0vSF0dcAd5
-         wQLpbr+NFN7BWtlUX2JVQIkdkc3gU706lQf4VdErb4cJFAw4nTN4brfyN4tb2U/4qG5E
-         WX/W0Oyu27xQfc8GfcZOGRxJbEO/l4x+BS/uf9As0c42VuzQFafTlWwgIP4AWkWw1lNH
-         jpmA==
-X-Gm-Message-State: APjAAAUWrxzCthIsylZhmCo1lomD8y0cbZgeVBG3H3iLJ1r3pjokbqw7
-        +4p6xNDUd/UlG7yBXeRvAZvSUNxpATAgriagzsg=
-X-Google-Smtp-Source: APXvYqxABzON7JUKAx0cH6lHpb8SThWFOOr3RxDXQXyxGDIGq8o/yZQfU7q7/AD9b92Ccw674IsRPqaW4bToGKJ9Ufc=
-X-Received: by 2002:a37:9103:: with SMTP id t3mr12088733qkd.318.1574411193903;
- Fri, 22 Nov 2019 00:26:33 -0800 (PST)
+        Sat, 23 Nov 2019 07:09:10 -0500
+X-Greylist: delayed 510 seconds by postgrey-1.27 at vger.kernel.org; Sat, 23 Nov 2019 07:09:10 EST
+Received: from 39.52.219.190 (unknown [39.52.221.210])
+        by server.lionleather100.site (Postfix) with ESMTPSA id 9A4D315A7E80
+        for <linux-alpha@vger.kernel.org>; Sat, 23 Nov 2019 06:59:49 -0500 (EST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lionleather100.site;
+        s=default; t=1574510390;
+        bh=+7JXRIBigxC5+w6HaZ1xnDAkDhHPDHNihJwlPrB5K18=; h=From:To:Subject;
+        b=hYY/PZ8YLc80PQIKY4E/RnbOCUiIv35nFHk0MVq+W2x+vTYnEDgw71/LQ9RwWljhs
+         U3rKOcRHSusj7E2s1Eb6jioj87h89Pn8JqGKBelEOVUShu5I1u5CRKGz3xyTtU1pA7
+         PbEX9Fd1wJteLHamlmtlpsr2mRMEbLf9tNxUG0bA=
+Authentication-Results: server.lionleather100.site;
+        spf=pass (sender IP is 39.52.221.210) smtp.mailfrom=hassan@lionleather100.site smtp.helo=39.52.219.190
+Received-SPF: pass (server.lionleather100.site: connection is authenticated)
 MIME-Version: 1.0
-Received: by 2002:ad4:5051:0:0:0:0:0 with HTTP; Fri, 22 Nov 2019 00:26:33
- -0800 (PST)
-Reply-To: m.lirnalaboso@yandex.com
-From:   "Mr.Tapioka Lirnalaboso" <tapiokalomalaboso68@gmail.com>
-Date:   Fri, 22 Nov 2019 09:26:33 +0100
-Message-ID: <CAEwu5ZGP8TPKrZArGUmD6DP-36MLD4WFZ5g8LWXuXZ+OePvvrg@mail.gmail.com>
-Subject: very very urgent
-To:     undisclosed-recipients:;
-Content-Type: text/plain; charset="UTF-8"
+From:   "Lion Leather" <hassan@lionleather100.site>
+Reply-To: lionleather101@gmail.com
+To:     linux-alpha@vger.kernel.org
+Subject: Juggling Ball manufacturer
+Content-Type: text/plain
+Content-Transfer-Encoding: quoted-printable
+X-Mailer: Smart_Send_2_0_138
+Date:   Sat, 23 Nov 2019 16:59:44 +0500
+Message-ID: <65963528685683115429804@DESKTOP-NVQ8BB8>
 Sender: linux-alpha-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-alpha.vger.kernel.org>
 X-Mailing-List: linux-alpha@vger.kernel.org
 
-Iam Mr Taptoka Lornalaboso.
+Hello,
 
-I have a Geniue business transaction of 18.5 Million Us Dollars to do
-with You Hence You Co-operate with me I am assured you that within (7)
-seven banking working days, this said amount will enter your given
-Bank account with immediate alacrity. If you agree to my business
-proposal, further details of the transfer will be forwarded to you as
-soon as I receive your wiliness to join hand with me. Am awaiting your
-urgent response with this informations Name:...................
-Sex:...............
-Age:...................
-Occupation:........
-Address:...............
-Tel/ Fax:...............
-State:.............
-Country Of origin:..........
+We are Juggling ball supplier, Vendor of many Juggling Brands. Whether you =
+are interested in=3F
+=20
+Here you can find catalog of our juggling ball in Google drive link given b=
+elow.
 
-You have to contact me through my private e-mail at
-(m.lirnalaboso@yandex.com)
+https://drive.google.com/open=3Fid=3D0B5meiXXKee54Y1RYaU9OczRlUjQ
 
-Have a nice day!!
+Price list is available on request.
+
+For quick communication you also can whatsaap   0092-3006122353
+
+PS: If you are already our customer then please ignore this email. Thanks!
+
+With Best Regards
+Hassan=20
+
+---
+
+Lion Leather
+Sialkot Pakistan
+Mob: 0092-3006122353=20
+Whats Ap: 00923006122353  Viber: 00923006122353  =20
