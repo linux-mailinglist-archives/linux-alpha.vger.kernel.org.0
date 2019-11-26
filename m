@@ -2,66 +2,85 @@ Return-Path: <linux-alpha-owner@vger.kernel.org>
 X-Original-To: lists+linux-alpha@lfdr.de
 Delivered-To: lists+linux-alpha@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id BE3FB107E49
-	for <lists+linux-alpha@lfdr.de>; Sat, 23 Nov 2019 13:09:11 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 5E8A310A67C
+	for <lists+linux-alpha@lfdr.de>; Tue, 26 Nov 2019 23:24:30 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726494AbfKWMJL (ORCPT <rfc822;lists+linux-alpha@lfdr.de>);
-        Sat, 23 Nov 2019 07:09:11 -0500
-Received: from server.lionleather100.site ([68.66.241.200]:57596 "EHLO
-        server.lionleather100.site" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1726463AbfKWMJK (ORCPT
-        <rfc822;linux-alpha@vger.kernel.org>);
-        Sat, 23 Nov 2019 07:09:10 -0500
-X-Greylist: delayed 510 seconds by postgrey-1.27 at vger.kernel.org; Sat, 23 Nov 2019 07:09:10 EST
-Received: from 39.52.219.190 (unknown [39.52.221.210])
-        by server.lionleather100.site (Postfix) with ESMTPSA id 9A4D315A7E80
-        for <linux-alpha@vger.kernel.org>; Sat, 23 Nov 2019 06:59:49 -0500 (EST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lionleather100.site;
-        s=default; t=1574510390;
-        bh=+7JXRIBigxC5+w6HaZ1xnDAkDhHPDHNihJwlPrB5K18=; h=From:To:Subject;
-        b=hYY/PZ8YLc80PQIKY4E/RnbOCUiIv35nFHk0MVq+W2x+vTYnEDgw71/LQ9RwWljhs
-         U3rKOcRHSusj7E2s1Eb6jioj87h89Pn8JqGKBelEOVUShu5I1u5CRKGz3xyTtU1pA7
-         PbEX9Fd1wJteLHamlmtlpsr2mRMEbLf9tNxUG0bA=
-Authentication-Results: server.lionleather100.site;
-        spf=pass (sender IP is 39.52.221.210) smtp.mailfrom=hassan@lionleather100.site smtp.helo=39.52.219.190
-Received-SPF: pass (server.lionleather100.site: connection is authenticated)
+        id S1726571AbfKZWYa (ORCPT <rfc822;lists+linux-alpha@lfdr.de>);
+        Tue, 26 Nov 2019 17:24:30 -0500
+Received: from mail.kernel.org ([198.145.29.99]:49398 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1726103AbfKZWYa (ORCPT <rfc822;linux-alpha@vger.kernel.org>);
+        Tue, 26 Nov 2019 17:24:30 -0500
+Received: from paulmck-ThinkPad-P72.home (50-39-105-78.bvtn.or.frontiernet.net [50.39.105.78])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by mail.kernel.org (Postfix) with ESMTPSA id 2B91320678;
+        Tue, 26 Nov 2019 22:24:29 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=default; t=1574807069;
+        bh=QAX5ZkLqeX3XIqm05M7wJBsdoBGFDQs4mnX4cJBY7ro=;
+        h=Date:From:To:Cc:Subject:Reply-To:References:In-Reply-To:From;
+        b=rd+Kt9pqSWX0e2SmWjaCIO6Gx/9U6YpAHGSBhthMDJGyAzRfTqHpwgrlUFg4rDMyi
+         XRaPahjt4sjlaFlvy+yog9Jcdq/pd1myAYu5UVPboOix5/wBySHDhvEwCBbXq/Qbgv
+         TPJCMVzYH0edjHzllovHWLkhDf1gJAvacTZy64Ss=
+Received: by paulmck-ThinkPad-P72.home (Postfix, from userid 1000)
+        id E883235227AB; Tue, 26 Nov 2019 14:24:28 -0800 (PST)
+Date:   Tue, 26 Nov 2019 14:24:28 -0800
+From:   "Paul E. McKenney" <paulmck@kernel.org>
+To:     Michael Ellerman <mpe@ellerman.id.au>
+Cc:     Will Deacon <will@kernel.org>, linux-kernel@vger.kernel.org,
+        Yunjae Lee <lyj7694@gmail.com>,
+        SeongJae Park <sj38.park@gmail.com>,
+        Josh Triplett <josh@joshtriplett.org>,
+        Matt Turner <mattst88@gmail.com>,
+        Ivan Kokshaysky <ink@jurassic.park.msu.ru>,
+        Richard Henderson <rth@twiddle.net>,
+        Peter Zijlstra <peterz@infradead.org>,
+        Alan Stern <stern@rowland.harvard.edu>,
+        "Michael S. Tsirkin" <mst@redhat.com>,
+        Jason Wang <jasowang@redhat.com>,
+        Arnd Bergmann <arnd@arndb.de>, Joe Perches <joe@perches.com>,
+        Boqun Feng <boqun.feng@gmail.com>, linux-alpha@vger.kernel.org,
+        virtualization@lists.linux-foundation.org
+Subject: Re: [PATCH 11/13] powerpc: Remove comment about
+ read_barrier_depends()
+Message-ID: <20191126222428.GX2889@paulmck-ThinkPad-P72>
+Reply-To: paulmck@kernel.org
+References: <20191108170120.22331-1-will@kernel.org>
+ <20191108170120.22331-12-will@kernel.org>
+ <87imnebzpb.fsf@mpe.ellerman.id.au>
 MIME-Version: 1.0
-From:   "Lion Leather" <hassan@lionleather100.site>
-Reply-To: lionleather101@gmail.com
-To:     linux-alpha@vger.kernel.org
-Subject: Juggling Ball manufacturer
-Content-Type: text/plain
-Content-Transfer-Encoding: quoted-printable
-X-Mailer: Smart_Send_2_0_138
-Date:   Sat, 23 Nov 2019 16:59:44 +0500
-Message-ID: <65963528685683115429804@DESKTOP-NVQ8BB8>
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <87imnebzpb.fsf@mpe.ellerman.id.au>
+User-Agent: Mutt/1.9.4 (2018-02-28)
 Sender: linux-alpha-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-alpha.vger.kernel.org>
 X-Mailing-List: linux-alpha@vger.kernel.org
 
-Hello,
+On Wed, Nov 20, 2019 at 09:37:52PM +1100, Michael Ellerman wrote:
+> Will Deacon <will@kernel.org> writes:
+> > 'read_barrier_depends()' doesn't exist anymore so stop talking about it.
+> >
+> > Signed-off-by: Will Deacon <will@kernel.org>
+> > ---
+> >  arch/powerpc/include/asm/barrier.h | 2 --
+> >  1 file changed, 2 deletions(-)
+> >
+> > diff --git a/arch/powerpc/include/asm/barrier.h b/arch/powerpc/include/asm/barrier.h
+> > index fbe8df433019..123adcefd40f 100644
+> > --- a/arch/powerpc/include/asm/barrier.h
+> > +++ b/arch/powerpc/include/asm/barrier.h
+> > @@ -18,8 +18,6 @@
+> >   * mb() prevents loads and stores being reordered across this point.
+> >   * rmb() prevents loads being reordered across this point.
+> >   * wmb() prevents stores being reordered across this point.
+> > - * read_barrier_depends() prevents data-dependent loads being reordered
+> > - *	across this point (nop on PPC).
+> 
+> Acked-by: Michael Ellerman <mpe@ellerman.id.au>
 
-We are Juggling ball supplier, Vendor of many Juggling Brands. Whether you =
-are interested in=3F
-=20
-Here you can find catalog of our juggling ball in Google drive link given b=
-elow.
+Queued for v5.6, thank you both!
 
-https://drive.google.com/open=3Fid=3D0B5meiXXKee54Y1RYaU9OczRlUjQ
-
-Price list is available on request.
-
-For quick communication you also can whatsaap   0092-3006122353
-
-PS: If you are already our customer then please ignore this email. Thanks!
-
-With Best Regards
-Hassan=20
-
----
-
-Lion Leather
-Sialkot Pakistan
-Mob: 0092-3006122353=20
-Whats Ap: 00923006122353  Viber: 00923006122353  =20
+							Thanx, Paul
