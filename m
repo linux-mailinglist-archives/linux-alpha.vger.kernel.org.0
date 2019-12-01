@@ -2,85 +2,74 @@ Return-Path: <linux-alpha-owner@vger.kernel.org>
 X-Original-To: lists+linux-alpha@lfdr.de
 Delivered-To: lists+linux-alpha@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 5E8A310A67C
-	for <lists+linux-alpha@lfdr.de>; Tue, 26 Nov 2019 23:24:30 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 4325B10E233
+	for <lists+linux-alpha@lfdr.de>; Sun,  1 Dec 2019 15:32:16 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726571AbfKZWYa (ORCPT <rfc822;lists+linux-alpha@lfdr.de>);
-        Tue, 26 Nov 2019 17:24:30 -0500
-Received: from mail.kernel.org ([198.145.29.99]:49398 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726103AbfKZWYa (ORCPT <rfc822;linux-alpha@vger.kernel.org>);
-        Tue, 26 Nov 2019 17:24:30 -0500
-Received: from paulmck-ThinkPad-P72.home (50-39-105-78.bvtn.or.frontiernet.net [50.39.105.78])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 2B91320678;
-        Tue, 26 Nov 2019 22:24:29 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1574807069;
-        bh=QAX5ZkLqeX3XIqm05M7wJBsdoBGFDQs4mnX4cJBY7ro=;
-        h=Date:From:To:Cc:Subject:Reply-To:References:In-Reply-To:From;
-        b=rd+Kt9pqSWX0e2SmWjaCIO6Gx/9U6YpAHGSBhthMDJGyAzRfTqHpwgrlUFg4rDMyi
-         XRaPahjt4sjlaFlvy+yog9Jcdq/pd1myAYu5UVPboOix5/wBySHDhvEwCBbXq/Qbgv
-         TPJCMVzYH0edjHzllovHWLkhDf1gJAvacTZy64Ss=
-Received: by paulmck-ThinkPad-P72.home (Postfix, from userid 1000)
-        id E883235227AB; Tue, 26 Nov 2019 14:24:28 -0800 (PST)
-Date:   Tue, 26 Nov 2019 14:24:28 -0800
-From:   "Paul E. McKenney" <paulmck@kernel.org>
-To:     Michael Ellerman <mpe@ellerman.id.au>
-Cc:     Will Deacon <will@kernel.org>, linux-kernel@vger.kernel.org,
-        Yunjae Lee <lyj7694@gmail.com>,
-        SeongJae Park <sj38.park@gmail.com>,
-        Josh Triplett <josh@joshtriplett.org>,
-        Matt Turner <mattst88@gmail.com>,
-        Ivan Kokshaysky <ink@jurassic.park.msu.ru>,
-        Richard Henderson <rth@twiddle.net>,
-        Peter Zijlstra <peterz@infradead.org>,
-        Alan Stern <stern@rowland.harvard.edu>,
-        "Michael S. Tsirkin" <mst@redhat.com>,
-        Jason Wang <jasowang@redhat.com>,
-        Arnd Bergmann <arnd@arndb.de>, Joe Perches <joe@perches.com>,
-        Boqun Feng <boqun.feng@gmail.com>, linux-alpha@vger.kernel.org,
-        virtualization@lists.linux-foundation.org
-Subject: Re: [PATCH 11/13] powerpc: Remove comment about
- read_barrier_depends()
-Message-ID: <20191126222428.GX2889@paulmck-ThinkPad-P72>
-Reply-To: paulmck@kernel.org
-References: <20191108170120.22331-1-will@kernel.org>
- <20191108170120.22331-12-will@kernel.org>
- <87imnebzpb.fsf@mpe.ellerman.id.au>
+        id S1727237AbfLAOcO (ORCPT <rfc822;lists+linux-alpha@lfdr.de>);
+        Sun, 1 Dec 2019 09:32:14 -0500
+Received: from sonic303-21.consmr.mail.ne1.yahoo.com ([66.163.188.147]:34154
+        "EHLO sonic303-21.consmr.mail.ne1.yahoo.com" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1727227AbfLAOcO (ORCPT
+        <rfc822;linux-alpha@vger.kernel.org>);
+        Sun, 1 Dec 2019 09:32:14 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=yahoo.com; s=s2048; t=1575210732; bh=zPC9p8T5S06DA73PD5F75wViZ/EpBpeYylTS7OqjCU4=; h=Date:From:Reply-To:Subject:From:Subject; b=M95eGAkWI/5vSrgNxGRtCawB/oB3oPBh8V7NP7nT6NArLPvaGW9n7eR53cjjzqWL8tMJI01LfZaPP9tHxLvcWLMffIvAJN7T69MDTOs3ujNhtS/zJaUr524bAoxIFqHsB3zOlEpMH32vpCuqiwL9GjF+ZuZAkZENSPwlsecNoh4119Zd7WaYg1aZte3R5JgXQ0Y2CYBPb+zP7Q74dej0eawXfd9oX2YIscblpFeRzhNoqn683Pz0mO9ohYqZFTrqTfsUgLZqTQmEOjIZU30jmdjzOKYX4q5CNN0qTt+L1kxqdw7DSC+MofVNEMK06jlx06rpapS8cl6uoltRnDM/UQ==
+X-YMail-OSG: R6n8AOEVM1l9H4zIb2.SC1q_MoDxRayOTlveZ_GalwUeBLy9rjVtQA5kNjgbrKW
+ SJKwhLYd67YwycriHehvrOEU3TG0ijyDqQYbAZOk31i2tCKb5lfu5y8TyVm5ryV3m5gtcLYqN1Fn
+ IPtCST8tFcK9B.bKQT_DcllCbruWjiqTZeBQ8Ws.vJh4DiYyx8RCDeDvB.f995cLQD1EXFpfSnlT
+ J1b7y83Rn22ZJVI4WAzU_soce.wDKks0Y9QOEKlCoBz3kOXVFFLnQnzUv_KqvF33ID8lkKzWM_an
+ zOJ0n2QKqOs0T2FteA26Fe3JGu93TA7yrWWFegcTQ0shMufQSNNL.wZQkzHQrrPYfaPpzXdjZteb
+ rOix3bXUq5.lT8F4C0eexLJKBl1wdNjXGe.7Eis4KgzPUB.UG7TYSbgzWbdw3kI7IYrbXrOAcnKW
+ 76cIQNFNrf_r12frD.oJsv2l0EBI0ietbn2OCjHgmmEeBBuCGBySirPjVoy1PzYdsP6I3GPsNUBe
+ p1uVr1Rwr7Sy45wAaV87Z8SG5Oi58P8b5JsXdpnoHTgOk0os0Wv.2zDY19SqYKcdZ9cvQqNzblOy
+ _ujo0sQhxwFBjGl8gxzuDF.kXl4Mw0jQVQ1C9J1tnHR4RHWFliaWfhQctZSwcgl2TuOIvG0Aayvt
+ 9LeUEUDtDoQq.4v4Yozbv4H..SUIpVc0JrDPJxSWRLap_opWOSEOmCiS.FFMKr2V6y0noYxFy23K
+ yhaouF2K1xAF4RBsNukfZSsh.ftm8aXhK9KbC01W6XlED2lke1sIRkiuifAWFAdaBI2xom.obm2v
+ ECMXJ4dlB6nAt.w5gpa_89u9ABZuZncGKIpq91MOKyRpMKgCCh.ceHoL1tj6shSEvYlvTLPwhQeO
+ mVqyU.93Det0loxDsUf7awpBX0ik1_h2ivqPXJS._VsWK4zEiUIcSu4v2ypUpvKjOqrtin3IAof7
+ L0JhQAAUDaSFcPx5PpCcF6ezEvzs8kaDUMBDE2vj3kVuVX6orGzrDHdAAnFu1nxRRD_uff9_4VXL
+ 0.kw75xPVWGiuZUrzX64OsUTKlspffiXriOyZc7O8kUvQcGZpyJQVMy2uVLq5NIdhEPIMeJ8TuBD
+ uB2CLYDKzNyY_10NUDhetbiUUj_iQ.2tIiP_4VRtl_T.7kotu3x2abKVJWwiO413yVdfZo4JfHLf
+ rW4.gHF.ax594BTkPh9smGEGep4H0cWBKL5BZzA7eKPYHW4CyvQqTIFH5c.bYDDw36YNUA6SVqSt
+ Zt9sEu_1aX8OkYSMPFSXKODAd2ihXKwC.hX5p0N3cw17CavclO2LxfBXRJ1QIiditf7fyc0hdmNP
+ 4c8XiizxC
+Received: from sonic.gate.mail.ne1.yahoo.com by sonic303.consmr.mail.ne1.yahoo.com with HTTP; Sun, 1 Dec 2019 14:32:12 +0000
+Date:   Sun, 1 Dec 2019 14:32:10 +0000 (UTC)
+From:   Ms Lisa Hugh <lisa.hugh222@gmail.com>
+Reply-To: ms.lisahugh000@gmail.com
+Message-ID: <132215580.1347666.1575210730440@mail.yahoo.com>
+Subject: I NEED YOUR HELP FOR THIS BUSINESS.
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <87imnebzpb.fsf@mpe.ellerman.id.au>
-User-Agent: Mutt/1.9.4 (2018-02-28)
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+To:     unlisted-recipients:; (no To-header on input)
 Sender: linux-alpha-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-alpha.vger.kernel.org>
 X-Mailing-List: linux-alpha@vger.kernel.org
 
-On Wed, Nov 20, 2019 at 09:37:52PM +1100, Michael Ellerman wrote:
-> Will Deacon <will@kernel.org> writes:
-> > 'read_barrier_depends()' doesn't exist anymore so stop talking about it.
-> >
-> > Signed-off-by: Will Deacon <will@kernel.org>
-> > ---
-> >  arch/powerpc/include/asm/barrier.h | 2 --
-> >  1 file changed, 2 deletions(-)
-> >
-> > diff --git a/arch/powerpc/include/asm/barrier.h b/arch/powerpc/include/asm/barrier.h
-> > index fbe8df433019..123adcefd40f 100644
-> > --- a/arch/powerpc/include/asm/barrier.h
-> > +++ b/arch/powerpc/include/asm/barrier.h
-> > @@ -18,8 +18,6 @@
-> >   * mb() prevents loads and stores being reordered across this point.
-> >   * rmb() prevents loads being reordered across this point.
-> >   * wmb() prevents stores being reordered across this point.
-> > - * read_barrier_depends() prevents data-dependent loads being reordered
-> > - *	across this point (nop on PPC).
-> 
-> Acked-by: Michael Ellerman <mpe@ellerman.id.au>
 
-Queued for v5.6, thank you both!
 
-							Thanx, Paul
+Dear Friend,
+
+I am Ms Lisa Hugh work with the department of Audit and accounting manager here in the Bank(B.O.A).
+
+Please i need your assistance for the transferring of thIs fund to your bank account for both of us benefit for life time investment, amount (US$4.5M DOLLARS).
+
+I have every inquiry details to make the bank believe you and release the fund in within 5 banking working days with your full co-operation with me forsuccess.
+
+Note/ 50% for you why 50% for me after success of the transfer to your bank
+account.
+
+Below information is what i need from you so will can be reaching each
+other
+
+1)Full name ...
+2)Private telephone number...
+3)Age...
+4)Nationality...
+5)Occupation ...
+
+
+Thanks.
+
+Ms Lisa Hugh
