@@ -2,74 +2,89 @@ Return-Path: <linux-alpha-owner@vger.kernel.org>
 X-Original-To: lists+linux-alpha@lfdr.de
 Delivered-To: lists+linux-alpha@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 4325B10E233
-	for <lists+linux-alpha@lfdr.de>; Sun,  1 Dec 2019 15:32:16 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 5456C10E2E0
+	for <lists+linux-alpha@lfdr.de>; Sun,  1 Dec 2019 19:16:13 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727237AbfLAOcO (ORCPT <rfc822;lists+linux-alpha@lfdr.de>);
-        Sun, 1 Dec 2019 09:32:14 -0500
-Received: from sonic303-21.consmr.mail.ne1.yahoo.com ([66.163.188.147]:34154
-        "EHLO sonic303-21.consmr.mail.ne1.yahoo.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1727227AbfLAOcO (ORCPT
-        <rfc822;linux-alpha@vger.kernel.org>);
-        Sun, 1 Dec 2019 09:32:14 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=yahoo.com; s=s2048; t=1575210732; bh=zPC9p8T5S06DA73PD5F75wViZ/EpBpeYylTS7OqjCU4=; h=Date:From:Reply-To:Subject:From:Subject; b=M95eGAkWI/5vSrgNxGRtCawB/oB3oPBh8V7NP7nT6NArLPvaGW9n7eR53cjjzqWL8tMJI01LfZaPP9tHxLvcWLMffIvAJN7T69MDTOs3ujNhtS/zJaUr524bAoxIFqHsB3zOlEpMH32vpCuqiwL9GjF+ZuZAkZENSPwlsecNoh4119Zd7WaYg1aZte3R5JgXQ0Y2CYBPb+zP7Q74dej0eawXfd9oX2YIscblpFeRzhNoqn683Pz0mO9ohYqZFTrqTfsUgLZqTQmEOjIZU30jmdjzOKYX4q5CNN0qTt+L1kxqdw7DSC+MofVNEMK06jlx06rpapS8cl6uoltRnDM/UQ==
-X-YMail-OSG: R6n8AOEVM1l9H4zIb2.SC1q_MoDxRayOTlveZ_GalwUeBLy9rjVtQA5kNjgbrKW
- SJKwhLYd67YwycriHehvrOEU3TG0ijyDqQYbAZOk31i2tCKb5lfu5y8TyVm5ryV3m5gtcLYqN1Fn
- IPtCST8tFcK9B.bKQT_DcllCbruWjiqTZeBQ8Ws.vJh4DiYyx8RCDeDvB.f995cLQD1EXFpfSnlT
- J1b7y83Rn22ZJVI4WAzU_soce.wDKks0Y9QOEKlCoBz3kOXVFFLnQnzUv_KqvF33ID8lkKzWM_an
- zOJ0n2QKqOs0T2FteA26Fe3JGu93TA7yrWWFegcTQ0shMufQSNNL.wZQkzHQrrPYfaPpzXdjZteb
- rOix3bXUq5.lT8F4C0eexLJKBl1wdNjXGe.7Eis4KgzPUB.UG7TYSbgzWbdw3kI7IYrbXrOAcnKW
- 76cIQNFNrf_r12frD.oJsv2l0EBI0ietbn2OCjHgmmEeBBuCGBySirPjVoy1PzYdsP6I3GPsNUBe
- p1uVr1Rwr7Sy45wAaV87Z8SG5Oi58P8b5JsXdpnoHTgOk0os0Wv.2zDY19SqYKcdZ9cvQqNzblOy
- _ujo0sQhxwFBjGl8gxzuDF.kXl4Mw0jQVQ1C9J1tnHR4RHWFliaWfhQctZSwcgl2TuOIvG0Aayvt
- 9LeUEUDtDoQq.4v4Yozbv4H..SUIpVc0JrDPJxSWRLap_opWOSEOmCiS.FFMKr2V6y0noYxFy23K
- yhaouF2K1xAF4RBsNukfZSsh.ftm8aXhK9KbC01W6XlED2lke1sIRkiuifAWFAdaBI2xom.obm2v
- ECMXJ4dlB6nAt.w5gpa_89u9ABZuZncGKIpq91MOKyRpMKgCCh.ceHoL1tj6shSEvYlvTLPwhQeO
- mVqyU.93Det0loxDsUf7awpBX0ik1_h2ivqPXJS._VsWK4zEiUIcSu4v2ypUpvKjOqrtin3IAof7
- L0JhQAAUDaSFcPx5PpCcF6ezEvzs8kaDUMBDE2vj3kVuVX6orGzrDHdAAnFu1nxRRD_uff9_4VXL
- 0.kw75xPVWGiuZUrzX64OsUTKlspffiXriOyZc7O8kUvQcGZpyJQVMy2uVLq5NIdhEPIMeJ8TuBD
- uB2CLYDKzNyY_10NUDhetbiUUj_iQ.2tIiP_4VRtl_T.7kotu3x2abKVJWwiO413yVdfZo4JfHLf
- rW4.gHF.ax594BTkPh9smGEGep4H0cWBKL5BZzA7eKPYHW4CyvQqTIFH5c.bYDDw36YNUA6SVqSt
- Zt9sEu_1aX8OkYSMPFSXKODAd2ihXKwC.hX5p0N3cw17CavclO2LxfBXRJ1QIiditf7fyc0hdmNP
- 4c8XiizxC
-Received: from sonic.gate.mail.ne1.yahoo.com by sonic303.consmr.mail.ne1.yahoo.com with HTTP; Sun, 1 Dec 2019 14:32:12 +0000
-Date:   Sun, 1 Dec 2019 14:32:10 +0000 (UTC)
-From:   Ms Lisa Hugh <lisa.hugh222@gmail.com>
-Reply-To: ms.lisahugh000@gmail.com
-Message-ID: <132215580.1347666.1575210730440@mail.yahoo.com>
-Subject: I NEED YOUR HELP FOR THIS BUSINESS.
+        id S1727280AbfLASQM (ORCPT <rfc822;lists+linux-alpha@lfdr.de>);
+        Sun, 1 Dec 2019 13:16:12 -0500
+Received: from mtax.cdmx.gob.mx ([187.141.35.197]:15297 "EHLO mtax.cdmx.gob.mx"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1727296AbfLASQM (ORCPT <rfc822;linux-alpha@vger.kernel.org>);
+        Sun, 1 Dec 2019 13:16:12 -0500
+X-Greylist: delayed 6408 seconds by postgrey-1.27 at vger.kernel.org; Sun, 01 Dec 2019 13:16:12 EST
+X-NAI-Header: Modified by McAfee Email Gateway (4500)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=cdmx.gob.mx; s=72359050-3965-11E6-920A-0192F7A2F08E;
+        t=1575217508; h=DKIM-Filter:X-Virus-Scanned:
+         Content-Type:MIME-Version:Content-Transfer-Encoding:
+         Content-Description:Subject:To:From:Date:Message-Id:
+         X-AnalysisOut:X-AnalysisOut:X-AnalysisOut:
+         X-AnalysisOut:X-AnalysisOut:X-SAAS-TrackingID:
+         X-NAI-Spam-Flag:X-NAI-Spam-Threshold:X-NAI-Spam-Score:
+         X-NAI-Spam-Rules:X-NAI-Spam-Version; bh=M
+        8rWdUYQ57RAYAgTWJQ4Rsch0kO0UXllaAVDzocOs4
+        8=; b=WCehRwSb431iUMiz74MdTAUukTIvo7b97Jykju8ZwG5G
+        AFwp6LUx5ptEyLIP1Xy0pBfYM/nhcSC9kO5MRyfW+paIkSokIS
+        7cb3gQWp+X0Ah1U9Sjy28EHCac7pkwTqEVaoYE/nWCd86UY0or
+        W8bUfHipd0PwpSAWHaiXYzaf0T8=
+Received: from cdmx.gob.mx (correo.cdmx.gob.mx [10.250.108.150]) by mtax.cdmx.gob.mx with smtp
+        (TLS: TLSv1/SSLv3,256bits,ECDHE-RSA-AES256-GCM-SHA384)
+         id 217f_5997_f4231c7d_95e2_4d09_bfb8_c292b95279e0;
+        Sun, 01 Dec 2019 10:25:07 -0600
+Received: from localhost (localhost [127.0.0.1])
+        by cdmx.gob.mx (Postfix) with ESMTP id EB7C41E2C81;
+        Sun,  1 Dec 2019 10:17:31 -0600 (CST)
+Received: from cdmx.gob.mx ([127.0.0.1])
+        by localhost (cdmx.gob.mx [127.0.0.1]) (amavisd-new, port 10032)
+        with ESMTP id W76Lhkr-NVhz; Sun,  1 Dec 2019 10:17:31 -0600 (CST)
+Received: from localhost (localhost [127.0.0.1])
+        by cdmx.gob.mx (Postfix) with ESMTP id 25A321E2EBA;
+        Sun,  1 Dec 2019 10:12:32 -0600 (CST)
+DKIM-Filter: OpenDKIM Filter v2.9.2 cdmx.gob.mx 25A321E2EBA
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cdmx.gob.mx;
+        s=72359050-3965-11E6-920A-0192F7A2F08E; t=1575216752;
+        bh=M8rWdUYQ57RAYAgTWJQ4Rsch0kO0UXllaAVDzocOs48=;
+        h=Content-Type:MIME-Version:Content-Transfer-Encoding:Subject:To:
+         From:Date:Message-Id;
+        b=KXPlompPgQa7fjJ/r6bVyXKSTiROTf+8ouRErTmtGa0t42AHTJvpqUhUMCqGjDDRi
+         EVTWoTx1/tVj4yviWx7sYnJw80xs3X4AyhdJBhZTBk9P4YtTwxtDJkvnaP4/9p867z
+         QEztYHzD+Yr6H4zwWWZIkzoxIL/M3sU87UNotz3o=
+X-Virus-Scanned: amavisd-new at cdmx.gob.mx
+Received: from cdmx.gob.mx ([127.0.0.1])
+        by localhost (cdmx.gob.mx [127.0.0.1]) (amavisd-new, port 10026)
+        with ESMTP id K3yIprXZPqQY; Sun,  1 Dec 2019 10:12:32 -0600 (CST)
+Received: from [192.168.0.104] (unknown [188.125.168.160])
+        by cdmx.gob.mx (Postfix) with ESMTPSA id CD36F1E24BE;
+        Sun,  1 Dec 2019 10:03:10 -0600 (CST)
+Content-Type: text/plain; charset="iso-8859-1"
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-To:     unlisted-recipients:; (no To-header on input)
+Content-Transfer-Encoding: quoted-printable
+Content-Description: Mail message body
+Subject: Congratulations
+To:     Recipients <aac-styfe@cdmx.gob.mx>
+From:   "Bishop Johnr" <aac-styfe@cdmx.gob.mx>
+Date:   Sun, 01 Dec 2019 17:03:03 +0100
+Message-Id: <20191201160310.CD36F1E24BE@cdmx.gob.mx>
+X-AnalysisOut: [v=2.2 cv=Ibr3YSia c=1 sm=1 tr=0 p=6K-Ig8iNAUou4E5wYCEA:9 p]
+X-AnalysisOut: [=zRI05YRXt28A:10 a=T6zFoIZ12MK39YzkfxrL7A==:117 a=9152RP8M]
+X-AnalysisOut: [6GQqDhC/mI/QXQ==:17 a=8nJEP1OIZ-IA:10 a=pxVhFHJ0LMsA:10 a=]
+X-AnalysisOut: [pGLkceISAAAA:8 a=wPNLvfGTeEIA:10 a=M8O0W8wq6qAA:10 a=Ygvjr]
+X-AnalysisOut: [iKHvHXA2FhpO6d-:22]
+X-SAAS-TrackingID: 169e3ed5.0.48576782.00-2344.81662413.s12p02m013.mxlogic.net
+X-NAI-Spam-Flag: NO
+X-NAI-Spam-Threshold: 3
+X-NAI-Spam-Score: -5000
+X-NAI-Spam-Rules: 1 Rules triggered
+        WHITELISTED=-5000
+X-NAI-Spam-Version: 2.3.0.9418 : core <6686> : inlines <7165> : streams
+ <1840193> : uri <2949748>
 Sender: linux-alpha-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-alpha.vger.kernel.org>
 X-Mailing-List: linux-alpha@vger.kernel.org
 
+Money was donated to you by Mr and Mrs Allen and Violet Large, just contact=
+ them with this email for more information =
 
 
-Dear Friend,
-
-I am Ms Lisa Hugh work with the department of Audit and accounting manager here in the Bank(B.O.A).
-
-Please i need your assistance for the transferring of thIs fund to your bank account for both of us benefit for life time investment, amount (US$4.5M DOLLARS).
-
-I have every inquiry details to make the bank believe you and release the fund in within 5 banking working days with your full co-operation with me forsuccess.
-
-Note/ 50% for you why 50% for me after success of the transfer to your bank
-account.
-
-Below information is what i need from you so will can be reaching each
-other
-
-1)Full name ...
-2)Private telephone number...
-3)Age...
-4)Nationality...
-5)Occupation ...
-
-
-Thanks.
-
-Ms Lisa Hugh
+EMail: allenandvioletlargeaward@gmail.com
