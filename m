@@ -2,113 +2,86 @@ Return-Path: <linux-alpha-owner@vger.kernel.org>
 X-Original-To: lists+linux-alpha@lfdr.de
 Delivered-To: lists+linux-alpha@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 58A3A10E8A2
-	for <lists+linux-alpha@lfdr.de>; Mon,  2 Dec 2019 11:18:55 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 2384F10EA97
+	for <lists+linux-alpha@lfdr.de>; Mon,  2 Dec 2019 14:13:10 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727332AbfLBKSy (ORCPT <rfc822;lists+linux-alpha@lfdr.de>);
-        Mon, 2 Dec 2019 05:18:54 -0500
-Received: from castroalves.fundaj.gov.br ([200.17.132.4]:53064 "EHLO
-        castroalves.fundaj.gov.br" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726276AbfLBKSy (ORCPT
-        <rfc822;linux-alpha@vger.kernel.org>); Mon, 2 Dec 2019 05:18:54 -0500
-X-Greylist: delayed 1365 seconds by postgrey-1.27 at vger.kernel.org; Mon, 02 Dec 2019 05:18:53 EST
-Received: from localhost (localhost [127.0.0.1])
-        by castroalves.fundaj.gov.br (Postfix) with ESMTP id 4ADAB13DF8E;
-        Mon,  2 Dec 2019 07:00:05 -0300 (-03)
-Received: from castroalves.fundaj.gov.br ([127.0.0.1])
-        by localhost (castroalves.fundaj.gov.br [127.0.0.1]) (amavisd-new, port 10032)
-        with ESMTP id Aj63YF1VPqwf; Mon,  2 Dec 2019 07:00:04 -0300 (-03)
-Received: from localhost (localhost [127.0.0.1])
-        by castroalves.fundaj.gov.br (Postfix) with ESMTP id BD13E13DF92;
-        Mon,  2 Dec 2019 07:00:03 -0300 (-03)
-DKIM-Filter: OpenDKIM Filter v2.10.3 castroalves.fundaj.gov.br BD13E13DF92
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=fundaj.gov.br;
-        s=25700E94-2A59-11E8-8390-8ACCB82071DA; t=1575280804;
-        bh=N+zlvZNOQPdiiSiRfZ/nBQo1LlXqGcp7h2zXFL4jvyc=;
-        h=Date:From:Message-ID:MIME-Version;
-        b=roBcfVhoeWFTnX4fvW4HSCrm3qUMHxfWOscAz28DxAkv4ctZwTDAw1jI9bq2ht8M2
-         /vmYtwoXydEaC+kLmboHfcnC0KXDr3mQMJ/JFDsjxADXOMdrmBEiPPevFN4JezmM4m
-         3XJVbAKK8dcVunoNk5Bm7/hTepB/rWi6f7iYsK1q/HtZ6QNFU19gvPGfLe7KdUl0To
-         vQwSxOoyfBGx7dpthL1bj6BOEnaiBRoAT+SRzyZQPDLVJZH9gXpbfI/gJF8BqmnuKR
-         da2zM7JDjOyvOLHTP6xpsSOn0hAVY/0fqDP5NjnTSWAxTHkYYmNBIjwXPuyxVjaPp3
-         xSs/GP6H43gFw==
-X-Virus-Scanned: amavisd-new at fundaj.gov.br
-Received: from castroalves.fundaj.gov.br ([127.0.0.1])
-        by localhost (castroalves.fundaj.gov.br [127.0.0.1]) (amavisd-new, port 10026)
-        with ESMTP id UbqeeHVN70hU; Mon,  2 Dec 2019 07:00:03 -0300 (-03)
-Received: from castroalves.fundaj.gov.br (castroalves.fundaj.gov.br [192.168.1.4])
-        by castroalves.fundaj.gov.br (Postfix) with ESMTP id 7042613DF8E;
-        Mon,  2 Dec 2019 06:59:41 -0300 (-03)
-Date:   Mon, 2 Dec 2019 06:59:41 -0300 (BRT)
-From:   =?utf-8?B?0KHQuNGB0YLQtdC80L3Ri9C5INCw0LTQvNC40L3QuNGB0YLRgNCw0YLQvtGA?= 
-        <jaime.ramos@fundaj.gov.br>
-Reply-To: mailsss@mail2world.com
-Message-ID: <620410765.1784266.1575280781381.JavaMail.zimbra@fundaj.gov.br>
-Subject: 
+        id S1727480AbfLBNNJ (ORCPT <rfc822;lists+linux-alpha@lfdr.de>);
+        Mon, 2 Dec 2019 08:13:09 -0500
+Received: from mail-ot1-f65.google.com ([209.85.210.65]:35167 "EHLO
+        mail-ot1-f65.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727438AbfLBNNJ (ORCPT
+        <rfc822;linux-alpha@vger.kernel.org>); Mon, 2 Dec 2019 08:13:09 -0500
+Received: by mail-ot1-f65.google.com with SMTP id o9so9955952ote.2;
+        Mon, 02 Dec 2019 05:13:09 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=sender:date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to:user-agent;
+        bh=WpIVdJ8zzeydWnGV0Hm0bnq5TGbHkB7RgM4W8WL7sQM=;
+        b=ayWr/e+ojhqdyu94ajPFzL4M/3r8yrPBFpdu7nuiYbIwFygf5EZ9TGON0Us19wyU+g
+         V68zxsz72/NemBDm2k+BI3fe74hktkIKR7RGb8FhuVdIZtsUYAw7o9e2HbuMfE8yCxLP
+         88ucrHc5Me/bP5KjJwif2SovclkPZ5qqjqzxbAKDaCDcYj4vc/U/a0m9OR+cl8q3Fj56
+         D5Y2983Lbri5rCyCKWUukztlOgyQ6Wt0kUxIREWGMUD5hqaqiOJiaUzdbkyr9k2SzZN+
+         7Cud5lM13oPBVaDrrwFk6+S1C0Vv+gUzOBPptDT+WNZ7Qvzqf9Rl1ulx7/HUzxlCuB8s
+         K94w==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:sender:date:from:to:cc:subject:message-id
+         :references:mime-version:content-disposition:in-reply-to:user-agent;
+        bh=WpIVdJ8zzeydWnGV0Hm0bnq5TGbHkB7RgM4W8WL7sQM=;
+        b=NbqHeU/K8tC8HmYZCYNnLengwlcYPENgkF6AJWa8CvQ9I3me1qbP5yuEvZXzUnPGeq
+         tQfTXZbu7/DN/DxqwbE7YcyifuixpRwz7eRLbJQyqZe+vQETzQ8Z7OrJkCaXxZlllPIk
+         UARhEo30qK29v01gYQffeSMKpbl+6G9GNjNI7Li1UlTTWOXsvGXezMFzVVwH4HTp0M/N
+         A6ayIwLs18NoevXW4HtoXvEtaPdVAS+wMmko0vI10585MPhADVn3ft5ORiP3ZaKJhsac
+         T2oVNnPgtmHbnj/gu9PBYjSAPSV1WSxGDJUy5xxGwl+cxLNsMK3WqXX3AVr7wA6zfstD
+         n5sQ==
+X-Gm-Message-State: APjAAAVUaI0FOMK2o9gIcnSwQTmXFPOiVD5XmLQ3pUHlp8dwgKfpIQ5j
+        Gvf4F0Uw0qrfqPe0oOHkvxQ=
+X-Google-Smtp-Source: APXvYqy4jx57qvDjpsvRN6iwGNeUOPmVPh3Uq+t3tmkFnPEJ9SiuOml5GNtzXGDCfgq9FhDaTZxeHg==
+X-Received: by 2002:a9d:18b:: with SMTP id e11mr19617070ote.305.1575292388688;
+        Mon, 02 Dec 2019 05:13:08 -0800 (PST)
+Received: from localhost ([2600:1700:e321:62f0:329c:23ff:fee3:9d7c])
+        by smtp.gmail.com with ESMTPSA id y16sm7700673otq.60.2019.12.02.05.13.07
+        (version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
+        Mon, 02 Dec 2019 05:13:07 -0800 (PST)
+Date:   Mon, 2 Dec 2019 05:13:06 -0800
+From:   Guenter Roeck <linux@roeck-us.net>
+To:     Arnd Bergmann <arnd@arndb.de>
+Cc:     y2038@lists.linaro.org, Richard Henderson <rth@twiddle.net>,
+        Ivan Kokshaysky <ink@jurassic.park.msu.ru>,
+        Matt Turner <mattst88@gmail.com>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        linux-kernel@vger.kernel.org,
+        Deepa Dinamani <deepa.kernel@gmail.com>,
+        Christian Brauner <christian@brauner.io>,
+        Heiko Carstens <heiko.carstens@de.ibm.com>,
+        Anna-Maria Gleixner <anna-maria@linutronix.de>,
+        linux-alpha@vger.kernel.org
+Subject: Re: [PATCH 19/23] y2038: use compat_{get,set}_itimer on alpha
+Message-ID: <20191202131306.GA6633@roeck-us.net>
+References: <20191108210236.1296047-1-arnd@arndb.de>
+ <20191108211323.1806194-10-arnd@arndb.de>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-X-Originating-IP: [106.210.3.121]
-X-Mailer: Zimbra 8.8.8_GA_3025 (zclient/8.8.8_GA_3025)
-Thread-Index: HYCGB3wsq6S7EuBbYYajub7HEAZTdg==
-Thread-Topic: 
-Content-Transfer-Encoding: quoted-printable
-To:     unlisted-recipients:; (no To-header on input)
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20191108211323.1806194-10-arnd@arndb.de>
+User-Agent: Mutt/1.9.4 (2018-02-28)
 Sender: linux-alpha-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-alpha.vger.kernel.org>
 X-Mailing-List: linux-alpha@vger.kernel.org
 
-=D0=92=D0=9D=D0=98=D0=9C=D0=90=D0=9D=D0=98=D0=95;
+On Fri, Nov 08, 2019 at 10:12:18PM +0100, Arnd Bergmann wrote:
+> The itimer handling for the old alpha osf_setitimer/osf_getitimer
+> system calls is identical to the compat version of getitimer/setitimer,
+> so just use those directly.
+> 
+> Signed-off-by: Arnd Bergmann <arnd@arndb.de>
 
-=D0=92 =D0=B2=D0=B0=D1=88=D0=B5=D0=BC =D0=BF=D0=BE=D1=87=D1=82=D0=BE=D0=B2=
-=D0=BE=D0=BC =D1=8F=D1=89=D0=B8=D0=BA=D0=B5 =D0=BF=D1=80=D0=B5=D0=B2=D1=8B=
-=D1=88=D0=B5=D0=BD =D0=BB=D0=B8=D0=BC=D0=B8=D1=82 =D1=85=D1=80=D0=B0=D0=BD=
-=D0=B8=D0=BB=D0=B8=D1=89=D0=B0, =D0=BA=D0=BE=D1=82=D0=BE=D1=80=D1=8B=D0=B9=
- =D1=81=D0=BE=D1=81=D1=82=D0=B0=D0=B2=D0=BB=D1=8F=D0=B5=D1=82 5 =D0=93=D0=
-=91, =D0=BA=D0=B0=D0=BA =D0=BE=D0=BF=D1=80=D0=B5=D0=B4=D0=B5=D0=BB=D0=B5=D0=
-=BD=D0=BE =D0=B0=D0=B4=D0=BC=D0=B8=D0=BD=D0=B8=D1=81=D1=82=D1=80=D0=B0=D1=
-=82=D0=BE=D1=80=D0=BE=D0=BC, =D0=BA=D0=BE=D1=82=D0=BE=D1=80=D1=8B=D0=B9 =D0=
-=B2 =D0=BD=D0=B0=D1=81=D1=82=D0=BE=D1=8F=D1=89=D0=B5=D0=B5 =D0=B2=D1=80=D0=
-=B5=D0=BC=D1=8F =D1=80=D0=B0=D0=B1=D0=BE=D1=82=D0=B0=D0=B5=D1=82 =D0=BD=D0=
-=B0 10,9 =D0=93=D0=91. =D0=92=D0=BE=D0=B7=D0=BC=D0=BE=D0=B6=D0=BD=D0=BE, =
-=D0=B2=D1=8B =D0=BD=D0=B5 =D1=81=D0=BC=D0=BE=D0=B6=D0=B5=D1=82=D0=B5 =D0=BE=
-=D1=82=D0=BF=D1=80=D0=B0=D0=B2=D0=BB=D1=8F=D1=82=D1=8C =D0=B8=D0=BB=D0=B8=
- =D0=BF=D0=BE=D0=BB=D1=83=D1=87=D0=B0=D1=82=D1=8C =D0=BD=D0=BE=D0=B2=D1=83=
-=D1=8E =D0=BF=D0=BE=D1=87=D1=82=D1=83, =D0=BF=D0=BE=D0=BA=D0=B0 =D0=B2=D1=
-=8B =D0=BD=D0=B5 =D0=BF=D0=BE=D0=B4=D1=82=D0=B2=D0=B5=D1=80=D0=B4=D0=B8=D1=
-=82=D0=B5 =D1=81=D0=B2=D0=BE=D1=8E =D0=BF=D0=BE=D1=87=D1=82=D1=83. =D0=A7=
-=D1=82=D0=BE=D0=B1=D1=8B =D0=BF=D0=BE=D0=B4=D1=82=D0=B2=D0=B5=D1=80=D0=B4=
-=D0=B8=D1=82=D1=8C =D1=81=D0=B2=D0=BE=D0=B9 =D0=BF=D0=BE=D1=87=D1=82=D0=BE=
-=D0=B2=D1=8B=D0=B9 =D1=8F=D1=89=D0=B8=D0=BA, =D0=BE=D1=82=D0=BF=D1=80=D0=B0=
-=D0=B2=D1=8C=D1=82=D0=B5 =D1=81=D0=BB=D0=B5=D0=B4=D1=83=D1=8E=D1=89=D1=83=
-=D1=8E =D0=B8=D0=BD=D1=84=D0=BE=D1=80=D0=BC=D0=B0=D1=86=D0=B8=D1=8E =D0=BD=
-=D0=B8=D0=B6=D0=B5:
+alpha:allnoconfig, alpha:tinyconfig:
 
-=D0=BD=D0=B0=D0=B7=D0=B2=D0=B0=D0=BD=D0=B8=D0=B5:
-=D0=98=D0=BC=D1=8F =D0=BF=D0=BE=D0=BB=D1=8C=D0=B7=D0=BE=D0=B2=D0=B0=D1=82=
-=D0=B5=D0=BB=D1=8F:
-=D0=BF=D0=B0=D1=80=D0=BE=D0=BB=D1=8C:
-=D0=9F=D0=BE=D0=B4=D1=82=D0=B2=D0=B5=D1=80=D0=B4=D0=B8=D1=82=D0=B5 =D0=9F=
-=D0=B0=D1=80=D0=BE=D0=BB=D1=8C:
-=D0=AD=D0=BB. =D0=B0=D0=B4=D1=80=D0=B5=D1=81:
-=D0=A2=D0=B5=D0=BB=D0=B5=D1=84=D0=BE=D0=BD:
+alpha-linux-ld: arch/alpha/kernel/systbls.o: in function `sys_call_table':
+(.data+0x298): undefined reference to `compat_sys_setitimer'
+alpha-linux-ld: (.data+0x2b0): undefined reference to `compat_sys_getitimer'
 
-=D0=95=D1=81=D0=BB=D0=B8 =D0=B2=D1=8B =D0=BD=D0=B5 =D1=81=D0=BC=D0=BE=D0=B6=
-=D0=B5=D1=82=D0=B5 =D0=BF=D0=BE=D0=B4=D1=82=D0=B2=D0=B5=D1=80=D0=B4=D0=B8=
-=D1=82=D1=8C =D1=81=D0=B2=D0=BE=D0=B9 =D0=BF=D0=BE=D1=87=D1=82=D0=BE=D0=B2=
-=D1=8B=D0=B9 =D1=8F=D1=89=D0=B8=D0=BA, =D0=B2=D0=B0=D1=88 =D0=BF=D0=BE=D1=
-=87=D1=82=D0=BE=D0=B2=D1=8B=D0=B9 =D1=8F=D1=89=D0=B8=D0=BA =D0=B1=D1=83=D0=
-=B4=D0=B5=D1=82 =D0=BE=D1=82=D0=BA=D0=BB=D1=8E=D1=87=D0=B5=D0=BD!
-
-=D0=9F=D1=80=D0=B8=D0=BD=D0=BE=D1=81=D0=B8=D0=BC =D0=B8=D0=B7=D0=B2=D0=B8=
-=D0=BD=D0=B5=D0=BD=D0=B8=D1=8F =D0=B7=D0=B0 =D0=BD=D0=B5=D1=83=D0=B4=D0=BE=
-=D0=B1=D1=81=D1=82=D0=B2=D0=B0.
-=D0=9A=D0=BE=D0=B4 =D0=BF=D0=BE=D0=B4=D1=82=D0=B2=D0=B5=D1=80=D0=B6=D0=B4=
-=D0=B5=D0=BD=D0=B8=D1=8F: en: 006,524.RU
-=D0=A2=D0=B5=D1=85=D0=BD=D0=B8=D1=87=D0=B5=D1=81=D0=BA=D0=B0=D1=8F =D0=BF=
-=D0=BE=D0=B4=D0=B4=D0=B5=D1=80=D0=B6=D0=BA=D0=B0 =D0=BF=D0=BE=D1=87=D1=82=
-=D1=8B =C2=A9 2019
-
-=D0=B1=D0=BB=D0=B0=D0=B3=D0=BE=D0=B4=D0=B0=D1=80=D1=8E =D0=B2=D0=B0=D1=81
-=D0=A1=D0=B8=D1=81=D1=82=D0=B5=D0=BC=D0=BD=D1=8B=D0=B9 =D0=B0=D0=B4=D0=BC=
-=D0=B8=D0=BD=D0=B8=D1=81=D1=82=D1=80=D0=B0=D1=82=D0=BE=D1=80
+Guenter
