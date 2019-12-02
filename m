@@ -2,89 +2,113 @@ Return-Path: <linux-alpha-owner@vger.kernel.org>
 X-Original-To: lists+linux-alpha@lfdr.de
 Delivered-To: lists+linux-alpha@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 5456C10E2E0
-	for <lists+linux-alpha@lfdr.de>; Sun,  1 Dec 2019 19:16:13 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 58A3A10E8A2
+	for <lists+linux-alpha@lfdr.de>; Mon,  2 Dec 2019 11:18:55 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727280AbfLASQM (ORCPT <rfc822;lists+linux-alpha@lfdr.de>);
-        Sun, 1 Dec 2019 13:16:12 -0500
-Received: from mtax.cdmx.gob.mx ([187.141.35.197]:15297 "EHLO mtax.cdmx.gob.mx"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1727296AbfLASQM (ORCPT <rfc822;linux-alpha@vger.kernel.org>);
-        Sun, 1 Dec 2019 13:16:12 -0500
-X-Greylist: delayed 6408 seconds by postgrey-1.27 at vger.kernel.org; Sun, 01 Dec 2019 13:16:12 EST
-X-NAI-Header: Modified by McAfee Email Gateway (4500)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=cdmx.gob.mx; s=72359050-3965-11E6-920A-0192F7A2F08E;
-        t=1575217508; h=DKIM-Filter:X-Virus-Scanned:
-         Content-Type:MIME-Version:Content-Transfer-Encoding:
-         Content-Description:Subject:To:From:Date:Message-Id:
-         X-AnalysisOut:X-AnalysisOut:X-AnalysisOut:
-         X-AnalysisOut:X-AnalysisOut:X-SAAS-TrackingID:
-         X-NAI-Spam-Flag:X-NAI-Spam-Threshold:X-NAI-Spam-Score:
-         X-NAI-Spam-Rules:X-NAI-Spam-Version; bh=M
-        8rWdUYQ57RAYAgTWJQ4Rsch0kO0UXllaAVDzocOs4
-        8=; b=WCehRwSb431iUMiz74MdTAUukTIvo7b97Jykju8ZwG5G
-        AFwp6LUx5ptEyLIP1Xy0pBfYM/nhcSC9kO5MRyfW+paIkSokIS
-        7cb3gQWp+X0Ah1U9Sjy28EHCac7pkwTqEVaoYE/nWCd86UY0or
-        W8bUfHipd0PwpSAWHaiXYzaf0T8=
-Received: from cdmx.gob.mx (correo.cdmx.gob.mx [10.250.108.150]) by mtax.cdmx.gob.mx with smtp
-        (TLS: TLSv1/SSLv3,256bits,ECDHE-RSA-AES256-GCM-SHA384)
-         id 217f_5997_f4231c7d_95e2_4d09_bfb8_c292b95279e0;
-        Sun, 01 Dec 2019 10:25:07 -0600
+        id S1727332AbfLBKSy (ORCPT <rfc822;lists+linux-alpha@lfdr.de>);
+        Mon, 2 Dec 2019 05:18:54 -0500
+Received: from castroalves.fundaj.gov.br ([200.17.132.4]:53064 "EHLO
+        castroalves.fundaj.gov.br" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726276AbfLBKSy (ORCPT
+        <rfc822;linux-alpha@vger.kernel.org>); Mon, 2 Dec 2019 05:18:54 -0500
+X-Greylist: delayed 1365 seconds by postgrey-1.27 at vger.kernel.org; Mon, 02 Dec 2019 05:18:53 EST
 Received: from localhost (localhost [127.0.0.1])
-        by cdmx.gob.mx (Postfix) with ESMTP id EB7C41E2C81;
-        Sun,  1 Dec 2019 10:17:31 -0600 (CST)
-Received: from cdmx.gob.mx ([127.0.0.1])
-        by localhost (cdmx.gob.mx [127.0.0.1]) (amavisd-new, port 10032)
-        with ESMTP id W76Lhkr-NVhz; Sun,  1 Dec 2019 10:17:31 -0600 (CST)
+        by castroalves.fundaj.gov.br (Postfix) with ESMTP id 4ADAB13DF8E;
+        Mon,  2 Dec 2019 07:00:05 -0300 (-03)
+Received: from castroalves.fundaj.gov.br ([127.0.0.1])
+        by localhost (castroalves.fundaj.gov.br [127.0.0.1]) (amavisd-new, port 10032)
+        with ESMTP id Aj63YF1VPqwf; Mon,  2 Dec 2019 07:00:04 -0300 (-03)
 Received: from localhost (localhost [127.0.0.1])
-        by cdmx.gob.mx (Postfix) with ESMTP id 25A321E2EBA;
-        Sun,  1 Dec 2019 10:12:32 -0600 (CST)
-DKIM-Filter: OpenDKIM Filter v2.9.2 cdmx.gob.mx 25A321E2EBA
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cdmx.gob.mx;
-        s=72359050-3965-11E6-920A-0192F7A2F08E; t=1575216752;
-        bh=M8rWdUYQ57RAYAgTWJQ4Rsch0kO0UXllaAVDzocOs48=;
-        h=Content-Type:MIME-Version:Content-Transfer-Encoding:Subject:To:
-         From:Date:Message-Id;
-        b=KXPlompPgQa7fjJ/r6bVyXKSTiROTf+8ouRErTmtGa0t42AHTJvpqUhUMCqGjDDRi
-         EVTWoTx1/tVj4yviWx7sYnJw80xs3X4AyhdJBhZTBk9P4YtTwxtDJkvnaP4/9p867z
-         QEztYHzD+Yr6H4zwWWZIkzoxIL/M3sU87UNotz3o=
-X-Virus-Scanned: amavisd-new at cdmx.gob.mx
-Received: from cdmx.gob.mx ([127.0.0.1])
-        by localhost (cdmx.gob.mx [127.0.0.1]) (amavisd-new, port 10026)
-        with ESMTP id K3yIprXZPqQY; Sun,  1 Dec 2019 10:12:32 -0600 (CST)
-Received: from [192.168.0.104] (unknown [188.125.168.160])
-        by cdmx.gob.mx (Postfix) with ESMTPSA id CD36F1E24BE;
-        Sun,  1 Dec 2019 10:03:10 -0600 (CST)
-Content-Type: text/plain; charset="iso-8859-1"
+        by castroalves.fundaj.gov.br (Postfix) with ESMTP id BD13E13DF92;
+        Mon,  2 Dec 2019 07:00:03 -0300 (-03)
+DKIM-Filter: OpenDKIM Filter v2.10.3 castroalves.fundaj.gov.br BD13E13DF92
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=fundaj.gov.br;
+        s=25700E94-2A59-11E8-8390-8ACCB82071DA; t=1575280804;
+        bh=N+zlvZNOQPdiiSiRfZ/nBQo1LlXqGcp7h2zXFL4jvyc=;
+        h=Date:From:Message-ID:MIME-Version;
+        b=roBcfVhoeWFTnX4fvW4HSCrm3qUMHxfWOscAz28DxAkv4ctZwTDAw1jI9bq2ht8M2
+         /vmYtwoXydEaC+kLmboHfcnC0KXDr3mQMJ/JFDsjxADXOMdrmBEiPPevFN4JezmM4m
+         3XJVbAKK8dcVunoNk5Bm7/hTepB/rWi6f7iYsK1q/HtZ6QNFU19gvPGfLe7KdUl0To
+         vQwSxOoyfBGx7dpthL1bj6BOEnaiBRoAT+SRzyZQPDLVJZH9gXpbfI/gJF8BqmnuKR
+         da2zM7JDjOyvOLHTP6xpsSOn0hAVY/0fqDP5NjnTSWAxTHkYYmNBIjwXPuyxVjaPp3
+         xSs/GP6H43gFw==
+X-Virus-Scanned: amavisd-new at fundaj.gov.br
+Received: from castroalves.fundaj.gov.br ([127.0.0.1])
+        by localhost (castroalves.fundaj.gov.br [127.0.0.1]) (amavisd-new, port 10026)
+        with ESMTP id UbqeeHVN70hU; Mon,  2 Dec 2019 07:00:03 -0300 (-03)
+Received: from castroalves.fundaj.gov.br (castroalves.fundaj.gov.br [192.168.1.4])
+        by castroalves.fundaj.gov.br (Postfix) with ESMTP id 7042613DF8E;
+        Mon,  2 Dec 2019 06:59:41 -0300 (-03)
+Date:   Mon, 2 Dec 2019 06:59:41 -0300 (BRT)
+From:   =?utf-8?B?0KHQuNGB0YLQtdC80L3Ri9C5INCw0LTQvNC40L3QuNGB0YLRgNCw0YLQvtGA?= 
+        <jaime.ramos@fundaj.gov.br>
+Reply-To: mailsss@mail2world.com
+Message-ID: <620410765.1784266.1575280781381.JavaMail.zimbra@fundaj.gov.br>
+Subject: 
 MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8
+X-Originating-IP: [106.210.3.121]
+X-Mailer: Zimbra 8.8.8_GA_3025 (zclient/8.8.8_GA_3025)
+Thread-Index: HYCGB3wsq6S7EuBbYYajub7HEAZTdg==
+Thread-Topic: 
 Content-Transfer-Encoding: quoted-printable
-Content-Description: Mail message body
-Subject: Congratulations
-To:     Recipients <aac-styfe@cdmx.gob.mx>
-From:   "Bishop Johnr" <aac-styfe@cdmx.gob.mx>
-Date:   Sun, 01 Dec 2019 17:03:03 +0100
-Message-Id: <20191201160310.CD36F1E24BE@cdmx.gob.mx>
-X-AnalysisOut: [v=2.2 cv=Ibr3YSia c=1 sm=1 tr=0 p=6K-Ig8iNAUou4E5wYCEA:9 p]
-X-AnalysisOut: [=zRI05YRXt28A:10 a=T6zFoIZ12MK39YzkfxrL7A==:117 a=9152RP8M]
-X-AnalysisOut: [6GQqDhC/mI/QXQ==:17 a=8nJEP1OIZ-IA:10 a=pxVhFHJ0LMsA:10 a=]
-X-AnalysisOut: [pGLkceISAAAA:8 a=wPNLvfGTeEIA:10 a=M8O0W8wq6qAA:10 a=Ygvjr]
-X-AnalysisOut: [iKHvHXA2FhpO6d-:22]
-X-SAAS-TrackingID: 169e3ed5.0.48576782.00-2344.81662413.s12p02m013.mxlogic.net
-X-NAI-Spam-Flag: NO
-X-NAI-Spam-Threshold: 3
-X-NAI-Spam-Score: -5000
-X-NAI-Spam-Rules: 1 Rules triggered
-        WHITELISTED=-5000
-X-NAI-Spam-Version: 2.3.0.9418 : core <6686> : inlines <7165> : streams
- <1840193> : uri <2949748>
+To:     unlisted-recipients:; (no To-header on input)
 Sender: linux-alpha-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-alpha.vger.kernel.org>
 X-Mailing-List: linux-alpha@vger.kernel.org
 
-Money was donated to you by Mr and Mrs Allen and Violet Large, just contact=
- them with this email for more information =
+=D0=92=D0=9D=D0=98=D0=9C=D0=90=D0=9D=D0=98=D0=95;
 
+=D0=92 =D0=B2=D0=B0=D1=88=D0=B5=D0=BC =D0=BF=D0=BE=D1=87=D1=82=D0=BE=D0=B2=
+=D0=BE=D0=BC =D1=8F=D1=89=D0=B8=D0=BA=D0=B5 =D0=BF=D1=80=D0=B5=D0=B2=D1=8B=
+=D1=88=D0=B5=D0=BD =D0=BB=D0=B8=D0=BC=D0=B8=D1=82 =D1=85=D1=80=D0=B0=D0=BD=
+=D0=B8=D0=BB=D0=B8=D1=89=D0=B0, =D0=BA=D0=BE=D1=82=D0=BE=D1=80=D1=8B=D0=B9=
+ =D1=81=D0=BE=D1=81=D1=82=D0=B0=D0=B2=D0=BB=D1=8F=D0=B5=D1=82 5 =D0=93=D0=
+=91, =D0=BA=D0=B0=D0=BA =D0=BE=D0=BF=D1=80=D0=B5=D0=B4=D0=B5=D0=BB=D0=B5=D0=
+=BD=D0=BE =D0=B0=D0=B4=D0=BC=D0=B8=D0=BD=D0=B8=D1=81=D1=82=D1=80=D0=B0=D1=
+=82=D0=BE=D1=80=D0=BE=D0=BC, =D0=BA=D0=BE=D1=82=D0=BE=D1=80=D1=8B=D0=B9 =D0=
+=B2 =D0=BD=D0=B0=D1=81=D1=82=D0=BE=D1=8F=D1=89=D0=B5=D0=B5 =D0=B2=D1=80=D0=
+=B5=D0=BC=D1=8F =D1=80=D0=B0=D0=B1=D0=BE=D1=82=D0=B0=D0=B5=D1=82 =D0=BD=D0=
+=B0 10,9 =D0=93=D0=91. =D0=92=D0=BE=D0=B7=D0=BC=D0=BE=D0=B6=D0=BD=D0=BE, =
+=D0=B2=D1=8B =D0=BD=D0=B5 =D1=81=D0=BC=D0=BE=D0=B6=D0=B5=D1=82=D0=B5 =D0=BE=
+=D1=82=D0=BF=D1=80=D0=B0=D0=B2=D0=BB=D1=8F=D1=82=D1=8C =D0=B8=D0=BB=D0=B8=
+ =D0=BF=D0=BE=D0=BB=D1=83=D1=87=D0=B0=D1=82=D1=8C =D0=BD=D0=BE=D0=B2=D1=83=
+=D1=8E =D0=BF=D0=BE=D1=87=D1=82=D1=83, =D0=BF=D0=BE=D0=BA=D0=B0 =D0=B2=D1=
+=8B =D0=BD=D0=B5 =D0=BF=D0=BE=D0=B4=D1=82=D0=B2=D0=B5=D1=80=D0=B4=D0=B8=D1=
+=82=D0=B5 =D1=81=D0=B2=D0=BE=D1=8E =D0=BF=D0=BE=D1=87=D1=82=D1=83. =D0=A7=
+=D1=82=D0=BE=D0=B1=D1=8B =D0=BF=D0=BE=D0=B4=D1=82=D0=B2=D0=B5=D1=80=D0=B4=
+=D0=B8=D1=82=D1=8C =D1=81=D0=B2=D0=BE=D0=B9 =D0=BF=D0=BE=D1=87=D1=82=D0=BE=
+=D0=B2=D1=8B=D0=B9 =D1=8F=D1=89=D0=B8=D0=BA, =D0=BE=D1=82=D0=BF=D1=80=D0=B0=
+=D0=B2=D1=8C=D1=82=D0=B5 =D1=81=D0=BB=D0=B5=D0=B4=D1=83=D1=8E=D1=89=D1=83=
+=D1=8E =D0=B8=D0=BD=D1=84=D0=BE=D1=80=D0=BC=D0=B0=D1=86=D0=B8=D1=8E =D0=BD=
+=D0=B8=D0=B6=D0=B5:
 
-EMail: allenandvioletlargeaward@gmail.com
+=D0=BD=D0=B0=D0=B7=D0=B2=D0=B0=D0=BD=D0=B8=D0=B5:
+=D0=98=D0=BC=D1=8F =D0=BF=D0=BE=D0=BB=D1=8C=D0=B7=D0=BE=D0=B2=D0=B0=D1=82=
+=D0=B5=D0=BB=D1=8F:
+=D0=BF=D0=B0=D1=80=D0=BE=D0=BB=D1=8C:
+=D0=9F=D0=BE=D0=B4=D1=82=D0=B2=D0=B5=D1=80=D0=B4=D0=B8=D1=82=D0=B5 =D0=9F=
+=D0=B0=D1=80=D0=BE=D0=BB=D1=8C:
+=D0=AD=D0=BB. =D0=B0=D0=B4=D1=80=D0=B5=D1=81:
+=D0=A2=D0=B5=D0=BB=D0=B5=D1=84=D0=BE=D0=BD:
+
+=D0=95=D1=81=D0=BB=D0=B8 =D0=B2=D1=8B =D0=BD=D0=B5 =D1=81=D0=BC=D0=BE=D0=B6=
+=D0=B5=D1=82=D0=B5 =D0=BF=D0=BE=D0=B4=D1=82=D0=B2=D0=B5=D1=80=D0=B4=D0=B8=
+=D1=82=D1=8C =D1=81=D0=B2=D0=BE=D0=B9 =D0=BF=D0=BE=D1=87=D1=82=D0=BE=D0=B2=
+=D1=8B=D0=B9 =D1=8F=D1=89=D0=B8=D0=BA, =D0=B2=D0=B0=D1=88 =D0=BF=D0=BE=D1=
+=87=D1=82=D0=BE=D0=B2=D1=8B=D0=B9 =D1=8F=D1=89=D0=B8=D0=BA =D0=B1=D1=83=D0=
+=B4=D0=B5=D1=82 =D0=BE=D1=82=D0=BA=D0=BB=D1=8E=D1=87=D0=B5=D0=BD!
+
+=D0=9F=D1=80=D0=B8=D0=BD=D0=BE=D1=81=D0=B8=D0=BC =D0=B8=D0=B7=D0=B2=D0=B8=
+=D0=BD=D0=B5=D0=BD=D0=B8=D1=8F =D0=B7=D0=B0 =D0=BD=D0=B5=D1=83=D0=B4=D0=BE=
+=D0=B1=D1=81=D1=82=D0=B2=D0=B0.
+=D0=9A=D0=BE=D0=B4 =D0=BF=D0=BE=D0=B4=D1=82=D0=B2=D0=B5=D1=80=D0=B6=D0=B4=
+=D0=B5=D0=BD=D0=B8=D1=8F: en: 006,524.RU
+=D0=A2=D0=B5=D1=85=D0=BD=D0=B8=D1=87=D0=B5=D1=81=D0=BA=D0=B0=D1=8F =D0=BF=
+=D0=BE=D0=B4=D0=B4=D0=B5=D1=80=D0=B6=D0=BA=D0=B0 =D0=BF=D0=BE=D1=87=D1=82=
+=D1=8B =C2=A9 2019
+
+=D0=B1=D0=BB=D0=B0=D0=B3=D0=BE=D0=B4=D0=B0=D1=80=D1=8E =D0=B2=D0=B0=D1=81
+=D0=A1=D0=B8=D1=81=D1=82=D0=B5=D0=BC=D0=BD=D1=8B=D0=B9 =D0=B0=D0=B4=D0=BC=
+=D0=B8=D0=BD=D0=B8=D1=81=D1=82=D1=80=D0=B0=D1=82=D0=BE=D1=80
