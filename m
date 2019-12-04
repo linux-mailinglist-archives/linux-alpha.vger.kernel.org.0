@@ -2,86 +2,110 @@ Return-Path: <linux-alpha-owner@vger.kernel.org>
 X-Original-To: lists+linux-alpha@lfdr.de
 Delivered-To: lists+linux-alpha@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 2384F10EA97
-	for <lists+linux-alpha@lfdr.de>; Mon,  2 Dec 2019 14:13:10 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 91C86112BBC
+	for <lists+linux-alpha@lfdr.de>; Wed,  4 Dec 2019 13:43:14 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727480AbfLBNNJ (ORCPT <rfc822;lists+linux-alpha@lfdr.de>);
-        Mon, 2 Dec 2019 08:13:09 -0500
-Received: from mail-ot1-f65.google.com ([209.85.210.65]:35167 "EHLO
-        mail-ot1-f65.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727438AbfLBNNJ (ORCPT
-        <rfc822;linux-alpha@vger.kernel.org>); Mon, 2 Dec 2019 08:13:09 -0500
-Received: by mail-ot1-f65.google.com with SMTP id o9so9955952ote.2;
-        Mon, 02 Dec 2019 05:13:09 -0800 (PST)
+        id S1727874AbfLDMnI (ORCPT <rfc822;lists+linux-alpha@lfdr.de>);
+        Wed, 4 Dec 2019 07:43:08 -0500
+Received: from mail-qt1-f194.google.com ([209.85.160.194]:36866 "EHLO
+        mail-qt1-f194.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727769AbfLDMm6 (ORCPT
+        <rfc822;linux-alpha@vger.kernel.org>); Wed, 4 Dec 2019 07:42:58 -0500
+Received: by mail-qt1-f194.google.com with SMTP id w47so7575232qtk.4
+        for <linux-alpha@vger.kernel.org>; Wed, 04 Dec 2019 04:42:58 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=sender:date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to:user-agent;
-        bh=WpIVdJ8zzeydWnGV0Hm0bnq5TGbHkB7RgM4W8WL7sQM=;
-        b=ayWr/e+ojhqdyu94ajPFzL4M/3r8yrPBFpdu7nuiYbIwFygf5EZ9TGON0Us19wyU+g
-         V68zxsz72/NemBDm2k+BI3fe74hktkIKR7RGb8FhuVdIZtsUYAw7o9e2HbuMfE8yCxLP
-         88ucrHc5Me/bP5KjJwif2SovclkPZ5qqjqzxbAKDaCDcYj4vc/U/a0m9OR+cl8q3Fj56
-         D5Y2983Lbri5rCyCKWUukztlOgyQ6Wt0kUxIREWGMUD5hqaqiOJiaUzdbkyr9k2SzZN+
-         7Cud5lM13oPBVaDrrwFk6+S1C0Vv+gUzOBPptDT+WNZ7Qvzqf9Rl1ulx7/HUzxlCuB8s
-         K94w==
+        h=mime-version:reply-to:from:date:message-id:subject:to;
+        bh=SWzs3svZdfoJNhQZue5B0UPApGf3QNVhTsPQAsjB3v0=;
+        b=AkbuvF8WWOeGkFuNbpEiUPeHs0D9XYCrvYJnn3sJBPk0l/N+bAJ+lU7by52a8c0/XL
+         X5y/+uJVi5SRPzgKpD7LZp2RSO63H/dWhNB+Sgv8CnTmnW6HnNvEkrD3pvFKiHue+ji0
+         Cyct4Vs7hozR5hYKDh8cJJMkT72K9aPHj93bK1Ew++bIIM698i5hGwNXpwVN8RyOlTlg
+         ekVZP06isuUhwZwFxkLwU0Sye3HMnEDkq9yUmWZzxA1JTm8RzibEufZxYTJilauyHwzc
+         pKJFDkaXtzzvkeOyU7ajhljX9QykaA8Ur2FHYJunK1Sxosbxld4ODKAYs9j7AB06Aipc
+         jW5w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:sender:date:from:to:cc:subject:message-id
-         :references:mime-version:content-disposition:in-reply-to:user-agent;
-        bh=WpIVdJ8zzeydWnGV0Hm0bnq5TGbHkB7RgM4W8WL7sQM=;
-        b=NbqHeU/K8tC8HmYZCYNnLengwlcYPENgkF6AJWa8CvQ9I3me1qbP5yuEvZXzUnPGeq
-         tQfTXZbu7/DN/DxqwbE7YcyifuixpRwz7eRLbJQyqZe+vQETzQ8Z7OrJkCaXxZlllPIk
-         UARhEo30qK29v01gYQffeSMKpbl+6G9GNjNI7Li1UlTTWOXsvGXezMFzVVwH4HTp0M/N
-         A6ayIwLs18NoevXW4HtoXvEtaPdVAS+wMmko0vI10585MPhADVn3ft5ORiP3ZaKJhsac
-         T2oVNnPgtmHbnj/gu9PBYjSAPSV1WSxGDJUy5xxGwl+cxLNsMK3WqXX3AVr7wA6zfstD
-         n5sQ==
-X-Gm-Message-State: APjAAAVUaI0FOMK2o9gIcnSwQTmXFPOiVD5XmLQ3pUHlp8dwgKfpIQ5j
-        Gvf4F0Uw0qrfqPe0oOHkvxQ=
-X-Google-Smtp-Source: APXvYqy4jx57qvDjpsvRN6iwGNeUOPmVPh3Uq+t3tmkFnPEJ9SiuOml5GNtzXGDCfgq9FhDaTZxeHg==
-X-Received: by 2002:a9d:18b:: with SMTP id e11mr19617070ote.305.1575292388688;
-        Mon, 02 Dec 2019 05:13:08 -0800 (PST)
-Received: from localhost ([2600:1700:e321:62f0:329c:23ff:fee3:9d7c])
-        by smtp.gmail.com with ESMTPSA id y16sm7700673otq.60.2019.12.02.05.13.07
-        (version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
-        Mon, 02 Dec 2019 05:13:07 -0800 (PST)
-Date:   Mon, 2 Dec 2019 05:13:06 -0800
-From:   Guenter Roeck <linux@roeck-us.net>
-To:     Arnd Bergmann <arnd@arndb.de>
-Cc:     y2038@lists.linaro.org, Richard Henderson <rth@twiddle.net>,
-        Ivan Kokshaysky <ink@jurassic.park.msu.ru>,
-        Matt Turner <mattst88@gmail.com>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        linux-kernel@vger.kernel.org,
-        Deepa Dinamani <deepa.kernel@gmail.com>,
-        Christian Brauner <christian@brauner.io>,
-        Heiko Carstens <heiko.carstens@de.ibm.com>,
-        Anna-Maria Gleixner <anna-maria@linutronix.de>,
-        linux-alpha@vger.kernel.org
-Subject: Re: [PATCH 19/23] y2038: use compat_{get,set}_itimer on alpha
-Message-ID: <20191202131306.GA6633@roeck-us.net>
-References: <20191108210236.1296047-1-arnd@arndb.de>
- <20191108211323.1806194-10-arnd@arndb.de>
+        h=x-gm-message-state:mime-version:reply-to:from:date:message-id
+         :subject:to;
+        bh=SWzs3svZdfoJNhQZue5B0UPApGf3QNVhTsPQAsjB3v0=;
+        b=TyiBK9Q4BsZDbZxEvS16jLFOjj2oSj6ZAVpTweDQGpvJBGiji2Ie+Qg/mlR/aeI+nO
+         Wq3Ch/7YP/gU7ZSJgySFI34P7r9rkr3QF+3k3+LgSOdnAFV9OErmfqy0q3Ocof1//U2v
+         dhBZLZAVvHBjfSmUj1RHqRyCQDMT+QMmwp09sTGdCDJVd09VaJZepVX25k/qD0eL9LEV
+         WUIibBw9dB86eSxykmTdmiBkPkhEBz5ZN/8BHUZgK3JqjgFyIaRpKC13pREIIVG6OZWN
+         bsFCEkGTKMILIuk3se/1YtlRueeRZhZkP38XUezyLjLsVHVYw5bCIUgyHB49FDoOj/8C
+         Xeqw==
+X-Gm-Message-State: APjAAAUXwQ1Jf0JFmQI++l1ZMHUNFm22Cz1VEg0x+nN10a7NXmtpyOc4
+        GcRoOygngf4iou17WeP/XG+KRC4Z7kugGBUNiAQ=
+X-Google-Smtp-Source: APXvYqzw3gCG5cnmI6368TWfhjS/+LLSHd6b95oZCOsPTpsAjIN23auDStB1pQ1PTnMah1qk6gl8uYsnTPaZ7k01uH0=
+X-Received: by 2002:ac8:4a81:: with SMTP id l1mr2434940qtq.357.1575463377714;
+ Wed, 04 Dec 2019 04:42:57 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20191108211323.1806194-10-arnd@arndb.de>
-User-Agent: Mutt/1.9.4 (2018-02-28)
+Received: by 2002:ac8:2f0c:0:0:0:0:0 with HTTP; Wed, 4 Dec 2019 04:42:57 -0800 (PST)
+Reply-To: moneygram.1820@outlook.fr
+From:   "Rev.Dr Emmanuel Okoye CEO Ecobank-benin" 
+        <westernunion.benin982@gmail.com>
+Date:   Wed, 4 Dec 2019 13:42:57 +0100
+Message-ID: <CAP=nHBJXiPmPL21x=_0BHWRk_3N3Yax+tTxcFi=t=AhN7g==1Q@mail.gmail.com>
+Subject: God has remembered your prayers I have already sent you Money Gram
+ payment of $5000.00 today, MG 1029-8096
+To:     undisclosed-recipients:;
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-alpha-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-alpha.vger.kernel.org>
 X-Mailing-List: linux-alpha@vger.kernel.org
 
-On Fri, Nov 08, 2019 at 10:12:18PM +0100, Arnd Bergmann wrote:
-> The itimer handling for the old alpha osf_setitimer/osf_getitimer
-> system calls is identical to the compat version of getitimer/setitimer,
-> so just use those directly.
-> 
-> Signed-off-by: Arnd Bergmann <arnd@arndb.de>
+Attn, dear Beneficiary.
 
-alpha:allnoconfig, alpha:tinyconfig:
+God has remembered your prayers
+I have already sent you Money Gram payment of $5000.00 today, MG 1029-8096
+This is because we have finally concluded to effect your transfer
+funds of $4.8,000.000usd
+through MONEY GRAM International Fund transfer Service
+Each payment will be sending to you by $5000.00 daily until the
+($4.8,000.000usd) is completely transferred
+we have this morning sent  MONEY GRAM payment of $5,000.00 in your name today
+So contact the MONEY GRAM Agent to pick up this first payment of $5000 now
 
-alpha-linux-ld: arch/alpha/kernel/systbls.o: in function `sys_call_table':
-(.data+0x298): undefined reference to `compat_sys_setitimer'
-alpha-linux-ld: (.data+0x2b0): undefined reference to `compat_sys_getitimer'
+Contact person Mrs. Alan Ude
+Dir. MONEY GRAM Service,Benin
+Phone number: +229 98856728
+E-mail: moneygram.1820@outlook.fr
 
-Guenter
+Ask him to give you the complete mtcn, sender name, question and
+answer to enable you
+pick up the $5000.00 sent today,
+Also you are instructed to re-confirm your information's
+to Mrs.Alan Ude as listed below to avoid wrong transactions.
+
+(1Your Full name:............................................
+(2 Phone number.....................................................
+(3 Contact address:.....................................
+(4 Age:..................................................................
+(5 Country..............................................
+(6) Sex .................................................................
+(7) your occupation...........................................
+
+(8)Passport/By Attach or Drivers License Number:
+Contact Mrs. Alan Ude for your MONEY GRAM payment of $4.8,000.000usd
+Note please: I have paid service fees for you but the only money you
+are required
+to send to Mrs. Alan Ude is $90.00 only Transfer fee before you can
+pick up your transfer today.
+
+Send it to via Money Gram
+Receiver's Name-----Alan Ude
+Country----------Benin
+Address-----------Cotonou
+Quest--------Honest
+Ans-----------Trust
+
+I done all my best for you to receive your transfer now ok.
+We need your urgent reply
+Best Regards
+Rev.Dr Emmanuel Okoye
+CEO Ecobank-benin
+
+If we did not receive it urgent from you today,
+I will go ahead and release you funds to Mrs. Lyndia Ppaulson as your
+representative.
