@@ -2,74 +2,86 @@ Return-Path: <linux-alpha-owner@vger.kernel.org>
 X-Original-To: lists+linux-alpha@lfdr.de
 Delivered-To: lists+linux-alpha@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 764CB115D51
-	for <lists+linux-alpha@lfdr.de>; Sat,  7 Dec 2019 16:21:13 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id BA2A5115E1F
+	for <lists+linux-alpha@lfdr.de>; Sat,  7 Dec 2019 20:11:32 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726414AbfLGPVM (ORCPT <rfc822;lists+linux-alpha@lfdr.de>);
-        Sat, 7 Dec 2019 10:21:12 -0500
-Received: from sonic317-26.consmr.mail.bf2.yahoo.com ([74.6.129.81]:34609 "EHLO
-        sonic317-26.consmr.mail.bf2.yahoo.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1726415AbfLGPVL (ORCPT
-        <rfc822;linux-alpha@vger.kernel.org>);
-        Sat, 7 Dec 2019 10:21:11 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=yahoo.com; s=s2048; t=1575732070; bh=zPC9p8T5S06DA73PD5F75wViZ/EpBpeYylTS7OqjCU4=; h=Date:From:Reply-To:Subject:From:Subject; b=kuJy8cGzjbm6zyPpYcSuD/vge3S+CCkzMoRaUxYOvOGvEPBvDHGfSihvqJKRKIP+nVlHR9TOQWwDtd9puhMZ7X0BYSC8RHa9JmfFL1AYr2gHBWJYkK3oGDkxG5kidrbANKZ2fF+2H9BWe3Dk2D3WmUnFa0tdtN3uq15xTdmdi5zjBDNPoeDQ81oUcseud1JtEMvTwg+JpOHlXMNb0NvVsnCZzfjAYeBTmE4HEQtCw2iG2RaxbUKH9JZpRwDSMXmB346fOLo0o/I10DtRGqiJR/XKdI+QxJP865xWsFx16IT1W1eZj5hOzEYfzFf1wSb75AzUOECOBgGXOUq76tvzZQ==
-X-YMail-OSG: v4s.g98VM1lltKIB9WKuW1wKdsBWI.fh.FCn0UfKMVa_TOWUVtDL5OmroElP0WT
- RmBylL2ue58WCTify6.RfkE6_vGnfrKq8dAaPbRko0h6YVbBFN3Z82Et4hsPIO91Hlft0gcGwSaZ
- g9PydE7NSX49_KE6rOreRFY40lw19XF.HiRcy3Fyv8coe7aiucHNhSM.c_I2yJstOm81P1CIJg88
- mTyWWqG6jfcV6VfiE12USiLkDw63.VLJ58EbFC7w8p1mdhMAicjbK2i0vZAS93bCPUlmIqaqVCnL
- AxCMYl_3FkdDJw37eJHVffR.9LKz2rk_yMdyMiTr7Of9Twfq16et5jvYyuFtjYoyIFslJ6V90bmv
- OtfiqhenbRQyRSBYYj6CSXb8X4WxpmAo4uiD8CZoZTnAm55MQKKljbfLQCKwdHAbXkQ1YbIFt.bd
- PPNsBq4y9V9KKT.moZm_WmC0e_S6cPY8GJrK3iN6zcKyWQx8PaYf_fYuFp4.lemVoWtoiH6FlgMn
- XNzDXKORjlmClNVp3_CxDZyIycPPB7QR_.jehTMtL3Sy3n7jJ86SUtO7jr4XApTX0QDeT2owqsNz
- EOUTWih1Bj2CxWQSMDOaVkPEwkEA0rPxzlaTE.Dx.H1XixL0MJcJ9IFpjXmd.jVq1ifJ8ZTuMJql
- 3eHbQBhQJTUWey8ojsGz.z5zjCGMlpEdushglZwSyzziFcDmNTqGIuikDM3IGhSSUYTsTecSoNii
- DtyqgwxLPXwi_S6akBRVeXFwZsoEvSrrp9yyAHofTGZIZ.jf5LCM4QYhUzjNfnABa1ilJyoNlJ2R
- 6KLlAuCG1p3GYdSIq6ccGTfIJwBxPx1bbeyXapb7Xi4YQGybJVs6ALwJknmGXaPES.bbjAcDHnBi
- WV8Do8gt4v6V6jjZlRj3bNmI8vuquFEh.QQtNe8orW3.49GRJUb5vDny3iycuyaQ0lfvsnF6rvpU
- wlVOaXweBg2zwrs60Y16uNBzBQnWbaDbZqwKySVdrdUE.u6TPJGbHacwdcJKJ2szJ7mr0quTRyMd
- ejJ1B319MdHH9OSes8qqW1DEN0yNwcicaWna1517fA8hz5c8Fy5SKFnen8RiDtn5_HAuhN.owkLq
- 6aZvkBWORSaST1kG4HxUqhnTIhA9Qkt.QVnd7BoD3phqPlGkrJzdoJtW6Z5ZnfVWh.lI0DKEsYPQ
- 7A3vLZwL5aZaaSl2NWIr_N7dJSEPTz3OWR1CYtpZOJV5Cjd1eh5BtCDTWeAqPA.PgY_tvu3EG1XF
- 6I1pAIrIHuhFNwjr7eYUnJIeXZgVUFBT6V5PSpS0bsDWeZKPuTQ8KOLG_Y8G.HISpQsQDkCn.252
- a7Cslwg--
-Received: from sonic.gate.mail.ne1.yahoo.com by sonic317.consmr.mail.bf2.yahoo.com with HTTP; Sat, 7 Dec 2019 15:21:10 +0000
-Date:   Sat, 7 Dec 2019 15:21:05 +0000 (UTC)
-From:   Ms Lisa Hugh <lisa.hugh222@gmail.com>
-Reply-To: ms.lisahugh000@gmail.com
-Message-ID: <1183044059.6687849.1575732065141@mail.yahoo.com>
-Subject: I NEED YOUR HELP FOR THIS TRANSFER.
+        id S1726505AbfLGTLb (ORCPT <rfc822;lists+linux-alpha@lfdr.de>);
+        Sat, 7 Dec 2019 14:11:31 -0500
+Received: from mout.kundenserver.de ([212.227.126.135]:55327 "EHLO
+        mout.kundenserver.de" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726489AbfLGTLb (ORCPT
+        <rfc822;linux-alpha@vger.kernel.org>); Sat, 7 Dec 2019 14:11:31 -0500
+Received: from threadripper.lan ([149.172.19.189]) by mrelayeu.kundenserver.de
+ (mreue011 [212.227.15.129]) with ESMTPA (Nemesis) id
+ 1MYedH-1iGj1o0shn-00VfUD; Sat, 07 Dec 2019 20:10:47 +0100
+From:   Arnd Bergmann <arnd@arndb.de>
+To:     Thomas Gleixner <tglx@linutronix.de>,
+        Andrew Morton <akpm@linux-foundation.org>
+Cc:     linux-alpha@vger.kernel.org, Richard Henderson <rth@twiddle.net>,
+        Ivan Kokshaysky <ink@jurassic.park.msu.ru>,
+        Matt Turner <mattst88@gmail.com>,
+        Arnd Bergmann <arnd@arndb.de>,
+        Guenter Roeck <linux@roeck-us.net>,
+        kbuild test robot <lkp@intel.com>,
+        linux-kernel@vger.kernel.org
+Subject: [PATCH] time: posix-stubs: provide compat itimer supoprt for alpha
+Date:   Sat,  7 Dec 2019 20:10:26 +0100
+Message-Id: <20191207191043.656328-1-arnd@arndb.de>
+X-Mailer: git-send-email 2.20.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-To:     unlisted-recipients:; (no To-header on input)
+Content-Transfer-Encoding: 8bit
+X-Provags-ID: V03:K1:FnOMuTqNkYh1zOphjAXkeSa0YP/RgdiwY9sOcbhXU8ppye9esY5
+ RK4bhWuGfTpD7jPJmjzT6gDuJrAtXBfoiHwn+BasAafwJ0ivKuBsuNh8P/c5ia2zXAyT76t
+ VQwC9W/r8z/cAQUAQnKokfOcRhthwuDdpiPNBai5M9+4B0806NSQIFTotfPThhlIK4nevpA
+ pPd/6PbAhDC3nvdu7KhCA==
+X-Spam-Flag: NO
+X-UI-Out-Filterresults: notjunk:1;V03:K0:k7jGVmzOwJk=:KveIdCulhuTvHXyjjP/N53
+ 91of+zTxJv9LtN29iaSW7LQJNZJ3UeZ2UwkLLnPN7fpDPD7UOKrB9GTQmNGnA83GSs5R465uc
+ QSFCt1rvdwRIJwxUGq/PHgbeJblUwlkD6hP1+SPgs26OfAHwdL363WOStNOp+HDyksZaeNfT1
+ SkFBuW5K3iiY4APopNRNUCXreMFslq0b5UmAIrqiuP2zVLBeU4EgplBMiSv/PmXTwQ4Z7UNqx
+ MmGPleFPwqsPgt+D+1bI9TiejcrNUQMFINktBjnPJioEUi/uqN3PnLtt6Rk4Wq07bDVYT9Ozb
+ AWFNlJuIkVmbIqU47WcqHAzYzZEUjWdge9HpEcCsl3e0Uw0Ndp7C607Vk7/fmVqpNTkngrwH2
+ /rWMeG5uorz/RFVLriEaSZMdE4I2RwsDqV6dyykiqC4VBTTwjiWGfGBQctvkAQD7lVMDBdXT1
+ 5wNy+EsxjT0dRngrMqLnRQq3LhrZaSJlyfPADrS+veAA9K8vX++8pUHmtUWFE4zcRcHL4LOoM
+ kMpdFiv0nBA9N7ZQhUf2oc2FuTOzCeuEpNqDDqbNtxXOyT6RFXcFWW9ZOTTKEX2R8lzklY6yJ
+ 0LJv+1UOps+CzEc+6DMGEzK1Vl4Aa3d3qwj5DSUzmiVYolgkWB1oflrpAJFYbiGodvN5R8YgK
+ VnCJlP62KgjfiqX1UXm1MWQ+HMt+faZwz86uI1oQkZ7sVxQwUma1QszTDwL9HWZIK08wxmI67
+ tT0PA2qZ8Q0a7fFHpqOyGL7kapjuuwLGrs/MfslrFRgXkEKZ4qIuwDErfEbGEW1w2ClgmAcJR
+ sWenC2H+X3Ehlo+XohNmDpYtJrJ6xmfZ/4GjapnbRmRgjWi7mVAJ7oEWN/RA1DLmgm4Svjsjx
+ XSuCguz3tGBnfq3sEmfw==
 Sender: linux-alpha-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-alpha.vger.kernel.org>
 X-Mailing-List: linux-alpha@vger.kernel.org
 
+Using compat_sys_getitimer and compat_sys_setitimer on alpha
+causes a link failure in the Alpha tinyconfig and other configurations
+that turn off CONFIG_POSIX_TIMERS.
 
+Use the same #ifdef check for the stub version as well.
 
-Dear Friend,
+Reported-by: Guenter Roeck <linux@roeck-us.net>
+Reported-by: kbuild test robot <lkp@intel.com>
+Fixes: 4c22ea2b9120 ("y2038: use compat_{get,set}_itimer on alpha")
+Signed-off-by: Arnd Bergmann <arnd@arndb.de>
+---
+ kernel/time/posix-stubs.c | 3 +++
+ 1 file changed, 3 insertions(+)
 
-I am Ms Lisa Hugh work with the department of Audit and accounting manager here in the Bank(B.O.A).
+diff --git a/kernel/time/posix-stubs.c b/kernel/time/posix-stubs.c
+index 67df65f887ac..20c65a7d4e3a 100644
+--- a/kernel/time/posix-stubs.c
++++ b/kernel/time/posix-stubs.c
+@@ -151,6 +151,9 @@ SYSCALL_DEFINE4(clock_nanosleep, const clockid_t, which_clock, int, flags,
+ 
+ #ifdef CONFIG_COMPAT
+ COMPAT_SYS_NI(timer_create);
++#endif
++
++#if defined(CONFIG_COMPAT) || defined(CONFIG_ALPHA)
+ COMPAT_SYS_NI(getitimer);
+ COMPAT_SYS_NI(setitimer);
+ #endif
+-- 
+2.20.0
 
-Please i need your assistance for the transferring of thIs fund to your bank account for both of us benefit for life time investment, amount (US$4.5M DOLLARS).
-
-I have every inquiry details to make the bank believe you and release the fund in within 5 banking working days with your full co-operation with me forsuccess.
-
-Note/ 50% for you why 50% for me after success of the transfer to your bank
-account.
-
-Below information is what i need from you so will can be reaching each
-other
-
-1)Full name ...
-2)Private telephone number...
-3)Age...
-4)Nationality...
-5)Occupation ...
-
-
-Thanks.
-
-Ms Lisa Hugh
