@@ -2,100 +2,162 @@ Return-Path: <linux-alpha-owner@vger.kernel.org>
 X-Original-To: lists+linux-alpha@lfdr.de
 Delivered-To: lists+linux-alpha@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 46A4212FDA3
-	for <lists+linux-alpha@lfdr.de>; Fri,  3 Jan 2020 21:20:06 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 5E1EC132B78
+	for <lists+linux-alpha@lfdr.de>; Tue,  7 Jan 2020 17:53:31 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728407AbgACUT7 (ORCPT <rfc822;lists+linux-alpha@lfdr.de>);
-        Fri, 3 Jan 2020 15:19:59 -0500
-Received: from mail-qv1-f66.google.com ([209.85.219.66]:37201 "EHLO
-        mail-qv1-f66.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727879AbgACUTq (ORCPT
-        <rfc822;linux-alpha@vger.kernel.org>); Fri, 3 Jan 2020 15:19:46 -0500
-Received: by mail-qv1-f66.google.com with SMTP id f16so16691347qvi.4
-        for <linux-alpha@vger.kernel.org>; Fri, 03 Jan 2020 12:19:45 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=mime-version:from:date:message-id:subject:to;
-        bh=40ACnQIUnpge54Cj+EODMXbGQ2AM0yGbootCDBdgIh0=;
-        b=AWCc/ylFmQ91zZEJrbKovcmODhKduqUVkKGxHK8uCtVvWppAnjCzAVhlqtuTB6Zv3H
-         fwGfadWPG5OWx3vtouAanI9rAb4+nCSTS9ougZHH94RmFVRXusGOhSeq6LcZbXUbpYke
-         LecHuReAxOHZIAlNr0puF8IN10taJseJbu/8dZmgE65qy44VHc90CsjCbMPz9YIW56uc
-         KAocddCq9fbTe+4eLEe4ukQAx3KuF/S8Bs/5ss0PU18bAsmodPObJCziaNGvW+fW97nj
-         vqPpR6NvW2UHqccwDYrcuioTdRRCTX8F5vGOe97A6Uj5iUQG4sbm5c76feOsNIPb/J8O
-         nOKQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:from:date:message-id:subject:to;
-        bh=40ACnQIUnpge54Cj+EODMXbGQ2AM0yGbootCDBdgIh0=;
-        b=d3GKq9U0l2K3hLCWZkTokVmkR/W//FOcL/sLFEiBDCKzMxwS4bBzGYRIMHI9bRgyC5
-         6rn6GUQqyA3AdYfsR8KU1qcjsXrxy2Lk5yI/O9qYE9oSay8oKk5bRs4FUtaSS4g5F3ym
-         QQFaMKS42pUdMYQzeIBntTPp+1g5lLmCGePv8f926jDTNaYtTlqgc/DcRYWvdSX87goY
-         KFc6fzuUe6UgQlsvDPmNGeAJDCqmvd4RTdJuYvCcwh75/DFZfn1ViaFcvU64ag9kerLs
-         vagNi+Fc0Ry6Wzpq/rztc8cox6tQ3ualNmM5KlB6CKUPWym4EwkU/9OHqSqdueDodY6p
-         VK5w==
-X-Gm-Message-State: APjAAAWdn2a/LaY+SSqD9LWVs3PCpAvMh99RLxrTTWil8nOQ1Kc7HRPD
-        J1FusXEd0s2RKTC75lS3e8nipjY+RGTd17GZIrE=
-X-Google-Smtp-Source: APXvYqwTD0MzQRfSqMjBdpNUeZAJzfDvhrEGhXGCrMyvXGb//+N8M9ASxsqTbkQfP5NbaV7n6hKI5gEfY+hOjDS6Fyg=
-X-Received: by 2002:ad4:478b:: with SMTP id z11mr69635758qvy.185.1578082785331;
- Fri, 03 Jan 2020 12:19:45 -0800 (PST)
-MIME-Version: 1.0
-Received: by 2002:ac8:4410:0:0:0:0:0 with HTTP; Fri, 3 Jan 2020 12:19:45 -0800 (PST)
-From:   "Rev.Dr Emmanuel Okoye CEO Ecobank-benin" 
-        <westernunion.benin982@gmail.com>
-Date:   Fri, 3 Jan 2020 21:19:45 +0100
-Message-ID: <CAP=nHBKxfmbdRg7q4-1jdSUL6+zok9agasMSrXV5CsEJEmZz3A@mail.gmail.com>
-Subject: I promise you must be happy today, God has uplifted you and your
- family ok
-To:     undisclosed-recipients:;
-Content-Type: text/plain; charset="UTF-8"
+        id S1728391AbgAGQxa (ORCPT <rfc822;lists+linux-alpha@lfdr.de>);
+        Tue, 7 Jan 2020 11:53:30 -0500
+Received: from mail.kernel.org ([198.145.29.99]:39882 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1728386AbgAGQxa (ORCPT <rfc822;linux-alpha@vger.kernel.org>);
+        Tue, 7 Jan 2020 11:53:30 -0500
+Received: from PC-kkoz.proceq.com (unknown [213.160.61.66])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES128-SHA256 (128/128 bits))
+        (No client certificate requested)
+        by mail.kernel.org (Postfix) with ESMTPSA id B395D2073D;
+        Tue,  7 Jan 2020 16:53:20 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=default; t=1578416009;
+        bh=5pGZzG2R2Yg9BvXiJJcmzkQkuLAOfS9PEHpiBXb0Uls=;
+        h=From:To:Cc:Subject:Date:From;
+        b=Q+mZvp8DRBQ+NGLFMRHq+ToaCPgY0sfmDNR9VpdaiZ9T2V/2nT/SeANXkK/wLMDoP
+         zenjraQPO9M07VwPEmNNuyRUDTXxaFInE+OA1UUiQvrcd9MJ0C7xFDpFQN49dMy/gI
+         GDlqwuMx3bvmjp+6UgH+xyziWuKaIO8OxKhrqNsk=
+From:   Krzysztof Kozlowski <krzk@kernel.org>
+To:     Richard Henderson <rth@twiddle.net>,
+        Ivan Kokshaysky <ink@jurassic.park.msu.ru>,
+        Matt Turner <mattst88@gmail.com>,
+        Alexey Brodkin <abrodkin@synopsys.com>,
+        Vineet Gupta <vgupta@synopsys.com>,
+        "James E.J. Bottomley" <James.Bottomley@HansenPartnership.com>,
+        Helge Deller <deller@gmx.de>,
+        Benjamin Herrenschmidt <benh@kernel.crashing.org>,
+        Paul Mackerras <paulus@samba.org>,
+        Michael Ellerman <mpe@ellerman.id.au>,
+        Yoshinori Sato <ysato@users.sourceforge.jp>,
+        Rich Felker <dalias@libc.org>,
+        Dave Airlie <airlied@redhat.com>,
+        David Airlie <airlied@linux.ie>,
+        Daniel Vetter <daniel@ffwll.ch>,
+        Ben Skeggs <bskeggs@redhat.com>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Jiri Slaby <jirislaby@gmail.com>,
+        Nick Kossifidis <mickflemm@gmail.com>,
+        Luis Chamberlain <mcgrof@kernel.org>,
+        Kalle Valo <kvalo@codeaurora.org>,
+        "David S. Miller" <davem@davemloft.net>,
+        Dave Jiang <dave.jiang@intel.com>,
+        Jon Mason <jdmason@kudzu.us>, Allen Hubbe <allenbh@gmail.com>,
+        "Michael S. Tsirkin" <mst@redhat.com>,
+        Jason Wang <jasowang@redhat.com>,
+        Arnd Bergmann <arnd@arndb.de>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Geert Uytterhoeven <geert@linux-m68k.org>,
+        linux-alpha@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-snps-arc@lists.infradead.org, linux-parisc@vger.kernel.org,
+        linuxppc-dev@lists.ozlabs.org, linux-sh@vger.kernel.org,
+        dri-devel@lists.freedesktop.org, nouveau@lists.freedesktop.org,
+        linux-media@vger.kernel.org, linux-wireless@vger.kernel.org,
+        netdev@vger.kernel.org, linux-ntb@googlegroups.com,
+        virtualization@lists.linux-foundation.org,
+        linux-arch@vger.kernel.org
+Cc:     Krzysztof Kozlowski <krzk@kernel.org>
+Subject: [RFT 00/13] iomap: Constify ioreadX() iomem argument
+Date:   Tue,  7 Jan 2020 17:52:57 +0100
+Message-Id: <1578415992-24054-1-git-send-email-krzk@kernel.org>
+X-Mailer: git-send-email 2.7.4
 Sender: linux-alpha-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-alpha.vger.kernel.org>
 X-Mailing-List: linux-alpha@vger.kernel.org
 
-Dear Friend
+Hi,
 
-i hope all is well with you,if so, glory be to God almighty. I'm very
-happy to inform you, about my success in getting payment funds under
-the cooperation of a new partner from United States of
-America.Presently I am in uk for investment projects with my own share
-of the total sum. I didn't forget your past efforts. IMF finally
-approved your compensation payment funds this morning by prepaid (ATM)
-Debit card of US$12,500.000.00Million Dollars, Since you not received
-this payment yet, I was not certified
-but it is not your fault and not my fault, I hold nothing against
-you.than bank official whom has been detaining the transfer in the
-bank, trying to claim your funds by themselves.
+The ioread8/16/32() and others have inconsistent interface among the
+architectures: some taking address as const, some not.
 
-Therefore, in appreciation of your effort I have raised an
-International prepaid (ATM) Debit card of US$12,500.000.00 in your
-favor as compensation to you.
+It seems there is nothing really stopping all of them to take
+pointer to const.
 
-Now, i want you to contact my Diplomatic Agent, His name is Mike Benz
-on His  e-mail Address (mikebenz550@aol.com
+Patchset was really tested on all affected architectures.
+Build testing is in progress - I hope auto-builders will point any issues.
 
-ask Him to send the Prepaid (ATM) Debit card to you. Bear in mind that
-the money is in Prepaid (ATM) Debit card, not cash, so you need to
-send to him,
-your full name
-address  where the prepaid (ATM) Debit card will be delivered to you,
-including your cell phone number. Finally, I left explicit
-instructions with him, on how to send the (ATM CARD) to you.
 
-The Prepaid (ATM) Debit card, will be send to you through my
-Diplomatic Agent Mr. Mike Benz immediately you contact him. So contact
-my Diplomatic Agent Mr. Mike Benz immediately you receive this letter.
-Below is his contact information:
+Todo
+====
+Convert also string versions (ioread16_rep() etc) if this aproach looks OK.
 
-NAME : MIKE BENZ
-EMAIL ADDRESS: mikebenz550@aol.com
-Text Him, (256) 284-4886
 
-Request for Delivery of the Prepaid (ATM) Debit card  to you today.
-Note, please I have paid for the whole service fees for you, so the
-only money you will send to my Diplomatic Agent Mr. Mike Benz is
-$50.00 for your prepaid (ATM) Debit card DELIVERY FEE to your address
-ok.
-Let me know once you receive this Card at your address.
+Merging
+=======
+The first 5 patches - iomap, alpha, sh, parisc and powerpc - should probably go
+via one tree, or even squashed into one.
+
+All other can go separately after these get merged.
+
 Best regards,
-Rev.Dr, George Adadar
+Krzysztof
+
+
+Krzysztof Kozlowski (13):
+  iomap: Constify ioreadX() iomem argument (as in generic
+    implementation)
+  alpha: Constify ioreadX() iomem argument (as in generic
+    implementation)
+  sh: Constify ioreadX() iomem argument (as in generic implementation)
+  parisc: Constify ioreadX() iomem argument (as in generic
+    implementation)
+  powerpc: Constify ioreadX() iomem argument (as in generic
+    implementation)
+  arc: Constify ioreadX() iomem argument (as in generic implementation)
+  drm/mgag200: Constify ioreadX() iomem argument (as in generic
+    implementation)
+  drm/nouveau: Constify ioreadX() iomem argument (as in generic
+    implementation)
+  media: fsl-viu: Constify ioreadX() iomem argument (as in generic
+    implementation)
+  net: wireless: ath5k: Constify ioreadX() iomem argument (as in generic
+    implementation)
+  net: wireless: rtl818x: Constify ioreadX() iomem argument (as in
+    generic implementation)
+  ntb: intel: Constify ioreadX() iomem argument (as in generic
+    implementation)
+  virtio: pci: Constify ioreadX() iomem argument (as in generic
+    implementation)
+
+ arch/alpha/include/asm/core_apecs.h                |  6 +--
+ arch/alpha/include/asm/core_cia.h                  |  6 +--
+ arch/alpha/include/asm/core_lca.h                  |  6 +--
+ arch/alpha/include/asm/core_marvel.h               |  4 +-
+ arch/alpha/include/asm/core_mcpcia.h               |  6 +--
+ arch/alpha/include/asm/core_t2.h                   |  2 +-
+ arch/alpha/include/asm/io.h                        | 12 +++---
+ arch/alpha/include/asm/io_trivial.h                | 16 ++++----
+ arch/alpha/include/asm/jensen.h                    |  2 +-
+ arch/alpha/include/asm/machvec.h                   |  6 +--
+ arch/alpha/kernel/core_marvel.c                    |  2 +-
+ arch/alpha/kernel/io.c                             |  6 +--
+ arch/arc/plat-axs10x/axs10x.c                      |  4 +-
+ arch/parisc/include/asm/io.h                       |  4 +-
+ arch/parisc/lib/iomap.c                            | 48 +++++++++++-----------
+ arch/powerpc/kernel/iomap.c                        | 22 +++++-----
+ arch/sh/kernel/iomap.c                             | 10 ++---
+ drivers/gpu/drm/mgag200/mgag200_drv.h              |  4 +-
+ drivers/gpu/drm/nouveau/nouveau_bo.c               |  2 +-
+ drivers/media/platform/fsl-viu.c                   |  2 +-
+ drivers/net/wireless/ath/ath5k/ahb.c               | 10 ++---
+ .../net/wireless/realtek/rtl818x/rtl8180/rtl8180.h |  6 +--
+ drivers/ntb/hw/intel/ntb_hw_gen1.c                 |  2 +-
+ drivers/ntb/hw/intel/ntb_hw_gen3.h                 |  2 +-
+ drivers/ntb/hw/intel/ntb_hw_intel.h                |  2 +-
+ drivers/virtio/virtio_pci_modern.c                 |  6 +--
+ include/asm-generic/iomap.h                        | 22 +++++-----
+ include/linux/io-64-nonatomic-hi-lo.h              |  4 +-
+ include/linux/io-64-nonatomic-lo-hi.h              |  4 +-
+ lib/iomap.c                                        | 18 ++++----
+ 30 files changed, 123 insertions(+), 123 deletions(-)
+
+-- 
+2.7.4
+
