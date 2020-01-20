@@ -2,77 +2,95 @@ Return-Path: <linux-alpha-owner@vger.kernel.org>
 X-Original-To: lists+linux-alpha@lfdr.de
 Delivered-To: lists+linux-alpha@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 0AF73142089
-	for <lists+linux-alpha@lfdr.de>; Sun, 19 Jan 2020 23:43:27 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 59ED314324B
+	for <lists+linux-alpha@lfdr.de>; Mon, 20 Jan 2020 20:32:08 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728827AbgASWn0 (ORCPT <rfc822;lists+linux-alpha@lfdr.de>);
-        Sun, 19 Jan 2020 17:43:26 -0500
-Received: from mail-il1-f193.google.com ([209.85.166.193]:46872 "EHLO
-        mail-il1-f193.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1728819AbgASWn0 (ORCPT
+        id S1727597AbgATTcB (ORCPT <rfc822;lists+linux-alpha@lfdr.de>);
+        Mon, 20 Jan 2020 14:32:01 -0500
+Received: from mail-ed1-f67.google.com ([209.85.208.67]:45341 "EHLO
+        mail-ed1-f67.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727032AbgATTcA (ORCPT
         <rfc822;linux-alpha@vger.kernel.org>);
-        Sun, 19 Jan 2020 17:43:26 -0500
-Received: by mail-il1-f193.google.com with SMTP id t17so25739226ilm.13
-        for <linux-alpha@vger.kernel.org>; Sun, 19 Jan 2020 14:43:25 -0800 (PST)
+        Mon, 20 Jan 2020 14:32:00 -0500
+Received: by mail-ed1-f67.google.com with SMTP id v28so550305edw.12
+        for <linux-alpha@vger.kernel.org>; Mon, 20 Jan 2020 11:31:59 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=Rc9XKr+ebrXKOAW0KmHjQ8cfG01tqx6rVgon3ztCywg=;
-        b=YqEM56hawo8vBZm9VbSTGrAF3IKcyJr7Rc3x1eG1dR0IUSR+3aBNzqfrKs7oiYU40i
-         t/wNqG0gvNyamjNE0L2xm8rVO9Z/JcpVJsFAeNezerZvBkON3lMEnxGi7zOaPqg2h/Qz
-         Nfw0GC2BoVNaML/e+/Vpa+N/ZULtVCoMbaeeEPOaNsElnko+FDJwOUQDsLvJy3NdRLe+
-         2SAyFZ0GtlOYCOu3mOklJJ1fdblmutmEs+mnVZpQQBi7h+ETMLzF4DlwdBP2lQnKBjTg
-         XNLWjI2SNh8EDPCVjUTVyCJeeZ8CooxxEYS8pmM8c2gOwzFk8fHs2GqJ13v/NIg++ixp
-         g9Iw==
+        h=mime-version:reply-to:from:date:message-id:subject:to;
+        bh=z7I/Kq2V0EnXiuoACdRbnwoAql3KZ080nwyXVjlruyU=;
+        b=kLfnsSTIjE2YEe6HI6GtqXd6cMnhTRLMcstoRngEtLrpsW8Des52P9cJGak3H8TgGi
+         7pI7x0ReUsZVA5020Qw65cEVulbgAqf7PV7Yj5z98jIQHYXuhdjNseji1wTJmoRk9owd
+         jH0nw85bxKb6JNDbbMZz77rTtrhB/lrp1T9+1Yzp1e0fAmiYnPF2y/wqE3N2vxlEpqDg
+         Q62+v45VGQo8fprIjkXGYdl8n0+0lt4RTeTWLmEirmHeh05e1zsbOQ1RyEmjVmqN0eJc
+         PRg9w7tG3wGqyiL8Rgrtjody799fKx6nbHvtMQHhCmcCncWFfzoetJS1edNfQP320vCH
+         Vilg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=Rc9XKr+ebrXKOAW0KmHjQ8cfG01tqx6rVgon3ztCywg=;
-        b=ecAv3v89zpG62zTtxU2WLVxD0aogLhB48JhbbHmqmTZ4NlkZ8GieBGwwHMcbXeE77N
-         rdChSpuI/Z14FiFc2NpOFvK56nd5VXns0yMq8dUBL26XnXYAqjwsW+Ei/7BNDAT4jG0I
-         PZlGJHyKYtRZNjDtoIU9ENZYYIoFFPJRYioTIcTUhMe9je5xBSaAOMuzHg/xV83ysiZP
-         Wy3JJVix3Q3DgRoXMAiFIvYER4n0Apn1d5RwXD3s+4VgMSLCUbbG73ZXR0FI6Jql8+X6
-         LiYIBmJ4zRC6pu9dEHLXr6tGQg5ojvMfDn0Gw3zo9T92JebEKOAjgo+IHqKQD1mfX2uE
-         IOEA==
-X-Gm-Message-State: APjAAAWTDQstfDOGPoTgEct66WeZqVmMMQizaj9kHqIZqwNCqB89QApM
-        B5wRzXSj+LrNUqvHQrszb8c7elqUcg939aHfqdE=
-X-Google-Smtp-Source: APXvYqwzHPTYrMc0saKruVaqezxmOAbbw/yy59zK7IGhgSKrybserYGONaCp9ipTNjDHCmVEUasvIrvIdRXLwJKTKsQ=
-X-Received: by 2002:a92:af4b:: with SMTP id n72mr8509486ili.288.1579473805356;
- Sun, 19 Jan 2020 14:43:25 -0800 (PST)
+        h=x-gm-message-state:mime-version:reply-to:from:date:message-id
+         :subject:to;
+        bh=z7I/Kq2V0EnXiuoACdRbnwoAql3KZ080nwyXVjlruyU=;
+        b=W9Ee69sxFxxlXnIWWP9X5BC3e2o2U1GJP9hX5yyOMyhUkTr3Z82jF3lIhKwUABf3Ul
+         Erm5f8xdPlrjx0IEspIcMApCLJaePOnOztm3lfKOLm2VHSN5MM8RWbRx4bxz01co2w5Z
+         RefJagPspXmSn0Zt1UBDzr/jA5BFOmv1oW9RkEepkjOugv89i8ReGRkzpmIDQcDyZiXI
+         8MW8hV91yVuthZNuMTG3RNrpzjeyS9jGOR5qwVLa3MwbP4qky01jVQTWxK+/XcayuBgs
+         oLjWynCd9CBsRXXP8OV62PC4cmALqiAiJiCWySMP+bdtnA6P3UCOGKHES1LuXK3/cMB+
+         GPcg==
+X-Gm-Message-State: APjAAAUYJan2ZP1UDmHqad6n+1uPZevu/3DgScu1CDvJzyp+hn8EveAi
+        00P3htAKaE2ZURGZGj5FktpvPQPWLV4cBRnLv6g=
+X-Google-Smtp-Source: APXvYqwPh6D8ihOXjaVWGs/0GLulEekGPU0xOOyxhr7PagnLX+E8xWeQy/UQ09ZNp2jZFCCt0xVGiodDu+D5No4niKg=
+X-Received: by 2002:a05:6402:505:: with SMTP id m5mr609398edv.15.1579548719077;
+ Mon, 20 Jan 2020 11:31:59 -0800 (PST)
 MIME-Version: 1.0
-References: <20200118160623.GA2136@gherkin.frus.com> <b656550f-76aa-c437-d3d9-36a868b8f093@physik.fu-berlin.de>
- <CAEGMnwooY_KiNzdwUMnQ2k6GyK8884BYAw0-HjrdJGtbnz2PgA@mail.gmail.com> <20200119054916.GA7215@gherkin.frus.com>
-In-Reply-To: <20200119054916.GA7215@gherkin.frus.com>
-From:   Witold Baryluk <witold.baryluk@gmail.com>
-Date:   Sun, 19 Jan 2020 22:42:49 +0000
-Message-ID: <CAEGMnwr+FpftLRiEtctz1M62q3OV3PsDxm6V4B5e7CA+R0T8gg@mail.gmail.com>
-Subject: Re: dbus-daemon unaligned accesses
-To:     Bob Tracy <rct@frus.com>
-Cc:     John Paul Adrian Glaubitz <glaubitz@physik.fu-berlin.de>,
-        debian-alpha@lists.debian.org, linux-alpha@vger.kernel.org
+Received: by 2002:a05:6402:22dc:0:0:0:0 with HTTP; Mon, 20 Jan 2020 11:31:57
+ -0800 (PST)
+Reply-To: mcclainejohn.13@gmail.com
+From:   "Prof, William Roberts" <eco.bank1204@gmail.com>
+Date:   Mon, 20 Jan 2020 20:31:57 +0100
+Message-ID: <CAOE+jAB9Cv76tHqc-hO92yWjVshCsALoX=zT1ruNmX+0-Bjyxw@mail.gmail.com>
+Subject: Contact Diplomatic Agent, Mr. Mcclaine John to receive your ATM CARD
+ valued the sum of $12.8Million United States Dollars
+To:     undisclosed-recipients:;
 Content-Type: text/plain; charset="UTF-8"
 Sender: linux-alpha-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-alpha.vger.kernel.org>
 X-Mailing-List: linux-alpha@vger.kernel.org
 
-Yes, it works.
+Attn: Dear Beneficiary,
 
-The suggested one line change did work and fixed the issue for me.
+I wish to inform you that the diplomatic agent conveying your ATM CARD
+valued the sum of $12.8Million United States Dollars has misplaced
+your address and he is currently stranded at (George Bush
+International Airport) Houston Texas USA now
+We required you to reconfirm the following information's below to him
+so that he can deliver your Payment CARD to you today or tomorrow
+morning as information provided with open communications via email and
+telephone for security reasons.
+HERE IS THE DETAILS  HE NEED FROM YOU URGENT
+YOUR FULL NAME:========
+ADDRESS:========
+MOBILE NO:========
+NAME OF YOUR NEAREST AIRPORT:========
+A COPY OF YOUR IDENTIFICATION :========
 
-I didn't have time to ask for it to be merged.
+Note; do contact the diplomatic agent immediately through the
+information's listed below
+Contact Person: Diplomatic Agent, Mr. Mcclaine John
+EMAIL: mcclainejohn.13@gmail.com
+Tel:(223) 777-7518
 
-On Sun, 19 Jan 2020, 06:49 Bob Tracy, <rct@frus.com> wrote:
->
-> On Sat, Jan 18, 2020 at 05:33:31PM +0000, Witold Baryluk wrote:
-> > https://bugs.debian.org/cgi-bin/bugreport.cgi?bug=932381
->
-> At first glance, that certainly appears to be the issue.  The
-> conversation seems to have stalled-out as of July 2019.
->
-> memcpy() looks to be a good way of handling the problem, for the
-> reasons mentioned.  Did you try that fix?  If so, did it work for you?
->
-> --Bob
+Contact the diplomatic agent immediately
+because he is waiting to hear from you today with the needed information's.
+
+NOTE: The Diplomatic agent does not know that the content of the
+consignment box is $12.800,000,00 Million United States Dollars and on
+no circumstances should you let him know the content. The consignment
+was moved from here as family treasures, so never allow him to open
+the box. Please I have paid delivery fees for you but the only money
+you must send to Mcclaine John is your ATM CARD delivery fee $25.00
+only. text Him as you contact Him Immediately
+
+Thanks,
+with Regards.
+Prof, William Roberts
+Director DHL COURIER SERVICES-Benin
