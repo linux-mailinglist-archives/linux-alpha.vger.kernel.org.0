@@ -2,65 +2,66 @@ Return-Path: <linux-alpha-owner@vger.kernel.org>
 X-Original-To: lists+linux-alpha@lfdr.de
 Delivered-To: lists+linux-alpha@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 89DDD1443BF
-	for <lists+linux-alpha@lfdr.de>; Tue, 21 Jan 2020 18:57:00 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 150881477CF
+	for <lists+linux-alpha@lfdr.de>; Fri, 24 Jan 2020 06:02:32 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729080AbgAUR47 (ORCPT <rfc822;lists+linux-alpha@lfdr.de>);
-        Tue, 21 Jan 2020 12:56:59 -0500
-Received: from mail-lj1-f171.google.com ([209.85.208.171]:45136 "EHLO
-        mail-lj1-f171.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1729099AbgAUR47 (ORCPT
+        id S1725821AbgAXFCb (ORCPT <rfc822;lists+linux-alpha@lfdr.de>);
+        Fri, 24 Jan 2020 00:02:31 -0500
+Received: from bombadil.infradead.org ([198.137.202.133]:55372 "EHLO
+        bombadil.infradead.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1725298AbgAXFCb (ORCPT
         <rfc822;linux-alpha@vger.kernel.org>);
-        Tue, 21 Jan 2020 12:56:59 -0500
-Received: by mail-lj1-f171.google.com with SMTP id j26so3721558ljc.12
-        for <linux-alpha@vger.kernel.org>; Tue, 21 Jan 2020 09:56:58 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=mime-version:reply-to:from:date:message-id:subject:to;
-        bh=Dtjxy4V8iMdKsTS3omab5QTxeR6ImV0PnIjkiqN86Ns=;
-        b=YUVpfkhwgb76WoKE91HN0MgJTuTW+QE9y8oHcsLTo8H9A8D0gLTJNOQbuRVnKYgo/T
-         wZd1bo7UMykZtlcP+CNh0QSWaLWZO81MbfRGCFcb/I7aU/3aKmRkXPwZu/Mq6cpa9cl2
-         qHE2p8b5ceL+pcYeAxCMkL+f7NqomU1oXrsXR77dGvd2dcwm5vUPQ87K6eFdr/j6ymZ6
-         1dqAQgYzRwynfiIBpPYqQz7Tlg8oTdUeWNmuWzRCo19Jn3qDz2r6Lj8+McBQdxKC6G5l
-         NLnlFd3QA0vVVN4C78yxB3mE9wI/w3chQZ8etMJ7yOYflwaI/frpuaSWReb8UXASMqk4
-         CaHA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:reply-to:from:date:message-id
-         :subject:to;
-        bh=Dtjxy4V8iMdKsTS3omab5QTxeR6ImV0PnIjkiqN86Ns=;
-        b=oFPUUjwvWTNjVYobdsh5AZmkFzcxrQQOZ2ROME6nV3rW3o/hbMT5yL0onmlSAm9bvo
-         OCSKog5nygLLat5npXUVcAP0MPCUuQLfO4/giRioiNtVaCl/j8mpZ+UPYSdzWqIgw1u3
-         gfGdmaebmDXaOQJmN4pIhWv2JrJYGuki+9xClgbIQ3lcvbcvi0nS7RqwkUbVZOpp52w6
-         wZ5E+MkDr1Wa9A3/CHOZpUNMDdwdja/6aDAPpgXqg3VcF/O5j+gFGCCzZwN6V0Rran8w
-         IWe/rzAk7vHduWC9m/ROf8VhWWBQcsOkLvYhYu7YUGGdXYnlegHSCj4CpyjXjoca0GyP
-         snyg==
-X-Gm-Message-State: APjAAAWV/Wcc7DEdibDG+uXeVyKbVXeM9NUmW1dGKC3d47IgFw1vFDMv
-        E82l8OHSfHZ6UmIudNrWoWhLTMmr4nvGzTd4yKg=
-X-Google-Smtp-Source: APXvYqxSv5i0WMPayQ77EYLZgOuJdR/XSWZ0Zpf13WpaGfVP94kf5S4rOxJEj6zrbZYuwrc13dZ1G31JXPhJSO1VtnA=
-X-Received: by 2002:a2e:7e05:: with SMTP id z5mr15778225ljc.99.1579629417352;
- Tue, 21 Jan 2020 09:56:57 -0800 (PST)
+        Fri, 24 Jan 2020 00:02:31 -0500
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+        d=infradead.org; s=bombadil.20170209; h=In-Reply-To:Content-Transfer-Encoding
+        :Content-Type:MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:
+        Sender:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
+        Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:
+        List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
+        bh=ov31A6tYKcczbAgX5V+K/86bJ5Mzf/GVps9NpBV92oA=; b=MwrTy9e7zWFtY+ARjOGY0FjNXH
+        XHKtTGNYClFWFRLZh1KzO2E6mrNLhwzW80c/Pm15BcjbBYcBYBQpvKWdL26Y4F9pvsSsj/mXHLwvD
+        DNuDftcC/mCDNRo4klh7c8mt1ywyIaBLlhraNWuDfJ8DWnpiKXG8o5satL11AZWjbocO0XmeqvWUe
+        xIQKvRapY1sPTLkj549d6W+gciGXO+lYVOo0tFIHGZN9XFiMTwuSKVxI1hfdYSelKPjjgtruuxYLC
+        f6OUy/Mm6Lb6QNOCpl+PiOrlMkjI9O0xTijyh9icTzEAxZ/lK/oeH+kjwI+kvKZVLY++oTDHoCiv4
+        oCbLVLhg==;
+Received: from willy by bombadil.infradead.org with local (Exim 4.92.3 #3 (Red Hat Linux))
+        id 1iur6Y-0004ub-AN; Fri, 24 Jan 2020 05:02:02 +0000
+Date:   Thu, 23 Jan 2020 21:02:02 -0800
+From:   Matthew Wilcox <willy@infradead.org>
+To:     Qian Cai <cai@lca.pw>
+Cc:     Peter Zijlstra <peterz@infradead.org>, mingo@redhat.com,
+        juri.lelli@redhat.com, vincent.guittot@linaro.org,
+        dietmar.eggemann@arm.com, rostedt@goodmis.org, bsegall@google.com,
+        mgorman@suse.de, paulmck@kernel.org, tglx@linutronix.de,
+        linux-mm@kvack.org, linux-kernel@vger.kernel.org,
+        linux-alpha@vger.kernel.org, Matt Turner <mattst88@gmail.com>,
+        linux-parisc@vger.kernel.org, Helge Deller <deller@gmx.de>
+Subject: Re: [PATCH v2] sched/core: fix illegal RCU from offline CPUs
+Message-ID: <20200124050202.GJ4675@bombadil.infradead.org>
+References: <20200121103506.GH14914@hirez.programming.kicks-ass.net>
+ <A72A7F42-A166-4403-B12C-32B2D7A662C4@lca.pw>
 MIME-Version: 1.0
-Received: by 2002:a05:651c:200f:0:0:0:0 with HTTP; Tue, 21 Jan 2020 09:56:54
- -0800 (PST)
-Reply-To: rita56j@gmail.com
-From:   Rita Johnson <rtita2johnson@gmail.com>
-Date:   Tue, 21 Jan 2020 18:56:54 +0100
-Message-ID: <CAG9ib+DaqAY4SN7dYyTKgCqNbDvTmquSp5WcCvW-vnTC5DLwzQ@mail.gmail.com>
-Subject: Dear beloved,
-To:     undisclosed-recipients:;
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <A72A7F42-A166-4403-B12C-32B2D7A662C4@lca.pw>
 Sender: linux-alpha-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-alpha.vger.kernel.org>
 X-Mailing-List: linux-alpha@vger.kernel.org
 
--- 
-Hello
-My name is Mrs Rita Johnson,I want to donate my fund USd $8.6m to you
-on charity name to help the poor people.As soon as i read from you i
-will give more details on how to achieve this goal and get this fund
-transfer to your bank account.
+On Thu, Jan 23, 2020 at 11:21:35PM -0500, Qian Cai wrote:
+> > On Jan 21, 2020, at 5:35 AM, Peter Zijlstra <peterz@infradead.org> wrote:
+> > 
+> > Something like this; except you'll need to go audit archs to make sure
+> > they all call idle_task_exit() and/or put in comments on why they don't
+> > have to (perhaps their bringup switches them to &init_mm unconditionally
+> > and the switch_mm() is not required).
+> 
+> Damn, I am having a hard time to motivate myself to learn all about those two “dead“ arches from scratch. I suppose the first step we could put a dummy finish_cpu() for alpha and parisc if they don’t call idle_task_exit() in the first place anyway, so if it is a bug there it is another issue that could be dealt with in a separate patch later?
 
-Regards
-Mrs Rita Johnson
+Or you could consult the maintainers of those architectures?  There are regular pull requests for parisc still, and alpha still gets odd fixes.
+
+It would have helped had you not trimmed the context so aggressively.
+For those seeing this thread for the first time, try:
+https://lore.kernel.org/linux-mm/A72A7F42-A166-4403-B12C-32B2D7A662C4@lca.pw/T/#t
