@@ -2,114 +2,70 @@ Return-Path: <linux-alpha-owner@vger.kernel.org>
 X-Original-To: lists+linux-alpha@lfdr.de
 Delivered-To: lists+linux-alpha@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id F381B149B47
-	for <lists+linux-alpha@lfdr.de>; Sun, 26 Jan 2020 16:11:42 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 76C3114C9A0
+	for <lists+linux-alpha@lfdr.de>; Wed, 29 Jan 2020 12:32:27 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1725907AbgAZPLm (ORCPT <rfc822;lists+linux-alpha@lfdr.de>);
-        Sun, 26 Jan 2020 10:11:42 -0500
-Received: from mail25.static.mailgun.info ([104.130.122.25]:27047 "EHLO
-        mail25.static.mailgun.info" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1726079AbgAZPLl (ORCPT
+        id S1726186AbgA2Lc0 (ORCPT <rfc822;lists+linux-alpha@lfdr.de>);
+        Wed, 29 Jan 2020 06:32:26 -0500
+Received: from sonic309-24.consmr.mail.ir2.yahoo.com ([77.238.179.82]:34167
+        "EHLO sonic309-24.consmr.mail.ir2.yahoo.com" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1726068AbgA2Lc0 (ORCPT
         <rfc822;linux-alpha@vger.kernel.org>);
-        Sun, 26 Jan 2020 10:11:41 -0500
-DKIM-Signature: a=rsa-sha256; v=1; c=relaxed/relaxed; d=mg.codeaurora.org; q=dns/txt;
- s=smtp; t=1580051501; h=Date: Message-Id: Cc: To: References:
- In-Reply-To: From: Subject: Content-Transfer-Encoding: MIME-Version:
- Content-Type: Sender; bh=GgNouC08XBq9czPTNzqE2b2+ochAUWZ+cpydcRWvAGA=;
- b=fw2e9ngGC56jy1CHyl0lyy2Jlb170AKJ9nNz0Gfo/bzDCW7qHzqYEiwgVt/DtTqpCfQftoeN
- 24ESUQrbNll5DjiaJsk0h7R0CY3DPRt74cQySEMjGAHz9pbe7baSngPqwApzTnTu+ibE/hIC
- g758S4Dx002EstJwNvKjvj/+Tnk=
-X-Mailgun-Sending-Ip: 104.130.122.25
-X-Mailgun-Sid: WyJhYWQzOCIsICJsaW51eC1hbHBoYUB2Z2VyLmtlcm5lbC5vcmciLCAiYmU5ZTRhIl0=
-Received: from smtp.codeaurora.org (ec2-35-166-182-171.us-west-2.compute.amazonaws.com [35.166.182.171])
- by mxa.mailgun.org with ESMTP id 5e2dac29.7f4488aabe30-smtp-out-n01;
- Sun, 26 Jan 2020 15:11:37 -0000 (UTC)
-Received: by smtp.codeaurora.org (Postfix, from userid 1001)
-        id C0CA8C43383; Sun, 26 Jan 2020 15:11:37 +0000 (UTC)
-X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
-        aws-us-west-2-caf-mail-1.web.codeaurora.org
-X-Spam-Level: 
-X-Spam-Status: No, score=0.5 required=2.0 tests=ALL_TRUSTED,MISSING_DATE,
-        MISSING_MID,SPF_NONE autolearn=no autolearn_force=no version=3.4.0
-Received: from potku.adurom.net (88-114-240-156.elisa-laajakaista.fi [88.114.240.156])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        (Authenticated sender: kvalo)
-        by smtp.codeaurora.org (Postfix) with ESMTPSA id 77D01C43383;
-        Sun, 26 Jan 2020 15:11:26 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.3.2 smtp.codeaurora.org 77D01C43383
-Authentication-Results: aws-us-west-2-caf-mail-1.web.codeaurora.org; dmarc=none (p=none dis=none) header.from=codeaurora.org
-Authentication-Results: aws-us-west-2-caf-mail-1.web.codeaurora.org; spf=none smtp.mailfrom=kvalo@codeaurora.org
-Content-Type: text/plain; charset="utf-8"
+        Wed, 29 Jan 2020 06:32:26 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=yahoo.com; s=s2048; t=1580297544; bh=eg3qZapD09VJqj25AUJW5s1BYxWsWc1QdQQ9ZvAlPmk=; h=Date:From:Reply-To:Subject:References:From:Subject; b=a7AtBA0kiGmz3A8bdOk4hM68CnWx2Gr8VxlarDe3VNMVAnF47B+1Mi9ySGgrCZLGQYbm+DpYmacVAjv6iPxMnTiUl1Cfj5aTbw6JNHlL3MRJ/afdw/i8R2qhh/kp6o8xbmPkLF9YVZ9lc2J1iIMB+77ndMy9HBdMVBoymJTHn083iFxJGyrQPzb0bmpmJh1JXPikmHGJWQcSQkqBRK2b9L5mTPSxlbgcCZBbC69F1RRKCfiADmfKLhXbHkmGYfYkvQ0meqd3BzLWalKYAIQxjpnTEJmBzjeuHUVM5j3AyimU2Mg073gCY5txkkN0mRf0pz9OGNJUyzm3wyfPztBxAw==
+X-YMail-OSG: sKqCDfAVM1mu0F1JVQL9e0g1D.qVrObTVfty4l18G2YkkOrehEY98BE1I.gWa72
+ GnliLm7wukbBlpuXu1D84MI9J_wZWDYwIu5yJTm09IVqnghxRRSgh7Yxfjr3nJZwTb5Z.BkPDjOs
+ M.BkhMtg9lLBJMBtctf1T.GYlFRjdWNSDvSQOK8DY5LqwkxspEk3ObpMcuUCa_iYcIaY9EbWhpgA
+ ZJ4KsookUt0NLdakC9WpIoOOAI3nxpHjgh_i4yjzVuKAFNFH9ehryDeG6cnW6IaxfJ0ZRvAgPp1a
+ Y2.xG39OFLDhLRh5OIMGJhJZQgMxkWbXfdEaVdntQZvMCuy2M58jquy2JVYrRdRnorcZCaQsWYCn
+ deaAWxmphvW0YGCNua32VZ5VraeiEqHrTOwU5Fib6yzRQ0.3IzPRvxDmQX.YJ4mVyKDspXdtEkkA
+ B.7Ovkd0PyPNgRWH3dZMnNmodBTgUblm_Hiylbv1hMZ_8h5VwqqJGlAjdEgpEb2M3pjCLPFGwL0m
+ 7ADFj0ImX3UOs_0t4jyBQE9A0pYqXFSSp4N_2.qotEuNQd78XIv0NR0WRricAzPvdlIyL2X_B3BN
+ Hu_.dRXvZPa9rF18BZIPjzuyh732aGkFb3_z_AYPlzmaFe1tFIR5JP1IiA3TDVhh7UDvJPSFqZju
+ ZJw2jdxHCI1czaf0tRJy2rVjeWGeaEeoy0n5K0Jt73s3ImtqrR10OGDIlp2y8iOyOwcZY1a9ihaB
+ Vqdhd2c05uvvDora4xSLSbxBXPydxwwfmupKspCvf6cidNFf7ACEfdKU0aXjyZt.OtkwgfBSmHEe
+ cVzTCaLFaJ6dTRx6mx4MPqaKrB9hwQIUJS09W6rrgsZO.NhinSOPQI5WZpB1Fo0m2f1QYUH6DL4T
+ rnb4e2kdSPeauMRu5Yp7nM1A4YoQibPmpEX3XVeJQFF1UkM_ceuY7mQj.D9lkjo68uXXi.UeotUC
+ PLH2UGgvTkqCzzcrdrJkAq0h.RMwYWqzTE1xnUaE58frhycX4S2_W8k_BJWdYIqMg3u6KjLxGdEk
+ gkqaJPKQAIUPh3zzi8MRR_WZvdcW_V1xuKCdHmA7qX7uP..HMxLLTxvhXhE_Aa_yCdSD0Et4vvGA
+ D.eZfJ6LnGk4EA6Lem.dqARLDJwGeRQ9214v3HJuT.62wkuCL7yEAUFoMoh4rL9etTlzkbnhn_s8
+ tWm_NRwqjcJZIpU0CwqEvokJDSLxDcXbilMSEBWI7_DIDU0FPMdkbVdlTwH004JaFboZTe7O7kWS
+ hlK_vx71lPYvLA1OTSqIfrVbZV.345kKhSpqb1uBFcY1H0VAJWCn.H_zm8BbFjUCZ2D6BPk4-
+Received: from sonic.gate.mail.ne1.yahoo.com by sonic309.consmr.mail.ir2.yahoo.com with HTTP; Wed, 29 Jan 2020 11:32:24 +0000
+Date:   Wed, 29 Jan 2020 11:32:20 +0000 (UTC)
+From:   Ms Lisa Hugh <lisa.hugh111@gmail.com>
+Reply-To: ms.lisahugh000@gmail.com
+Message-ID: <1002854083.1428592.1580297540467@mail.yahoo.com>
+Subject: BUSINESS TRANSFER CO-OPERATION.
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
-Subject: Re: [PATCH v2 2/9] net: wireless: rtl818x: Constify ioreadX() iomem
- argument (as in generic implementation)
-From:   Kalle Valo <kvalo@codeaurora.org>
-In-Reply-To: <20200108200528.4614-3-krzk@kernel.org>
-References: <20200108200528.4614-3-krzk@kernel.org>
-To:     Krzysztof Kozlowski <krzk@kernel.org>
-Cc:     Richard Henderson <rth@twiddle.net>,
-        Ivan Kokshaysky <ink@jurassic.park.msu.ru>,
-        Matt Turner <mattst88@gmail.com>,
-        Alexey Brodkin <abrodkin@synopsys.com>,
-        Vineet Gupta <vgupta@synopsys.com>,
-        "James E.J. Bottomley" <James.Bottomley@HansenPartnership.com>,
-        Helge Deller <deller@gmx.de>,
-        Benjamin Herrenschmidt <benh@kernel.crashing.org>,
-        Paul Mackerras <paulus@samba.org>,
-        Michael Ellerman <mpe@ellerman.id.au>,
-        Yoshinori Sato <ysato@users.sourceforge.jp>,
-        Rich Felker <dalias@libc.org>,
-        Dave Airlie <airlied@redhat.com>,
-        David Airlie <airlied@linux.ie>,
-        Daniel Vetter <daniel@ffwll.ch>,
-        Ben Skeggs <bskeggs@redhat.com>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Jiri Slaby <jirislaby@gmail.com>,
-        Nick Kossifidis <mickflemm@gmail.com>,
-        Luis Chamberlain <mcgrof@kernel.org>,
-        "David S. Miller" <davem@davemloft.net>,
-        Dave Jiang <dave.jiang@intel.com>,
-        Jon Mason <jdmason@kudzu.us>, Allen Hubbe <allenbh@gmail.com>,
-        "Michael S. Tsirkin" <mst@redhat.com>,
-        Jason Wang <jasowang@redhat.com>,
-        Arnd Bergmann <arnd@arndb.de>,
-        Krzysztof Kozlowski <krzk@kernel.org>,
-        Geert Uytterhoeven <geert+renesas@glider.be>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        linux-alpha@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-snps-arc@lists.infradead.org, linux-parisc@vger.kernel.org,
-        linuxppc-dev@lists.ozlabs.org, linux-sh@vger.kernel.org,
-        dri-devel@lists.freedesktop.org, nouveau@lists.freedesktop.org,
-        linux-media@vger.kernel.org, linux-wireless@vger.kernel.org,
-        netdev@vger.kernel.org, linux-ntb@googlegroups.com,
-        virtualization@lists.linux-foundation.org,
-        linux-arch@vger.kernel.org
-User-Agent: pwcli/0.0.0-git (https://github.com/kvalo/pwcli/) Python/2.7.12
-Message-Id: <20200126151137.C0CA8C43383@smtp.codeaurora.org>
-Date:   Sun, 26 Jan 2020 15:11:37 +0000 (UTC)
+References: <1002854083.1428592.1580297540467.ref@mail.yahoo.com>
+X-Mailer: WebService/1.1.15116 YMailNodin Mozilla/5.0 (Windows NT 6.1; rv:68.0) Gecko/20100101 Firefox/68.0
+To:     unlisted-recipients:; (no To-header on input)
 Sender: linux-alpha-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-alpha.vger.kernel.org>
 X-Mailing-List: linux-alpha@vger.kernel.org
 
-Krzysztof Kozlowski <krzk@kernel.org> wrote:
 
-> The ioreadX() helpers have inconsistent interface.  On some architectures
-> void *__iomem address argument is a pointer to const, on some not.
-> 
-> Implementations of ioreadX() do not modify the memory under the address
-> so they can be converted to a "const" version for const-safety and
-> consistency among architectures.
-> 
-> Signed-off-by: Krzysztof Kozlowski <krzk@kernel.org>
-> Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
 
-I assume this and patch 9 are going via some other tree so dropping them
-from my patchwork queue.
+Dear Friend,
 
--- 
-https://patchwork.kernel.org/patch/11324461/
+I am Ms Lisa Hugh work with the department of Audit and accounting manager here in the Bank,
 
-https://wireless.wiki.kernel.org/en/developers/documentation/submittingpatches
+Please i need your assistance for the transferring of this abandon (US$4.5M DOLLARS) to your bank account for both of us benefit.
+
+I have every inquiry details to make the bank believe you and release the fund in within 5 banking working days with your full co-operation with me after success.
+
+Below information that is needed from you.
+
+1)Private telephone number...
+2)Age...
+3)Nationality...
+4)Occupation ...
+5)Full Name....
+Thanks.
+
+
+Ms Lisa Hugh
