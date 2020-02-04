@@ -2,28 +2,47 @@ Return-Path: <linux-alpha-owner@vger.kernel.org>
 X-Original-To: lists+linux-alpha@lfdr.de
 Delivered-To: lists+linux-alpha@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id EF01514FF2D
-	for <lists+linux-alpha@lfdr.de>; Sun,  2 Feb 2020 21:53:01 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 52DC11522FB
+	for <lists+linux-alpha@lfdr.de>; Wed,  5 Feb 2020 00:23:40 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726989AbgBBUw6 (ORCPT <rfc822;lists+linux-alpha@lfdr.de>);
-        Sun, 2 Feb 2020 15:52:58 -0500
-Received: from sonic306-36.consmr.mail.bf2.yahoo.com ([74.6.132.235]:33224
-        "EHLO sonic306-36.consmr.mail.bf2.yahoo.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1726976AbgBBUw6 (ORCPT
+        id S1727494AbgBDXXj (ORCPT <rfc822;lists+linux-alpha@lfdr.de>);
+        Tue, 4 Feb 2020 18:23:39 -0500
+Received: from sonic303-21.consmr.mail.ir2.yahoo.com ([77.238.178.202]:39182
+        "EHLO sonic303-21.consmr.mail.ir2.yahoo.com" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1727500AbgBDXXj (ORCPT
         <rfc822;linux-alpha@vger.kernel.org>);
-        Sun, 2 Feb 2020 15:52:58 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=yahoo.com; s=s2048; t=1580676777; bh=3gwbdpD6fpTnU3AIhQs1dw9/oeXqxu71NA+1nQpVq+I=; h=Date:From:Reply-To:Subject:References:From:Subject; b=XxhT3WlE7UWjB/9yaJbTGFGWElDU0PSzmW3dkZoFleOEBvd9VI7qjMyiYN9tecKMZk+ADDxFRkiUnX1zsYTE2b7mV3WGwac17X3jPWzhUjc7WL1WsVFZPTQbtGsujBkBxNFWil+E6ykrLYZ2CL+hGy+k7vjfILW1/u4ktx7IMkX95zTqhIw/Sl2SUmMgsPKyNhd6PQQXglMXjWHIJLuH7Dl3jqC2IcKWcgDDbZixlI/yZc3WXnkQ6QMerqHli0M+I8OCYtRH98domCZL8lGzkXgfY9OLLIxEC9SAwn48V/bVmmURhgcdRsy5xfGorT7MHQYksC/cMMeUA2/JVDXPag==
-Received: from sonic.gate.mail.ne1.yahoo.com by sonic306.consmr.mail.bf2.yahoo.com with HTTP; Sun, 2 Feb 2020 20:52:57 +0000
-Date:   Sun, 2 Feb 2020 20:40:53 +0000 (UTC)
-From:   "Mrs. Maureen Hinckley" <dd7@gczao.com>
-Reply-To: maurhinck7@gmail.com
-Message-ID: <419847631.488854.1580676053942@mail.yahoo.com>
-Subject: 
+        Tue, 4 Feb 2020 18:23:39 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=yahoo.com; s=s2048; t=1580858617; bh=eg3qZapD09VJqj25AUJW5s1BYxWsWc1QdQQ9ZvAlPmk=; h=Date:From:Reply-To:Subject:References:From:Subject; b=PJ1zQCsa0B0ZHr2X9UHAvaWMGTJ6gGAz1PPbVoZgCKRncT1P2LGWmIbFbMnlz3Zsa9XZyEirpU4aDk9cGdFAuUbgULY3ylXvbYwtDL6PSEb0J38qAaxNo1TpAWp9DJtKeNL0DnEBGejWd0IqyAgceiT0zKZuZmdUdXlu61g7i8R3T7Q+wzyAvI8e+huyAgpaa8treTyokdY8cWXkO1YtTHr7lUN29C5jcz+ubm6nVWpDTosB0jHOSZ/mlebBn3F0TM7WZWpX/UB4w9ili4ZMokEbvbG11yY8pBu5zeeYZrXwMAYqsxB5Ho83LZPnb8X6E1RJFlNxfX/g80f1DVhp9g==
+X-YMail-OSG: tl7B3uEVM1mlxULk6H7bhWnm_4iL3SL6Yfcieuz1atqoyWoI9xPNp2ayBBhsyqv
+ NK2SDampif2eGJFJmoYKWflWn4v8jvqaG0gF4pCaVAHkXVbAcocEybR6u.fk1JFZxNyfTDERn_5E
+ 3k23v3pcIrsSVgkxoYPXaTruwXLYZvEQZNq3oVBugWYbJMPTNCpbsfOfzcS.S42F2QBB49YgaFS7
+ tzM.dXpftyqSnU4l4Cl4fqQ5rRce9wwojHL1dy5TAJJgajc7rVemoQu8._kU5IkmRvKkuxRJAzbp
+ QfsyaakIFzEXXRFmxlww1A0meOOcgYDvVSWF2WlzsTN48MppCsP7fYo3yUMJRLUaA7487Lodihul
+ NX8On.ltVtp9CbhF0l56tH5RqSb9yLOmkTZRRPLMJ9deqy.uZAJdw5.GQJoKJvAQNmVMB4dRexwO
+ g0tWMh_n3ztQYi6Z9VIM6LT4cjR2N5Yjkzk4Nt.P0eVrLlSL.cijSCJcui_ayvHjPUbiu0ireUZ8
+ I5FHzw6ezRvpw.1PJQ1hRv9zHp_DMI.WOTMB4RDqMjhDcqKuCgdQXzo8JGowcEGZhiI8Ub9iBJnY
+ 5PAepPAEyKaa.tCUwcjAgi9.Q5Eateu4mVjPBNtBu6NZDs7Wu9TLZHkJPmAMaFJ03BHIO3CwVQeA
+ uPCNkLMe4fZ0btsEb9o3SP5QIA.VJTGWZk8.PMsWGFq2FjYtBawi7BZFpbD_04oX0CjK.AsIF4nF
+ 7b3MLCFcNgqAeBs_wCeoZFUuqcVOEeW4tPG5SeoZalQBIXrctmWB8_Tb9A72EVSWbTBQE9xiyuds
+ 1Ye6swoqS2gG22o9FsoH_Omizi6i72b08Jzuu6oc1q3O3YmOnFxfzIgmeioDpurD3ihbMfmjRG3A
+ 9V6arcbM0M0sOOCsxZ3mWlv0AHEEXsUGLhZ2dF4fwdZxGxhP.sIxFlHavlRpsrHTkxCVhzIcoW2L
+ askf_kJc8vhQ8jFWK9goT27TqEdvVnh3vzK25tyVKJPFqkJ0ICNYK9MgNzHm6aAWsSTFS7pgt3df
+ zfQOCGEMzawGdSruLN1tA._84sC1liBME9t1K6lg.XsG01VZLq7CiK0VBzmqCu6qCUmkhObp2ZYS
+ WdIRllDsFUjseqgavlO4OuFkWaTb4g4r6kR_xhCSoJFaGgyejBsjvzPoE2P6Kl0mC2llHROXGIau
+ wAg.Ldrl0Pi7CwVWjlcuiNTPYGO8pn1vVXpm34dWbvvwgKHOYnL.PLj0UCUxgi1LIgLiWGThcLNp
+ W7nYUojoawfz4tAW92QiookWbjlTOfKKK7TVZUi2alMjBTDm5sN0Ba3D7mdZbkvcDIekXJTHsMuB
+ RHec-
+Received: from sonic.gate.mail.ne1.yahoo.com by sonic303.consmr.mail.ir2.yahoo.com with HTTP; Tue, 4 Feb 2020 23:23:37 +0000
+Date:   Tue, 4 Feb 2020 23:23:36 +0000 (UTC)
+From:   Ms Lisa Hugh <lisa.hugh111@gmail.com>
+Reply-To: ms.lisahugh000@gmail.com
+Message-ID: <599962984.986743.1580858616932@mail.yahoo.com>
+Subject: BUSINESS TRANSFER CO-OPERATION.
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
-References: <419847631.488854.1580676053942.ref@mail.yahoo.com>
-X-Mailer: WebService/1.1.15149 YMailNodin Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/79.0.3945.130 Safari/537.36 OPR/66.0.3515.44
+Content-Transfer-Encoding: 7bit
+References: <599962984.986743.1580858616932.ref@mail.yahoo.com>
+X-Mailer: WebService/1.1.15158 YMailNodin Mozilla/5.0 (Windows NT 6.1; rv:72.0) Gecko/20100101 Firefox/72.0
 To:     unlisted-recipients:; (no To-header on input)
 Sender: linux-alpha-owner@vger.kernel.org
 Precedence: bulk
@@ -32,10 +51,22 @@ X-Mailing-List: linux-alpha@vger.kernel.org
 
 
 
-I am Maureen Hinckley and my foundation is donating (Five hundred and fifty=
- thousand USD) to you. Contact us via my email at (maurhinck7@gmail.com) fo=
-r further details.
+Dear Friend,
 
-Best Regards,
-Mrs. Maureen Hinckley,
-Copyright =C2=A92020 The Maureen Hinckley Foundation All Rights Reserved.
+I am Ms Lisa Hugh work with the department of Audit and accounting manager here in the Bank,
+
+Please i need your assistance for the transferring of this abandon (US$4.5M DOLLARS) to your bank account for both of us benefit.
+
+I have every inquiry details to make the bank believe you and release the fund in within 5 banking working days with your full co-operation with me after success.
+
+Below information that is needed from you.
+
+1)Private telephone number...
+2)Age...
+3)Nationality...
+4)Occupation ...
+5)Full Name....
+Thanks.
+
+
+Ms Lisa Hugh
