@@ -2,71 +2,71 @@ Return-Path: <linux-alpha-owner@vger.kernel.org>
 X-Original-To: lists+linux-alpha@lfdr.de
 Delivered-To: lists+linux-alpha@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 52DC11522FB
-	for <lists+linux-alpha@lfdr.de>; Wed,  5 Feb 2020 00:23:40 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 25790155FBE
+	for <lists+linux-alpha@lfdr.de>; Fri,  7 Feb 2020 21:40:24 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727494AbgBDXXj (ORCPT <rfc822;lists+linux-alpha@lfdr.de>);
-        Tue, 4 Feb 2020 18:23:39 -0500
-Received: from sonic303-21.consmr.mail.ir2.yahoo.com ([77.238.178.202]:39182
-        "EHLO sonic303-21.consmr.mail.ir2.yahoo.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1727500AbgBDXXj (ORCPT
-        <rfc822;linux-alpha@vger.kernel.org>);
-        Tue, 4 Feb 2020 18:23:39 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=yahoo.com; s=s2048; t=1580858617; bh=eg3qZapD09VJqj25AUJW5s1BYxWsWc1QdQQ9ZvAlPmk=; h=Date:From:Reply-To:Subject:References:From:Subject; b=PJ1zQCsa0B0ZHr2X9UHAvaWMGTJ6gGAz1PPbVoZgCKRncT1P2LGWmIbFbMnlz3Zsa9XZyEirpU4aDk9cGdFAuUbgULY3ylXvbYwtDL6PSEb0J38qAaxNo1TpAWp9DJtKeNL0DnEBGejWd0IqyAgceiT0zKZuZmdUdXlu61g7i8R3T7Q+wzyAvI8e+huyAgpaa8treTyokdY8cWXkO1YtTHr7lUN29C5jcz+ubm6nVWpDTosB0jHOSZ/mlebBn3F0TM7WZWpX/UB4w9ili4ZMokEbvbG11yY8pBu5zeeYZrXwMAYqsxB5Ho83LZPnb8X6E1RJFlNxfX/g80f1DVhp9g==
-X-YMail-OSG: tl7B3uEVM1mlxULk6H7bhWnm_4iL3SL6Yfcieuz1atqoyWoI9xPNp2ayBBhsyqv
- NK2SDampif2eGJFJmoYKWflWn4v8jvqaG0gF4pCaVAHkXVbAcocEybR6u.fk1JFZxNyfTDERn_5E
- 3k23v3pcIrsSVgkxoYPXaTruwXLYZvEQZNq3oVBugWYbJMPTNCpbsfOfzcS.S42F2QBB49YgaFS7
- tzM.dXpftyqSnU4l4Cl4fqQ5rRce9wwojHL1dy5TAJJgajc7rVemoQu8._kU5IkmRvKkuxRJAzbp
- QfsyaakIFzEXXRFmxlww1A0meOOcgYDvVSWF2WlzsTN48MppCsP7fYo3yUMJRLUaA7487Lodihul
- NX8On.ltVtp9CbhF0l56tH5RqSb9yLOmkTZRRPLMJ9deqy.uZAJdw5.GQJoKJvAQNmVMB4dRexwO
- g0tWMh_n3ztQYi6Z9VIM6LT4cjR2N5Yjkzk4Nt.P0eVrLlSL.cijSCJcui_ayvHjPUbiu0ireUZ8
- I5FHzw6ezRvpw.1PJQ1hRv9zHp_DMI.WOTMB4RDqMjhDcqKuCgdQXzo8JGowcEGZhiI8Ub9iBJnY
- 5PAepPAEyKaa.tCUwcjAgi9.Q5Eateu4mVjPBNtBu6NZDs7Wu9TLZHkJPmAMaFJ03BHIO3CwVQeA
- uPCNkLMe4fZ0btsEb9o3SP5QIA.VJTGWZk8.PMsWGFq2FjYtBawi7BZFpbD_04oX0CjK.AsIF4nF
- 7b3MLCFcNgqAeBs_wCeoZFUuqcVOEeW4tPG5SeoZalQBIXrctmWB8_Tb9A72EVSWbTBQE9xiyuds
- 1Ye6swoqS2gG22o9FsoH_Omizi6i72b08Jzuu6oc1q3O3YmOnFxfzIgmeioDpurD3ihbMfmjRG3A
- 9V6arcbM0M0sOOCsxZ3mWlv0AHEEXsUGLhZ2dF4fwdZxGxhP.sIxFlHavlRpsrHTkxCVhzIcoW2L
- askf_kJc8vhQ8jFWK9goT27TqEdvVnh3vzK25tyVKJPFqkJ0ICNYK9MgNzHm6aAWsSTFS7pgt3df
- zfQOCGEMzawGdSruLN1tA._84sC1liBME9t1K6lg.XsG01VZLq7CiK0VBzmqCu6qCUmkhObp2ZYS
- WdIRllDsFUjseqgavlO4OuFkWaTb4g4r6kR_xhCSoJFaGgyejBsjvzPoE2P6Kl0mC2llHROXGIau
- wAg.Ldrl0Pi7CwVWjlcuiNTPYGO8pn1vVXpm34dWbvvwgKHOYnL.PLj0UCUxgi1LIgLiWGThcLNp
- W7nYUojoawfz4tAW92QiookWbjlTOfKKK7TVZUi2alMjBTDm5sN0Ba3D7mdZbkvcDIekXJTHsMuB
- RHec-
-Received: from sonic.gate.mail.ne1.yahoo.com by sonic303.consmr.mail.ir2.yahoo.com with HTTP; Tue, 4 Feb 2020 23:23:37 +0000
-Date:   Tue, 4 Feb 2020 23:23:36 +0000 (UTC)
-From:   Ms Lisa Hugh <lisa.hugh111@gmail.com>
-Reply-To: ms.lisahugh000@gmail.com
-Message-ID: <599962984.986743.1580858616932@mail.yahoo.com>
-Subject: BUSINESS TRANSFER CO-OPERATION.
+        id S1727341AbgBGUkW (ORCPT <rfc822;lists+linux-alpha@lfdr.de>);
+        Fri, 7 Feb 2020 15:40:22 -0500
+Received: from mail-oi1-f193.google.com ([209.85.167.193]:41035 "EHLO
+        mail-oi1-f193.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727071AbgBGUkW (ORCPT
+        <rfc822;linux-alpha@vger.kernel.org>); Fri, 7 Feb 2020 15:40:22 -0500
+Received: by mail-oi1-f193.google.com with SMTP id i1so3273551oie.8
+        for <linux-alpha@vger.kernel.org>; Fri, 07 Feb 2020 12:40:21 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=mime-version:reply-to:from:date:message-id:subject:to;
+        bh=8cDRXBFOpE9J1p6S5H+HXSQg9q3m7pUJ3iUuQ5MPcDc=;
+        b=G3vURSQOvSfym6GqL5qCR0Eef9YA9bo0RtU0UNSHZ0P154liq6nj0pP6gcjlFqJJPA
+         pKRQnkScBgv932UZHHNblcbuEqzuQEzPM4yp7Nm998F2nvPItHJ3Ww86OtAhmrCQq+nI
+         pKIm6N7lKoBlralx8ETPINJ1E+AnXPlOwJdNOgmWsgIaWAQBcgIsfne+6cMtPhGZTouS
+         KhX63qJv3f3PpVpkavcRkfRhDEkZgWtVbogMANo4KNIi2bptCtgkKE6QGBA7TGY3eShL
+         Az3jTVCoxKK0zJncfJ0H2PBVgz1Pz/iWQoEx1CaAejuBuCcK+rZ/kN/STxyjt5y3quR3
+         S7Lw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:reply-to:from:date:message-id
+         :subject:to;
+        bh=8cDRXBFOpE9J1p6S5H+HXSQg9q3m7pUJ3iUuQ5MPcDc=;
+        b=iZR4XBKnXYWMn56MkpWUn+7gZvAVXwf0SNb0b7t7U3GqNozWL6lMBpuxlkji/OZCif
+         hhRAZbnSOW9ABaC3qjIL1pv6xM15Khw1pfTBE2jgHZtQ5WTuYZbKzFyXQUoXKoFXc989
+         NwJ+jj2slLuhKy8Mr15/j2pvHPe49HPMKSikntLEXOvBLoFQgDzVkTcpjB7SiZOVJcyw
+         FAom1ulYVS/RPYGlVG0inU+KIeDLn1WGESWbC5wTC1EWzzdINfV2vlSngIfyFkNm3jDw
+         OOmuaOjC5K4c42Qp3uFMgZ7z8iCu1PCuahJdEbSHEq5KjLsk2TP9aRotzQS2ATPKuLox
+         n4Jw==
+X-Gm-Message-State: APjAAAVzihulEfXW2FU5l9+MO3FVcWCRZMtwMzwIcyWqZzDvcF4123q2
+        5mAH+w8puoHLM1qbe5FzPBoACt15atZbwuUB5qk=
+X-Google-Smtp-Source: APXvYqzN7ajbuLnyLYQwurekLKD61VAgl70puXn2VR1xZnNL2UAjutIg/nsSAZ38o1qV0L9IzzdWg9SxMg/UJXSMP94=
+X-Received: by 2002:aca:c691:: with SMTP id w139mr3358062oif.17.1581108021108;
+ Fri, 07 Feb 2020 12:40:21 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-References: <599962984.986743.1580858616932.ref@mail.yahoo.com>
-X-Mailer: WebService/1.1.15158 YMailNodin Mozilla/5.0 (Windows NT 6.1; rv:72.0) Gecko/20100101 Firefox/72.0
-To:     unlisted-recipients:; (no To-header on input)
+Received: by 2002:a4a:d508:0:0:0:0:0 with HTTP; Fri, 7 Feb 2020 12:40:20 -0800 (PST)
+Reply-To: auch197722@gmail.com
+From:   "Mr. Theophilus Odadudu" <cristinamedina0010@gmail.com>
+Date:   Fri, 7 Feb 2020 15:40:20 -0500
+Message-ID: <CAPNvSTib=Bg9sRNNHErSAmBj=QFzRMn8DZQEN5XBwkcVkSHcMw@mail.gmail.com>
+Subject: LETTER OF INQUIRY
+To:     undisclosed-recipients:;
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-alpha-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-alpha.vger.kernel.org>
 X-Mailing-List: linux-alpha@vger.kernel.org
 
+Good Day,
 
+I work as a clerk in a Bank here in Nigeria, I have a very
+confidential Business Proposition for you. There is a said amount of
+money floating in the bank unclaimed, belonging to the bank Foreign
+customer who die with his family in the Ethiopian Airline crash of
+March 11, 2019.
 
-Dear Friend,
+I seek your good collaboration to move the fund for our benefit. we
+have agreed that 40% be yours once you help claim.
 
-I am Ms Lisa Hugh work with the department of Audit and accounting manager here in the Bank,
+Do get back to with 1) Your Full Name: (2) Residential Address: (3)
+Phone, Mobile  (4) Scan Copy of Your ID. to apply for claims of the
+funds.
 
-Please i need your assistance for the transferring of this abandon (US$4.5M DOLLARS) to your bank account for both of us benefit.
-
-I have every inquiry details to make the bank believe you and release the fund in within 5 banking working days with your full co-operation with me after success.
-
-Below information that is needed from you.
-
-1)Private telephone number...
-2)Age...
-3)Nationality...
-4)Occupation ...
-5)Full Name....
-Thanks.
-
-
-Ms Lisa Hugh
+Regards
+Theophilus Odadudu
