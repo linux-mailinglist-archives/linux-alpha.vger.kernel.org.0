@@ -2,219 +2,41 @@ Return-Path: <linux-alpha-owner@vger.kernel.org>
 X-Original-To: lists+linux-alpha@lfdr.de
 Delivered-To: lists+linux-alpha@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id A431615A711
-	for <lists+linux-alpha@lfdr.de>; Wed, 12 Feb 2020 11:53:45 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 0AFE015FBF3
+	for <lists+linux-alpha@lfdr.de>; Sat, 15 Feb 2020 02:19:01 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727779AbgBLKxi (ORCPT <rfc822;lists+linux-alpha@lfdr.de>);
-        Wed, 12 Feb 2020 05:53:38 -0500
-Received: from mail-wr1-f65.google.com ([209.85.221.65]:40024 "EHLO
-        mail-wr1-f65.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727809AbgBLKxg (ORCPT
-        <rfc822;linux-alpha@vger.kernel.org>);
-        Wed, 12 Feb 2020 05:53:36 -0500
-Received: by mail-wr1-f65.google.com with SMTP id t3so1651451wru.7
-        for <linux-alpha@vger.kernel.org>; Wed, 12 Feb 2020 02:53:33 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=monstr-eu.20150623.gappssmtp.com; s=20150623;
-        h=sender:from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=iCxaKYylUaTagw0CiACoN5PmGBZhgyb9phU3hhP0tOU=;
-        b=cfEHKyCzPVV+G0Ct3fk+e76eZPGNTeImhNiFGDVimPzL4uYn8zjyFG9WyB0koRR2qN
-         EwMnN8vjUGQ2wbhjgaIjph2vjfhe8yjFmu9ClTKqCx2OtRi5VsZHinaDNjSlIBmgdAxy
-         wxZcB8m80XRXcoyEYhnoHyLx5c4HUKj1j5ketT2WaaEFRPaldEWGCoEuAfq2/3tjkHap
-         8wX1V3Fo/iwSy3etqyDyJk14F8tfP9OcXDnIFVgeOxj2H0AcSvMFus1GiH7Bo5SBr38M
-         +OGCJMD8zbYUhdsAjqZ8LRFVbVVV0cBL4zfH47rlbg/l3/sDFnDyyciz4KUYMzOvm7Ic
-         iHHg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
-         :mime-version:content-transfer-encoding;
-        bh=iCxaKYylUaTagw0CiACoN5PmGBZhgyb9phU3hhP0tOU=;
-        b=tkz3pvMvMdLiX6DeCD43Y+09nOC4wgq+VGrKuUPkqO5p+dzoch7zp8MRPcm3bsqkWC
-         TqKsTALeJrZMAPPW2HTHuLyY5lWJWcnr70ih7T01Zbnsji9xs65wg/N+cHWsF/5MTTPD
-         N3dx7YqoVCy0bkkYu+KTLiVy1uLP/pQAsye6JTi/7LUxWfSb+xR2gUGR+h8hMgGhnLQB
-         kWhZYv+BU3zTio1SRPaH2rvKiKqgfcNNghwc9ng2HlpiFlMjBwSz3nSdBwEYsYjIrIQH
-         0VohsO0bGzYCzkgo6Ubap3Ps2O7fFbxeZFPLEzdbZyAZqY8akefOQp9KM5zWxhbBiUdg
-         Y2HQ==
-X-Gm-Message-State: APjAAAXeLmiOZKpa7JpaFGQdko2Ke6pOH7/K+CkEZ9smx82yF3ZTYgzk
-        KvqGWNdnsu8MvEC1DITXVMARrQ==
-X-Google-Smtp-Source: APXvYqxgTVJqQTyquzXfMccEeyNdAmwRbsVgVjP0iCL7Yk3Bd8yKTybDkb7CTMq7CHnJcPN3jls9ZA==
-X-Received: by 2002:a5d:5273:: with SMTP id l19mr15503626wrc.175.1581504812588;
-        Wed, 12 Feb 2020 02:53:32 -0800 (PST)
-Received: from localhost (nat-35.starnet.cz. [178.255.168.35])
-        by smtp.gmail.com with ESMTPSA id b10sm123284wrw.61.2020.02.12.02.53.30
-        (version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
-        Wed, 12 Feb 2020 02:53:30 -0800 (PST)
-From:   Michal Simek <michal.simek@xilinx.com>
-To:     linux-kernel@vger.kernel.org, monstr@monstr.eu,
-        michal.simek@xilinx.com, git@xilinx.com, arnd@arndb.de,
-        akpm@linux-foundation.org
-Cc:     Stefan Asserhall <stefan.asserhall@xilinx.com>,
-        Max Filippov <jcmvbkbc@gmail.com>,
-        Benjamin Herrenschmidt <benh@kernel.crashing.org>,
-        Chris Zankel <chris@zankel.net>,
-        "David S. Miller" <davem@davemloft.net>,
-        Fenghua Yu <fenghua.yu@intel.com>,
-        Helge Deller <deller@gmx.de>,
-        Ivan Kokshaysky <ink@jurassic.park.msu.ru>,
-        "James E.J. Bottomley" <James.Bottomley@HansenPartnership.com>,
-        Matt Turner <mattst88@gmail.com>,
-        Michael Ellerman <mpe@ellerman.id.au>,
-        Paul Burton <paulburton@kernel.org>,
-        Paul Mackerras <paulus@samba.org>,
-        Ralf Baechle <ralf@linux-mips.org>,
-        Rich Felker <dalias@libc.org>,
-        Richard Henderson <rth@twiddle.net>,
-        Tony Luck <tony.luck@intel.com>,
-        Yoshinori Sato <ysato@users.sourceforge.jp>,
-        linux-alpha@vger.kernel.org, linux-ia64@vger.kernel.org,
-        linux-mips@vger.kernel.org, linux-parisc@vger.kernel.org,
-        linux-sh@vger.kernel.org, linux-xtensa@linux-xtensa.org,
-        linuxppc-dev@lists.ozlabs.org, sparclinux@vger.kernel.org
-Subject: [PATCH v3] asm-generic: Fix unistd_32.h generation format
-Date:   Wed, 12 Feb 2020 11:53:29 +0100
-Message-Id: <4d32ab4e1fb2edb691d2e1687e8fb303c09fd023.1581504803.git.michal.simek@xilinx.com>
-X-Mailer: git-send-email 2.25.0
+        id S1727778AbgBOBTA convert rfc822-to-8bit (ORCPT
+        <rfc822;lists+linux-alpha@lfdr.de>); Fri, 14 Feb 2020 20:19:00 -0500
+Received: from l37-192-35-170.novotelecom.ru ([37.192.35.170]:56318 "EHLO
+        glpak.ru" rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
+        id S1727639AbgBOBTA (ORCPT <rfc822;linux-alpha@vger.kernel.org>);
+        Fri, 14 Feb 2020 20:19:00 -0500
+Received: from alex.glpak.ru (localhost [127.0.0.1])
+        by glpak.ru (Postfix) with ESMTP id 4FA80A3DD83
+        for <linux-alpha@vger.kernel.org>; Sat, 15 Feb 2020 08:08:36 +0700 (NOVT)
+X-Virus-Scanned: amavisd-new at glpak.ru
+Received: from glpak.ru ([127.0.0.1])
+        by alex.glpak.ru (glpak.ru [127.0.0.1]) (amavisd-new, port 10024)
+        with ESMTP id 0P+RZVXCb2EA for <linux-alpha@vger.kernel.org>;
+        Sat, 15 Feb 2020 08:08:36 +0700 (NOVT)
+Received: from [192.168.88.250] (unknown [185.248.13.181])
+        by glpak.ru (Postfix) with ESMTPA id CE1D0A3DD49
+        for <linux-alpha@vger.kernel.org>; Sat, 15 Feb 2020 08:08:35 +0700 (NOVT)
+Content-Type: text/plain; charset="iso-8859-1"
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Transfer-Encoding: 8BIT
+Content-Description: Mail message body
+Subject: zionitld3@gmail.com
+To:     linux-alpha@vger.kernel.org
+From:   anna@glpak.ru
+Date:   Fri, 14 Feb 2020 17:10:20 -0800
+Reply-To: zionitld3@gmail.com
+X-Antivirus: Avast (VPS 200214-0, 02/14/2020), Outbound message
+X-Antivirus-Status: Clean
+Message-Id: <20200215010836.4FA80A3DD83@glpak.ru>
 Sender: linux-alpha-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-alpha.vger.kernel.org>
 X-Mailing-List: linux-alpha@vger.kernel.org
 
-Generated files are also checked by sparse that's why add newline
-to remove sparse (C=1) warning.
-
-The issue was found on Microblaze and reported like this:
-./arch/microblaze/include/generated/uapi/asm/unistd_32.h:438:45:
-warning: no newline at end of file
-
-Mips and PowerPC have it already but let's align with style used by m68k.
-
-Signed-off-by: Michal Simek <michal.simek@xilinx.com>
-Reviewed-by: Stefan Asserhall <stefan.asserhall@xilinx.com>
-Acked-by: Max Filippov <jcmvbkbc@gmail.com> (xtensa)
----
-
-Changes in v3:
-- Add notes about mips/ppc and m68 - Max/Geert
-
-Changes in v2:
-- Update also others archs not just microblaze - Arnd
-- Align subject and description to match multiarch change
-
- arch/alpha/kernel/syscalls/syscallhdr.sh      | 2 +-
- arch/ia64/kernel/syscalls/syscallhdr.sh       | 2 +-
- arch/microblaze/kernel/syscalls/syscallhdr.sh | 2 +-
- arch/mips/kernel/syscalls/syscallhdr.sh       | 3 +--
- arch/parisc/kernel/syscalls/syscallhdr.sh     | 2 +-
- arch/powerpc/kernel/syscalls/syscallhdr.sh    | 3 +--
- arch/sh/kernel/syscalls/syscallhdr.sh         | 2 +-
- arch/sparc/kernel/syscalls/syscallhdr.sh      | 2 +-
- arch/xtensa/kernel/syscalls/syscallhdr.sh     | 2 +-
- 9 files changed, 9 insertions(+), 11 deletions(-)
-
-diff --git a/arch/alpha/kernel/syscalls/syscallhdr.sh b/arch/alpha/kernel/syscalls/syscallhdr.sh
-index e5b99bd2e5e7..1780e861492a 100644
---- a/arch/alpha/kernel/syscalls/syscallhdr.sh
-+++ b/arch/alpha/kernel/syscalls/syscallhdr.sh
-@@ -32,5 +32,5 @@ grep -E "^[0-9A-Fa-fXx]+[[:space:]]+${my_abis}" "$in" | sort -n | (
- 	printf "#define __NR_syscalls\t%s\n" "${nxt}"
- 	printf "#endif\n"
- 	printf "\n"
--	printf "#endif /* %s */" "${fileguard}"
-+	printf "#endif /* %s */\n" "${fileguard}"
- ) > "$out"
-diff --git a/arch/ia64/kernel/syscalls/syscallhdr.sh b/arch/ia64/kernel/syscalls/syscallhdr.sh
-index 0c2d2c748565..f407b6e53283 100644
---- a/arch/ia64/kernel/syscalls/syscallhdr.sh
-+++ b/arch/ia64/kernel/syscalls/syscallhdr.sh
-@@ -32,5 +32,5 @@ grep -E "^[0-9A-Fa-fXx]+[[:space:]]+${my_abis}" "$in" | sort -n | (
- 	printf "#define __NR_syscalls\t%s\n" "${nxt}"
- 	printf "#endif\n"
- 	printf "\n"
--	printf "#endif /* %s */" "${fileguard}"
-+	printf "#endif /* %s */\n" "${fileguard}"
- ) > "$out"
-diff --git a/arch/microblaze/kernel/syscalls/syscallhdr.sh b/arch/microblaze/kernel/syscalls/syscallhdr.sh
-index 2e9062a926a3..a914854f8d9f 100644
---- a/arch/microblaze/kernel/syscalls/syscallhdr.sh
-+++ b/arch/microblaze/kernel/syscalls/syscallhdr.sh
-@@ -32,5 +32,5 @@ grep -E "^[0-9A-Fa-fXx]+[[:space:]]+${my_abis}" "$in" | sort -n | (
- 	printf "#define __NR_syscalls\t%s\n" "${nxt}"
- 	printf "#endif\n"
- 	printf "\n"
--	printf "#endif /* %s */" "${fileguard}"
-+	printf "#endif /* %s */\n" "${fileguard}"
- ) > "$out"
-diff --git a/arch/mips/kernel/syscalls/syscallhdr.sh b/arch/mips/kernel/syscalls/syscallhdr.sh
-index d2bcfa8f4d1a..2e241e713a7d 100644
---- a/arch/mips/kernel/syscalls/syscallhdr.sh
-+++ b/arch/mips/kernel/syscalls/syscallhdr.sh
-@@ -32,6 +32,5 @@ grep -E "^[0-9A-Fa-fXx]+[[:space:]]+${my_abis}" "$in" | sort -n | (
- 	printf "#define __NR_syscalls\t%s\n" "${nxt}"
- 	printf "#endif\n"
- 	printf "\n"
--	printf "#endif /* %s */" "${fileguard}"
--	printf "\n"
-+	printf "#endif /* %s */\n" "${fileguard}"
- ) > "$out"
-diff --git a/arch/parisc/kernel/syscalls/syscallhdr.sh b/arch/parisc/kernel/syscalls/syscallhdr.sh
-index 50242b747d7c..730db288fe54 100644
---- a/arch/parisc/kernel/syscalls/syscallhdr.sh
-+++ b/arch/parisc/kernel/syscalls/syscallhdr.sh
-@@ -32,5 +32,5 @@ grep -E "^[0-9A-Fa-fXx]+[[:space:]]+${my_abis}" "$in" | sort -n | (
- 	printf "#define __NR_syscalls\t%s\n" "${nxt}"
- 	printf "#endif\n"
- 	printf "\n"
--	printf "#endif /* %s */" "${fileguard}"
-+	printf "#endif /* %s */\n" "${fileguard}"
- ) > "$out"
-diff --git a/arch/powerpc/kernel/syscalls/syscallhdr.sh b/arch/powerpc/kernel/syscalls/syscallhdr.sh
-index c0a9a32937f1..02d6751f3be3 100644
---- a/arch/powerpc/kernel/syscalls/syscallhdr.sh
-+++ b/arch/powerpc/kernel/syscalls/syscallhdr.sh
-@@ -32,6 +32,5 @@ grep -E "^[0-9A-Fa-fXx]+[[:space:]]+${my_abis}" "$in" | sort -n | (
- 	printf "#define __NR_syscalls\t%s\n" "${nxt}"
- 	printf "#endif\n"
- 	printf "\n"
--	printf "#endif /* %s */" "${fileguard}"
--	printf "\n"
-+	printf "#endif /* %s */\n" "${fileguard}"
- ) > "$out"
-diff --git a/arch/sh/kernel/syscalls/syscallhdr.sh b/arch/sh/kernel/syscalls/syscallhdr.sh
-index 1de0334e577f..4c0519861e97 100644
---- a/arch/sh/kernel/syscalls/syscallhdr.sh
-+++ b/arch/sh/kernel/syscalls/syscallhdr.sh
-@@ -32,5 +32,5 @@ grep -E "^[0-9A-Fa-fXx]+[[:space:]]+${my_abis}" "$in" | sort -n | (
- 	printf "#define __NR_syscalls\t%s\n" "${nxt}"
- 	printf "#endif\n"
- 	printf "\n"
--	printf "#endif /* %s */" "${fileguard}"
-+	printf "#endif /* %s */\n" "${fileguard}"
- ) > "$out"
-diff --git a/arch/sparc/kernel/syscalls/syscallhdr.sh b/arch/sparc/kernel/syscalls/syscallhdr.sh
-index 626b5740a9f1..cf50a75cc0bb 100644
---- a/arch/sparc/kernel/syscalls/syscallhdr.sh
-+++ b/arch/sparc/kernel/syscalls/syscallhdr.sh
-@@ -32,5 +32,5 @@ grep -E "^[0-9A-Fa-fXx]+[[:space:]]+${my_abis}" "$in" | sort -n | (
- 	printf "#define __NR_syscalls\t%s\n" "${nxt}"
- 	printf "#endif\n"
- 	printf "\n"
--	printf "#endif /* %s */" "${fileguard}"
-+	printf "#endif /* %s */\n" "${fileguard}"
- ) > "$out"
-diff --git a/arch/xtensa/kernel/syscalls/syscallhdr.sh b/arch/xtensa/kernel/syscalls/syscallhdr.sh
-index d37db641ca31..eebfb8a8ace6 100644
---- a/arch/xtensa/kernel/syscalls/syscallhdr.sh
-+++ b/arch/xtensa/kernel/syscalls/syscallhdr.sh
-@@ -32,5 +32,5 @@ grep -E "^[0-9A-Fa-fXx]+[[:space:]]+${my_abis}" "$in" | sort -n | (
- 	printf "#define __NR_syscalls\t%s\n" "${nxt}"
- 	printf "#endif\n"
- 	printf "\n"
--	printf "#endif /* %s */" "${fileguard}"
-+	printf "#endif /* %s */\n" "${fileguard}"
- ) > "$out"
--- 
-2.25.0
-
+Hello, We from Zion Finance Group currently offers loans to customers at a low interest rate of 3%. This is an opportunity that you cannot miss. We have a few questions to ask; Do you have debts? Do you want to pay off your debts? Do you want to be financially equipped? If so, request a loan today from Zion Finance Group. Interested, customers are expected to contact zionitld3@gmail.com for more information. We wish to assist you with a loan. Greetings, Mr. Bernard.
