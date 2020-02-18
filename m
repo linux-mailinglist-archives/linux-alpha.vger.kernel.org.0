@@ -2,71 +2,78 @@ Return-Path: <linux-alpha-owner@vger.kernel.org>
 X-Original-To: lists+linux-alpha@lfdr.de
 Delivered-To: lists+linux-alpha@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id F005B16017C
-	for <lists+linux-alpha@lfdr.de>; Sun, 16 Feb 2020 04:12:12 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 53384163C0A
+	for <lists+linux-alpha@lfdr.de>; Wed, 19 Feb 2020 05:27:10 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726656AbgBPDML (ORCPT <rfc822;lists+linux-alpha@lfdr.de>);
-        Sat, 15 Feb 2020 22:12:11 -0500
-Received: from sonic309-26.consmr.mail.ir2.yahoo.com ([77.238.179.84]:39080
-        "EHLO sonic309-26.consmr.mail.ir2.yahoo.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1726681AbgBPDML (ORCPT
+        id S1726510AbgBSE1K (ORCPT <rfc822;lists+linux-alpha@lfdr.de>);
+        Tue, 18 Feb 2020 23:27:10 -0500
+Received: from zmail.nuczu.edu.ua ([91.234.43.158]:54450 "EHLO
+        zmail.nuczu.edu.ua" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726467AbgBSE1J (ORCPT
         <rfc822;linux-alpha@vger.kernel.org>);
-        Sat, 15 Feb 2020 22:12:11 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=aol.com; s=a2048; t=1581822729; bh=SZahDY+pPbNZZakhohq2fC6Fas1X+CpLLzNU8DNKAp0=; h=Date:From:Reply-To:Subject:References:From:Subject; b=DM3gDEjEZVD7qYMQbbSTYS8HFSO8K5s6Ty/MqwV6EN3WUtmWe6LXwT3gJq/CGJCh7dcLKk1vynUCLWaxLKLmmO/iWy97mBaIOYn0tLBE+eT7iyBMpULJj+vU2Q3hs26hsMCJvs7C/AIZVT3TKqMZY+9xFKbA/D9OGuTi1hfDi2FDCaJxkfpwz2Tr6ALaflxspgYP4FxLqX4p47yXFIQITcoyoWh2kHbZjDsOQT5qpb4UFwG61Ntnq0qZbK0EvFg9i+5skOkaGB7YTeQWXl39LAk7fcKLg75TpvCjcBS6XWBsDvWEOKyQfyjiTqBjvSH5gC/vcb18JoEG4Xwoy8+OhA==
-Received: from sonic.gate.mail.ne1.yahoo.com by sonic309.consmr.mail.ir2.yahoo.com with HTTP; Sun, 16 Feb 2020 03:12:09 +0000
-Date:   Sun, 16 Feb 2020 03:02:00 +0000 (UTC)
-From:   "Mrs. Judith Compola" <dhhddjj@aol.com>
-Reply-To: mrsjd06@gmail.com
-Message-ID: <559193885.5940015.1581822120282@mail.yahoo.com>
-Subject: Dear Friend,
+        Tue, 18 Feb 2020 23:27:09 -0500
+X-Greylist: delayed 4825 seconds by postgrey-1.27 at vger.kernel.org; Tue, 18 Feb 2020 23:27:09 EST
+Received: from localhost (localhost [127.0.0.1])
+        by zmail.nuczu.edu.ua (Postfix) with ESMTP id 1EBFE746D9D;
+        Wed, 19 Feb 2020 01:27:55 +0200 (EET)
+Received: from zmail.nuczu.edu.ua ([127.0.0.1])
+        by localhost (zmail.nuczu.edu.ua [127.0.0.1]) (amavisd-new, port 10032)
+        with ESMTP id kqTX87e3PsfJ; Wed, 19 Feb 2020 01:27:54 +0200 (EET)
+Received: from localhost (localhost [127.0.0.1])
+        by zmail.nuczu.edu.ua (Postfix) with ESMTP id 6B5FF7429BC;
+        Tue, 18 Feb 2020 22:55:45 +0200 (EET)
+DKIM-Filter: OpenDKIM Filter v2.10.3 zmail.nuczu.edu.ua 6B5FF7429BC
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nuczu.edu.ua;
+        s=A52E72AE-E4EF-11E9-9906-53CE3145A657; t=1582059346;
+        bh=o+H3O7n1+zJcXo0FhJs7spyf8HmE4ClnBa/Y2Gk0DL0=;
+        h=MIME-Version:To:From:Date:Message-Id;
+        b=mzlyMvPf3hlQxZT8kin44qmAQkk8rR3uoBAjqateU9JduFrSWaRd5Vuvhfv1efhUN
+         lhj/kfHdVDLz5hz+bsCfBrq2BIfJZQWm3vhSvZgWJu6xX+FkqTmoUn+VPNP0e0K8zQ
+         5DFvKDkm1RBYN1LqJCB/lO/FlfmWodNXNrvVKgyIPfU1CaC3++jhbPhZrdEvLloZ8c
+         ysB0E5hUvSPnJJCzSLutwdvgfyaef75W1FJ2nrNWa1cdfKbu1rcDubU17oCBC7XifI
+         JsYnZlQx6OXvgO6v51kL+072Ch09xoKH//Wsut+mKEUN3X2pX8fWhafd+DZvpTCOlY
+         8fYl78XlK8V1A==
+X-Virus-Scanned: amavisd-new at nuczu.edu.ua
+Received: from zmail.nuczu.edu.ua ([127.0.0.1])
+        by localhost (zmail.nuczu.edu.ua [127.0.0.1]) (amavisd-new, port 10026)
+        with ESMTP id f1gJ_FqxpFhG; Tue, 18 Feb 2020 22:55:43 +0200 (EET)
+Received: from [10.109.183.140] (unknown [105.12.3.161])
+        by zmail.nuczu.edu.ua (Postfix) with ESMTPSA id D531F4F97C3;
+        Tue, 18 Feb 2020 21:57:04 +0200 (EET)
+Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: quoted-printable
-References: <559193885.5940015.1581822120282.ref@mail.yahoo.com>
-X-Mailer: WebService/1.1.15199 YMailNodin Mozilla/5.0 (Windows NT 6.1) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/79.0.3945.130 Safari/537.36 OPR/66.0.3515.72
-To:     unlisted-recipients:; (no To-header on input)
+Content-Description: Mail message body
+Subject: =?utf-8?q?Wohlt=C3=A4tigkeitsspende_von_2=2E000=2E000_Euro?=
+To:     Recipients <dushkin@nuczu.edu.ua>
+From:   ''Michael weirsky'' <dushkin@nuczu.edu.ua>
+Date:   Tue, 18 Feb 2020 21:56:55 +0200
+Reply-To: mikeweirskyspende@gmail.com
+Message-Id: <20200218195705.D531F4F97C3@zmail.nuczu.edu.ua>
 Sender: linux-alpha-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-alpha.vger.kernel.org>
 X-Mailing-List: linux-alpha@vger.kernel.org
 
-Dear Friend,
-         =20
-Hope All Is Well With You And Your Family.
-=20
-I Am Mrs judith Compola, Accountant By Profession, I'm 34yrs Old, Working A=
-t The Office Of Auditing And Accounting Department Of Africa Development Ba=
-nk (adb).i Is Married With 1 Kids. My Residence Addresses No: 18 Avenue De =
-La Charles Degaulle Sects: 21. Box Postal: 01 Bp 5256 Ouagadougou Burkina F=
-aso. I Want You To Handle This Business Transaction With Me If Chance To Do=
- International Business.
-=20
-I Got Your Mail From Google Search. We Are Imposition To Reclaim And Inheri=
-t The Sum Of (us$5.5millions Dollar=E2=80=99s) Without Any Trouble, From A =
-Dormant Account Which Remains Unclaimed Since 11 Years The Owner Died.  Thi=
-s Is A U.s Dollar=E2=80=99s Account And The Beneficiary Died Without Trace =
-Of His Family To Claim The Fund And No Next Of Kin. I Want You To Stand As =
-His Business Associate And I Will Guild You Without Any Risk Involve.
-=20
-If Interested To Do This Business With Me Without Betray Contact Me Through=
- My Private Email Address mrsjd06@gmail.com With Your Full Details As  Bell=
-ow, I Will Immediately Give You More Details Of The Transfer.
-=20
-(1) Full Name: ............................................. (2) Country: .=
-...................................................... (3) Direct Telephone=
- Number:
-=20
-............................................... (4) Age: ..................=
-................................................ (5) Occupation And Positio=
-n:
-=20
-............................................... (6) Marriage Status: ......=
-................................................. (7) Gender:
-=20
-................................................................
-=20
-Best Regard, Mrs.judith Compola, E-mail Address: mrsjd06@gmail.com
-=20
-Am Waiting For Your Urgent Reply So That We Will Start Immediately, Sorry I=
-f You Received This Letter In Your Spam, Due To Recent Connection Error Her=
-e In My Country.  May Almighty God Bless You!
+Lieber Freund,
+
+Ich bin Herr Mike Weirsky, New Jersey, Vereinigte Staaten von Amerika, der =
+Mega-Gewinner von $ 273million In Mega Millions Jackpot, spende ich an 5 zu=
+f=C3=A4llige Personen, wenn Sie diese E-Mail erhalten, dann wurde Ihre E-Ma=
+il nach einem Spinball ausgew=C3=A4hlt.Ich habe den gr=C3=B6=C3=9Ften Teil =
+meines Verm=C3=B6gens auf eine Reihe von Wohlt=C3=A4tigkeitsorganisationen =
+und Organisationen verteilt.Ich habe mich freiwillig dazu entschieden, die =
+Summe von =E2=82=AC 2.000.000,00 an Sie als eine der ausgew=C3=A4hlten 5 zu=
+ spenden, um meine Gewinne zu =C3=BCberpr=C3=BCfen.
+Das ist dein Spendencode: [MW530342019]
+www.youtube.com/watch?v=3Dun8yRTmrYMY
+
+Antworten Sie mit dem SPENDE-CODE an diese =
+
+
+E-Mail:mikeweirskyspende@gmail.com
+
+Ich hoffe, Sie und Ihre Familie gl=C3=BCcklich zu machen.
+
+Gr=C3=BC=C3=9Fe
+Herr Mike Weirsky
