@@ -2,78 +2,60 @@ Return-Path: <linux-alpha-owner@vger.kernel.org>
 X-Original-To: lists+linux-alpha@lfdr.de
 Delivered-To: lists+linux-alpha@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 53384163C0A
-	for <lists+linux-alpha@lfdr.de>; Wed, 19 Feb 2020 05:27:10 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id D339016437F
+	for <lists+linux-alpha@lfdr.de>; Wed, 19 Feb 2020 12:36:06 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726510AbgBSE1K (ORCPT <rfc822;lists+linux-alpha@lfdr.de>);
-        Tue, 18 Feb 2020 23:27:10 -0500
-Received: from zmail.nuczu.edu.ua ([91.234.43.158]:54450 "EHLO
-        zmail.nuczu.edu.ua" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726467AbgBSE1J (ORCPT
+        id S1726491AbgBSLgG (ORCPT <rfc822;lists+linux-alpha@lfdr.de>);
+        Wed, 19 Feb 2020 06:36:06 -0500
+Received: from mail-il1-f193.google.com ([209.85.166.193]:33290 "EHLO
+        mail-il1-f193.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726270AbgBSLgG (ORCPT
         <rfc822;linux-alpha@vger.kernel.org>);
-        Tue, 18 Feb 2020 23:27:09 -0500
-X-Greylist: delayed 4825 seconds by postgrey-1.27 at vger.kernel.org; Tue, 18 Feb 2020 23:27:09 EST
-Received: from localhost (localhost [127.0.0.1])
-        by zmail.nuczu.edu.ua (Postfix) with ESMTP id 1EBFE746D9D;
-        Wed, 19 Feb 2020 01:27:55 +0200 (EET)
-Received: from zmail.nuczu.edu.ua ([127.0.0.1])
-        by localhost (zmail.nuczu.edu.ua [127.0.0.1]) (amavisd-new, port 10032)
-        with ESMTP id kqTX87e3PsfJ; Wed, 19 Feb 2020 01:27:54 +0200 (EET)
-Received: from localhost (localhost [127.0.0.1])
-        by zmail.nuczu.edu.ua (Postfix) with ESMTP id 6B5FF7429BC;
-        Tue, 18 Feb 2020 22:55:45 +0200 (EET)
-DKIM-Filter: OpenDKIM Filter v2.10.3 zmail.nuczu.edu.ua 6B5FF7429BC
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nuczu.edu.ua;
-        s=A52E72AE-E4EF-11E9-9906-53CE3145A657; t=1582059346;
-        bh=o+H3O7n1+zJcXo0FhJs7spyf8HmE4ClnBa/Y2Gk0DL0=;
-        h=MIME-Version:To:From:Date:Message-Id;
-        b=mzlyMvPf3hlQxZT8kin44qmAQkk8rR3uoBAjqateU9JduFrSWaRd5Vuvhfv1efhUN
-         lhj/kfHdVDLz5hz+bsCfBrq2BIfJZQWm3vhSvZgWJu6xX+FkqTmoUn+VPNP0e0K8zQ
-         5DFvKDkm1RBYN1LqJCB/lO/FlfmWodNXNrvVKgyIPfU1CaC3++jhbPhZrdEvLloZ8c
-         ysB0E5hUvSPnJJCzSLutwdvgfyaef75W1FJ2nrNWa1cdfKbu1rcDubU17oCBC7XifI
-         JsYnZlQx6OXvgO6v51kL+072Ch09xoKH//Wsut+mKEUN3X2pX8fWhafd+DZvpTCOlY
-         8fYl78XlK8V1A==
-X-Virus-Scanned: amavisd-new at nuczu.edu.ua
-Received: from zmail.nuczu.edu.ua ([127.0.0.1])
-        by localhost (zmail.nuczu.edu.ua [127.0.0.1]) (amavisd-new, port 10026)
-        with ESMTP id f1gJ_FqxpFhG; Tue, 18 Feb 2020 22:55:43 +0200 (EET)
-Received: from [10.109.183.140] (unknown [105.12.3.161])
-        by zmail.nuczu.edu.ua (Postfix) with ESMTPSA id D531F4F97C3;
-        Tue, 18 Feb 2020 21:57:04 +0200 (EET)
-Content-Type: text/plain; charset="utf-8"
+        Wed, 19 Feb 2020 06:36:06 -0500
+Received: by mail-il1-f193.google.com with SMTP id s18so20246706iln.0
+        for <linux-alpha@vger.kernel.org>; Wed, 19 Feb 2020 03:36:05 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=mime-version:reply-to:from:date:message-id:subject:to;
+        bh=9hPUHkH+GfA0RvEZgzN9Jr3GKxrN75Ufj8aA2szxe8A=;
+        b=d0gI+pZvEYY39V6yfkQwCeffiEAM1S7KnERIybC096HIk4+9fXg59Jzxj5TmPU+6cY
+         coXJvtAFqKBCzq0TruUR7dylEoPDJ9JV7gux24qv2iRY6rjWeg4G0nLbH2KET15HNfCs
+         avS09QbYUix47KXQu7c0BpdQEP6moQ0qK/fp5A9CiwoPkcxM/e6QZ8iDU8EtexNPXCNv
+         j0tqdSMaMqwaqbVuVJHdTMok0LAarWo1/AGFffr8OXJck6/QtvBvSYz8EICqvlUcgBWP
+         AeqLVt77Y0i5/5F/KXs00cGSi/VDSdCK0ADcjbbN9AhbZTUGUG6XMJo6pLTT8wyUf3q4
+         K2Rw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:reply-to:from:date:message-id
+         :subject:to;
+        bh=9hPUHkH+GfA0RvEZgzN9Jr3GKxrN75Ufj8aA2szxe8A=;
+        b=D4UeXJNb5RzIhThrysogToZ0+QrhH7SmVTkjvW2buZEtA2cOqqgiTWLiFpEgVWUO3p
+         gbgjNge9jaCfkgKSfYDGkEoeRMIi/dSW6hnpKfsAzFSDVbEL+xwM6nsLq/ZEnhJ8wn7v
+         mqv+otLBmkXfAWRTO2JVsRb4H0EQMRHJd71FwPxMDAJ0J/S9ySGg2tdm9P6UIP1cx2Pp
+         XEpljP9/dNmrLBtsr8xL1QQ+amtMZvOtZVAC/lo7lWDxqoNWU0bhHkU7CZRaFSlAjIU9
+         bYo1Wnn6m2Pf9iT+8Q/siH8ySlkGpeVmb/JPH+utkiuGuIyySuxPQ3Smq827/veLVUru
+         RFsw==
+X-Gm-Message-State: APjAAAUrD+SLe8SPQzMLdS7edkJeztHYy7l2NpiOtoIKk3yJEzloexuP
+        mMHBn3y3blyciejeeUC+UOmcVA3txxUPmUVSQfs=
+X-Google-Smtp-Source: APXvYqzp2sbjkLSeE51XBzNz1WHz16FufDbWB0hOscRobTHo/EQLsuCaHikcfT5/siCYHdmUPf00KvEuffRcw+TdWfE=
+X-Received: by 2002:a92:8307:: with SMTP id f7mr22772018ild.183.1582112165331;
+ Wed, 19 Feb 2020 03:36:05 -0800 (PST)
 MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-Content-Description: Mail message body
-Subject: =?utf-8?q?Wohlt=C3=A4tigkeitsspende_von_2=2E000=2E000_Euro?=
-To:     Recipients <dushkin@nuczu.edu.ua>
-From:   ''Michael weirsky'' <dushkin@nuczu.edu.ua>
-Date:   Tue, 18 Feb 2020 21:56:55 +0200
-Reply-To: mikeweirskyspende@gmail.com
-Message-Id: <20200218195705.D531F4F97C3@zmail.nuczu.edu.ua>
+Received: by 2002:a02:9405:0:0:0:0:0 with HTTP; Wed, 19 Feb 2020 03:36:05
+ -0800 (PST)
+Reply-To: cyeden1@gmail.com
+From:   Cynthia E <www0.union2@gmail.com>
+Date:   Wed, 19 Feb 2020 11:36:05 +0000
+Message-ID: <CAGp4paV8s6KeahBOeCkK8M55MT+92Jj03HBeavTA5+haYe1ghA@mail.gmail.com>
+Subject: 
+To:     undisclosed-recipients:;
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-alpha-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-alpha.vger.kernel.org>
 X-Mailing-List: linux-alpha@vger.kernel.org
 
-Lieber Freund,
-
-Ich bin Herr Mike Weirsky, New Jersey, Vereinigte Staaten von Amerika, der =
-Mega-Gewinner von $ 273million In Mega Millions Jackpot, spende ich an 5 zu=
-f=C3=A4llige Personen, wenn Sie diese E-Mail erhalten, dann wurde Ihre E-Ma=
-il nach einem Spinball ausgew=C3=A4hlt.Ich habe den gr=C3=B6=C3=9Ften Teil =
-meines Verm=C3=B6gens auf eine Reihe von Wohlt=C3=A4tigkeitsorganisationen =
-und Organisationen verteilt.Ich habe mich freiwillig dazu entschieden, die =
-Summe von =E2=82=AC 2.000.000,00 an Sie als eine der ausgew=C3=A4hlten 5 zu=
- spenden, um meine Gewinne zu =C3=BCberpr=C3=BCfen.
-Das ist dein Spendencode: [MW530342019]
-www.youtube.com/watch?v=3Dun8yRTmrYMY
-
-Antworten Sie mit dem SPENDE-CODE an diese =
-
-
-E-Mail:mikeweirskyspende@gmail.com
-
-Ich hoffe, Sie und Ihre Familie gl=C3=BCcklich zu machen.
-
-Gr=C3=BC=C3=9Fe
-Herr Mike Weirsky
+Hello dear,
+I have an important informations from (United Nations) for you kindly
+get back to me for more informations
+Cynthia
