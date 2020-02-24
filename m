@@ -2,370 +2,131 @@ Return-Path: <linux-alpha-owner@vger.kernel.org>
 X-Original-To: lists+linux-alpha@lfdr.de
 Delivered-To: lists+linux-alpha@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 267D7169B64
-	for <lists+linux-alpha@lfdr.de>; Mon, 24 Feb 2020 01:48:48 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id F243316A65E
+	for <lists+linux-alpha@lfdr.de>; Mon, 24 Feb 2020 13:47:53 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727158AbgBXAsr (ORCPT <rfc822;lists+linux-alpha@lfdr.de>);
-        Sun, 23 Feb 2020 19:48:47 -0500
-Received: from mail-pg1-f196.google.com ([209.85.215.196]:40101 "EHLO
-        mail-pg1-f196.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727151AbgBXAsr (ORCPT
+        id S1727290AbgBXMrx convert rfc822-to-8bit (ORCPT
+        <rfc822;lists+linux-alpha@lfdr.de>); Mon, 24 Feb 2020 07:47:53 -0500
+Received: from mail-ed1-f67.google.com ([209.85.208.67]:36492 "EHLO
+        mail-ed1-f67.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726778AbgBXMrw (ORCPT
         <rfc822;linux-alpha@vger.kernel.org>);
-        Sun, 23 Feb 2020 19:48:47 -0500
-Received: by mail-pg1-f196.google.com with SMTP id z7so4217092pgk.7;
-        Sun, 23 Feb 2020 16:48:46 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to:user-agent;
-        bh=rnRwnrYbUqRCcKjbWwPR9TGdpT0kVMsls9T0v5tRHwI=;
-        b=ABa/DeANMNoDTrmP0c09xtF2RNnLb4ywtDzZstPu18oDDHqnplwqJREeyuZDsLut4Z
-         gUWYNmMoez7j8Vgyv2wvxu1PzYkyoBm6uaaFkXh9DEIl1qb9JEK8e3iGj/TbVC8xCYO0
-         /VJ9x1dgnm1lf6T7g/I+RK6/0A+OVpwwNOW7J/z8+QKb2ZMUgq0bCmQBSPZ6uYBC9ciT
-         x/yE/IvxlEdmxkToPHX+po2cAZWsFpwxTe4BIe9HU/jPWf7JwD07xYew+ePVbo/I296d
-         pH0zbUjvE5OFeDGwcAKMP5rwBlWAQwNUZ8sf5jEMVEtKBddPuyXcNdXPnSWrpQyInz0n
-         /5YQ==
+        Mon, 24 Feb 2020 07:47:52 -0500
+Received: by mail-ed1-f67.google.com with SMTP id j17so11757997edp.3;
+        Mon, 24 Feb 2020 04:47:49 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to:user-agent;
-        bh=rnRwnrYbUqRCcKjbWwPR9TGdpT0kVMsls9T0v5tRHwI=;
-        b=BErPPgBWQpbJT5soKpYzfRimALfiZPLxMMleLRJu7F7CpngV+ELdeyvzv0qwEi93+o
-         xktYlBlS6533et52v+ryKcBVKDYBlyeF7yAbvkAepOS+2TMTxwy1hcErNtUb/kY8sd0U
-         UAOLGIhZ5dzYyrNqKadRaTzag4OjbVQ2TtNBTyD2eCEFn4ZxSREZ//NP8E3eaqo8sLMt
-         AQxwXrzdOKLptUwhXdGSWl8ke12BwfWKdorW8Ki4wOVjKm9MqIPatPGQuWmW2+wFPIsd
-         IpbGz7Sg2hwxLbyaZRnah6Li68g7Xf05euqSQ/LCe3Onu2+S3/2fVfasjzxqOYQ5p+kE
-         MVzQ==
-X-Gm-Message-State: APjAAAVWW54W06tEKNxtWG4oHfrI6QywWA9fC6ieU8CZF3lc/Ncsinhw
-        T5Off5Yf66YzJzsscC3b+8xrG6/ryTg=
-X-Google-Smtp-Source: APXvYqxxIZqMgZAWP6eAYbAuM3WqC6mPT4bQV1SnxFcLHp7bsPvTu9DRDHJa3BaNwBGxBv5ZLoHnrQ==
-X-Received: by 2002:a63:ee12:: with SMTP id e18mr22467512pgi.33.1582505326136;
-        Sun, 23 Feb 2020 16:48:46 -0800 (PST)
-Received: from localhost ([106.51.232.35])
-        by smtp.gmail.com with ESMTPSA id c26sm10141116pfi.46.2020.02.23.16.48.45
-        (version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
-        Sun, 23 Feb 2020 16:48:45 -0800 (PST)
-Date:   Mon, 24 Feb 2020 06:18:44 +0530
-From:   afzal mohammed <afzal.mohd.ma@gmail.com>
-To:     linux-kernel@vger.kernel.org, linux-alpha@vger.kernel.org
+         :mime-version:content-disposition:content-transfer-encoding
+         :in-reply-to;
+        bh=6p1Rm/cgq3FqTcHGA+7QXUNsBMb6waSsaCWakkpOhMI=;
+        b=KevIibRzjYHkz7b3z6zkclYIBEKkafAUwE0AyTYxwKkMUyb291I/ISo9i/2pJpdEN5
+         E7UTE6jq2iIK+vPwAx8KGjc42VQoQD5Ntf+jqooSbNMmjOHP+3JOcQ/Lrsrj325oAnEi
+         +ouDUf8DvLtsQsUnNfxkgk2/12MLSptugXSzI2yQA9Sh20Rw3wm6lpERRHqRRmmxgrJe
+         1hW0w2XoDojno+hlDHbVVrYTRgezXrfJij2GDVSstbFmSOpVmpKDmSjVMER8vCabCfEQ
+         X1HixIwZkQZLTGTfzNCVP99iMk0IXXLQzMv8GAD2THs12N4gBuJfpJdKFA3V3XFM+MYB
+         VOww==
+X-Gm-Message-State: APjAAAUo/2ViXnpSnrWar8ORCQBgfeHSnsSGfxcYNqZLmKw9eEIGVNQY
+        h5SDppDFpaq1um3eKVv6IDQ=
+X-Google-Smtp-Source: APXvYqxOCnjuqHzZ8w9dppB5X8CKpWu3LAO4qx3F7JuCo/1tjWWY0qRzHXx7PYmPGsjZ1wOThemeng==
+X-Received: by 2002:a17:906:7fd0:: with SMTP id r16mr45290488ejs.319.1582548468870;
+        Mon, 24 Feb 2020 04:47:48 -0800 (PST)
+Received: from pi3 ([194.230.155.125])
+        by smtp.googlemail.com with ESMTPSA id n19sm944550edy.9.2020.02.24.04.47.46
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 24 Feb 2020 04:47:48 -0800 (PST)
+Date:   Mon, 24 Feb 2020 13:47:44 +0100
+From:   Krzysztof Kozlowski <krzk@kernel.org>
+To:     Jiri Slaby <jirislaby@gmail.com>
 Cc:     Richard Henderson <rth@twiddle.net>,
         Ivan Kokshaysky <ink@jurassic.park.msu.ru>,
+        Matt Turner <mattst88@gmail.com>,
+        Alexey Brodkin <abrodkin@synopsys.com>,
+        Vineet Gupta <vgupta@synopsys.com>,
+        "James E.J. Bottomley" <James.Bottomley@hansenpartnership.com>,
+        Helge Deller <deller@gmx.de>,
+        Benjamin Herrenschmidt <benh@kernel.crashing.org>,
+        Paul Mackerras <paulus@samba.org>,
+        Michael Ellerman <mpe@ellerman.id.au>,
+        Yoshinori Sato <ysato@users.sourceforge.jp>,
+        Rich Felker <dalias@libc.org>,
+        Dave Airlie <airlied@redhat.com>,
+        David Airlie <airlied@linux.ie>,
+        Daniel Vetter <daniel@ffwll.ch>,
+        Ben Skeggs <bskeggs@redhat.com>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Nick Kossifidis <mickflemm@gmail.com>,
+        Luis Chamberlain <mcgrof@kernel.org>,
+        Kalle Valo <kvalo@codeaurora.org>,
+        "David S. Miller" <davem@davemloft.net>,
+        Dave Jiang <dave.jiang@intel.com>,
+        Jon Mason <jdmason@kudzu.us>, Allen Hubbe <allenbh@gmail.com>,
+        "Michael S. Tsirkin" <mst@redhat.com>,
+        Jason Wang <jasowang@redhat.com>,
+        Arnd Bergmann <arnd@arndb.de>,
+        Geert Uytterhoeven <geert+renesas@glider.be>,
+        Andrew Morton <akpm@linux-foundation.org>,
         Thomas Gleixner <tglx@linutronix.de>,
-        Matt Turner <mattst88@gmail.com>
-Subject: [PATCH v2 01/18] alpha: replace setup_irq() by request_irq()
-Message-ID: <45ef08d7b0e531b237d7651fb57906c391f725f5.1582471508.git.afzal.mohd.ma@gmail.com>
-References: <cover.1582471508.git.afzal.mohd.ma@gmail.com>
+        linux-alpha@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-snps-arc@lists.infradead.org, linux-parisc@vger.kernel.org,
+        linuxppc-dev@lists.ozlabs.org, linux-sh@vger.kernel.org,
+        dri-devel@lists.freedesktop.org, nouveau@lists.freedesktop.org,
+        linux-media@vger.kernel.org, linux-wireless@vger.kernel.org,
+        netdev@vger.kernel.org, linux-ntb@googlegroups.com,
+        virtualization@lists.linux-foundation.org,
+        linux-arch@vger.kernel.org
+Subject: Re: [RESEND PATCH v2 9/9] ath5k: Constify ioreadX() iomem argument
+ (as in generic implementation)
+Message-ID: <20200224124744.GA1949@pi3>
+References: <20200219175007.13627-1-krzk@kernel.org>
+ <20200219175007.13627-10-krzk@kernel.org>
+ <518a9023-f802-17b3-fca5-582400bc34ae@gmail.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <cover.1582471508.git.afzal.mohd.ma@gmail.com>
-User-Agent: Mutt/1.9.3 (2018-01-21)
+Content-Transfer-Encoding: 8BIT
+In-Reply-To: <518a9023-f802-17b3-fca5-582400bc34ae@gmail.com>
 Sender: linux-alpha-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-alpha.vger.kernel.org>
 X-Mailing-List: linux-alpha@vger.kernel.org
 
-request_irq() is preferred over setup_irq(). The early boot setup_irq()
-invocations happen either via 'init_IRQ()' or 'time_init()', while
-memory allocators are ready by 'mm_init()'.
+On Thu, Feb 20, 2020 at 10:48:33AM +0100, Jiri Slaby wrote:
+> On 19. 02. 20, 18:50, Krzysztof Kozlowski wrote:
+> > The ioreadX() helpers have inconsistent interface.  On some architectures
+> > void *__iomem address argument is a pointer to const, on some not.
+> > 
+> > Implementations of ioreadX() do not modify the memory under the address
+> > so they can be converted to a "const" version for const-safety and
+> > consistency among architectures.
+> > 
+> > Signed-off-by: Krzysztof Kozlowski <krzk@kernel.org>
+> > Acked-by: Kalle Valo <kvalo@codeaurora.org>
+> > ---
+> >  drivers/net/wireless/ath/ath5k/ahb.c | 10 +++++-----
+> >  1 file changed, 5 insertions(+), 5 deletions(-)
+> > 
+> > diff --git a/drivers/net/wireless/ath/ath5k/ahb.c b/drivers/net/wireless/ath/ath5k/ahb.c
+> > index 2c9cec8b53d9..8bd01df369fb 100644
+> > --- a/drivers/net/wireless/ath/ath5k/ahb.c
+> > +++ b/drivers/net/wireless/ath/ath5k/ahb.c
+> > @@ -138,18 +138,18 @@ static int ath_ahb_probe(struct platform_device *pdev)
+> >  
+> >  	if (bcfg->devid >= AR5K_SREV_AR2315_R6) {
+> >  		/* Enable WMAC AHB arbitration */
+> > -		reg = ioread32((void __iomem *) AR5K_AR2315_AHB_ARB_CTL);
+> > +		reg = ioread32((const void __iomem *) AR5K_AR2315_AHB_ARB_CTL);
+> 
+> While I understand why the parameter of ioread32 should be const, I
+> don't see a reason for these casts on the users' side. What does it
+> bring except longer code to read?
 
-Per tglx[1], setup_irq() existed in olden days when allocators were not
-ready by the time early interrupts were initialized.
+Because the argument is an int:
 
-Hence replace setup_irq() by request_irq().
+drivers/net/wireless/ath/ath5k/ahb.c: In function ‘ath_ahb_probe’:
+drivers/net/wireless/ath/ath5k/ahb.c:141:18: warning: passing argument 1 of ‘ioread32’ makes pointer from integer without a cast [-Wint-conversion]
+   reg = ioread32(AR5K_AR2315_AHB_ARB_CTL);
 
-Seldom remove_irq() usage has been observed coupled with setup_irq(),
-wherever that has been found, it too has been replaced by free_irq().
-
-[1] https://lkml.kernel.org/r/alpine.DEB.2.20.1710191609480.1971@nanos
-
-Signed-off-by: afzal mohammed <afzal.mohd.ma@gmail.com>
----
-
-v2:
- * Replace pr_err("request_irq() on %s failed" by
-           pr_err("%s: request_irq() failed"
- * Commit message massage
-
- arch/alpha/kernel/irq_alpha.c     | 29 +++++------------------------
- arch/alpha/kernel/irq_i8259.c     |  8 ++------
- arch/alpha/kernel/irq_impl.h      |  7 +------
- arch/alpha/kernel/irq_pyxis.c     |  3 ++-
- arch/alpha/kernel/sys_alcor.c     |  3 ++-
- arch/alpha/kernel/sys_cabriolet.c |  3 ++-
- arch/alpha/kernel/sys_eb64p.c     |  3 ++-
- arch/alpha/kernel/sys_marvel.c    |  2 +-
- arch/alpha/kernel/sys_miata.c     |  6 ++++--
- arch/alpha/kernel/sys_ruffian.c   |  3 ++-
- arch/alpha/kernel/sys_rx164.c     |  3 ++-
- arch/alpha/kernel/sys_sx164.c     |  3 ++-
- arch/alpha/kernel/sys_wildfire.c  |  7 ++-----
- arch/alpha/kernel/time.c          |  6 ++----
- 14 files changed, 31 insertions(+), 55 deletions(-)
-
-diff --git a/arch/alpha/kernel/irq_alpha.c b/arch/alpha/kernel/irq_alpha.c
-index da3e10d5f7fe..fe46a7bdbf68 100644
---- a/arch/alpha/kernel/irq_alpha.c
-+++ b/arch/alpha/kernel/irq_alpha.c
-@@ -213,32 +213,13 @@ process_mcheck_info(unsigned long vector, unsigned long la_ptr,
-  * The special RTC interrupt type.  The interrupt itself was
-  * processed by PALcode, and comes in via entInt vector 1.
-  */
--
--struct irqaction timer_irqaction = {
--	.handler	= rtc_timer_interrupt,
--	.name		= "timer",
--};
--
- void __init
--init_rtc_irq(void)
-+init_rtc_irq(irqreturn_t handler)
- {
- 	irq_set_chip_and_handler_name(RTC_IRQ, &dummy_irq_chip,
- 				      handle_percpu_irq, "RTC");
--	setup_irq(RTC_IRQ, &timer_irqaction);
-+	if (!handler)
-+		handler = rtc_timer_interrupt;
-+	if (request_irq(RTC_IRQ, handler, 0, "timer", NULL))
-+		pr_err("request_irq() for %s failed\n", "timer");
- }
--
--/* Dummy irqactions.  */
--struct irqaction isa_cascade_irqaction = {
--	.handler	= no_action,
--	.name		= "isa-cascade"
--};
--
--struct irqaction timer_cascade_irqaction = {
--	.handler	= no_action,
--	.name		= "timer-cascade"
--};
--
--struct irqaction halt_switch_irqaction = {
--	.handler	= no_action,
--	.name		= "halt-switch"
--};
-diff --git a/arch/alpha/kernel/irq_i8259.c b/arch/alpha/kernel/irq_i8259.c
-index 5d54c076a8ae..85a854655c67 100644
---- a/arch/alpha/kernel/irq_i8259.c
-+++ b/arch/alpha/kernel/irq_i8259.c
-@@ -82,11 +82,6 @@ struct irq_chip i8259a_irq_type = {
- void __init
- init_i8259a_irqs(void)
- {
--	static struct irqaction cascade = {
--		.handler	= no_action,
--		.name		= "cascade",
--	};
--
- 	long i;
- 
- 	outb(0xff, 0x21);	/* mask all of 8259A-1 */
-@@ -96,7 +91,8 @@ init_i8259a_irqs(void)
- 		irq_set_chip_and_handler(i, &i8259a_irq_type, handle_level_irq);
- 	}
- 
--	setup_irq(2, &cascade);
-+	if (request_irq(2, no_action, 0, "cascade", NULL))
-+		pr_err("%s: request_irq() failed\n", "cascade");
- }
- 
- 
-diff --git a/arch/alpha/kernel/irq_impl.h b/arch/alpha/kernel/irq_impl.h
-index 16f2b0276f3a..7ac58be4ccf4 100644
---- a/arch/alpha/kernel/irq_impl.h
-+++ b/arch/alpha/kernel/irq_impl.h
-@@ -21,14 +21,9 @@ extern void isa_no_iack_sc_device_interrupt(unsigned long);
- extern void srm_device_interrupt(unsigned long);
- extern void pyxis_device_interrupt(unsigned long);
- 
--extern struct irqaction timer_irqaction;
--extern struct irqaction isa_cascade_irqaction;
--extern struct irqaction timer_cascade_irqaction;
--extern struct irqaction halt_switch_irqaction;
--
- extern void init_srm_irqs(long, unsigned long);
- extern void init_pyxis_irqs(unsigned long);
--extern void init_rtc_irq(void);
-+extern void init_rtc_irq(irqreturn_t handler);
- 
- extern void common_init_isa_dma(void);
- 
-diff --git a/arch/alpha/kernel/irq_pyxis.c b/arch/alpha/kernel/irq_pyxis.c
-index a968b10e687d..41b613f44da0 100644
---- a/arch/alpha/kernel/irq_pyxis.c
-+++ b/arch/alpha/kernel/irq_pyxis.c
-@@ -107,5 +107,6 @@ init_pyxis_irqs(unsigned long ignore_mask)
- 		irq_set_status_flags(i, IRQ_LEVEL);
- 	}
- 
--	setup_irq(16+7, &isa_cascade_irqaction);
-+	if (request_irq(16 + 7, no_action, 0, "isa-cascade", NULL))
-+		pr_err("request_irq() for %s failed\n", "isa-cascade");
- }
-diff --git a/arch/alpha/kernel/sys_alcor.c b/arch/alpha/kernel/sys_alcor.c
-index e56efd5b855f..2db834bf7a84 100644
---- a/arch/alpha/kernel/sys_alcor.c
-+++ b/arch/alpha/kernel/sys_alcor.c
-@@ -133,7 +133,8 @@ alcor_init_irq(void)
- 	init_i8259a_irqs();
- 	common_init_isa_dma();
- 
--	setup_irq(16+31, &isa_cascade_irqaction);
-+	if (request_irq(16 + 31, no_action, 0, "isa-cascade", NULL))
-+		pr_err("request_irq() for %s failed\n", "isa-cascade");
- }
- 
- 
-diff --git a/arch/alpha/kernel/sys_cabriolet.c b/arch/alpha/kernel/sys_cabriolet.c
-index 10bc46a4ec40..3d4ee60ca930 100644
---- a/arch/alpha/kernel/sys_cabriolet.c
-+++ b/arch/alpha/kernel/sys_cabriolet.c
-@@ -112,7 +112,8 @@ common_init_irq(void (*srm_dev_int)(unsigned long v))
- 	}
- 
- 	common_init_isa_dma();
--	setup_irq(16+4, &isa_cascade_irqaction);
-+	if (request_irq(16 + 4, no_action, 0, "isa-cascade", NULL))
-+		pr_err("request_irq() for %s failed\n", "isa-cascade");
- }
- 
- #ifndef CONFIG_ALPHA_PC164
-diff --git a/arch/alpha/kernel/sys_eb64p.c b/arch/alpha/kernel/sys_eb64p.c
-index 5251937ec1b4..6c7f15703dad 100644
---- a/arch/alpha/kernel/sys_eb64p.c
-+++ b/arch/alpha/kernel/sys_eb64p.c
-@@ -123,7 +123,8 @@ eb64p_init_irq(void)
- 	}
- 
- 	common_init_isa_dma();
--	setup_irq(16+5, &isa_cascade_irqaction);
-+	if (request_irq(16 + 5, no_action, 0, "isa-cascade", NULL))
-+		pr_err("request_irq() for %s failed\n", "isa-cascade");
- }
- 
- /*
-diff --git a/arch/alpha/kernel/sys_marvel.c b/arch/alpha/kernel/sys_marvel.c
-index 8d34cf6e002a..533899a4a1a1 100644
---- a/arch/alpha/kernel/sys_marvel.c
-+++ b/arch/alpha/kernel/sys_marvel.c
-@@ -397,7 +397,7 @@ marvel_init_pci(void)
- static void __init
- marvel_init_rtc(void)
- {
--	init_rtc_irq();
-+	init_rtc_irq(NULL);
- }
- 
- static void
-diff --git a/arch/alpha/kernel/sys_miata.c b/arch/alpha/kernel/sys_miata.c
-index 6fa07dc5339d..edff228ae451 100644
---- a/arch/alpha/kernel/sys_miata.c
-+++ b/arch/alpha/kernel/sys_miata.c
-@@ -81,8 +81,10 @@ miata_init_irq(void)
- 	init_pyxis_irqs(0x63b0000);
- 
- 	common_init_isa_dma();
--	setup_irq(16+2, &halt_switch_irqaction);	/* SRM only? */
--	setup_irq(16+6, &timer_cascade_irqaction);
-+	if (request_irq(16 + 2, no_action, 0, "halt-switch", NULL))
-+		pr_err("request_irq() for %s failed\n", "halt-switch");
-+	if (request_irq(16 + 6, no_action, 0, "timer-cascade", NULL))
-+		pr_err("request_irq() for %s failed\n", "timer-cascade");
- }
- 
- 
-diff --git a/arch/alpha/kernel/sys_ruffian.c b/arch/alpha/kernel/sys_ruffian.c
-index 07830cccabf9..f2ff64b6553e 100644
---- a/arch/alpha/kernel/sys_ruffian.c
-+++ b/arch/alpha/kernel/sys_ruffian.c
-@@ -82,7 +82,8 @@ ruffian_init_rtc(void)
- 	outb(0x31, 0x42);
- 	outb(0x13, 0x42);
- 
--	setup_irq(0, &timer_irqaction);
-+	if (request_irq(0, rtc_timer_interrupt, 0, "timer", NULL))
-+		pr_err("request_irq() for %s failed\n", "timer");
- }
- 
- static void
-diff --git a/arch/alpha/kernel/sys_rx164.c b/arch/alpha/kernel/sys_rx164.c
-index a3db719d3c38..46c3bd7ed910 100644
---- a/arch/alpha/kernel/sys_rx164.c
-+++ b/arch/alpha/kernel/sys_rx164.c
-@@ -106,7 +106,8 @@ rx164_init_irq(void)
- 	init_i8259a_irqs();
- 	common_init_isa_dma();
- 
--	setup_irq(16+20, &isa_cascade_irqaction);
-+	if (request_irq(16 + 20, no_action, 0, "isa-cascade", NULL))
-+		pr_err("request_irq() for %s failed\n", "isa-cascade");
- }
- 
- 
-diff --git a/arch/alpha/kernel/sys_sx164.c b/arch/alpha/kernel/sys_sx164.c
-index 1ec638a2746a..f6f85b2a9c96 100644
---- a/arch/alpha/kernel/sys_sx164.c
-+++ b/arch/alpha/kernel/sys_sx164.c
-@@ -54,7 +54,8 @@ sx164_init_irq(void)
- 	else
- 		init_pyxis_irqs(0xff00003f0000UL);
- 
--	setup_irq(16+6, &timer_cascade_irqaction);
-+	if (request_irq(16 + 6, no_action, 0, "timer-cascade", NULL))
-+		pr_err("request_irq() for %s failed\n", "timer-cascade");
- }
- 
- /*
-diff --git a/arch/alpha/kernel/sys_wildfire.c b/arch/alpha/kernel/sys_wildfire.c
-index 8e64052811ab..ceddbf95897f 100644
---- a/arch/alpha/kernel/sys_wildfire.c
-+++ b/arch/alpha/kernel/sys_wildfire.c
-@@ -156,10 +156,6 @@ static void __init
- wildfire_init_irq_per_pca(int qbbno, int pcano)
- {
- 	int i, irq_bias;
--	static struct irqaction isa_enable = {
--		.handler	= no_action,
--		.name		= "isa_enable",
--	};
- 
- 	irq_bias = qbbno * (WILDFIRE_PCA_PER_QBB * WILDFIRE_IRQ_PER_PCA)
- 		 + pcano * WILDFIRE_IRQ_PER_PCA;
-@@ -198,7 +194,8 @@ wildfire_init_irq_per_pca(int qbbno, int pcano)
- 		irq_set_status_flags(i + irq_bias, IRQ_LEVEL);
- 	}
- 
--	setup_irq(32+irq_bias, &isa_enable);
-+	if (request_irq(32 + irq_bias, no_action, 0, "isa_enable", NULL))
-+		pr_err("%s: request_irq() failed\n", "isa_enable");
- }
- 
- static void __init
-diff --git a/arch/alpha/kernel/time.c b/arch/alpha/kernel/time.c
-index 0069360697ee..4d01c392ab14 100644
---- a/arch/alpha/kernel/time.c
-+++ b/arch/alpha/kernel/time.c
-@@ -242,7 +242,7 @@ common_init_rtc(void)
- 	outb(0x31, 0x42);
- 	outb(0x13, 0x42);
- 
--	init_rtc_irq();
-+	init_rtc_irq(NULL);
- }
- 
- 
-@@ -396,9 +396,7 @@ time_init(void)
- 	if (alpha_using_qemu) {
- 		clocksource_register_hz(&qemu_cs, NSEC_PER_SEC);
- 		init_qemu_clockevent();
--
--		timer_irqaction.handler = qemu_timer_interrupt;
--		init_rtc_irq();
-+		init_rtc_irq(qemu_timer_interrupt);
- 		return;
- 	}
- 
--- 
-2.25.1
+Best regards,
+Krzysztof
 
