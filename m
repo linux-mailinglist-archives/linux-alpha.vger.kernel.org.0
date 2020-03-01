@@ -2,100 +2,93 @@ Return-Path: <linux-alpha-owner@vger.kernel.org>
 X-Original-To: lists+linux-alpha@lfdr.de
 Delivered-To: lists+linux-alpha@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id B6C8E174395
-	for <lists+linux-alpha@lfdr.de>; Sat, 29 Feb 2020 00:51:14 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 2864F174DDF
+	for <lists+linux-alpha@lfdr.de>; Sun,  1 Mar 2020 15:59:42 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726525AbgB1XvO (ORCPT <rfc822;lists+linux-alpha@lfdr.de>);
-        Fri, 28 Feb 2020 18:51:14 -0500
-Received: from mail-il1-f195.google.com ([209.85.166.195]:37951 "EHLO
-        mail-il1-f195.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725957AbgB1XvO (ORCPT
-        <rfc822;linux-alpha@vger.kernel.org>);
-        Fri, 28 Feb 2020 18:51:14 -0500
-Received: by mail-il1-f195.google.com with SMTP id f5so4330815ilq.5;
-        Fri, 28 Feb 2020 15:51:13 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=yZOMhZvjkdqC09tY/ScTXZisrX0g/+T4ku/jItf4b0U=;
-        b=Q67Ici//pAGvVef2MHDdSVqTdyryHI21yoH6h2B8WhfOSZs5NwuiBj5ouUgYVW3eq4
-         C+dinnRc+Y4Hprlm1YMEnlOkOOurVriQl2w0pbqh9KHq7Qf4khRbcfGoiwFzjO5T0SMW
-         u6RmyRRMvIlCLaKUw2wsYfvzA1TZTDAGIqNcJ+lYH8bd/AAcFNfRxiij7CTrpE4HpTwV
-         6uNKr7tuciMTAf8QYxMCA65NM2M9eRl3PxqaSFfelJkGcWatjxRIAWlMRoInLg+FbGDn
-         p2Lax15wovw+b+mlcAee4LaYkXw0x3LgBTSM8aH03nk3xqhStVuj6iKEsHAjlGnNqbI7
-         h1iQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=yZOMhZvjkdqC09tY/ScTXZisrX0g/+T4ku/jItf4b0U=;
-        b=RMVApmFNfaNaOMqgZtzBWJTnuC95nTkPFVtc8KxRtpE5twWDAl5IkaKhz/f6xPXKbn
-         PzlAjO4TWARSWms9uIaZBg6yv2xFCIKOT8QRhAJNgOymNTgGqpb21+ApqSdor2yiunET
-         s5z+Sxt5KLZQhLPudlyuYPIwowQDv6gxh9AcxHaF+s4yDUk/2K8uSfwDAwENeZGScUd9
-         T+GJ4z+LDiIjL9scw4/Gn1lUOzT0Z3GiB2ZImB2rIkqK6FPJ4VTXdNLldKhClRtcmWS1
-         Wl10ma24Z/3xmGqZb9/vrr0T0fMDIOozpU2u/ayI/qozCGRvRXOmhqnl75aHGSywlatO
-         vwug==
-X-Gm-Message-State: APjAAAUszqqVgA9g5czJaZR4gQU7KFv4Oe2qdh17cPV0yJ4DYncM1UOR
-        myntkhwU9mFdDco+A7xPGDG9CYObLi57ZHiidJ4=
-X-Google-Smtp-Source: APXvYqxAf2OKu5gwgxqiXrp1iS5BS/ePr66lA9hJ03QGLfhJBkXmrjtJGclUFBajnBAf4hE3l4Tk1w8E9uCyvCiECYs=
-X-Received: by 2002:a92:3bd4:: with SMTP id n81mr6735002ilh.110.1582933873410;
- Fri, 28 Feb 2020 15:51:13 -0800 (PST)
-MIME-Version: 1.0
-References: <CAEdQ38GUhL0R4c7ZjEZv89TmqQ0cwhnvBawxuXonSb9On=+B6A@mail.gmail.com>
- <20200222165556.GA207281@google.com>
-In-Reply-To: <20200222165556.GA207281@google.com>
-From:   Matt Turner <mattst88@gmail.com>
-Date:   Fri, 28 Feb 2020 15:51:01 -0800
-Message-ID: <CAEdQ38EzZfUJA-8zg-DgczYTwkxqFL-AThxu0_fC2V-GkXGi2Q@mail.gmail.com>
-Subject: Re: Some Alphas broken by f75b99d5a77d (PCI: Enforce bus address
- limits in resource allocation)
-To:     Bjorn Helgaas <helgaas@kernel.org>
-Cc:     Yinghai Lu <yinghai@kernel.org>, linux-pci@vger.kernel.org,
+        id S1726366AbgCAO7l (ORCPT <rfc822;lists+linux-alpha@lfdr.de>);
+        Sun, 1 Mar 2020 09:59:41 -0500
+Received: from mail.rc.ru ([151.236.222.147]:38482 "EHLO mail.rc.ru"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1726151AbgCAO7l (ORCPT <rfc822;linux-alpha@vger.kernel.org>);
+        Sun, 1 Mar 2020 09:59:41 -0500
+X-Greylist: delayed 1771 seconds by postgrey-1.27 at vger.kernel.org; Sun, 01 Mar 2020 09:59:39 EST
+Received: from mail.rc.ru ([2a01:7e00:e000:1bf::1]:55860)
+        by mail.rc.ru with esmtpsa (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
+        (Exim 4.92)
+        (envelope-from <ink@jurassic.park.msu.ru>)
+        id 1j8Pba-0006Aa-1m; Sun, 01 Mar 2020 14:30:06 +0000
+Date:   Sun, 1 Mar 2020 14:30:04 +0000
+From:   Ivan Kokshaysky <ink@jurassic.park.msu.ru>
+To:     Matt Turner <mattst88@gmail.com>
+Cc:     Bjorn Helgaas <helgaas@kernel.org>,
+        Yinghai Lu <yinghai@kernel.org>, linux-pci@vger.kernel.org,
         linux-alpha <linux-alpha@vger.kernel.org>,
         Richard Henderson <rth@twiddle.net>,
-        Ivan Kokshaysky <ink@jurassic.park.msu.ru>,
         Jay Estabrook <jay.estabrook@gmail.com>
-Content-Type: text/plain; charset="UTF-8"
+Subject: Re: Some Alphas broken by f75b99d5a77d (PCI: Enforce bus address
+ limits in resource allocation)
+Message-ID: <20200301143004.GA20720@mail.rc.ru>
+References: <CAEdQ38GUhL0R4c7ZjEZv89TmqQ0cwhnvBawxuXonSb9On=+B6A@mail.gmail.com>
+ <20200222165556.GA207281@google.com>
+ <CAEdQ38EzZfUJA-8zg-DgczYTwkxqFL-AThxu0_fC2V-GkXGi2Q@mail.gmail.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <CAEdQ38EzZfUJA-8zg-DgczYTwkxqFL-AThxu0_fC2V-GkXGi2Q@mail.gmail.com>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 Sender: linux-alpha-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-alpha.vger.kernel.org>
 X-Mailing-List: linux-alpha@vger.kernel.org
 
-On Sat, Feb 22, 2020 at 8:55 AM Bjorn Helgaas <helgaas@kernel.org> wrote:
->
-> On Mon, Apr 16, 2018 at 07:33:57AM -0700, Matt Turner wrote:
-> > Commit f75b99d5a77d63f20e07bd276d5a427808ac8ef6 (PCI: Enforce bus
-> > address limits in resource allocation) broke Alpha systems using
-> > CONFIG_ALPHA_NAUTILUS. Alpha is 64-bit, but Nautilus systems use a
-> > 32-bit AMD 751/761 chipset. arch/alpha/kernel/sys_nautilus.c maps PCI
-> > into the upper addresses just below 4GB.
+On Fri, Feb 28, 2020 at 03:51:01PM -0800, Matt Turner wrote:
+> On Sat, Feb 22, 2020 at 8:55 AM Bjorn Helgaas <helgaas@kernel.org> wrote:
 > >
-> > I can get a working kernel by ifdef'ing out the code in
-> > drivers/pci/bus.c:pci_bus_alloc_resource. We can't tie
-> > PCI_BUS_ADDR_T_64BIT to ALPHA_NAUTILUS without breaking generic
-> > kernels.
+> > On Mon, Apr 16, 2018 at 07:33:57AM -0700, Matt Turner wrote:
+> > > Commit f75b99d5a77d63f20e07bd276d5a427808ac8ef6 (PCI: Enforce bus
+> > > address limits in resource allocation) broke Alpha systems using
+> > > CONFIG_ALPHA_NAUTILUS. Alpha is 64-bit, but Nautilus systems use a
+> > > 32-bit AMD 751/761 chipset. arch/alpha/kernel/sys_nautilus.c maps PCI
+> > > into the upper addresses just below 4GB.
+> > >
+> > > I can get a working kernel by ifdef'ing out the code in
+> > > drivers/pci/bus.c:pci_bus_alloc_resource. We can't tie
+> > > PCI_BUS_ADDR_T_64BIT to ALPHA_NAUTILUS without breaking generic
+> > > kernels.
+> > >
+> > > How can we get Nautilus working again?
 > >
-> > How can we get Nautilus working again?
->
-> I don't see a resolution in this thread, so I assume this is still
-> broken?  Anybody have any more ideas?
+> > I don't see a resolution in this thread, so I assume this is still
+> > broken?  Anybody have any more ideas?
+> 
+> Indeed, still broken.
+> 
+> I can add Kconfig logic to unselect ARCH_DMA_ADDR_T_64BIT if
+> ALPHA_NAUTILUS, but then generic kernels won't work on Nautilus. It
+> doesn't look like we have any way of opting out of
+> ARCH_DMA_ADDR_T_64BIT at runtime, and doing enough plumbing to make
+> that work is not worth it for such niche hardware. Maybe removing
+> Nautilus from the generic kernel build is what I should do until such
+> a time that we really fix this?
+> 
+> Or maybe I could put a hack in pci.c that more or less undoes
+> d56dbf5bab8c on Nautilus. #if defined CONFIG_ARCH_DMA_ADDR_T_64BIT &&
+> !defined SYS_NAUTILUS.
+> 
+> Or maybe I just need to take a weekend and try to understand the PCI
+> code, instead of applying patches I don't understand and praying :)
+> 
+> Thoughts? Other suggestions?
 
-Indeed, still broken.
+Well, it's difficult to debug without hardware in hand.
 
-I can add Kconfig logic to unselect ARCH_DMA_ADDR_T_64BIT if
-ALPHA_NAUTILUS, but then generic kernels won't work on Nautilus. It
-doesn't look like we have any way of opting out of
-ARCH_DMA_ADDR_T_64BIT at runtime, and doing enough plumbing to make
-that work is not worth it for such niche hardware. Maybe removing
-Nautilus from the generic kernel build is what I should do until such
-a time that we really fix this?
+Actually, I have one of those machines, but I had to write it off
+5-6 years ago as it started crashing like crazy, sometimes in SRM
+console even before boot. Interestingly enough, the problem might be
+not with the motherboard as I thought, but with the video adapter -
+yesterday I tried this UP1500 without AGP card, it booted fine and
+worked a couple of hours without any problem, which is pretty
+encouraging.
 
-Or maybe I could put a hack in pci.c that more or less undoes
-d56dbf5bab8c on Nautilus. #if defined CONFIG_ARCH_DMA_ADDR_T_64BIT &&
-!defined SYS_NAUTILUS.
-
-Or maybe I just need to take a weekend and try to understand the PCI
-code, instead of applying patches I don't understand and praying :)
-
-Thoughts? Other suggestions?
+So next week I'm going to return the poor guy to service (put it
+into enclosure, replace old fans and so on). Then we will see.
