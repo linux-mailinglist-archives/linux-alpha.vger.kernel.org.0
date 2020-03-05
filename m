@@ -2,120 +2,94 @@ Return-Path: <linux-alpha-owner@vger.kernel.org>
 X-Original-To: lists+linux-alpha@lfdr.de
 Delivered-To: lists+linux-alpha@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 24AAB17A085
-	for <lists+linux-alpha@lfdr.de>; Thu,  5 Mar 2020 08:34:36 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id B66D417A333
+	for <lists+linux-alpha@lfdr.de>; Thu,  5 Mar 2020 11:34:43 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1725816AbgCEHef (ORCPT <rfc822;lists+linux-alpha@lfdr.de>);
-        Thu, 5 Mar 2020 02:34:35 -0500
-Received: from foss.arm.com ([217.140.110.172]:44192 "EHLO foss.arm.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1725866AbgCEHef (ORCPT <rfc822;linux-alpha@vger.kernel.org>);
-        Thu, 5 Mar 2020 02:34:35 -0500
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-        by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id D7F0E1FB;
-        Wed,  4 Mar 2020 23:34:33 -0800 (PST)
-Received: from [10.163.1.88] (unknown [10.163.1.88])
-        by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id B93CE3F534;
-        Wed,  4 Mar 2020 23:38:16 -0800 (PST)
-From:   Anshuman Khandual <anshuman.khandual@arm.com>
-Subject: Re: [PATCH] mm/special: Create generic fallbacks for pte_special()
- and pte_mkspecial()
-To:     linux-mm@kvack.org, Ralf Baechle <ralf@linux-mips.org>,
-        Paul Burton <paulburton@kernel.org>
-Cc:     Richard Henderson <rth@twiddle.net>,
-        Ivan Kokshaysky <ink@jurassic.park.msu.ru>,
-        Matt Turner <mattst88@gmail.com>,
-        Russell King <linux@armlinux.org.uk>,
-        Guo Ren <guoren@kernel.org>, Brian Cain <bcain@codeaurora.org>,
-        Tony Luck <tony.luck@intel.com>,
-        Fenghua Yu <fenghua.yu@intel.com>,
-        Geert Uytterhoeven <geert@linux-m68k.org>,
-        Sam Creasey <sammy@sammy.net>, Michal Simek <monstr@monstr.eu>,
-        Nick Hu <nickhu@andestech.com>,
-        Greentime Hu <green.hu@gmail.com>,
-        Vincent Chen <deanbo422@gmail.com>,
-        Ley Foon Tan <ley.foon.tan@intel.com>,
-        Jonas Bonn <jonas@southpole.se>,
-        Stefan Kristiansson <stefan.kristiansson@saunalahti.fi>,
-        Stafford Horne <shorne@gmail.com>,
-        "James E.J. Bottomley" <James.Bottomley@HansenPartnership.com>,
-        Helge Deller <deller@gmx.de>,
-        "David S. Miller" <davem@davemloft.net>,
-        Jeff Dike <jdike@addtoit.com>,
-        Richard Weinberger <richard@nod.at>,
-        Anton Ivanov <anton.ivanov@cambridgegreys.com>,
-        Guan Xuetao <gxt@pku.edu.cn>, Chris Zankel <chris@zankel.net>,
-        Max Filippov <jcmvbkbc@gmail.com>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        linux-alpha@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-        linux-csky@vger.kernel.org, linux-hexagon@vger.kernel.org,
-        linux-ia64@vger.kernel.org, linux-m68k@lists.linux-m68k.org,
-        linux-mips@vger.kernel.org, nios2-dev@lists.rocketboards.org,
-        openrisc@lists.librecores.org, linux-parisc@vger.kernel.org,
-        sparclinux@vger.kernel.org, linux-um@lists.infradead.org,
-        linux-xtensa@linux-xtensa.org, linux-arch@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-References: <1583114190-7678-1-git-send-email-anshuman.khandual@arm.com>
-Message-ID: <58aecdcf-ea16-c958-0deb-97541792e081@arm.com>
-Date:   Thu, 5 Mar 2020 13:04:19 +0530
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
- Thunderbird/52.9.1
+        id S1725937AbgCEKel (ORCPT <rfc822;lists+linux-alpha@lfdr.de>);
+        Thu, 5 Mar 2020 05:34:41 -0500
+Received: from mail-lf1-f68.google.com ([209.85.167.68]:41393 "EHLO
+        mail-lf1-f68.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726956AbgCEKel (ORCPT
+        <rfc822;linux-alpha@vger.kernel.org>); Thu, 5 Mar 2020 05:34:41 -0500
+Received: by mail-lf1-f68.google.com with SMTP id v134so532748lfa.8
+        for <linux-alpha@vger.kernel.org>; Thu, 05 Mar 2020 02:34:40 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=mime-version:reply-to:from:date:message-id:subject:to
+         :content-transfer-encoding;
+        bh=zdxUWMWXTEs/zs0LJh1bxLoOHpDg1k5nkLimqXptzik=;
+        b=fz2DAL/hCVOBzgx+g45rdprPzuuFcQsUW1ZHNo4nDuWKCX/fmtcJFi6lbSs9P/RfJA
+         lAVCHt1fNQbO92SbHey4yazD8D+BRVnEqK7PVKp1rcMy40FqhDMG89bJ58GSzMbwvj8U
+         zAnHbCvHz8cMGM9KEggtHMrJgl6JBjlHSjxVfYCRhwYPKx+Jjq/D+Io2Qn9ywDnb1vG6
+         OscJGDR+ktAt1dSFKcBwqG0UklQUo5kR+xK1xD7ZN4ey+k79Dp/cQzpwPp4ZcFKOa/hp
+         HQXr9qb2tQ0y+avLLK+wgv/3Axz+CmJlkglRa4MPyv4tObLkJ7AkbgA7LI04c8TOXAVI
+         wgbQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:reply-to:from:date:message-id
+         :subject:to:content-transfer-encoding;
+        bh=zdxUWMWXTEs/zs0LJh1bxLoOHpDg1k5nkLimqXptzik=;
+        b=Ev/F2pswu68e7ia7TJTvs5EHSIaOcqTR05LW5FR6jOAOoC1fLnNkGb4hH4LNIqU9md
+         CcAMjQ8vtSE2E9d2KeZrq6wS4x3e0u1vKlnIjoDUbjcLeoirRIEcgB2FgCnw5Efx5P8i
+         sAuTxnfs7ke3ty1TylbnGhW3Vi2z+0hj2q7fjy2X61cIr+HY2DOAV3jQr83aUQN/6dlC
+         6OA0XH7RbpwDTq7jbXujj3qR7V73N9Y96AeFwqwIdeMC6tSgfnSQgzcz3FYhaDbZHVcH
+         D2so41ttD7dlREao1ZSZdiPImHUXAbSFl1or0sDSLI6pmm/pmT7DwPTNfO1VNAUHObMl
+         +3lQ==
+X-Gm-Message-State: ANhLgQ3rSxSh7sayEGAM0jX7tROJzZ9BgjIFx80v2YxNcjn/4O8vBcbD
+        ATab58G6sGyPbT/ygSDjp32iUe6KyaKbotAyc+c=
+X-Google-Smtp-Source: ADFU+vt4p78g3SCPLp2SkhMI2bIlerfed0N6TLid+L8CMxk399v6WJ1kSPdTuUyeuRHmX7GoHE72hDaaexbZ9WYxFUU=
+X-Received: by 2002:a19:c714:: with SMTP id x20mr5096973lff.107.1583404479393;
+ Thu, 05 Mar 2020 02:34:39 -0800 (PST)
 MIME-Version: 1.0
-In-Reply-To: <1583114190-7678-1-git-send-email-anshuman.khandual@arm.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+Received: by 2002:ab3:5d10:0:0:0:0:0 with HTTP; Thu, 5 Mar 2020 02:34:38 -0800 (PST)
+Reply-To: ayishagddafio@mail.ru
+From:   AISHA GADDAFI <mahasaliou4444@gmail.com>
+Date:   Thu, 5 Mar 2020 02:34:38 -0800
+Message-ID: <CAKHB8qf7CPHeUuxPD-D07960Jx9qxdLt6hBH1AJUj0AYDreUzA@mail.gmail.com>
+Subject: Lieber Freund (Assalamu Alaikum),?
+To:     undisclosed-recipients:;
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 Sender: linux-alpha-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-alpha.vger.kernel.org>
 X-Mailing-List: linux-alpha@vger.kernel.org
 
+--=20
+Lieber Freund (Assalamu Alaikum),
 
-On 03/02/2020 07:26 AM, Anshuman Khandual wrote:
-> diff --git a/arch/mips/include/asm/pgtable.h b/arch/mips/include/asm/pgtable.h
-> index aef5378f909c..8e4e4be1ca00 100644
-> --- a/arch/mips/include/asm/pgtable.h
-> +++ b/arch/mips/include/asm/pgtable.h
-> @@ -269,6 +269,36 @@ static inline void set_pte_at(struct mm_struct *mm, unsigned long addr,
->   */
->  extern pgd_t swapper_pg_dir[];
->  
-> +/*
-> + * Platform specific pte_special() and pte_mkspecial() definitions
-> + * are required only when ARCH_HAS_PTE_SPECIAL is enabled.
-> + */
-> +#if !defined(CONFIG_32BIT) && !defined(CONFIG_CPU_HAS_RIXI)
-> +#if defined(CONFIG_PHYS_ADDR_T_64BIT) && defined(CONFIG_CPU_MIPS32)
-> +static inline int pte_special(pte_t pte)
-> +{
-> +	return pte.pte_low & _PAGE_SPECIAL;
-> +}
-> +
-> +static inline pte_t pte_mkspecial(pte_t pte)
-> +{
-> +	pte.pte_low |= _PAGE_SPECIAL;
-> +	return pte;
-> +}
-> +#else
-> +static inline int pte_special(pte_t pte)
-> +{
-> +	return pte_val(pte) & _PAGE_SPECIAL;
-> +}
-> +
-> +static inline pte_t pte_mkspecial(pte_t pte)
-> +{
-> +	pte_val(pte) |= _PAGE_SPECIAL;
-> +	return pte;
-> +}
-> +#endif
-> +#endif
-> +
+Ich bin vor einer privaten Suche auf Ihren E-Mail-Kontakt gesto=C3=9Fen
+Ihre Hilfe. Mein Name ist Aisha Al-Qaddafi, eine alleinerziehende
+Mutter und eine Witwe
+mit drei Kindern. Ich bin die einzige leibliche Tochter des Sp=C3=A4tlibysc=
+hen
+Pr=C3=A4sident (verstorbener Oberst Muammar Gaddafi).
 
-Hello Ralf/Paul,
+Ich habe Investmentfonds im Wert von siebenundzwanzig Millionen
+f=C3=BCnfhunderttausend
+United State Dollar ($ 27.500.000.00) und ich brauche eine
+vertrauensw=C3=BCrdige Investition
+Manager / Partner aufgrund meines aktuellen Fl=C3=BCchtlingsstatus bin ich =
+jedoch
+M=C3=B6glicherweise interessieren Sie sich f=C3=BCr die Unterst=C3=BCtzung =
+von
+Investitionsprojekten in Ihrem Land
+Von dort aus k=C3=B6nnen wir in naher Zukunft Gesch=C3=A4ftsbeziehungen auf=
+bauen.
 
-This change now restricts mips definitions for pte_special() and pte_mkspecial()
-and makes them visible only for configs where ARCH_HAS_PTE_SPECIAL is enabled.
-Does this look okay ? In almost all other platforms we drop the stub definitions
-for pte_special() and pte_mkspecial().
+Ich bin bereit, mit Ihnen =C3=BCber das Verh=C3=A4ltnis zwischen Investitio=
+n und
+Unternehmensgewinn zu verhandeln
+Basis f=C3=BCr die zuk=C3=BCnftige Investition Gewinne zu erzielen.
 
-- Anshuman
+Wenn Sie bereit sind, dieses Projekt in meinem Namen zu bearbeiten,
+antworten Sie bitte dringend
+Damit ich Ihnen mehr Informationen =C3=BCber die Investmentfonds geben kann=
+.
+
+Ihre dringende Antwort wird gesch=C3=A4tzt. schreibe mir an diese email adr=
+esse (
+ayishagddafio@mail.ru ) zur weiteren Diskussion.
+
+Freundliche Gr=C3=BC=C3=9Fe
+Frau Aisha Al-Qaddafi
