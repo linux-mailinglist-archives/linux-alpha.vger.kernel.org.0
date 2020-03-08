@@ -2,40 +2,75 @@ Return-Path: <linux-alpha-owner@vger.kernel.org>
 X-Original-To: lists+linux-alpha@lfdr.de
 Delivered-To: lists+linux-alpha@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 499C017D569
-	for <lists+linux-alpha@lfdr.de>; Sun,  8 Mar 2020 19:15:43 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 3D91C17D5E9
+	for <lists+linux-alpha@lfdr.de>; Sun,  8 Mar 2020 20:42:00 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726391AbgCHSPm (ORCPT <rfc822;lists+linux-alpha@lfdr.de>);
-        Sun, 8 Mar 2020 14:15:42 -0400
-Received: from msvr.eekspcb.com ([58.210.169.85]:33342 "EHLO msvr.eekspcb.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726297AbgCHSPm (ORCPT <rfc822;linux-alpha@vger.kernel.org>);
-        Sun, 8 Mar 2020 14:15:42 -0400
-X-Greylist: delayed 1329 seconds by postgrey-1.27 at vger.kernel.org; Sun, 08 Mar 2020 14:15:41 EDT
-Received: from User ([156.96.45.188]) by msvr.eekspcb.com with Microsoft SMTPSVC(6.0.3790.4675);
-         Mon, 9 Mar 2020 01:34:04 +0800
-Reply-To: <francoispiniault@gmail.com>
-From:   "Francois Pinault" <francioispinaul@gmail.com>
-Subject: Re:
-Date:   Sun, 8 Mar 2020 13:33:01 -0400
+        id S1726330AbgCHTl7 (ORCPT <rfc822;lists+linux-alpha@lfdr.de>);
+        Sun, 8 Mar 2020 15:41:59 -0400
+Received: from mail-il1-f193.google.com ([209.85.166.193]:33097 "EHLO
+        mail-il1-f193.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726322AbgCHTl6 (ORCPT
+        <rfc822;linux-alpha@vger.kernel.org>); Sun, 8 Mar 2020 15:41:58 -0400
+Received: by mail-il1-f193.google.com with SMTP id k29so1574522ilg.0;
+        Sun, 08 Mar 2020 12:41:58 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=AIXaeQ+AY9PML0IQFpQFp/vwCGtcFG3KhmwRmsZSfDY=;
+        b=SJJPA1mjHygjuC/7dcvLHUdYwhwwpAvps7tE7gbvWLBSsGSD3lwJlJ2v8Vfqe7jlFd
+         mbdfXz0JeELiVcR032wXc8yC+X6Fhroikazjjv6fgxg168815s+q/heSOezUqDifRP9U
+         pDklUkSMD4jfA3/pge9+fcMFkNzXZ5UmMngQ1iZy3tlTmIDmN+krpNPCnAPuZ38zKAiO
+         2hwqxwkLA8ftm46L3wFbKFs4lwXXXQP9b+833TK0Fs9kdckJvURK7n1FsCCFgFIqsvk5
+         SNdCEuPhLejcnwA6c64aoAU1hzMvOlFdQU47p7BIAIE7brvIaSePzCvSaFGhjIJAxcG3
+         e18Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=AIXaeQ+AY9PML0IQFpQFp/vwCGtcFG3KhmwRmsZSfDY=;
+        b=k6LmYc1zRUEp70r5N5eOAi2Em9gEG2FXYReqXCNRRmBED9R+IDyEw9gZxytjNgjFho
+         nsRJps5gfbH1FAhNmYO9fTIX4HmsN6yCllCkNZeaf/6OZvUdOwTSKvcvIVpyJQlMPCoD
+         WgW5ztTGB+9mEmNzcjYmLrFwALM4P0vtIbQHX34Fp9VIO4r/uic6KCNpNHIAEKX5h+xF
+         osjF8XgeKZxGr60MEB8cVH2PdoSDTWXn9LJemM5FHIzhdXD/SF2WBJ6shc31jIZmSlFS
+         K7l+Nhf4mqVGy8VPxJY1KAEO/pt5umzJsJvQeRlNHK2bRNBM8QfSMC2SxIyZMzThjL16
+         3cqQ==
+X-Gm-Message-State: ANhLgQ3yQk7mrv11nnRw2ogyXx9PVG6SXFdnGIwZ7sr2MHLBRC7u45A/
+        iY5so6N6m8NmNyUwv2s5f3CB7//8GtsxpjO0fMA=
+X-Google-Smtp-Source: ADFU+vtXxRPksN4vb2FDWXKZF5GycRipK5VQ382ecpHbM0OBWoTYy54YaNcEhW+uYNTKkDtdkufQCJJpZmaPMaMVHhQ=
+X-Received: by 2002:a92:dc8a:: with SMTP id c10mr13021304iln.100.1583696517901;
+ Sun, 08 Mar 2020 12:41:57 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain;
-        charset="Windows-1251"
-Content-Transfer-Encoding: 7bit
-X-Priority: 3
-X-MSMail-Priority: Normal
-X-Mailer: Microsoft Outlook Express 6.00.2600.0000
-X-MimeOLE: Produced By Microsoft MimeOLE V6.00.2600.0000
-Message-ID: <MSVR3sllNY30kkZIhTr00000908@msvr.eekspcb.com>
-X-OriginalArrivalTime: 08 Mar 2020 17:34:05.0773 (UTC) FILETIME=[C41D57D0:01D5F56F]
-X-TM-AS-Product-Ver: SMEX-10.0.0.4152-7.000.1014-25274.001
-X-TM-AS-Result: Yes-101.003900-8.000000-31
-X-TM-AS-User-Approved-Sender: No
-X-TM-AS-User-Blocked-Sender: No
-To:     unlisted-recipients:; (no To-header on input)
+References: <CAEdQ38EzZfUJA-8zg-DgczYTwkxqFL-AThxu0_fC2V-GkXGi2Q@mail.gmail.com>
+ <20200302224732.GA175863@google.com> <20200308153004.GA17675@mail.rc.ru>
+In-Reply-To: <20200308153004.GA17675@mail.rc.ru>
+From:   Matt Turner <mattst88@gmail.com>
+Date:   Sun, 8 Mar 2020 12:41:46 -0700
+Message-ID: <CAEdQ38G1YhEoQUEpDT6k_uwodxTOs=BYigm_VQaDDdfaoXM6Wg@mail.gmail.com>
+Subject: Re: Some Alphas broken by f75b99d5a77d (PCI: Enforce bus address
+ limits in resource allocation)
+To:     Ivan Kokshaysky <ink@jurassic.park.msu.ru>
+Cc:     Bjorn Helgaas <helgaas@kernel.org>,
+        Yinghai Lu <yinghai@kernel.org>, linux-pci@vger.kernel.org,
+        linux-alpha <linux-alpha@vger.kernel.org>,
+        Richard Henderson <rth@twiddle.net>,
+        Jay Estabrook <jay.estabrook@gmail.com>,
+        Nicholas Johnson <nicholas.johnson-opensource@outlook.com.au>,
+        Benjamin Herrenschmidt <benh@kernel.crashing.org>
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-alpha-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-alpha.vger.kernel.org>
 X-Mailing-List: linux-alpha@vger.kernel.org
 
-A donation was made in your favour by Francois Pinault, reply for more details.
+On Sun, Mar 8, 2020 at 8:30 AM Ivan Kokshaysky <ink@jurassic.park.msu.ru> wrote:
+> Wholeheartedly agree. In fact, changes to generic PCI code required
+> for proper root bus sizing are quite minimal now since we have
+> struct pci_host_bridge. It's mostly additional checks for bus->self
+> being NULL (as it normally is on the root bus) in the
+> __pci_bus_size_bridges() path, plus new bridge->size_windows flag.
+> See patch below (tested on UP1500). Note that on irongate we're
+> only interested in calculation of non-prefetchable PCI memory aperture,
+> but one can do the same for io and prefetchable memory as well.
+
+Thanks Ivan! The patch works for me as well.
