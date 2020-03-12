@@ -2,85 +2,134 @@ Return-Path: <linux-alpha-owner@vger.kernel.org>
 X-Original-To: lists+linux-alpha@lfdr.de
 Delivered-To: lists+linux-alpha@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 0083B1827C6
-	for <lists+linux-alpha@lfdr.de>; Thu, 12 Mar 2020 05:28:49 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 5D021182A1F
+	for <lists+linux-alpha@lfdr.de>; Thu, 12 Mar 2020 09:01:52 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726023AbgCLE2t (ORCPT <rfc822;lists+linux-alpha@lfdr.de>);
-        Thu, 12 Mar 2020 00:28:49 -0400
-Received: from mail-ed1-f54.google.com ([209.85.208.54]:34344 "EHLO
-        mail-ed1-f54.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725978AbgCLE2t (ORCPT
+        id S2388096AbgCLIBl (ORCPT <rfc822;lists+linux-alpha@lfdr.de>);
+        Thu, 12 Mar 2020 04:01:41 -0400
+Received: from lb1-smtp-cloud9.xs4all.net ([194.109.24.22]:55477 "EHLO
+        lb1-smtp-cloud9.xs4all.net" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S2387999AbgCLIBl (ORCPT
         <rfc822;linux-alpha@vger.kernel.org>);
-        Thu, 12 Mar 2020 00:28:49 -0400
-Received: by mail-ed1-f54.google.com with SMTP id i24so1853831eds.1;
-        Wed, 11 Mar 2020 21:28:45 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=Kc0+yDmV56P7833fL1rNbt5FwQv4lowS4XpMZL4q1F4=;
-        b=Qz/oWCDY3paePBJTYkBCuvoDZKmyiUazg+vNtKS1XBhZnFKfyrFGYXNm20mTcKaA5W
-         Ztf911RY6ba21g87k6lg4fdj7NS5jdiLn59gzO7qqafDkchLI6+S6FASYlad3XULJokr
-         lXrvIPqn7WQb8VJ+RI+6SsE90UogzPjYEfD9cni2WiF2eECnEvbW+gzXXsJibmeDo3Ty
-         IcnUfMiTaC/9qvaVdYkEyPUYAhPT5yZBkjGqLCxj5R+yzD10lTkECEp7QZ+6R07dxv90
-         XCo8+z+vkwnZPaKTu7mDBHjPjH2YrsLI3TckiYnJ7WNOSaCTVr5ukIximj+m7tsM6bNi
-         zNkQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=Kc0+yDmV56P7833fL1rNbt5FwQv4lowS4XpMZL4q1F4=;
-        b=H8LbXViJ4TD0eCUK1Xjzh/Apyr2y7YIxkwrSkgj/DvmHzJa4kx2sduXCugeJUAP1t5
-         NNw8n7TFrTmu5xxPm1aQWuDIiZVF9PfwIAY+TlRbBer2WWiqAUB6wwt3tzWneZ2D6R7t
-         Fq4SwPgtPsH//8IADXyglAMUdcjE06r2T0Z9kW3BN+EnVPMkBzwFOXmAnh7/UA07iE6B
-         /DvA4m2B4l0zXJrwv02Nre8NAYpM4HmY2ctSvqS8oNlgsoFaV6AvM0r47qh11h3KaIHv
-         cy6F6C7xs33BioFR2AMPLWQabW6UU7lDTX1PgXpaBqOcSx3EkWhKm6oZtjX7gmRDZMhr
-         6dAQ==
-X-Gm-Message-State: ANhLgQ0IBT3Phk01xVPHYiAv0z4nJCYCfxMg+0bK1GO3+1DwjwWrNCo+
-        MGsNKhFVWhyLU2taYJorvqE13ZikQ+Gz80xK/CvkZZ2F
-X-Google-Smtp-Source: ADFU+vvvnJ1JgITvEXzhwZtDA0w7guI9cA8QNWVdRZefO+9yGOIIvJ4Bnd4lAUu4L0gzCMgR4OedalS/fm+F3H755vc=
-X-Received: by 2002:a17:906:4758:: with SMTP id j24mr5051169ejs.372.1583987325131;
- Wed, 11 Mar 2020 21:28:45 -0700 (PDT)
-MIME-Version: 1.0
-References: <CAEdQ38EzZfUJA-8zg-DgczYTwkxqFL-AThxu0_fC2V-GkXGi2Q@mail.gmail.com>
- <20200302224732.GA175863@google.com> <20200308153004.GA17675@mail.rc.ru> <CAEdQ38G1YhEoQUEpDT6k_uwodxTOs=BYigm_VQaDDdfaoXM6Wg@mail.gmail.com>
-In-Reply-To: <CAEdQ38G1YhEoQUEpDT6k_uwodxTOs=BYigm_VQaDDdfaoXM6Wg@mail.gmail.com>
-From:   Matt Turner <mattst88@gmail.com>
-Date:   Wed, 11 Mar 2020 21:28:33 -0700
-Message-ID: <CAEdQ38HhKq9L3UF=Hapmx-BJ7eLLRfo26ZxFUFqXx+ZEY0Axxg@mail.gmail.com>
-Subject: Re: Some Alphas broken by f75b99d5a77d (PCI: Enforce bus address
- limits in resource allocation)
-To:     Bjorn Helgaas <helgaas@kernel.org>
-Cc:     Yinghai Lu <yinghai@kernel.org>,
-        Ivan Kokshaysky <ink@jurassic.park.msu.ru>,
-        linux-pci@vger.kernel.org,
-        linux-alpha <linux-alpha@vger.kernel.org>,
+        Thu, 12 Mar 2020 04:01:41 -0400
+Received: from [192.168.2.10] ([46.9.234.233])
+        by smtp-cloud9.xs4all.net with ESMTPA
+        id CImQjXGct9Im2CImTjipFx; Thu, 12 Mar 2020 09:01:37 +0100
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=xs4all.nl; s=s1;
+        t=1584000098; bh=rlvXrsquCgOAoL6m3j4naIDiZk45jPg5qzfaHkH6ylc=;
+        h=Subject:To:From:Message-ID:Date:MIME-Version:Content-Type:From:
+         Subject;
+        b=S5pQfgbOLIHhQdw0W7sV5AZx/O5rbzeyPt7bFpTNkwgO8Qy0BKq+Rvjmju5L2B424
+         ts5RJaST/5DSO90woF88XEKoVSWzdXA1+cYgXtZ9lrnSZ/voNQNCc/kNcDWB/9eH8q
+         oukXvG+APHr07xXyoiRVnfNAIu0NoRyJO4gRl7kMox10FOdeAVa4C86hGVXEgWIL1z
+         DHpeiiUb+PUHWBRHnftozp83wtSCPlDu/KR0wA5Tus7873ErMhZjEh0V/cX/LLr9QJ
+         GcvLzWg4JtL3YxsnzXI28YMgDuIhwtNvDRGPXfnFqtov7CBrtU3S5QfdwsKM1K25I6
+         WU1k8NIIoVM6w==
+Subject: Re: [RESEND PATCH v2 8/9] media: fsl-viu: Constify ioreadX() iomem
+ argument (as in generic implementation)
+To:     Krzysztof Kozlowski <krzk@kernel.org>,
         Richard Henderson <rth@twiddle.net>,
-        Jay Estabrook <jay.estabrook@gmail.com>,
-        Nicholas Johnson <nicholas.johnson-opensource@outlook.com.au>,
-        Benjamin Herrenschmidt <benh@kernel.crashing.org>
-Content-Type: text/plain; charset="UTF-8"
+        Ivan Kokshaysky <ink@jurassic.park.msu.ru>,
+        Matt Turner <mattst88@gmail.com>,
+        Alexey Brodkin <abrodkin@synopsys.com>,
+        Vineet Gupta <vgupta@synopsys.com>,
+        "James E.J. Bottomley" <James.Bottomley@HansenPartnership.com>,
+        Helge Deller <deller@gmx.de>,
+        Benjamin Herrenschmidt <benh@kernel.crashing.org>,
+        Paul Mackerras <paulus@samba.org>,
+        Michael Ellerman <mpe@ellerman.id.au>,
+        Yoshinori Sato <ysato@users.sourceforge.jp>,
+        Rich Felker <dalias@libc.org>,
+        Dave Airlie <airlied@redhat.com>,
+        David Airlie <airlied@linux.ie>,
+        Daniel Vetter <daniel@ffwll.ch>,
+        Ben Skeggs <bskeggs@redhat.com>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Jiri Slaby <jirislaby@gmail.com>,
+        Nick Kossifidis <mickflemm@gmail.com>,
+        Luis Chamberlain <mcgrof@kernel.org>,
+        Kalle Valo <kvalo@codeaurora.org>,
+        "David S. Miller" <davem@davemloft.net>,
+        Dave Jiang <dave.jiang@intel.com>,
+        Jon Mason <jdmason@kudzu.us>, Allen Hubbe <allenbh@gmail.com>,
+        "Michael S. Tsirkin" <mst@redhat.com>,
+        Jason Wang <jasowang@redhat.com>,
+        Arnd Bergmann <arnd@arndb.de>,
+        Geert Uytterhoeven <geert+renesas@glider.be>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        linux-alpha@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-snps-arc@lists.infradead.org, linux-parisc@vger.kernel.org,
+        linuxppc-dev@lists.ozlabs.org, linux-sh@vger.kernel.org,
+        dri-devel@lists.freedesktop.org, nouveau@lists.freedesktop.org,
+        linux-media@vger.kernel.org, linux-wireless@vger.kernel.org,
+        netdev@vger.kernel.org, linux-ntb@googlegroups.com,
+        virtualization@lists.linux-foundation.org,
+        linux-arch@vger.kernel.org
+References: <20200219175007.13627-1-krzk@kernel.org>
+ <20200219175007.13627-9-krzk@kernel.org>
+From:   Hans Verkuil <hverkuil@xs4all.nl>
+Message-ID: <1c4a11b5-5ca6-7555-de3c-ff30f707fac7@xs4all.nl>
+Date:   Thu, 12 Mar 2020 09:01:22 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.5.0
+MIME-Version: 1.0
+In-Reply-To: <20200219175007.13627-9-krzk@kernel.org>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+X-CMAE-Envelope: MS4wfB1zxMJIE7wElbGm4sdMecyYLJ6LdsDMDpZDeSQuVKwPm0HLBt9h+mOdrGXFuIDkCI9Ox7ukCv0Xr+wsEhOQPNuuqPOa2tbCK6oF1PNdZVqk6thKvC3h
+ xE4aE9bNSUWOFhWxTazaeGPVr5hr0AhveAgdpPWZHpjhg5PxgtKgtRwcEM0X31YjusYjKeuEG9QF/4JOHzjohAIjiR+oAI0nyED+Jez9yI4FW1ZB3LXkp8TH
+ 7MMndY8iJadjMhsV5+oGTHeP7z8vzm/dZU83psQzhxRsPonohHX17/JsKF2l5MFAT9+97UKYOiKAsfrv1Cpys4Ae5wkTvdw4qsE49ssk4hjAoyha0QB9BVju
+ 9SGy1FrSenK0frRjbC8NaYY9ZERWNSiNH5LA36WXT5yWf3v+Qcv3MkgEimaOp41P2nlVLuOjtsbM7Oc0IE2oIVVfFA700ZJiP3znlyaVddewRuZDpRVP7LaM
+ BmiWSHGXgw8YtQmC7z4+FTtlDdPcaOnURURbGtwGqrG9ypYOfWaczdFyon9cFrdpqrNkvqRjWmqFa6YgsB57xqLqvFfcZaXIx/5GPRUQudUCvZPJzisakVQc
+ uttKYb/aM3WYuhJM4Wb1Pv6BrMYMIVXGCFsOBd7W/xp0N3iMBGSYj0Aa0rPNR8hHdzbHBC2fjWlNKKBiBqoznNqCGZ0CiVQoEM+QtyRRgiYnx6PeAm5PLOc4
+ VNFQmhkOpnD9IFKzOg7MDbXsSwg+OAG64qEuG/VscrSiDVQ1yjv5knp7CxhKGvYM4OpGHYT1Er7Bdx2FCmXu/yAwSbBDRagCD0kotDKUph18wrkxxeFljDJA
+ LSc1aSxY7WzE0MoB4x1WWy+jz94FDlyhtSMwiZ6y0dJP3+c2+Q5En242uHE069S9l+7oW8v5MGbWOStqt5f3vSjCb7LIzWN87JmuP89GFWwWLJsughS7GMyf
+ 9DHMMrFLvERXtynUPrxsXWOFJFYcfPWtUSuDRlT6lyW4OqviXxQxmuwWWPzBiEuN74qNtI+js8zLo4yvgjsgXCeSGNoTx+kuEqyjk5W1UzIpidGK0CRrnVbE
+ 6hD9Y/vETMZdaCRGTPOlU05njcJF+46w8BJ3SNj0Py3qBk1dX7c6nBfbFypmWYBFmuncdfgfV+GvZgph5pgPHOoQxVCf/tLCrfA6lP3T+1yMX4df+BQFRKLS
+ O4WmDF2MxF8KloewGsYz/rsmgB25E6V0YSDc8EvmqseT2P6A01f6bsdZt1AJnufocp+H44s+qhBR6buNUUMphP9KyIyYuNbtmFvkGTyK649jUP2q8Nik1rK1
+ 3AqiAYrtsks7Dqmq5Qj7chR5DBva/WjXbTAi9lRBeyrc1LiDTAHtFBMmOGm8QJ0PstgU+Qss/H31YuyO+vowQc/YkfqDiEmsIU7MZy0525QlKJCDuomrR9k/
+ pt0L69OpaODhDI2GKeTabUJfloUo1rGwDFifFZ3GiczPZsdGrTGULzWF8ZqXdk44Vxmf+o40QJa4goBPwv+YDuim0xPrbohAaaGJnTcviLLAbx0Be2IOpJK7
+ 066IFrJvKfz7/Wp2S67JJX5FtbO7VF+IrVN/N63uvfJb+FM6hLMjwGqczE7h5AhCTMRfIsHhAU9mTIYVyLN+UBlZ3WL3ahk0SjumGQqE2df8rbpt41Yx3WFA
+ IW77guEXBH/AFWkGJEIg2a3N91fXva0TdPJAF0YzlkCOnwCmb9/Naw==
 Sender: linux-alpha-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-alpha.vger.kernel.org>
 X-Mailing-List: linux-alpha@vger.kernel.org
 
-On Sun, Mar 8, 2020 at 12:41 PM Matt Turner <mattst88@gmail.com> wrote:
->
-> On Sun, Mar 8, 2020 at 8:30 AM Ivan Kokshaysky <ink@jurassic.park.msu.ru> wrote:
-> > Wholeheartedly agree. In fact, changes to generic PCI code required
-> > for proper root bus sizing are quite minimal now since we have
-> > struct pci_host_bridge. It's mostly additional checks for bus->self
-> > being NULL (as it normally is on the root bus) in the
-> > __pci_bus_size_bridges() path, plus new bridge->size_windows flag.
-> > See patch below (tested on UP1500). Note that on irongate we're
-> > only interested in calculation of non-prefetchable PCI memory aperture,
-> > but one can do the same for io and prefetchable memory as well.
->
-> Thanks Ivan! The patch works for me as well.
+On 2/19/20 6:50 PM, Krzysztof Kozlowski wrote:
+> The ioreadX() helpers have inconsistent interface.  On some architectures
+> void *__iomem address argument is a pointer to const, on some not.
+> 
+> Implementations of ioreadX() do not modify the memory under the address
+> so they can be converted to a "const" version for const-safety and
+> consistency among architectures.
+> 
+> Signed-off-by: Krzysztof Kozlowski <krzk@kernel.org>
 
-Bjorn, what would you like the next step to be?
+Acked-by: Hans Verkuil <hverkuil-cisco@xs4all.nl>
 
-If the PCI bits are fine with you, I assume you'd like them to go
-through your tree, etc? I'm perfectly happy to see the alpha bits go
-through the same tree.
+Regards,
+
+	Hans
+
+> ---
+>  drivers/media/platform/fsl-viu.c | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+> 
+> diff --git a/drivers/media/platform/fsl-viu.c b/drivers/media/platform/fsl-viu.c
+> index 81a8faedbba6..991d9dc82749 100644
+> --- a/drivers/media/platform/fsl-viu.c
+> +++ b/drivers/media/platform/fsl-viu.c
+> @@ -34,7 +34,7 @@
+>  /* Allow building this driver with COMPILE_TEST */
+>  #if !defined(CONFIG_PPC) && !defined(CONFIG_MICROBLAZE)
+>  #define out_be32(v, a)	iowrite32be(a, (void __iomem *)v)
+> -#define in_be32(a)	ioread32be((void __iomem *)a)
+> +#define in_be32(a)	ioread32be((const void __iomem *)a)
+>  #endif
+>  
+>  #define BUFFER_TIMEOUT		msecs_to_jiffies(500)  /* 0.5 seconds */
+> 
+
