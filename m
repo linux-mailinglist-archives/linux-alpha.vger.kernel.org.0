@@ -2,55 +2,86 @@ Return-Path: <linux-alpha-owner@vger.kernel.org>
 X-Original-To: lists+linux-alpha@lfdr.de
 Delivered-To: lists+linux-alpha@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 6282C183AD8
-	for <lists+linux-alpha@lfdr.de>; Thu, 12 Mar 2020 21:50:04 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 5B1EB18472F
+	for <lists+linux-alpha@lfdr.de>; Fri, 13 Mar 2020 13:48:27 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726902AbgCLUuE (ORCPT <rfc822;lists+linux-alpha@lfdr.de>);
-        Thu, 12 Mar 2020 16:50:04 -0400
-Received: from mail.rc.ru ([151.236.222.147]:46884 "EHLO mail.rc.ru"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726571AbgCLUuD (ORCPT <rfc822;linux-alpha@vger.kernel.org>);
-        Thu, 12 Mar 2020 16:50:03 -0400
-Received: from mail.rc.ru ([2a01:7e00:e000:1bf::1]:36050)
-        by mail.rc.ru with esmtpsa (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
-        (Exim 4.92)
-        (envelope-from <ink@jurassic.park.msu.ru>)
-        id 1jCUmF-0005Ez-P8; Thu, 12 Mar 2020 20:49:59 +0000
-Date:   Thu, 12 Mar 2020 20:49:58 +0000
-From:   Ivan Kokshaysky <ink@jurassic.park.msu.ru>
-To:     Bjorn Helgaas <helgaas@kernel.org>
-Cc:     Matt Turner <mattst88@gmail.com>, Yinghai Lu <yinghai@kernel.org>,
-        linux-pci@vger.kernel.org,
-        linux-alpha <linux-alpha@vger.kernel.org>,
-        Richard Henderson <rth@twiddle.net>,
-        Jay Estabrook <jay.estabrook@gmail.com>,
-        Nicholas Johnson <nicholas.johnson-opensource@outlook.com.au>,
-        Benjamin Herrenschmidt <benh@kernel.crashing.org>
-Subject: Re: Some Alphas broken by f75b99d5a77d (PCI: Enforce bus address
- limits in resource allocation)
-Message-ID: <20200312204958.GA20087@mail.rc.ru>
-References: <CAEdQ38HhKq9L3UF=Hapmx-BJ7eLLRfo26ZxFUFqXx+ZEY0Axxg@mail.gmail.com>
- <20200312201900.GA174932@google.com>
+        id S1726426AbgCMMs1 (ORCPT <rfc822;lists+linux-alpha@lfdr.de>);
+        Fri, 13 Mar 2020 08:48:27 -0400
+Received: from mail-pj1-f67.google.com ([209.85.216.67]:33692 "EHLO
+        mail-pj1-f67.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726216AbgCMMs0 (ORCPT
+        <rfc822;linux-alpha@vger.kernel.org>);
+        Fri, 13 Mar 2020 08:48:26 -0400
+Received: by mail-pj1-f67.google.com with SMTP id dw20so1795239pjb.0;
+        Fri, 13 Mar 2020 05:48:24 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to:user-agent;
+        bh=vfLtNZ0VvBNo56dvGGqSEkX8wp84sKqijejN4pOTelU=;
+        b=ah/XXi/BK3w0arbvueMFncz4R99pp3f7rtrPBcxJUI8/No6t86N70GsKqhuHhaLRtW
+         4mKx/0f98i4FCrt/UVZxNTfMoBE7uLouFwXE1i+l67yIV4gE3q4G/dceAj07Bht9ePuM
+         qoBpi3Zmm+KDfdZbxnYZKQr5sOfc/E7tUp5mhGs7Wq/Y3ISAKidHotL7ncr4fibWIydy
+         I85UJhQ04RVQwTI/MWCfe8g4FBjig0cEwc4fJ/aiE9zCW6rO2PLfbaNucHGD2eK99wyZ
+         Q6iO5e+tfAG2GwlkJ1CPp8Uo2l9LAJdLIHG4i0TMaKKtQloP7GiMqOIvQDsPhaeaGIlJ
+         IeFg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to:user-agent;
+        bh=vfLtNZ0VvBNo56dvGGqSEkX8wp84sKqijejN4pOTelU=;
+        b=XfDPTLvtJjDG41ue99WBTRxAhtd7LF6viQxOKAVtMmlLhxxzWDrPK7erQtH/3irV/z
+         yti3IQeK8SNyUFQe/bddsPrqBX5+7uiwp5G8QzWqqx5quoD4eOzHNheLZTJv6pylMW8M
+         QohVjkPKIwaY7jlm1IoWVVpf52Eo0Cvd4h/Lubn/BUeivuG3QWOZhXXpcVvLF57mMXZX
+         SEIMiWsAQm7GSrNpZFk7LQ/ZPAL5pj3W2+wHmqHSaKvjR7vQdgJvf2YKTFzWMt5ApFwv
+         Mml4F3yq5g15UCLNj9hyCBysdKMyBxGCoXzzXNHIMowz3brE0KgL9a3MikILSi8Fw7Q0
+         ZLDQ==
+X-Gm-Message-State: ANhLgQ0jlXopuCJkS0obJYGuT9I3f55wrfLzJ+3T3Zw7LAgIyK+LUrVw
+        Foc1vLb5vmPpsdPlQ30URUg=
+X-Google-Smtp-Source: ADFU+vslro8nhD0UHm9mdjTw0ua8ebbn96fALM+XAwtOdxgm72mgO30QuS/dGmxXEsoBwZebaSew5A==
+X-Received: by 2002:a17:90a:34c6:: with SMTP id m6mr9879368pjf.13.1584103704120;
+        Fri, 13 Mar 2020 05:48:24 -0700 (PDT)
+Received: from localhost ([106.51.232.35])
+        by smtp.gmail.com with ESMTPSA id v123sm33695335pfv.146.2020.03.13.05.48.22
+        (version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
+        Fri, 13 Mar 2020 05:48:23 -0700 (PDT)
+Date:   Fri, 13 Mar 2020 18:18:21 +0530
+From:   afzal mohammed <afzal.mohd.ma@gmail.com>
+To:     Richard Henderson <rth@twiddle.net>,
+        Ivan Kokshaysky <ink@jurassic.park.msu.ru>,
+        Matt Turner <mattst88@gmail.com>
+Cc:     linux-alpha@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v4] alpha: Replace setup_irq() by request_irq()
+Message-ID: <20200313124821.GD7225@afzalpc>
+References: <20200304005209.5636-1-afzal.mohd.ma@gmail.com>
+ <20200305130843.17989-1-afzal.mohd.ma@gmail.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20200312201900.GA174932@google.com>
-User-Agent: Mutt/1.10.1 (2018-07-13)
+In-Reply-To: <20200305130843.17989-1-afzal.mohd.ma@gmail.com>
+User-Agent: Mutt/1.9.3 (2018-01-21)
 Sender: linux-alpha-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-alpha.vger.kernel.org>
 X-Mailing-List: linux-alpha@vger.kernel.org
 
-On Thu, Mar 12, 2020 at 03:19:00PM -0500, Bjorn Helgaas wrote:
-> On Wed, Mar 11, 2020 at 09:28:33PM -0700, Matt Turner wrote:
-> > If the PCI bits are fine with you, I assume you'd like them to go
-> > through your tree, etc? I'm perfectly happy to see the alpha bits go
-> > through the same tree.
+Hi Richard Henderson, Ivan Kokshaysky, Matt Turner, 
+
+On Thu, Mar 05, 2020 at 06:38:41PM +0530, afzal mohammed wrote:
+> request_irq() is preferred over setup_irq(). Invocations of setup_irq()
+> occur after memory allocators are ready.
 > 
-> Yes, I think this looks reasonable.  We should get this posted in the
-> usual format (commit log, signed-off-by, etc), and then get it into
-> -next to see how it flies.
+> Per tglx[1], setup_irq() existed in olden days when allocators were not
+> ready by the time early interrupts were initialized.
+> 
+> Hence replace setup_irq() by request_irq().
+> 
+> [1] https://lkml.kernel.org/r/alpine.DEB.2.20.1710191609480.1971@nanos
+> 
+> Signed-off-by: afzal mohammed <afzal.mohd.ma@gmail.com>
 
-Ok, I'll do it this weekend.
+If this patch is okay, please consider acking it so as to take it via
+tglx.
 
-Ivan.
+Regards
+afzal
