@@ -2,87 +2,107 @@ Return-Path: <linux-alpha-owner@vger.kernel.org>
 X-Original-To: lists+linux-alpha@lfdr.de
 Delivered-To: lists+linux-alpha@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id EAEC0184DC3
-	for <lists+linux-alpha@lfdr.de>; Fri, 13 Mar 2020 18:38:32 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 05635185955
+	for <lists+linux-alpha@lfdr.de>; Sun, 15 Mar 2020 03:47:27 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726526AbgCMRic (ORCPT <rfc822;lists+linux-alpha@lfdr.de>);
-        Fri, 13 Mar 2020 13:38:32 -0400
-Received: from mail-ed1-f68.google.com ([209.85.208.68]:40633 "EHLO
-        mail-ed1-f68.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726504AbgCMRic (ORCPT
+        id S1727426AbgCOCr0 (ORCPT <rfc822;lists+linux-alpha@lfdr.de>);
+        Sat, 14 Mar 2020 22:47:26 -0400
+Received: from mail-ed1-f65.google.com ([209.85.208.65]:35269 "EHLO
+        mail-ed1-f65.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726838AbgCOCr0 (ORCPT
         <rfc822;linux-alpha@vger.kernel.org>);
-        Fri, 13 Mar 2020 13:38:32 -0400
-Received: by mail-ed1-f68.google.com with SMTP id a24so12879373edy.7;
-        Fri, 13 Mar 2020 10:38:30 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=R3dyNr4k5uWyS12uYVE6FnBN9I0mOgh5neR4n7Md79s=;
-        b=ee5U9Uz3MBtT6Nz8t621V9cJN5wg3+7ZOmT+cjtjz9yVgKB6xgHYYRybpm0tjQ9QFW
-         UGcjiprG0XDeCfpQbAFG3voJF42p6Tz15VbiqWg1ueGEmyyZ1wRpScmPVSclQ1Wo59Cp
-         ig37pPj54xRLrAg5Ne+sMfrmKMbHCRItjmSra80vHh0cwjoHwx0JF00QJDe5Erhe5Kr1
-         tTLxmCmwU71NpDntU9u6MzMCayInnzI7hiMNZfnfHdJDmESGEqGaMwasHrNoGnvcgC9U
-         EeSrZgB7hscZD4CSfsB8PAdy+S1PbcjEjInySA6+4S0CDDeh7bTQcWiHUb32n41DthI7
-         Px2A==
+        Sat, 14 Mar 2020 22:47:26 -0400
+Received: by mail-ed1-f65.google.com with SMTP id a20so17457252edj.2;
+        Sat, 14 Mar 2020 19:47:24 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=R3dyNr4k5uWyS12uYVE6FnBN9I0mOgh5neR4n7Md79s=;
-        b=HYmRA4Tf+fjvicCzGBy7c76+m3SwRNDYqPOOcX7R3MzxMf59eg/Yno/w70PQYPUXH+
-         d0eckgvheyhblmoFe4C/rd/9cpo8atW9dvDCr7bcnPAE7D7m/dpE3DKQayS1rpuGumTb
-         EorfSsMzKgR1ZsfDM3n0rHPc9kF3OEtaIgdYh52WqIefJbk2+IAnIVfyjCntpZK3E9oh
-         PItVbzQm4XYKmoW8KoXG6m3OhhJB+5mrjIAkmGs6n/CiG2ojL9LguUa8qnVC0SmbNR+F
-         bjTh3Uy4ho3cPZHMbInBqop0kJGftwA5dFvoYYYWwcyOG1yOIpT42s5AzN4btXDzey14
-         FQyw==
-X-Gm-Message-State: ANhLgQ3VazZR6RuaImf8PHRbKBdnDzKgpyqRkqYEQ/tHJOYVz6vLtGj2
-        ++EPcO9FAdmLyPr2RuBfH8mvSUDg1qTvR3jisvY=
-X-Google-Smtp-Source: ADFU+vssY/N5sa0mg9a2KokRXIjoibkrN8m75YmXHtI7GyTMSTlWJ7b7VArj6jSyBMrODAOmFom6VKOCGt2GLlpPREw=
-X-Received: by 2002:aa7:de85:: with SMTP id j5mr14292710edv.193.1584121110187;
- Fri, 13 Mar 2020 10:38:30 -0700 (PDT)
-MIME-Version: 1.0
-References: <20200304005209.5636-1-afzal.mohd.ma@gmail.com>
- <20200305130843.17989-1-afzal.mohd.ma@gmail.com> <20200313124821.GD7225@afzalpc>
-In-Reply-To: <20200313124821.GD7225@afzalpc>
-From:   Matt Turner <mattst88@gmail.com>
-Date:   Fri, 13 Mar 2020 10:38:18 -0700
-Message-ID: <CAEdQ38E2VEK=XZySOdm=zPj6dAOf0FuzuS39Y+AYTFVctB6zuw@mail.gmail.com>
-Subject: Re: [PATCH v4] alpha: Replace setup_irq() by request_irq()
-To:     afzal mohammed <afzal.mohd.ma@gmail.com>
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to:user-agent;
+        bh=g01xlTcHoCeW8HA/Zoij0G1oenw325gwe1o5DluyjVk=;
+        b=fhOkvcAzmrWNJMgNJHPikI0QrGFXUsIZP5fkroS/IpA0TQrw0VoJrbLW4s1e4dcL0L
+         OkBTtQEMGbrcyKAZ/DZbMQgvicmu+g3W2zk691CCuMfY5wS3zAblPMF21MOExZYVv/29
+         wlVpXaW1FrRC7nxMmMnz4peCdKXJCQS7tNGOa+WX5CmBNw8QcyexYj5AneuIXFLe4Q7+
+         nR+xs7Io4N0jlM4IwpiC8AweeFotW6hX9oBszbn+Zhn0rug5mdNw4EhFqeDde03gn62+
+         xOdyunUAogpSjYSTCX+zLdRr0urBiPyT+igD4lXSqthOfdeHinWhuJGcspr2G1AzZL8y
+         Zf1g==
+X-Gm-Message-State: ANhLgQ0SzV6O2Bt/85guXt2+2wBEHCCjVeyp4t4II8iyl56lhdmONSLA
+        GQ9/hVsncD9cQ64HKzHRagjDuQeZDNU=
+X-Google-Smtp-Source: ADFU+vv1WkKB0u07WBdUm4ghC+dsxjEf7g/P9HdfFTe2RSYc3zQrfQ3xU1TFNHiCqZRBtceL52pXBQ==
+X-Received: by 2002:a17:906:2181:: with SMTP id 1mr15328632eju.131.1584183589584;
+        Sat, 14 Mar 2020 03:59:49 -0700 (PDT)
+Received: from kozik-lap ([194.230.155.125])
+        by smtp.googlemail.com with ESMTPSA id f21sm1538993ejx.41.2020.03.14.03.59.46
+        (version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
+        Sat, 14 Mar 2020 03:59:48 -0700 (PDT)
+Date:   Sat, 14 Mar 2020 11:59:44 +0100
+From:   Krzysztof Kozlowski <krzk@kernel.org>
+To:     Thomas Zimmermann <tzimmermann@suse.de>
 Cc:     Richard Henderson <rth@twiddle.net>,
         Ivan Kokshaysky <ink@jurassic.park.msu.ru>,
-        linux-alpha <linux-alpha@vger.kernel.org>,
-        LKML <linux-kernel@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+        Matt Turner <mattst88@gmail.com>,
+        Alexey Brodkin <abrodkin@synopsys.com>,
+        Vineet Gupta <vgupta@synopsys.com>,
+        "James E.J. Bottomley" <James.Bottomley@HansenPartnership.com>,
+        Helge Deller <deller@gmx.de>,
+        Benjamin Herrenschmidt <benh@kernel.crashing.org>,
+        Paul Mackerras <paulus@samba.org>,
+        Michael Ellerman <mpe@ellerman.id.au>,
+        Yoshinori Sato <ysato@users.sourceforge.jp>,
+        Rich Felker <dalias@libc.org>,
+        Dave Airlie <airlied@redhat.com>,
+        David Airlie <airlied@linux.ie>,
+        Daniel Vetter <daniel@ffwll.ch>,
+        Ben Skeggs <bskeggs@redhat.com>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Jiri Slaby <jirislaby@gmail.com>,
+        Nick Kossifidis <mickflemm@gmail.com>,
+        Luis Chamberlain <mcgrof@kernel.org>,
+        Kalle Valo <kvalo@codeaurora.org>,
+        "David S. Miller" <davem@davemloft.net>,
+        Dave Jiang <dave.jiang@intel.com>,
+        Jon Mason <jdmason@kudzu.us>, Allen Hubbe <allenbh@gmail.com>,
+        "Michael S. Tsirkin" <mst@redhat.com>,
+        Jason Wang <jasowang@redhat.com>,
+        Arnd Bergmann <arnd@arndb.de>,
+        Geert Uytterhoeven <geert+renesas@glider.be>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        linux-alpha@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-snps-arc@lists.infradead.org, linux-parisc@vger.kernel.org,
+        linuxppc-dev@lists.ozlabs.org, linux-sh@vger.kernel.org,
+        dri-devel@lists.freedesktop.org, nouveau@lists.freedesktop.org,
+        linux-media@vger.kernel.org, linux-wireless@vger.kernel.org,
+        netdev@vger.kernel.org, linux-ntb@googlegroups.com,
+        virtualization@lists.linux-foundation.org,
+        linux-arch@vger.kernel.org
+Subject: Re: [RESEND PATCH v2 6/9] drm/mgag200: Constify ioreadX() iomem
+ argument (as in generic implementation)
+Message-ID: <20200314105944.GA16044@kozik-lap>
+References: <20200219175007.13627-1-krzk@kernel.org>
+ <20200219175007.13627-7-krzk@kernel.org>
+ <90baef2d-25fe-fac4-6a7e-b103b4b6721e@suse.de>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <90baef2d-25fe-fac4-6a7e-b103b4b6721e@suse.de>
+User-Agent: Mutt/1.9.4 (2018-02-28)
 Sender: linux-alpha-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-alpha.vger.kernel.org>
 X-Mailing-List: linux-alpha@vger.kernel.org
 
-On Fri, Mar 13, 2020 at 5:48 AM afzal mohammed <afzal.mohd.ma@gmail.com> wrote:
->
-> Hi Richard Henderson, Ivan Kokshaysky, Matt Turner,
->
-> On Thu, Mar 05, 2020 at 06:38:41PM +0530, afzal mohammed wrote:
-> > request_irq() is preferred over setup_irq(). Invocations of setup_irq()
-> > occur after memory allocators are ready.
-> >
-> > Per tglx[1], setup_irq() existed in olden days when allocators were not
-> > ready by the time early interrupts were initialized.
-> >
-> > Hence replace setup_irq() by request_irq().
-> >
-> > [1] https://lkml.kernel.org/r/alpine.DEB.2.20.1710191609480.1971@nanos
-> >
-> > Signed-off-by: afzal mohammed <afzal.mohd.ma@gmail.com>
->
-> If this patch is okay, please consider acking it so as to take it via
-> tglx.
->
-> Regards
-> afzal
+On Thu, Mar 12, 2020 at 11:49:05AM +0100, Thomas Zimmermann wrote:
+> Hi Krzysztof,
+> 
+> I just received a resend email from 3 weeks ago :/
+> 
+> Do you want me to merge the mgag200 patch into drm-misc-next?
 
-Thanks afzal,
+Thanks but it depends on the first patch in the series so either it
+could go with your ack through other tree or I will send it later (once
+1st patch gets to mainline).
 
-Acked-by: Matt Turner <mattst88@gmail.com>
+
+Best regards,
+Krzysztof
+
