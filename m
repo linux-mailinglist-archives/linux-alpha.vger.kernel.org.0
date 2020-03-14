@@ -2,107 +2,167 @@ Return-Path: <linux-alpha-owner@vger.kernel.org>
 X-Original-To: lists+linux-alpha@lfdr.de
 Delivered-To: lists+linux-alpha@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 05635185955
-	for <lists+linux-alpha@lfdr.de>; Sun, 15 Mar 2020 03:47:27 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 54FAC18597C
+	for <lists+linux-alpha@lfdr.de>; Sun, 15 Mar 2020 03:59:43 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727426AbgCOCr0 (ORCPT <rfc822;lists+linux-alpha@lfdr.de>);
-        Sat, 14 Mar 2020 22:47:26 -0400
-Received: from mail-ed1-f65.google.com ([209.85.208.65]:35269 "EHLO
-        mail-ed1-f65.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726838AbgCOCr0 (ORCPT
-        <rfc822;linux-alpha@vger.kernel.org>);
-        Sat, 14 Mar 2020 22:47:26 -0400
-Received: by mail-ed1-f65.google.com with SMTP id a20so17457252edj.2;
-        Sat, 14 Mar 2020 19:47:24 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to:user-agent;
-        bh=g01xlTcHoCeW8HA/Zoij0G1oenw325gwe1o5DluyjVk=;
-        b=fhOkvcAzmrWNJMgNJHPikI0QrGFXUsIZP5fkroS/IpA0TQrw0VoJrbLW4s1e4dcL0L
-         OkBTtQEMGbrcyKAZ/DZbMQgvicmu+g3W2zk691CCuMfY5wS3zAblPMF21MOExZYVv/29
-         wlVpXaW1FrRC7nxMmMnz4peCdKXJCQS7tNGOa+WX5CmBNw8QcyexYj5AneuIXFLe4Q7+
-         nR+xs7Io4N0jlM4IwpiC8AweeFotW6hX9oBszbn+Zhn0rug5mdNw4EhFqeDde03gn62+
-         xOdyunUAogpSjYSTCX+zLdRr0urBiPyT+igD4lXSqthOfdeHinWhuJGcspr2G1AzZL8y
-         Zf1g==
-X-Gm-Message-State: ANhLgQ0SzV6O2Bt/85guXt2+2wBEHCCjVeyp4t4II8iyl56lhdmONSLA
-        GQ9/hVsncD9cQ64HKzHRagjDuQeZDNU=
-X-Google-Smtp-Source: ADFU+vv1WkKB0u07WBdUm4ghC+dsxjEf7g/P9HdfFTe2RSYc3zQrfQ3xU1TFNHiCqZRBtceL52pXBQ==
-X-Received: by 2002:a17:906:2181:: with SMTP id 1mr15328632eju.131.1584183589584;
-        Sat, 14 Mar 2020 03:59:49 -0700 (PDT)
-Received: from kozik-lap ([194.230.155.125])
-        by smtp.googlemail.com with ESMTPSA id f21sm1538993ejx.41.2020.03.14.03.59.46
-        (version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
-        Sat, 14 Mar 2020 03:59:48 -0700 (PDT)
-Date:   Sat, 14 Mar 2020 11:59:44 +0100
-From:   Krzysztof Kozlowski <krzk@kernel.org>
-To:     Thomas Zimmermann <tzimmermann@suse.de>
-Cc:     Richard Henderson <rth@twiddle.net>,
-        Ivan Kokshaysky <ink@jurassic.park.msu.ru>,
-        Matt Turner <mattst88@gmail.com>,
-        Alexey Brodkin <abrodkin@synopsys.com>,
-        Vineet Gupta <vgupta@synopsys.com>,
-        "James E.J. Bottomley" <James.Bottomley@HansenPartnership.com>,
-        Helge Deller <deller@gmx.de>,
-        Benjamin Herrenschmidt <benh@kernel.crashing.org>,
-        Paul Mackerras <paulus@samba.org>,
-        Michael Ellerman <mpe@ellerman.id.au>,
-        Yoshinori Sato <ysato@users.sourceforge.jp>,
-        Rich Felker <dalias@libc.org>,
-        Dave Airlie <airlied@redhat.com>,
-        David Airlie <airlied@linux.ie>,
-        Daniel Vetter <daniel@ffwll.ch>,
-        Ben Skeggs <bskeggs@redhat.com>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Jiri Slaby <jirislaby@gmail.com>,
-        Nick Kossifidis <mickflemm@gmail.com>,
-        Luis Chamberlain <mcgrof@kernel.org>,
-        Kalle Valo <kvalo@codeaurora.org>,
-        "David S. Miller" <davem@davemloft.net>,
-        Dave Jiang <dave.jiang@intel.com>,
-        Jon Mason <jdmason@kudzu.us>, Allen Hubbe <allenbh@gmail.com>,
-        "Michael S. Tsirkin" <mst@redhat.com>,
-        Jason Wang <jasowang@redhat.com>,
-        Arnd Bergmann <arnd@arndb.de>,
-        Geert Uytterhoeven <geert+renesas@glider.be>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        linux-alpha@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-snps-arc@lists.infradead.org, linux-parisc@vger.kernel.org,
-        linuxppc-dev@lists.ozlabs.org, linux-sh@vger.kernel.org,
-        dri-devel@lists.freedesktop.org, nouveau@lists.freedesktop.org,
-        linux-media@vger.kernel.org, linux-wireless@vger.kernel.org,
-        netdev@vger.kernel.org, linux-ntb@googlegroups.com,
-        virtualization@lists.linux-foundation.org,
-        linux-arch@vger.kernel.org
-Subject: Re: [RESEND PATCH v2 6/9] drm/mgag200: Constify ioreadX() iomem
- argument (as in generic implementation)
-Message-ID: <20200314105944.GA16044@kozik-lap>
-References: <20200219175007.13627-1-krzk@kernel.org>
- <20200219175007.13627-7-krzk@kernel.org>
- <90baef2d-25fe-fac4-6a7e-b103b4b6721e@suse.de>
+        id S1726968AbgCOC7n (ORCPT <rfc822;lists+linux-alpha@lfdr.de>);
+        Sat, 14 Mar 2020 22:59:43 -0400
+Received: from mail.rc.ru ([151.236.222.147]:48106 "EHLO mail.rc.ru"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1726553AbgCOC7m (ORCPT <rfc822;linux-alpha@vger.kernel.org>);
+        Sat, 14 Mar 2020 22:59:42 -0400
+Received: from mail.rc.ru ([2a01:7e00:e000:1bf::1]:37132)
+        by mail.rc.ru with esmtpsa (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
+        (Exim 4.92)
+        (envelope-from <ink@jurassic.park.msu.ru>)
+        id 1jDChR-0003HI-1U; Sat, 14 Mar 2020 19:43:57 +0000
+Date:   Sat, 14 Mar 2020 19:43:55 +0000
+From:   Ivan Kokshaysky <ink@jurassic.park.msu.ru>
+To:     Bjorn Helgaas <helgaas@kernel.org>
+Cc:     Matt Turner <mattst88@gmail.com>, Yinghai Lu <yinghai@kernel.org>,
+        linux-pci@vger.kernel.org,
+        linux-alpha <linux-alpha@vger.kernel.org>,
+        Richard Henderson <rth@twiddle.net>,
+        Jay Estabrook <jay.estabrook@gmail.com>,
+        Nicholas Johnson <nicholas.johnson-opensource@outlook.com.au>,
+        Benjamin Herrenschmidt <benh@kernel.crashing.org>
+Subject: [PATCH] PCI: add support for root bus sizing
+Message-ID: <20200314194355.GA12510@mail.rc.ru>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <90baef2d-25fe-fac4-6a7e-b103b4b6721e@suse.de>
-User-Agent: Mutt/1.9.4 (2018-02-28)
+User-Agent: Mutt/1.10.1 (2018-07-13)
 Sender: linux-alpha-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-alpha.vger.kernel.org>
 X-Mailing-List: linux-alpha@vger.kernel.org
 
-On Thu, Mar 12, 2020 at 11:49:05AM +0100, Thomas Zimmermann wrote:
-> Hi Krzysztof,
-> 
-> I just received a resend email from 3 weeks ago :/
-> 
-> Do you want me to merge the mgag200 patch into drm-misc-next?
+In certain cases we should be able to enumerate IO and MEM ranges
+of all PCI devices installed in the system, and then set respective
+host bridge apertures basing on calculated size and alignment.
+Particularly when firmware is broken and fails to assign bridge
+windows properly, like on Alpha UP1500 platform.
 
-Thanks but it depends on the first patch in the series so either it
-could go with your ack through other tree or I will send it later (once
-1st patch gets to mainline).
+Actually, almost everything is already in place, and required
+changes are minimal:
 
+- add "size_windows" flag to struct pci_host_bridge: when set, it
+  instructs __pci_bus_size_bridges() to continue with the root bus;
+- in the __pci_bus_size_bridges() path: add checks for bus->self,
+  as it can legitimately be null for the root bus.
 
-Best regards,
-Krzysztof
+Signed-off-by: Ivan Kokshaysky <ink@jurassic.park.msu.ru>
+---
+ drivers/pci/setup-bus.c | 34 ++++++++++++++++++++++------------
+ include/linux/pci.h     |  1 +
+ 2 files changed, 23 insertions(+), 12 deletions(-)
 
+diff --git a/drivers/pci/setup-bus.c b/drivers/pci/setup-bus.c
+index f2461bf9243d..bbcef1a053ab 100644
+--- a/drivers/pci/setup-bus.c
++++ b/drivers/pci/setup-bus.c
+@@ -846,7 +846,7 @@ static resource_size_t window_alignment(struct pci_bus *bus, unsigned long type)
+ 		 * Per spec, I/O windows are 4K-aligned, but some bridges have
+ 		 * an extension to support 1K alignment.
+ 		 */
+-		if (bus->self->io_window_1k)
++		if (bus->self && bus->self->io_window_1k)
+ 			align = PCI_P2P_DEFAULT_IO_ALIGN_1K;
+ 		else
+ 			align = PCI_P2P_DEFAULT_IO_ALIGN;
+@@ -920,7 +920,7 @@ static void pbus_size_io(struct pci_bus *bus, resource_size_t min_size,
+ 		calculate_iosize(size, min_size, size1, add_size, children_add_size,
+ 			resource_size(b_res), min_align);
+ 	if (!size0 && !size1) {
+-		if (b_res->start || b_res->end)
++		if (bus->self && (b_res->start || b_res->end))
+ 			pci_info(bus->self, "disabling bridge window %pR to %pR (unused)\n",
+ 				 b_res, &bus->busn_res);
+ 		b_res->flags = 0;
+@@ -930,7 +930,7 @@ static void pbus_size_io(struct pci_bus *bus, resource_size_t min_size,
+ 	b_res->start = min_align;
+ 	b_res->end = b_res->start + size0 - 1;
+ 	b_res->flags |= IORESOURCE_STARTALIGN;
+-	if (size1 > size0 && realloc_head) {
++	if (bus->self && size1 > size0 && realloc_head) {
+ 		add_to_list(realloc_head, bus->self, b_res, size1-size0,
+ 			    min_align);
+ 		pci_info(bus->self, "bridge window %pR to %pR add_size %llx\n",
+@@ -1073,7 +1073,7 @@ static int pbus_size_mem(struct pci_bus *bus, unsigned long mask,
+ 		calculate_memsize(size, min_size, add_size, children_add_size,
+ 				resource_size(b_res), add_align);
+ 	if (!size0 && !size1) {
+-		if (b_res->start || b_res->end)
++		if (bus->self && (b_res->start || b_res->end))
+ 			pci_info(bus->self, "disabling bridge window %pR to %pR (unused)\n",
+ 				 b_res, &bus->busn_res);
+ 		b_res->flags = 0;
+@@ -1082,7 +1082,7 @@ static int pbus_size_mem(struct pci_bus *bus, unsigned long mask,
+ 	b_res->start = min_align;
+ 	b_res->end = size0 + min_align - 1;
+ 	b_res->flags |= IORESOURCE_STARTALIGN;
+-	if (size1 > size0 && realloc_head) {
++	if (bus->self && size1 > size0 && realloc_head) {
+ 		add_to_list(realloc_head, bus->self, b_res, size1-size0, add_align);
+ 		pci_info(bus->self, "bridge window %pR to %pR add_size %llx add_align %llx\n",
+ 			   b_res, &bus->busn_res,
+@@ -1196,8 +1196,9 @@ void __pci_bus_size_bridges(struct pci_bus *bus, struct list_head *realloc_head)
+ 	unsigned long mask, prefmask, type2 = 0, type3 = 0;
+ 	resource_size_t additional_io_size = 0, additional_mmio_size = 0,
+ 			additional_mmio_pref_size = 0;
+-	struct resource *b_res;
+-	int ret;
++	struct resource *pref;
++	struct pci_host_bridge *host;
++	int hdr_type, i, ret;
+ 
+ 	list_for_each_entry(dev, &bus->devices, bus_list) {
+ 		struct pci_bus *b = dev->subordinate;
+@@ -1217,10 +1218,20 @@ void __pci_bus_size_bridges(struct pci_bus *bus, struct list_head *realloc_head)
+ 	}
+ 
+ 	/* The root bus? */
+-	if (pci_is_root_bus(bus))
+-		return;
++	if (pci_is_root_bus(bus)) {
++		host = to_pci_host_bridge(bus->bridge);
++		if (!host->size_windows)
++			return;
++		pci_bus_for_each_resource(bus, pref, i)
++			if (pref && (pref->flags & IORESOURCE_PREFETCH))
++				break;
++		hdr_type = -1;	/* Intentionally invalid - not a PCI device. */
++	} else {
++		pref = &bus->self->resource[PCI_BRIDGE_RESOURCES + 2];
++		hdr_type = bus->self->hdr_type;
++	}
+ 
+-	switch (bus->self->hdr_type) {
++	switch (hdr_type) {
+ 	case PCI_HEADER_TYPE_CARDBUS:
+ 		/* Don't size CardBuses yet */
+ 		break;
+@@ -1242,10 +1253,9 @@ void __pci_bus_size_bridges(struct pci_bus *bus, struct list_head *realloc_head)
+ 		 * the size required to put all 64-bit prefetchable
+ 		 * resources in it.
+ 		 */
+-		b_res = &bus->self->resource[PCI_BRIDGE_RESOURCES];
+ 		mask = IORESOURCE_MEM;
+ 		prefmask = IORESOURCE_MEM | IORESOURCE_PREFETCH;
+-		if (b_res[2].flags & IORESOURCE_MEM_64) {
++		if (pref && (pref->flags & IORESOURCE_MEM_64)) {
+ 			prefmask |= IORESOURCE_MEM_64;
+ 			ret = pbus_size_mem(bus, prefmask, prefmask,
+ 				prefmask, prefmask,
+diff --git a/include/linux/pci.h b/include/linux/pci.h
+index 3840a541a9de..681c79b4dc85 100644
+--- a/include/linux/pci.h
++++ b/include/linux/pci.h
+@@ -511,6 +511,7 @@ struct pci_host_bridge {
+ 	unsigned int	native_pme:1;		/* OS may use PCIe PME */
+ 	unsigned int	native_ltr:1;		/* OS may use PCIe LTR */
+ 	unsigned int	preserve_config:1;	/* Preserve FW resource setup */
++	unsigned int	size_windows:1;		/* Enable root bus sizing */
+ 
+ 	/* Resource alignment requirements */
+ 	resource_size_t (*align_resource)(struct pci_dev *dev,
