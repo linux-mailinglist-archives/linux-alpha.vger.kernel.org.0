@@ -2,52 +2,52 @@ Return-Path: <linux-alpha-owner@vger.kernel.org>
 X-Original-To: lists+linux-alpha@lfdr.de
 Delivered-To: lists+linux-alpha@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 0F9211878E7
-	for <lists+linux-alpha@lfdr.de>; Tue, 17 Mar 2020 05:58:20 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 008501879A3
+	for <lists+linux-alpha@lfdr.de>; Tue, 17 Mar 2020 07:26:41 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1725837AbgCQE6T (ORCPT <rfc822;lists+linux-alpha@lfdr.de>);
-        Tue, 17 Mar 2020 00:58:19 -0400
-Received: from mail-ed1-f66.google.com ([209.85.208.66]:43909 "EHLO
+        id S1726016AbgCQG0k (ORCPT <rfc822;lists+linux-alpha@lfdr.de>);
+        Tue, 17 Mar 2020 02:26:40 -0400
+Received: from mail-ed1-f66.google.com ([209.85.208.66]:42253 "EHLO
         mail-ed1-f66.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725536AbgCQE6T (ORCPT
+        with ESMTP id S1725862AbgCQG0k (ORCPT
         <rfc822;linux-alpha@vger.kernel.org>);
-        Tue, 17 Mar 2020 00:58:19 -0400
-Received: by mail-ed1-f66.google.com with SMTP id dc19so24771527edb.10;
-        Mon, 16 Mar 2020 21:58:17 -0700 (PDT)
+        Tue, 17 Mar 2020 02:26:40 -0400
+Received: by mail-ed1-f66.google.com with SMTP id b21so14602035edy.9;
+        Mon, 16 Mar 2020 23:26:36 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=mime-version:references:in-reply-to:from:date:message-id:subject:to
          :cc;
-        bh=QSlwcCW1wByXeYUT3JQbxi77+0v1S3fgiBq0ZW8UzqQ=;
-        b=Sse7C8BnQ3sSG2GAEC2SuJEhmdjyyN4QD0FABveGRUuZ/u9Fxt+BLEn16bb+UzvW+X
-         KgtvmSv0hepHbqx6LErjMdQ34NGc4heGyQrUJIEHWDcux9GTg1B4QL+so0y2twZK48MJ
-         WFTumXlUtIu/6lW7GdXmRJO1uL/34yTMyLOXHA2vEniUeuA2ETOr00UkgjVHw3jdFbKm
-         ZwsTgM7xloAXSNTq00vxxy2RC32eEf6U/zSKy/HbC4lpaGFxFx3aPCA6myhqi08WPo/N
-         E1njT+cRrT22hPbp/XkEuu5JoDXu8RfkdsO0L6nV27uaJg3RhCW0NO2BwmoL1vu9Kilf
-         gFuw==
+        bh=986MFMWS2fuD8X0pwumfKpMeJ4RrueeaFq6IWBfnpKQ=;
+        b=njAU8PBN1d16SS/gtsi4wbrJkCXoaegvl4cYtm/v0rkhsXUbCqfYphdn8RZW9YQtfb
+         8jh43swsYXeD+m6dNa/JoNK6tfTd99B5GIjltxFreYy586NXcGymCOM39oBfM0Pffsbk
+         i3D5A5sQ2Y4WiLsp5CncNRmJ8VKMkh2GCfg0LusBGs1ZtoExnhXfTgNdhTDwnY7v9ysM
+         kHDehL0Uxm7xdRkvuVRyvRGiVHPaJ0cf/Dn1ZY3TaAn1OSZybqsrSUmO8PkifjNbNaQl
+         mb7qGyIKtOWP8YqTsdgW2pCcyYbRJRXCnizzhADH7bRDKZmupnlmlZUvo1jDiIRhD4/n
+         oAxQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
          :message-id:subject:to:cc;
-        bh=QSlwcCW1wByXeYUT3JQbxi77+0v1S3fgiBq0ZW8UzqQ=;
-        b=S2VVIKRu1L9z8+oLYAE/Xc/nJAKXyJrcTuv/xrKKkOHIb+2i22t0JkW3tY4yYW7mZ8
-         ek5w8EI+zbCiZ7zsRZB0cfLaKDliIsjxB4AbYjiw2e28QXMSkg/BClCHVfVZ2yMfy/Ia
-         SHrSP+4F4AbyvosazFUu8+bdv56k+qVzw4jujHCdkyc5MjUgfqkRCob+s42cZvttj72g
-         rzxnZRO3GV4jzWOMoQmVdig0hL2F/Pq4qPcxUHhlxwPQXOpsw+Un6dP6JXWxAt1R6aUW
-         Orzvl8gHJs+DhDRoB2dITPPWlQY81humufEDEdN6AR+7qmhGICidk8qXgJFKvYOeAqiF
-         SzgA==
-X-Gm-Message-State: ANhLgQ30ftmBDmPE9Zhdfnm1UboJL3H5nDPPBGTbtiUF4MDSf2wUxUPC
-        sGFwzdSDdN3vWMDBYFbp7uyRemFYRtEu/aO8OezjZVf5dI4=
-X-Google-Smtp-Source: ADFU+vt3xCyO8o+4SlufylCOspqYBPK7LTUD83r1wLQ6XohuvLIKrpjIO4iG2+Rm4KaVUyun+Usuo4bIGx2BBlCaLFg=
-X-Received: by 2002:a17:907:2165:: with SMTP id rl5mr2502320ejb.193.1584421096460;
- Mon, 16 Mar 2020 21:58:16 -0700 (PDT)
+        bh=986MFMWS2fuD8X0pwumfKpMeJ4RrueeaFq6IWBfnpKQ=;
+        b=Mgudtaf9qhpomZ0/ihBRxvPEQjpEg4FaPs5TZEQOzxmwtHceLaVFhd2+EC5LeDo7AB
+         e9VmzU1f4HDEGUdd2foqu6Z+h7wLbpXDIAWe8378x1QdgFsalXwUK5zfBUzkpdQte0zT
+         zY3K3rHcappZfJDgQmxgffymm8wouhurfExl7jWruyyF6Vb2Soxko2iXdV2120gK7MPK
+         W0h9ZpJN0HsmG5EZ1zcqDBk3jp9K8fqnaj2kYkIpZlYOnQkAmR4ffjME1nALpZUEJQbA
+         fyR1UEJER0S4qAus/00wKuxMWNcLJ6toNdRXCLfxTCwu7CPjK2yHG1rnTwnwPqODYftE
+         QbbQ==
+X-Gm-Message-State: ANhLgQ00Nw+smQQUAGLrj7ODykjbaB6s3g7i8xw6lAvCB2ZMdbF9we+V
+        4nieCsAULqUmQrJvCb36N/AIBM7kWdWmwif5/78=
+X-Google-Smtp-Source: ADFU+vs7cgQPcBuHTj0MZoZ9WV2qQ2W0atjicWvrC4cn5YniK+gQ0xfkqI82FlBuNCMRWJypJIxG7MOe0zJpcDwvbVM=
+X-Received: by 2002:a05:6402:1bcb:: with SMTP id ch11mr3802069edb.123.1584426396240;
+ Mon, 16 Mar 2020 23:26:36 -0700 (PDT)
 MIME-Version: 1.0
-References: <20200314194355.GA12510@mail.rc.ru>
-In-Reply-To: <20200314194355.GA12510@mail.rc.ru>
+References: <20200314194745.GB12510@mail.rc.ru>
+In-Reply-To: <20200314194745.GB12510@mail.rc.ru>
 From:   Matt Turner <mattst88@gmail.com>
-Date:   Mon, 16 Mar 2020 21:58:04 -0700
-Message-ID: <CAEdQ38ELWdKKPE1svWEUwnHBR+J2cFGO=zWTj3dS3D9JqxDHcg@mail.gmail.com>
-Subject: Re: [PATCH] PCI: add support for root bus sizing
+Date:   Mon, 16 Mar 2020 23:26:24 -0700
+Message-ID: <CAEdQ38GP8XJpgaWRZKFVpHY1mYGh2oaQnnBPYH86tbCRc=U_Xg@mail.gmail.com>
+Subject: Re: [PATCH] alpha: fix nautilus PCI setup
 To:     Ivan Kokshaysky <ink@jurassic.park.msu.ru>
 Cc:     Bjorn Helgaas <helgaas@kernel.org>,
         Yinghai Lu <yinghai@kernel.org>, linux-pci@vger.kernel.org,
@@ -62,23 +62,35 @@ Precedence: bulk
 List-ID: <linux-alpha.vger.kernel.org>
 X-Mailing-List: linux-alpha@vger.kernel.org
 
-On Sat, Mar 14, 2020 at 12:44 PM Ivan Kokshaysky
+On Sat, Mar 14, 2020 at 12:47 PM Ivan Kokshaysky
 <ink@jurassic.park.msu.ru> wrote:
 >
-> In certain cases we should be able to enumerate IO and MEM ranges
-> of all PCI devices installed in the system, and then set respective
-> host bridge apertures basing on calculated size and alignment.
-> Particularly when firmware is broken and fails to assign bridge
-> windows properly, like on Alpha UP1500 platform.
+> Example (hopefully reasonable) of the new "size_windows" flag usage.
 >
-> Actually, almost everything is already in place, and required
-> changes are minimal:
+> Fixes accidental breakage caused by commit f75b99d5a77d (PCI: Enforce
+> bus address limits in resource allocation),
 >
-> - add "size_windows" flag to struct pci_host_bridge: when set, it
->   instructs __pci_bus_size_bridges() to continue with the root bus;
-> - in the __pci_bus_size_bridges() path: add checks for bus->self,
->   as it can legitimately be null for the root bus.
+> Signed-off-by: Ivan Kokshaysky <ink@jurassic.park.msu.ru>
+> ---
+>  arch/alpha/kernel/sys_nautilus.c | 51 ++++++++++++++++------------------------
+>  1 file changed, 20 insertions(+), 31 deletions(-)
+>
+> diff --git a/arch/alpha/kernel/sys_nautilus.c b/arch/alpha/kernel/sys_nautilus.c
+> index cd9a112d67ff..1a1e49f58e66 100644
+> --- a/arch/alpha/kernel/sys_nautilus.c
+> +++ b/arch/alpha/kernel/sys_nautilus.c
+> @@ -187,10 +187,6 @@ nautilus_machine_check(unsigned long vector, unsigned long la_ptr)
+>
+>  extern void pcibios_claim_one_bus(struct pci_bus *);
+>
+> -static struct resource irongate_io = {
+> -       .name   = "Irongate PCI IO",
+> -       .flags  = IORESOURCE_IO,
+> -};
+>  static struct resource irongate_mem = {
+>         .name   = "Irongate PCI MEM",
+>         .flags  = IORESOURCE_MEM,
+> @@ -211,14 +207,17 @@ nautilus_init_pci(void)
+>         struct pci_dev *irongate;
 
-Works great. Thanks Ivan!
-
-Tested-by: Matt Turner <mattst88@gmail.com>
+One thing I noticed: this variable is now no longer used.
