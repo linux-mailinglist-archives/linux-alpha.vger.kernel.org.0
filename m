@@ -2,194 +2,74 @@ Return-Path: <linux-alpha-owner@vger.kernel.org>
 X-Original-To: lists+linux-alpha@lfdr.de
 Delivered-To: lists+linux-alpha@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id D3D5D186D44
-	for <lists+linux-alpha@lfdr.de>; Mon, 16 Mar 2020 15:39:54 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 0BF5F1878E5
+	for <lists+linux-alpha@lfdr.de>; Tue, 17 Mar 2020 05:57:53 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1731578AbgCPOjy (ORCPT <rfc822;lists+linux-alpha@lfdr.de>);
-        Mon, 16 Mar 2020 10:39:54 -0400
-Received: from mail-pl1-f196.google.com ([209.85.214.196]:41778 "EHLO
-        mail-pl1-f196.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1731536AbgCPOjx (ORCPT
+        id S1725933AbgCQE5w (ORCPT <rfc822;lists+linux-alpha@lfdr.de>);
+        Tue, 17 Mar 2020 00:57:52 -0400
+Received: from mail-ed1-f65.google.com ([209.85.208.65]:35034 "EHLO
+        mail-ed1-f65.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1725836AbgCQE5w (ORCPT
         <rfc822;linux-alpha@vger.kernel.org>);
-        Mon, 16 Mar 2020 10:39:53 -0400
-Received: by mail-pl1-f196.google.com with SMTP id t16so1078280plr.8
-        for <linux-alpha@vger.kernel.org>; Mon, 16 Mar 2020 07:39:52 -0700 (PDT)
+        Tue, 17 Mar 2020 00:57:52 -0400
+Received: by mail-ed1-f65.google.com with SMTP id a20so24843851edj.2;
+        Mon, 16 Mar 2020 21:57:50 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=arista.com; s=googlenew;
-        h=from:to:cc:subject:date:message-id:in-reply-to:references
-         :mime-version:content-transfer-encoding;
-        bh=Zku3gYtegdivuyVdz79vHefY5lOBMVX+wXMMYAiZ+NE=;
-        b=WKf5GnvmXhvVA4DxzPPfzsd2Rc2/Z1+VTXY1J3w+oW9gKuJCYU02BAFddRUuh4qEKK
-         6BxpN+0SaP/s32hujCUWhaFAygo0o+dRCw9H53gUijl07I6sc7xuF8k8GEcnkhFwhRdA
-         tpAFN2ANcbdUbvmkxVZQsSArHyJ6qvpYiMQp4gOk1fG3ntONRL0KO2K6tNpixvBVohKw
-         di8QqXauNo2B9I3ryAhYbVR6tYzbpPGUbPmcfT8SGmOEEBjTasvH5wQ4dIlX7KvpotOk
-         BXDsiLZiozCsL9YohSMaLgXKfQB/eAEzxZr1ZwVh8U8fb3Fk+FIgp7e9NINrSGDwCAcP
-         JvBA==
+        d=gmail.com; s=20161025;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=E9Mssj/6IzuQ2UbwiJqBfsEr29/GAc3gWyl0M/hxDuU=;
+        b=HLpm8bkWcK4sc60kVlM/fecLDvKzJy5BHCY1ojSFdZkG0o/kzsxQ3teAaJTf9ytgf3
+         zvR9cCe4CNeGdrzmnk8WBwZcNRVW6FEqEUTmP7zLJTtigNKWWU0R3WAR33jd5vX3aC7k
+         K+j+veA1bQTd/AC5mvYXvgbJOhOmxQVEOUtje/tHz+P3V1XYxjAPgM5G60ByL5+ylL0e
+         cAEVpGw3fnTxHgTsee1dBixEDKTDmsMwJeD8JtJR9vJhwKsZvLWq/iP+2vBE+doNRhs2
+         zC2JTZFAz+f8xe28TwzBcrETYPY05Ahd51nO0MQDx65MuMm20OADk7FI+dTYZ+7okT8O
+         Q8jQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references:mime-version:content-transfer-encoding;
-        bh=Zku3gYtegdivuyVdz79vHefY5lOBMVX+wXMMYAiZ+NE=;
-        b=Ez+U2OZ68mx5YUadXBXdE7yM8jkP6NpO4g+F/1fCCGrejN2WLAJ4vgG63RclTk313u
-         T+/Ol7jhWzVPjcIw6uVN66nDJ+ZdufH8S9qaOObH8vmLJghILakzy4lumNtxzBtaqq0t
-         BiRKGbuxCuTXcDw8Ys4tar5TA/ItUNgj8a7//EbliRTHp5fP4q6lFesqlB2VncGXLC48
-         t+4h4dPisLARdd6TnpdGeGHFFKHBCl07IZfFzE8goRMCDQiIqPwYGRSZZrq0bPKzDWEA
-         12fehL9b5y5IvthXj4ZO6Fevym4hUo9PWUctHBUBKaxhwydmTr8GHbzDaKKycRAH4yOY
-         7Cmw==
-X-Gm-Message-State: ANhLgQ3wyIYhwL0CKkwl5w4saOtFWjdvG62GS1eWQ/MhBeyw2sijdHbi
-        +dc0yeXUFFZTtymlDYyZ0bedDA==
-X-Google-Smtp-Source: ADFU+vtiKGNSRYoPM3pTwE6au0ABiF7VSY7Yq/xvnLVs4MaGZeWn+VEDdXf7tZqlXXOlOj9M9cuJww==
-X-Received: by 2002:a17:90b:14c2:: with SMTP id jz2mr25747348pjb.152.1584369591646;
-        Mon, 16 Mar 2020 07:39:51 -0700 (PDT)
-Received: from Mindolluin.aristanetworks.com ([2a02:8084:e84:2480:228:f8ff:fe6f:83a8])
-        by smtp.gmail.com with ESMTPSA id i2sm81524pjs.21.2020.03.16.07.39.47
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 16 Mar 2020 07:39:51 -0700 (PDT)
-From:   Dmitry Safonov <dima@arista.com>
-To:     linux-kernel@vger.kernel.org
-Cc:     Dmitry Safonov <0x7f454c46@gmail.com>,
-        Dmitry Safonov <dima@arista.com>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Ingo Molnar <mingo@kernel.org>, Jiri Slaby <jslaby@suse.com>,
-        Petr Mladek <pmladek@suse.com>,
-        Sergey Senozhatsky <sergey.senozhatsky@gmail.com>,
-        Steven Rostedt <rostedt@goodmis.org>,
-        Tetsuo Handa <penguin-kernel@I-love.SAKURA.ne.jp>,
-        Ivan Kokshaysky <ink@jurassic.park.msu.ru>,
-        Matt Turner <mattst88@gmail.com>,
-        Richard Henderson <rth@twiddle.net>,
-        linux-alpha@vger.kernel.org
-Subject: [PATCHv2 02/50] alpha: Add show_stack_loglvl()
-Date:   Mon, 16 Mar 2020 14:38:28 +0000
-Message-Id: <20200316143916.195608-3-dima@arista.com>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20200316143916.195608-1-dima@arista.com>
-References: <20200316143916.195608-1-dima@arista.com>
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=E9Mssj/6IzuQ2UbwiJqBfsEr29/GAc3gWyl0M/hxDuU=;
+        b=HuASX5mvMxRW7I/pJrDzKRph0OJcekUgkUfnTY+xBNSiGx5/cXnX7Rb8sUXT3hrrnT
+         0Ewr4oHZN+ITCh5YYa9aQ7ZbHxGwBIy4qj1BkSJjqvORhCnuXVNCB+sE7kWH2VnTDok9
+         eHZRJ9yClqZh5SnqgJLT2+Yf0zGLgNGqFxclwaml6r9jK8WVZ7zzSvlj0j/AQg7Ffu3w
+         CAqkjyImNU6kilG4bEBVloGAAsxs2baajSbnJvOLyCwErZf7vtjKlC+3K4/c4L4Xj1jq
+         hUSnPoAbvQ1ETba6o7QiEPvN9WCY26cOidxd4JCYuDXF0y4O2+1ZJ6oO8+G7D9N39e7u
+         vyrg==
+X-Gm-Message-State: ANhLgQ2u063N20ZkYXfSVU5mTiBX8xX5O5zl3QddVrr4pnkd2o9iCymt
+        H6jMVMD7VsZtk82aPUrarSrbuAuC2jhJhb+3I5OAJosi
+X-Google-Smtp-Source: ADFU+vuvrOLJlkhXKEHhDzOZfcFDQo+gE1dCv6CmYHrIRf3LQxPlEZ7gz5GxgLY0K9/rHh5MHvXxJ5zUaAZ55L1wpmM=
+X-Received: by 2002:a50:c05c:: with SMTP id u28mr3308259edd.193.1584421069721;
+ Mon, 16 Mar 2020 21:57:49 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <20200314194745.GB12510@mail.rc.ru>
+In-Reply-To: <20200314194745.GB12510@mail.rc.ru>
+From:   Matt Turner <mattst88@gmail.com>
+Date:   Mon, 16 Mar 2020 21:57:37 -0700
+Message-ID: <CAEdQ38Gz+LXMNDnGvxM6t+6YcdXryLN781x=uTZvJ_huF8Gv6w@mail.gmail.com>
+Subject: Re: [PATCH] alpha: fix nautilus PCI setup
+To:     Ivan Kokshaysky <ink@jurassic.park.msu.ru>
+Cc:     Bjorn Helgaas <helgaas@kernel.org>,
+        Yinghai Lu <yinghai@kernel.org>, linux-pci@vger.kernel.org,
+        linux-alpha <linux-alpha@vger.kernel.org>,
+        Richard Henderson <rth@twiddle.net>,
+        Jay Estabrook <jay.estabrook@gmail.com>,
+        Nicholas Johnson <nicholas.johnson-opensource@outlook.com.au>,
+        Benjamin Herrenschmidt <benh@kernel.crashing.org>
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-alpha-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-alpha.vger.kernel.org>
 X-Mailing-List: linux-alpha@vger.kernel.org
 
-Currently, the log-level of show_stack() depends on a platform
-realization. It creates situations where the headers are printed with
-lower log level or higher than the stacktrace (depending on
-a platform or user).
+On Sat, Mar 14, 2020 at 12:47 PM Ivan Kokshaysky
+<ink@jurassic.park.msu.ru> wrote:
+>
+> Example (hopefully reasonable) of the new "size_windows" flag usage.
+>
+> Fixes accidental breakage caused by commit f75b99d5a77d (PCI: Enforce
+> bus address limits in resource allocation),
 
-Furthermore, it forces the logic decision from user to an architecture
-side. In result, some users as sysrq/kdb/etc are doing tricks with
-temporary rising console_loglevel while printing their messages.
-And in result it not only may print unwanted messages from other CPUs,
-but also omit printing at all in the unlucky case where the printk()
-was deferred.
+Works great. Thanks Ivan!
 
-Introducing log-level parameter and KERN_UNSUPPRESSED [1] seems
-an easier approach than introducing more printk buffers.
-Also, it will consolidate printings with headers.
-
-Introduce show_stack_loglvl(), that eventually will substitute
-show_stack().
-
-Cc: Ivan Kokshaysky <ink@jurassic.park.msu.ru>
-Cc: Matt Turner <mattst88@gmail.com>
-Cc: Richard Henderson <rth@twiddle.net>
-Cc: linux-alpha@vger.kernel.org
-[1]: https://lore.kernel.org/lkml/20190528002412.1625-1-dima@arista.com/T/#u
-Signed-off-by: Dmitry Safonov <dima@arista.com>
----
- arch/alpha/kernel/traps.c | 28 +++++++++++++++++-----------
- 1 file changed, 17 insertions(+), 11 deletions(-)
-
-diff --git a/arch/alpha/kernel/traps.c b/arch/alpha/kernel/traps.c
-index f6b9664ac504..2402f1777f54 100644
---- a/arch/alpha/kernel/traps.c
-+++ b/arch/alpha/kernel/traps.c
-@@ -121,10 +121,10 @@ dik_show_code(unsigned int *pc)
- }
- 
- static void
--dik_show_trace(unsigned long *sp)
-+dik_show_trace(unsigned long *sp, const char *loglvl)
- {
- 	long i = 0;
--	printk("Trace:\n");
-+	printk("%sTrace:\n", loglvl);
- 	while (0x1ff8 & (unsigned long) sp) {
- 		extern char _stext[], _etext[];
- 		unsigned long tmp = *sp;
-@@ -133,24 +133,25 @@ dik_show_trace(unsigned long *sp)
- 			continue;
- 		if (tmp >= (unsigned long) &_etext)
- 			continue;
--		printk("[<%lx>] %pSR\n", tmp, (void *)tmp);
-+		printk("%s[<%lx>] %pSR\n", loglvl, tmp, (void *)tmp);
- 		if (i > 40) {
--			printk(" ...");
-+			printk("%s ...", loglvl);
- 			break;
- 		}
- 	}
--	printk("\n");
-+	printk("%s\n", loglvl);
- }
- 
- static int kstack_depth_to_print = 24;
- 
--void show_stack(struct task_struct *task, unsigned long *sp)
-+void show_stack_loglvl(struct task_struct *task, unsigned long *sp,
-+			const char *loglvl)
- {
- 	unsigned long *stack;
- 	int i;
- 
- 	/*
--	 * debugging aid: "show_stack(NULL);" prints the
-+	 * debugging aid: "show_stack(NULL, NULL, KERN_EMERG);" prints the
- 	 * back trace for this cpu.
- 	 */
- 	if(sp==NULL)
-@@ -163,14 +164,19 @@ void show_stack(struct task_struct *task, unsigned long *sp)
- 		if ((i % 4) == 0) {
- 			if (i)
- 				pr_cont("\n");
--			printk("       ");
-+			printk("%s       ", loglvl);
- 		} else {
- 			pr_cont(" ");
- 		}
- 		pr_cont("%016lx", *stack++);
- 	}
- 	pr_cont("\n");
--	dik_show_trace(sp);
-+	dik_show_trace(sp, loglvl);
-+}
-+
-+void show_stack(struct task_struct *task, unsigned long *sp)
-+{
-+	show_stack_loglvl(task, sp, KERN_DEFAULT);
- }
- 
- void
-@@ -184,7 +190,7 @@ die_if_kernel(char * str, struct pt_regs *regs, long err, unsigned long *r9_15)
- 	printk("%s(%d): %s %ld\n", current->comm, task_pid_nr(current), str, err);
- 	dik_show_regs(regs, r9_15);
- 	add_taint(TAINT_DIE, LOCKDEP_NOW_UNRELIABLE);
--	dik_show_trace((unsigned long *)(regs+1));
-+	dik_show_trace((unsigned long *)(regs+1), KERN_DEFAULT);
- 	dik_show_code((unsigned int *)regs->pc);
- 
- 	if (test_and_set_thread_flag (TIF_DIE_IF_KERNEL)) {
-@@ -625,7 +631,7 @@ do_entUna(void * va, unsigned long opcode, unsigned long reg,
- 	printk("gp = %016lx  sp = %p\n", regs->gp, regs+1);
- 
- 	dik_show_code((unsigned int *)pc);
--	dik_show_trace((unsigned long *)(regs+1));
-+	dik_show_trace((unsigned long *)(regs+1), KERN_DEFAULT);
- 
- 	if (test_and_set_thread_flag (TIF_DIE_IF_KERNEL)) {
- 		printk("die_if_kernel recursion detected.\n");
--- 
-2.25.1
-
+Tested-by: Matt Turner <mattst88@gmail.com>
