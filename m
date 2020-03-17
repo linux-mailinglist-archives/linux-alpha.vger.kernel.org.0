@@ -2,43 +2,48 @@ Return-Path: <linux-alpha-owner@vger.kernel.org>
 X-Original-To: lists+linux-alpha@lfdr.de
 Delivered-To: lists+linux-alpha@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id C84C7188377
-	for <lists+linux-alpha@lfdr.de>; Tue, 17 Mar 2020 13:16:32 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 4DE9D189221
+	for <lists+linux-alpha@lfdr.de>; Wed, 18 Mar 2020 00:28:32 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1725872AbgCQMPb (ORCPT <rfc822;lists+linux-alpha@lfdr.de>);
-        Tue, 17 Mar 2020 08:15:31 -0400
-Received: from sonic310-48.consmr.mail.bf2.yahoo.com ([74.6.135.222]:36525
-        "EHLO sonic310-48.consmr.mail.bf2.yahoo.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1725957AbgCQMPb (ORCPT
-        <rfc822;linux-alpha@vger.kernel.org>);
-        Tue, 17 Mar 2020 08:15:31 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=yahoo.com; s=s2048; t=1584447330; bh=kcevCRoll2+Bsa3FDERpIV72LVcB1A4YV1b5N2AWYBk=; h=Date:From:Reply-To:Subject:References:From:Subject; b=LG1/tAg4LrygMGNHXsZO4BUYrEqAC7BJqvRCOCFIdGuc54yahIzS9CiatoeMcqZRYIoUnEoS12iwZLhmGDgTC/N6Yx6jbB71gZGswyVp8Lts5ci3HZBb/tbDeQsYL7cV89Ii9um3znn+GoaF/KwkmyQnP4ui1gFCz4Fx4I4IE4z0Y71xitaah8gIc4IWYwcAAIJzmnUYCvPjOMpoW6RuuJeyuY7PYJ9cwvTbjZmqUblCCdY0TusXlsJtgxITHUcBMONLsysDmyJVeW2XxQxvFXBYUsTK6yTGip3WsVhCzxOdfrSOFNx8xyqdopj/zSmnDuGrMGtPxsbAzqZsKgjR6g==
-Received: from sonic.gate.mail.ne1.yahoo.com by sonic310.consmr.mail.bf2.yahoo.com with HTTP; Tue, 17 Mar 2020 12:15:30 +0000
-Date:   Tue, 17 Mar 2020 12:03:26 +0000 (UTC)
-From:   Stephen Li <stenn9@gabg.net>
-Reply-To: stephli947701@gmail.com
-Message-ID: <1741799318.4109680.1584446606715@mail.yahoo.com>
-Subject: REF
+        id S1727201AbgCQX2b (ORCPT <rfc822;lists+linux-alpha@lfdr.de>);
+        Tue, 17 Mar 2020 19:28:31 -0400
+Received: from mail.rc.ru ([151.236.222.147]:50592 "EHLO mail.rc.ru"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1727071AbgCQX2b (ORCPT <rfc822;linux-alpha@vger.kernel.org>);
+        Tue, 17 Mar 2020 19:28:31 -0400
+Received: from mail.rc.ru ([2a01:7e00:e000:1bf::1]:39756)
+        by mail.rc.ru with esmtpsa (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
+        (Exim 4.92)
+        (envelope-from <ink@jurassic.park.msu.ru>)
+        id 1jELdK-0001ce-QW; Tue, 17 Mar 2020 23:28:26 +0000
+Date:   Tue, 17 Mar 2020 23:28:25 +0000
+From:   Ivan Kokshaysky <ink@jurassic.park.msu.ru>
+To:     Matt Turner <mattst88@gmail.com>
+Cc:     Bjorn Helgaas <helgaas@kernel.org>,
+        Yinghai Lu <yinghai@kernel.org>, linux-pci@vger.kernel.org,
+        linux-alpha <linux-alpha@vger.kernel.org>,
+        Richard Henderson <rth@twiddle.net>,
+        Jay Estabrook <jay.estabrook@gmail.com>,
+        Nicholas Johnson <nicholas.johnson-opensource@outlook.com.au>,
+        Benjamin Herrenschmidt <benh@kernel.crashing.org>
+Subject: Re: [PATCH] alpha: fix nautilus PCI setup
+Message-ID: <20200317232825.GA6018@mail.rc.ru>
+References: <20200314194745.GB12510@mail.rc.ru>
+ <CAEdQ38GP8XJpgaWRZKFVpHY1mYGh2oaQnnBPYH86tbCRc=U_Xg@mail.gmail.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-References: <1741799318.4109680.1584446606715.ref@mail.yahoo.com>
-X-Mailer: WebService/1.1.15342 YMailNodin Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/80.0.3987.132 Safari/537.36
-To:     unlisted-recipients:; (no To-header on input)
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <CAEdQ38GP8XJpgaWRZKFVpHY1mYGh2oaQnnBPYH86tbCRc=U_Xg@mail.gmail.com>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 Sender: linux-alpha-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-alpha.vger.kernel.org>
 X-Mailing-List: linux-alpha@vger.kernel.org
 
+On Mon, Mar 16, 2020 at 11:26:24PM -0700, Matt Turner wrote:
+> One thing I noticed: this variable is now no longer used.
 
+Right, my fault. I think it would be better to re-submit
+the nautilus part, will do that shortly.
 
-Greetings,
-I was searching through a local business directory when I found your
-profile. I am Soliciting On-Behalf of my private client who is
-interested in having a serious business investment in your country. If
-you have a valid business, investment or project he can invest
-back to me for more details. Your swift response is highly needed.
-Sincerely
-Stephen Li
-Please response back to me with is my private email below for more details
-stephli947701@gmail.com
+Ivan.
