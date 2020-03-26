@@ -2,90 +2,90 @@ Return-Path: <linux-alpha-owner@vger.kernel.org>
 X-Original-To: lists+linux-alpha@lfdr.de
 Delivered-To: lists+linux-alpha@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 46E9E19413C
-	for <lists+linux-alpha@lfdr.de>; Thu, 26 Mar 2020 15:26:01 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 35235194977
+	for <lists+linux-alpha@lfdr.de>; Thu, 26 Mar 2020 21:47:17 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727695AbgCZO0B (ORCPT <rfc822;lists+linux-alpha@lfdr.de>);
-        Thu, 26 Mar 2020 10:26:01 -0400
-Received: from mail.kernel.org ([198.145.29.99]:37132 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726347AbgCZO0A (ORCPT <rfc822;linux-alpha@vger.kernel.org>);
-        Thu, 26 Mar 2020 10:26:00 -0400
-Received: from kernel.org (unknown [87.70.82.132])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id BF4E120737;
-        Thu, 26 Mar 2020 14:25:56 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1585232760;
-        bh=KMkEwoFLR0gA4f1WF6jeYdZ+fFFbpN1NEKW94s38IeE=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=oeDhPEvk0eFtq+gXdH4d4sq590TuOJzGFmBo5wIFU2+S8saJft+6H3HS2PZfZ+LMy
-         KIDo8zl84Krh+qBUA28KeUM44MpeT3UVlTrZ/GPLbMsYbiLCsX2RAZFljWB/W53zTf
-         FOLroABLtXiEiVaY5pcrEdWDFWrLDZBqOcpQ970w=
-Date:   Thu, 26 Mar 2020 16:25:49 +0200
-From:   Mike Rapoport <rppt@kernel.org>
-To:     Waiman Long <longman@redhat.com>
-Cc:     Andrew Morton <akpm@linux-foundation.org>,
-        Richard Henderson <rth@twiddle.net>,
-        Ivan Kokshaysky <ink@jurassic.park.msu.ru>,
-        Matt Turner <mattst88@gmail.com>, linux-mm@kvack.org,
-        linux-kernel@vger.kernel.org, linux-alpha@vger.kernel.org
-Subject: Re: [PATCH] mm: Remove dummy struct bootmem_data/bootmem_data_t
-Message-ID: <20200326142549.GA3544@kernel.org>
-References: <20200326022617.26208-1-longman@redhat.com>
+        id S1727791AbgCZUrP (ORCPT <rfc822;lists+linux-alpha@lfdr.de>);
+        Thu, 26 Mar 2020 16:47:15 -0400
+Received: from mail-lj1-f196.google.com ([209.85.208.196]:43805 "EHLO
+        mail-lj1-f196.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726260AbgCZUrN (ORCPT
+        <rfc822;linux-alpha@vger.kernel.org>);
+        Thu, 26 Mar 2020 16:47:13 -0400
+Received: by mail-lj1-f196.google.com with SMTP id g27so7897383ljn.10
+        for <linux-alpha@vger.kernel.org>; Thu, 26 Mar 2020 13:47:12 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=mime-version:reply-to:from:date:message-id:subject:to
+         :content-transfer-encoding;
+        bh=uIvUjlehSVigkxhw02yxSAS/Jekd0JL8sbxoZE/mhG8=;
+        b=EpOCqIHNDVEdYJN71TlV0KLd6TNlvHceAqG93K0HrdAVbPL8+QgRly2CilsJuSlpO9
+         aG2iTFRyGiCWYfOB+CmJAYBDHn8eTFNcHaKmyKaNbUkvbMG34Yja8YlnlMJ904oF141c
+         6PjJySDQD9VM1xLBrVlC51PhhxKFLOjAgMKcux+HengRaqB6wdr0Lry6StfwG7WtPN/k
+         uIhhHUNPa2v+lmIdt5uqyp0pBssPzO/GmToaFMzYPkodTZ40wl3vP1Jxt0Q52SCknQUs
+         ykUN2c8rgiKnX1/P5jBXbRU0aI66dMIMtOEZoCANSJvDM9xf3uNxwDQHYZDWsXp0KPNc
+         Bk7w==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:reply-to:from:date:message-id
+         :subject:to:content-transfer-encoding;
+        bh=uIvUjlehSVigkxhw02yxSAS/Jekd0JL8sbxoZE/mhG8=;
+        b=tnh/5i+kaeHtdJNw4nB9KQqR/KyhhYuiA9Gi0/d9LrerH9UGaBPdi0myao9XH0YM4O
+         49RV4qeGXiOJdjRJHDoVGc7YSRWD4xJak0mZT9ZMwveWQoabMQsVXpSRN7wlPcjMrkN2
+         22nLV4gLOfBGKao0loiauE5ApriuGRLUBujOb5IDXBNFVkExnud5O2swmNBLL+yaUBHg
+         on61lZCqV5/saEwDegIUqORVhCdGafYLSHcW720jbuKjszxhcsZd1qEWsJ53WxWhvpDG
+         e1IovbnfNVhr86IQkeXUlcj3XIQyGD7Lk3ksdHkmaPQrpP2sruteAdB91KjYiEjr4y2u
+         PyLQ==
+X-Gm-Message-State: AGi0Pub74aOlhi/QluURXYdIajaayG0GKd+KcMM6njSyRGfR7oACcnGw
+        8v/tieMC97vsDvNncxoEypLbd3dkg0CjZizK7Vk=
+X-Google-Smtp-Source: APiQypJzc+9dYtatB9fFhRBd/lrbg/Yans4ruAMyKJk1SMjBVzVOcyQIVKf+Fr6vdLOUmrhBxzibpfahkOqvuI3MYVU=
+X-Received: by 2002:a05:651c:106c:: with SMTP id y12mr6335304ljm.170.1585255631826;
+ Thu, 26 Mar 2020 13:47:11 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20200326022617.26208-1-longman@redhat.com>
+Received: by 2002:a2e:8556:0:0:0:0:0 with HTTP; Thu, 26 Mar 2020 13:47:11
+ -0700 (PDT)
+Reply-To: officework_progress@yahoo.com
+From:   Andrew Ede <lmenkwa12@gmail.com>
+Date:   Thu, 26 Mar 2020 22:47:11 +0200
+Message-ID: <CAHPhtMB6WXGT7n5X15zUg1CR8eNowUhxq6xmQfn396CNqprGxg@mail.gmail.com>
+Subject: CAN YOU WORK WITH US?
+To:     undisclosed-recipients:;
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 Sender: linux-alpha-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-alpha.vger.kernel.org>
 X-Mailing-List: linux-alpha@vger.kernel.org
 
-On Wed, Mar 25, 2020 at 10:26:17PM -0400, Waiman Long wrote:
-> Both bootmem_data and bootmem_data_t structures are no longer defined.
-> Remove the dummy forward declarations.
-> 
-> Signed-off-by: Waiman Long <longman@redhat.com>
+Good day.
 
-Acked-by: Mike Rapoport <rppt@linux.ibm.com>
+My reason of contacting you is that I and my colleagues working in our
+country=E2=80=99s National Petroleum Corporation want to buy any existing
+modern crude oil refinery in any part of the world.
 
-> ---
->  arch/alpha/include/asm/mmzone.h | 2 --
->  include/linux/mmzone.h          | 1 -
->  2 files changed, 3 deletions(-)
-> 
-> diff --git a/arch/alpha/include/asm/mmzone.h b/arch/alpha/include/asm/mmzone.h
-> index 7ee144f484f1..9b521c857436 100644
-> --- a/arch/alpha/include/asm/mmzone.h
-> +++ b/arch/alpha/include/asm/mmzone.h
-> @@ -8,8 +8,6 @@
->  
->  #include <asm/smp.h>
->  
-> -struct bootmem_data_t; /* stupid forward decl. */
-> -
->  /*
->   * Following are macros that are specific to this numa platform.
->   */
-> diff --git a/include/linux/mmzone.h b/include/linux/mmzone.h
-> index 462f6873905a..5c388eced889 100644
-> --- a/include/linux/mmzone.h
-> +++ b/include/linux/mmzone.h
-> @@ -706,7 +706,6 @@ struct deferred_split {
->   * Memory statistics and page replacement data structures are maintained on a
->   * per-zone basis.
->   */
-> -struct bootmem_data;
->  typedef struct pglist_data {
->  	struct zone node_zones[MAX_NR_ZONES];
->  	struct zonelist node_zonelists[MAX_ZONELISTS];
-> -- 
-> 2.18.1
-> 
-> 
+We are ready to buy any available land to build the Refinery or buy
+the existing one anywhere outside Africa. We will make you our foreign
+partner abroad with some percentage shareholding if you will be
+interested to work with us on this project.
 
--- 
-Sincerely yours,
-Mike.
+We have the sum of ($600 Million Dollars) Six Hundred Million Dollars
+for this project.
+
+Meanwhile, this amount of ($600 Million Dollars) will be accessible
+through Foreign Contract Purchase Fund. We are going to clarify what
+we meant by Foreign Contract Purchase Fund as soon as we hear from you
+for better understanding and the way forward.
+
+However, in case you are not capable to handle this project with us,
+please kindly connect us to any capable person or company that would
+handle the project with us in order to enable us proceed at once.
+
+We hope to hear you in no distance time through this e-mail address
+at: officework_progress@yahoo.com, for immediate communication and
+more facts on how to go on.
+
+With respect
+
+Best Regards
+
+Andrew Ede and Co,,
