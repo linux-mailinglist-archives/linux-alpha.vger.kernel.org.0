@@ -2,39 +2,29 @@ Return-Path: <linux-alpha-owner@vger.kernel.org>
 X-Original-To: lists+linux-alpha@lfdr.de
 Delivered-To: lists+linux-alpha@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id D5EF919373A
-	for <lists+linux-alpha@lfdr.de>; Thu, 26 Mar 2020 05:02:38 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 46E9E19413C
+	for <lists+linux-alpha@lfdr.de>; Thu, 26 Mar 2020 15:26:01 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1725819AbgCZECi (ORCPT <rfc822;lists+linux-alpha@lfdr.de>);
-        Thu, 26 Mar 2020 00:02:38 -0400
-Received: from us-smtp-delivery-74.mimecast.com ([216.205.24.74]:20064 "EHLO
-        us-smtp-delivery-74.mimecast.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1725775AbgCZECi (ORCPT
-        <rfc822;linux-alpha@vger.kernel.org>);
-        Thu, 26 Mar 2020 00:02:38 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1585195357;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         in-reply-to:in-reply-to:references:references;
-        bh=nCZVOAI+we4AXCG4GcEDrDdIAY2DXRRQnsZBhAj73FU=;
-        b=F+Hs/R5eJSi1Ks5iF077Ru5kywAvO3iBI9xraQIGkK+HKMZTie1/VLLZqYyt4ms2JnotF6
-        YV12H+cJUjPZ+dymI/sUbI2/FsdEWoFFktLEYqbRTWQ8CkrStrRPpJEgBaKDuRE2eWikoP
-        7ZeLBhZ69malbGqo6vvrT7s8A9guHqo=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-419-98MdUwv3MVCtVendpOe4DA-1; Thu, 26 Mar 2020 00:02:33 -0400
-X-MC-Unique: 98MdUwv3MVCtVendpOe4DA-1
-Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com [10.5.11.11])
-        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+        id S1727695AbgCZO0B (ORCPT <rfc822;lists+linux-alpha@lfdr.de>);
+        Thu, 26 Mar 2020 10:26:01 -0400
+Received: from mail.kernel.org ([198.145.29.99]:37132 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1726347AbgCZO0A (ORCPT <rfc822;linux-alpha@vger.kernel.org>);
+        Thu, 26 Mar 2020 10:26:00 -0400
+Received: from kernel.org (unknown [87.70.82.132])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 94B111005509;
-        Thu, 26 Mar 2020 04:02:31 +0000 (UTC)
-Received: from localhost (ovpn-12-117.pek2.redhat.com [10.72.12.117])
-        by smtp.corp.redhat.com (Postfix) with ESMTPS id 7C4F9A0A80;
-        Thu, 26 Mar 2020 04:02:27 +0000 (UTC)
-Date:   Thu, 26 Mar 2020 12:02:24 +0800
-From:   Baoquan He <bhe@redhat.com>
+        by mail.kernel.org (Postfix) with ESMTPSA id BF4E120737;
+        Thu, 26 Mar 2020 14:25:56 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=default; t=1585232760;
+        bh=KMkEwoFLR0gA4f1WF6jeYdZ+fFFbpN1NEKW94s38IeE=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=oeDhPEvk0eFtq+gXdH4d4sq590TuOJzGFmBo5wIFU2+S8saJft+6H3HS2PZfZ+LMy
+         KIDo8zl84Krh+qBUA28KeUM44MpeT3UVlTrZ/GPLbMsYbiLCsX2RAZFljWB/W53zTf
+         FOLroABLtXiEiVaY5pcrEdWDFWrLDZBqOcpQ970w=
+Date:   Thu, 26 Mar 2020 16:25:49 +0200
+From:   Mike Rapoport <rppt@kernel.org>
 To:     Waiman Long <longman@redhat.com>
 Cc:     Andrew Morton <akpm@linux-foundation.org>,
         Richard Henderson <rth@twiddle.net>,
@@ -42,24 +32,25 @@ Cc:     Andrew Morton <akpm@linux-foundation.org>,
         Matt Turner <mattst88@gmail.com>, linux-mm@kvack.org,
         linux-kernel@vger.kernel.org, linux-alpha@vger.kernel.org
 Subject: Re: [PATCH] mm: Remove dummy struct bootmem_data/bootmem_data_t
-Message-ID: <20200326040224.GK3039@MiWiFi-R3L-srv>
+Message-ID: <20200326142549.GA3544@kernel.org>
 References: <20200326022617.26208-1-longman@redhat.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 In-Reply-To: <20200326022617.26208-1-longman@redhat.com>
-User-Agent: Mutt/1.10.1 (2018-07-13)
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
 Sender: linux-alpha-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-alpha.vger.kernel.org>
 X-Mailing-List: linux-alpha@vger.kernel.org
 
-On 03/25/20 at 10:26pm, Waiman Long wrote:
+On Wed, Mar 25, 2020 at 10:26:17PM -0400, Waiman Long wrote:
 > Both bootmem_data and bootmem_data_t structures are no longer defined.
 > Remove the dummy forward declarations.
 > 
 > Signed-off-by: Waiman Long <longman@redhat.com>
+
+Acked-by: Mike Rapoport <rppt@linux.ibm.com>
+
 > ---
 >  arch/alpha/include/asm/mmzone.h | 2 --
 >  include/linux/mmzone.h          | 1 -
@@ -90,8 +81,11 @@ On 03/25/20 at 10:26pm, Waiman Long wrote:
 >  typedef struct pglist_data {
 >  	struct zone node_zones[MAX_NR_ZONES];
 >  	struct zonelist node_zonelists[MAX_ZONELISTS];
+> -- 
+> 2.18.1
+> 
+> 
 
-Looks good to me.
-
-Reviewed-by: Baoquan He <bhe@redhat.com>
-
+-- 
+Sincerely yours,
+Mike.
