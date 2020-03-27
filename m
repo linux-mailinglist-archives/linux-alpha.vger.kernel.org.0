@@ -2,90 +2,142 @@ Return-Path: <linux-alpha-owner@vger.kernel.org>
 X-Original-To: lists+linux-alpha@lfdr.de
 Delivered-To: lists+linux-alpha@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 35235194977
-	for <lists+linux-alpha@lfdr.de>; Thu, 26 Mar 2020 21:47:17 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 87744195AA3
+	for <lists+linux-alpha@lfdr.de>; Fri, 27 Mar 2020 17:08:29 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727791AbgCZUrP (ORCPT <rfc822;lists+linux-alpha@lfdr.de>);
-        Thu, 26 Mar 2020 16:47:15 -0400
-Received: from mail-lj1-f196.google.com ([209.85.208.196]:43805 "EHLO
-        mail-lj1-f196.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726260AbgCZUrN (ORCPT
+        id S1727611AbgC0QIZ (ORCPT <rfc822;lists+linux-alpha@lfdr.de>);
+        Fri, 27 Mar 2020 12:08:25 -0400
+Received: from mail-pg1-f193.google.com ([209.85.215.193]:41063 "EHLO
+        mail-pg1-f193.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727354AbgC0QIY (ORCPT
         <rfc822;linux-alpha@vger.kernel.org>);
-        Thu, 26 Mar 2020 16:47:13 -0400
-Received: by mail-lj1-f196.google.com with SMTP id g27so7897383ljn.10
-        for <linux-alpha@vger.kernel.org>; Thu, 26 Mar 2020 13:47:12 -0700 (PDT)
+        Fri, 27 Mar 2020 12:08:24 -0400
+Received: by mail-pg1-f193.google.com with SMTP id b1so4774996pgm.8;
+        Fri, 27 Mar 2020 09:08:21 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=mime-version:reply-to:from:date:message-id:subject:to
-         :content-transfer-encoding;
-        bh=uIvUjlehSVigkxhw02yxSAS/Jekd0JL8sbxoZE/mhG8=;
-        b=EpOCqIHNDVEdYJN71TlV0KLd6TNlvHceAqG93K0HrdAVbPL8+QgRly2CilsJuSlpO9
-         aG2iTFRyGiCWYfOB+CmJAYBDHn8eTFNcHaKmyKaNbUkvbMG34Yja8YlnlMJ904oF141c
-         6PjJySDQD9VM1xLBrVlC51PhhxKFLOjAgMKcux+HengRaqB6wdr0Lry6StfwG7WtPN/k
-         uIhhHUNPa2v+lmIdt5uqyp0pBssPzO/GmToaFMzYPkodTZ40wl3vP1Jxt0Q52SCknQUs
-         ykUN2c8rgiKnX1/P5jBXbRU0aI66dMIMtOEZoCANSJvDM9xf3uNxwDQHYZDWsXp0KPNc
-         Bk7w==
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to:user-agent;
+        bh=v3WW2gICCRcfa0oGxmZ+LfSQn5AikLIQ+ZRnRYdwUfA=;
+        b=an6bUaMWa/gge8dt35mNz51d8Pj8Aa/qVvKR0POiYMe4zuNsTFMbWsDqtJpu8Vfgps
+         HodQ817xNYHI9SLLHcYrsshSCnFQVPdRz5miPel3a6dQh30+182sG4GpKzSYGg0Moaql
+         oICMZDkEloRd8GN1T9OAdis5YEzicvSdRi2cwTkeLqxIisdfp6u4WrF2upjoOm0b/Nqv
+         xJs9hkC3swEZG36oeWhAa8kBkb2p598PAhHmrKt9TC86LDUy19H7w13AsSWaFeOMFBw1
+         1kiJmtgBbfIhYEZfNNWHTKYdN5NFa73OW2vgKUh7ekKVHy/s1yLOWQQExWS6RBTI4i5f
+         lubA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:reply-to:from:date:message-id
-         :subject:to:content-transfer-encoding;
-        bh=uIvUjlehSVigkxhw02yxSAS/Jekd0JL8sbxoZE/mhG8=;
-        b=tnh/5i+kaeHtdJNw4nB9KQqR/KyhhYuiA9Gi0/d9LrerH9UGaBPdi0myao9XH0YM4O
-         49RV4qeGXiOJdjRJHDoVGc7YSRWD4xJak0mZT9ZMwveWQoabMQsVXpSRN7wlPcjMrkN2
-         22nLV4gLOfBGKao0loiauE5ApriuGRLUBujOb5IDXBNFVkExnud5O2swmNBLL+yaUBHg
-         on61lZCqV5/saEwDegIUqORVhCdGafYLSHcW720jbuKjszxhcsZd1qEWsJ53WxWhvpDG
-         e1IovbnfNVhr86IQkeXUlcj3XIQyGD7Lk3ksdHkmaPQrpP2sruteAdB91KjYiEjr4y2u
-         PyLQ==
-X-Gm-Message-State: AGi0Pub74aOlhi/QluURXYdIajaayG0GKd+KcMM6njSyRGfR7oACcnGw
-        8v/tieMC97vsDvNncxoEypLbd3dkg0CjZizK7Vk=
-X-Google-Smtp-Source: APiQypJzc+9dYtatB9fFhRBd/lrbg/Yans4ruAMyKJk1SMjBVzVOcyQIVKf+Fr6vdLOUmrhBxzibpfahkOqvuI3MYVU=
-X-Received: by 2002:a05:651c:106c:: with SMTP id y12mr6335304ljm.170.1585255631826;
- Thu, 26 Mar 2020 13:47:11 -0700 (PDT)
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to:user-agent;
+        bh=v3WW2gICCRcfa0oGxmZ+LfSQn5AikLIQ+ZRnRYdwUfA=;
+        b=K61t+aL22V7z1zCxdy92iLEGfcUUfCcui1nXRjhlhBoF1i5bSiZeUHJHo9tj8E3hl7
+         LkfP1UHq6zAWyukKSnmDoWQTb2yZrra+7+orFlf/8phatZvSEc7pQjNcOeAdyBTCb1y6
+         IhuKSgp++nxg6di5pN8GCuKkAZhlw9fp7Td3Lqfr5w+nMRQdLyxPHMKR29SWvVUjhJ8u
+         KM5b+m29XY3GGJbeEYgD0GcJ292B3HsiMUi15O2xGS7FQMVnNnCv5TnoJeHcfiL/xGDE
+         AvNCTKvVXOnoWxUGyLgLhfXf1T5W5Vt6svfYf4q1S3rQ8N8kaoK9bCv7okpY4oL/5JOk
+         3qgw==
+X-Gm-Message-State: ANhLgQ3vw/FfWuBbGxGGxSE2ZiBjUx8kOAWKqaEKYZYl9EBGZhw3jGAy
+        sz3DwZrD1BEUqvJS4J1F57A=
+X-Google-Smtp-Source: ADFU+vs5xl4PN9llzz39JwJNhgmk9dgWBu5u30cb77PT2OtFyYrOeXBrJPUM82BlUm8kk65OLbcqNQ==
+X-Received: by 2002:aa7:947d:: with SMTP id t29mr14654589pfq.184.1585325301244;
+        Fri, 27 Mar 2020 09:08:21 -0700 (PDT)
+Received: from localhost ([49.207.55.57])
+        by smtp.gmail.com with ESMTPSA id v185sm4391917pfv.32.2020.03.27.09.08.20
+        (version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
+        Fri, 27 Mar 2020 09:08:20 -0700 (PDT)
+Date:   Fri, 27 Mar 2020 21:38:18 +0530
+From:   afzal mohammed <afzal.mohd.ma@gmail.com>
+To:     Thomas Gleixner <tglx@linutronix.de>
+Cc:     linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+        linux-samsung-soc@vger.kernel.org, x86@kernel.org,
+        linux-sh@vger.kernel.org, linux-s390@vger.kernel.org,
+        linuxppc-dev@lists.ozlabs.org, linux-parisc@vger.kernel.org,
+        linux-mips@vger.kernel.org, linux-m68k@lists.linux-m68k.org,
+        linux-ia64@vger.kernel.org, linux-hexagon@vger.kernel.org,
+        linux-c6x-dev@linux-c6x.org, linux-omap@vger.kernel.org,
+        linux-alpha@vger.kernel.org
+Subject: [PATCH 0/6] Kill setup_irq()
+Message-ID: <cover.1585320721.git.afzal.mohd.ma@gmail.com>
+References: <20200321174303.GA7930@afzalpc>
 MIME-Version: 1.0
-Received: by 2002:a2e:8556:0:0:0:0:0 with HTTP; Thu, 26 Mar 2020 13:47:11
- -0700 (PDT)
-Reply-To: officework_progress@yahoo.com
-From:   Andrew Ede <lmenkwa12@gmail.com>
-Date:   Thu, 26 Mar 2020 22:47:11 +0200
-Message-ID: <CAHPhtMB6WXGT7n5X15zUg1CR8eNowUhxq6xmQfn396CNqprGxg@mail.gmail.com>
-Subject: CAN YOU WORK WITH US?
-To:     undisclosed-recipients:;
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20200321174303.GA7930@afzalpc>
+User-Agent: Mutt/1.9.3 (2018-01-21)
 Sender: linux-alpha-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-alpha.vger.kernel.org>
 X-Mailing-List: linux-alpha@vger.kernel.org
 
-Good day.
+Hi Thomas,
 
-My reason of contacting you is that I and my colleagues working in our
-country=E2=80=99s National Petroleum Corporation want to buy any existing
-modern crude oil refinery in any part of the world.
+As compared to the situation mentioned earlier[1], now powerpc patch is
+also in -next, and the pending ARM patches has been picked up by ARM SoC
+maintainers today and is expected to show up in next -next. All other
+subsytem patches has been picked by relevant maintainers & are already
+in -next except alpha, c6x, hexagon, unicore32 & sh.
 
-We are ready to buy any available land to build the Refinery or buy
-the existing one anywhere outside Africa. We will make you our foreign
-partner abroad with some percentage shareholding if you will be
-interested to work with us on this project.
+As it is the case, i am sending you patches for the above 5
+architecture's plus the core removal patch.
 
-We have the sum of ($600 Million Dollars) Six Hundred Million Dollars
-for this project.
+Status of 5 arch's:
+-------------------
+alpha:		received ack from Matt Turner, build test success
+c6x:		did receive ack from Mark Salter in v1, the final
+		 version (v3) was with minor changes, hence removed his
+		 ack & cc'ed him, build test success
+hexagon:	build test success
+unicore32:	couldn't get toolchain from kernel.org, 0day test robot
+		 or Segher's buildall
+sh:		To compile the relevant changes sh64 compiler is
+		 required, couldn't get it from above mentioned 3
+		 sources.
 
-Meanwhile, this amount of ($600 Million Dollars) will be accessible
-through Foreign Contract Purchase Fund. We are going to clarify what
-we meant by Foreign Contract Purchase Fund as soon as we hear from you
-for better understanding and the way forward.
+Note 1: sh toolchain is available, but that will not make the
+ relevant changes compile as it has dependency of 64bit arch toolchain,
+ did try a Kconfig hack to make it compile w/ 32bit sh toolchain, but it
+ failed due to other reasons (unknown operands), so gave up on that.
+Note 2: hexagon final image creation fails even w/o my patch, but it
+ has been ensured that w/ my changes relevant object files are getting
+ built  w/o warnings.
 
-However, in case you are not capable to handle this project with us,
-please kindly connect us to any capable person or company that would
-handle the project with us in order to enable us proceed at once.
+Regards
+afzal
 
-We hope to hear you in no distance time through this e-mail address
-at: officework_progress@yahoo.com, for immediate communication and
-more facts on how to go on.
+[1] https://lkml.kernel.org/r/20200321172626.GA6323@afzalpc
 
-With respect
+afzal mohammed (6):
+  alpha: Replace setup_irq() by request_irq()
+  c6x: replace setup_irq() by request_irq()
+  hexagon: replace setup_irq() by request_irq()
+  sh: replace setup_irq() by request_irq()
+  unicore32: replace setup_irq() by request_irq()
+  genirq: Remove setup_irq() and remove_irq()
 
-Best Regards
+ arch/alpha/kernel/irq_alpha.c     | 29 ++++----------------
+ arch/alpha/kernel/irq_i8259.c     |  8 ++----
+ arch/alpha/kernel/irq_impl.h      |  7 +----
+ arch/alpha/kernel/irq_pyxis.c     |  3 ++-
+ arch/alpha/kernel/sys_alcor.c     |  3 ++-
+ arch/alpha/kernel/sys_cabriolet.c |  3 ++-
+ arch/alpha/kernel/sys_eb64p.c     |  3 ++-
+ arch/alpha/kernel/sys_marvel.c    |  2 +-
+ arch/alpha/kernel/sys_miata.c     |  6 +++--
+ arch/alpha/kernel/sys_ruffian.c   |  3 ++-
+ arch/alpha/kernel/sys_rx164.c     |  3 ++-
+ arch/alpha/kernel/sys_sx164.c     |  3 ++-
+ arch/alpha/kernel/sys_wildfire.c  |  7 ++---
+ arch/alpha/kernel/time.c          |  6 ++---
+ arch/c6x/platforms/timer64.c      | 11 +++-----
+ arch/hexagon/kernel/smp.c         | 22 ++++++++--------
+ arch/hexagon/kernel/time.c        | 11 +++-----
+ arch/sh/boards/mach-cayman/irq.c  | 18 +++++--------
+ arch/sh/drivers/dma/dma-pvr2.c    |  9 +++----
+ arch/unicore32/kernel/time.c      | 11 +++-----
+ include/linux/irq.h               |  2 --
+ kernel/irq/manage.c               | 44 -------------------------------
+ 22 files changed, 60 insertions(+), 154 deletions(-)
 
-Andrew Ede and Co,,
+-- 
+2.25.1
+
