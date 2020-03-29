@@ -2,176 +2,40 @@ Return-Path: <linux-alpha-owner@vger.kernel.org>
 X-Original-To: lists+linux-alpha@lfdr.de
 Delivered-To: lists+linux-alpha@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 6AA7919693B
-	for <lists+linux-alpha@lfdr.de>; Sat, 28 Mar 2020 21:34:04 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 190A7196D9C
+	for <lists+linux-alpha@lfdr.de>; Sun, 29 Mar 2020 15:18:59 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727131AbgC1UeE (ORCPT <rfc822;lists+linux-alpha@lfdr.de>);
-        Sat, 28 Mar 2020 16:34:04 -0400
-Received: from mail.kernel.org ([198.145.29.99]:57216 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726604AbgC1UeD (ORCPT <rfc822;linux-alpha@vger.kernel.org>);
-        Sat, 28 Mar 2020 16:34:03 -0400
-Received: from localhost (mobile-166-175-186-165.mycingular.net [166.175.186.165])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 2AE3A206F6;
-        Sat, 28 Mar 2020 20:34:02 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1585427642;
-        bh=7Fzzj4dLlbRMpJaZ5OrY+HhltlM51fxT2tTWdnt+NYM=;
-        h=Date:From:To:Cc:Subject:In-Reply-To:From;
-        b=KWuWXVcDEi/CqaHr8bjOANOEaZXWdKChGBBOhMkZEh0jBlwr5s0MKDGRi5OhMmK8m
-         zJideMVkPuhamvPEd5yEBfFe1ENYVCfIfzXc1u+0sjPVtxl6KTnkewYIgUwJpbhkS9
-         eeyp3JPAe/qJMf1OBCsjlpjAjLQNrZfyMspmc/pM=
-Date:   Sat, 28 Mar 2020 15:34:00 -0500
-From:   Bjorn Helgaas <helgaas@kernel.org>
-To:     Ivan Kokshaysky <ink@jurassic.park.msu.ru>
-Cc:     Matt Turner <mattst88@gmail.com>, Yinghai Lu <yinghai@kernel.org>,
-        linux-pci@vger.kernel.org,
-        linux-alpha <linux-alpha@vger.kernel.org>,
-        Richard Henderson <rth@twiddle.net>,
-        Jay Estabrook <jay.estabrook@gmail.com>,
-        Nicholas Johnson <nicholas.johnson-opensource@outlook.com.au>,
-        Benjamin Herrenschmidt <benh@kernel.crashing.org>
-Subject: Re: [PATCH v2] alpha: fix nautilus PCI setup
-Message-ID: <20200328203400.GA115873@google.com>
+        id S1728232AbgC2NS6 convert rfc822-to-8bit (ORCPT
+        <rfc822;lists+linux-alpha@lfdr.de>); Sun, 29 Mar 2020 09:18:58 -0400
+Received: from [200.79.183.211] ([200.79.183.211]:40639 "EHLO mail.tuzos.mx"
+        rhost-flags-FAIL-FAIL-OK-OK) by vger.kernel.org with ESMTP
+        id S1728070AbgC2NS6 (ORCPT <rfc822;linux-alpha@vger.kernel.org>);
+        Sun, 29 Mar 2020 09:18:58 -0400
+X-Greylist: delayed 17407 seconds by postgrey-1.27 at vger.kernel.org; Sun, 29 Mar 2020 09:18:57 EDT
+Received: from localhost (localhost.localdomain [127.0.0.1])
+        by mail.tuzos.mx (Postfix) with ESMTP id 8EA2C670A8C;
+        Sun, 29 Mar 2020 02:28:49 -0600 (CST)
+X-Virus-Scanned: amavisd-new at tuzos.mx
+Received: from mail.tuzos.mx ([127.0.0.1])
+        by localhost (mail.tuzos.mx [127.0.0.1]) (amavisd-new, port 10024)
+        with ESMTP id R7Fv010k0L01; Sun, 29 Mar 2020 02:28:49 -0600 (CST)
+Received: from [192.168.8.100] (unknown [105.9.102.248])
+        by mail.tuzos.mx (Postfix) with ESMTPSA id A5B6F670A39;
+        Sun, 29 Mar 2020 02:28:41 -0600 (CST)
+Content-Type: text/plain; charset="iso-8859-1"
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20200318005029.GA8326@mail.rc.ru>
-User-Agent: Mutt/1.12.2 (2019-09-21)
+Content-Transfer-Encoding: 8BIT
+Content-Description: Mail message body
+Subject: SPENDE SPENDE
+To:     Recipients <daniel.gamino@ufd.mx>
+From:   daniel.gamino@ufd.mx
+Date:   Sun, 29 Mar 2020 01:28:34 -0700
+Reply-To: adelaidamyrna1narcisa@gmail.com
+Message-Id: <20200329082841.A5B6F670A39@mail.tuzos.mx>
 Sender: linux-alpha-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-alpha.vger.kernel.org>
 X-Mailing-List: linux-alpha@vger.kernel.org
 
-On Wed, Mar 18, 2020 at 12:50:29AM +0000, Ivan Kokshaysky wrote:
-> Example (hopefully reasonable) of the new "size_windows" flag usage.
-> 
-> Fixes accidental breakage caused by commit f75b99d5a77d (PCI: Enforce
-> bus address limits in resource allocation),
-> 
-> Signed-off-by: Ivan Kokshaysky <ink@jurassic.park.msu.ru>
-
-Applied both of these to pci/resource for v5.7, thanks!
-
-  086946bd47ba ("PCI: Add support for root bus sizing")
-  a2b7f8c8d882 ("alpha: Fix nautilus PCI setup")
-
-> ---
->  arch/alpha/kernel/sys_nautilus.c | 52 ++++++++++++++++------------------------
->  1 file changed, 20 insertions(+), 32 deletions(-)
-> 
-> diff --git a/arch/alpha/kernel/sys_nautilus.c b/arch/alpha/kernel/sys_nautilus.c
-> index cd9a112d67ff..32850e45834b 100644
-> --- a/arch/alpha/kernel/sys_nautilus.c
-> +++ b/arch/alpha/kernel/sys_nautilus.c
-> @@ -187,10 +187,6 @@ nautilus_machine_check(unsigned long vector, unsigned long la_ptr)
->  
->  extern void pcibios_claim_one_bus(struct pci_bus *);
->  
-> -static struct resource irongate_io = {
-> -	.name	= "Irongate PCI IO",
-> -	.flags	= IORESOURCE_IO,
-> -};
->  static struct resource irongate_mem = {
->  	.name	= "Irongate PCI MEM",
->  	.flags	= IORESOURCE_MEM,
-> @@ -208,17 +204,19 @@ nautilus_init_pci(void)
->  	struct pci_controller *hose = hose_head;
->  	struct pci_host_bridge *bridge;
->  	struct pci_bus *bus;
-> -	struct pci_dev *irongate;
->  	unsigned long bus_align, bus_size, pci_mem;
->  	unsigned long memtop = max_low_pfn << PAGE_SHIFT;
-> -	int ret;
->  
->  	bridge = pci_alloc_host_bridge(0);
->  	if (!bridge)
->  		return;
->  
-> +	/* Use default IO. */
->  	pci_add_resource(&bridge->windows, &ioport_resource);
-> -	pci_add_resource(&bridge->windows, &iomem_resource);
-> +	/* Irongate PCI memory aperture, calculate requred size before
-> +	   setting it up. */
-> +	pci_add_resource(&bridge->windows, &irongate_mem);
-> +
->  	pci_add_resource(&bridge->windows, &busn_resource);
->  	bridge->dev.parent = NULL;
->  	bridge->sysdata = hose;
-> @@ -226,59 +224,49 @@ nautilus_init_pci(void)
->  	bridge->ops = alpha_mv.pci_ops;
->  	bridge->swizzle_irq = alpha_mv.pci_swizzle;
->  	bridge->map_irq = alpha_mv.pci_map_irq;
-> +	bridge->size_windows = 1;
->  
->  	/* Scan our single hose.  */
-> -	ret = pci_scan_root_bus_bridge(bridge);
-> -	if (ret) {
-> +	if (pci_scan_root_bus_bridge(bridge)) {
->  		pci_free_host_bridge(bridge);
->  		return;
->  	}
-> -
->  	bus = hose->bus = bridge->bus;
->  	pcibios_claim_one_bus(bus);
->  
-> -	irongate = pci_get_domain_bus_and_slot(pci_domain_nr(bus), 0, 0);
-> -	bus->self = irongate;
-> -	bus->resource[0] = &irongate_io;
-> -	bus->resource[1] = &irongate_mem;
-> -
->  	pci_bus_size_bridges(bus);
->  
-> -	/* IO port range. */
-> -	bus->resource[0]->start = 0;
-> -	bus->resource[0]->end = 0xffff;
-> -
-> -	/* Set up PCI memory range - limit is hardwired to 0xffffffff,
-> -	   base must be at aligned to 16Mb. */
-> -	bus_align = bus->resource[1]->start;
-> -	bus_size = bus->resource[1]->end + 1 - bus_align;
-> +	/* Now we've got the size and alignment of PCI memory resources
-> +	   stored in irongate_mem. Set up the PCI memory range: limit is
-> +	   hardwired to 0xffffffff, base must be aligned to 16Mb. */
-> +	bus_align = irongate_mem.start;
-> +	bus_size = irongate_mem.end + 1 - bus_align;
->  	if (bus_align < 0x1000000UL)
->  		bus_align = 0x1000000UL;
->  
->  	pci_mem = (0x100000000UL - bus_size) & -bus_align;
-> +	irongate_mem.start = pci_mem;
-> +	irongate_mem.end = 0xffffffffUL;
->  
-> -	bus->resource[1]->start = pci_mem;
-> -	bus->resource[1]->end = 0xffffffffUL;
-> -	if (request_resource(&iomem_resource, bus->resource[1]) < 0)
-> +	/* Register our newly calculated PCI memory window in the resource
-> +	   tree. */
-> +	if (request_resource(&iomem_resource, &irongate_mem) < 0)
->  		printk(KERN_ERR "Failed to request MEM on hose 0\n");
->  
-> +	printk(KERN_INFO "Irongate pci_mem %pR\n", &irongate_mem);
-> +
->  	if (pci_mem < memtop)
->  		memtop = pci_mem;
->  	if (memtop > alpha_mv.min_mem_address) {
->  		free_reserved_area(__va(alpha_mv.min_mem_address),
->  				   __va(memtop), -1, NULL);
-> -		printk("nautilus_init_pci: %ldk freed\n",
-> +		printk(KERN_INFO "nautilus_init_pci: %ldk freed\n",
->  			(memtop - alpha_mv.min_mem_address) >> 10);
->  	}
-> -
->  	if ((IRONGATE0->dev_vendor >> 16) > 0x7006)	/* Albacore? */
->  		IRONGATE0->pci_mem = pci_mem;
->  
->  	pci_bus_assign_resources(bus);
-> -
-> -	/* pci_common_swizzle() relies on bus->self being NULL
-> -	   for the root bus, so just clear it. */
-> -	bus->self = NULL;
->  	pci_bus_add_devices(bus);
->  }
->  
+Mein Name ist CHARLES JACKSON JNR.Ich habe eine Lotterie in Höhe von 344 Millionen Dollar gewonnen und seitdem hat sich mein Leben positiv verändert. Ich bin derzeit an Krebs erkrankt und so krank. Deshalb habe ich beschlossen, 7 Millionen Euro an 14 Menschen auszugeben, um den Menschen zu helfen arm UND diejenigen, die wie die Welt an Corona-Virus erkrankt sind, brauchen Hilfe. Da ich so krank bin, um eine freundliche Antwort über diese Antwort zu erhalten:
+(ugbumamamam@gmail.com)
