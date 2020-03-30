@@ -2,58 +2,43 @@ Return-Path: <linux-alpha-owner@vger.kernel.org>
 X-Original-To: lists+linux-alpha@lfdr.de
 Delivered-To: lists+linux-alpha@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id DDB9A197A13
-	for <lists+linux-alpha@lfdr.de>; Mon, 30 Mar 2020 13:01:11 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 46DFE197F77
+	for <lists+linux-alpha@lfdr.de>; Mon, 30 Mar 2020 17:22:39 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729577AbgC3LBK (ORCPT <rfc822;lists+linux-alpha@lfdr.de>);
-        Mon, 30 Mar 2020 07:01:10 -0400
-Received: from mail.11d01.mspz7.gob.ec ([190.152.145.91]:53490 "EHLO
-        mail.11d01.mspz7.gob.ec" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1729553AbgC3LBJ (ORCPT
+        id S1727191AbgC3PWi (ORCPT <rfc822;lists+linux-alpha@lfdr.de>);
+        Mon, 30 Mar 2020 11:22:38 -0400
+Received: from host201-96-61-217.static.arubacloud.com ([217.61.96.201]:36410
+        "EHLO mail.undorthemoure.gq" rhost-flags-OK-FAIL-OK-OK)
+        by vger.kernel.org with ESMTP id S1726497AbgC3PWi (ORCPT
         <rfc822;linux-alpha@vger.kernel.org>);
-        Mon, 30 Mar 2020 07:01:09 -0400
-Received: from localhost (localhost [127.0.0.1])
-        by mail.11d01.mspz7.gob.ec (Postfix) with ESMTP id 8D0A72F6F5CE;
-        Mon, 30 Mar 2020 04:16:31 -0500 (-05)
-Received: from mail.11d01.mspz7.gob.ec ([127.0.0.1])
-        by localhost (mail.11d01.mspz7.gob.ec [127.0.0.1]) (amavisd-new, port 10032)
-        with ESMTP id wHDWD2jiTREe; Mon, 30 Mar 2020 04:16:31 -0500 (-05)
-Received: from localhost (localhost [127.0.0.1])
-        by mail.11d01.mspz7.gob.ec (Postfix) with ESMTP id 0CCE52F693CB;
-        Mon, 30 Mar 2020 04:16:31 -0500 (-05)
-DKIM-Filter: OpenDKIM Filter v2.9.2 mail.11d01.mspz7.gob.ec 0CCE52F693CB
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=11d01.mspz7.gob.ec;
-        s=50CBC7E4-8BED-11E9-AF6C-F1A741A224D3; t=1585559791;
-        bh=cLQbOHa1aY+/FyDjaDQOZOnnnlZDxMu+rBX/cg5yps8=;
-        h=Content-Type:MIME-Version:Content-Transfer-Encoding:Subject:To:
-         From:Date:Reply-To:Message-Id;
-        b=I0rXDmCJi1DmUgV7kL/YWhU/SEjtjx3nHfmw9Fvm+1qaWWE48cvghCn7IXuLPzq9m
-         noTS1gQ6QjgHQK61jJdJ85k+vrJp9oJ7fMhy8dWy/cFx9wuFZ+1wP0xSkenk/+SpA8
-         vMBthVTDknFQkNI7Y+FmccFxisBOcqCb1ocpszcU=
-X-Virus-Scanned: amavisd-new at 11d01.mspz7.gob.ec
-Received: from mail.11d01.mspz7.gob.ec ([127.0.0.1])
-        by localhost (mail.11d01.mspz7.gob.ec [127.0.0.1]) (amavisd-new, port 10026)
-        with ESMTP id eHtT7xwanvL8; Mon, 30 Mar 2020 04:16:30 -0500 (-05)
-Received: from [10.121.152.251] (unknown [105.12.0.10])
-        by mail.11d01.mspz7.gob.ec (Postfix) with ESMTPSA id 5FC382F6F56A;
-        Mon, 30 Mar 2020 04:16:19 -0500 (-05)
-Content-Type: text/plain; charset="iso-8859-1"
+        Mon, 30 Mar 2020 11:22:38 -0400
+Received: by mail.undorthemoure.gq (Postfix, from userid 48)
+        id E8CBF8CC22; Mon, 30 Mar 2020 00:09:44 -0400 (EDT)
+To:     linux-alpha@vger.kernel.org
+Subject: Request for catalog and price list
+X-PHP-Originating-Script: 0:dageds.php
+From:   Julian Smith <juliansmith2014@mail.ru>
+Reply-To: juliansmith2014@outlook.com
 MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-Content-Description: Mail message body
-Subject: spende von 2.000.000,00 Euro
-To:     Recipients <luis.sanchez@11d01.mspz7.gob.ec>
-From:   "Manuel Franco" <luis.sanchez@11d01.mspz7.gob.ec>
-Date:   Mon, 30 Mar 2020 11:47:33 +0200
-Reply-To: manuelfrancospende11@gmail.com
-Message-Id: <20200330091620.5FC382F6F56A@mail.11d01.mspz7.gob.ec>
+Content-Type:   text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7BIT
+Message-Id: <20200330040944.E8CBF8CC22@mail.undorthemoure.gq>
+Date:   Mon, 30 Mar 2020 00:09:44 -0400 (EDT)
 Sender: linux-alpha-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-alpha.vger.kernel.org>
 X-Mailing-List: linux-alpha@vger.kernel.org
 
-Ich bin Manuel Franco, ich spende Ihnen 2.000.000,00 Euro. Kontaktieren Sie=
- mich jetzt, damit wir fortfahren k=F6nnen.
+Hello friend,
 
-I am Manuel Franco, I donate to you 2,000,000.00 euros. Contact me now so w=
-e can proceed.
+This is Julian Smith and i am purchasing manager from Sinara Group Co.,LTD in Russia.
+We are glad to know about your company from the web and we are interested in your products.
+Could you kindly send us your Latest catalog and price list for our trial order.
+
+Thanks and Best Regards,
+
+Ms. Julian Smith
+Purchasing Manager
+Sinara Group Co.,LTD
+
+
