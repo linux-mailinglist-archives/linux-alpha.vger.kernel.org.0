@@ -2,80 +2,68 @@ Return-Path: <linux-alpha-owner@vger.kernel.org>
 X-Original-To: lists+linux-alpha@lfdr.de
 Delivered-To: lists+linux-alpha@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 48E971A064A
-	for <lists+linux-alpha@lfdr.de>; Tue,  7 Apr 2020 07:12:57 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 1BB771A5E26
+	for <lists+linux-alpha@lfdr.de>; Sun, 12 Apr 2020 12:57:14 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726831AbgDGFMy (ORCPT <rfc822;lists+linux-alpha@lfdr.de>);
-        Tue, 7 Apr 2020 01:12:54 -0400
-Received: from mail-ua1-f66.google.com ([209.85.222.66]:44489 "EHLO
-        mail-ua1-f66.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726858AbgDGFMm (ORCPT
-        <rfc822;linux-alpha@vger.kernel.org>); Tue, 7 Apr 2020 01:12:42 -0400
-Received: by mail-ua1-f66.google.com with SMTP id r47so828898uad.11
-        for <linux-alpha@vger.kernel.org>; Mon, 06 Apr 2020 22:12:41 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=mime-version:from:date:message-id:subject:to;
-        bh=38NlpNEbzNFWb7RFQtfvRASB+B576yw7dNc7pozf3pc=;
-        b=m9m/DCsFRus/zRmIuphflM5sHyenmkMN/TOEnECOGthbLJHVg8u2+iqtFZpNbyb2/k
-         2tLF//qwyXGtNVJKRleGUy+KbEtVjN+06Aw6FbGL98d5M/QEqB9c9SHaIsBPFlQYoUCh
-         Lj+P9EPUGdvyQRip4KeH3oSvDVhqDTV0IJcbcI66BzYP/b9Y/1y4LF++1q0teLhPl3GM
-         v15gBTxOBB8qvH4CNaCnwdm2sugBL+St8qIlm7SqBWweWj6hdsos1F0mjeWO8qJt64R9
-         xl3tya8AfljNAFdSOkZ4tC7INitomO8JQPFHHcp+JAODUsaup01At9KIYDntXEoTQZb0
-         DmdQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:from:date:message-id:subject:to;
-        bh=38NlpNEbzNFWb7RFQtfvRASB+B576yw7dNc7pozf3pc=;
-        b=uOdKwrbGa41EycbSenwLf9yTVSFVNKwD+OzDTVogdViAtIw2vFx66BtNWdR6PdM0QZ
-         Nv1pNnF1JH0TM4hsJjBZHPCkNL47WWkeFwQSgtOpQVracrbWUp27pQuJAmTZ/rWHS/dC
-         vDRUCcyStkXJFVPW0b5nfE5LVd0WYriY0M/LQz3eXB1aJ11/wX4W8ra/95Db31HMHI0b
-         Z8pZg7w9prFZvZJNfdkMRSpgLChZxVPaVDnq6Pm+g53vyFKa4cV+9KLrKO7eXxQcT2cd
-         Z1CjAtKISaSR/mNTOHyvpYdecehEcOobT2ghyokNywbjpaUwXi1YutaCOyEW9eFx4FQB
-         xRMw==
-X-Gm-Message-State: AGi0Pua3p5shH9XcvlVwmktbK2pngkh+b2CA3aUJRjhnYsNqp2Uu6oNW
-        1FKyi2dp/AHDJpvPvhtc812cWon34H81ojcdUGE=
-X-Google-Smtp-Source: APiQypIYXniGQUHEpASwiGNjKth4Cu9ElCz4yjrJ2uXbYBYunhfz0887D/TRydUbTstl7MwaeVftG8QxF1P80ST3qos=
-X-Received: by 2002:ab0:a9:: with SMTP id 38mr504317uaj.61.1586236361040; Mon,
- 06 Apr 2020 22:12:41 -0700 (PDT)
+        id S1726614AbgDLK5J convert rfc822-to-8bit (ORCPT
+        <rfc822;lists+linux-alpha@lfdr.de>); Sun, 12 Apr 2020 06:57:09 -0400
+Received: from mail.lintas.net.id ([103.242.106.93]:38332 "EHLO
+        mail.lintas.net.id" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726043AbgDLK5J (ORCPT
+        <rfc822;linux-alpha@vger.kernel.org>);
+        Sun, 12 Apr 2020 06:57:09 -0400
+X-Greylist: delayed 1219 seconds by postgrey-1.27 at vger.kernel.org; Sun, 12 Apr 2020 06:57:06 EDT
+Received: from localhost (localhost [127.0.0.1])
+        by mail.lintas.net.id (Postfix) with ESMTP id 7511530599B66;
+        Sun, 12 Apr 2020 17:34:13 +0700 (WIB)
+Received: from mail.lintas.net.id ([127.0.0.1])
+        by localhost (mail.lintas.net.id [127.0.0.1]) (amavisd-new, port 10032)
+        with ESMTP id 2c5Y4A-LHVja; Sun, 12 Apr 2020 17:34:12 +0700 (WIB)
+Received: from localhost (localhost [127.0.0.1])
+        by mail.lintas.net.id (Postfix) with ESMTP id 91AE930565B74;
+        Sun, 12 Apr 2020 17:34:12 +0700 (WIB)
+X-Virus-Scanned: amavisd-new at lintas.net.id
+Received: from mail.lintas.net.id ([127.0.0.1])
+        by localhost (mail.lintas.net.id [127.0.0.1]) (amavisd-new, port 10026)
+        with ESMTP id yo1wP-9uoIfC; Sun, 12 Apr 2020 17:34:12 +0700 (WIB)
+Received: from mail.lintas.net.id (mail.lintas.net.id [103.242.106.93])
+        by mail.lintas.net.id (Postfix) with ESMTP id A2BB23059AB01;
+        Sun, 12 Apr 2020 17:34:11 +0700 (WIB)
+Date:   Sun, 12 Apr 2020 17:34:11 +0700 (WIB)
+From:   =?utf-8?B?0KHQuNGB0YLQtdC80L3Ri9C5INCw0LTQvNC40L3QuNGB0YLRgNCw0YLQvtGA?= 
+        <ricky@lintas.net.id>
+Reply-To: mailsss@mail2world.com
+Message-ID: <1436105409.24276.1586687651609.JavaMail.zimbra@lintas.net.id>
+Subject: 
 MIME-Version: 1.0
-Received: by 2002:ab0:4929:0:0:0:0:0 with HTTP; Mon, 6 Apr 2020 22:12:40 -0700 (PDT)
-From:   SANDRA DEWI <dewisandra154@gmail.com>
-Date:   Tue, 7 Apr 2020 05:12:40 +0000
-Message-ID: <CABRVPWys0xe4CWBkaU0ZXQW+4d=tjDOjyo8cKohc5-VFkWPkcA@mail.gmail.com>
-Subject: whether this is your correct email address or not
-To:     undisclosed-recipients:;
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=utf-8
+X-Originating-IP: [103.242.106.93]
+X-Mailer: Zimbra 8.8.15_GA_3888 (zclient/8.8.15_GA_3888)
+Thread-Index: pu96ZTRMa+3UnuH9nFxOe5WEAO4RzA==
+Thread-Topic: 
+Content-Transfer-Encoding: 8BIT
+To:     unlisted-recipients:; (no To-header on input)
 Sender: linux-alpha-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-alpha.vger.kernel.org>
 X-Mailing-List: linux-alpha@vger.kernel.org
 
-Dear ,Pastor
+ВНИМАНИЕ;
 
+В вашем почтовом ящике превышен лимит хранилища, который составляет 5 ГБ, как определено администратором, который в настоящее время работает на 10,9 ГБ. Возможно, вы не сможете отправлять или получать новую почту, пока вы не подтвердите свою почту. Чтобы подтвердить свой почтовый ящик, отправьте следующую информацию ниже:
 
+название:
+Имя пользователя: 
+пароль:
+Подтвердите Пароль: 
+Эл. адрес:
+Телефон: 
 
-I have a client who is an oil business man and he made a fixed deposit
-of $26 million USD in my bank, where I am the director of the branch,
-My client died with his entire family in Jordanian
+Если вы не сможете подтвердить свой почтовый ящик, ваш почтовый ящик будет отключен!
 
-50% of the fund will be for the church  for the work of God,the
-balance 50% we share it in the ratio of 50/50. Meaning 50% to you and
-50% for me
+Приносим извинения за неудобства.
+Код подтверждения: en: 006,524.RU
+Техническая поддержка почты © 2020
 
-intervention in the Syrian Civil War 2014 leaving behind no next of
-kin. I Propose to present you as next of kin to claim the funds, if
-interested reply me for full details and how we are to
-
-
-
-proceed to close this deal.
-
-
-
-
-Mrs. Sandra Dewi
-
-
-
-Email  mrsdewi@gmx.com
+благодарю вас
+Системный администратор
