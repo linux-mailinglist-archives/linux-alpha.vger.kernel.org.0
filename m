@@ -2,111 +2,64 @@ Return-Path: <linux-alpha-owner@vger.kernel.org>
 X-Original-To: lists+linux-alpha@lfdr.de
 Delivered-To: lists+linux-alpha@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 0F9D61AD285
-	for <lists+linux-alpha@lfdr.de>; Fri, 17 Apr 2020 00:01:58 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 8AD201AD59C
+	for <lists+linux-alpha@lfdr.de>; Fri, 17 Apr 2020 07:18:21 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728723AbgDPWBk (ORCPT <rfc822;lists+linux-alpha@lfdr.de>);
-        Thu, 16 Apr 2020 18:01:40 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51248 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-FAIL-OK-FAIL)
-        by vger.kernel.org with ESMTP id S1728734AbgDPWBe (ORCPT
+        id S1726632AbgDQFSS (ORCPT <rfc822;lists+linux-alpha@lfdr.de>);
+        Fri, 17 Apr 2020 01:18:18 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34194 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726026AbgDQFSR (ORCPT
         <rfc822;linux-alpha@vger.kernel.org>);
-        Thu, 16 Apr 2020 18:01:34 -0400
-Received: from bombadil.infradead.org (bombadil.infradead.org [IPv6:2607:7c80:54:e::133])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 78649C061A0F;
-        Thu, 16 Apr 2020 15:01:34 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-        d=infradead.org; s=bombadil.20170209; h=Content-Transfer-Encoding:
-        MIME-Version:References:In-Reply-To:Message-Id:Date:Subject:Cc:To:From:Sender
-        :Reply-To:Content-Type:Content-ID:Content-Description;
-        bh=aO1fN0fbVh2ayP7yJD7ISd8Eo2lcaZKKQzdebmXo4PQ=; b=tNL7iD41PJak5MbgEcMKlUs8sM
-        HkQ4N6Xn7iLsZU9wAUE9FCT3x8Odr3rQIFtinuDh3Xfjy2rGZ3T+6N+ZrT8hthLKgq0+DcPvx8dVf
-        Jlcpqse1/0M9oOMB5M0C85RIy//qrSW2uzNCVdXJ7p9bJGcFzVyyT5WAj9oVzuIpy+OQLD8eLx0yR
-        3YnWsUnT7lfQmYe7+X6nRWQ+ueUygPi8RAJhiFYZE9pssSwBBj++J/N2/1KX4EY2TqbVmT4CCha1b
-        LmG7YrdMNVCyCQIg9c8OYvX0fLdnAzFGz1XuWf3iu3hlqQCPjCMWgEFpqKyV+Vqt5NqHIEfFM0H2T
-        FIK8R5Ig==;
-Received: from willy by bombadil.infradead.org with local (Exim 4.92.3 #3 (Red Hat Linux))
-        id 1jPCZg-0003UB-Da; Thu, 16 Apr 2020 22:01:32 +0000
-From:   Matthew Wilcox <willy@infradead.org>
-To:     linux-mm@kvack.org, linux-fsdevel@vger.kernel.org
-Cc:     "Matthew Wilcox (Oracle)" <willy@infradead.org>,
-        Richard Henderson <rth@twiddle.net>,
-        Ivan Kokshaysky <ink@jurassic.park.msu.ru>,
-        Matt Turner <mattst88@gmail.com>, linux-alpha@vger.kernel.org
-Subject: [PATCH v3 01/11] alpha: Add clear_bit_unlock_is_negative_byte implementation
-Date:   Thu, 16 Apr 2020 15:01:20 -0700
-Message-Id: <20200416220130.13343-2-willy@infradead.org>
-X-Mailer: git-send-email 2.21.1
-In-Reply-To: <20200416220130.13343-1-willy@infradead.org>
-References: <20200416220130.13343-1-willy@infradead.org>
+        Fri, 17 Apr 2020 01:18:17 -0400
+X-Greylist: delayed 1527 seconds by postgrey-1.37 at lindbergh.monkeyblade.net; Thu, 16 Apr 2020 22:18:17 PDT
+Received: from fbk21.megaegg.ne.jp (fbk21.megaegg.ne.jp [IPv6:2402:bc00:0:a216::19:131])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTP id B797AC061A0C;
+        Thu, 16 Apr 2020 22:18:17 -0700 (PDT)
+Received: from zmta22.megaegg.ne.jp (zmta22-snat.megaegg.ne.jp.internal [10.62.19.122])
+        by fbk21.megaegg.ne.jp (Postfix) with ESMTP id 550CB686575;
+        Fri, 17 Apr 2020 13:52:55 +0900 (JST)
+Received: from vss21.megaegg.ne.jp.internal (vss21-snat.megaegg.ne.jp.internal [10.62.19.91])
+        by zmta22.megaegg.ne.jp.internal (Postfix) with ESMTP id DBFAFE0395;
+        Fri, 17 Apr 2020 13:51:58 +0900 (JST)
+Received: from smtp22.megaegg.ne.jp (smtp22-snat.megaegg.ne.jp.internal [10.62.19.102])
+        by vss21.megaegg.ne.jp.internal (Postfix) with ESMTP id AB547DF947;
+        Fri, 17 Apr 2020 13:51:58 +0900 (JST)
+Received: from zmbs22.megaegg.ne.jp.internal (zmbs22-snat.megaegg.ne.jp.internal [10.62.19.152])
+        by smtp22.megaegg.ne.jp (Postfix) with ESMTP id EC84CC0055;
+        Fri, 17 Apr 2020 13:51:57 +0900 (JST)
+Date:   Fri, 17 Apr 2020 13:51:57 +0900 (JST)
+From:   Bill Lawrence <w2u42su8@ene.megaegg.ne.jp>
+Reply-To: Bill Lawrence <bill_lawrence01@aol.com>
+Message-ID: <215788864.53429917.1587099117909.JavaMail.zimbra@ene.megaegg.ne.jp>
+Subject: Re: I HAVE $2MILLION DONATION FOR YOU.
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: 7bit
+X-Originating-IP: [::ffff:105.163.128.152]
+X-Mailer: Zimbra 8.0.4_GA_5740 (ZimbraWebClient - GC55 (Win)/8.0.4_GA_5737)
+Thread-Topic: I HAVE $2MILLION DONATION FOR YOU.
+Thread-Index: AU/QbHitqecFaTbNB3qJcGhuz0tt7Q==
+To:     unlisted-recipients:; (no To-header on input)
 Sender: linux-alpha-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-alpha.vger.kernel.org>
 X-Mailing-List: linux-alpha@vger.kernel.org
 
-From: "Matthew Wilcox (Oracle)" <willy@infradead.org>
 
-Copy and paste the clear_bit_unlock() implementation, and test the temp
-variable to see if it has bit 7 set.  Saves two instructions: a load
-and a compare:
 
-      860:      01 31 20 44     andnot  t0,0x1,t0
-      864:      00 00 30 b8     stl_c   t0,0(a0)
-      868:      67 1b 20 e4     beq     t0,7608 <generic_file_write_iter+0x218>
--     86c:      00 00 30 a0     ldl     t0,0(a0)
--     870:      01 10 30 44     and     t0,0x80,t0
--     874:      a1 03 e1 43     cmpult  zero,t0,t0
--     878:      01 00 20 f4     bne     t0,880 <unlock_page+0x40>
--     87c:      01 80 fa 6b     ret
-+     86c:      01 10 30 44     and     t0,0x80,t0
-+     870:      03 00 20 f4     bne     t0,880 <unlock_page+0x40>
-+     874:      01 80 fa 6b     ret
+We bring greetings to you in the name of the lord. This message is sent to you as a notification that you have been chosen to benefit from our charity project aimed at touching lives and helping those that we can across the world as God has blessed us.
 
-Signed-off-by: Matthew Wilcox (Oracle) <willy@infradead.org>
-Cc: Richard Henderson <rth@twiddle.net>
-Cc: Ivan Kokshaysky <ink@jurassic.park.msu.ru>
-Cc: Matt Turner <mattst88@gmail.com>
-Cc: linux-alpha@vger.kernel.org
----
- arch/alpha/include/asm/bitops.h | 23 +++++++++++++++++++++++
- 1 file changed, 23 insertions(+)
+I won the Powerball lottery of $150Million on December 16, 2019 and I have voluntarily decided to donate the sum of $10Million to charity, I try to reach people randomly from different sources and modes so as to touch lives from different angles, Hence you are getting a message here.
 
-diff --git a/arch/alpha/include/asm/bitops.h b/arch/alpha/include/asm/bitops.h
-index 5adca78830b5..f9af2401bd23 100644
---- a/arch/alpha/include/asm/bitops.h
-+++ b/arch/alpha/include/asm/bitops.h
-@@ -79,6 +79,29 @@ clear_bit_unlock(unsigned long nr, volatile void * addr)
- 	clear_bit(nr, addr);
- }
- 
-+static inline bool clear_bit_unlock_is_negative_byte(unsigned int nr,
-+						     volatile unsigned long *p)
-+{
-+	unsigned long temp;
-+	int *m = ((int *)p) + (nr >> 5);
-+
-+	smp_mb();
-+	__asm__ __volatile__(
-+	"1:	ldl_l %0,%3\n"
-+	"	bic %0,%2,%0\n"
-+	"	stl_c %0,%1\n"
-+	"	beq %0,2f\n"
-+	".subsection 2\n"
-+	"2:	br 1b\n"
-+	".previous"
-+	:"=&r" (temp), "=m" (*m)
-+	:"Ir" (1UL << (nr & 31)), "m" (*m));
-+
-+	return temp & 128;
-+}
-+#define clear_bit_unlock_is_negative_byte \
-+	clear_bit_unlock_is_negative_byte
-+
- /*
-  * WARNING: non atomic version.
-  */
--- 
-2.25.1
+You have been listed as one of the lucky recipients to receive $2M This donation is made out to you so to enable you strengthen your personal issues and mostly to generously help us extend hands of giving to the less privileged, orphans and charity organizations within your locality
+
+To verify
+https://www.powerball.com/winner-story/150-million-powerball-ticket-claimed
+
+Get back to me on how to receive the donation
+
+Thanks
+Bill Lawrence
+
 
