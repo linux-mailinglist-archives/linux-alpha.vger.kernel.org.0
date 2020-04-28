@@ -2,63 +2,62 @@ Return-Path: <linux-alpha-owner@vger.kernel.org>
 X-Original-To: lists+linux-alpha@lfdr.de
 Delivered-To: lists+linux-alpha@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 37CFC1BA2B6
-	for <lists+linux-alpha@lfdr.de>; Mon, 27 Apr 2020 13:42:12 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 6E44F1BB6A0
+	for <lists+linux-alpha@lfdr.de>; Tue, 28 Apr 2020 08:33:17 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727071AbgD0Llf (ORCPT <rfc822;lists+linux-alpha@lfdr.de>);
-        Mon, 27 Apr 2020 07:41:35 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36078 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727040AbgD0Lle (ORCPT
-        <rfc822;linux-alpha@vger.kernel.org>);
-        Mon, 27 Apr 2020 07:41:34 -0400
-Received: from mail-io1-xd44.google.com (mail-io1-xd44.google.com [IPv6:2607:f8b0:4864:20::d44])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D41BBC09B054
-        for <linux-alpha@vger.kernel.org>; Mon, 27 Apr 2020 04:41:34 -0700 (PDT)
-Received: by mail-io1-xd44.google.com with SMTP id u11so18491794iow.4
-        for <linux-alpha@vger.kernel.org>; Mon, 27 Apr 2020 04:41:34 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=mime-version:reply-to:from:date:message-id:subject:to;
-        bh=F+HbPvxQnRBlqBFKy/zn6110uxUPAWY6eSsMY6+ckPY=;
-        b=uI1U3pP4FazEZaTfkDGgaf1Qyb1hL6AlgZB9tozzlJtw0tc2p0xAeW9BNdbY4A2XuL
-         JYn8lE6gg3HqjBgRaTT8CTSOLDZ9E79yDyBM0EGnWldSdHyzrk+BT/7frJGn/PAhMIrE
-         VCZdq7yfljhgiOOYhIeLP2AIIFXvLFMREe3IREMgf/Wimn5okrCaqK4gkS0+n2Tqfq3c
-         EFYh4cYLyK3nIET0YOm2adzDe5W5QN3hsgSvwW72euh+PRPDs3oxC82+7cfg/ZGTOz8/
-         eTagf6SblJMWIJeJ59y/zg3//EVOq9RPByBfKkQCDUJB6vE62XJLcx9qUgZNIxoYrz8S
-         JAeA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:reply-to:from:date:message-id
-         :subject:to;
-        bh=F+HbPvxQnRBlqBFKy/zn6110uxUPAWY6eSsMY6+ckPY=;
-        b=pNAU04bfSXqlP2RniPxffbwJXWcbc8j6XcUv814F9bxy6H8Jh63mVZbJt3jKl2bntf
-         0uKEHJhwqejbvoAMzi0qh6amSi4dzEnog6GkxgJVmwu0Eb4x+xPHhNfezV1enSnLjK+L
-         w3UXmRKhdASxbKAI5vfpLILXyO9pThFpWa4boQ6zIlE4bMMPvgEVAu5nm276Zy4953bD
-         lm8a0+lUb0cbjODCYrTam933JWtz2SXd1d8r86SV+dg5MkI1f4WqR39+U2EsPyFBuRM+
-         zu7buu7kgYxS2X9YVLmIRrlkkwLF1nkifSZyTFg3hvnfMN7Z8CWrvHBsOlH2IPG+4Jp2
-         sKtw==
-X-Gm-Message-State: AGi0PuaRVt2xanVMepfqaXlaQDoSC1VROQFc9RLVSUaDI+mPDbPyTX6N
-        3V0wCA0WKbP1MPYWMao/h1Y9pZ0OonqpiLYPPrA=
-X-Google-Smtp-Source: APiQypJWdjzUZMbeRoAX94bUJV0IgwyoF5kUG7iPo3CBzKxW8lStFNsM/6tz3An/TyzRuH2Qw14DtavsVumw6JVLls0=
-X-Received: by 2002:a6b:7d4a:: with SMTP id d10mr4072296ioq.70.1587987694042;
- Mon, 27 Apr 2020 04:41:34 -0700 (PDT)
+        id S1726378AbgD1GdQ (ORCPT <rfc822;lists+linux-alpha@lfdr.de>);
+        Tue, 28 Apr 2020 02:33:16 -0400
+Received: from szxga04-in.huawei.com ([45.249.212.190]:3360 "EHLO huawei.com"
+        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
+        id S1726256AbgD1GdQ (ORCPT <rfc822;linux-alpha@vger.kernel.org>);
+        Tue, 28 Apr 2020 02:33:16 -0400
+Received: from DGGEMS410-HUB.china.huawei.com (unknown [172.30.72.60])
+        by Forcepoint Email with ESMTP id 4771C4C215F03E66B01A;
+        Tue, 28 Apr 2020 14:33:09 +0800 (CST)
+Received: from huawei.com (10.175.124.28) by DGGEMS410-HUB.china.huawei.com
+ (10.3.19.210) with Microsoft SMTP Server id 14.3.487.0; Tue, 28 Apr 2020
+ 14:32:58 +0800
+From:   Jason Yan <yanaijie@huawei.com>
+To:     <rth@twiddle.net>, <ink@jurassic.park.msu.ru>,
+        <mattst88@gmail.com>, <linux-alpha@vger.kernel.org>,
+        <linux-kernel@vger.kernel.org>
+CC:     Jason Yan <yanaijie@huawei.com>
+Subject: [PATCH] alpha: remove unneeded semicolon in sys_eiger.c
+Date:   Tue, 28 Apr 2020 14:32:25 +0800
+Message-ID: <20200428063225.24882-1-yanaijie@huawei.com>
+X-Mailer: git-send-email 2.21.1
 MIME-Version: 1.0
-Received: by 2002:a5d:8f89:0:0:0:0:0 with HTTP; Mon, 27 Apr 2020 04:41:33
- -0700 (PDT)
-Reply-To: convy0090@gmail.com
-From:   Ruben CONVY <andrewboccc@gmail.com>
-Date:   Mon, 27 Apr 2020 12:41:33 +0100
-Message-ID: <CAHVC0+Ag87TMCmfNNwWbxXOFxn5166q8GG5wEfPjwtixj9=EXQ@mail.gmail.com>
-Subject: Why continued silence 2
-To:     undisclosed-recipients:;
-Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7BIT
+Content-Type:   text/plain; charset=US-ASCII
+X-Originating-IP: [10.175.124.28]
+X-CFilter-Loop: Reflected
 Sender: linux-alpha-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-alpha.vger.kernel.org>
 X-Mailing-List: linux-alpha@vger.kernel.org
 
-Did you receive my previous email regarding your family inheritance?
-Reply strictly through: convy0090@gmail.com
-Best Regards,
-Ruben CONVY
+Fix the following coccicheck warning:
+
+arch/alpha/kernel/sys_eiger.c:179:2-3: Unneeded semicolon
+
+Signed-off-by: Jason Yan <yanaijie@huawei.com>
+---
+ arch/alpha/kernel/sys_eiger.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/arch/alpha/kernel/sys_eiger.c b/arch/alpha/kernel/sys_eiger.c
+index 016f79251141..7e852c08cef2 100644
+--- a/arch/alpha/kernel/sys_eiger.c
++++ b/arch/alpha/kernel/sys_eiger.c
+@@ -176,7 +176,7 @@ eiger_swizzle(struct pci_dev *dev, u8 *pinp)
+ 	   case 0x03: bridge_count = 2; break; /* 2 */
+ 	   case 0x07: bridge_count = 3; break; /* 3 */
+ 	   case 0x0f: bridge_count = 4; break; /* 4 */
+-	};
++	}
+ 
+ 	slot = PCI_SLOT(dev->devfn);
+ 	while (dev->bus->self) {
+-- 
+2.21.1
+
