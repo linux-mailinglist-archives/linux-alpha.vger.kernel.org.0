@@ -2,113 +2,112 @@ Return-Path: <linux-alpha-owner@vger.kernel.org>
 X-Original-To: lists+linux-alpha@lfdr.de
 Delivered-To: lists+linux-alpha@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id D5C8C1CC84A
-	for <lists+linux-alpha@lfdr.de>; Sun, 10 May 2020 09:57:08 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id B00741CCD14
+	for <lists+linux-alpha@lfdr.de>; Sun, 10 May 2020 20:51:05 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729387AbgEJH5G (ORCPT <rfc822;lists+linux-alpha@lfdr.de>);
-        Sun, 10 May 2020 03:57:06 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38456 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1729383AbgEJH5D (ORCPT
+        id S1729032AbgEJSu3 (ORCPT <rfc822;lists+linux-alpha@lfdr.de>);
+        Sun, 10 May 2020 14:50:29 -0400
+Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:33621 "EHLO
+        us-smtp-1.mimecast.com" rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org
+        with ESMTP id S1728756AbgEJSu3 (ORCPT
         <rfc822;linux-alpha@vger.kernel.org>);
-        Sun, 10 May 2020 03:57:03 -0400
-Received: from bombadil.infradead.org (bombadil.infradead.org [IPv6:2607:7c80:54:e::133])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CBDA1C061A0C;
-        Sun, 10 May 2020 00:57:02 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-        d=infradead.org; s=bombadil.20170209; h=Content-Transfer-Encoding:
-        MIME-Version:References:In-Reply-To:Message-Id:Date:Subject:Cc:To:From:Sender
-        :Reply-To:Content-Type:Content-ID:Content-Description;
-        bh=gbS3mnDejF/vbSIU5cFMJ7gbJPhVms+ouuUae9XApr4=; b=Jeef/M6wRiQsyUU6ARprddeFuW
-        Ih3QL7O0SFvbRRu8d9DBgFL0JfqU6LDoAq0ftGNMQ+HpMiy87MHTfwgYDMrMHa1QK6oTbqTUmomeS
-        4Xci1co32+BUzy12zKd4SHNSBbsG5vmZ/syewkkPZgcwUxVKWSK7oro2yZKpxtN3HkNt+4dKT5Xw3
-        31qRqq9wSzv6I5a23Wt/9IX/GozigKBBtCvioHR8DpuHVpWbCyIPgWxsqtXtv82dBjJVCJkvjPaBY
-        b8KPnCXNq8XtRWDr8/HSFCirxUDoAJl2NAcgiGp3HJ00NuMrZfS+7sRc/linPe+sVj5kQYB/rO2WU
-        2zABr8zA==;
-Received: from [2001:4bb8:180:9d3f:c70:4a89:bc61:2] (helo=localhost)
-        by bombadil.infradead.org with esmtpsa (Exim 4.92.3 #3 (Red Hat Linux))
-        id 1jXgpO-0001Pa-9R; Sun, 10 May 2020 07:56:50 +0000
-From:   Christoph Hellwig <hch@lst.de>
-To:     Andrew Morton <akpm@linux-foundation.org>,
-        Arnd Bergmann <arnd@arndb.de>,
-        Roman Zippel <zippel@linux-m68k.org>
-Cc:     Jessica Yu <jeyu@kernel.org>, Michal Simek <monstr@monstr.eu>,
-        x86@kernel.org, linux-alpha@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-        linux-c6x-dev@linux-c6x.org, linux-hexagon@vger.kernel.org,
-        linux-ia64@vger.kernel.org, linux-m68k@lists.linux-m68k.org,
-        linux-mips@vger.kernel.org, openrisc@lists.librecores.org,
-        linuxppc-dev@lists.ozlabs.org, linux-riscv@lists.infradead.org,
-        linux-sh@vger.kernel.org, sparclinux@vger.kernel.org,
-        linux-arch@vger.kernel.org, linux-mm@kvack.org,
-        linux-um@lists.infradead.org, linux-xtensa@linux-xtensa.org,
-        linux-fsdevel@vger.kernel.org
-Subject: [PATCH 31/31] module: move the set_fs hack for flush_icache_range to m68k
-Date:   Sun, 10 May 2020 09:55:10 +0200
-Message-Id: <20200510075510.987823-32-hch@lst.de>
-X-Mailer: git-send-email 2.26.2
-In-Reply-To: <20200510075510.987823-1-hch@lst.de>
-References: <20200510075510.987823-1-hch@lst.de>
+        Sun, 10 May 2020 14:50:29 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+        s=mimecast20190719; t=1589136627;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         in-reply-to:in-reply-to:references:references;
+        bh=Cd3Jfs8EnoOBARqHsab26N+nO44V0jD1QCdQOQFYJ/U=;
+        b=MhprYwlXyowMB9dQALZuQrDwnD4Qp7Z+pFTj9z2i1P5xrmy/eqxCC3mU2kIfnVkcP0G7I9
+        x2T1rrHO9uMfKdCRtsHgkil4IHK3JMEvW3WW7SlcD75Sxs6R5Fkmt/XlBAKo8o5oyvMMbF
+        kDtwIO7M6zRWqQAU7MHu/dLKsqzTAM0=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-451-3-_JoBVQOKup1LqNeid8hA-1; Sun, 10 May 2020 14:50:23 -0400
+X-MC-Unique: 3-_JoBVQOKup1LqNeid8hA-1
+Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com [10.5.11.14])
+        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+        (No client certificate requested)
+        by mimecast-mx01.redhat.com (Postfix) with ESMTPS id BF4EA107ACCD;
+        Sun, 10 May 2020 18:50:21 +0000 (UTC)
+Received: from file01.intranet.prod.int.rdu2.redhat.com (file01.intranet.prod.int.rdu2.redhat.com [10.11.5.7])
+        by smtp.corp.redhat.com (Postfix) with ESMTPS id 15E405D9D5;
+        Sun, 10 May 2020 18:50:20 +0000 (UTC)
+Received: from file01.intranet.prod.int.rdu2.redhat.com (localhost [127.0.0.1])
+        by file01.intranet.prod.int.rdu2.redhat.com (8.14.4/8.14.4) with ESMTP id 04AIoKAt015698;
+        Sun, 10 May 2020 14:50:20 -0400
+Received: from localhost (mpatocka@localhost)
+        by file01.intranet.prod.int.rdu2.redhat.com (8.14.4/8.14.4/Submit) with ESMTP id 04AIoJfx015695;
+        Sun, 10 May 2020 14:50:19 -0400
+X-Authentication-Warning: file01.intranet.prod.int.rdu2.redhat.com: mpatocka owned process doing -bs
+Date:   Sun, 10 May 2020 14:50:19 -0400 (EDT)
+From:   Mikulas Patocka <mpatocka@redhat.com>
+X-X-Sender: mpatocka@file01.intranet.prod.int.rdu2.redhat.com
+To:     "Maciej W. Rozycki" <macro@linux-mips.org>
+cc:     Arnd Bergmann <arnd@arndb.de>, Richard Henderson <rth@twiddle.net>,
+        Ivan Kokshaysky <ink@jurassic.park.msu.ru>,
+        Matt Turner <mattst88@gmail.com>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        alpha <linux-alpha@vger.kernel.org>,
+        linux-serial@vger.kernel.org, linux-rtc@vger.kernel.org
+Subject: Re: [PATCH 1/2 v3] alpha: add a delay to inb_p, inb_w and inb_l
+In-Reply-To: <alpine.LFD.2.21.2005100209340.487915@eddie.linux-mips.org>
+Message-ID: <alpine.LRH.2.02.2005101443290.15420@file01.intranet.prod.int.rdu2.redhat.com>
+References: <alpine.LRH.2.02.2005060713390.25338@file01.intranet.prod.int.rdu2.redhat.com> <CAK8P3a2W=foRQ1mX8Gds1GCo+qTRqATV59LyDG5_bNyEKjZybA@mail.gmail.com> <alpine.LRH.2.02.2005061308220.18599@file01.intranet.prod.int.rdu2.redhat.com>
+ <alpine.LRH.2.02.2005070404420.5006@file01.intranet.prod.int.rdu2.redhat.com> <CAK8P3a1qN-cpzkcdtNhtMfSwWwxqcOYg9x6DEzt7PWazwr8V=Q@mail.gmail.com> <alpine.LRH.2.02.2005070931280.1718@file01.intranet.prod.int.rdu2.redhat.com>
+ <CAK8P3a3UdCJL6C07_W7pkipT1Xmr_0G9hOy1S+YXbB4_tKt+gg@mail.gmail.com> <alpine.LFD.2.21.2005100209340.487915@eddie.linux-mips.org>
+User-Agent: Alpine 2.02 (LRH 1266 2009-07-14)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-SRS-Rewrite: SMTP reverse-path rewritten from <hch@infradead.org> by bombadil.infradead.org. See http://www.infradead.org/rpr.html
+Content-Type: TEXT/PLAIN; charset=US-ASCII
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
 Sender: linux-alpha-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-alpha.vger.kernel.org>
 X-Mailing-List: linux-alpha@vger.kernel.org
 
-flush_icache_range generally operates on kernel addresses, but for some
-reason m68k needed a set_fs override.  Move that into the m68k code
-insted of keeping it in the module loader.
 
-Signed-off-by: Christoph Hellwig <hch@lst.de>
----
- arch/m68k/mm/cache.c | 4 ++++
- kernel/module.c      | 8 --------
- 2 files changed, 4 insertions(+), 8 deletions(-)
 
-diff --git a/arch/m68k/mm/cache.c b/arch/m68k/mm/cache.c
-index 7915be3a09712..5ecb3310e8745 100644
---- a/arch/m68k/mm/cache.c
-+++ b/arch/m68k/mm/cache.c
-@@ -107,7 +107,11 @@ void flush_icache_user_range(unsigned long address, unsigned long endaddr)
- 
- void flush_icache_range(unsigned long address, unsigned long endaddr)
- {
-+	mm_segment_t old_fs = get_fs();
-+
-+	set_fs(KERNEL_DS);
- 	flush_icache_user_range(address, endaddr);
-+	set_fs(old_fs);
- }
- EXPORT_SYMBOL(flush_icache_range);
- 
-diff --git a/kernel/module.c b/kernel/module.c
-index 646f1e2330d2b..b1673ed49594f 100644
---- a/kernel/module.c
-+++ b/kernel/module.c
-@@ -3312,12 +3312,6 @@ static int check_module_license_and_versions(struct module *mod)
- 
- static void flush_module_icache(const struct module *mod)
- {
--	mm_segment_t old_fs;
--
--	/* flush the icache in correct context */
--	old_fs = get_fs();
--	set_fs(KERNEL_DS);
--
- 	/*
- 	 * Flush the instruction cache, since we've played with text.
- 	 * Do it before processing of module parameters, so the module
-@@ -3329,8 +3323,6 @@ static void flush_module_icache(const struct module *mod)
- 				   + mod->init_layout.size);
- 	flush_icache_range((unsigned long)mod->core_layout.base,
- 			   (unsigned long)mod->core_layout.base + mod->core_layout.size);
--
--	set_fs(old_fs);
- }
- 
- int __weak module_frob_arch_sections(Elf_Ehdr *hdr,
--- 
-2.26.2
+On Sun, 10 May 2020, Maciej W. Rozycki wrote:
+
+> On Thu, 7 May 2020, Arnd Bergmann wrote:
+> 
+> > > Do you think that all the "in[bwl]" and "out[bwl]" macros on alpha should
+> > > be protected by two memory barriers, to emulate the x86 behavior?
+> > 
+> > That's what we do on some other architectures to emulate the non-posted
+> > behavior of out[bwl], as required by PCI. I can't think of any reasons to
+> > have a barrier before in[bwl], or after write[bwl], but we generally want
+> > one after out[bwl]
+> 
+>  Alpha is weakly ordered, also WRT MMIO.  The details are a bit obscure 
+> (and were discussed before in a previous iteration of these patches), but 
+> my understanding is multiple writes can be merged and writes can be 
+> reordered WRT reads, even on UP.  It's generally better for performance to 
+
+We discussed it some times ago, and the conclusion was that reads and 
+writes to the same device are not reordered on Alpha. Reads and writes to 
+different devices or to memory may be reordered.
+
+In these problematic cases, we only access serial port or real time clock 
+using a few ports (and these devices don't have DMA, so there's not any 
+interaction with memory) - so I conclude that it is timing problem and not 
+I/O reordering problem.
+
+> have ordering barriers before MMIO operations rather than afterwards, 
+> unless a completion barrier is also required (e.g. for level-triggered 
+> interrupt acknowledgement).
+> 
+>  Currently we don't fully guarantee that `outX' won't be posted (from 
+> memory-barriers.txt):
+> 
+> " (*) inX(), outX():
+> [...]
+>         Device drivers may expect outX() to emit a non-posted write transaction
+>         that waits for a completion response from the I/O peripheral before
+>         returning. This is not guaranteed by all architectures and is therefore
+>         not part of the portable ordering semantics."
+> 
+>   Maciej
+
+Mikulas
 
