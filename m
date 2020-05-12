@@ -2,82 +2,106 @@ Return-Path: <linux-alpha-owner@vger.kernel.org>
 X-Original-To: lists+linux-alpha@lfdr.de
 Delivered-To: lists+linux-alpha@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id D72B61CF7B2
-	for <lists+linux-alpha@lfdr.de>; Tue, 12 May 2020 16:47:11 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id D23ED1CFE67
+	for <lists+linux-alpha@lfdr.de>; Tue, 12 May 2020 21:35:29 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1730183AbgELOrH (ORCPT <rfc822;lists+linux-alpha@lfdr.de>);
-        Tue, 12 May 2020 10:47:07 -0400
-Received: from mail.kernel.org ([198.145.29.99]:36974 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1727099AbgELOrH (ORCPT <rfc822;linux-alpha@vger.kernel.org>);
-        Tue, 12 May 2020 10:47:07 -0400
-Received: from [10.44.0.192] (unknown [103.48.210.53])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+        id S1731012AbgELTf3 (ORCPT <rfc822;lists+linux-alpha@lfdr.de>);
+        Tue, 12 May 2020 15:35:29 -0400
+Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:34359 "EHLO
+        us-smtp-1.mimecast.com" rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org
+        with ESMTP id S1730995AbgELTf2 (ORCPT
+        <rfc822;linux-alpha@vger.kernel.org>);
+        Tue, 12 May 2020 15:35:28 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+        s=mimecast20190719; t=1589312127;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         in-reply-to:in-reply-to:references:references;
+        bh=H5pxUSbLWxNQVZt3chJU6aQ+MxFijTrdJFOgatW5PJM=;
+        b=FCRJx0YGfOyJFnV8FqbaYpk2jVd6iwrDVN3dyPl3LIPwYfOWZ7b4Ml9Ai/Oc1OThRoEzKC
+        51GeuI7p1PJNI4U3tvz5F2Ylhm89ybQvDxEbGhxgcjgzDcwNveUxGSwqaCQOk/4tRhWtw7
+        mMDKEdiX5wd8g4zEHoVma0cVms5nFnU=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-189-Cs80k05zNKOHzuw-ckzSlg-1; Tue, 12 May 2020 15:35:25 -0400
+X-MC-Unique: Cs80k05zNKOHzuw-ckzSlg-1
+Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com [10.5.11.23])
+        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
         (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 5779E206A3;
-        Tue, 12 May 2020 14:46:58 +0000 (UTC)
-Subject: Re: [PATCH 29/31] binfmt_flat: use flush_icache_user_range
-To:     Christoph Hellwig <hch@lst.de>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Arnd Bergmann <arnd@arndb.de>,
-        Roman Zippel <zippel@linux-m68k.org>
-Cc:     Jessica Yu <jeyu@kernel.org>, Michal Simek <monstr@monstr.eu>,
-        x86@kernel.org, linux-alpha@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-        linux-c6x-dev@linux-c6x.org, linux-hexagon@vger.kernel.org,
-        linux-ia64@vger.kernel.org, linux-m68k@lists.linux-m68k.org,
-        linux-mips@vger.kernel.org, openrisc@lists.librecores.org,
-        linuxppc-dev@lists.ozlabs.org, linux-riscv@lists.infradead.org,
-        linux-sh@vger.kernel.org, sparclinux@vger.kernel.org,
-        linux-arch@vger.kernel.org, linux-mm@kvack.org,
-        linux-um@lists.infradead.org, linux-xtensa@linux-xtensa.org,
-        linux-fsdevel@vger.kernel.org
-References: <20200510075510.987823-1-hch@lst.de>
- <20200510075510.987823-30-hch@lst.de>
-From:   Greg Ungerer <gerg@linux-m68k.org>
-Message-ID: <484af2c0-2450-b40a-8322-e691495c45aa@linux-m68k.org>
-Date:   Wed, 13 May 2020 00:46:55 +1000
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.7.0
+        by mimecast-mx01.redhat.com (Postfix) with ESMTPS id C474F100A623;
+        Tue, 12 May 2020 19:35:23 +0000 (UTC)
+Received: from file01.intranet.prod.int.rdu2.redhat.com (file01.intranet.prod.int.rdu2.redhat.com [10.11.5.7])
+        by smtp.corp.redhat.com (Postfix) with ESMTPS id 3394839D;
+        Tue, 12 May 2020 19:35:22 +0000 (UTC)
+Received: from file01.intranet.prod.int.rdu2.redhat.com (localhost [127.0.0.1])
+        by file01.intranet.prod.int.rdu2.redhat.com (8.14.4/8.14.4) with ESMTP id 04CJZMnE032376;
+        Tue, 12 May 2020 15:35:22 -0400
+Received: from localhost (mpatocka@localhost)
+        by file01.intranet.prod.int.rdu2.redhat.com (8.14.4/8.14.4/Submit) with ESMTP id 04CJZLMo032373;
+        Tue, 12 May 2020 15:35:21 -0400
+X-Authentication-Warning: file01.intranet.prod.int.rdu2.redhat.com: mpatocka owned process doing -bs
+Date:   Tue, 12 May 2020 15:35:21 -0400 (EDT)
+From:   Mikulas Patocka <mpatocka@redhat.com>
+X-X-Sender: mpatocka@file01.intranet.prod.int.rdu2.redhat.com
+To:     "Maciej W. Rozycki" <macro@linux-mips.org>
+cc:     Arnd Bergmann <arnd@arndb.de>, Richard Henderson <rth@twiddle.net>,
+        Ivan Kokshaysky <ink@jurassic.park.msu.ru>,
+        Matt Turner <mattst88@gmail.com>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        alpha <linux-alpha@vger.kernel.org>,
+        linux-serial@vger.kernel.org, linux-rtc@vger.kernel.org
+Subject: Re: [PATCH 1/2 v3] alpha: add a delay to inb_p, inb_w and inb_l
+In-Reply-To: <alpine.LFD.2.21.2005111320220.677301@eddie.linux-mips.org>
+Message-ID: <alpine.LRH.2.02.2005121525500.31782@file01.intranet.prod.int.rdu2.redhat.com>
+References: <alpine.LRH.2.02.2005060713390.25338@file01.intranet.prod.int.rdu2.redhat.com> <CAK8P3a2W=foRQ1mX8Gds1GCo+qTRqATV59LyDG5_bNyEKjZybA@mail.gmail.com> <alpine.LRH.2.02.2005061308220.18599@file01.intranet.prod.int.rdu2.redhat.com>
+ <alpine.LRH.2.02.2005070404420.5006@file01.intranet.prod.int.rdu2.redhat.com> <CAK8P3a1qN-cpzkcdtNhtMfSwWwxqcOYg9x6DEzt7PWazwr8V=Q@mail.gmail.com> <alpine.LRH.2.02.2005070931280.1718@file01.intranet.prod.int.rdu2.redhat.com>
+ <CAK8P3a3UdCJL6C07_W7pkipT1Xmr_0G9hOy1S+YXbB4_tKt+gg@mail.gmail.com> <alpine.LFD.2.21.2005100209340.487915@eddie.linux-mips.org> <alpine.LRH.2.02.2005101443290.15420@file01.intranet.prod.int.rdu2.redhat.com>
+ <alpine.LFD.2.21.2005111320220.677301@eddie.linux-mips.org>
+User-Agent: Alpine 2.02 (LRH 1266 2009-07-14)
 MIME-Version: 1.0
-In-Reply-To: <20200510075510.987823-30-hch@lst.de>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+Content-Type: TEXT/PLAIN; charset=US-ASCII
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
 Sender: linux-alpha-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-alpha.vger.kernel.org>
 X-Mailing-List: linux-alpha@vger.kernel.org
 
-Hi Christoph,
 
-On 10/5/20 5:55 pm, Christoph Hellwig wrote:
-> load_flat_file works on user addresses.
+
+On Mon, 11 May 2020, Maciej W. Rozycki wrote:
+
+>  And if timing is indeed the culprit, then I think it will be best fixed 
+> in the 82378IB southbridge, i.e.[1]:
 > 
-> Signed-off-by: Christoph Hellwig <hch@lst.de>
-
-Acked-by: Greg Ungerer <gerg@linux-m68k.org>
-
-Regards
-Greg
-
-
-
-> ---
->   fs/binfmt_flat.c | 2 +-
->   1 file changed, 1 insertion(+), 1 deletion(-)
+> "The I/O recovery mechanism in the SIO is used to add additional recovery 
+> delay between PCI originated 8-bit and 16-bit I/O cycles to the ISA Bus.  
+> The SIO automatically forces a minimum delay of four SYSCLKs between 
+> back-to-back 8 and 16 bit I/O cycles to the ISA Bus.  The delay is 
+> measured from the rising edge of the I/O command (IOR# or IOW#) to the 
+> falling edge of the next BALE.  If a delay of greater than four SYSCLKs is 
+> required, the ISA I/O Recovery Time Register can be programmed to increase 
+> the delay in increments of SYSCLKs.  Note that no additional delay is 
+> inserted for back-to-back I/O "sub cycles" generated as a result of byte 
+> assembly or disassembly.  This register defaults to 8 and 16-bit recovery 
+> enabled with two clocks added to the standard I/O recovery."
 > 
-> diff --git a/fs/binfmt_flat.c b/fs/binfmt_flat.c
-> index 831a2b25ba79f..6f0aca5379da2 100644
-> --- a/fs/binfmt_flat.c
-> +++ b/fs/binfmt_flat.c
-> @@ -854,7 +854,7 @@ static int load_flat_file(struct linux_binprm *bprm,
->   #endif /* CONFIG_BINFMT_FLAT_OLD */
->   	}
->   
-> -	flush_icache_range(start_code, end_code);
-> +	flush_icache_user_range(start_code, end_code);
->   
->   	/* zero the BSS,  BRK and stack areas */
->   	if (clear_user((void __user *)(datapos + data_len), bss_len +
+> where it won't be causing unnecessary overhead for native PCI devices or 
+> indeed excessive one for ISA devices.  It might be interesting to note 
+> that later SIO versions like the 82378ZB increased the minimum to five 
+> SYSCLKs, so maybe a missing SYSCLK (that can still be inserted by suitably
+> programming the ICRT) is the source of the problem?
 > 
+> References:
+> 
+> [1] "82378IB System I/O (SIO)", April 1993, Intel Corporation, Order 
+>     Number: 290473-002, Section 4.1.17 "ICRT -- ISA Controller Recovery 
+>     Timer Register"
+> 
+>   Maciej
+
+I tried to modify this register (I wrote 0x44 to it - it should correspond 
+to the maximum delay) and it had no effect on the serial port and rtc 
+lock-ups.
+
+Mikulas
+
