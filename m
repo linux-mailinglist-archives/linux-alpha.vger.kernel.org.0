@@ -2,106 +2,178 @@ Return-Path: <linux-alpha-owner@vger.kernel.org>
 X-Original-To: lists+linux-alpha@lfdr.de
 Delivered-To: lists+linux-alpha@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id D23ED1CFE67
-	for <lists+linux-alpha@lfdr.de>; Tue, 12 May 2020 21:35:29 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 270171D02B5
+	for <lists+linux-alpha@lfdr.de>; Wed, 13 May 2020 01:00:37 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1731012AbgELTf3 (ORCPT <rfc822;lists+linux-alpha@lfdr.de>);
-        Tue, 12 May 2020 15:35:29 -0400
-Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:34359 "EHLO
-        us-smtp-1.mimecast.com" rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org
-        with ESMTP id S1730995AbgELTf2 (ORCPT
+        id S1731621AbgELXAa (ORCPT <rfc822;lists+linux-alpha@lfdr.de>);
+        Tue, 12 May 2020 19:00:30 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33184 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1731583AbgELXAa (ORCPT
         <rfc822;linux-alpha@vger.kernel.org>);
-        Tue, 12 May 2020 15:35:28 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1589312127;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         in-reply-to:in-reply-to:references:references;
-        bh=H5pxUSbLWxNQVZt3chJU6aQ+MxFijTrdJFOgatW5PJM=;
-        b=FCRJx0YGfOyJFnV8FqbaYpk2jVd6iwrDVN3dyPl3LIPwYfOWZ7b4Ml9Ai/Oc1OThRoEzKC
-        51GeuI7p1PJNI4U3tvz5F2Ylhm89ybQvDxEbGhxgcjgzDcwNveUxGSwqaCQOk/4tRhWtw7
-        mMDKEdiX5wd8g4zEHoVma0cVms5nFnU=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-189-Cs80k05zNKOHzuw-ckzSlg-1; Tue, 12 May 2020 15:35:25 -0400
-X-MC-Unique: Cs80k05zNKOHzuw-ckzSlg-1
-Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com [10.5.11.23])
-        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
-        (No client certificate requested)
-        by mimecast-mx01.redhat.com (Postfix) with ESMTPS id C474F100A623;
-        Tue, 12 May 2020 19:35:23 +0000 (UTC)
-Received: from file01.intranet.prod.int.rdu2.redhat.com (file01.intranet.prod.int.rdu2.redhat.com [10.11.5.7])
-        by smtp.corp.redhat.com (Postfix) with ESMTPS id 3394839D;
-        Tue, 12 May 2020 19:35:22 +0000 (UTC)
-Received: from file01.intranet.prod.int.rdu2.redhat.com (localhost [127.0.0.1])
-        by file01.intranet.prod.int.rdu2.redhat.com (8.14.4/8.14.4) with ESMTP id 04CJZMnE032376;
-        Tue, 12 May 2020 15:35:22 -0400
-Received: from localhost (mpatocka@localhost)
-        by file01.intranet.prod.int.rdu2.redhat.com (8.14.4/8.14.4/Submit) with ESMTP id 04CJZLMo032373;
-        Tue, 12 May 2020 15:35:21 -0400
-X-Authentication-Warning: file01.intranet.prod.int.rdu2.redhat.com: mpatocka owned process doing -bs
-Date:   Tue, 12 May 2020 15:35:21 -0400 (EDT)
-From:   Mikulas Patocka <mpatocka@redhat.com>
-X-X-Sender: mpatocka@file01.intranet.prod.int.rdu2.redhat.com
-To:     "Maciej W. Rozycki" <macro@linux-mips.org>
-cc:     Arnd Bergmann <arnd@arndb.de>, Richard Henderson <rth@twiddle.net>,
-        Ivan Kokshaysky <ink@jurassic.park.msu.ru>,
-        Matt Turner <mattst88@gmail.com>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        alpha <linux-alpha@vger.kernel.org>,
-        linux-serial@vger.kernel.org, linux-rtc@vger.kernel.org
-Subject: Re: [PATCH 1/2 v3] alpha: add a delay to inb_p, inb_w and inb_l
-In-Reply-To: <alpine.LFD.2.21.2005111320220.677301@eddie.linux-mips.org>
-Message-ID: <alpine.LRH.2.02.2005121525500.31782@file01.intranet.prod.int.rdu2.redhat.com>
-References: <alpine.LRH.2.02.2005060713390.25338@file01.intranet.prod.int.rdu2.redhat.com> <CAK8P3a2W=foRQ1mX8Gds1GCo+qTRqATV59LyDG5_bNyEKjZybA@mail.gmail.com> <alpine.LRH.2.02.2005061308220.18599@file01.intranet.prod.int.rdu2.redhat.com>
- <alpine.LRH.2.02.2005070404420.5006@file01.intranet.prod.int.rdu2.redhat.com> <CAK8P3a1qN-cpzkcdtNhtMfSwWwxqcOYg9x6DEzt7PWazwr8V=Q@mail.gmail.com> <alpine.LRH.2.02.2005070931280.1718@file01.intranet.prod.int.rdu2.redhat.com>
- <CAK8P3a3UdCJL6C07_W7pkipT1Xmr_0G9hOy1S+YXbB4_tKt+gg@mail.gmail.com> <alpine.LFD.2.21.2005100209340.487915@eddie.linux-mips.org> <alpine.LRH.2.02.2005101443290.15420@file01.intranet.prod.int.rdu2.redhat.com>
- <alpine.LFD.2.21.2005111320220.677301@eddie.linux-mips.org>
-User-Agent: Alpine 2.02 (LRH 1266 2009-07-14)
-MIME-Version: 1.0
-Content-Type: TEXT/PLAIN; charset=US-ASCII
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
+        Tue, 12 May 2020 19:00:30 -0400
+Received: from mail-pl1-x644.google.com (mail-pl1-x644.google.com [IPv6:2607:f8b0:4864:20::644])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6F2ECC05BD0C
+        for <linux-alpha@vger.kernel.org>; Tue, 12 May 2020 16:00:29 -0700 (PDT)
+Received: by mail-pl1-x644.google.com with SMTP id k19so6041890pll.9
+        for <linux-alpha@vger.kernel.org>; Tue, 12 May 2020 16:00:29 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=dabbelt-com.20150623.gappssmtp.com; s=20150623;
+        h=date:subject:in-reply-to:cc:from:to:message-id:mime-version
+         :content-transfer-encoding;
+        bh=TxR+iMR41NNC8Tp0Yh5G0J9anaHo/y+mAo5OJ6FnE3w=;
+        b=YV0IEXO5IABYUMUtMWw6Y0a2xNZhYt4iDNMNdBJAdhkLz+DhDJrEb2/tely+kMRfBe
+         elzT7mfwntttCi0+nBJzpxqW1RzbdA4k2z5m0sbPhXbgm86NhUGJ6ezv1UWvqUAF6AFb
+         GwYEyZnEpPlXtS0AdB1oOMIXhoSzH1oQ3QYdKyFvf7rV9a0F5474HoxquQdEEcVsoVZk
+         mkFDvy/LaDlTuj+uY+/sZnyRH+3w/Rut2ArIzwHPIrhPI856FrWtiOC99MOqCPnAlAt1
+         y5de0EiQgDBn8VhocdW7T7X+feJnXd114pzMo7qEMcn1qfbF3zf4gbB8O6Pkx7p0q4QB
+         ZmJw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:date:subject:in-reply-to:cc:from:to:message-id
+         :mime-version:content-transfer-encoding;
+        bh=TxR+iMR41NNC8Tp0Yh5G0J9anaHo/y+mAo5OJ6FnE3w=;
+        b=fgdJxFeeQ8mGtZYHx3gdsZMonu1E06AsFc8roq8YeV+blXOxsDnixI9qtuHNuGtxQo
+         mNLteuILvTfTSRhstTNHfPbml9B+oij4TmZPi5bMZF+bj8iClj3kOcBa2ICHpp9sMVS+
+         l48JXhcyviMBpvFc3QweUYX/JnPzy27ch6E6LZgSAFQ2wdU8mlNWG8m51zsAob+qAxno
+         8njPalJCquBMNnH6LID1NWxluXmV7xV2m86a/b6COJN5dmuyz91CZXs7y1NH2enfyYwg
+         c6N878pvv7/+y5ijoguO9iAieZkfGD8aXjrVLGvwWHfkOKx13uZJol+HhmalagTf4ATq
+         7p4A==
+X-Gm-Message-State: AGi0PuZrWh1UE5b/yZ4N7Zm02OzuUVLJR+nA5Bs60CSFI6OY1l0jn65s
+        IJb9rUfuaf0C+3U0h577mdunLg==
+X-Google-Smtp-Source: APiQypKPbiNIuzOhnfWZK3aSuAimZ6kMvjtjoB3PUVWkLgrXCsrrvonJs2vHPqxiHQA1YoMJYuJ02Q==
+X-Received: by 2002:a17:90a:2281:: with SMTP id s1mr31687737pjc.68.1589324428530;
+        Tue, 12 May 2020 16:00:28 -0700 (PDT)
+Received: from localhost (76-210-143-223.lightspeed.sntcca.sbcglobal.net. [76.210.143.223])
+        by smtp.gmail.com with ESMTPSA id w143sm12602170pfc.165.2020.05.12.16.00.26
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 12 May 2020 16:00:26 -0700 (PDT)
+Date:   Tue, 12 May 2020 16:00:26 -0700 (PDT)
+X-Google-Original-Date: Tue, 12 May 2020 15:59:50 PDT (-0700)
+Subject:     Re: [PATCH 19/31] riscv: use asm-generic/cacheflush.h
+In-Reply-To: <20200510075510.987823-20-hch@lst.de>
+CC:     akpm@linux-foundation.org, Arnd Bergmann <arnd@arndb.de>,
+        zippel@linux-m68k.org, linux-arch@vger.kernel.org,
+        linux-xtensa@linux-xtensa.org, monstr@monstr.eu, jeyu@kernel.org,
+        linux-ia64@vger.kernel.org, linux-c6x-dev@linux-c6x.org,
+        linux-sh@vger.kernel.org, linux-hexagon@vger.kernel.org,
+        x86@kernel.org, linux-um@lists.infradead.org,
+        linux-kernel@vger.kernel.org, linux-mips@vger.kernel.org,
+        linux-mm@kvack.org, linux-m68k@lists.linux-m68k.org,
+        openrisc@lists.librecores.org, linux-alpha@vger.kernel.org,
+        sparclinux@vger.kernel.org, linux-fsdevel@vger.kernel.org,
+        linux-riscv@lists.infradead.org, linuxppc-dev@lists.ozlabs.org,
+        linux-arm-kernel@lists.infradead.org
+From:   Palmer Dabbelt <palmer@dabbelt.com>
+To:     Christoph Hellwig <hch@lst.de>
+Message-ID: <mhng-8adbedbc-0f91-4291-9471-2df5eb7b802b@palmerdabbelt-glaptop1>
+Mime-Version: 1.0 (MHng)
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Transfer-Encoding: 8bit
 Sender: linux-alpha-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-alpha.vger.kernel.org>
 X-Mailing-List: linux-alpha@vger.kernel.org
 
+On Sun, 10 May 2020 00:54:58 PDT (-0700), Christoph Hellwig wrote:
+> RISC-V needs almost no cache flushing routines of its own.  Rely on
+> asm-generic/cacheflush.h for the defaults.
+>
+> Also remove the pointless __KERNEL__ ifdef while we're at it.
+> ---
+>  arch/riscv/include/asm/cacheflush.h | 62 ++---------------------------
+>  1 file changed, 3 insertions(+), 59 deletions(-)
+>
+> diff --git a/arch/riscv/include/asm/cacheflush.h b/arch/riscv/include/asm/cacheflush.h
+> index c8677c75f82cb..a167b4fbdf007 100644
+> --- a/arch/riscv/include/asm/cacheflush.h
+> +++ b/arch/riscv/include/asm/cacheflush.h
+> @@ -8,65 +8,6 @@
+>
+>  #include <linux/mm.h>
+>
+> -#define ARCH_IMPLEMENTS_FLUSH_DCACHE_PAGE 0
+> -
+> -/*
+> - * The cache doesn't need to be flushed when TLB entries change when
+> - * the cache is mapped to physical memory, not virtual memory
+> - */
+> -static inline void flush_cache_all(void)
+> -{
+> -}
+> -
+> -static inline void flush_cache_mm(struct mm_struct *mm)
+> -{
+> -}
+> -
+> -static inline void flush_cache_dup_mm(struct mm_struct *mm)
+> -{
+> -}
+> -
+> -static inline void flush_cache_range(struct vm_area_struct *vma,
+> -				     unsigned long start,
+> -				     unsigned long end)
+> -{
+> -}
+> -
+> -static inline void flush_cache_page(struct vm_area_struct *vma,
+> -				    unsigned long vmaddr,
+> -				    unsigned long pfn)
+> -{
+> -}
+> -
+> -static inline void flush_dcache_mmap_lock(struct address_space *mapping)
+> -{
+> -}
+> -
+> -static inline void flush_dcache_mmap_unlock(struct address_space *mapping)
+> -{
+> -}
+> -
+> -static inline void flush_icache_page(struct vm_area_struct *vma,
+> -				     struct page *page)
+> -{
+> -}
+> -
+> -static inline void flush_cache_vmap(unsigned long start, unsigned long end)
+> -{
+> -}
+> -
+> -static inline void flush_cache_vunmap(unsigned long start, unsigned long end)
+> -{
+> -}
+> -
+> -#define copy_to_user_page(vma, page, vaddr, dst, src, len) \
+> -	do { \
+> -		memcpy(dst, src, len); \
+> -		flush_icache_user_range(vma, page, vaddr, len); \
+> -	} while (0)
+> -#define copy_from_user_page(vma, page, vaddr, dst, src, len) \
+> -	memcpy(dst, src, len)
+> -
+>  static inline void local_flush_icache_all(void)
+>  {
+>  	asm volatile ("fence.i" ::: "memory");
+> @@ -79,6 +20,7 @@ static inline void flush_dcache_page(struct page *page)
+>  	if (test_bit(PG_dcache_clean, &page->flags))
+>  		clear_bit(PG_dcache_clean, &page->flags);
+>  }
+> +#define ARCH_IMPLEMENTS_FLUSH_DCACHE_PAGE 1
+>
+>  /*
+>   * RISC-V doesn't have an instruction to flush parts of the instruction cache,
+> @@ -105,4 +47,6 @@ void flush_icache_mm(struct mm_struct *mm, bool local);
+>  #define SYS_RISCV_FLUSH_ICACHE_LOCAL 1UL
+>  #define SYS_RISCV_FLUSH_ICACHE_ALL   (SYS_RISCV_FLUSH_ICACHE_LOCAL)
+>
+> +#include <asm-generic/cacheflush.h>
+> +
+>  #endif /* _ASM_RISCV_CACHEFLUSH_H */
 
+Thanks!
 
-On Mon, 11 May 2020, Maciej W. Rozycki wrote:
+Reviewed-by: Palmer Dabbelt <palmerdabbelt@google.com>
+Acked-by: Palmer Dabbelt <palmerdabbelt@google.com>
 
->  And if timing is indeed the culprit, then I think it will be best fixed 
-> in the 82378IB southbridge, i.e.[1]:
-> 
-> "The I/O recovery mechanism in the SIO is used to add additional recovery 
-> delay between PCI originated 8-bit and 16-bit I/O cycles to the ISA Bus.  
-> The SIO automatically forces a minimum delay of four SYSCLKs between 
-> back-to-back 8 and 16 bit I/O cycles to the ISA Bus.  The delay is 
-> measured from the rising edge of the I/O command (IOR# or IOW#) to the 
-> falling edge of the next BALE.  If a delay of greater than four SYSCLKs is 
-> required, the ISA I/O Recovery Time Register can be programmed to increase 
-> the delay in increments of SYSCLKs.  Note that no additional delay is 
-> inserted for back-to-back I/O "sub cycles" generated as a result of byte 
-> assembly or disassembly.  This register defaults to 8 and 16-bit recovery 
-> enabled with two clocks added to the standard I/O recovery."
-> 
-> where it won't be causing unnecessary overhead for native PCI devices or 
-> indeed excessive one for ISA devices.  It might be interesting to note 
-> that later SIO versions like the 82378ZB increased the minimum to five 
-> SYSCLKs, so maybe a missing SYSCLK (that can still be inserted by suitably
-> programming the ICRT) is the source of the problem?
-> 
-> References:
-> 
-> [1] "82378IB System I/O (SIO)", April 1993, Intel Corporation, Order 
->     Number: 290473-002, Section 4.1.17 "ICRT -- ISA Controller Recovery 
->     Timer Register"
-> 
->   Maciej
-
-I tried to modify this register (I wrote 0x44 to it - it should correspond 
-to the maximum delay) and it had no effect on the serial port and rtc 
-lock-ups.
-
-Mikulas
-
+Were you trying to get these all in at once, or do you want me to take it into
+my tree?
