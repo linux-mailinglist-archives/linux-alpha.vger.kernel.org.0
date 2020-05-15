@@ -2,70 +2,92 @@ Return-Path: <linux-alpha-owner@vger.kernel.org>
 X-Original-To: lists+linux-alpha@lfdr.de
 Delivered-To: lists+linux-alpha@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 9F6151D4E27
-	for <lists+linux-alpha@lfdr.de>; Fri, 15 May 2020 14:54:30 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 382291D50B4
+	for <lists+linux-alpha@lfdr.de>; Fri, 15 May 2020 16:37:19 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726174AbgEOMya (ORCPT <rfc822;lists+linux-alpha@lfdr.de>);
-        Fri, 15 May 2020 08:54:30 -0400
-Received: from mail.kernel.org ([198.145.29.99]:38386 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726168AbgEOMy3 (ORCPT <rfc822;linux-alpha@vger.kernel.org>);
-        Fri, 15 May 2020 08:54:29 -0400
-Received: from localhost (83-86-89-107.cable.dynamic.v4.ziggo.nl [83.86.89.107])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id E4FF420787;
-        Fri, 15 May 2020 12:54:27 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1589547268;
-        bh=TotoL9YXsj+E4MwRDKyj3GbWs9IEi6m6QDbCpdIsCQM=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=M/zXyDtwPlnFMqEQDPslfgMp9FZncwD5Y623ZF6geSYAJDxstXP18RdhxSzkoQv5C
-         +2UlOmeRnhVgPrsdSsTLzBIoBlufLx5x7KT25dXY3Q0bvDa0jwMOPg8fBIZblClI6G
-         YRoRBwIqyER8H2ya1QhRxnTyos5uf8y+IjyLsbZs=
-Date:   Fri, 15 May 2020 14:54:17 +0200
-From:   Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-To:     Emil Velikov <emil.l.velikov@gmail.com>
-Cc:     dri-devel@lists.freedesktop.org, Jiri Slaby <jslaby@suse.com>,
-        linux-kernel@vger.kernel.org, Richard Henderson <rth@twiddle.net>,
-        Ivan Kokshaysky <ink@jurassic.park.msu.ru>,
-        Matt Turner <mattst88@gmail.com>, linux-alpha@vger.kernel.org
-Subject: Re: [PATCH 01/11] tty/sysrq: alpha: export and use
- __sysrq_get_key_op()
-Message-ID: <20200515125417.GA1928406@kroah.com>
-References: <20200513214351.2138580-1-emil.l.velikov@gmail.com>
+        id S1726295AbgEOOg5 (ORCPT <rfc822;lists+linux-alpha@lfdr.de>);
+        Fri, 15 May 2020 10:36:57 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35532 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-FAIL-OK-FAIL)
+        by vger.kernel.org with ESMTP id S1726163AbgEOOg4 (ORCPT
+        <rfc822;linux-alpha@vger.kernel.org>);
+        Fri, 15 May 2020 10:36:56 -0400
+Received: from bombadil.infradead.org (bombadil.infradead.org [IPv6:2607:7c80:54:e::133])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 62D3CC05BD09;
+        Fri, 15 May 2020 07:36:56 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+        d=infradead.org; s=bombadil.20170209; h=Content-Transfer-Encoding:
+        MIME-Version:Message-Id:Date:Subject:Cc:To:From:Sender:Reply-To:Content-Type:
+        Content-ID:Content-Description:In-Reply-To:References;
+        bh=HKx/QpgyxJ6c+gcZJNfN2/GfGMIbydRitmrecAV7LdM=; b=e40fHlJwbNPK/oCRkiewUZHtoZ
+        JJJ+t1x8X3QV2n0Lukko+n8nlbWQFaqkAm9bXmAn0LEAHvsYtXA/ED46Qkhd3Wo4dC3lj9Cdjnhn4
+        2GMxO3l2bcfk8hCFGEkyKo79dCHF0dW0wzug2S7fOVDqqdxBiNErPRWKoqoW7a+vMOTzwhiXqzxde
+        yarxr8pniYHBW0nkAaHpSU30+qCnpw33gjGTv0zo9wd+L3+ubP8fVYYd3Mao0Mvo1SPygjDTG4M6W
+        uLpEub5zhVYe+GOr38SOefuPOEjNKqgIjZD47gM0x/vngs4vSjlwFW8ylRDeR9zXZutwV9Xx9BczP
+        T5GGltuQ==;
+Received: from [2001:4bb8:188:1506:c70:4a89:bc61:2] (helo=localhost)
+        by bombadil.infradead.org with esmtpsa (Exim 4.92.3 #3 (Red Hat Linux))
+        id 1jZbSC-0003n6-BC; Fri, 15 May 2020 14:36:49 +0000
+From:   Christoph Hellwig <hch@lst.de>
+To:     Andrew Morton <akpm@linux-foundation.org>,
+        Arnd Bergmann <arnd@arndb.de>,
+        Roman Zippel <zippel@linux-m68k.org>
+Cc:     Jessica Yu <jeyu@kernel.org>, Michal Simek <monstr@monstr.eu>,
+        x86@kernel.org, linux-alpha@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+        linux-c6x-dev@linux-c6x.org, linux-hexagon@vger.kernel.org,
+        linux-ia64@vger.kernel.org, linux-m68k@lists.linux-m68k.org,
+        linux-mips@vger.kernel.org, openrisc@lists.librecores.org,
+        linuxppc-dev@lists.ozlabs.org, linux-riscv@lists.infradead.org,
+        linux-sh@vger.kernel.org, sparclinux@vger.kernel.org,
+        linux-arch@vger.kernel.org, linux-mm@kvack.org,
+        linux-um@lists.infradead.org, linux-xtensa@linux-xtensa.org,
+        linux-fsdevel@vger.kernel.org
+Subject: sort out the flush_icache_range mess v2
+Date:   Fri, 15 May 2020 16:36:17 +0200
+Message-Id: <20200515143646.3857579-1-hch@lst.de>
+X-Mailer: git-send-email 2.26.2
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20200513214351.2138580-1-emil.l.velikov@gmail.com>
+Content-Transfer-Encoding: 8bit
+X-SRS-Rewrite: SMTP reverse-path rewritten from <hch@infradead.org> by bombadil.infradead.org. See http://www.infradead.org/rpr.html
 Sender: linux-alpha-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-alpha.vger.kernel.org>
 X-Mailing-List: linux-alpha@vger.kernel.org
 
-On Wed, May 13, 2020 at 10:43:41PM +0100, Emil Velikov wrote:
-> Export a pointer to the sysrq_get_key_op(). This way we can cleanly
-> unregister it, instead of the current solutions of modifuing it inplace.
-> 
-> Since __sysrq_get_key_op() is no longer used externally, let's make it
-> a static function.
-> 
-> This patch will allow us to limit access to each and every sysrq op and
-> constify the sysrq handling.
-> 
-> Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-> Cc: Jiri Slaby <jslaby@suse.com>
-> Cc: linux-kernel@vger.kernel.org
-> Cc: Richard Henderson <rth@twiddle.net>
-> Cc: Ivan Kokshaysky <ink@jurassic.park.msu.ru>
-> Cc: Matt Turner <mattst88@gmail.com>
-> Cc: linux-alpha@vger.kernel.org
-> Signed-off-by: Emil Velikov <emil.l.velikov@gmail.com>
-> ---
-> Please keep me in the CC list, as I'm not subscribed to the list.
-> 
-> IMHO it would be better if this gets merged this via the tty tree.
+Hi all,
 
-All now taken, thanks!
+flush_icache_range is mostly used for kernel address, except for the following
+cases:
 
-greg k-h
+ - the nommu brk and mmap implementations,
+ - the read_code helper that is only used for binfmt_flat, binfmt_elf_fdpic,
+   and binfmt_aout including the broken ia32 compat version
+ - binfmt_flat itself,
+
+none of which really are used by a typical MMU enabled kernel, as a.out can
+only be build for alpha and m68k to start with.
+
+But strangely enough commit ae92ef8a4424 ("PATCH] flush icache in correct
+context") added a "set_fs(KERNEL_DS)" around the flush_icache_range call
+in the module loader, because apparently m68k assumed user pointers.
+
+This series first cleans up the cacheflush implementations, largely by
+switching as much as possible to the asm-generic version after a few
+preparations, then moves the misnamed current flush_icache_user_range to
+a new name, to finally introduce a real flush_icache_user_range to be used
+for the above use cases to flush the instruction cache for a userspace
+address range.  The last patch then drops the set_fs in the module code
+and moves it into the m68k implementation.
+
+A git tree is available here:
+
+    git://git.infradead.org/users/hch/misc.git flush_icache_range.2
+
+Gitweb:
+
+    http://git.infradead.org/users/hch/misc.git/shortlog/refs/heads/flush_icache_range.2
+
+Changes since v1:
+ - fix pmem.c compilation on some s390 configs
+ - drop two patches picked up by the arch maintainers
