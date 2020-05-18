@@ -2,71 +2,56 @@ Return-Path: <linux-alpha-owner@vger.kernel.org>
 X-Original-To: lists+linux-alpha@lfdr.de
 Delivered-To: lists+linux-alpha@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 7B5841D6157
-	for <lists+linux-alpha@lfdr.de>; Sat, 16 May 2020 15:30:24 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 3C13B1D76E1
+	for <lists+linux-alpha@lfdr.de>; Mon, 18 May 2020 13:25:03 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726388AbgEPN3w (ORCPT <rfc822;lists+linux-alpha@lfdr.de>);
-        Sat, 16 May 2020 09:29:52 -0400
-Received: from youngberry.canonical.com ([91.189.89.112]:34046 "EHLO
-        youngberry.canonical.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726298AbgEPN3v (ORCPT
+        id S1727910AbgERLZC (ORCPT <rfc822;lists+linux-alpha@lfdr.de>);
+        Mon, 18 May 2020 07:25:02 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57054 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726339AbgERLZC (ORCPT
         <rfc822;linux-alpha@vger.kernel.org>);
-        Sat, 16 May 2020 09:29:51 -0400
-Received: from ip5f5af183.dynamic.kabel-deutschland.de ([95.90.241.131] helo=wittgenstein)
-        by youngberry.canonical.com with esmtpsa (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
-        (Exim 4.86_2)
-        (envelope-from <christian.brauner@ubuntu.com>)
-        id 1jZwsS-0004mh-36; Sat, 16 May 2020 13:29:20 +0000
-Date:   Sat, 16 May 2020 15:29:18 +0200
-From:   Christian Brauner <christian.brauner@ubuntu.com>
-To:     Matthew Wilcox <willy@infradead.org>
-Cc:     Nate Karstens <nate.karstens@garmin.com>,
-        Alexander Viro <viro@zeniv.linux.org.uk>,
-        Jeff Layton <jlayton@kernel.org>,
-        "J. Bruce Fields" <bfields@fieldses.org>,
-        Arnd Bergmann <arnd@arndb.de>,
-        Richard Henderson <rth@twiddle.net>,
-        Ivan Kokshaysky <ink@jurassic.park.msu.ru>,
-        Matt Turner <mattst88@gmail.com>,
-        "James E.J. Bottomley" <James.Bottomley@hansenpartnership.com>,
-        Helge Deller <deller@gmx.de>,
-        "David S. Miller" <davem@davemloft.net>,
-        Jakub Kicinski <kuba@kernel.org>,
-        Eric Dumazet <edumazet@google.com>,
-        David Laight <David.Laight@aculab.com>,
-        linux-fsdevel@vger.kernel.org, linux-arch@vger.kernel.org,
-        linux-alpha@vger.kernel.org, linux-parisc@vger.kernel.org,
-        sparclinux@vger.kernel.org, netdev@vger.kernel.org,
-        linux-kernel@vger.kernel.org, Changli Gao <xiaosuo@gmail.com>,
-        a.josey@opengroup.org
-Subject: Re: [PATCH v2] Implement close-on-fork
-Message-ID: <20200516132918.edq7p2tyh6elorjm@wittgenstein>
-References: <20200515152321.9280-1-nate.karstens@garmin.com>
- <20200515155730.GF16070@bombadil.infradead.org>
+        Mon, 18 May 2020 07:25:02 -0400
+X-Greylist: delayed 1254 seconds by postgrey-1.37 at lindbergh.monkeyblade.net; Mon, 18 May 2020 04:25:01 PDT
+Received: from vps.dvp24.com (unknown [IPv6:2a02:348:36:5b8c::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id ABBBEC061A0C;
+        Mon, 18 May 2020 04:25:01 -0700 (PDT)
+Received: from localhost ([127.0.0.1] helo=dvp24.com)
+        by vps.dvp24.com with esmtpa (Exim 4.77)
+        (envelope-from <abhay@dvp24.com>)
+        id 1jadYi-0006sv-08; Mon, 18 May 2020 13:03:48 +0200
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <20200515155730.GF16070@bombadil.infradead.org>
+Content-Type: text/plain; charset=UTF-8;
+ format=flowed
+Content-Transfer-Encoding: 8bit
+Date:   Mon, 18 May 2020 12:03:47 +0100
+From:   pedro hills <abhay@dvp24.com>
+To:     undisclosed-recipients:;
+Subject: (DONATION) $2 Million Has Been Donated
+Reply-To: <pedrohills@outlook.es>
+Mail-Reply-To: <pedrohills@outlook.es>
+Message-ID: <48fae56db7d72b6c8944f63bdd887348@dvp24.com>
+X-Sender: abhay@dvp24.com
+User-Agent: Roundcube Webmail/0.7.1
 Sender: linux-alpha-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-alpha.vger.kernel.org>
 X-Mailing-List: linux-alpha@vger.kernel.org
 
-On Fri, May 15, 2020 at 08:57:30AM -0700, Matthew Wilcox wrote:
-> On Fri, May 15, 2020 at 10:23:17AM -0500, Nate Karstens wrote:
-> > Series of 4 patches to implement close-on-fork. Tests have been
-> > published to https://github.com/nkarstens/ltp/tree/close-on-fork
-> > and cover close-on-fork functionality in the following syscalls:
-> 
-> [...]
-> 
-> > This functionality was approved by the Austin Common Standards
-> > Revision Group for inclusion in the next revision of the POSIX
-> > standard (see issue 1318 in the Austin Group Defect Tracker).
-> 
-> NAK to this patch series, and the entire concept.
 
-Yeah.
-But also, stuff like this should really be on linux-api.
 
-Christian
+-- 
+$2 Million Has Been Donated To You,By PEDRO this is Real For More Info
+  Contact PEDRO immediately for your clame This Email:
+  pedrohills@outlook.es
+
+  Contact phone number +34632232897
+  Send Your Response To: pedrohills@outlook.es
+
+  2 Millionen US-Dollar wurden an Sie gespendet. Von PEDRO ist dies für
+weitere Informationen real
+  Wenden Sie sich umgehend an PEDRO. Diese E-Mail:
+  pedrohills@outlook.es
+
+  Kontakttelefonnummer +34632232897
+  Senden Sie Ihre Antwort an: pedrohills@outlook.es
