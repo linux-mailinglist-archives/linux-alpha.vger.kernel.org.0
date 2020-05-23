@@ -2,45 +2,45 @@ Return-Path: <linux-alpha-owner@vger.kernel.org>
 X-Original-To: lists+linux-alpha@lfdr.de
 Delivered-To: lists+linux-alpha@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 0C91B1DF04C
-	for <lists+linux-alpha@lfdr.de>; Fri, 22 May 2020 22:00:52 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 08DF51DF699
+	for <lists+linux-alpha@lfdr.de>; Sat, 23 May 2020 12:27:04 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1730982AbgEVUAv (ORCPT <rfc822;lists+linux-alpha@lfdr.de>);
-        Fri, 22 May 2020 16:00:51 -0400
-Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:56904 "EHLO
-        us-smtp-1.mimecast.com" rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org
-        with ESMTP id S1730968AbgEVUAv (ORCPT
+        id S1725852AbgEWK1D (ORCPT <rfc822;lists+linux-alpha@lfdr.de>);
+        Sat, 23 May 2020 06:27:03 -0400
+Received: from us-smtp-2.mimecast.com ([207.211.31.81]:55008 "EHLO
+        us-smtp-delivery-1.mimecast.com" rhost-flags-OK-OK-OK-FAIL)
+        by vger.kernel.org with ESMTP id S1725268AbgEWK1C (ORCPT
         <rfc822;linux-alpha@vger.kernel.org>);
-        Fri, 22 May 2020 16:00:51 -0400
+        Sat, 23 May 2020 06:27:02 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1590177648;
+        s=mimecast20190719; t=1590229620;
         h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
          to:to:cc:cc:mime-version:mime-version:content-type:content-type:
          in-reply-to:in-reply-to:references:references;
-        bh=QfXNDazW9f4SQuiLl+qVepnHkZ+8ian89K41uq3i3Jc=;
-        b=WI74fZB9VHpvYM2j7WwBXprPPRG6sNuzcuMAvfsfU4ez9S6q3c40N2NuLkgHniFvU0qNdF
-        RqG3R760VPLWo5+pDn0hdVyF24Fh/ifsP7UiqSzMCT2iB+VucCfXin/7uJiL0FNKM5lrO4
-        /8S9EwdTazrHjmFegcqUm3+FV63puls=
+        bh=2UH4RDo7XeZsk4P3MHp40lzVsGo3KJs+2KH6bAeqpWk=;
+        b=HDf47q0z2WIXSw+LT0yRYFyt5ikiKZG1yiMKJWoziMsMkt0Cng8YEpNzdltvXWnvkrXA2j
+        UDOVE2LZDnrDqp+6FqHTAYfJB2jhfweG+Gb9bJLj43HYarSgYq79T96VovsO+SFgDUbyV0
+        9ft2Vae+h+cOerq2EbesGsna3MfpjaE=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-499-isiSZG0RPvqL2lyt61tGiA-1; Fri, 22 May 2020 16:00:46 -0400
-X-MC-Unique: isiSZG0RPvqL2lyt61tGiA-1
-Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com [10.5.11.22])
+ us-mta-329-qIDrYcP8NYiaZCYpHcV1oA-1; Sat, 23 May 2020 06:26:58 -0400
+X-MC-Unique: qIDrYcP8NYiaZCYpHcV1oA-1
+Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com [10.5.11.12])
         (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
         (No client certificate requested)
-        by mimecast-mx01.redhat.com (Postfix) with ESMTPS id F2145107ACCD;
-        Fri, 22 May 2020 20:00:44 +0000 (UTC)
+        by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 5303B107ACCA;
+        Sat, 23 May 2020 10:26:56 +0000 (UTC)
 Received: from file01.intranet.prod.int.rdu2.redhat.com (file01.intranet.prod.int.rdu2.redhat.com [10.11.5.7])
-        by smtp.corp.redhat.com (Postfix) with ESMTPS id BD3CD1053B34;
-        Fri, 22 May 2020 20:00:43 +0000 (UTC)
+        by smtp.corp.redhat.com (Postfix) with ESMTPS id B8DE260BE2;
+        Sat, 23 May 2020 10:26:55 +0000 (UTC)
 Received: from file01.intranet.prod.int.rdu2.redhat.com (localhost [127.0.0.1])
-        by file01.intranet.prod.int.rdu2.redhat.com (8.14.4/8.14.4) with ESMTP id 04MK0hbS022557;
-        Fri, 22 May 2020 16:00:43 -0400
+        by file01.intranet.prod.int.rdu2.redhat.com (8.14.4/8.14.4) with ESMTP id 04NAQtC2022816;
+        Sat, 23 May 2020 06:26:55 -0400
 Received: from localhost (mpatocka@localhost)
-        by file01.intranet.prod.int.rdu2.redhat.com (8.14.4/8.14.4/Submit) with ESMTP id 04MK0f6a022553;
-        Fri, 22 May 2020 16:00:41 -0400
+        by file01.intranet.prod.int.rdu2.redhat.com (8.14.4/8.14.4/Submit) with ESMTP id 04NAQsQn022807;
+        Sat, 23 May 2020 06:26:54 -0400
 X-Authentication-Warning: file01.intranet.prod.int.rdu2.redhat.com: mpatocka owned process doing -bs
-Date:   Fri, 22 May 2020 16:00:41 -0400 (EDT)
+Date:   Sat, 23 May 2020 06:26:54 -0400 (EDT)
 From:   Mikulas Patocka <mpatocka@redhat.com>
 X-X-Sender: mpatocka@file01.intranet.prod.int.rdu2.redhat.com
 To:     Ivan Kokshaysky <ink@jurassic.park.msu.ru>
@@ -51,101 +51,225 @@ cc:     "Maciej W. Rozycki" <macro@linux-mips.org>,
         Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
         alpha <linux-alpha@vger.kernel.org>,
         linux-serial@vger.kernel.org, linux-rtc@vger.kernel.org
-Subject: Re: [PATCH 1/2 v3] alpha: add a delay to inb_p, inb_w and inb_l
-In-Reply-To: <alpine.LRH.2.02.2005220920020.20970@file01.intranet.prod.int.rdu2.redhat.com>
-Message-ID: <alpine.LRH.2.02.2005221344530.11126@file01.intranet.prod.int.rdu2.redhat.com>
+Subject: [PATCH v4] alpha: fix memory barriers so that they conform to the
+ specification
+In-Reply-To: <alpine.LRH.2.02.2005221344530.11126@file01.intranet.prod.int.rdu2.redhat.com>
+Message-ID: <alpine.LRH.2.02.2005230623410.22664@file01.intranet.prod.int.rdu2.redhat.com>
 References: <alpine.LRH.2.02.2005060713390.25338@file01.intranet.prod.int.rdu2.redhat.com> <CAK8P3a2W=foRQ1mX8Gds1GCo+qTRqATV59LyDG5_bNyEKjZybA@mail.gmail.com> <alpine.LRH.2.02.2005061308220.18599@file01.intranet.prod.int.rdu2.redhat.com>
  <alpine.LRH.2.02.2005070404420.5006@file01.intranet.prod.int.rdu2.redhat.com> <CAK8P3a1qN-cpzkcdtNhtMfSwWwxqcOYg9x6DEzt7PWazwr8V=Q@mail.gmail.com> <alpine.LRH.2.02.2005070931280.1718@file01.intranet.prod.int.rdu2.redhat.com>
  <CAK8P3a3UdCJL6C07_W7pkipT1Xmr_0G9hOy1S+YXbB4_tKt+gg@mail.gmail.com> <alpine.LFD.2.21.2005100209340.487915@eddie.linux-mips.org> <alpine.LRH.2.02.2005101443290.15420@file01.intranet.prod.int.rdu2.redhat.com> <alpine.LFD.2.21.2005111320220.677301@eddie.linux-mips.org>
- <20200513144128.GA16995@mail.rc.ru> <alpine.LRH.2.02.2005220920020.20970@file01.intranet.prod.int.rdu2.redhat.com>
+ <20200513144128.GA16995@mail.rc.ru> <alpine.LRH.2.02.2005220920020.20970@file01.intranet.prod.int.rdu2.redhat.com> <alpine.LRH.2.02.2005221344530.11126@file01.intranet.prod.int.rdu2.redhat.com>
 User-Agent: Alpine 2.02 (LRH 1266 2009-07-14)
 MIME-Version: 1.0
 Content-Type: TEXT/PLAIN; charset=US-ASCII
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
 Sender: linux-alpha-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-alpha.vger.kernel.org>
 X-Mailing-List: linux-alpha@vger.kernel.org
 
+The commits cd0e00c10672 and 92d7223a7423 broke boot on the Alpha Avanti
+platform. The patches move memory barriers after a write before the write.
+The result is that if there's iowrite followed by ioread, there is no
+barrier between them.
 
+The Alpha architecture allows reordering of the accesses to the I/O space,
+and the missing barrier between write and read causes hang with serial
+port and real time clock.
 
-On Fri, 22 May 2020, Mikulas Patocka wrote:
+This patch makes barriers confiorm to the specification.
 
-> On Wed, 13 May 2020, Ivan Kokshaysky wrote:
-> 
-> > On Mon, May 11, 2020 at 03:58:24PM +0100, Maciej W. Rozycki wrote:
-> > >  Individual PCI port locations correspond to different MMIO locations, so 
-> > > yes, accesses to these can be reordered (merging won't happen due to the 
-> > > use of the sparse address space).
-> > 
-> > Correct, it's how Alpha write buffers work. According to 21064 hardware
-> > reference manual, these buffers are flushed when one of the following
-> > conditions is met:
-> > 
-> > 1) The write buffer contains at least two valid entries.
-> > 2) The write buffer contains one valid entry and at least 256 CPU cycles
-> >    have elapsed since the execution of the last write buffer-directed
-> >    instruction.
-> > 3) The write buffer contains an MB, STQ_C or STL_C instruction.
-> > 4) A load miss is pending to an address currently valid in the write
-> >    buffer that requires the write buffer to be flushed.
-> > 
-> > I'm certain that in these rtc/serial cases we've got readX arriving
-> > to device *before* preceeding writeX because of 2). That's why small
-> > delay (300-1400 ns, apparently depends on CPU frequency) seemingly
-> > "fixes" the problem. The 4) is not met because loads and stores are
-> > to different ports, and 3) has been broken by commit 92d7223a74.
-> > 
-> > So I believe that correct fix would be to revert 92d7223a74 and
-> > add wmb() before [io]writeX macros to meet memory-barriers.txt
-> > requirement. The "wmb" instruction is cheap enough and won't hurt
-> > IO performance too much.
-> > 
-> > Ivan.
-> 
-> I agree ... and what about readX_relaxed and writeX_relaxed? According to 
-> the memory-barriers specification, the _relaxed functions must be ordered 
-> w.r.t. each other. If Alpha can't keep them ordered, they should have 
-> barriers between them too.
-> 
-> Mikulas
+1. We add mb() before readX_relaxed and writeX_relaxed -
+   memory-barriers.txt claims that these functions must be ordered w.r.t.
+   each other. Alpha doesn't order them, so we need an explicit barrier.
+2. We add mb() before reads from the I/O space - so that if there's a
+   write followed by a read, there should be a barrier between them.
 
-I have found the chapter about I/O in the Alpha reference manual, in the 
-section "5.6.4.7 Implications for Memory Mapped I/O", it says:
+Signed-off-by: Mikulas Patocka <mpatocka@redhat.com>
+Fixes: cd0e00c10672 ("alpha: io: reorder barriers to guarantee writeX() and iowriteX() ordering")
+Fixes: 92d7223a7423 ("alpha: io: reorder barriers to guarantee writeX() and iowriteX() ordering #2")
+Cc: stable@vger.kernel.org      # v4.17+
 
-To reliably communicate shared data from a processor to an I/O device:
-1. Write the shared data to a memory-like physical memory region on the 
-processor.
-2. Execute an MB instruction.
-3. Write a flag (equivalently, send an interrupt or write a register 
-location implemented in the I/O device).
+---
+ arch/alpha/include/asm/io.h |   43 ++++++++++++++++++++++++++++---------------
+ arch/alpha/kernel/io.c      |   28 +++++++++++++++++++++-------
+ 2 files changed, 49 insertions(+), 22 deletions(-)
 
-The receiving I/O device must:
-1. Read the flag (equivalently, detect the interrupt or detect the write 
-to the register location implemented in the I/O device).
-2. Execute the equivalent of an MB.
-3. Read the shared data.
-
-So, we must use MB, not WMB when ordering I/O accesses.
-
-The WMB instruction specification says that it orders writes to 
-memory-like locations with other writes to memory-like locations. And 
-writes to non-memory-like locations with other writes to non-memory-like 
-locations. But it doesn't order memory-like writes with I/O-like writes.
-
-The section 5.6.3 claims that there are no implied barriers.
-
-
-
-So, if we want to support the specifications:
-
-read*_relaxed and write*_relaxed need at least one barrier before or after 
-(memory-barriers.txt says that they must be ordered with each other, the 
-alpha specification doesn't specify ordering).
-
-read and write - read must have a barrier after it, write before it. There 
-must be one more barrier before a read or after a write, to make sure that 
-there is barrier between write+read.
-
-Mikulas
+Index: linux-stable/arch/alpha/include/asm/io.h
+===================================================================
+--- linux-stable.orig/arch/alpha/include/asm/io.h	2020-05-23 10:01:22.000000000 +0200
++++ linux-stable/arch/alpha/include/asm/io.h	2020-05-23 10:01:22.000000000 +0200
+@@ -310,14 +310,18 @@ static inline int __is_mmio(const volati
+ #if IO_CONCAT(__IO_PREFIX,trivial_io_bw)
+ extern inline unsigned int ioread8(void __iomem *addr)
+ {
+-	unsigned int ret = IO_CONCAT(__IO_PREFIX,ioread8)(addr);
++	unsigned int ret;
++	mb();
++	ret = IO_CONCAT(__IO_PREFIX,ioread8)(addr);
+ 	mb();
+ 	return ret;
+ }
+ 
+ extern inline unsigned int ioread16(void __iomem *addr)
+ {
+-	unsigned int ret = IO_CONCAT(__IO_PREFIX,ioread16)(addr);
++	unsigned int ret;
++	mb();
++	ret = IO_CONCAT(__IO_PREFIX,ioread16)(addr);
+ 	mb();
+ 	return ret;
+ }
+@@ -358,7 +362,9 @@ extern inline void outw(u16 b, unsigned
+ #if IO_CONCAT(__IO_PREFIX,trivial_io_lq)
+ extern inline unsigned int ioread32(void __iomem *addr)
+ {
+-	unsigned int ret = IO_CONCAT(__IO_PREFIX,ioread32)(addr);
++	unsigned int ret;
++	mb();
++	ret = IO_CONCAT(__IO_PREFIX,ioread32)(addr);
+ 	mb();
+ 	return ret;
+ }
+@@ -403,15 +409,18 @@ extern inline void __raw_writew(u16 b, v
+ 
+ extern inline u8 readb(const volatile void __iomem *addr)
+ {
+-	u8 ret = __raw_readb(addr);
++	u8 ret;
++	mb();
++	ret = __raw_readb(addr);
+ 	mb();
+ 	return ret;
+ }
+ 
+ extern inline u16 readw(const volatile void __iomem *addr)
+ {
+-	u16 ret = __raw_readw(addr);
++	u16 ret;
+ 	mb();
++	ret = __raw_readw(addr);
+ 	return ret;
+ }
+ 
+@@ -451,14 +460,18 @@ extern inline void __raw_writeq(u64 b, v
+ 
+ extern inline u32 readl(const volatile void __iomem *addr)
+ {
+-	u32 ret = __raw_readl(addr);
++	u32 ret;
++	mb();
++	ret = __raw_readl(addr);
+ 	mb();
+ 	return ret;
+ }
+ 
+ extern inline u64 readq(const volatile void __iomem *addr)
+ {
+-	u64 ret = __raw_readq(addr);
++	u64 ret;
++	mb();
++	ret = __raw_readq(addr);
+ 	mb();
+ 	return ret;
+ }
+@@ -487,14 +500,14 @@ extern inline void writeq(u64 b, volatil
+ #define outb_p		outb
+ #define outw_p		outw
+ #define outl_p		outl
+-#define readb_relaxed(addr)	__raw_readb(addr)
+-#define readw_relaxed(addr)	__raw_readw(addr)
+-#define readl_relaxed(addr)	__raw_readl(addr)
+-#define readq_relaxed(addr)	__raw_readq(addr)
+-#define writeb_relaxed(b, addr)	__raw_writeb(b, addr)
+-#define writew_relaxed(b, addr)	__raw_writew(b, addr)
+-#define writel_relaxed(b, addr)	__raw_writel(b, addr)
+-#define writeq_relaxed(b, addr)	__raw_writeq(b, addr)
++#define readb_relaxed(addr)	(mb(), __raw_readb(addr))
++#define readw_relaxed(addr)	(mb(), __raw_readw(addr))
++#define readl_relaxed(addr)	(mb(), __raw_readl(addr))
++#define readq_relaxed(addr)	(mb(), __raw_readq(addr))
++#define writeb_relaxed(b, addr)	(mb(), __raw_writeb(b, addr))
++#define writew_relaxed(b, addr)	(mb(), __raw_writew(b, addr))
++#define writel_relaxed(b, addr)	(mb(), __raw_writel(b, addr))
++#define writeq_relaxed(b, addr)	(mb(), __raw_writeq(b, addr))
+ 
+ /*
+  * String version of IO memory access ops:
+Index: linux-stable/arch/alpha/kernel/io.c
+===================================================================
+--- linux-stable.orig/arch/alpha/kernel/io.c	2020-05-23 10:01:22.000000000 +0200
++++ linux-stable/arch/alpha/kernel/io.c	2020-05-23 10:01:22.000000000 +0200
+@@ -16,21 +16,27 @@
+ unsigned int
+ ioread8(void __iomem *addr)
+ {
+-	unsigned int ret = IO_CONCAT(__IO_PREFIX,ioread8)(addr);
++	unsigned int ret;
++	mb();
++	ret = IO_CONCAT(__IO_PREFIX,ioread8)(addr);
+ 	mb();
+ 	return ret;
+ }
+ 
+ unsigned int ioread16(void __iomem *addr)
+ {
+-	unsigned int ret = IO_CONCAT(__IO_PREFIX,ioread16)(addr);
++	unsigned int ret;
++	mb();
++	ret = IO_CONCAT(__IO_PREFIX,ioread16)(addr);
+ 	mb();
+ 	return ret;
+ }
+ 
+ unsigned int ioread32(void __iomem *addr)
+ {
+-	unsigned int ret = IO_CONCAT(__IO_PREFIX,ioread32)(addr);
++	unsigned int ret;
++	mb();
++	ret = IO_CONCAT(__IO_PREFIX,ioread32)(addr);
+ 	mb();
+ 	return ret;
+ }
+@@ -148,28 +154,36 @@ EXPORT_SYMBOL(__raw_writeq);
+ 
+ u8 readb(const volatile void __iomem *addr)
+ {
+-	u8 ret = __raw_readb(addr);
++	u8 ret;
++	mb();
++	ret = __raw_readb(addr);
+ 	mb();
+ 	return ret;
+ }
+ 
+ u16 readw(const volatile void __iomem *addr)
+ {
+-	u16 ret = __raw_readw(addr);
++	u16 ret;
++	mb();
++	ret = __raw_readw(addr);
+ 	mb();
+ 	return ret;
+ }
+ 
+ u32 readl(const volatile void __iomem *addr)
+ {
+-	u32 ret = __raw_readl(addr);
++	u32 ret;
++	mb();
++	ret = __raw_readl(addr);
+ 	mb();
+ 	return ret;
+ }
+ 
+ u64 readq(const volatile void __iomem *addr)
+ {
+-	u64 ret = __raw_readq(addr);
++	u64 ret;
++	mb();
++	ret = __raw_readq(addr);
+ 	mb();
+ 	return ret;
+ }
 
