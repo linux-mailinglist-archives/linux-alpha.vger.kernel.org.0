@@ -2,70 +2,101 @@ Return-Path: <linux-alpha-owner@vger.kernel.org>
 X-Original-To: lists+linux-alpha@lfdr.de
 Delivered-To: lists+linux-alpha@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id BDE8E1EC787
-	for <lists+linux-alpha@lfdr.de>; Wed,  3 Jun 2020 04:43:08 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 40A1D1ED129
+	for <lists+linux-alpha@lfdr.de>; Wed,  3 Jun 2020 15:48:34 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1725810AbgFCCnI (ORCPT <rfc822;lists+linux-alpha@lfdr.de>);
-        Tue, 2 Jun 2020 22:43:08 -0400
-Received: from smtp25.cstnet.cn ([159.226.251.25]:42106 "EHLO cstnet.cn"
-        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
-        id S1725794AbgFCCnI (ORCPT <rfc822;linux-alpha@vger.kernel.org>);
-        Tue, 2 Jun 2020 22:43:08 -0400
-X-Greylist: delayed 653 seconds by postgrey-1.27 at vger.kernel.org; Tue, 02 Jun 2020 22:43:06 EDT
-Received: from localhost.localdomain (unknown [159.226.5.100])
-        by APP-05 (Coremail) with SMTP id zQCowACnxRChC9deFbYoAQ--.37618S2;
-        Wed, 03 Jun 2020 10:32:03 +0800 (CST)
-From:   Xu Wang <vulab@iscas.ac.cn>
-To:     rth@twiddle.net
-Cc:     ink@jurassic.park.msu.ru, mattst88@gmail.com,
-        linux-alpha@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: [PATCH] arch: kernel: Replace sg++ with sg = sg_next(sg)
-Date:   Wed,  3 Jun 2020 02:31:59 +0000
-Message-Id: <20200603023159.715-1-vulab@iscas.ac.cn>
-X-Mailer: git-send-email 2.17.1
-X-CM-TRANSID: zQCowACnxRChC9deFbYoAQ--.37618S2
-X-Coremail-Antispam: 1UD129KBjvdXoWrZF18WryxZw1fJrWUCF1DAwb_yoWxAFX_t3
-        Wjqw13GryrCr4a9F1UCw4fCa909a95ZF4S9ayIgrZ7JF1DW3Z3ur4jqrsIqryDC3yxKF4I
-        y343t3Wqyr10kjkaLaAFLSUrUUUUUb8apTn2vfkv8UJUUUU8Yxn0WfASr-VFAUDa7-sFnT
-        9fnUUIcSsGvfJTRUUUbwxYjsxI4VWDJwAYFVCjjxCrM7AC8VAFwI0_Jr0_Gr1l1xkIjI8I
-        6I8E6xAIw20EY4v20xvaj40_Wr0E3s1l1IIY67AEw4v_Jr0_Jr4l8cAvFVAK0II2c7xJM2
-        8CjxkF64kEwVA0rcxSw2x7M28EF7xvwVC0I7IYx2IY67AKxVW5JVW7JwA2z4x0Y4vE2Ix0
-        cI8IcVCY1x0267AKxVW8JVWxJwA2z4x0Y4vEx4A2jsIE14v26r4UJVWxJr1l84ACjcxK6I
-        8E87Iv6xkF7I0E14v26r4UJVWxJr1le2I262IYc4CY6c8Ij28IcVAaY2xG8wAqx4xG64xv
-        F2IEw4CE5I8CrVC2j2WlYx0E2Ix0cI8IcVAFwI0_Jr0_Jr4lYx0Ex4A2jsIE14v26r1j6r
-        4UMcvjeVCFs4IE7xkEbVWUJVW8JwACjcxG0xvY0x0EwIxGrwCF04k20xvY0x0EwIxGrwCF
-        x2IqxVCFs4IE7xkEbVWUJVW8JwC20s026c02F40E14v26r1j6r18MI8I3I0E7480Y4vE14
-        v26r106r1rMI8E67AF67kF1VAFwI0_JF0_Jw1lIxkGc2Ij64vIr41lIxAIcVC0I7IYx2IY
-        67AKxVWUJVWUCwCI42IY6xIIjxv20xvEc7CjxVAFwI0_Jr0_Gr1lIxAIcVCF04k26cxKx2
-        IYs7xG6rW3Jr0E3s1lIxAIcVC2z280aVAFwI0_Jr0_Gr1lIxAIcVC2z280aVCY1x0267AK
-        xVWUJVW8JbIYCTnIWIevJa73UjIFyTuYvjxUcVWlDUUUU
-X-Originating-IP: [159.226.5.100]
-X-CM-SenderInfo: pyxotu46lvutnvoduhdfq/1tbiCAMQA102YLNlQgAAsH
+        id S1725961AbgFCNsa (ORCPT <rfc822;lists+linux-alpha@lfdr.de>);
+        Wed, 3 Jun 2020 09:48:30 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50038 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1725944AbgFCNs3 (ORCPT
+        <rfc822;linux-alpha@vger.kernel.org>); Wed, 3 Jun 2020 09:48:29 -0400
+Received: from mail-lf1-x144.google.com (mail-lf1-x144.google.com [IPv6:2a00:1450:4864:20::144])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3DC4BC08C5C1
+        for <linux-alpha@vger.kernel.org>; Wed,  3 Jun 2020 06:48:29 -0700 (PDT)
+Received: by mail-lf1-x144.google.com with SMTP id c12so1349931lfc.10
+        for <linux-alpha@vger.kernel.org>; Wed, 03 Jun 2020 06:48:29 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=mime-version:reply-to:sender:from:date:message-id:subject:to;
+        bh=H8rDQEJouwBJIElP/Vpqq+PrvTZxQQy2H7A/MvyMMB0=;
+        b=bMU/R6ullFPJoyI5cK62AVEhMCXN31Rj9S4cMdr72T3cC3QhFm4SG7DqgeiyWx8YMF
+         B36QRPnYRfgSIyr7KPsMsFr37QgeijF8OQgdKdOybwMl3zWcKYkq1foYMhiku6AH/JpH
+         RQudNyXg/D2XzEl+0K+aLGtwvkSgHBznzrQ88o0a1I5opW/PYByFtl3cMcTi7ozQ5z3t
+         HGF05y3w5qPjNLN2jggkM6WsklZPGXULgwOMZtniZXi6+9QzCv/uhIf2jnVjctOr4Duh
+         /rORfi+ZbEztxqAHG773N7xkUef159nEGjQ6TGDFXXAWOKFQhO1lNsPI3a+hRDASCyfE
+         luIg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:reply-to:sender:from:date
+         :message-id:subject:to;
+        bh=H8rDQEJouwBJIElP/Vpqq+PrvTZxQQy2H7A/MvyMMB0=;
+        b=BIQ521Lmgo9Qlsd/1XjlK2hAUVMvil+TSwuHjnAEUlpUjlPrSOtlUy+sJv2oaLFMY/
+         31m/ibRfaJ+8JTIyfp09py9kNZNtnhrlngwTtmsvhnpsQAyNDgZrjHHAv2ORBSHN73sD
+         Vqi6i72VqD8pdb3WtLUsF3xeuCgguK8XUj+stVA0r0s6Wwcvh2Nda2hl6bLLqAE8Boh1
+         +eEi2va4yH4XrXt2BKD18BPTJJN8l0gk87mHRU2T2+VdNjgMRg5M8Y5yPEyUeoAltTsq
+         nuCaO1w+LXah54bigWrQdHUdYSCUTnGgYpTxx4QYspQ0gDdv1v76EPZru312Jzi35aRc
+         dFXA==
+X-Gm-Message-State: AOAM533qZVo8cdXfoZQyraVyMX3FURCRMWuHoj5bFlQmqbVQTkqvDIvH
+        DzJVqzC3h/wdiswdhYX6m5OsdpSx8Wvk+1x9VuE=
+X-Google-Smtp-Source: ABdhPJyXIGK/fer5genXUqGP4qhT1l9BkdXDTlfBQ0lPU4JnnUIDg78wwiuY54vEXni41HnsMTY5q01Ev6IbkzvjoDg=
+X-Received: by 2002:a19:ae18:: with SMTP id f24mr2528317lfc.150.1591192107600;
+ Wed, 03 Jun 2020 06:48:27 -0700 (PDT)
+MIME-Version: 1.0
+Reply-To: susanjones.wife@gmail.com
+Received: by 2002:a19:a405:0:0:0:0:0 with HTTP; Wed, 3 Jun 2020 06:48:27 -0700 (PDT)
+From:   "Mrs.Susan Jones" <joneswife.susan@gmail.com>
+Date:   Wed, 3 Jun 2020 14:48:27 +0100
+X-Google-Sender-Auth: CX1LZ7YfNQPyALxaOBiV6tNAajo
+Message-ID: <CALBhdBeX2Y4FkCAknXQzKBB4njye5Ybu7ih1JoB6KjFCr8v0Jw@mail.gmail.com>
+Subject: HELLO: I AM MRS SUSAN JONES
+To:     undisclosed-recipients:;
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-alpha-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-alpha.vger.kernel.org>
 X-Mailing-List: linux-alpha@vger.kernel.org
 
-Replace sg++ with sg = sg_next(sg).
-
-Signed-off-by: Xu Wang <vulab@iscas.ac.cn>
----
- arch/alpha/kernel/pci_iommu.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
-
-diff --git a/arch/alpha/kernel/pci_iommu.c b/arch/alpha/kernel/pci_iommu.c
-index 7f1925a32c99..81037907268d 100644
---- a/arch/alpha/kernel/pci_iommu.c
-+++ b/arch/alpha/kernel/pci_iommu.c
-@@ -638,7 +638,7 @@ sg_fill(struct device *dev, struct scatterlist *leader, struct scatterlist *end,
- 
- 		while (sg+1 < end && (int) sg[1].dma_address == -1) {
- 			size += sg[1].length;
--			sg++;
-+			sg = sg_next(sg);
- 		}
- 
- 		npages = iommu_num_pages(paddr, size, PAGE_SIZE);
 -- 
-2.17.1
+OUR GOLDEN OPPORTUNITY
 
+Hello Dear Friend,
+
+Complement of the day, i hope you are doing great today. However, I am
+Mrs.Susan Jones, an auditor with one of the new generation banks here
+in Burkina Faso.
+
+I am writing you this letter based on the latest development at my
+Department. i discovered some abandoned huge amount of money, Ten
+Million, Five hundred thousand  United States Dollars.($10.500.000).
+Now I am only contacting you as a foreigner because this money cannot
+be approved to a local bank account here, but can only be approved to
+any foreign account and foreign beneficiary because the money is in US
+dollars
+
+This will be  a legitimate transaction once you accept to build trust
+with me and follow simple instruction doing the transfer process,
+until the total sum transfer out of the bank here to your own bank
+account any where in the world, and I agreed to share the total money
+50/50 with you once you successful confirmed it in your bank account.
+But any expenses doing the transfer process will be deduct from the
+amount before sharing, If you are interested to work with me and
+provide a good receiving bank account, get back to me as soon as
+possible with the following details below.
+
+Your full name
+Your Profession
+Your direct mobile phone number
+Your Scanned International passport or any of your identity
+
+NOTE: PLEASE IT YOU ARE NOT INTERESTED DON'T BORDER TO RESPOND BACK TO
+AVOID TIME WASTED.
+
+As soon as I receive these data's, I will forward to you the
+application form which you will send to the bank for the claim and
+transfer of the fund into your bank account as the  new beneficial.
+
+I am waiting to hear from you soon
+
+Yours
+Mrs.Susan Jones
