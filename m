@@ -2,101 +2,52 @@ Return-Path: <linux-alpha-owner@vger.kernel.org>
 X-Original-To: lists+linux-alpha@lfdr.de
 Delivered-To: lists+linux-alpha@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 40A1D1ED129
-	for <lists+linux-alpha@lfdr.de>; Wed,  3 Jun 2020 15:48:34 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id CAFC71EEFFF
+	for <lists+linux-alpha@lfdr.de>; Fri,  5 Jun 2020 05:37:39 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1725961AbgFCNsa (ORCPT <rfc822;lists+linux-alpha@lfdr.de>);
-        Wed, 3 Jun 2020 09:48:30 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50038 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725944AbgFCNs3 (ORCPT
-        <rfc822;linux-alpha@vger.kernel.org>); Wed, 3 Jun 2020 09:48:29 -0400
-Received: from mail-lf1-x144.google.com (mail-lf1-x144.google.com [IPv6:2a00:1450:4864:20::144])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3DC4BC08C5C1
-        for <linux-alpha@vger.kernel.org>; Wed,  3 Jun 2020 06:48:29 -0700 (PDT)
-Received: by mail-lf1-x144.google.com with SMTP id c12so1349931lfc.10
-        for <linux-alpha@vger.kernel.org>; Wed, 03 Jun 2020 06:48:29 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=mime-version:reply-to:sender:from:date:message-id:subject:to;
-        bh=H8rDQEJouwBJIElP/Vpqq+PrvTZxQQy2H7A/MvyMMB0=;
-        b=bMU/R6ullFPJoyI5cK62AVEhMCXN31Rj9S4cMdr72T3cC3QhFm4SG7DqgeiyWx8YMF
-         B36QRPnYRfgSIyr7KPsMsFr37QgeijF8OQgdKdOybwMl3zWcKYkq1foYMhiku6AH/JpH
-         RQudNyXg/D2XzEl+0K+aLGtwvkSgHBznzrQ88o0a1I5opW/PYByFtl3cMcTi7ozQ5z3t
-         HGF05y3w5qPjNLN2jggkM6WsklZPGXULgwOMZtniZXi6+9QzCv/uhIf2jnVjctOr4Duh
-         /rORfi+ZbEztxqAHG773N7xkUef159nEGjQ6TGDFXXAWOKFQhO1lNsPI3a+hRDASCyfE
-         luIg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:reply-to:sender:from:date
-         :message-id:subject:to;
-        bh=H8rDQEJouwBJIElP/Vpqq+PrvTZxQQy2H7A/MvyMMB0=;
-        b=BIQ521Lmgo9Qlsd/1XjlK2hAUVMvil+TSwuHjnAEUlpUjlPrSOtlUy+sJv2oaLFMY/
-         31m/ibRfaJ+8JTIyfp09py9kNZNtnhrlngwTtmsvhnpsQAyNDgZrjHHAv2ORBSHN73sD
-         Vqi6i72VqD8pdb3WtLUsF3xeuCgguK8XUj+stVA0r0s6Wwcvh2Nda2hl6bLLqAE8Boh1
-         +eEi2va4yH4XrXt2BKD18BPTJJN8l0gk87mHRU2T2+VdNjgMRg5M8Y5yPEyUeoAltTsq
-         nuCaO1w+LXah54bigWrQdHUdYSCUTnGgYpTxx4QYspQ0gDdv1v76EPZru312Jzi35aRc
-         dFXA==
-X-Gm-Message-State: AOAM533qZVo8cdXfoZQyraVyMX3FURCRMWuHoj5bFlQmqbVQTkqvDIvH
-        DzJVqzC3h/wdiswdhYX6m5OsdpSx8Wvk+1x9VuE=
-X-Google-Smtp-Source: ABdhPJyXIGK/fer5genXUqGP4qhT1l9BkdXDTlfBQ0lPU4JnnUIDg78wwiuY54vEXni41HnsMTY5q01Ev6IbkzvjoDg=
-X-Received: by 2002:a19:ae18:: with SMTP id f24mr2528317lfc.150.1591192107600;
- Wed, 03 Jun 2020 06:48:27 -0700 (PDT)
+        id S1728607AbgFEDhj (ORCPT <rfc822;lists+linux-alpha@lfdr.de>);
+        Thu, 4 Jun 2020 23:37:39 -0400
+Received: from unassigned-102-a.cspirefiber.net ([173.235.82.102]:51394 "EHLO
+        clearos.ia.lan" rhost-flags-OK-FAIL-OK-FAIL) by vger.kernel.org
+        with ESMTP id S1728599AbgFEDhi (ORCPT
+        <rfc822;linux-alpha@vger.kernel.org>); Thu, 4 Jun 2020 23:37:38 -0400
+X-Greylist: delayed 113191 seconds by postgrey-1.27 at vger.kernel.org; Thu, 04 Jun 2020 23:37:38 EDT
+Received: from Shop01 (localhost [127.0.0.1])
+        by clearos.ia.lan (Postfix) with SMTP id 1D0B34C8E62;
+        Wed,  3 Jun 2020 05:19:03 -0500 (CDT)
+Received: from [44.149.211.241] by Shop01 with ESMTP id EFC08F43A0B; Wed, 03 Jun 2020 14:17:24 +0300
+Message-ID: <0eli19x796$-52$--$4-t$hl0x-3-$0@2jj0v6g7>
+From:   "SUHIL ABDULZAHRA" <tbryant6@woh.rr.com>
+Reply-To: "SUHIL ABDULZAHRA" <tbryant6@woh.rr.com>
+To:     linsulsum@yahoo.com.au
+Subject: I NEED YOUR ATTENTION
+Date:   Wed, 03 Jun 20 14:17:24 GMT
+X-Mailer: Microsoft Outlook Express 5.50.4133.2400
 MIME-Version: 1.0
-Reply-To: susanjones.wife@gmail.com
-Received: by 2002:a19:a405:0:0:0:0:0 with HTTP; Wed, 3 Jun 2020 06:48:27 -0700 (PDT)
-From:   "Mrs.Susan Jones" <joneswife.susan@gmail.com>
-Date:   Wed, 3 Jun 2020 14:48:27 +0100
-X-Google-Sender-Auth: CX1LZ7YfNQPyALxaOBiV6tNAajo
-Message-ID: <CALBhdBeX2Y4FkCAknXQzKBB4njye5Ybu7ih1JoB6KjFCr8v0Jw@mail.gmail.com>
-Subject: HELLO: I AM MRS SUSAN JONES
-To:     undisclosed-recipients:;
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: multipart/alternative;
+        boundary=".5_7E8.F92_1EA5BFA___C.1"
+X-Priority: 3
+X-MSMail-Priority: Normal
 Sender: linux-alpha-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-alpha.vger.kernel.org>
 X-Mailing-List: linux-alpha@vger.kernel.org
 
--- 
-OUR GOLDEN OPPORTUNITY
 
-Hello Dear Friend,
+--.5_7E8.F92_1EA5BFA___C.1
+Content-Type: text/plain;
+Content-Transfer-Encoding: quoted-printable
 
-Complement of the day, i hope you are doing great today. However, I am
-Mrs.Susan Jones, an auditor with one of the new generation banks here
-in Burkina Faso.
+My name is Mr. SUHIL ABDULZAHRA BADR AL-ASADI from IRAQ Ministry of Oil (M=
+oO).  
+Please, I desire to have a confidentially funds transaction with you value=
+d at $66 million dollars for safe keeping and investment? 
+Please forward your response to my private email: abdulzahrasuhil@gmail.co=
+m for further details.
 
-I am writing you this letter based on the latest development at my
-Department. i discovered some abandoned huge amount of money, Ten
-Million, Five hundred thousand  United States Dollars.($10.500.000).
-Now I am only contacting you as a foreigner because this money cannot
-be approved to a local bank account here, but can only be approved to
-any foreign account and foreign beneficiary because the money is in US
-dollars
+Thank you
+Mr. SUHIL ABDULZAHRA
+https://oil.gov.iq
 
-This will be  a legitimate transaction once you accept to build trust
-with me and follow simple instruction doing the transfer process,
-until the total sum transfer out of the bank here to your own bank
-account any where in the world, and I agreed to share the total money
-50/50 with you once you successful confirmed it in your bank account.
-But any expenses doing the transfer process will be deduct from the
-amount before sharing, If you are interested to work with me and
-provide a good receiving bank account, get back to me as soon as
-possible with the following details below.
+--.5_7E8.F92_1EA5BFA___C.1--
 
-Your full name
-Your Profession
-Your direct mobile phone number
-Your Scanned International passport or any of your identity
-
-NOTE: PLEASE IT YOU ARE NOT INTERESTED DON'T BORDER TO RESPOND BACK TO
-AVOID TIME WASTED.
-
-As soon as I receive these data's, I will forward to you the
-application form which you will send to the bank for the claim and
-transfer of the fund into your bank account as the  new beneficial.
-
-I am waiting to hear from you soon
-
-Yours
-Mrs.Susan Jones
