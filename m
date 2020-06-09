@@ -2,84 +2,92 @@ Return-Path: <linux-alpha-owner@vger.kernel.org>
 X-Original-To: lists+linux-alpha@lfdr.de
 Delivered-To: lists+linux-alpha@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id F0B1E1F282B
-	for <lists+linux-alpha@lfdr.de>; Tue,  9 Jun 2020 01:55:47 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 3C1141F3D54
+	for <lists+linux-alpha@lfdr.de>; Tue,  9 Jun 2020 15:52:55 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1732232AbgFHXtm (ORCPT <rfc822;lists+linux-alpha@lfdr.de>);
-        Mon, 8 Jun 2020 19:49:42 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44124 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1731815AbgFHXtk (ORCPT
-        <rfc822;linux-alpha@vger.kernel.org>); Mon, 8 Jun 2020 19:49:40 -0400
-Received: from mail-ej1-x643.google.com (mail-ej1-x643.google.com [IPv6:2a00:1450:4864:20::643])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2E2E8C08C5C2;
-        Mon,  8 Jun 2020 16:49:36 -0700 (PDT)
-Received: by mail-ej1-x643.google.com with SMTP id y13so20314819eju.2;
-        Mon, 08 Jun 2020 16:49:36 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=uBzs8KmsEdBvGAcXk3Vb8AURrpvHv861x7OOzwsbqVc=;
-        b=MWtK/hHZaJhvWGA/KGnL6we8nFDF9ORpa5xmtB0dqPXfcrF7VmYOyyCxwnI02wRjgQ
-         Y6jC3kPvPiO4UWPRrhjC2a68YdRNU4jWHLBk1zfKLL1K+VGcoMnwOCAWLLKyeW+498AP
-         49aX5edGyWoqieus3bGndrhnFWvX1uZDQOxrJNNN6P4cYKJqYWHWSvYqt/Zw8Qniy3Jc
-         9CLiWZpdSxBv39fdRS4S4VcLWnWqGpcWKRnOKBhvgvcZMIADzy4B7JwlrWKIPfMiS8Xa
-         8F/kq4ci9tLnHW86+bqL1zUPQO4IQvRfCKAdDLy0F2fsugrRxTJp5WvQ3fjEX9TkZCLV
-         LIxQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=uBzs8KmsEdBvGAcXk3Vb8AURrpvHv861x7OOzwsbqVc=;
-        b=b3kKZrQfCeSVPgLd1iT+L3LfMM6O6JRv6+iK+Z2Se6viFu4/UdvEN41uEOyKAPLMcf
-         3Cl2tjjd0eLsaiFDoLjHufOGdYXvF4Kv4OFQF3ztvB8hX3IptDwEubzTxyQEC5VBdBv0
-         zMzb2FOr7PXwtKpq6aP/fw/bW40//BX3fRV3Vcyze5ag/M/4qFySkPFDY9XwfUMNXxi2
-         DnemHzPa+8z6r6jsOKzcrHFe8Ckyul5GZRT9aIjIfuswKDw0eCsHi7+QBq9WFDruVOBk
-         /1w/voecdwtslZ8yq5FpNgv5pIIPafPYHSoEn8EE2V4NfosFZJgmv7La9BkKg/HZmBTz
-         pdfA==
-X-Gm-Message-State: AOAM532I3tE4JYO2zgFKYuGfyljpqfKuyDDZA59qPl20P/jjlwBsEOpr
-        BgtR6BXW14oDbJ8VnNoz4ZOUopXpayxTuiM/6ug=
-X-Google-Smtp-Source: ABdhPJz/x7AFZlVQBJzN5QMIPCadQrzApEhoeEDla+NqJE/YhJwNxPC+WSVQZkpGuTDHFF60S5m6BLI7I9L5hyfYi74=
-X-Received: by 2002:a17:906:6403:: with SMTP id d3mr22550773ejm.386.1591660174835;
- Mon, 08 Jun 2020 16:49:34 -0700 (PDT)
+        id S1730367AbgFINww (ORCPT <rfc822;lists+linux-alpha@lfdr.de>);
+        Tue, 9 Jun 2020 09:52:52 -0400
+Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:24126 "EHLO
+        us-smtp-1.mimecast.com" rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org
+        with ESMTP id S1730338AbgFINwv (ORCPT
+        <rfc822;linux-alpha@vger.kernel.org>); Tue, 9 Jun 2020 09:52:51 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+        s=mimecast20190719; t=1591710770;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         in-reply-to:in-reply-to:references:references;
+        bh=1QZxzGJLd7MwraWpl9HYsPVgjFSkkdnN13rxpeDTWvE=;
+        b=BLKM8tZ4N1q9E0IuymYcR8pZDXGiMMMea1s1+R809d5Z1pkacLw73WTXXFCaojw+gDu5Xp
+        FaesldTLbUD+JH7cOhRokmCgM8oV+NBj5PJ3KrW4v0O964XL2uIrfUhT9WlbxCRYnxJWqG
+        XEG6NRsM8mjmCEsNmOStjK/Zru6sGk4=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-335-347KQqv8OfOLOyQ5JWpIlg-1; Tue, 09 Jun 2020 09:52:41 -0400
+X-MC-Unique: 347KQqv8OfOLOyQ5JWpIlg-1
+Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com [10.5.11.16])
+        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+        (No client certificate requested)
+        by mimecast-mx01.redhat.com (Postfix) with ESMTPS id ABD3880B734;
+        Tue,  9 Jun 2020 13:52:33 +0000 (UTC)
+Received: from oldenburg2.str.redhat.com (ovpn-113-78.ams2.redhat.com [10.36.113.78])
+        by smtp.corp.redhat.com (Postfix) with ESMTPS id 708335C1BD;
+        Tue,  9 Jun 2020 13:52:19 +0000 (UTC)
+From:   Florian Weimer <fweimer@redhat.com>
+To:     Palmer Dabbelt <palmer@sifive.com>
+Cc:     viro@zeniv.linux.org.uk, linux-kernel@vger.kernel.org,
+        linux-fsdevel@vger.kernel.org, linux-api@vger.kernel.org,
+        Arnd Bergmann <arnd@arndb.de>, rth@twiddle.net,
+        ink@jurassic.park.msu.ru, mattst88@gmail.com,
+        linux@armlinux.org.uk, catalin.marinas@arm.com, will@kernel.org,
+        tony.luck@intel.com, fenghua.yu@intel.com, geert@linux-m68k.org,
+        monstr@monstr.eu, ralf@linux-mips.org, paul.burton@mips.com,
+        jhogan@kernel.org, James.Bottomley@HansenPartnership.com,
+        deller@gmx.de, benh@kernel.crashing.org, paulus@samba.org,
+        mpe@ellerman.id.au, heiko.carstens@de.ibm.com, gor@linux.ibm.com,
+        borntraeger@de.ibm.com, ysato@users.sourceforge.jp,
+        dalias@libc.org, davem@davemloft.net, luto@kernel.org,
+        tglx@linutronix.de, mingo@redhat.com, bp@alien8.de, hpa@zytor.com,
+        x86@kernel.org, peterz@infradead.org, acme@kernel.org,
+        alexander.shishkin@linux.intel.com, jolsa@redhat.com,
+        namhyung@kernel.org, dhowells@redhat.com, firoz.khan@linaro.org,
+        stefan@agner.ch, schwidefsky@de.ibm.com, axboe@kernel.dk,
+        christian@brauner.io, hare@suse.com, deepa.kernel@gmail.com,
+        tycho@tycho.ws, kim.phillips@arm.com, linux-alpha@vger.kernel.org,
+        linux-arm-kernel@lists.infradead.org, linux-ia64@vger.kernel.org,
+        linux-m68k@lists.linux-m68k.org, linux-mips@vger.kernel.org,
+        linux-parisc@vger.kernel.org, linuxppc-dev@lists.ozlabs.org,
+        linux-s390@vger.kernel.org, linux-sh@vger.kernel.org,
+        sparclinux@vger.kernel.org, linux-arch@vger.kernel.org
+Subject: Re: Add a new fchmodat4() syscall, v2
+References: <20190717012719.5524-1-palmer@sifive.com>
+Date:   Tue, 09 Jun 2020 15:52:17 +0200
+In-Reply-To: <20190717012719.5524-1-palmer@sifive.com> (Palmer Dabbelt's
+        message of "Tue, 16 Jul 2019 18:27:15 -0700")
+Message-ID: <87o8pscpny.fsf@oldenburg2.str.redhat.com>
+User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/26.3 (gnu/linux)
 MIME-Version: 1.0
-References: <CAK8P3a1qN-cpzkcdtNhtMfSwWwxqcOYg9x6DEzt7PWazwr8V=Q@mail.gmail.com>
- <20200513144128.GA16995@mail.rc.ru> <alpine.LRH.2.02.2005220920020.20970@file01.intranet.prod.int.rdu2.redhat.com>
- <alpine.LRH.2.02.2005221344530.11126@file01.intranet.prod.int.rdu2.redhat.com>
- <alpine.LRH.2.02.2005230623410.22664@file01.intranet.prod.int.rdu2.redhat.com>
- <20200523151027.GA10128@mail.rc.ru> <alpine.LRH.2.02.2005231131480.10727@file01.intranet.prod.int.rdu2.redhat.com>
- <alpine.LRH.2.02.2005231134590.10727@file01.intranet.prod.int.rdu2.redhat.com>
- <alpine.LFD.2.21.2005241500230.21168@redsun52.ssa.fujisawa.hgst.com>
- <alpine.LRH.2.02.2005250944210.26265@file01.intranet.prod.int.rdu2.redhat.com>
- <alpine.LFD.2.21.2005251500420.21168@redsun52.ssa.fujisawa.hgst.com>
- <alpine.LRH.2.02.2005251151550.4135@file01.intranet.prod.int.rdu2.redhat.com>
- <alpine.LRH.2.02.2005261046340.29117@file01.intranet.prod.int.rdu2.redhat.com>
- <alpine.DEB.2.20.2005270114380.1027@tpp.orcam.me.uk> <alpine.LRH.2.02.2006080256360.15393@file01.intranet.prod.int.rdu2.redhat.com>
-In-Reply-To: <alpine.LRH.2.02.2006080256360.15393@file01.intranet.prod.int.rdu2.redhat.com>
-From:   Matt Turner <mattst88@gmail.com>
-Date:   Mon, 8 Jun 2020 16:49:23 -0700
-Message-ID: <CAEdQ38HcqZWrVEHoPcngd_PnNQsf+OxFob1upAwx6TL-=_Uopg@mail.gmail.com>
-Subject: Re: [PATCH v7] alpha: fix memory barriers so that they conform to the specification
-To:     Mikulas Patocka <mpatocka@redhat.com>
-Cc:     "Maciej W. Rozycki" <macro@wdc.com>,
-        Ivan Kokshaysky <ink@jurassic.park.msu.ru>,
-        "Maciej W. Rozycki" <macro@linux-mips.org>,
-        Arnd Bergmann <arnd@arndb.de>,
-        Richard Henderson <rth@twiddle.net>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        alpha <linux-alpha@vger.kernel.org>,
-        "linux-serial@vger.kernel.org" <linux-serial@vger.kernel.org>,
-        "linux-rtc@vger.kernel.org" <linux-rtc@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
 Sender: linux-alpha-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-alpha.vger.kernel.org>
 X-Mailing-List: linux-alpha@vger.kernel.org
 
-On Sun, Jun 7, 2020 at 11:58 PM Mikulas Patocka <mpatocka@redhat.com> wrote:
-> Will you submit the patch to Linus' tree in this merge window?
->
-> Mikulas
+* Palmer Dabbelt:
 
-I will do it. Thank you, Mikulas!
+> This patch set adds fchmodat4(), a new syscall. The actual
+> implementation is super simple: essentially it's just the same as
+> fchmodat(), but LOOKUP_FOLLOW is conditionally set based on the flags.
+> I've attempted to make this match "man 2 fchmodat" as closely as
+> possible, which says EINVAL is returned for invalid flags (as opposed to
+> ENOTSUPP, which is currently returned by glibc for AT_SYMLINK_NOFOLLOW).
+> I have a sketch of a glibc patch that I haven't even compiled yet, but
+> seems fairly straight-forward:
+
+What's the status here?  We'd really like to see this system call in the
+kernel because our emulation in glibc has its problems (especially if
+/proc is not mounted).
+
+Thanks,
+Florian
+
