@@ -2,92 +2,59 @@ Return-Path: <linux-alpha-owner@vger.kernel.org>
 X-Original-To: lists+linux-alpha@lfdr.de
 Delivered-To: lists+linux-alpha@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 3C1141F3D54
-	for <lists+linux-alpha@lfdr.de>; Tue,  9 Jun 2020 15:52:55 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 29AB21F4900
+	for <lists+linux-alpha@lfdr.de>; Tue,  9 Jun 2020 23:43:48 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1730367AbgFINww (ORCPT <rfc822;lists+linux-alpha@lfdr.de>);
-        Tue, 9 Jun 2020 09:52:52 -0400
-Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:24126 "EHLO
-        us-smtp-1.mimecast.com" rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org
-        with ESMTP id S1730338AbgFINwv (ORCPT
-        <rfc822;linux-alpha@vger.kernel.org>); Tue, 9 Jun 2020 09:52:51 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1591710770;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         in-reply-to:in-reply-to:references:references;
-        bh=1QZxzGJLd7MwraWpl9HYsPVgjFSkkdnN13rxpeDTWvE=;
-        b=BLKM8tZ4N1q9E0IuymYcR8pZDXGiMMMea1s1+R809d5Z1pkacLw73WTXXFCaojw+gDu5Xp
-        FaesldTLbUD+JH7cOhRokmCgM8oV+NBj5PJ3KrW4v0O964XL2uIrfUhT9WlbxCRYnxJWqG
-        XEG6NRsM8mjmCEsNmOStjK/Zru6sGk4=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-335-347KQqv8OfOLOyQ5JWpIlg-1; Tue, 09 Jun 2020 09:52:41 -0400
-X-MC-Unique: 347KQqv8OfOLOyQ5JWpIlg-1
-Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com [10.5.11.16])
-        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
-        (No client certificate requested)
-        by mimecast-mx01.redhat.com (Postfix) with ESMTPS id ABD3880B734;
-        Tue,  9 Jun 2020 13:52:33 +0000 (UTC)
-Received: from oldenburg2.str.redhat.com (ovpn-113-78.ams2.redhat.com [10.36.113.78])
-        by smtp.corp.redhat.com (Postfix) with ESMTPS id 708335C1BD;
-        Tue,  9 Jun 2020 13:52:19 +0000 (UTC)
-From:   Florian Weimer <fweimer@redhat.com>
-To:     Palmer Dabbelt <palmer@sifive.com>
-Cc:     viro@zeniv.linux.org.uk, linux-kernel@vger.kernel.org,
-        linux-fsdevel@vger.kernel.org, linux-api@vger.kernel.org,
-        Arnd Bergmann <arnd@arndb.de>, rth@twiddle.net,
-        ink@jurassic.park.msu.ru, mattst88@gmail.com,
-        linux@armlinux.org.uk, catalin.marinas@arm.com, will@kernel.org,
-        tony.luck@intel.com, fenghua.yu@intel.com, geert@linux-m68k.org,
-        monstr@monstr.eu, ralf@linux-mips.org, paul.burton@mips.com,
-        jhogan@kernel.org, James.Bottomley@HansenPartnership.com,
-        deller@gmx.de, benh@kernel.crashing.org, paulus@samba.org,
-        mpe@ellerman.id.au, heiko.carstens@de.ibm.com, gor@linux.ibm.com,
-        borntraeger@de.ibm.com, ysato@users.sourceforge.jp,
-        dalias@libc.org, davem@davemloft.net, luto@kernel.org,
-        tglx@linutronix.de, mingo@redhat.com, bp@alien8.de, hpa@zytor.com,
-        x86@kernel.org, peterz@infradead.org, acme@kernel.org,
-        alexander.shishkin@linux.intel.com, jolsa@redhat.com,
-        namhyung@kernel.org, dhowells@redhat.com, firoz.khan@linaro.org,
-        stefan@agner.ch, schwidefsky@de.ibm.com, axboe@kernel.dk,
-        christian@brauner.io, hare@suse.com, deepa.kernel@gmail.com,
-        tycho@tycho.ws, kim.phillips@arm.com, linux-alpha@vger.kernel.org,
-        linux-arm-kernel@lists.infradead.org, linux-ia64@vger.kernel.org,
-        linux-m68k@lists.linux-m68k.org, linux-mips@vger.kernel.org,
-        linux-parisc@vger.kernel.org, linuxppc-dev@lists.ozlabs.org,
-        linux-s390@vger.kernel.org, linux-sh@vger.kernel.org,
-        sparclinux@vger.kernel.org, linux-arch@vger.kernel.org
-Subject: Re: Add a new fchmodat4() syscall, v2
-References: <20190717012719.5524-1-palmer@sifive.com>
-Date:   Tue, 09 Jun 2020 15:52:17 +0200
-In-Reply-To: <20190717012719.5524-1-palmer@sifive.com> (Palmer Dabbelt's
-        message of "Tue, 16 Jul 2019 18:27:15 -0700")
-Message-ID: <87o8pscpny.fsf@oldenburg2.str.redhat.com>
-User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/26.3 (gnu/linux)
+        id S1728077AbgFIVnr (ORCPT <rfc822;lists+linux-alpha@lfdr.de>);
+        Tue, 9 Jun 2020 17:43:47 -0400
+Received: from rrcs-72-43-215-122.nys.biz.rr.com ([72.43.215.122]:41024 "EHLO
+        localhost.localdomain" rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org
+        with ESMTP id S1728012AbgFIVnq (ORCPT
+        <rfc822;linux-alpha@vger.kernel.org>); Tue, 9 Jun 2020 17:43:46 -0400
+Received: from 127.0.0.1 (localhost [127.0.0.1])
+        by localhost.localdomain (Postfix) with SMTP id 9DBB3247DE1;
+        Tue,  9 Jun 2020 05:10:51 -0400 (EDT)
+Received: from [28.42.136.135]
+        by 127.0.0.1 id u2I9ncLxEDe5;
+        Tue, 09 Jun 2020 15:07:54 +0500
+Message-ID: <s84926$$j7j-wnw-8$z83$s$y4tym$u@vox.8.7.nxz.u4>
+From:   "Mrs. Janet Olsen " <mrs.janetolse@gmail.com>
+Reply-To: "Mrs. Janet Olsen " <mrs.janetolse@gmail.com>
+To:     corentincj@iksaif.net
+Subject: Your response 
+Date:   Tue, 09 Jun 20 15:07:54 GMT
+X-Mailer: Microsoft Outlook Express 5.50.4522.1200
 MIME-Version: 1.0
-Content-Type: text/plain
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
+Content-Type: multipart/alternative;
+        boundary="C.9.8A.110."
+X-Priority: 5
+X-MSMail-Priority: Low
 Sender: linux-alpha-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-alpha.vger.kernel.org>
 X-Mailing-List: linux-alpha@vger.kernel.org
 
-* Palmer Dabbelt:
 
-> This patch set adds fchmodat4(), a new syscall. The actual
-> implementation is super simple: essentially it's just the same as
-> fchmodat(), but LOOKUP_FOLLOW is conditionally set based on the flags.
-> I've attempted to make this match "man 2 fchmodat" as closely as
-> possible, which says EINVAL is returned for invalid flags (as opposed to
-> ENOTSUPP, which is currently returned by glibc for AT_SYMLINK_NOFOLLOW).
-> I have a sketch of a glibc patch that I haven't even compiled yet, but
-> seems fairly straight-forward:
+--C.9.8A.110.
+Content-Type: text/plain;
+Content-Transfer-Encoding: quoted-printable
 
-What's the status here?  We'd really like to see this system call in the
-kernel because our emulation in glibc has its problems (especially if
-/proc is not mounted).
+Hello, 
 
-Thanks,
-Florian
+Greetings from Mrs. Janet Olsen, from Norway.
+ 
+Please i will like to establish some investments over there, such as Orpha=
+nage home and Hospital for Cancer patients but i don't have anyone, Who ca=
+n handle the contracts for me over there.
+
+So, I am contacting to ask you and to know if you will be able of handling=
+ the contracts for me over there and you will be rewarded bountifully.
+
+Thanks and remain good, till i hear from you soon, for the full details.
+
+Regards, 
+
+Mrs. Janet Olsen.=20
+
+--C.9.8A.110.--
 
