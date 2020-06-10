@@ -2,115 +2,109 @@ Return-Path: <linux-alpha-owner@vger.kernel.org>
 X-Original-To: lists+linux-alpha@lfdr.de
 Delivered-To: lists+linux-alpha@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id D06541F5980
-	for <lists+linux-alpha@lfdr.de>; Wed, 10 Jun 2020 18:54:15 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 4CEC31F5D68
+	for <lists+linux-alpha@lfdr.de>; Wed, 10 Jun 2020 22:52:13 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727089AbgFJQyP (ORCPT <rfc822;lists+linux-alpha@lfdr.de>);
-        Wed, 10 Jun 2020 12:54:15 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57850 "EHLO
+        id S1726542AbgFJUv5 (ORCPT <rfc822;lists+linux-alpha@lfdr.de>);
+        Wed, 10 Jun 2020 16:51:57 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38256 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726945AbgFJQyN (ORCPT
+        with ESMTP id S1726134AbgFJUv4 (ORCPT
         <rfc822;linux-alpha@vger.kernel.org>);
-        Wed, 10 Jun 2020 12:54:13 -0400
-Received: from mail-lf1-x142.google.com (mail-lf1-x142.google.com [IPv6:2a00:1450:4864:20::142])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 62C18C08C5C1
-        for <linux-alpha@vger.kernel.org>; Wed, 10 Jun 2020 09:54:10 -0700 (PDT)
-Received: by mail-lf1-x142.google.com with SMTP id x27so1852309lfg.9
-        for <linux-alpha@vger.kernel.org>; Wed, 10 Jun 2020 09:54:10 -0700 (PDT)
+        Wed, 10 Jun 2020 16:51:56 -0400
+Received: from mail-pg1-x543.google.com (mail-pg1-x543.google.com [IPv6:2607:f8b0:4864:20::543])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 40935C03E96B;
+        Wed, 10 Jun 2020 13:51:56 -0700 (PDT)
+Received: by mail-pg1-x543.google.com with SMTP id 185so1506191pgb.10;
+        Wed, 10 Jun 2020 13:51:56 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linux-foundation.org; s=google;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=PGXejVSpqx4L2PlHIfd5JVBtSOWL/TuutZfvvE958Z8=;
-        b=ZFce94Usj6EkI4Lk9l8ZbLgBKcrOaOEIKI+lsoHoWwucoH5PaFSFEUF5nSpDfmtX/m
-         zpiTKIsyT2HuVYK0uUKJl0hfSDP//4+ueTqu4gfQUH9jmW1Fx7086RKZCkNC01IFk27w
-         7I94+DibpxplQFqh0putGbec4FKBVLxsfzedA=
+        d=gmail.com; s=20161025;
+        h=sender:date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to:user-agent;
+        bh=BBQ0kH7eFUEzdi1aOvEKWX8Td5hf8bU8NRtY72Z+54M=;
+        b=D+gOK5e5N4uDHgaJEiVzXMr6VuyH27uOIfpnVLZCy5Svn8efbO2h827R3C7PSG9a6K
+         nSxI9rCKBM4+edb+ob89dSUUXQZZWJrsEl8UC/4RkIct10qQ6WfwWd8slAvfV1/HlK/4
+         ykKf76IVM/KVIwnVtOcQc5SFY3uoVQV1mOixWR7kBTjfcGeM6FFil+FjQMvZX2lH6/fD
+         gHslJ0At6A3/MekYWNpXmXm3Vi+6i8d7T3bOXM0tia17DDU08MIcYxt4wKKuf7x2IHoS
+         KvHq6vwU+GQ2TNficbOEiCmyrVYunxWWsavQXQOZAWvXa7y+sW3BAUPx/QOpU3y9HdG4
+         aA2Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=PGXejVSpqx4L2PlHIfd5JVBtSOWL/TuutZfvvE958Z8=;
-        b=ph4c2EnLkIavLVdko2td6Q/sz0yLd8Cemuj83mzTQ3j25fRel+TqABqZkqHBteB/87
-         hVp5KEnarsKyznJ/+vZoVW9aLCAjKIf/5Zi04b36S4F5lwv2zQCL4sedyPHsUSIk1XtJ
-         jyZ/1j8SL9C759XZcN4cCpvTVjPMl+R/1pbdmlugs1Rha8IWww9yxfG28qiCR0t9YKSC
-         YV84H42yDALzt+t2q2LZJCWse8dumSDQDjpASeiKMr1c6O3DUxXyd5NucB4zOGTlY079
-         o/tpsKdKgvu3TBZ3uZrvcPepCy9f7PBIWK25uLIUAGnM4W0468JVmrZl9CoOw/R6GfZj
-         /Ogg==
-X-Gm-Message-State: AOAM530HLnMvqFnOZAp5qYzT3l8V5C88UwqWRr3wFTMmQcqI0fJhtnN9
-        /q+Q0SbZ9X9KmWqCPA/LnX8vXZLDaa4=
-X-Google-Smtp-Source: ABdhPJzeV9UmHErPXPvnF+SiE2IDQzTJ+k/cyQ3mPPFrpn6N0qId7aA4zXGoPQPzcuo5HhaiAi0Alg==
-X-Received: by 2002:a19:3855:: with SMTP id d21mr2271055lfj.156.1591808047813;
-        Wed, 10 Jun 2020 09:54:07 -0700 (PDT)
-Received: from mail-lj1-f174.google.com (mail-lj1-f174.google.com. [209.85.208.174])
-        by smtp.gmail.com with ESMTPSA id 22sm73783lju.5.2020.06.10.09.54.05
-        for <linux-alpha@vger.kernel.org>
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 10 Jun 2020 09:54:06 -0700 (PDT)
-Received: by mail-lj1-f174.google.com with SMTP id x18so3385057lji.1
-        for <linux-alpha@vger.kernel.org>; Wed, 10 Jun 2020 09:54:05 -0700 (PDT)
-X-Received: by 2002:a2e:8991:: with SMTP id c17mr1979736lji.421.1591808045437;
- Wed, 10 Jun 2020 09:54:05 -0700 (PDT)
+        h=x-gm-message-state:sender:date:from:to:cc:subject:message-id
+         :references:mime-version:content-disposition:in-reply-to:user-agent;
+        bh=BBQ0kH7eFUEzdi1aOvEKWX8Td5hf8bU8NRtY72Z+54M=;
+        b=feUxUcRZDO0V8V2Ri9KHuLXhJsMS25TlTQpCqqgdDzzub3JQclq77b7HileB6BFH1b
+         PInBTWJeKdPHVc7LqUAH6rjz5isTqESF4mCfGagf+RRla7uwto1QojPiSTzAaeBUb2X5
+         WQdTVn6XJlL0mIzqHjZIOEKisDwBuMFuhuKi4Dn7DQ5WpjaMzDwkIgnz4bcUprBKCKgh
+         1Q6WFluAxsIViN4D/deJ4swnG/eEw0oVVqKXHSo+7BU3jADsz9dErwFSwcpvNvtqd6Vz
+         3tQC9/rYIPRIy4OnS4MGEAMSqlpdF9UnwQu2DUg82crwo+Qee2Rmqxv4c3bLiIUFK2GN
+         CClw==
+X-Gm-Message-State: AOAM531Kqp5F170BMz16+QvaIwKchDe4ZMBrzLh3ejOoc0VZyfmJh8f0
+        1CfJkURJOAmgWuj6m467m9Y=
+X-Google-Smtp-Source: ABdhPJxKo0OgffPzJUXcMIqo8lFX22kcJRM0lWIv/TfEFZDqsYln/aDXLO3H4Aw664SDq8TfeoQ80A==
+X-Received: by 2002:a62:7a89:: with SMTP id v131mr4254293pfc.38.1591822315664;
+        Wed, 10 Jun 2020 13:51:55 -0700 (PDT)
+Received: from localhost ([2600:1700:e321:62f0:329c:23ff:fee3:9d7c])
+        by smtp.gmail.com with ESMTPSA id x19sm793349pfo.96.2020.06.10.13.51.54
+        (version=TLS1_2 cipher=ECDHE-ECDSA-CHACHA20-POLY1305 bits=256/256);
+        Wed, 10 Jun 2020 13:51:55 -0700 (PDT)
+Date:   Wed, 10 Jun 2020 13:51:54 -0700
+From:   Guenter Roeck <linux@roeck-us.net>
+To:     Emil Velikov <emil.l.velikov@gmail.com>
+Cc:     dri-devel@lists.freedesktop.org,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Jiri Slaby <jslaby@suse.com>, linux-kernel@vger.kernel.org,
+        Richard Henderson <rth@twiddle.net>,
+        Ivan Kokshaysky <ink@jurassic.park.msu.ru>,
+        Matt Turner <mattst88@gmail.com>, linux-alpha@vger.kernel.org
+Subject: Re: [PATCH 01/11] tty/sysrq: alpha: export and use
+ __sysrq_get_key_op()
+Message-ID: <20200610205154.GA14854@roeck-us.net>
+References: <20200513214351.2138580-1-emil.l.velikov@gmail.com>
 MIME-Version: 1.0
-References: <20200610174811.44b94525@thinkpad>
-In-Reply-To: <20200610174811.44b94525@thinkpad>
-From:   Linus Torvalds <torvalds@linux-foundation.org>
-Date:   Wed, 10 Jun 2020 09:53:49 -0700
-X-Gmail-Original-Message-ID: <CAHk-=wgm0_0PjXaSVbrpDfgtn6UbDyWjSRnXvfdebweUYSZ+eA@mail.gmail.com>
-Message-ID: <CAHk-=wgm0_0PjXaSVbrpDfgtn6UbDyWjSRnXvfdebweUYSZ+eA@mail.gmail.com>
-Subject: Re: Possible duplicate page fault accounting on some archs after
- commit 4064b9827063
-To:     Gerald Schaefer <gerald.schaefer@de.ibm.com>
-Cc:     Peter Xu <peterx@redhat.com>,
-        linux-arch <linux-arch@vger.kernel.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        alpha <linux-alpha@vger.kernel.org>,
-        Linux ARM <linux-arm-kernel@lists.infradead.org>,
-        linux-hexagon@vger.kernel.org, linux-ia64@vger.kernel.org,
-        linux-m68k <linux-m68k@lists.linux-m68k.org>,
-        Michal Simek <monstr@monstr.eu>, linux-mips@vger.kernel.org,
-        Nick Hu <nickhu@andestech.com>,
-        Ley Foon Tan <ley.foon.tan@intel.com>,
-        openrisc@lists.librecores.org, linux-parisc@vger.kernel.org,
-        linux-riscv@lists.infradead.org,
-        Linux-sh list <linux-sh@vger.kernel.org>,
-        sparclinux@vger.kernel.org,
-        linux-um <linux-um@lists.infradead.org>,
-        Guan Xuetao <gxt@pku.edu.cn>, linux-xtensa@linux-xtensa.org,
-        Heiko Carstens <heiko.carstens@de.ibm.com>,
-        Andrea Arcangeli <aarcange@redhat.com>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20200513214351.2138580-1-emil.l.velikov@gmail.com>
+User-Agent: Mutt/1.9.4 (2018-02-28)
 Sender: linux-alpha-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-alpha.vger.kernel.org>
 X-Mailing-List: linux-alpha@vger.kernel.org
 
-On Wed, Jun 10, 2020 at 8:48 AM Gerald Schaefer
-<gerald.schaefer@de.ibm.com> wrote:
->
-> This was found by coincidence in s390 code, and a quick check showed that
-> there are quite a lot of other architectures that seem to be affected in a
-> similar way. I'm preparing a fix for s390, by moving the accounting behind
-> the retry loop, similar to x86. It is not completely straight-forward, so
-> I leave the fix for other archs to the respective maintainers.
+On Wed, May 13, 2020 at 10:43:41PM +0100, Emil Velikov wrote:
+> Export a pointer to the sysrq_get_key_op(). This way we can cleanly
+> unregister it, instead of the current solutions of modifuing it inplace.
+> 
+> Since __sysrq_get_key_op() is no longer used externally, let's make it
+> a static function.
+> 
+> This patch will allow us to limit access to each and every sysrq op and
+> constify the sysrq handling.
+> 
+> Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+> Cc: Jiri Slaby <jslaby@suse.com>
+> Cc: linux-kernel@vger.kernel.org
+> Cc: Richard Henderson <rth@twiddle.net>
+> Cc: Ivan Kokshaysky <ink@jurassic.park.msu.ru>
+> Cc: Matt Turner <mattst88@gmail.com>
+> Cc: linux-alpha@vger.kernel.org
+> Signed-off-by: Emil Velikov <emil.l.velikov@gmail.com>
+> ---
+> Please keep me in the CC list, as I'm not subscribed to the list.
+> 
+> IMHO it would be better if this gets merged this via the tty tree.
 
-Hmm. I wonder if we could move the handling into  handle_mm_fault() itself.
+Still observed:
 
-It's _fairly_ trivial to do on the arch side, just as long as you
-remember to make the VM_FAULT_MAJOR bit sticky like x86 does with that
+Building alpha:defconfig ... failed
+--------------
+Error log:
+<stdin>:1511:2: warning: #warning syscall clone3 not implemented [-Wcpp]
+arch/alpha/kernel/setup.c:434:13: error: initialization of 'void (*)(int)' from incompatible pointer type 'void (*)(void)' [-Werror=incompatible-pointer-types]
+  434 |  .handler = machine_halt,
+      |             ^~~~~~~~~~~~
+arch/alpha/kernel/setup.c:434:13: note: (near initialization for 'srm_sysrq_reboot_op.handler')
 
-        major |= fault & VM_FAULT_MAJOR;
+I did not see a reply to the initial report. Is this being addressed ?
 
-right after handle_mm_fault(). But it certainly doesn't seem like it
-would be hard to move into common code in handle_mm_fault() either, by
-just not doing the accounting if it's about to return VM_FAULT_RETRY
-or VM_FAULT_ERROR.
-
-That said, we want that perf_sw_event() accounting too, so we'd have
-to pass in a 'struct regs *' as well. And it's not clear which way
-accounting should go for other callers of handle_mm_fault() (ie gup
-etc).
-
-So I guess just having architectures fix it up individually and make
-sure they don't do it for retry conditions is the right thing to do..
-
-             Linus
+Guenter
