@@ -2,104 +2,82 @@ Return-Path: <linux-alpha-owner@vger.kernel.org>
 X-Original-To: lists+linux-alpha@lfdr.de
 Delivered-To: lists+linux-alpha@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 5FF391F7349
-	for <lists+linux-alpha@lfdr.de>; Fri, 12 Jun 2020 07:07:09 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id E3F1D1F7FEA
+	for <lists+linux-alpha@lfdr.de>; Sat, 13 Jun 2020 02:29:58 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726387AbgFLFHI (ORCPT <rfc822;lists+linux-alpha@lfdr.de>);
-        Fri, 12 Jun 2020 01:07:08 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53926 "EHLO
+        id S1726385AbgFMA36 (ORCPT <rfc822;lists+linux-alpha@lfdr.de>);
+        Fri, 12 Jun 2020 20:29:58 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34822 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725858AbgFLFHH (ORCPT
+        with ESMTP id S1726377AbgFMA35 (ORCPT
         <rfc822;linux-alpha@vger.kernel.org>);
-        Fri, 12 Jun 2020 01:07:07 -0400
-Received: from mail-pg1-x544.google.com (mail-pg1-x544.google.com [IPv6:2607:f8b0:4864:20::544])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CEC4AC03E96F
-        for <linux-alpha@vger.kernel.org>; Thu, 11 Jun 2020 22:07:07 -0700 (PDT)
-Received: by mail-pg1-x544.google.com with SMTP id s10so3602749pgm.0
-        for <linux-alpha@vger.kernel.org>; Thu, 11 Jun 2020 22:07:07 -0700 (PDT)
+        Fri, 12 Jun 2020 20:29:57 -0400
+Received: from mail-ej1-x641.google.com (mail-ej1-x641.google.com [IPv6:2a00:1450:4864:20::641])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id EF740C03E96F;
+        Fri, 12 Jun 2020 17:29:55 -0700 (PDT)
+Received: by mail-ej1-x641.google.com with SMTP id l12so11743239ejn.10;
+        Fri, 12 Jun 2020 17:29:55 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google;
-        h=date:from:to:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to;
-        bh=E/c/tVNZnZXtqPcvM/cRJXYwg6T3yZDLqtUKUDRTdt4=;
-        b=O6iMlj7M7cPlzLPmVV55ccyxdmoDkLHEjx9YGi+rTx/SuEeA8L0Kjs9Ne+dGwMTwbq
-         rc2ZpA3N/oYNyMbp1V99/7JChJws0nqKJfN0shrkRwbPVuIUABRpkiMLhLyjJLxaGdmP
-         ovUHtZjYkmhLf2+ypJUlrY0Jy3jRXFdlAQ+h0=
+        d=gmail.com; s=20161025;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=HombnuJvbLxDTQ6sqGxdyIkWc6G1lg94qCABceA1Ino=;
+        b=VPt/wr9bW7x5xMg3i821agO69xeL0wlCpPbQ465okWfllTGeLkNhlt+/90pxMfhr3d
+         myUX3fSJB3N2nWypqya2H9kJF4EKbVOdQeO2ye2hYmot//7HbzbrEwdJLxPBwhY/4bgm
+         2CRpCCR44bMqXlPZjvMiaK+P5nNfS+UPfTYnKEU0MhiOiKYWMVwq8TVXIIn1R8IbrPJg
+         PNj7CnoGOwV4K5W5FPJ8ilQtQeIM+tXC123TWUTSAQhrzfOwprKdHYSXL5MIrrAWcVk0
+         cJhrOWspDDeQ55dgvfFY7Y4fGSWc3TpLCzanOZXzs2/gM+FsP69b9WkPOJ34KJ5P59SP
+         Whuw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to;
-        bh=E/c/tVNZnZXtqPcvM/cRJXYwg6T3yZDLqtUKUDRTdt4=;
-        b=R3rJGniNhwu+DyOAa2No05LmeEFqZ4YlepWCgl69mbHMLL9lJPmDXl/+51YfxlrNNH
-         icmOxsGQqb7kof63zEg0Cc/muHwAi/0FgTdXObCn5JNkhve4pxNU3rhP/3kDywjtstxa
-         IBqpia+woCFuOp+LkG+axK782oCqHHBh72o/eyLPrsiipLSyQU2zSA6Xi8c8ubT0g3TH
-         B7MWplGPEjzp58q5gA8DnqT+scXyEvEwgJ+pmupqqtOqsdUIOg5QrTrOaCW7OMFSbVBf
-         0enZlgvGSaMNhwdsrXX9+kfpOTb2hHGcQVSWzDpAjulGun3EU4lYL0Ab6urYwXBYDG67
-         35cA==
-X-Gm-Message-State: AOAM5300RX6xF2718aiOvaQHA0Yu3rI13QC7eCEgSl0WgsG0je/imARp
-        l63GEOvzWqju2q8xcqBTs5t8lw==
-X-Google-Smtp-Source: ABdhPJyFBSPyYUPRAZIz7sEMo6uAmEjOuign7oI0Sc1zUD3PayBJbV8oAMHdaVR5RPSIOnhngmXDQg==
-X-Received: by 2002:a65:6883:: with SMTP id e3mr9569317pgt.5.1591938427251;
-        Thu, 11 Jun 2020 22:07:07 -0700 (PDT)
-Received: from www.outflux.net (smtp.outflux.net. [198.145.64.163])
-        by smtp.gmail.com with ESMTPSA id x126sm4664416pfc.36.2020.06.11.22.07.06
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 11 Jun 2020 22:07:06 -0700 (PDT)
-Date:   Thu, 11 Jun 2020 22:07:05 -0700
-From:   Kees Cook <keescook@chromium.org>
-To:     Michael Cree <mcree@orcon.net.nz>,
-        Matt Turner <mattst88@gmail.com>,
-        Linux-Arch <linux-arch@vger.kernel.org>,
-        LKML <linux-kernel@vger.kernel.org>,
-        linux-alpha <linux-alpha@vger.kernel.org>,
-        Richard Henderson <rth@twiddle.net>,
-        Ivan Kokshaysky <ink@jurassic.park.msu.ru>
-Subject: Re: Regression bisected to f2f84b05e02b (bug: consolidate
- warn_slowpath_fmt() usage)
-Message-ID: <202006112201.3B20AB28DC@keescook>
-References: <20200602024804.GA3776630@p50-ethernet.mattst88.com>
- <202006021052.E52618F@keescook>
- <CAEdQ38F2GP92xB2gMXTrEo-Adbbc9Cy1DWHU9yveGLzJNd2HrA@mail.gmail.com>
- <20200612044757.GA10703@tower>
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=HombnuJvbLxDTQ6sqGxdyIkWc6G1lg94qCABceA1Ino=;
+        b=h5rxoS5x2mHkRcMWVaPReNzUgPgCTvRpHCFPoXQEaNHLhnWot6cuNg3x27C9VW7k1r
+         68iK+/FUb0b6Smx3bGYZU25EYHqsnHXo/67Li+O/gm518SWvjYCtHLWq+9qB2Wl2555P
+         L/RMSPK3JmWHchEVN9Zw1FiYZ+gFo9jV2M2AJlOO4o7HsHIYBKSyfmI/CWGKbpe4wfk5
+         U7vv5ONQdDzYvryUTCzoyxFVlmBLCwRP2MhRISdxvDenSj5yZ703DvFTtB68H40cn+h/
+         8m7qSrRG0U4Scgv2rJY+cnsxPh43RYhlk1FHJtJXTjdVN3tK9yVgME1/txRGOVI0jnhT
+         U4rQ==
+X-Gm-Message-State: AOAM531ZJe+0yGh9suABbuXuB8xoW3C1S/ZoF8Ry9IdTEw5D1cimKnJ7
+        Lt4ynumeMM39Ax6DAbrMWkCWHHLSKqNoGmWfnQEMPhtd
+X-Google-Smtp-Source: ABdhPJx7X94KgqodtNOiXEGPBOHI5pEiVB0IuVvR2Ko2Hgf423ti+OcH9A+8DdYryY37rpvpqfWMLOMr+EuMabIZieg=
+X-Received: by 2002:a17:906:6403:: with SMTP id d3mr15322186ejm.386.1592008194697;
+ Fri, 12 Jun 2020 17:29:54 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20200612044757.GA10703@tower>
+References: <20200611091139.8525-1-joro@8bytes.org>
+In-Reply-To: <20200611091139.8525-1-joro@8bytes.org>
+From:   Matt Turner <mattst88@gmail.com>
+Date:   Fri, 12 Jun 2020 17:29:42 -0700
+Message-ID: <CAEdQ38G_uCPiZ5voj5QP5H0sPUZjASWLLRGQ=VYaWgo+8FekPw@mail.gmail.com>
+Subject: Re: [PATCH] alpha: Fix build around srm_sysrq_reboot_op
+To:     Joerg Roedel <joro@8bytes.org>
+Cc:     Richard Henderson <rth@twiddle.net>,
+        Ivan Kokshaysky <ink@jurassic.park.msu.ru>,
+        Linus Torvalds <torvalds@linux-foundation.org>,
+        linux-alpha <linux-alpha@vger.kernel.org>,
+        LKML <linux-kernel@vger.kernel.org>,
+        Joerg Roedel <jroedel@suse.de>,
+        Emil Velikov <emil.l.velikov@gmail.com>,
+        Guenter Roeck <linux@roeck-us.net>
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-alpha-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-alpha.vger.kernel.org>
 X-Mailing-List: linux-alpha@vger.kernel.org
 
-On Fri, Jun 12, 2020 at 04:47:57PM +1200, Michael Cree wrote:
-> On Thu, Jun 11, 2020 at 09:23:52PM -0700, Matt Turner wrote:
-> > Since I noticed earlier that using maxcpus=1 on a 2-CPU system
-> > prevented the system from hanging, I tried disabling CONFIG_SMP on my
-> > 1-CPU system as well. In doing so, I discovered that the RCU torture
-> > module (RCU_TORTURE_TEST) triggers some null pointer dereferences on
-> > Alpha when CONFIG_SMP is set, but works successfully when CONFIG_SMP
-> > is unset.
-> > 
-> > That seems likely to be a symptom of the same underlying problem that
-> > started this thread, don't you think? If so, I'll focus my attention
-> > on that.
-> 
-> I wonder if that is related to user space segfaults we are now seeing
-> on SMP systems but not UP systems while building Alpha debian-ports.
-> It's happening in the test-suites of builds of certain software
-> (such as autogen and guile) but they always build successfully with
-> the test suite passing on a UP system.
-> 
-> When investigating I seem to recall it was a NULL (or near NULL)
-> pointer dereference but couldn't make any sense of how it might
-> have got into such an obviously wrong state.
+On Thu, Jun 11, 2020 at 2:14 AM Joerg Roedel <joro@8bytes.org> wrote:
+>
+> From: Joerg Roedel <jroedel@suse.de>
+>
+> The patch introducing the struct was probably never compile tested,
+> because it sets a handler with a wrong function signature. Wrap the
+> handler into a functions with the correct signature to fix the build.
+>
+> Fixes: 0f1c9688a194 ("tty/sysrq: alpha: export and use __sysrq_get_key_op()")
+> Cc: Emil Velikov <emil.l.velikov@gmail.com>
+> Cc: Guenter Roeck <linux@roeck-us.net>
+> Signed-off-by: Joerg Roedel <jroedel@suse.de>
+> ---
 
-By some miracle, I have avoided any experience with RCU bugs. ;) If
-the RCU_TORTURE_TEST Oopses or the segfaults are repeatable and don't
-go away with the WARN patch reverted, then perhaps it might be used to
-bisect to something closer to the root cause?
-
-Given the similarity to the SMP vs UP stuff and the RCU tests, I'd agree
-that does seem like the best path to investigate.
-
--- 
-Kees Cook
+Thanks, applied.
