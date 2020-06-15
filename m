@@ -2,73 +2,94 @@ Return-Path: <linux-alpha-owner@vger.kernel.org>
 X-Original-To: lists+linux-alpha@lfdr.de
 Delivered-To: lists+linux-alpha@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id E4C371F9E8A
-	for <lists+linux-alpha@lfdr.de>; Mon, 15 Jun 2020 19:32:59 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 460201FA0C8
+	for <lists+linux-alpha@lfdr.de>; Mon, 15 Jun 2020 21:51:10 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1731193AbgFORcf (ORCPT <rfc822;lists+linux-alpha@lfdr.de>);
-        Mon, 15 Jun 2020 13:32:35 -0400
-Received: from sonic301-3.consmr.mail.bf2.yahoo.com ([74.6.129.42]:46865 "EHLO
-        sonic301-3.consmr.mail.bf2.yahoo.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1729354AbgFORcf (ORCPT
+        id S1728773AbgFOTvJ (ORCPT <rfc822;lists+linux-alpha@lfdr.de>);
+        Mon, 15 Jun 2020 15:51:09 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59668 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1728771AbgFOTvJ (ORCPT
         <rfc822;linux-alpha@vger.kernel.org>);
-        Mon, 15 Jun 2020 13:32:35 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=yahoo.com; s=s2048; t=1592242354; bh=NajTNMrfMLb6UXcjRhYpYerQX8PtVBLz0oFgaMINSWY=; h=Date:From:Reply-To:Subject:References:From:Subject; b=a1qPeJnsgR5d6Xf2FeiK+qLxCdL2WXC40YTXT8A9hy9X+YRUkqNtQBo3aI2GWCpg6EkHz6MG61bCMUh+iwjMPDq7Tlx22WIOwZ9II76tEfUTd2S95p0gScShqw9d/sPw8j0dV+swHMzMPS/PE/WqeuTAKQB75rK7N1Q0LiV1/+UphRVXkG+iIWZkdnCdlFPc6wOW2WGt8AB+E/5DMELOtXqnd4ocNtzRZ2k76VzTtAojFE7/oT7O6EsCtP+G56+8K69t5fwAcTX765BoCYuy1qEVdFfbUh4i9YmS6J6Tbbc6gl62mbmfZn8e7znWax0mLgKepOuAgrFBPKFkyfnS8Q==
-X-YMail-OSG: AjE6pkEVM1kNHBgCKC6tIuRaPfOX9h2SF7fkvjvAmN8bkpnIVLOkLZUc0LfLfr9
- bRNvuL3DCjpbasAw8jkZ0q1sr_SxgQ5L4_NKII2.ymXI2dWo.kVwcpmn.dyCCn_LceW5GcDgNjoa
- XIayuBMHhbwoPQJX3XeWEJaHvvU3fcykcu_zG_tL9QYtJa9weHhGd9hUrI0zgL7tF70mpbRabS2W
- 8EHmstrQOc037EkiYAKhWThI4lZtVT.46AZ_bcrv_MZc8pZopnqwOaZgq2P2boPWdQ14XlBfbQsx
- bf4YCxBxZJCsuzEJzJLv8ZXMu.ncmDBOnntP_73sr61kvAD.LygezY8LynMAahcH8C1bXON8CipZ
- wgTDqlUXrFNRcmrc5SFJHnxf.N4OPsCwt.s4w_gBAdynQ8bwydqSv8nxqU1TnJpe4LREs51Djz2R
- 4ckdJMOiZO5amNqxWz.2_h61grILpfC.CmtJv9Ws.0iU9mfU98q8FCtwxBV2Jq.w9seSofrONecj
- 5dB1OKbhRalJFNPnihJSOl8X08dKEtE6v8yh.SaLkVyelte7EP24xFn9xmK5MyTqUC4MEmuh5ty1
- sJAxGLkPTSufPR5v.Y3vD.gtxyrnrzTBV8UD1H2H3ul8l.s2yZrUuBK_79c8I3SpUEIlh8xCo3rQ
- ifES63ImS1QAkspkrHAK91WXkOEjAsOBQAAda8C7RroAzw6C94RRD4LTSPOG8BGHw6D5XPAXp8mF
- c8nBzcyzlbFdgGRjgD90PfkMJxUKqNpU8Typb7_SiBWBxAsHiu4AkLI3wfOsGPvex7pNJZvjF8m3
- rFeEAqeb0vJsRHR6Xn3pUgRRTw2f0lUsZi.UpTsWamlmJhmvG9hnd_a4OOrx4EuwELV7plZOwVRN
- 61Eh7K8o3JNN7LwQrrPzOTQysXGLewaopus2gcBPIuq6aBLzeU8s5CLzl4W0JDfY_ZXo5XIQdjRz
- 8VfpK26_gLDvcFrAeKv0WQvoCzebSh6mltu2CCnSHjgc3i9OQ9MtkwVYecPku__axSMYJmBELK8g
- npGNZBmuc7hJQ2JF_DHAM9weFvqPHEnEyT7ITwVK6qoyDBdgPKEERhFTQS3wJ_CiUpXWHR5aCEJv
- lFSRc8ihpWjejG1BraRpDp77GybrfXfqJZ2Hu2JKZj2zpeEt0DzhJaj2XaEwlEyVLS7EOZw0HdG8
- 9TNiVnnoZuBA_1giiIpqwti3dkmNZYH1w5jIrNq9zBuLCWpl76AwO5a2qxGkQ3qpyjnC5oi8Ue2Q
- wE624C45621PL38mw0JeDw9LRzzKWuPLIEX4GNMtgmQM1RHnRYwJrI9Vxgp6crUA9g1w-
-Received: from sonic.gate.mail.ne1.yahoo.com by sonic301.consmr.mail.bf2.yahoo.com with HTTP; Mon, 15 Jun 2020 17:32:34 +0000
-Date:   Mon, 15 Jun 2020 17:32:33 +0000 (UTC)
-From:   Ms lisa Hugh <lisahugh531@gmail.com>
-Reply-To: ms.lisahugh000@gmail.com
-Message-ID: <1271891906.798134.1592242353602@mail.yahoo.com>
-Subject: BUSINESS FROM(Ms Lisa hugh).
+        Mon, 15 Jun 2020 15:51:09 -0400
+Received: from mail-vk1-xa44.google.com (mail-vk1-xa44.google.com [IPv6:2607:f8b0:4864:20::a44])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id BBC62C061A0E;
+        Mon, 15 Jun 2020 12:51:08 -0700 (PDT)
+Received: by mail-vk1-xa44.google.com with SMTP id m23so4250157vko.2;
+        Mon, 15 Jun 2020 12:51:08 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=p8frMyV6iWiTG20peVSog6g/PzG1tE3Z1KTFpjyMuOE=;
+        b=aBNl8F1yV0Kt0lNqG18J3Q1wOXi25U9Rf2Ac41hQ9KporKHlmJEJjztkldcrgpYn6n
+         X/MA0yAXN7zo/sBLmNp6WdtkZTl3x/Ri+rxuTPqRMQ4NSMtfoRnwNDuIm9D/f9Ox7cyT
+         KdYxGbl3FNmh7WvCWTd/4XTNT2SQTFLynAOaIQNeuoteTVOiwVo7tmEsv6shA92CdnLK
+         nt/gcC6LJvHmAqj9Vyo3fHeWdSMQ+Y5jlLLV62WBTjdf2dIzdu9aj/EeDFBt3xzVlz+c
+         ULgDtI03KR1fvyw4cB/1VLkoG68wC233nQqDshoS1W1sRlNnPTm7GTA3qpKDPJGaMDmr
+         Y3dg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=p8frMyV6iWiTG20peVSog6g/PzG1tE3Z1KTFpjyMuOE=;
+        b=UNwaOOPrkwzt/HAb3E4y23ozGesQXdtAXj+3Oifc4kp1myIor6HfSFMzpFuLV88JnN
+         qUFhF0toO3YDbui8WJ/DhoWluuGyO5N2r0yyULyUOSwZjyubWfCT+KeT+vbTjuMCYB42
+         10S0fmKE09fW+0cAdo15LBwMDB0gLYgvc5yFQ9C++iVbViK4ZzugvwBdd7q2p0YmaiYN
+         0uRucUHE2PHqT7YMMXjpkED1TTMCAHmTZZ/qvymy3VZa3znmtg8CGgkAQ9nG8zjVJ25p
+         1e9I1YfzIzaw6+NwZwfEE1bDmW5rOHTo+fKYZsHfGfkIe0Vnj1JyvVd+bR1dJ+0FiAZO
+         IIaQ==
+X-Gm-Message-State: AOAM531cC/Jo9CTB//GvT9y1mjDkgyn19gE3EbdhLHd9/R1JnnCOiVrX
+        kYvV5wdWJasSlnZz6cQBG5UDNXhujv3np7tld+8=
+X-Google-Smtp-Source: ABdhPJyflqHmNb9Z0V42wEN6xfs763BQyMhIycGYtZa9uUpcgTaLfUGjC4tdKIp9+rR3PVA4ZKs7VkJbkG4YEgVhK0E=
+X-Received: by 2002:a1f:ee81:: with SMTP id m123mr19632262vkh.51.1592250667624;
+ Mon, 15 Jun 2020 12:51:07 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-References: <1271891906.798134.1592242353602.ref@mail.yahoo.com>
-X-Mailer: WebService/1.1.16119 YMailNodin Mozilla/5.0 (Windows NT 6.1; Win64; x64; rv:77.0) Gecko/20100101 Firefox/77.0
-To:     unlisted-recipients:; (no To-header on input)
+References: <20200611091139.8525-1-joro@8bytes.org>
+In-Reply-To: <20200611091139.8525-1-joro@8bytes.org>
+From:   Emil Velikov <emil.l.velikov@gmail.com>
+Date:   Mon, 15 Jun 2020 20:47:27 +0100
+Message-ID: <CACvgo526Kn5qSpmV_azf70UCYNaFbyo7LgXGQykzyQV7v=6ahg@mail.gmail.com>
+Subject: Re: [PATCH] alpha: Fix build around srm_sysrq_reboot_op
+To:     Joerg Roedel <joro@8bytes.org>
+Cc:     Richard Henderson <rth@twiddle.net>,
+        Ivan Kokshaysky <ink@jurassic.park.msu.ru>,
+        Linus Torvalds <torvalds@linux-foundation.org>,
+        linux-alpha@vger.kernel.org,
+        "Linux-Kernel@Vger. Kernel. Org" <linux-kernel@vger.kernel.org>,
+        Joerg Roedel <jroedel@suse.de>,
+        Guenter Roeck <linux@roeck-us.net>
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-alpha-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-alpha.vger.kernel.org>
 X-Mailing-List: linux-alpha@vger.kernel.org
 
+Hi all,
 
+On Thu, 11 Jun 2020 at 10:11, Joerg Roedel <joro@8bytes.org> wrote:
+>
+> From: Joerg Roedel <jroedel@suse.de>
+>
+> The patch introducing the struct was probably never compile tested,
+> because it sets a handler with a wrong function signature. Wrap the
+> handler into a functions with the correct signature to fix the build.
+>
+> Fixes: 0f1c9688a194 ("tty/sysrq: alpha: export and use __sysrq_get_key_op()")
+> Cc: Emil Velikov <emil.l.velikov@gmail.com>
+> Cc: Guenter Roeck <linux@roeck-us.net>
+> Signed-off-by: Joerg Roedel <jroedel@suse.de>
 
-Dear Friend,
+Just coming back from 10 offline days and retracing my testing ...
+Seems that I've copied the wrong .config.
+So a follow-up `make arch/alpha/kernel/setup.o' did not build
+anything... yet the command was _successful_.
 
-I am Ms Lisa hugh, work with the department of Audit and accounting manager here in the Bank(B.O.A).
+This is something that should be fixed IMHO - doing the same for
+drivers/ (for example drivers/gpu/drm/atmel-hlcdc/atmel_hlcdc_plane.o)
+results in an obvious audible error.
 
-Please i need your assistance for the transferring of thIs fund to your bank account for both of us benefit for life time investment, amount (US$4.5M DOLLARS).
+That said, apologies for the issue. I'll be more thorough and
+carefully audit the build logs for future patches.
 
-I have every inquiry details to make the bank believe you and release the fund in within 5 banking working days with your full co-operation with me for success.
-
-Note/ 50% for you why 50% for me after success of the transfer to your bank account.
-
-Below information is what i need from you so will can be reaching each other
-
-1)Full name ...
-2)Private telephone number...
-3)Age...
-4)Nationality...
-5)Occupation ...
-
-
-Thanks.
-
-Ms Lisa hugh.
+-Emil
