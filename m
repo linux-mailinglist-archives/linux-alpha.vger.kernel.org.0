@@ -2,127 +2,133 @@ Return-Path: <linux-alpha-owner@vger.kernel.org>
 X-Original-To: lists+linux-alpha@lfdr.de
 Delivered-To: lists+linux-alpha@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 314111FA2DF
-	for <lists+linux-alpha@lfdr.de>; Mon, 15 Jun 2020 23:34:40 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 94A101FA360
+	for <lists+linux-alpha@lfdr.de>; Tue, 16 Jun 2020 00:17:27 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1731566AbgFOVej (ORCPT <rfc822;lists+linux-alpha@lfdr.de>);
-        Mon, 15 Jun 2020 17:34:39 -0400
-Received: from us-smtp-1.mimecast.com ([205.139.110.61]:22377 "EHLO
-        us-smtp-1.mimecast.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1731550AbgFOVei (ORCPT
+        id S1726731AbgFOWRX (ORCPT <rfc822;lists+linux-alpha@lfdr.de>);
+        Mon, 15 Jun 2020 18:17:23 -0400
+Received: from us-smtp-2.mimecast.com ([207.211.31.81]:60019 "EHLO
+        us-smtp-delivery-1.mimecast.com" rhost-flags-OK-OK-OK-FAIL)
+        by vger.kernel.org with ESMTP id S1726515AbgFOWQV (ORCPT
         <rfc822;linux-alpha@vger.kernel.org>);
-        Mon, 15 Jun 2020 17:34:38 -0400
+        Mon, 15 Jun 2020 18:16:21 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1592256876;
+        s=mimecast20190719; t=1592259379;
         h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         to:to:cc:cc:mime-version:mime-version:
+         content-transfer-encoding:content-transfer-encoding:
          in-reply-to:in-reply-to:references:references;
-        bh=ItwxuioZVdA5XdCXR1QbAewm4+8qdb0KbH1lb+9ehrA=;
-        b=gVPACN6xO1SeIGsjRKFWvtdrnZBydlA/xLaXlBTA9ukZGl8rrSHTnjN2uogdd2Fc4Dt43t
-        N034oGy0lR/F8iU1msOQSncDNnrtFpLzDG+Yj7bkEUSC/23fQh5XZcOAkeqq2c9/GUp5z8
-        vlzphSUVDu2xnhW42LAOptOJw/OIneY=
-Received: from mail-qk1-f200.google.com (mail-qk1-f200.google.com
- [209.85.222.200]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-18-Bq7HqLBnOzOIhlQ5006Cjw-1; Mon, 15 Jun 2020 17:34:34 -0400
-X-MC-Unique: Bq7HqLBnOzOIhlQ5006Cjw-1
-Received: by mail-qk1-f200.google.com with SMTP id g72so15281056qke.18
-        for <linux-alpha@vger.kernel.org>; Mon, 15 Jun 2020 14:34:34 -0700 (PDT)
+        bh=Uy9S6zWlY4QUCbRMwtgEQKAubvhaoWQ6Csg0YCMvJi4=;
+        b=WdG/RJq1p0uPmlyY29l/spZ8SkZ0Iok/p6eFLzk/S6ui4zZsFgHWPFiq7bKIb1syvHrF8D
+        0uxa+WTnBOFVPJDXwBlaFae4QCsBb3l/WeEUIn5pRmDwdb3X0SeajKTJWlb4GquYKTf9RC
+        JYezMbDwJdehIGFdZZxiNJ50JRmmQrs=
+Received: from mail-qk1-f197.google.com (mail-qk1-f197.google.com
+ [209.85.222.197]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-463-8bOMOJuPPEC6PD6ty0gT4g-1; Mon, 15 Jun 2020 18:16:15 -0400
+X-MC-Unique: 8bOMOJuPPEC6PD6ty0gT4g-1
+Received: by mail-qk1-f197.google.com with SMTP id 140so15340789qko.23
+        for <linux-alpha@vger.kernel.org>; Mon, 15 Jun 2020 15:16:15 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to;
-        bh=ItwxuioZVdA5XdCXR1QbAewm4+8qdb0KbH1lb+9ehrA=;
-        b=agmI1iFE6UJotg80QlKi/EKiKeICf9vWyNnJzK5g83sdYIQDDxZAF7WgQu8uR08/IS
-         hawC5B+TN9NYD0k2srBvAYGAL/dtBgsPYdwcgP4RVNPseOrzidkmI3OrP9VRi1cWfigJ
-         FpsQudzahnfNAFd1j2kewDqZwI9/mmBvjfwHq5AanBf/Lr9JEa6X6vZxrvOu2aVdumJW
-         X0mdid5BImD4Tcc8pjRjMcLbdWrLQP+AKXEimVWI7nI8X4X34+dW3b8MHI2y5Jtzla1q
-         7bGyRx/QlO+8zwQq/s8pWWxeC5nLtncI6tSAdNp1ZU9PyYHWhFQW3SsC4oz/hvbVd9fj
-         Az0g==
-X-Gm-Message-State: AOAM53201n/OePwBLIyHu++C1f0795o2PYtWJQKy+E7gehMMZPpTOmJY
-        hID1PsenoBXX9D+xHKtvzZsfs20mTdhnfciscsBsQqShXJmS/4TY0fy45AivQIW4PdGCaoQ1h9g
-        ihHrCDnzLD3vgaYt9FM6wRUk=
-X-Received: by 2002:a0c:ed31:: with SMTP id u17mr25540570qvq.117.1592256874106;
-        Mon, 15 Jun 2020 14:34:34 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJz0iHGiHde51cucRTUPE7NzfM/1jQRbNlFV4ChXmFExBXup/Ay4TPRKGywEeToUwHIWcL2Psg==
-X-Received: by 2002:a0c:ed31:: with SMTP id u17mr25540552qvq.117.1592256873805;
-        Mon, 15 Jun 2020 14:34:33 -0700 (PDT)
-Received: from xz-x1 ([2607:9880:19c0:32::2])
-        by smtp.gmail.com with ESMTPSA id f30sm12961493qtb.9.2020.06.15.14.34.31
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+         :references:mime-version:content-transfer-encoding;
+        bh=Uy9S6zWlY4QUCbRMwtgEQKAubvhaoWQ6Csg0YCMvJi4=;
+        b=IppDbaJguhzP6L0K1WFaC2mujGuq4EnMJZ8GwROLE/ZEfgILd83sTllaBHJ/y4T2tu
+         eqfmPdL+reCf6pyMAAUeOfVxezP4T779KiC9RpoISF7g/QPMRDlGgSFbmaBXNToEJiR2
+         4Yv/Yx2gHHKU1uj/N2d+mDMSKgPCIqa36bX9GLgN1wOhdh633D49/SLm1QBKH4clKX89
+         LOv78XfcSuaRYmzqaVoUIFzbblgHcnv1TNVQ+/ILfWvSrlivsU8rtbpEqMnbqV/L0GLn
+         tJ+Xh6XddgZAzMGo52xMmtIt6lO0g+NNTIgkoNso0HK8qDh0ozgQ1fJj7eh2AdQ5xvwX
+         sCOg==
+X-Gm-Message-State: AOAM532+4z74KuY1o19qWIaw46Jp0TWv17ksewtmcOrSb7Y7NLdGNv+V
+        Rkujl2Xt2EhEuRYgpsFROvTPqz0DxSBHPqI21deoLKfbYh9ge3N4emwGT1dHgwB8ivl+xzIA2bR
+        MWvVErQnxL9x0mwqY060DLP8=
+X-Received: by 2002:a37:383:: with SMTP id 125mr16915090qkd.487.1592259375278;
+        Mon, 15 Jun 2020 15:16:15 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJzx2jdZbikd8ij9fO7Na7EhCsaCx+jNGFIMPDIBNn75KvLdZjW89Wj8DO9pFH/vOL7V0f2F0g==
+X-Received: by 2002:a37:383:: with SMTP id 125mr16915044qkd.487.1592259374706;
+        Mon, 15 Jun 2020 15:16:14 -0700 (PDT)
+Received: from xz-x1.hitronhub.home ([2607:9880:19c0:32::2])
+        by smtp.gmail.com with ESMTPSA id w13sm12351509qkb.91.2020.06.15.15.16.13
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 15 Jun 2020 14:34:33 -0700 (PDT)
-Date:   Mon, 15 Jun 2020 17:34:31 -0400
+        Mon, 15 Jun 2020 15:16:14 -0700 (PDT)
 From:   Peter Xu <peterx@redhat.com>
-To:     Gerald Schaefer <gerald.schaefer@de.ibm.com>
-Cc:     linux-arch@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-alpha@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-        linux-hexagon@vger.kernel.org, linux-ia64@vger.kernel.org,
-        linux-m68k@lists.linux-m68k.org, Michal Simek <monstr@monstr.eu>,
-        linux-mips@vger.kernel.org, Nick Hu <nickhu@andestech.com>,
-        Ley Foon Tan <ley.foon.tan@intel.com>,
-        openrisc@lists.librecores.org, linux-parisc@vger.kernel.org,
-        linux-riscv@lists.infradead.org, linux-sh@vger.kernel.org,
-        sparclinux@vger.kernel.org, linux-um@lists.infradead.org,
-        Guan Xuetao <gxt@pku.edu.cn>, linux-xtensa@linux-xtensa.org,
-        Heiko Carstens <heiko.carstens@de.ibm.com>,
+To:     linux-kernel@vger.kernel.org
+Cc:     Gerald Schaefer <gerald.schaefer@de.ibm.com>,
+        Andrew Morton <akpm@linux-foundation.org>, peterx@redhat.com,
         Linus Torvalds <torvalds@linux-foundation.org>,
-        Andrea Arcangeli <aarcange@redhat.com>
-Subject: Re: Possible duplicate page fault accounting on some archs after
- commit 4064b9827063
-Message-ID: <20200615213431.GC111927@xz-x1>
-References: <20200610174811.44b94525@thinkpad>
- <20200610165023.GA67179@xz-x1>
+        Andrea Arcangeli <aarcange@redhat.com>,
+        Richard Henderson <rth@twiddle.net>,
+        Ivan Kokshaysky <ink@jurassic.park.msu.ru>,
+        Matt Turner <mattst88@gmail.com>, linux-alpha@vger.kernel.org
+Subject: [PATCH 03/25] mm/alpha: Use mm_fault_accounting()
+Date:   Mon, 15 Jun 2020 18:15:45 -0400
+Message-Id: <20200615221607.7764-4-peterx@redhat.com>
+X-Mailer: git-send-email 2.26.2
+In-Reply-To: <20200615221607.7764-1-peterx@redhat.com>
+References: <20200615221607.7764-1-peterx@redhat.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <20200610165023.GA67179@xz-x1>
+Content-Transfer-Encoding: 8bit
 Sender: linux-alpha-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-alpha.vger.kernel.org>
 X-Mailing-List: linux-alpha@vger.kernel.org
 
-On Wed, Jun 10, 2020 at 12:50:23PM -0400, Peter Xu wrote:
-> On Wed, Jun 10, 2020 at 05:48:11PM +0200, Gerald Schaefer wrote:
-> > Hi,
-> 
-> Hi, Gerald,
-> 
-> > 
-> > Some architectures have their page fault accounting code inside the fault
-> > retry loop, and rely on only going through that code once. Before commit
-> > 4064b9827063 ("mm: allow VM_FAULT_RETRY for multiple times"), that was
-> > ensured by testing for and clearing FAULT_FLAG_ALLOW_RETRY.
-> > 
-> > That commit had to remove the clearing of FAULT_FLAG_ALLOW_RETRY for all
-> > architectures, and introduced a subtle change to page fault accounting
-> > logic in the affected archs. It is now possible to go through the retry
-> > loop multiple times, and the affected archs would then account multiple
-> > page faults instead of just one.
-> > 
-> > This was found by coincidence in s390 code, and a quick check showed that
-> > there are quite a lot of other architectures that seem to be affected in a
-> > similar way. I'm preparing a fix for s390, by moving the accounting behind
-> > the retry loop, similar to x86. It is not completely straight-forward, so
-> > I leave the fix for other archs to the respective maintainers.
-> 
-> Sorry for not noticing this before.  The accounting part should definitely be
-> put at least into a check against fault_flag_allow_retry_first() to mimic what
-> was done before.  And I agree it would be even better to put it after the retry
-> logic, so if any of the page faults gets a major fault, it'll be accounted as a
-> major fault which makes more sense to me, just like what x86 is doing now with:
-> 
-> 	major |= fault & VM_FAULT_MAJOR;
-> 
-> I'm not sure what's the preference of the arch maintainers, just let me know if
-> it's preferred to use a single series to address this issue for all affected
-> archs (or the archs besides s390), then I'll do.
+Use the new mm_fault_accounting() helper for page fault accounting.
 
-To make sure this won't fall through the cracks... I'll give it a shot with a
-single series to address this issue for all archs.  Although it might not be
-easy to do accounting directly in handle_mm_fault(), it might be still a chance
-to introduce a helper so the accounting can be done in general code.
+Avoid doing page fault accounting multiple times if the page fault is retried.
+Also, the perf events for page faults will be accounted too when the config has
+CONFIG_PERF_EVENTS defined.
 
-Thanks,
+CC: Richard Henderson <rth@twiddle.net>
+CC: Ivan Kokshaysky <ink@jurassic.park.msu.ru>
+CC: Matt Turner <mattst88@gmail.com>
+CC: linux-alpha@vger.kernel.org
+Signed-off-by: Peter Xu <peterx@redhat.com>
+---
+ arch/alpha/mm/fault.c | 9 ++++-----
+ 1 file changed, 4 insertions(+), 5 deletions(-)
 
+diff --git a/arch/alpha/mm/fault.c b/arch/alpha/mm/fault.c
+index c2d7b6d7bac7..4f8632ddef25 100644
+--- a/arch/alpha/mm/fault.c
++++ b/arch/alpha/mm/fault.c
+@@ -88,7 +88,7 @@ do_page_fault(unsigned long address, unsigned long mmcsr,
+ 	struct mm_struct *mm = current->mm;
+ 	const struct exception_table_entry *fixup;
+ 	int si_code = SEGV_MAPERR;
+-	vm_fault_t fault;
++	vm_fault_t fault, major = 0;
+ 	unsigned int flags = FAULT_FLAG_DEFAULT;
+ 
+ 	/* As of EV6, a load into $31/$f31 is a prefetch, and never faults
+@@ -149,6 +149,7 @@ do_page_fault(unsigned long address, unsigned long mmcsr,
+ 	   make sure we exit gracefully rather than endlessly redo
+ 	   the fault.  */
+ 	fault = handle_mm_fault(vma, address, flags);
++	major |= fault & VM_FAULT_MAJOR;
+ 
+ 	if (fault_signal_pending(fault, regs))
+ 		return;
+@@ -164,10 +165,6 @@ do_page_fault(unsigned long address, unsigned long mmcsr,
+ 	}
+ 
+ 	if (flags & FAULT_FLAG_ALLOW_RETRY) {
+-		if (fault & VM_FAULT_MAJOR)
+-			current->maj_flt++;
+-		else
+-			current->min_flt++;
+ 		if (fault & VM_FAULT_RETRY) {
+ 			flags |= FAULT_FLAG_TRIED;
+ 
+@@ -182,6 +179,8 @@ do_page_fault(unsigned long address, unsigned long mmcsr,
+ 
+ 	up_read(&mm->mmap_sem);
+ 
++	mm_fault_accounting(current, regs, address, major);
++
+ 	return;
+ 
+ 	/* Something tried to access memory that isn't in our memory map.
 -- 
-Peter Xu
+2.26.2
 
