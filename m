@@ -2,59 +2,89 @@ Return-Path: <linux-alpha-owner@vger.kernel.org>
 X-Original-To: lists+linux-alpha@lfdr.de
 Delivered-To: lists+linux-alpha@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 256FF203BDD
-	for <lists+linux-alpha@lfdr.de>; Mon, 22 Jun 2020 18:02:43 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 917BA2044B0
+	for <lists+linux-alpha@lfdr.de>; Tue, 23 Jun 2020 01:47:11 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729759AbgFVQCg (ORCPT <rfc822;lists+linux-alpha@lfdr.de>);
-        Mon, 22 Jun 2020 12:02:36 -0400
-Received: from sonic302-21.consmr.mail.ne1.yahoo.com ([66.163.186.147]:35010
-        "EHLO sonic302-21.consmr.mail.ne1.yahoo.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1729671AbgFVQCW (ORCPT
+        id S1731239AbgFVXqv (ORCPT <rfc822;lists+linux-alpha@lfdr.de>);
+        Mon, 22 Jun 2020 19:46:51 -0400
+Received: from youngberry.canonical.com ([91.189.89.112]:54784 "EHLO
+        youngberry.canonical.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1730632AbgFVXqK (ORCPT
         <rfc822;linux-alpha@vger.kernel.org>);
-        Mon, 22 Jun 2020 12:02:22 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=yahoo.com; s=s2048; t=1592841741; bh=cK2qy9Lv5SAgMg9nAvfVmkJPj46H3ss3vOVyjpHm6Nk=; h=Date:From:Reply-To:Subject:References:From:Subject; b=imnMzKvnrwdEkzevY9v55JCHWrS7mFcRp2xLflBpdsWBX5v32iTt1Jwj292Sqyxc6zTWfVf6UW3RltjDxv8H8ZAxxFg96tpPBoXA2f/GRkfTuiNcUr3yDzOGiHeT9IqR//B+9C8c9YoGDJPnAeuuKcQvLl1HS8J+STK4/r0WZ3jbtWFF0MKDjydg+AbeXShoRDHqwsqAaAi7D9jDq8wNDWBIR81puaAh7APGDPK32RqjpFS85hxXrbmotW59Gm/gC9SoLB52q4udtwMI++FS4HYmIHt+kUh9tNcMAsNUvFYo0HWMN59EiLf7lYGm/4AR40adfmghUfkmt4dYpTZmZQ==
-X-YMail-OSG: AhKkJLAVM1lDQ3XPPTTJWpEw.A_YPk4v7tBrtMEv9XTYrBN0vKxPyUyPokZyCLH
- 0NPJEnbM.Ixt5u0eXkMwZesEBqS.rCtCLJgnod2Yg.I9TXOm0suNzcmJ92mBaA3mHgRFUusjI.6E
- 3Gu4LEq019.le8uhDgpgUZ.YgtmiKAQJK6Bd4WPLqozbdEc8urSPipLpvwJTvKec65xmptWyRiVv
- 5wejfhjut7ltVV2EWvbGnxpPsKrHXW63gZY0z7W.qC8yTTTM6xXIAPM6OYdYDYNn.6t5yJFWlC1P
- OIdbZEYbWLsjaYGAZ3nhw68imywZs7JgVqTzxfR4ZQQxpuo3K8t9CM9O0hpOCt10FP__XXwyrmrD
- TCoCE7B_Edu3G.zjOUn_rksR4jYB.m1Rp.1vZ_bLxnQwCiAul5Wqfj8PNdUGzT.zvxnBCUVqWq9J
- 8hXM6oMyn8gklCF.R8KCTVo6NRJRq4thjGWIexrpJEGu0QolvkJTIALFEd6_slAReLmAOEup3xKy
- .77XY9y0L2WZlQcf1QY4ryEv90HkLK9R59Zd1MxuC8qefRgY6y6xUFmVBWO8SDJCCjnQpB48PRDP
- pRTSfD8hEjxrcMoyLQRR8ik6SRBEuL1N.zoJ2juJT7TtdJItukcqyaFlw7VOC6cm49vWb13NtnZ0
- gQ2bWEWTG5v0uAlc54_ulltpKs.Fgm6hkagBtyzunEJ52PGAuturV.LPWyLoBYPiB1KC1HlV8gI8
- yJqtTplsyPL2eALndgi_xv5WXRslUdVun50zfx9iDK5v_kT1lyZrnl7BpPa5N7roHYs5FCR3fGlt
- 00HJ7sf.lnan3Im8PEbT96k38NwI6o6wqQk3XTx1x0TOib38VwKLgaWNY916uiRI1upzFCMVqmW6
- hKW.i_z2qDWeeQaZVyBhDmfLTpSCKpEZXqJt.HWEa0uB7F6lyRoT1rQEzhMY_zbISz6YbRmtNDlq
- VLlEzjYA6uILpMVD7EkmwXGP0XOJgDIix93HShigByDXDbmOlbnVPelpKvxPRFg3gnhpf.0Rc47i
- 08Ic.liUMCD9zHGFCga9cXgoGaM8kFbRyDB3CB8uLHuuV8rIwOstkm24RLt0t3H1wtfuP85AC7r8
- v042NbRsPX1Mj80LTxFt.KStV8ND4Dc1.IiPBslhVUpEA9f2YrGnkjCHG4.U4j0M0U489djAouYX
- y9F8lECiGIH30pwUi5p9NUzViYBtaTM7ID67rbGjIKdkEdFs14rCm3KSzct0U2izLUB1NerwsRiF
- IQWasnNhp61WOxqpf4zyo6bEJMCV1B8QkTG.8HvHCcJtAwYQhWHkE5SwAzxSGopkwGBC4.Xf9
-Received: from sonic.gate.mail.ne1.yahoo.com by sonic302.consmr.mail.ne1.yahoo.com with HTTP; Mon, 22 Jun 2020 16:02:21 +0000
-Date:   Mon, 22 Jun 2020 16:02:19 +0000 (UTC)
-From:   Karim Zakari <kariim1960z@gmail.com>
-Reply-To: kzakari04@gmail.com
-Message-ID: <1507214802.1850985.1592841739314@mail.yahoo.com>
-Subject: URGENT REPLY.
+        Mon, 22 Jun 2020 19:46:10 -0400
+Received: from ip5f5af08c.dynamic.kabel-deutschland.de ([95.90.240.140] helo=wittgenstein.fritz.box)
+        by youngberry.canonical.com with esmtpsa (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+        (Exim 4.86_2)
+        (envelope-from <christian.brauner@ubuntu.com>)
+        id 1jnW8e-0005DO-Lz; Mon, 22 Jun 2020 23:46:08 +0000
+From:   Christian Brauner <christian.brauner@ubuntu.com>
+To:     linux-kernel@vger.kernel.org
+Cc:     Linus Torvalds <torvalds@linux-foundation.org>,
+        Christian Brauner <christian.brauner@ubuntu.com>,
+        linux-alpha@vger.kernel.org
+Subject: [PATCH 09/17] alpha: switch to copy_thread_tls()
+Date:   Tue, 23 Jun 2020 01:43:18 +0200
+Message-Id: <20200622234326.906346-10-christian.brauner@ubuntu.com>
+X-Mailer: git-send-email 2.27.0
+In-Reply-To: <20200622234326.906346-1-christian.brauner@ubuntu.com>
+References: <20200622234326.906346-1-christian.brauner@ubuntu.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-References: <1507214802.1850985.1592841739314.ref@mail.yahoo.com>
-X-Mailer: WebService/1.1.16138 YMailNodin Mozilla/5.0 (Windows NT 6.1; ) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/83.0.4103.106 Safari/537.36
-To:     unlisted-recipients:; (no To-header on input)
+Content-Transfer-Encoding: 8bit
 Sender: linux-alpha-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-alpha.vger.kernel.org>
 X-Mailing-List: linux-alpha@vger.kernel.org
 
+Use the copy_thread_tls() calling convention which passes tls through a
+register. This is required so we can remove the copy_thread{_tls}() split
+and remove the HAVE_COPY_THREAD_TLS macro.
 
+Cc: linux-alpha@vger.kernel.org
+Signed-off-by: Christian Brauner <christian.brauner@ubuntu.com>
+---
+ arch/alpha/Kconfig          | 1 +
+ arch/alpha/kernel/process.c | 9 ++++-----
+ 2 files changed, 5 insertions(+), 5 deletions(-)
 
-Good-Day Friend,
+diff --git a/arch/alpha/Kconfig b/arch/alpha/Kconfig
+index 10862c5a8c76..b01515c6b2ed 100644
+--- a/arch/alpha/Kconfig
++++ b/arch/alpha/Kconfig
+@@ -38,6 +38,7 @@ config ALPHA
+ 	select OLD_SIGSUSPEND
+ 	select CPU_NO_EFFICIENT_FFS if !ALPHA_EV67
+ 	select MMU_GATHER_NO_RANGE
++	select HAVE_COPY_THREAD_TLS
+ 	help
+ 	  The Alpha is a 64-bit general-purpose processor designed and
+ 	  marketed by the Digital Equipment Corporation of blessed memory,
+diff --git a/arch/alpha/kernel/process.c b/arch/alpha/kernel/process.c
+index b45f0b0d6511..dfdb6b6ba61c 100644
+--- a/arch/alpha/kernel/process.c
++++ b/arch/alpha/kernel/process.c
+@@ -233,10 +233,9 @@ release_thread(struct task_struct *dead_task)
+ /*
+  * Copy architecture-specific thread state
+  */
+-int
+-copy_thread(unsigned long clone_flags, unsigned long usp,
+-	    unsigned long kthread_arg,
+-	    struct task_struct *p)
++int copy_thread_tls(unsigned long clone_flags, unsigned long usp,
++		    unsigned long kthread_arg, struct task_struct *p,
++		    unsigned long tls)
+ {
+ 	extern void ret_from_fork(void);
+ 	extern void ret_from_kernel_thread(void);
+@@ -267,7 +266,7 @@ copy_thread(unsigned long clone_flags, unsigned long usp,
+ 	   required for proper operation in the case of a threaded
+ 	   application calling fork.  */
+ 	if (clone_flags & CLONE_SETTLS)
+-		childti->pcb.unique = regs->r20;
++		childti->pcb.unique = tls;
+ 	else
+ 		regs->r20 = 0;	/* OSF/1 has some strange fork() semantics.  */
+ 	childti->pcb.usp = usp ?: rdusp();
+-- 
+2.27.0
 
- Hope you are doing great Today. I have a proposed business deal worthy (US$16.5 Million Dollars) that will benefit both parties. This is legitimate' legal and your personality will not be compromised.
-
-Waiting for your response for more details, As you are willing to execute this business opportunity with me.
-
-Sincerely Yours,
-Mr. Karim Zakari.
