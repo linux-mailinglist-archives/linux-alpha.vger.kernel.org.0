@@ -2,133 +2,59 @@ Return-Path: <linux-alpha-owner@vger.kernel.org>
 X-Original-To: lists+linux-alpha@lfdr.de
 Delivered-To: lists+linux-alpha@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 8334B2013EA
-	for <lists+linux-alpha@lfdr.de>; Fri, 19 Jun 2020 18:08:03 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 256FF203BDD
+	for <lists+linux-alpha@lfdr.de>; Mon, 22 Jun 2020 18:02:43 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2392182AbgFSQFu (ORCPT <rfc822;lists+linux-alpha@lfdr.de>);
-        Fri, 19 Jun 2020 12:05:50 -0400
-Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:52748 "EHLO
-        us-smtp-1.mimecast.com" rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org
-        with ESMTP id S2390684AbgFSQFr (ORCPT
+        id S1729759AbgFVQCg (ORCPT <rfc822;lists+linux-alpha@lfdr.de>);
+        Mon, 22 Jun 2020 12:02:36 -0400
+Received: from sonic302-21.consmr.mail.ne1.yahoo.com ([66.163.186.147]:35010
+        "EHLO sonic302-21.consmr.mail.ne1.yahoo.com" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1729671AbgFVQCW (ORCPT
         <rfc822;linux-alpha@vger.kernel.org>);
-        Fri, 19 Jun 2020 12:05:47 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1592582746;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:
-         content-transfer-encoding:content-transfer-encoding:
-         in-reply-to:in-reply-to:references:references;
-        bh=QX5XNFqam9mdd/6wKfca40oUCGNepMLO5UWfniIypyY=;
-        b=U7o1PjzDnM3p1y0awnDYV/kUTfCHPLw9IN6O24H3V5k3oxF9+ioICVlrd/h0yOAd8rjmbI
-        CEn7HQ76Mi9W1EP8SD7l9GDpr1XlHIH3Yx+LXnUbL1JuP9bWdmMXtLsafXr6fx6gAh2aPa
-        klpVixnKhcM6ezZDE/fic0o6VF7r5+g=
-Received: from mail-qv1-f69.google.com (mail-qv1-f69.google.com
- [209.85.219.69]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-450-ByJtQqEvMuS_5cgd9eEotQ-1; Fri, 19 Jun 2020 12:05:45 -0400
-X-MC-Unique: ByJtQqEvMuS_5cgd9eEotQ-1
-Received: by mail-qv1-f69.google.com with SMTP id t20so7019742qvy.16
-        for <linux-alpha@vger.kernel.org>; Fri, 19 Jun 2020 09:05:43 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references:mime-version:content-transfer-encoding;
-        bh=QX5XNFqam9mdd/6wKfca40oUCGNepMLO5UWfniIypyY=;
-        b=QIDth1bbig1xTtviXPOsVtydmQqbiLimeeXzf59qbqODjcJCV6H8qaWJAiqYd1hRr5
-         Ma3/0FyGGZZHJsPWJNR+s6uJ6lvF2MqORKI1lQtbgV/8MTAGYbEafKtF0rnosfov/ROU
-         21ZAMAQH0XtloDTtzF188bniOMuR2ccmKnGpfPLCUA+yL0vjjqgfuQnIOXN3B07XGc+0
-         PSXkLARawLabsfXfm1jEI5PEISyNtWSb5e+BxcrbK3pTldBm+ASqu+Ma4/gxhRKX7AIp
-         mLMFkw80V230M0YCcoCuQkcXuDdB+/KvYXt7wIaO8DEQAIQpr+6C+kriHRv+q0oUuXqj
-         RBeg==
-X-Gm-Message-State: AOAM532D6Eil/hGi2gOautFC6D6/YxkWp8ou8nkcBCfwKbLQ6kh8N3VC
-        pqb0Bp8UXQzmQZU88l5SkHp+7e6U/xPNMWhM2rpKoMeDuK/Q+NROpgrZ0wQXsCT+mNwdGfKF280
-        RNZxVy9WO9qhoMKEUS78D11w=
-X-Received: by 2002:ae9:df84:: with SMTP id t126mr4010336qkf.420.1592582743575;
-        Fri, 19 Jun 2020 09:05:43 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJxXJk79qIDPkgg9Bu+gM9Xo3p9+ll31vLKTGG+uA4L1k/Aqbh37gU+sPivXDad1xaGVNQjOFg==
-X-Received: by 2002:ae9:df84:: with SMTP id t126mr4010307qkf.420.1592582743346;
-        Fri, 19 Jun 2020 09:05:43 -0700 (PDT)
-Received: from xz-x1.redhat.com ([2607:9880:19c0:32::2])
-        by smtp.gmail.com with ESMTPSA id g11sm6412604qkk.123.2020.06.19.09.05.41
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 19 Jun 2020 09:05:42 -0700 (PDT)
-From:   Peter Xu <peterx@redhat.com>
-To:     linux-kernel@vger.kernel.org, linux-mm@kvack.org
-Cc:     Gerald Schaefer <gerald.schaefer@de.ibm.com>, peterx@redhat.com,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Andrea Arcangeli <aarcange@redhat.com>,
-        Will Deacon <will@kernel.org>,
-        Michael Ellerman <mpe@ellerman.id.au>,
-        Linus Torvalds <torvalds@linux-foundation.org>,
-        Richard Henderson <rth@twiddle.net>,
-        Ivan Kokshaysky <ink@jurassic.park.msu.ru>,
-        Matt Turner <mattst88@gmail.com>, linux-alpha@vger.kernel.org
-Subject: [PATCH 02/26] mm/alpha: Use general page fault accounting
-Date:   Fri, 19 Jun 2020 12:05:14 -0400
-Message-Id: <20200619160538.8641-3-peterx@redhat.com>
-X-Mailer: git-send-email 2.26.2
-In-Reply-To: <20200619160538.8641-1-peterx@redhat.com>
-References: <20200619160538.8641-1-peterx@redhat.com>
+        Mon, 22 Jun 2020 12:02:22 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=yahoo.com; s=s2048; t=1592841741; bh=cK2qy9Lv5SAgMg9nAvfVmkJPj46H3ss3vOVyjpHm6Nk=; h=Date:From:Reply-To:Subject:References:From:Subject; b=imnMzKvnrwdEkzevY9v55JCHWrS7mFcRp2xLflBpdsWBX5v32iTt1Jwj292Sqyxc6zTWfVf6UW3RltjDxv8H8ZAxxFg96tpPBoXA2f/GRkfTuiNcUr3yDzOGiHeT9IqR//B+9C8c9YoGDJPnAeuuKcQvLl1HS8J+STK4/r0WZ3jbtWFF0MKDjydg+AbeXShoRDHqwsqAaAi7D9jDq8wNDWBIR81puaAh7APGDPK32RqjpFS85hxXrbmotW59Gm/gC9SoLB52q4udtwMI++FS4HYmIHt+kUh9tNcMAsNUvFYo0HWMN59EiLf7lYGm/4AR40adfmghUfkmt4dYpTZmZQ==
+X-YMail-OSG: AhKkJLAVM1lDQ3XPPTTJWpEw.A_YPk4v7tBrtMEv9XTYrBN0vKxPyUyPokZyCLH
+ 0NPJEnbM.Ixt5u0eXkMwZesEBqS.rCtCLJgnod2Yg.I9TXOm0suNzcmJ92mBaA3mHgRFUusjI.6E
+ 3Gu4LEq019.le8uhDgpgUZ.YgtmiKAQJK6Bd4WPLqozbdEc8urSPipLpvwJTvKec65xmptWyRiVv
+ 5wejfhjut7ltVV2EWvbGnxpPsKrHXW63gZY0z7W.qC8yTTTM6xXIAPM6OYdYDYNn.6t5yJFWlC1P
+ OIdbZEYbWLsjaYGAZ3nhw68imywZs7JgVqTzxfR4ZQQxpuo3K8t9CM9O0hpOCt10FP__XXwyrmrD
+ TCoCE7B_Edu3G.zjOUn_rksR4jYB.m1Rp.1vZ_bLxnQwCiAul5Wqfj8PNdUGzT.zvxnBCUVqWq9J
+ 8hXM6oMyn8gklCF.R8KCTVo6NRJRq4thjGWIexrpJEGu0QolvkJTIALFEd6_slAReLmAOEup3xKy
+ .77XY9y0L2WZlQcf1QY4ryEv90HkLK9R59Zd1MxuC8qefRgY6y6xUFmVBWO8SDJCCjnQpB48PRDP
+ pRTSfD8hEjxrcMoyLQRR8ik6SRBEuL1N.zoJ2juJT7TtdJItukcqyaFlw7VOC6cm49vWb13NtnZ0
+ gQ2bWEWTG5v0uAlc54_ulltpKs.Fgm6hkagBtyzunEJ52PGAuturV.LPWyLoBYPiB1KC1HlV8gI8
+ yJqtTplsyPL2eALndgi_xv5WXRslUdVun50zfx9iDK5v_kT1lyZrnl7BpPa5N7roHYs5FCR3fGlt
+ 00HJ7sf.lnan3Im8PEbT96k38NwI6o6wqQk3XTx1x0TOib38VwKLgaWNY916uiRI1upzFCMVqmW6
+ hKW.i_z2qDWeeQaZVyBhDmfLTpSCKpEZXqJt.HWEa0uB7F6lyRoT1rQEzhMY_zbISz6YbRmtNDlq
+ VLlEzjYA6uILpMVD7EkmwXGP0XOJgDIix93HShigByDXDbmOlbnVPelpKvxPRFg3gnhpf.0Rc47i
+ 08Ic.liUMCD9zHGFCga9cXgoGaM8kFbRyDB3CB8uLHuuV8rIwOstkm24RLt0t3H1wtfuP85AC7r8
+ v042NbRsPX1Mj80LTxFt.KStV8ND4Dc1.IiPBslhVUpEA9f2YrGnkjCHG4.U4j0M0U489djAouYX
+ y9F8lECiGIH30pwUi5p9NUzViYBtaTM7ID67rbGjIKdkEdFs14rCm3KSzct0U2izLUB1NerwsRiF
+ IQWasnNhp61WOxqpf4zyo6bEJMCV1B8QkTG.8HvHCcJtAwYQhWHkE5SwAzxSGopkwGBC4.Xf9
+Received: from sonic.gate.mail.ne1.yahoo.com by sonic302.consmr.mail.ne1.yahoo.com with HTTP; Mon, 22 Jun 2020 16:02:21 +0000
+Date:   Mon, 22 Jun 2020 16:02:19 +0000 (UTC)
+From:   Karim Zakari <kariim1960z@gmail.com>
+Reply-To: kzakari04@gmail.com
+Message-ID: <1507214802.1850985.1592841739314@mail.yahoo.com>
+Subject: URGENT REPLY.
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+References: <1507214802.1850985.1592841739314.ref@mail.yahoo.com>
+X-Mailer: WebService/1.1.16138 YMailNodin Mozilla/5.0 (Windows NT 6.1; ) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/83.0.4103.106 Safari/537.36
+To:     unlisted-recipients:; (no To-header on input)
 Sender: linux-alpha-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-alpha.vger.kernel.org>
 X-Mailing-List: linux-alpha@vger.kernel.org
 
-Use the general page fault accounting by passing regs into handle_mm_fault().
 
-Add the missing PERF_COUNT_SW_PAGE_FAULTS perf events too.  Note, the other two
-perf events (PERF_COUNT_SW_PAGE_FAULTS_[MAJ|MIN]) were done in handle_mm_fault().
 
-CC: Richard Henderson <rth@twiddle.net>
-CC: Ivan Kokshaysky <ink@jurassic.park.msu.ru>
-CC: Matt Turner <mattst88@gmail.com>
-CC: linux-alpha@vger.kernel.org
-Signed-off-by: Peter Xu <peterx@redhat.com>
----
- arch/alpha/mm/fault.c | 8 +++-----
- 1 file changed, 3 insertions(+), 5 deletions(-)
+Good-Day Friend,
 
-diff --git a/arch/alpha/mm/fault.c b/arch/alpha/mm/fault.c
-index 82e72f24486e..2e325af081bc 100644
---- a/arch/alpha/mm/fault.c
-+++ b/arch/alpha/mm/fault.c
-@@ -25,6 +25,7 @@
- #include <linux/interrupt.h>
- #include <linux/extable.h>
- #include <linux/uaccess.h>
-+#include <linux/perf_event.h>
- 
- extern void die_if_kernel(char *,struct pt_regs *,long, unsigned long *);
- 
-@@ -116,6 +117,7 @@ do_page_fault(unsigned long address, unsigned long mmcsr,
- #endif
- 	if (user_mode(regs))
- 		flags |= FAULT_FLAG_USER;
-+	perf_sw_event(PERF_COUNT_SW_PAGE_FAULTS, 1, regs, address);
- retry:
- 	down_read(&mm->mmap_sem);
- 	vma = find_vma(mm, address);
-@@ -148,7 +150,7 @@ do_page_fault(unsigned long address, unsigned long mmcsr,
- 	/* If for any reason at all we couldn't handle the fault,
- 	   make sure we exit gracefully rather than endlessly redo
- 	   the fault.  */
--	fault = handle_mm_fault(vma, address, flags, NULL);
-+	fault = handle_mm_fault(vma, address, flags, regs);
- 
- 	if (fault_signal_pending(fault, regs))
- 		return;
-@@ -164,10 +166,6 @@ do_page_fault(unsigned long address, unsigned long mmcsr,
- 	}
- 
- 	if (flags & FAULT_FLAG_ALLOW_RETRY) {
--		if (fault & VM_FAULT_MAJOR)
--			current->maj_flt++;
--		else
--			current->min_flt++;
- 		if (fault & VM_FAULT_RETRY) {
- 			flags |= FAULT_FLAG_TRIED;
- 
--- 
-2.26.2
+ Hope you are doing great Today. I have a proposed business deal worthy (US$16.5 Million Dollars) that will benefit both parties. This is legitimate' legal and your personality will not be compromised.
 
+Waiting for your response for more details, As you are willing to execute this business opportunity with me.
+
+Sincerely Yours,
+Mr. Karim Zakari.
