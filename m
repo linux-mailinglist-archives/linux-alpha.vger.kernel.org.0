@@ -2,58 +2,142 @@ Return-Path: <linux-alpha-owner@vger.kernel.org>
 X-Original-To: lists+linux-alpha@lfdr.de
 Delivered-To: lists+linux-alpha@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id DFEEF20C51B
-	for <lists+linux-alpha@lfdr.de>; Sun, 28 Jun 2020 03:05:20 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 1385E20C695
+	for <lists+linux-alpha@lfdr.de>; Sun, 28 Jun 2020 09:00:30 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726666AbgF1BFS convert rfc822-to-8bit (ORCPT
-        <rfc822;lists+linux-alpha@lfdr.de>); Sat, 27 Jun 2020 21:05:18 -0400
-Received: from mx2.uwb.edu.pl ([212.33.71.232]:37746 "EHLO mx2.uwb.edu.pl"
+        id S1726000AbgF1HAQ (ORCPT <rfc822;lists+linux-alpha@lfdr.de>);
+        Sun, 28 Jun 2020 03:00:16 -0400
+Received: from mail.kernel.org ([198.145.29.99]:51372 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726101AbgF1BFS (ORCPT <rfc822;linux-alpha@vger.kernel.org>);
-        Sat, 27 Jun 2020 21:05:18 -0400
-X-Greylist: delayed 363 seconds by postgrey-1.27 at vger.kernel.org; Sat, 27 Jun 2020 21:05:17 EDT
-Received: from sun.uwb.edu.pl (sun.uwb.edu.pl [212.33.71.69])
-        by mx2.uwb.edu.pl (Postfix) with ESMTP id 995553037CA;
-        Sun, 28 Jun 2020 02:58:47 +0200 (CEST)
-Received: from sun.uwb.edu.pl (localhost [127.0.0.1])
-        by sun.uwb.edu.pl (Postfix) with ESMTP id 67F8D2402ED;
-        Sun, 28 Jun 2020 02:58:47 +0200 (CEST)
-X-Virus-Scanned: Debian amavisd-new at sun.uwb.edu.pl
-Received: from sun.uwb.edu.pl ([127.0.0.1])
-        by sun.uwb.edu.pl (sun.uwb.edu.pl [127.0.0.1]) (amavisd-new, port 10024)
-        with ESMTP id zNfJqvgi36Cq; Sun, 28 Jun 2020 02:58:47 +0200 (CEST)
-Received: from [100.120.128.60] (unknown [45.87.184.74])
-        by sun.uwb.edu.pl (Postfix) with ESMTPSA id EA48F2404DC;
-        Sun, 28 Jun 2020 02:56:22 +0200 (CEST)
-Content-Type: text/plain; charset="iso-8859-1"
+        id S1725975AbgF1HAM (ORCPT <rfc822;linux-alpha@vger.kernel.org>);
+        Sun, 28 Jun 2020 03:00:12 -0400
+Received: from kernel.org (unknown [87.71.40.38])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by mail.kernel.org (Postfix) with ESMTPSA id D042720702;
+        Sun, 28 Jun 2020 06:59:55 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=default; t=1593327604;
+        bh=hu/tW2f/lIs0zzXJSvCrgwdLd0PRG2JIRHvUCcaAjqM=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=Qm3qqF3d78J/gFOwv6YVJb71itb3mymeRhGcaLrkXQY5dETAmGwNnfv+uXEMscIi2
+         mPZsATFBdJNygr2fnTWo/ejLleXfIjFaiD5KXp/1ygh8w33HlLwG0oN/C/qRCb8sbq
+         bU6JOX1KtJfeNxxfnsJIYZnBX1A1gh84k+HeVxCY=
+Date:   Sun, 28 Jun 2020 09:59:51 +0300
+From:   Mike Rapoport <rppt@kernel.org>
+To:     Matthew Wilcox <willy@infradead.org>
+Cc:     linux-kernel@vger.kernel.org,
+        Abdul Haleem <abdhalee@linux.vnet.ibm.com>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Andy Lutomirski <luto@kernel.org>,
+        Arnd Bergmann <arnd@arndb.de>,
+        Christophe Leroy <christophe.leroy@csgroup.eu>,
+        Joerg Roedel <joro@8bytes.org>,
+        Max Filippov <jcmvbkbc@gmail.com>,
+        Mike Rapoport <rppt@linux.ibm.com>,
+        Peter Zijlstra <peterz@infradead.org>,
+        Satheesh Rajendran <sathnaga@linux.vnet.ibm.com>,
+        Stafford Horne <shorne@gmail.com>,
+        Stephen Rothwell <sfr@canb.auug.org.au>,
+        Steven Rostedt <rostedt@goodmis.org>,
+        linux-alpha@vger.kernel.org, linux-arch@vger.kernel.org,
+        linux-arm-kernel@lists.infradead.org, linux-csky@vger.kernel.org,
+        linux-hexagon@vger.kernel.org, linux-ia64@vger.kernel.org,
+        linux-m68k@lists.linux-m68k.org, linux-mips@vger.kernel.org,
+        linux-mm@kvack.org, linux-parisc@vger.kernel.org,
+        linux-riscv@lists.infradead.org, linux-s390@vger.kernel.org,
+        linux-sh@vger.kernel.org, linux-snps-arc@lists.infradead.org,
+        linux-um@lists.infradead.org, linux-xtensa@linux-xtensa.org,
+        linuxppc-dev@lists.ozlabs.org, openrisc@lists.librecores.org,
+        sparclinux@vger.kernel.org
+Subject: Re: [PATCH 9/8] mm: Account PMD tables like PTE tables
+Message-ID: <20200628065951.GB576120@kernel.org>
+References: <20200627143453.31835-1-rppt@kernel.org>
+ <20200627184642.GF25039@casper.infradead.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8BIT
-Content-Description: Mail message body
-Subject: Hallo
-To:     Recipients <adaniluk@uwb.edu.pl>
-From:   "William Yun" <adaniluk@uwb.edu.pl>
-Date:   Sun, 28 Jun 2020 03:56:05 +0300
-Reply-To: william.yun312@gmail.com
-X-Antivirus: Avast (VPS 200627-8, 06/27/2020), Outbound message
-X-Antivirus-Status: Clean
-Message-Id: <20200628005847.67F8D2402ED@sun.uwb.edu.pl>
-X-UwB_mx2-MailScanner-Information: Please contact the ISP for more information
-X-UwB_mx2-MailScanner-ID: 995553037CA.A257A
-X-UwB_mx2-MailScanner: Found to be clean
-X-UwB_mx2-MailScanner-From: adaniluk@uwb.edu.pl
-X-Spam-Status: No
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20200627184642.GF25039@casper.infradead.org>
 Sender: linux-alpha-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-alpha.vger.kernel.org>
 X-Mailing-List: linux-alpha@vger.kernel.org
 
-Hallo, ich habe ein Geschäft von 24,5 Mio. USD, das ich mit Ihnen teilen kann. Wenn Sie interessiert sind? Bitte schreibe zurück und ich werde dir mehr Details geben.
+On Sat, Jun 27, 2020 at 07:46:42PM +0100, Matthew Wilcox wrote:
+> We account the PTE level of the page tables to the process in order to
+> make smarter OOM decisions and help diagnose why memory is fragmented.
+> For these same reasons, we should account pages allocated for PMDs.
+> With larger process address spaces and ASLR, the number of PMDs in use
+> is higher than it used to be so the inaccuracy is starting to matter.
+> 
+> Signed-off-by: Matthew Wilcox (Oracle) <willy@infradead.org>
 
-Grüße,
+Reviewed-by: Mike Rapoport <rppt@linux.ibm.com>
 
-William.
+> ---
+>  include/linux/mm.h | 24 ++++++++++++++++++++----
+>  1 file changed, 20 insertions(+), 4 deletions(-)
+> 
+> diff --git a/include/linux/mm.h b/include/linux/mm.h
+> index dc7b87310c10..b283e25fcffa 100644
+> --- a/include/linux/mm.h
+> +++ b/include/linux/mm.h
+> @@ -2271,7 +2271,7 @@ static inline spinlock_t *pmd_lockptr(struct mm_struct *mm, pmd_t *pmd)
+>  	return ptlock_ptr(pmd_to_page(pmd));
+>  }
+>  
+> -static inline bool pgtable_pmd_page_ctor(struct page *page)
+> +static inline bool pmd_ptlock_init(struct page *page)
+>  {
+>  #ifdef CONFIG_TRANSPARENT_HUGEPAGE
+>  	page->pmd_huge_pte = NULL;
+> @@ -2279,7 +2279,7 @@ static inline bool pgtable_pmd_page_ctor(struct page *page)
+>  	return ptlock_init(page);
+>  }
+>  
+> -static inline void pgtable_pmd_page_dtor(struct page *page)
+> +static inline void pmd_ptlock_free(struct page *page)
+>  {
+>  #ifdef CONFIG_TRANSPARENT_HUGEPAGE
+>  	VM_BUG_ON_PAGE(page->pmd_huge_pte, page);
+> @@ -2296,8 +2296,8 @@ static inline spinlock_t *pmd_lockptr(struct mm_struct *mm, pmd_t *pmd)
+>  	return &mm->page_table_lock;
+>  }
+>  
+> -static inline bool pgtable_pmd_page_ctor(struct page *page) { return true; }
+> -static inline void pgtable_pmd_page_dtor(struct page *page) {}
+> +static inline bool pmd_ptlock_init(struct page *page) { return true; }
+> +static inline void pmd_ptlock_free(struct page *page) {}
+>  
+>  #define pmd_huge_pte(mm, pmd) ((mm)->pmd_huge_pte)
+>  
+> @@ -2310,6 +2310,22 @@ static inline spinlock_t *pmd_lock(struct mm_struct *mm, pmd_t *pmd)
+>  	return ptl;
+>  }
+>  
+> +static inline bool pgtable_pmd_page_ctor(struct page *page)
+> +{
+> +	if (!pmd_ptlock_init(page))
+> +		return false;
+> +	__SetPageTable(page);
+> +	inc_zone_page_state(page, NR_PAGETABLE);
+> +	return true;
+> +}
+> +
+> +static inline void pgtable_pmd_page_dtor(struct page *page)
+> +{
+> +	pmd_ptlock_free(page);
+> +	__ClearPageTable(page);
+> +	dec_zone_page_state(page, NR_PAGETABLE);
+> +}
+> +
+>  /*
+>   * No scalability reason to split PUD locks yet, but follow the same pattern
+>   * as the PMD locks to make it easier if we decide to.  The VM should not be
+> -- 
+> 2.27.0
+> 
 
 -- 
-This email has been checked for viruses by Avast antivirus software.
-https://www.avast.com/antivirus
-
+Sincerely yours,
+Mike.
