@@ -2,105 +2,68 @@ Return-Path: <linux-alpha-owner@vger.kernel.org>
 X-Original-To: lists+linux-alpha@lfdr.de
 Delivered-To: lists+linux-alpha@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id C961920D639
-	for <lists+linux-alpha@lfdr.de>; Mon, 29 Jun 2020 22:05:05 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 79D1520F108
+	for <lists+linux-alpha@lfdr.de>; Tue, 30 Jun 2020 10:58:54 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727101AbgF2TSW (ORCPT <rfc822;lists+linux-alpha@lfdr.de>);
-        Mon, 29 Jun 2020 15:18:22 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44294 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1731870AbgF2TRm (ORCPT
-        <rfc822;linux-alpha@vger.kernel.org>);
-        Mon, 29 Jun 2020 15:17:42 -0400
-Received: from mail-ot1-x343.google.com (mail-ot1-x343.google.com [IPv6:2607:f8b0:4864:20::343])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9B8E7C0307A1;
-        Mon, 29 Jun 2020 08:42:39 -0700 (PDT)
-Received: by mail-ot1-x343.google.com with SMTP id t18so3124611otq.5;
-        Mon, 29 Jun 2020 08:42:39 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=ByBiz3Yf8Ie7OVrqv/Mz9cEMnJyRfxViWcmC4BsTpCo=;
-        b=hE0uYABTBummnjR4Ws7/8m9VVzWu3XAHX7c2WGmbGrae6o+12esgMGqEHBl4sl73+C
-         AToMRiaGu1UVkN6DOweDnKiho6a8hv9J3XvoKydijrHEboTGALRT/TGeQckwC85r+b4J
-         2Zw18I8VuJDeNxe3bifM4EJtPrXvUqSlhjN1qO2qKunLb61XO2XoQcnD32wfqTCgt4M4
-         qD5BwJwOaUF+gQPy18XRVJlH05V+T7VbWoBAjJKR6IJZzaQwjLTk14QaP1C47epEVNId
-         N8NjARUfAf/n6uX5Qr3IgkkCHJdghf7za3mZIYyyIDv8CttxvvDCJw+1wK4I4eGBWt50
-         P2cA==
-X-Gm-Message-State: AOAM533m/nSIvlk6XUAXMgV8JRrLeMfpbqqzPNRNzbHEdYH+T3ZNHbdE
-        MVvWhQJ4846m4ksPjwoaF6YS5nNSR8//g+GmAMg=
-X-Google-Smtp-Source: ABdhPJzZv9yrcqjQPIqNSuZYxDZ0MHssHdmPppPpB4X3a0jGl41oFltbqUVWyGPYv/nioiv+o7pFkroyCV6uhkj/ZSQ=
-X-Received: by 2002:a05:6830:1451:: with SMTP id w17mr1241594otp.250.1593445359003;
- Mon, 29 Jun 2020 08:42:39 -0700 (PDT)
+        id S1731678AbgF3I6x (ORCPT <rfc822;lists+linux-alpha@lfdr.de>);
+        Tue, 30 Jun 2020 04:58:53 -0400
+Received: from smtp3.sd73.bc.ca ([142.24.50.246]:52868 "EHLO smtp3.sd73.bc.ca"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1731666AbgF3I6w (ORCPT <rfc822;linux-alpha@vger.kernel.org>);
+        Tue, 30 Jun 2020 04:58:52 -0400
+X-Greylist: delayed 3489 seconds by postgrey-1.27 at vger.kernel.org; Tue, 30 Jun 2020 04:58:52 EDT
+Received: from smtp.sd73.bc.ca (smtp.sd73.bc.ca [10.10.10.14])
+        by smtp3.sd73.bc.ca (Postfix) with ESMTP id 32D7265D8A;
+        Tue, 30 Jun 2020 00:47:35 -0700 (PDT)
+Received: from zimbra2.sd73.bc.ca (zimbra.sd73.bc.ca [10.10.10.7])
+        by smtp.sd73.bc.ca (Postfix) with ESMTP id 7BEAEE042C;
+        Tue, 30 Jun 2020 00:47:31 -0700 (PDT)
+Received: from zimbra2.sd73.bc.ca (localhost [127.0.0.1])
+        by zimbra2.sd73.bc.ca (Postfix) with ESMTPS id 947055C0D7782B;
+        Tue, 30 Jun 2020 00:40:41 -0700 (PDT)
+Received: from localhost (localhost [127.0.0.1])
+        by zimbra2.sd73.bc.ca (Postfix) with ESMTP id A42355C0D9C83B;
+        Tue, 30 Jun 2020 00:40:33 -0700 (PDT)
+Received: from zimbra2.sd73.bc.ca ([127.0.0.1])
+        by localhost (zimbra2.sd73.bc.ca [127.0.0.1]) (amavisd-new, port 10026)
+        with ESMTP id GZM9AoBJ-y8y; Tue, 30 Jun 2020 00:40:33 -0700 (PDT)
+Received: from zimbra2.sd73.bc.ca (zimbra3.sd73.bc.ca [10.10.10.7])
+        by zimbra2.sd73.bc.ca (Postfix) with ESMTP id 39EA95C0D9C83A;
+        Tue, 30 Jun 2020 00:40:32 -0700 (PDT)
+Date:   Tue, 30 Jun 2020 00:40:32 -0700 (PDT)
+From:   charles jackson <lisa.petel@sd73.bc.ca>
+Reply-To: charles jackson <charlesjacksonjr001@gmail.com>
+Message-ID: <1057508923.67031396.1593502832032.JavaMail.zimbra@zimbra.sd73.bc.ca>
+Subject: =?UTF-8?Q?=5BPossible_Spam=5D_Covid?= =?UTF-8?Q?_19_Wohlt=C3=A4tigkeitsfon?= =?UTF-8?Q?ds?=
 MIME-Version: 1.0
-References: <20200627143453.31835-1-rppt@kernel.org> <20200627143453.31835-7-rppt@kernel.org>
-In-Reply-To: <20200627143453.31835-7-rppt@kernel.org>
-From:   Geert Uytterhoeven <geert@linux-m68k.org>
-Date:   Mon, 29 Jun 2020 17:42:28 +0200
-Message-ID: <CAMuHMdWP07XqvgrXjCG+n5FssH3BwdDEWA4fD9TQgvVy93uMhQ@mail.gmail.com>
-Subject: Re: [PATCH 6/8] asm-generic: pgalloc: provide generic pgd_free()
-To:     Mike Rapoport <rppt@kernel.org>
-Cc:     Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        Abdul Haleem <abdhalee@linux.vnet.ibm.com>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Andy Lutomirski <luto@kernel.org>,
-        Arnd Bergmann <arnd@arndb.de>,
-        Christophe Leroy <christophe.leroy@csgroup.eu>,
-        Joerg Roedel <joro@8bytes.org>,
-        Max Filippov <jcmvbkbc@gmail.com>,
-        Mike Rapoport <rppt@linux.ibm.com>,
-        Peter Zijlstra <peterz@infradead.org>,
-        Satheesh Rajendran <sathnaga@linux.vnet.ibm.com>,
-        Stafford Horne <shorne@gmail.com>,
-        Stephen Rothwell <sfr@canb.auug.org.au>,
-        Steven Rostedt <rostedt@goodmis.org>,
-        alpha <linux-alpha@vger.kernel.org>,
-        Linux-Arch <linux-arch@vger.kernel.org>,
-        Linux ARM <linux-arm-kernel@lists.infradead.org>,
-        linux-csky@vger.kernel.org,
-        "open list:QUALCOMM HEXAGON..." <linux-hexagon@vger.kernel.org>,
-        "linux-ia64@vger.kernel.org" <linux-ia64@vger.kernel.org>,
-        linux-m68k <linux-m68k@lists.linux-m68k.org>,
-        "open list:BROADCOM NVRAM DRIVER" <linux-mips@vger.kernel.org>,
-        Linux MM <linux-mm@kvack.org>,
-        Parisc List <linux-parisc@vger.kernel.org>,
-        linux-riscv <linux-riscv@lists.infradead.org>,
-        linux-s390 <linux-s390@vger.kernel.org>,
-        Linux-sh list <linux-sh@vger.kernel.org>,
-        arcml <linux-snps-arc@lists.infradead.org>,
-        linux-um <linux-um@lists.infradead.org>,
-        "open list:TENSILICA XTENSA PORT (xtensa)" 
-        <linux-xtensa@linux-xtensa.org>,
-        linuxppc-dev <linuxppc-dev@lists.ozlabs.org>,
-        Openrisc <openrisc@lists.librecores.org>,
-        sparclinux <sparclinux@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: 7bit
+X-Originating-IP: [10.10.10.90]
+X-Mailer: Zimbra 8.6.0_GA_1242 (zclient/8.6.0_GA_1242)
+Thread-Topic: Covid 19 =?utf-8?Q?Wohlt=C3=A4tigkeitsfonds?=
+Thread-Index: 0DJHItYakFvvuUFIrcz9CK1xl2bgwA==
+To:     unlisted-recipients:; (no To-header on input)
 Sender: linux-alpha-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-alpha.vger.kernel.org>
 X-Mailing-List: linux-alpha@vger.kernel.org
 
-On Sat, Jun 27, 2020 at 4:36 PM Mike Rapoport <rppt@kernel.org> wrote:
-> From: Mike Rapoport <rppt@linux.ibm.com>
->
-> Most architectures define pgd_free() as a wrapper for free_page().
->
-> Provide a generic version in asm-generic/pgalloc.h and enable its use for
-> most architectures.
->
-> Signed-off-by: Mike Rapoport <rppt@linux.ibm.com>
 
-For the m68k part:
-Acked-by: Geert Uytterhoeven <geert@linux-m68k.org>
-
-Gr{oetje,eeting}s,
-
-                        Geert
 
 -- 
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
-
-In personal conversations with technical people, I call myself a hacker. But
-when I'm talking to journalists I just say "programmer" or something like that.
-                                -- Linus Torvalds
+Hallo
+ 
+ Ich bin Charles W. Jackson aus North Carolina, Vereinigte Staaten von Amerika, und ich bin der Gewinner des Mega-Millionen-Jackpots von 344 Millionen US-Dollar. Ich spende die Summe von 2.000.000 Millionen Euro als Teil der Hilfsgelder f&uuml;r das Corona-Virus.
+ 
+ Dies ist Ihr Spendencode: [CJ530342019]
+ 
+ www.youtube.com/watch?v=BSr8myiLPMQ
+ 
+ Bitte antworten Sie auf diese E-Mail mit dem SPENDERCODE:
+ 
+ charlesjacksonjr001@gmail.com
+ 
+ Ich hoffe, dass Sie und Ihre Familie dies durchkommen
+ 
+ 
+ Herr Charles Jackson
