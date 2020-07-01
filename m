@@ -2,34 +2,40 @@ Return-Path: <linux-alpha-owner@vger.kernel.org>
 X-Original-To: lists+linux-alpha@lfdr.de
 Delivered-To: lists+linux-alpha@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 1D863210936
-	for <lists+linux-alpha@lfdr.de>; Wed,  1 Jul 2020 12:25:40 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id DCA302109DC
+	for <lists+linux-alpha@lfdr.de>; Wed,  1 Jul 2020 12:59:56 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729226AbgGAKZi (ORCPT <rfc822;lists+linux-alpha@lfdr.de>);
-        Wed, 1 Jul 2020 06:25:38 -0400
-Received: from mail.kernel.org ([198.145.29.99]:43946 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1729180AbgGAKZi (ORCPT <rfc822;linux-alpha@vger.kernel.org>);
-        Wed, 1 Jul 2020 06:25:38 -0400
-Received: from willie-the-truck (236.31.169.217.in-addr.arpa [217.169.31.236])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 61FB02067D;
-        Wed,  1 Jul 2020 10:25:34 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1593599137;
-        bh=jhLhsiid/JHPTIQixozqrmVK7Z7yivTR5uDy/0fEI4U=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=2MIdgHcm8hZxwfkiuFehiZvcf3/Tr5GQA+93bWFROSIzCHdkqIW0C336sqCSrcoOe
-         9IGFq8THz2jtH5mtcNylSPiv8N8xlfrvpic2hj5lk+Rk4Eb7rCXBL3olxKyBxMCDvy
-         0GTZR7CuylPcMkoeFsVzizN2x+JiEUGVw6wBlss8=
-Date:   Wed, 1 Jul 2020 11:25:31 +0100
-From:   Will Deacon <will@kernel.org>
-To:     Sami Tolvanen <samitolvanen@google.com>
-Cc:     Marco Elver <elver@google.com>,
-        LKML <linux-kernel@vger.kernel.org>,
+        id S1730161AbgGAK74 (ORCPT <rfc822;lists+linux-alpha@lfdr.de>);
+        Wed, 1 Jul 2020 06:59:56 -0400
+Received: from mout.kundenserver.de ([212.227.126.130]:44263 "EHLO
+        mout.kundenserver.de" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1729952AbgGAK7y (ORCPT
+        <rfc822;linux-alpha@vger.kernel.org>); Wed, 1 Jul 2020 06:59:54 -0400
+Received: from mail-qk1-f172.google.com ([209.85.222.172]) by
+ mrelayeu.kundenserver.de (mreue010 [212.227.15.129]) with ESMTPSA (Nemesis)
+ id 1MX00X-1jJlrc1O4f-00XNgi; Wed, 01 Jul 2020 12:59:53 +0200
+Received: by mail-qk1-f172.google.com with SMTP id b185so11099342qkg.1;
+        Wed, 01 Jul 2020 03:59:53 -0700 (PDT)
+X-Gm-Message-State: AOAM530Pr/UXhWxrak0xcyWKXpgviCxTN2Ym+CC6qF5QsdfyfmpMhbB7
+        mhKw92z5GP6pJ81JM6DVJpcoLt6vacvS37TqvC8=
+X-Google-Smtp-Source: ABdhPJztc8Rs2Aj01FvDlsDy8FiXAWwus7EMwqiq3oxxcJK+edsUbi5amD2c/ikaFMMy81wZESqitxpCJ/9YRg9OP74=
+X-Received: by 2002:a37:9dd6:: with SMTP id g205mr25404833qke.352.1593601192134;
+ Wed, 01 Jul 2020 03:59:52 -0700 (PDT)
+MIME-Version: 1.0
+References: <20200630173734.14057-1-will@kernel.org> <20200630173734.14057-19-will@kernel.org>
+ <CAK8P3a2zB4z121reuy6BCqQ3-1mDBAkUkRRXeDuvSFtSr3ha2g@mail.gmail.com> <20200701101922.GC14959@willie-the-truck>
+In-Reply-To: <20200701101922.GC14959@willie-the-truck>
+From:   Arnd Bergmann <arnd@arndb.de>
+Date:   Wed, 1 Jul 2020 12:59:36 +0200
+X-Gmail-Original-Message-ID: <CAK8P3a1MWBxHihcUaduqcpS2U61cKPujQG6mAfn3-pCokzLwUw@mail.gmail.com>
+Message-ID: <CAK8P3a1MWBxHihcUaduqcpS2U61cKPujQG6mAfn3-pCokzLwUw@mail.gmail.com>
+Subject: Re: [PATCH 18/18] arm64: lto: Strengthen READ_ONCE() to acquire when CLANG_LTO=y
+To:     Will Deacon <will@kernel.org>
+Cc:     "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+        Sami Tolvanen <samitolvanen@google.com>,
         Nick Desaulniers <ndesaulniers@google.com>,
         Kees Cook <keescook@chromium.org>,
+        Marco Elver <elver@google.com>,
         "Paul E. McKenney" <paulmck@kernel.org>,
         Josh Triplett <josh@joshtriplett.org>,
         Matt Turner <mattst88@gmail.com>,
@@ -39,81 +45,64 @@ Cc:     Marco Elver <elver@google.com>,
         Alan Stern <stern@rowland.harvard.edu>,
         "Michael S. Tsirkin" <mst@redhat.com>,
         Jason Wang <jasowang@redhat.com>,
-        Arnd Bergmann <arnd@arndb.de>,
         Boqun Feng <boqun.feng@gmail.com>,
         Catalin Marinas <catalin.marinas@arm.com>,
         Mark Rutland <mark.rutland@arm.com>,
-        linux-arm-kernel <linux-arm-kernel@lists.infradead.org>,
-        linux-alpha@vger.kernel.org,
+        Linux ARM <linux-arm-kernel@lists.infradead.org>,
+        alpha <linux-alpha@vger.kernel.org>,
         virtualization@lists.linux-foundation.org,
         Android Kernel Team <kernel-team@android.com>
-Subject: Re: [PATCH 18/18] arm64: lto: Strengthen READ_ONCE() to acquire when
- CLANG_LTO=y
-Message-ID: <20200701102531.GE14959@willie-the-truck>
-References: <20200630173734.14057-1-will@kernel.org>
- <20200630173734.14057-19-will@kernel.org>
- <CANpmjNPOO=AVsVJMdL8sq03jwHsDR_1_FfWccwaLKEBRn1RFtA@mail.gmail.com>
- <CABCJKudxmrSNNzgPkc4NHt71rfdjAqFbb9n49S4QBDZPQ52e0w@mail.gmail.com>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <CABCJKudxmrSNNzgPkc4NHt71rfdjAqFbb9n49S4QBDZPQ52e0w@mail.gmail.com>
-User-Agent: Mutt/1.10.1 (2018-07-13)
+Content-Type: text/plain; charset="UTF-8"
+X-Provags-ID: V03:K1:g7I2hYYZ2lCZFQ7sbdyRHfQy91HD0wtoFaGz8CBa/Dg3GlDiMEM
+ 0cDVsVCv/r0iOiUjFafyiLdI5VLmh3fb/4xtPl3rqxU4Dq9aAR/IVIxpZ8dTcS7JK3zGJBL
+ MG2nTNgHBZNK1wJn0HRu5jLzBpCpkelS2+hqD9/5VgKCl8oaxz3X28Hcrvwu6vhZHbCE7Ax
+ YdMUmUdrpIWPZtf4pB2+A==
+X-Spam-Flag: NO
+X-UI-Out-Filterresults: notjunk:1;V03:K0:4DwWKkZ8m/I=:B55ukcCg0k7NW87sDOEGI4
+ ezfpNvn78XuzW/zJHkxhecufP7cmEd/Gl6VvKI96SgL/jjGAnD9G4VS7MAbL8DSd2MxlI29Jm
+ pOgFyhsNXhAtoj7ENFbNNyXhj1XNN6d4DvI4+ZW3Yv08i8recA9aME7Vrtl0fSEnjUfCXlJ5J
+ SYliPHA42Gx4R2DGnTELryvEoppMkIsH1ZSBFvM5pFGtyufvui+5w8k+5ELZ1W4qOJWz1NcRx
+ /sgEwy5+TvtUTB/ZSMeTIwZ4mGVs52rW/OhwSeK+QV8Crg8yqtHFdhAGNCtoPAStpN4pctJhB
+ se5V+o9cUGyLZFoxBO2F7eXJtk85pVY8LuTygSa5Kf5pNmwLZX/HhKbQuK21MOt9oQCGPHqwQ
+ 4NHC7/vbLc7ss525ziNJGxYJK5ePR8VdUEoqHa47zwqKEeR8OfYWMToshuvjnQcfNLecDtxeY
+ p+oqSuKNyjkuyLtcyETqiyYzuUrNqgxPUq3SppAG04lsYFdAAYNMyavQ1zNhpGE8OKcOxELIo
+ enuXtU++MpzFPDHXwbx66ECu7o2SacgzWZQcQmEG4CGsH+MB3HkhpnCKMnrToEbkn2uADHHIe
+ DdgS7Vc1cTZcR/h75pQmF8cdr2Vi+YR0EBxsL2Ke5xp8G+fLIUGjbuIMo7CwxKCfzxPoPanvP
+ iaD6bT+eDDzvrdijwabmzRXCoV5inzrcNEZoSVK7wQA/c2X/4tVbvEGg5+meuO0Sv3fO17YH0
+ V0052JR0LleOOUQW0lk/D1getQWpdr7hdsBN7fvMuqlcpO/FRd4VzThCQ1G1nFwwZB8z/tvps
+ rWlfjq+Cc3wfr1uZ/c2o7/0Tn7OzaGcEhD/ZpHjmJ9BiS/o+60=
 Sender: linux-alpha-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-alpha.vger.kernel.org>
 X-Mailing-List: linux-alpha@vger.kernel.org
 
-On Tue, Jun 30, 2020 at 03:57:54PM -0700, Sami Tolvanen wrote:
-> On Tue, Jun 30, 2020 at 12:47 PM Marco Elver <elver@google.com> wrote:
+On Wed, Jul 1, 2020 at 12:19 PM Will Deacon <will@kernel.org> wrote:
+> On Tue, Jun 30, 2020 at 09:25:03PM +0200, Arnd Bergmann wrote:
+> > On Tue, Jun 30, 2020 at 7:39 PM Will Deacon <will@kernel.org> wrote:
+> > Once we make gcc-4.9 the minimum version,
+> > this could be further improved to
 > >
-> > On Tue, 30 Jun 2020 at 19:39, Will Deacon <will@kernel.org> wrote:
-> > >
-> > > When building with LTO, there is an increased risk of the compiler
-> > > converting an address dependency headed by a READ_ONCE() invocation
-> > > into a control dependency and consequently allowing for harmful
-> > > reordering by the CPU.
-> > >
-> > > Ensure that such transformations are harmless by overriding the generic
-> > > READ_ONCE() definition with one that provides acquire semantics when
-> > > building with LTO.
-> > >
-> > > Signed-off-by: Will Deacon <will@kernel.org>
-> > > ---
-> > >  arch/arm64/include/asm/rwonce.h   | 63 +++++++++++++++++++++++++++++++
-> > >  arch/arm64/kernel/vdso/Makefile   |  2 +-
-> > >  arch/arm64/kernel/vdso32/Makefile |  2 +-
-> > >  3 files changed, 65 insertions(+), 2 deletions(-)
-> > >  create mode 100644 arch/arm64/include/asm/rwonce.h
-> >
-> > This seems reasonable, given we can't realistically tell the compiler
-> > about dependent loads. What (if any), is the performance impact? I
-> > guess this also heavily depends on the actual silicon.
-> >
-> > I do wonder, though, if there is some way to make the compiler do
-> > something better for us. Clearly, implementing real
-> > memory_order_consume hasn't worked out until today. But maybe the
-> > compiler could promote dependent loads to acquires if it recognizes it
-> > lost dependencies during optimizations. Just thinking out loud, it
-> > probably still has some weird corner case that will break. ;-)
-> >
-> > The other thing is that I'd be cautious blaming LTO, as I tried to
-> > summarize here:
-> > https://lore.kernel.org/kernel-hardening/20200630191931.GA884155@elver.google.com/
-> >
-> > The main thing is that, yes, this might be something to be worried
-> > about, but if we are worried about it, we need to be worried about it
-> > in *all* builds (LTO or not). My guess is that's not acceptable. Would
-> > it be better to just guard the promotion of READ_ONCE() to acquire
-> > behind a config option like CONFIG_ACQUIRE_READ_DEPENDENCIES, and then
-> > make LTO select that (or maybe leave it optional?). In future, for
-> > very aggressive non-LTO compilers even, one may then also select that
-> > if there is substantiated worry things do actually break.
-> 
-> I agree, a separate config option would be better here.
-> 
-> Also Will, the LTO patches use CONFIG_LTO_CLANG instead of CLANG_LTO.
+> >        __auto_type __x = &(x);
+>
+> Is anybody working on moving to 4.9? I've seen the mails from Linus
+> championing it, but I thought there was a RHEL in support that people
+> might care about?
 
-D'oh, sorry. I'll fix that (I had that #ifdef commented out for my testing).
+I don't think there was a serious discussion about it so far, and
+we only just moved to gcc-4.8.
 
-Will
+I think moving to gnu11 (gcc-4.9 or clang) instead of gnu99 has other
+benefits as well, so we may well want to do it anyway when something
+else comes up.
+
+For __auto_type(), we could do it like
+
+#if (clang or gcc-4.9+)
+#define auto_typeof(x) __auto_type
+#else
+#define auto_typeof(x) typeof(x)
+#endif
+
+which could be used in a lot of macros.
+
+     Arnd
