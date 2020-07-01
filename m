@@ -2,120 +2,97 @@ Return-Path: <linux-alpha-owner@vger.kernel.org>
 X-Original-To: lists+linux-alpha@lfdr.de
 Delivered-To: lists+linux-alpha@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 3B64A2110D6
-	for <lists+linux-alpha@lfdr.de>; Wed,  1 Jul 2020 18:39:01 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 16EDA21119B
+	for <lists+linux-alpha@lfdr.de>; Wed,  1 Jul 2020 19:07:35 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1732360AbgGAQjA (ORCPT <rfc822;lists+linux-alpha@lfdr.de>);
-        Wed, 1 Jul 2020 12:39:00 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42900 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726621AbgGAQi7 (ORCPT
-        <rfc822;linux-alpha@vger.kernel.org>); Wed, 1 Jul 2020 12:38:59 -0400
-Received: from mail-lf1-x141.google.com (mail-lf1-x141.google.com [IPv6:2a00:1450:4864:20::141])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 910FFC08C5C1;
-        Wed,  1 Jul 2020 09:38:59 -0700 (PDT)
-Received: by mail-lf1-x141.google.com with SMTP id k15so14055236lfc.4;
-        Wed, 01 Jul 2020 09:38:59 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=fS8Kbbr6u+Qt+wSwfOlztvSKvUpRcBAxdtJAIiraa8k=;
-        b=XZM+72gciw9nF4OsUTlGCo821BFfCQbfWMzTG2s4XnB101NtlMstykJPODwJQkbk95
-         ulAI4EpcU7fehmEn2OJ4hmH8jDQ3XUNp6wW631Zg/hLtnJKYYL3+untAdAvh1/2h4CHE
-         Lh9Bbm1CmxMLsT/L4DDWco0F6ND+AFm+pljhj1WkhvSFKl/D82mKul+DFdHfQLZgsW/y
-         tVXDXcRv5gLENn581TARIKvIeyvWyxbAYDXimInWetyiF1Q3I10t2k7nuQwrqWDIAfCH
-         2FXDP4ok4ms1Zb2j1UZZbjokcvm5RNJEcKmP/XvftY1TPqLWeJtapVke08xVAMuAaW5X
-         2Gyg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=fS8Kbbr6u+Qt+wSwfOlztvSKvUpRcBAxdtJAIiraa8k=;
-        b=KlhZSUdmkQXDS+h6VwLHour9kknDEjG/c8uKw/CFR12YUbMt0YRT0ea0gjH/ppiAT4
-         AVjpNIgDe/hKa1SguqgpyUpiBw3+wXGk6QRPLGzPgrHFtjdR0WtINjXiQV8YF3OPN1GH
-         TRNAP1Jl8JWWyLqzriu/LNg52z1u+aVtkCAfncxktjKiQNgZXV4FMjxmdp3QayJORUxl
-         Hu7TSxAw+ph+kUD5Av00MLfGa7XrPLscmTMrQCoxs131mlpmyemuNHu829jspDX1K9EQ
-         I4sFMrEt9Gi16ozA6seRT6GHn7lxOHISFKsiFZx6j0yF+Q6sCH4aHCUaidB7YsWKKMS3
-         kyVg==
-X-Gm-Message-State: AOAM531SYukelTA6FvXI5/4v5V0fplHS+dlmZNbMjjTQnMWJFCSvLh4F
-        zoNwpc7odjg79B7H5uDgqhPbWQmVxgdkB+gtzLVK5A==
-X-Google-Smtp-Source: ABdhPJzhx/RMYa6L4vtQ0mrLwEP+eiVOtfSbexChh9nnu3NLhEZwqxpST5gp2Olwx3jPShY2dcl1VBrf6CxD/I+pfWE=
-X-Received: by 2002:ac2:5e29:: with SMTP id o9mr15143828lfg.196.1593621538016;
- Wed, 01 Jul 2020 09:38:58 -0700 (PDT)
-MIME-Version: 1.0
-References: <20200630173734.14057-1-will@kernel.org> <20200630173734.14057-2-will@kernel.org>
-In-Reply-To: <20200630173734.14057-2-will@kernel.org>
-From:   Alexei Starovoitov <alexei.starovoitov@gmail.com>
-Date:   Wed, 1 Jul 2020 09:38:46 -0700
-Message-ID: <CAADnVQJ5kZRT+H7MZWKcJ6HqCGR54Y4zdk67KZO3=ho6Kab5fw@mail.gmail.com>
-Subject: Re: [PATCH 01/18] tools: bpf: Use local copy of headers including uapi/linux/filter.h
+        id S1728103AbgGARHe (ORCPT <rfc822;lists+linux-alpha@lfdr.de>);
+        Wed, 1 Jul 2020 13:07:34 -0400
+Received: from foss.arm.com ([217.140.110.172]:58846 "EHLO foss.arm.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1728966AbgGARHe (ORCPT <rfc822;linux-alpha@vger.kernel.org>);
+        Wed, 1 Jul 2020 13:07:34 -0400
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+        by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 38EBF31B;
+        Wed,  1 Jul 2020 10:07:33 -0700 (PDT)
+Received: from bakewell.cambridge.arm.com (unknown [10.37.8.41])
+        by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 572E33F73C;
+        Wed,  1 Jul 2020 10:07:28 -0700 (PDT)
+Date:   Wed, 1 Jul 2020 18:07:25 +0100
+From:   Dave P Martin <dave.martin@arm.com>
 To:     Will Deacon <will@kernel.org>
-Cc:     LKML <linux-kernel@vger.kernel.org>,
-        Sami Tolvanen <samitolvanen@google.com>,
-        Nick Desaulniers <ndesaulniers@google.com>,
-        Kees Cook <keescook@chromium.org>,
-        Marco Elver <elver@google.com>,
-        "Paul E. McKenney" <paulmck@kernel.org>,
-        Josh Triplett <josh@joshtriplett.org>,
-        Matt Turner <mattst88@gmail.com>,
-        Ivan Kokshaysky <ink@jurassic.park.msu.ru>,
-        Richard Henderson <rth@twiddle.net>,
-        Peter Zijlstra <peterz@infradead.org>,
-        Alan Stern <stern@rowland.harvard.edu>,
+Cc:     linux-kernel@vger.kernel.org, Mark Rutland <mark.rutland@arm.com>,
         "Michael S. Tsirkin" <mst@redhat.com>,
-        Jason Wang <jasowang@redhat.com>,
-        Arnd Bergmann <arnd@arndb.de>,
-        Boqun Feng <boqun.feng@gmail.com>,
+        Peter Zijlstra <peterz@infradead.org>,
         Catalin Marinas <catalin.marinas@arm.com>,
-        Mark Rutland <mark.rutland@arm.com>,
-        linux-arm-kernel <linux-arm-kernel@lists.infradead.org>,
-        linux-alpha@vger.kernel.org,
+        Jason Wang <jasowang@redhat.com>,
         virtualization@lists.linux-foundation.org,
-        Android Kernel Team <kernel-team@android.com>,
-        Alexei Starovoitov <ast@kernel.org>,
-        Masahiro Yamada <yamada.masahiro@socionext.com>,
-        Daniel Borkmann <daniel@iogearbox.net>,
-        Xiao Yang <ice_yangxiao@163.com>
-Content-Type: text/plain; charset="UTF-8"
+        Arnd Bergmann <arnd@arndb.de>,
+        Alan Stern <stern@rowland.harvard.edu>,
+        Sami Tolvanen <samitolvanen@google.com>,
+        Matt Turner <mattst88@gmail.com>, kernel-team@android.com,
+        Marco Elver <elver@google.com>,
+        Kees Cook <keescook@chromium.org>,
+        "Paul E. McKenney" <paulmck@kernel.org>,
+        Boqun Feng <boqun.feng@gmail.com>,
+        Josh Triplett <josh@joshtriplett.org>,
+        Ivan Kokshaysky <ink@jurassic.park.msu.ru>,
+        linux-arm-kernel@lists.infradead.org,
+        Richard Henderson <rth@twiddle.net>,
+        Nick Desaulniers <ndesaulniers@google.com>,
+        linux-alpha@vger.kernel.org
+Subject: Re: [PATCH 18/18] arm64: lto: Strengthen READ_ONCE() to acquire when
+ CLANG_LTO=y
+Message-ID: <20200701170722.4rte5ssnmrn2uqzg@bakewell.cambridge.arm.com>
+References: <20200630173734.14057-1-will@kernel.org>
+ <20200630173734.14057-19-will@kernel.org>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20200630173734.14057-19-will@kernel.org>
+User-Agent: NeoMutt/20170113 (1.7.2)
 Sender: linux-alpha-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-alpha.vger.kernel.org>
 X-Mailing-List: linux-alpha@vger.kernel.org
 
-On Tue, Jun 30, 2020 at 10:37 AM Will Deacon <will@kernel.org> wrote:
->
-> Pulling header files directly out of the kernel sources for inclusion in
-> userspace programs is highly error prone, not least because it bypasses
-> the kbuild infrastructure entirely and so may end up referencing other
-> header files that have not been generated.
->
-> Subsequent patches will cause compiler.h to pull in the ungenerated
-> asm/rwonce.h file via filter.h, breaking the build for tools/bpf:
->
->   | $ make -C tools/bpf
->   | make: Entering directory '/linux/tools/bpf'
->   |   CC       bpf_jit_disasm.o
->   |   LINK     bpf_jit_disasm
->   |   CC       bpf_dbg.o
->   | In file included from /linux/include/uapi/linux/filter.h:9,
->   |                  from /linux/tools/bpf/bpf_dbg.c:41:
->   | /linux/include/linux/compiler.h:247:10: fatal error: asm/rwonce.h: No such file or directory
->   |  #include <asm/rwonce.h>
->   |           ^~~~~~~~~~~~~~
->   | compilation terminated.
->   | make: *** [Makefile:61: bpf_dbg.o] Error 1
->   | make: Leaving directory '/linux/tools/bpf'
->
-> Take a copy of the installed version of linux/filter.h  (i.e. the one
-> created by the 'headers_install' target) into tools/include/uapi/linux/
-> and adjust the BPF tool Makefile to reference the local include
-> directories instead of those in the main source tree.
->
-> Cc: Alexei Starovoitov <ast@kernel.org>
-> Cc: Masahiro Yamada <yamada.masahiro@socionext.com>
-> Suggested-by: Daniel Borkmann <daniel@iogearbox.net>
-> Reported-by: Xiao Yang <ice_yangxiao@163.com>
+On Tue, Jun 30, 2020 at 06:37:34PM +0100, Will Deacon wrote:
+> When building with LTO, there is an increased risk of the compiler
+> converting an address dependency headed by a READ_ONCE() invocation
+> into a control dependency and consequently allowing for harmful
+> reordering by the CPU.
+> 
+> Ensure that such transformations are harmless by overriding the generic
+> READ_ONCE() definition with one that provides acquire semantics when
+> building with LTO.
+> 
 > Signed-off-by: Will Deacon <will@kernel.org>
+> ---
+>  arch/arm64/include/asm/rwonce.h   | 63 +++++++++++++++++++++++++++++++
+>  arch/arm64/kernel/vdso/Makefile   |  2 +-
+>  arch/arm64/kernel/vdso32/Makefile |  2 +-
+>  3 files changed, 65 insertions(+), 2 deletions(-)
+>  create mode 100644 arch/arm64/include/asm/rwonce.h
+> 
+> diff --git a/arch/arm64/include/asm/rwonce.h b/arch/arm64/include/asm/rwonce.h
+> new file mode 100644
+> index 000000000000..515e360b01a1
+> --- /dev/null
+> +++ b/arch/arm64/include/asm/rwonce.h
+> @@ -0,0 +1,63 @@
+> +/* SPDX-License-Identifier: GPL-2.0 */
+> +/*
+> + * Copyright (C) 2020 Google LLC.
+> + */
+> +#ifndef __ASM_RWONCE_H
+> +#define __ASM_RWONCE_H
+> +
+> +#ifdef CONFIG_CLANG_LTO
 
-Acked-by: Alexei Starovoitov <ast@kernel.org>
+Don't we have a generic option for LTO that's not specific to Clang.
+
+Also, can you illustrate code that can only be unsafe with Clang LTO?
+
+[...]
+
+Cheers
+---Dave
