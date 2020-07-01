@@ -2,37 +2,56 @@ Return-Path: <linux-alpha-owner@vger.kernel.org>
 X-Original-To: lists+linux-alpha@lfdr.de
 Delivered-To: lists+linux-alpha@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 7858B210A54
-	for <lists+linux-alpha@lfdr.de>; Wed,  1 Jul 2020 13:33:48 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 3B64A2110D6
+	for <lists+linux-alpha@lfdr.de>; Wed,  1 Jul 2020 18:39:01 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1730237AbgGALds (ORCPT <rfc822;lists+linux-alpha@lfdr.de>);
-        Wed, 1 Jul 2020 07:33:48 -0400
-Received: from mout.kundenserver.de ([212.227.126.134]:40583 "EHLO
-        mout.kundenserver.de" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1730196AbgGALdr (ORCPT
-        <rfc822;linux-alpha@vger.kernel.org>); Wed, 1 Jul 2020 07:33:47 -0400
-Received: from mail-qk1-f178.google.com ([209.85.222.178]) by
- mrelayeu.kundenserver.de (mreue010 [212.227.15.129]) with ESMTPSA (Nemesis)
- id 1Macf4-1jFtb91Xnm-00c6Rl; Wed, 01 Jul 2020 13:33:45 +0200
-Received: by mail-qk1-f178.google.com with SMTP id j80so21792235qke.0;
-        Wed, 01 Jul 2020 04:33:45 -0700 (PDT)
-X-Gm-Message-State: AOAM533T6ALZjEidRqExrH5mKItpO4/RnI33awMDPqAfmY9TgSooEYhV
-        x/SFu5CYjGQ9T0cFADODlTWPn53JzTz8PDed9CU=
-X-Google-Smtp-Source: ABdhPJzUyheLKExWmWPJJq8cfmtDNQPYUV5VmAxlZw/B9iC/fX9pH44hi8zZXNkJzktUY7GsGZCLQHu7TodbT+JJTF8=
-X-Received: by 2002:a37:9dd6:: with SMTP id g205mr25563365qke.352.1593603224183;
- Wed, 01 Jul 2020 04:33:44 -0700 (PDT)
+        id S1732360AbgGAQjA (ORCPT <rfc822;lists+linux-alpha@lfdr.de>);
+        Wed, 1 Jul 2020 12:39:00 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42900 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726621AbgGAQi7 (ORCPT
+        <rfc822;linux-alpha@vger.kernel.org>); Wed, 1 Jul 2020 12:38:59 -0400
+Received: from mail-lf1-x141.google.com (mail-lf1-x141.google.com [IPv6:2a00:1450:4864:20::141])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 910FFC08C5C1;
+        Wed,  1 Jul 2020 09:38:59 -0700 (PDT)
+Received: by mail-lf1-x141.google.com with SMTP id k15so14055236lfc.4;
+        Wed, 01 Jul 2020 09:38:59 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=fS8Kbbr6u+Qt+wSwfOlztvSKvUpRcBAxdtJAIiraa8k=;
+        b=XZM+72gciw9nF4OsUTlGCo821BFfCQbfWMzTG2s4XnB101NtlMstykJPODwJQkbk95
+         ulAI4EpcU7fehmEn2OJ4hmH8jDQ3XUNp6wW631Zg/hLtnJKYYL3+untAdAvh1/2h4CHE
+         Lh9Bbm1CmxMLsT/L4DDWco0F6ND+AFm+pljhj1WkhvSFKl/D82mKul+DFdHfQLZgsW/y
+         tVXDXcRv5gLENn581TARIKvIeyvWyxbAYDXimInWetyiF1Q3I10t2k7nuQwrqWDIAfCH
+         2FXDP4ok4ms1Zb2j1UZZbjokcvm5RNJEcKmP/XvftY1TPqLWeJtapVke08xVAMuAaW5X
+         2Gyg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=fS8Kbbr6u+Qt+wSwfOlztvSKvUpRcBAxdtJAIiraa8k=;
+        b=KlhZSUdmkQXDS+h6VwLHour9kknDEjG/c8uKw/CFR12YUbMt0YRT0ea0gjH/ppiAT4
+         AVjpNIgDe/hKa1SguqgpyUpiBw3+wXGk6QRPLGzPgrHFtjdR0WtINjXiQV8YF3OPN1GH
+         TRNAP1Jl8JWWyLqzriu/LNg52z1u+aVtkCAfncxktjKiQNgZXV4FMjxmdp3QayJORUxl
+         Hu7TSxAw+ph+kUD5Av00MLfGa7XrPLscmTMrQCoxs131mlpmyemuNHu829jspDX1K9EQ
+         I4sFMrEt9Gi16ozA6seRT6GHn7lxOHISFKsiFZx6j0yF+Q6sCH4aHCUaidB7YsWKKMS3
+         kyVg==
+X-Gm-Message-State: AOAM531SYukelTA6FvXI5/4v5V0fplHS+dlmZNbMjjTQnMWJFCSvLh4F
+        zoNwpc7odjg79B7H5uDgqhPbWQmVxgdkB+gtzLVK5A==
+X-Google-Smtp-Source: ABdhPJzhx/RMYa6L4vtQ0mrLwEP+eiVOtfSbexChh9nnu3NLhEZwqxpST5gp2Olwx3jPShY2dcl1VBrf6CxD/I+pfWE=
+X-Received: by 2002:ac2:5e29:: with SMTP id o9mr15143828lfg.196.1593621538016;
+ Wed, 01 Jul 2020 09:38:58 -0700 (PDT)
 MIME-Version: 1.0
-References: <20200630173734.14057-1-will@kernel.org> <20200630173734.14057-3-will@kernel.org>
- <CAK8P3a136e2k-iGoJ4X51mnj0f0KSLJKOw6b=s4F2QHHeyAMEQ@mail.gmail.com> <20200701101603.GB14959@willie-the-truck>
-In-Reply-To: <20200701101603.GB14959@willie-the-truck>
-From:   Arnd Bergmann <arnd@arndb.de>
-Date:   Wed, 1 Jul 2020 13:33:28 +0200
-X-Gmail-Original-Message-ID: <CAK8P3a0cfjU-EOVJoMrUcjVDXLOk1Trv4DWcz_bME5Aj3=JPvQ@mail.gmail.com>
-Message-ID: <CAK8P3a0cfjU-EOVJoMrUcjVDXLOk1Trv4DWcz_bME5Aj3=JPvQ@mail.gmail.com>
-Subject: Re: [PATCH 02/18] compiler.h: Split {READ,WRITE}_ONCE definitions out
- into rwonce.h
+References: <20200630173734.14057-1-will@kernel.org> <20200630173734.14057-2-will@kernel.org>
+In-Reply-To: <20200630173734.14057-2-will@kernel.org>
+From:   Alexei Starovoitov <alexei.starovoitov@gmail.com>
+Date:   Wed, 1 Jul 2020 09:38:46 -0700
+Message-ID: <CAADnVQJ5kZRT+H7MZWKcJ6HqCGR54Y4zdk67KZO3=ho6Kab5fw@mail.gmail.com>
+Subject: Re: [PATCH 01/18] tools: bpf: Use local copy of headers including uapi/linux/filter.h
 To:     Will Deacon <will@kernel.org>
-Cc:     "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+Cc:     LKML <linux-kernel@vger.kernel.org>,
         Sami Tolvanen <samitolvanen@google.com>,
         Nick Desaulniers <ndesaulniers@google.com>,
         Kees Cook <keescook@chromium.org>,
@@ -46,79 +65,57 @@ Cc:     "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
         Alan Stern <stern@rowland.harvard.edu>,
         "Michael S. Tsirkin" <mst@redhat.com>,
         Jason Wang <jasowang@redhat.com>,
+        Arnd Bergmann <arnd@arndb.de>,
         Boqun Feng <boqun.feng@gmail.com>,
         Catalin Marinas <catalin.marinas@arm.com>,
         Mark Rutland <mark.rutland@arm.com>,
-        Linux ARM <linux-arm-kernel@lists.infradead.org>,
-        alpha <linux-alpha@vger.kernel.org>,
+        linux-arm-kernel <linux-arm-kernel@lists.infradead.org>,
+        linux-alpha@vger.kernel.org,
         virtualization@lists.linux-foundation.org,
-        Android Kernel Team <kernel-team@android.com>
+        Android Kernel Team <kernel-team@android.com>,
+        Alexei Starovoitov <ast@kernel.org>,
+        Masahiro Yamada <yamada.masahiro@socionext.com>,
+        Daniel Borkmann <daniel@iogearbox.net>,
+        Xiao Yang <ice_yangxiao@163.com>
 Content-Type: text/plain; charset="UTF-8"
-X-Provags-ID: V03:K1:/RjR3cx/IosXmLHSIAw3K2DqSQYhrhXWA71/rRKV/wIh3QCve5q
- gHLw8HS5iSdMhiBqrGklBQMexmENgsjC4XY3iUWttf+hhm5BmUWNDrq7JkrPkuEoBALjdhk
- raeyrDJuwB4zboNjFNxyEmQZtcyRtSEL2IrtiZL0NG0ksR8S/sAH31lB6rD/U23yzLls2/7
- +eDDFhwm4BJ5vwtrEkhfw==
-X-Spam-Flag: NO
-X-UI-Out-Filterresults: notjunk:1;V03:K0:umKuxKgCI1I=:/r8f8diZkq+0S5w0FdPi4N
- eWZO6vSDlA6Zp+V1hvLgtcU7LKYJJxMf+eEkUvS/E5v06klFMH91fDuGWtwPGu0ROZUsBw2X1
- LqAhs/Jq/iW+9dJ/SRfWgRIQHciZIf97liLiAclok9p6adg4aVUE30qgg7YkJOwlf3v6FO67U
- 1vG6L3EDxClpI6oUyaavz1w1jvK5nM5ZAMBSaEudxDmyybYVUeZVGmGDh6DjuEZoDUUSlvvt8
- nUducq41B+zL9NBiRX/5UsSQNXXiAxBVl1Mz39Dj+qRrfyCGtCBpDYBIz00hdlNP5yPzqsaMO
- wAomUWS60A6zqCvHHrYgYxRCsAqoiYeoiq9Vprm98My2NRtxIyNEV/0iiCLbDoXPv1wkhGmxd
- esUq2Q3gYFig/Q8bep5Q0axtp9pmNP15VVYlrkHeHp3CzjKH0zzEk7A7Cmzcsv9uzF1RYhtPC
- IMttQiM8U/5kalUCZRWVG6auHlBJWclsfH0trOl3dR3FLg9iv7qiw9PKagzs+RA9NeOgsXpzN
- 7ukk9nHNCZSM1Nj9PEyCmTObPfldglxPA6xoMvMLeEmUANe+NqKJQYsVtRzsQGACi0Kyb+lYI
- Q51/4YXL+RptvMLqkol+XLc9BZ1VtD7fX6GBOc+PPeKjSx5wV1xR+jvnSsCCjpUGbHsAXU1WW
- d9bpZ/jxupuo5a4/yDD08rAv7TVNrKk2rs/DLffKGRdGbJkQz80DBp0h5437lbWUb98OMHbwr
- +ul3fSvH7Y3a1QD2oF/mA9vLiXrR3bOCKf+LAlIRq0Oz8R8r66DYQZ3xAc3HCAMB8WxQvheiY
- h8rnkXx3DEBg8BGq82zjLmhUAIrejbvsETKZXFsqpj6Q3AE2oo=
 Sender: linux-alpha-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-alpha.vger.kernel.org>
 X-Mailing-List: linux-alpha@vger.kernel.org
 
-On Wed, Jul 1, 2020 at 12:16 PM Will Deacon <will@kernel.org> wrote:
-> On Tue, Jun 30, 2020 at 09:11:32PM +0200, Arnd Bergmann wrote:
-> > On Tue, Jun 30, 2020 at 7:37 PM Will Deacon <will@kernel.org> wrote:
-> > >
-> > > In preparation for allowing architectures to define their own
-> > > implementation of the READ_ONCE() macro, move the generic
-> > > {READ,WRITE}_ONCE() definitions out of the unwieldy 'linux/compiler.h'
-> > > file and into a new 'rwonce.h' header under 'asm-generic'.
-> > >
-> > > Acked-by: Paul E. McKenney <paulmck@kernel.org>
-> > > Signed-off-by: Will Deacon <will@kernel.org>
-> > > ---
-> > >  include/asm-generic/Kbuild   |  1 +
-> > >  include/asm-generic/rwonce.h | 91 ++++++++++++++++++++++++++++++++++++
-> > >  include/linux/compiler.h     | 83 +-------------------------------
-> >
-> > Very nice, this has the added benefit of allowing us to stop including
-> > asm/barrier.h once linux/compiler.h gets changed to not include
-> > asm/rwonce.h.
+On Tue, Jun 30, 2020 at 10:37 AM Will Deacon <will@kernel.org> wrote:
 >
-> Yeah, with this series linux/compiler.h _does_ include asm/rwonce.h because
-> otherwise there are many callers to fix up, but that could be addressed
-> subsequently, I suppose.
-
-Right, I didn't mean you should change that right away. I actually
-have a work-in-progress patch series that removes a ton of
-indirect header inclusions to improve build speed, and a script to
-add the explicit includes into .c files where needed.
-
-> > The asm/barrier.h header has a circular dependency, pulling in
-> > linux/compiler.h itself.
+> Pulling header files directly out of the kernel sources for inclusion in
+> userspace programs is highly error prone, not least because it bypasses
+> the kbuild infrastructure entirely and so may end up referencing other
+> header files that have not been generated.
 >
-> Hmm. Once smp_read_barrier_depends() disappears, I could actually remove
-> the include of <asm/barrier.h> from asm-generic/rwonce.h. It would have to
-> remain for arch/alpha/, however, since we need the barrier definitions to
-> implement READ_ONCE(). I can probably also replace the include of
-> <linux/compiler.h> in asm-generic/barrier.h with <asm/rwonce.h> too (so it's
-> still circular, but at least a lot simpler).
+> Subsequent patches will cause compiler.h to pull in the ungenerated
+> asm/rwonce.h file via filter.h, breaking the build for tools/bpf:
 >
-> I'll have a play...
+>   | $ make -C tools/bpf
+>   | make: Entering directory '/linux/tools/bpf'
+>   |   CC       bpf_jit_disasm.o
+>   |   LINK     bpf_jit_disasm
+>   |   CC       bpf_dbg.o
+>   | In file included from /linux/include/uapi/linux/filter.h:9,
+>   |                  from /linux/tools/bpf/bpf_dbg.c:41:
+>   | /linux/include/linux/compiler.h:247:10: fatal error: asm/rwonce.h: No such file or directory
+>   |  #include <asm/rwonce.h>
+>   |           ^~~~~~~~~~~~~~
+>   | compilation terminated.
+>   | make: *** [Makefile:61: bpf_dbg.o] Error 1
+>   | make: Leaving directory '/linux/tools/bpf'
+>
+> Take a copy of the installed version of linux/filter.h  (i.e. the one
+> created by the 'headers_install' target) into tools/include/uapi/linux/
+> and adjust the BPF tool Makefile to reference the local include
+> directories instead of those in the main source tree.
+>
+> Cc: Alexei Starovoitov <ast@kernel.org>
+> Cc: Masahiro Yamada <yamada.masahiro@socionext.com>
+> Suggested-by: Daniel Borkmann <daniel@iogearbox.net>
+> Reported-by: Xiao Yang <ice_yangxiao@163.com>
+> Signed-off-by: Will Deacon <will@kernel.org>
 
-I think this would require the same kind of fixup for anything that depends on
-asm/barrier.h being included implicitly at the moment.
-
-      Arnd
+Acked-by: Alexei Starovoitov <ast@kernel.org>
