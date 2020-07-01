@@ -2,34 +2,35 @@ Return-Path: <linux-alpha-owner@vger.kernel.org>
 X-Original-To: lists+linux-alpha@lfdr.de
 Delivered-To: lists+linux-alpha@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id DCA302109DC
-	for <lists+linux-alpha@lfdr.de>; Wed,  1 Jul 2020 12:59:56 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 7858B210A54
+	for <lists+linux-alpha@lfdr.de>; Wed,  1 Jul 2020 13:33:48 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1730161AbgGAK74 (ORCPT <rfc822;lists+linux-alpha@lfdr.de>);
-        Wed, 1 Jul 2020 06:59:56 -0400
-Received: from mout.kundenserver.de ([212.227.126.130]:44263 "EHLO
+        id S1730237AbgGALds (ORCPT <rfc822;lists+linux-alpha@lfdr.de>);
+        Wed, 1 Jul 2020 07:33:48 -0400
+Received: from mout.kundenserver.de ([212.227.126.134]:40583 "EHLO
         mout.kundenserver.de" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1729952AbgGAK7y (ORCPT
-        <rfc822;linux-alpha@vger.kernel.org>); Wed, 1 Jul 2020 06:59:54 -0400
-Received: from mail-qk1-f172.google.com ([209.85.222.172]) by
+        with ESMTP id S1730196AbgGALdr (ORCPT
+        <rfc822;linux-alpha@vger.kernel.org>); Wed, 1 Jul 2020 07:33:47 -0400
+Received: from mail-qk1-f178.google.com ([209.85.222.178]) by
  mrelayeu.kundenserver.de (mreue010 [212.227.15.129]) with ESMTPSA (Nemesis)
- id 1MX00X-1jJlrc1O4f-00XNgi; Wed, 01 Jul 2020 12:59:53 +0200
-Received: by mail-qk1-f172.google.com with SMTP id b185so11099342qkg.1;
-        Wed, 01 Jul 2020 03:59:53 -0700 (PDT)
-X-Gm-Message-State: AOAM530Pr/UXhWxrak0xcyWKXpgviCxTN2Ym+CC6qF5QsdfyfmpMhbB7
-        mhKw92z5GP6pJ81JM6DVJpcoLt6vacvS37TqvC8=
-X-Google-Smtp-Source: ABdhPJztc8Rs2Aj01FvDlsDy8FiXAWwus7EMwqiq3oxxcJK+edsUbi5amD2c/ikaFMMy81wZESqitxpCJ/9YRg9OP74=
-X-Received: by 2002:a37:9dd6:: with SMTP id g205mr25404833qke.352.1593601192134;
- Wed, 01 Jul 2020 03:59:52 -0700 (PDT)
+ id 1Macf4-1jFtb91Xnm-00c6Rl; Wed, 01 Jul 2020 13:33:45 +0200
+Received: by mail-qk1-f178.google.com with SMTP id j80so21792235qke.0;
+        Wed, 01 Jul 2020 04:33:45 -0700 (PDT)
+X-Gm-Message-State: AOAM533T6ALZjEidRqExrH5mKItpO4/RnI33awMDPqAfmY9TgSooEYhV
+        x/SFu5CYjGQ9T0cFADODlTWPn53JzTz8PDed9CU=
+X-Google-Smtp-Source: ABdhPJzUyheLKExWmWPJJq8cfmtDNQPYUV5VmAxlZw/B9iC/fX9pH44hi8zZXNkJzktUY7GsGZCLQHu7TodbT+JJTF8=
+X-Received: by 2002:a37:9dd6:: with SMTP id g205mr25563365qke.352.1593603224183;
+ Wed, 01 Jul 2020 04:33:44 -0700 (PDT)
 MIME-Version: 1.0
-References: <20200630173734.14057-1-will@kernel.org> <20200630173734.14057-19-will@kernel.org>
- <CAK8P3a2zB4z121reuy6BCqQ3-1mDBAkUkRRXeDuvSFtSr3ha2g@mail.gmail.com> <20200701101922.GC14959@willie-the-truck>
-In-Reply-To: <20200701101922.GC14959@willie-the-truck>
+References: <20200630173734.14057-1-will@kernel.org> <20200630173734.14057-3-will@kernel.org>
+ <CAK8P3a136e2k-iGoJ4X51mnj0f0KSLJKOw6b=s4F2QHHeyAMEQ@mail.gmail.com> <20200701101603.GB14959@willie-the-truck>
+In-Reply-To: <20200701101603.GB14959@willie-the-truck>
 From:   Arnd Bergmann <arnd@arndb.de>
-Date:   Wed, 1 Jul 2020 12:59:36 +0200
-X-Gmail-Original-Message-ID: <CAK8P3a1MWBxHihcUaduqcpS2U61cKPujQG6mAfn3-pCokzLwUw@mail.gmail.com>
-Message-ID: <CAK8P3a1MWBxHihcUaduqcpS2U61cKPujQG6mAfn3-pCokzLwUw@mail.gmail.com>
-Subject: Re: [PATCH 18/18] arm64: lto: Strengthen READ_ONCE() to acquire when CLANG_LTO=y
+Date:   Wed, 1 Jul 2020 13:33:28 +0200
+X-Gmail-Original-Message-ID: <CAK8P3a0cfjU-EOVJoMrUcjVDXLOk1Trv4DWcz_bME5Aj3=JPvQ@mail.gmail.com>
+Message-ID: <CAK8P3a0cfjU-EOVJoMrUcjVDXLOk1Trv4DWcz_bME5Aj3=JPvQ@mail.gmail.com>
+Subject: Re: [PATCH 02/18] compiler.h: Split {READ,WRITE}_ONCE definitions out
+ into rwonce.h
 To:     Will Deacon <will@kernel.org>
 Cc:     "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
         Sami Tolvanen <samitolvanen@google.com>,
@@ -53,56 +54,71 @@ Cc:     "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
         virtualization@lists.linux-foundation.org,
         Android Kernel Team <kernel-team@android.com>
 Content-Type: text/plain; charset="UTF-8"
-X-Provags-ID: V03:K1:g7I2hYYZ2lCZFQ7sbdyRHfQy91HD0wtoFaGz8CBa/Dg3GlDiMEM
- 0cDVsVCv/r0iOiUjFafyiLdI5VLmh3fb/4xtPl3rqxU4Dq9aAR/IVIxpZ8dTcS7JK3zGJBL
- MG2nTNgHBZNK1wJn0HRu5jLzBpCpkelS2+hqD9/5VgKCl8oaxz3X28Hcrvwu6vhZHbCE7Ax
- YdMUmUdrpIWPZtf4pB2+A==
+X-Provags-ID: V03:K1:/RjR3cx/IosXmLHSIAw3K2DqSQYhrhXWA71/rRKV/wIh3QCve5q
+ gHLw8HS5iSdMhiBqrGklBQMexmENgsjC4XY3iUWttf+hhm5BmUWNDrq7JkrPkuEoBALjdhk
+ raeyrDJuwB4zboNjFNxyEmQZtcyRtSEL2IrtiZL0NG0ksR8S/sAH31lB6rD/U23yzLls2/7
+ +eDDFhwm4BJ5vwtrEkhfw==
 X-Spam-Flag: NO
-X-UI-Out-Filterresults: notjunk:1;V03:K0:4DwWKkZ8m/I=:B55ukcCg0k7NW87sDOEGI4
- ezfpNvn78XuzW/zJHkxhecufP7cmEd/Gl6VvKI96SgL/jjGAnD9G4VS7MAbL8DSd2MxlI29Jm
- pOgFyhsNXhAtoj7ENFbNNyXhj1XNN6d4DvI4+ZW3Yv08i8recA9aME7Vrtl0fSEnjUfCXlJ5J
- SYliPHA42Gx4R2DGnTELryvEoppMkIsH1ZSBFvM5pFGtyufvui+5w8k+5ELZ1W4qOJWz1NcRx
- /sgEwy5+TvtUTB/ZSMeTIwZ4mGVs52rW/OhwSeK+QV8Crg8yqtHFdhAGNCtoPAStpN4pctJhB
- se5V+o9cUGyLZFoxBO2F7eXJtk85pVY8LuTygSa5Kf5pNmwLZX/HhKbQuK21MOt9oQCGPHqwQ
- 4NHC7/vbLc7ss525ziNJGxYJK5ePR8VdUEoqHa47zwqKEeR8OfYWMToshuvjnQcfNLecDtxeY
- p+oqSuKNyjkuyLtcyETqiyYzuUrNqgxPUq3SppAG04lsYFdAAYNMyavQ1zNhpGE8OKcOxELIo
- enuXtU++MpzFPDHXwbx66ECu7o2SacgzWZQcQmEG4CGsH+MB3HkhpnCKMnrToEbkn2uADHHIe
- DdgS7Vc1cTZcR/h75pQmF8cdr2Vi+YR0EBxsL2Ke5xp8G+fLIUGjbuIMo7CwxKCfzxPoPanvP
- iaD6bT+eDDzvrdijwabmzRXCoV5inzrcNEZoSVK7wQA/c2X/4tVbvEGg5+meuO0Sv3fO17YH0
- V0052JR0LleOOUQW0lk/D1getQWpdr7hdsBN7fvMuqlcpO/FRd4VzThCQ1G1nFwwZB8z/tvps
- rWlfjq+Cc3wfr1uZ/c2o7/0Tn7OzaGcEhD/ZpHjmJ9BiS/o+60=
+X-UI-Out-Filterresults: notjunk:1;V03:K0:umKuxKgCI1I=:/r8f8diZkq+0S5w0FdPi4N
+ eWZO6vSDlA6Zp+V1hvLgtcU7LKYJJxMf+eEkUvS/E5v06klFMH91fDuGWtwPGu0ROZUsBw2X1
+ LqAhs/Jq/iW+9dJ/SRfWgRIQHciZIf97liLiAclok9p6adg4aVUE30qgg7YkJOwlf3v6FO67U
+ 1vG6L3EDxClpI6oUyaavz1w1jvK5nM5ZAMBSaEudxDmyybYVUeZVGmGDh6DjuEZoDUUSlvvt8
+ nUducq41B+zL9NBiRX/5UsSQNXXiAxBVl1Mz39Dj+qRrfyCGtCBpDYBIz00hdlNP5yPzqsaMO
+ wAomUWS60A6zqCvHHrYgYxRCsAqoiYeoiq9Vprm98My2NRtxIyNEV/0iiCLbDoXPv1wkhGmxd
+ esUq2Q3gYFig/Q8bep5Q0axtp9pmNP15VVYlrkHeHp3CzjKH0zzEk7A7Cmzcsv9uzF1RYhtPC
+ IMttQiM8U/5kalUCZRWVG6auHlBJWclsfH0trOl3dR3FLg9iv7qiw9PKagzs+RA9NeOgsXpzN
+ 7ukk9nHNCZSM1Nj9PEyCmTObPfldglxPA6xoMvMLeEmUANe+NqKJQYsVtRzsQGACi0Kyb+lYI
+ Q51/4YXL+RptvMLqkol+XLc9BZ1VtD7fX6GBOc+PPeKjSx5wV1xR+jvnSsCCjpUGbHsAXU1WW
+ d9bpZ/jxupuo5a4/yDD08rAv7TVNrKk2rs/DLffKGRdGbJkQz80DBp0h5437lbWUb98OMHbwr
+ +ul3fSvH7Y3a1QD2oF/mA9vLiXrR3bOCKf+LAlIRq0Oz8R8r66DYQZ3xAc3HCAMB8WxQvheiY
+ h8rnkXx3DEBg8BGq82zjLmhUAIrejbvsETKZXFsqpj6Q3AE2oo=
 Sender: linux-alpha-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-alpha.vger.kernel.org>
 X-Mailing-List: linux-alpha@vger.kernel.org
 
-On Wed, Jul 1, 2020 at 12:19 PM Will Deacon <will@kernel.org> wrote:
-> On Tue, Jun 30, 2020 at 09:25:03PM +0200, Arnd Bergmann wrote:
-> > On Tue, Jun 30, 2020 at 7:39 PM Will Deacon <will@kernel.org> wrote:
-> > Once we make gcc-4.9 the minimum version,
-> > this could be further improved to
+On Wed, Jul 1, 2020 at 12:16 PM Will Deacon <will@kernel.org> wrote:
+> On Tue, Jun 30, 2020 at 09:11:32PM +0200, Arnd Bergmann wrote:
+> > On Tue, Jun 30, 2020 at 7:37 PM Will Deacon <will@kernel.org> wrote:
+> > >
+> > > In preparation for allowing architectures to define their own
+> > > implementation of the READ_ONCE() macro, move the generic
+> > > {READ,WRITE}_ONCE() definitions out of the unwieldy 'linux/compiler.h'
+> > > file and into a new 'rwonce.h' header under 'asm-generic'.
+> > >
+> > > Acked-by: Paul E. McKenney <paulmck@kernel.org>
+> > > Signed-off-by: Will Deacon <will@kernel.org>
+> > > ---
+> > >  include/asm-generic/Kbuild   |  1 +
+> > >  include/asm-generic/rwonce.h | 91 ++++++++++++++++++++++++++++++++++++
+> > >  include/linux/compiler.h     | 83 +-------------------------------
 > >
-> >        __auto_type __x = &(x);
+> > Very nice, this has the added benefit of allowing us to stop including
+> > asm/barrier.h once linux/compiler.h gets changed to not include
+> > asm/rwonce.h.
 >
-> Is anybody working on moving to 4.9? I've seen the mails from Linus
-> championing it, but I thought there was a RHEL in support that people
-> might care about?
+> Yeah, with this series linux/compiler.h _does_ include asm/rwonce.h because
+> otherwise there are many callers to fix up, but that could be addressed
+> subsequently, I suppose.
 
-I don't think there was a serious discussion about it so far, and
-we only just moved to gcc-4.8.
+Right, I didn't mean you should change that right away. I actually
+have a work-in-progress patch series that removes a ton of
+indirect header inclusions to improve build speed, and a script to
+add the explicit includes into .c files where needed.
 
-I think moving to gnu11 (gcc-4.9 or clang) instead of gnu99 has other
-benefits as well, so we may well want to do it anyway when something
-else comes up.
+> > The asm/barrier.h header has a circular dependency, pulling in
+> > linux/compiler.h itself.
+>
+> Hmm. Once smp_read_barrier_depends() disappears, I could actually remove
+> the include of <asm/barrier.h> from asm-generic/rwonce.h. It would have to
+> remain for arch/alpha/, however, since we need the barrier definitions to
+> implement READ_ONCE(). I can probably also replace the include of
+> <linux/compiler.h> in asm-generic/barrier.h with <asm/rwonce.h> too (so it's
+> still circular, but at least a lot simpler).
+>
+> I'll have a play...
 
-For __auto_type(), we could do it like
+I think this would require the same kind of fixup for anything that depends on
+asm/barrier.h being included implicitly at the moment.
 
-#if (clang or gcc-4.9+)
-#define auto_typeof(x) __auto_type
-#else
-#define auto_typeof(x) typeof(x)
-#endif
-
-which could be used in a lot of macros.
-
-     Arnd
+      Arnd
