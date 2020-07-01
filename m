@@ -2,28 +2,28 @@ Return-Path: <linux-alpha-owner@vger.kernel.org>
 X-Original-To: lists+linux-alpha@lfdr.de
 Delivered-To: lists+linux-alpha@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 068CB21090F
-	for <lists+linux-alpha@lfdr.de>; Wed,  1 Jul 2020 12:16:16 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 8D38B21091F
+	for <lists+linux-alpha@lfdr.de>; Wed,  1 Jul 2020 12:19:47 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729822AbgGAKQM (ORCPT <rfc822;lists+linux-alpha@lfdr.de>);
-        Wed, 1 Jul 2020 06:16:12 -0400
-Received: from mail.kernel.org ([198.145.29.99]:41700 "EHLO mail.kernel.org"
+        id S1729180AbgGAKTm (ORCPT <rfc822;lists+linux-alpha@lfdr.de>);
+        Wed, 1 Jul 2020 06:19:42 -0400
+Received: from mail.kernel.org ([198.145.29.99]:42302 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1729671AbgGAKQL (ORCPT <rfc822;linux-alpha@vger.kernel.org>);
-        Wed, 1 Jul 2020 06:16:11 -0400
+        id S1729887AbgGAKTi (ORCPT <rfc822;linux-alpha@vger.kernel.org>);
+        Wed, 1 Jul 2020 06:19:38 -0400
 Received: from willie-the-truck (236.31.169.217.in-addr.arpa [217.169.31.236])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 2AECE206B6;
-        Wed,  1 Jul 2020 10:16:07 +0000 (UTC)
+        by mail.kernel.org (Postfix) with ESMTPSA id DD328206B6;
+        Wed,  1 Jul 2020 10:19:25 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1593598570;
-        bh=zaXs2CbDvdszPriMRibslBZHNsXjv65VQsj0rfFmR+o=;
+        s=default; t=1593598769;
+        bh=9Kej8N7/444vyXQnl8/ioGdJ8CvpVggYRN8p0S6A3hA=;
         h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=x9F1GjIcBBX3hdCVHlt6wJhlZPB1N66WRkkqZTlXlWM63OjP7z5kH6BN/nqF+TGdK
-         0l2eDCnBkdVi58H2QL0fQ2HW5wh+cQZXqBCv4zjoK3BLLwxqaxwskMx48hdn7mC2PX
-         hIbO1vcmH/rJuuU6I20zoA0/9Lb9QB1M0qPY6kII=
-Date:   Wed, 1 Jul 2020 11:16:04 +0100
+        b=XMtZZ1DarIqro0ULGuCiTjSVyJcESurJDaZsh5CFvc6CBXTm3pedcUVJFRlirmjlr
+         92x2fLcppQnSp5oM9ELuhyJpmszSzZJYg4gVTVdrHIX069eolAhFnwXqU1AJ25irZh
+         XNHpUTaw9KdSfGins0gbmJvLeNQsCViZVDBnjSYk=
+Date:   Wed, 1 Jul 2020 11:19:23 +0100
 From:   Will Deacon <will@kernel.org>
 To:     Arnd Bergmann <arnd@arndb.de>
 Cc:     "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
@@ -47,57 +47,57 @@ Cc:     "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
         alpha <linux-alpha@vger.kernel.org>,
         virtualization@lists.linux-foundation.org,
         Android Kernel Team <kernel-team@android.com>
-Subject: Re: [PATCH 02/18] compiler.h: Split {READ,WRITE}_ONCE definitions
- out into rwonce.h
-Message-ID: <20200701101603.GB14959@willie-the-truck>
+Subject: Re: [PATCH 18/18] arm64: lto: Strengthen READ_ONCE() to acquire when
+ CLANG_LTO=y
+Message-ID: <20200701101922.GC14959@willie-the-truck>
 References: <20200630173734.14057-1-will@kernel.org>
- <20200630173734.14057-3-will@kernel.org>
- <CAK8P3a136e2k-iGoJ4X51mnj0f0KSLJKOw6b=s4F2QHHeyAMEQ@mail.gmail.com>
+ <20200630173734.14057-19-will@kernel.org>
+ <CAK8P3a2zB4z121reuy6BCqQ3-1mDBAkUkRRXeDuvSFtSr3ha2g@mail.gmail.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <CAK8P3a136e2k-iGoJ4X51mnj0f0KSLJKOw6b=s4F2QHHeyAMEQ@mail.gmail.com>
+In-Reply-To: <CAK8P3a2zB4z121reuy6BCqQ3-1mDBAkUkRRXeDuvSFtSr3ha2g@mail.gmail.com>
 User-Agent: Mutt/1.10.1 (2018-07-13)
 Sender: linux-alpha-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-alpha.vger.kernel.org>
 X-Mailing-List: linux-alpha@vger.kernel.org
 
-Hi Arnd,
-
-On Tue, Jun 30, 2020 at 09:11:32PM +0200, Arnd Bergmann wrote:
-> On Tue, Jun 30, 2020 at 7:37 PM Will Deacon <will@kernel.org> wrote:
-> >
-> > In preparation for allowing architectures to define their own
-> > implementation of the READ_ONCE() macro, move the generic
-> > {READ,WRITE}_ONCE() definitions out of the unwieldy 'linux/compiler.h'
-> > file and into a new 'rwonce.h' header under 'asm-generic'.
-> >
-> > Acked-by: Paul E. McKenney <paulmck@kernel.org>
-> > Signed-off-by: Will Deacon <will@kernel.org>
-> > ---
-> >  include/asm-generic/Kbuild   |  1 +
-> >  include/asm-generic/rwonce.h | 91 ++++++++++++++++++++++++++++++++++++
-> >  include/linux/compiler.h     | 83 +-------------------------------
+On Tue, Jun 30, 2020 at 09:25:03PM +0200, Arnd Bergmann wrote:
+> On Tue, Jun 30, 2020 at 7:39 PM Will Deacon <will@kernel.org> wrote:
+> > +#define __READ_ONCE(x)                                                 \
+> > +({                                                                     \
+> > +       int atomic = 1;                                                 \
+> > +       union { __unqual_scalar_typeof(x) __val; char __c[1]; } __u;    \
+> > +       typeof(&(x)) __x = &(x);                                        \
+> > +       switch (sizeof(x)) {                                            \
+> ...
+> > +       atomic ? (typeof(x))__u.__val : (*(volatile typeof(x) *)__x);   \
+> > +})
 > 
-> Very nice, this has the added benefit of allowing us to stop including
-> asm/barrier.h once linux/compiler.h gets changed to not include
-> asm/rwonce.h.
+> This expands (x) nine times (five in __unqual_scala_typeof()), which can
+> lead to significant code bloat after preprocessing if something passes a
+> compound expression into READ_ONCE().
+> The compiler works it out eventually, but we've seen an actual slowdown
+> in compile speed from this recently, especially on clang.
+> 
+> I think if you move the
+> 
+>         typeof(&(x)) __x = &(x);
+> 
+> line first, all other instances can use typeof(*__x) instead of typeof(x)
+> and avoid this problem.
 
-Yeah, with this series linux/compiler.h _does_ include asm/rwonce.h because
-otherwise there are many callers to fix up, but that could be addressed
-subsequently, I suppose.
+Cheers, I was only thinking about side-effects when I wrote this, but
+bloating built time is very unpopular, so I'll go with your suggestion.
 
-> The asm/barrier.h header has a circular dependency, pulling in
-> linux/compiler.h itself.
+> Once we make gcc-4.9 the minimum version,
+> this could be further improved to
+> 
+>        __auto_type __x = &(x);
 
-Hmm. Once smp_read_barrier_depends() disappears, I could actually remove
-the include of <asm/barrier.h> from asm-generic/rwonce.h. It would have to
-remain for arch/alpha/, however, since we need the barrier definitions to
-implement READ_ONCE(). I can probably also replace the include of
-<linux/compiler.h> in asm-generic/barrier.h with <asm/rwonce.h> too (so it's
-still circular, but at least a lot simpler).
-
-I'll have a play...
+Is anybody working on moving to 4.9? I've seen the mails from Linus
+championing it, but I thought there was a RHEL in support that people
+might care about?
 
 Will
