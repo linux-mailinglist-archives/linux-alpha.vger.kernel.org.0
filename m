@@ -2,97 +2,88 @@ Return-Path: <linux-alpha-owner@vger.kernel.org>
 X-Original-To: lists+linux-alpha@lfdr.de
 Delivered-To: lists+linux-alpha@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 16EDA21119B
-	for <lists+linux-alpha@lfdr.de>; Wed,  1 Jul 2020 19:07:35 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 26C342111BB
+	for <lists+linux-alpha@lfdr.de>; Wed,  1 Jul 2020 19:15:48 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728103AbgGARHe (ORCPT <rfc822;lists+linux-alpha@lfdr.de>);
-        Wed, 1 Jul 2020 13:07:34 -0400
-Received: from foss.arm.com ([217.140.110.172]:58846 "EHLO foss.arm.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1728966AbgGARHe (ORCPT <rfc822;linux-alpha@vger.kernel.org>);
-        Wed, 1 Jul 2020 13:07:34 -0400
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-        by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 38EBF31B;
-        Wed,  1 Jul 2020 10:07:33 -0700 (PDT)
-Received: from bakewell.cambridge.arm.com (unknown [10.37.8.41])
-        by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 572E33F73C;
-        Wed,  1 Jul 2020 10:07:28 -0700 (PDT)
-Date:   Wed, 1 Jul 2020 18:07:25 +0100
-From:   Dave P Martin <dave.martin@arm.com>
-To:     Will Deacon <will@kernel.org>
-Cc:     linux-kernel@vger.kernel.org, Mark Rutland <mark.rutland@arm.com>,
-        "Michael S. Tsirkin" <mst@redhat.com>,
-        Peter Zijlstra <peterz@infradead.org>,
-        Catalin Marinas <catalin.marinas@arm.com>,
-        Jason Wang <jasowang@redhat.com>,
-        virtualization@lists.linux-foundation.org,
-        Arnd Bergmann <arnd@arndb.de>,
-        Alan Stern <stern@rowland.harvard.edu>,
-        Sami Tolvanen <samitolvanen@google.com>,
-        Matt Turner <mattst88@gmail.com>, kernel-team@android.com,
-        Marco Elver <elver@google.com>,
-        Kees Cook <keescook@chromium.org>,
-        "Paul E. McKenney" <paulmck@kernel.org>,
-        Boqun Feng <boqun.feng@gmail.com>,
-        Josh Triplett <josh@joshtriplett.org>,
-        Ivan Kokshaysky <ink@jurassic.park.msu.ru>,
-        linux-arm-kernel@lists.infradead.org,
-        Richard Henderson <rth@twiddle.net>,
-        Nick Desaulniers <ndesaulniers@google.com>,
-        linux-alpha@vger.kernel.org
-Subject: Re: [PATCH 18/18] arm64: lto: Strengthen READ_ONCE() to acquire when
- CLANG_LTO=y
-Message-ID: <20200701170722.4rte5ssnmrn2uqzg@bakewell.cambridge.arm.com>
-References: <20200630173734.14057-1-will@kernel.org>
- <20200630173734.14057-19-will@kernel.org>
+        id S1732666AbgGARPp (ORCPT <rfc822;lists+linux-alpha@lfdr.de>);
+        Wed, 1 Jul 2020 13:15:45 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48658 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1730645AbgGARPo (ORCPT
+        <rfc822;linux-alpha@vger.kernel.org>); Wed, 1 Jul 2020 13:15:44 -0400
+Received: from mail-qt1-x841.google.com (mail-qt1-x841.google.com [IPv6:2607:f8b0:4864:20::841])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B3ECFC08C5DB
+        for <linux-alpha@vger.kernel.org>; Wed,  1 Jul 2020 10:15:44 -0700 (PDT)
+Received: by mail-qt1-x841.google.com with SMTP id d27so19027279qtg.4
+        for <linux-alpha@vger.kernel.org>; Wed, 01 Jul 2020 10:15:44 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=mime-version:reply-to:from:date:message-id:subject:to;
+        bh=4ctMXEvTixjKM6olI5YVhvCcO1778vVFj3shNrjFepw=;
+        b=lBpDnHWcDJl71ZJIsRCV+yrtgnERN7dcOwOyxdOvdSb0eDM9XgLeE8/nGqyx9FU/ie
+         g7Yi+Q98cTY04KVy/KmbRigQscosM1rOyx1jmcuZl0bNTeXh6FG4ruysTeDTkJ8LEn07
+         GFDbMx6ZUYE7f+u39Alw+CE5goRDBdkmC0U3jcU/8FY8c/3gi9EefKYyX6c+3dZ5cTnX
+         ulaJTaIk0cQL+PrdHNhqtoSGOo6gXPiwRv/2aWy8sOisbx90RcNUSOfwieamFESNBUSh
+         fOZypppX0wVX11KaIXtK9dvXIoTWj9EhcsVYTIPTSFipxVAn4IIBdUB7Q5qYsPoNyObY
+         kkHQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:reply-to:from:date:message-id
+         :subject:to;
+        bh=4ctMXEvTixjKM6olI5YVhvCcO1778vVFj3shNrjFepw=;
+        b=kTqR4zrC+EdL08Av8ubX/y0Sn9s1javiM9qHww/SF72mXZpxsItyu+F445/pNrGxlR
+         PvWdgShPv5cjzj7bWR9ZY2nesvrJ+c0CXzdodyaf8REzJ7SCw5XfKQAINDTGTZihNo12
+         VAogvxOCHTqVi1bf938hYKsrznpH1Ek92rEdURzmS7QEBX9usDeFXe3E8R/Ugf4ohoZ9
+         bny/v/hUHFQIp1Nx6sHmNnCBv+4S4nggxVlXREckx98Cxr8swaVMd2yZl3GYIBxJUq8B
+         BlUx/7P+U3d4NfIljueG8hsAO+9Pj3Lmx/zeJRM88ki5WQEC8CDgeYX3315iwSMhkUh8
+         65xA==
+X-Gm-Message-State: AOAM530pHcBvnBSiy1SjDQ1LVInNVDNmcgd/DMORXjB1fwZjhnyygqDR
+        BUPtOEQtToIR/ZYW258lrfl0GxYyvIwJw5pA0VE=
+X-Google-Smtp-Source: ABdhPJxCZGOQA1sE0GTZcNlT5J+mnHwZ+HmwbvcFtcg1r2/DVJCtgLJB17Non53tqk2KyoXfeBJggopyDJFptQmXaqY=
+X-Received: by 2002:ac8:44ad:: with SMTP id a13mr20092678qto.387.1593623743883;
+ Wed, 01 Jul 2020 10:15:43 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20200630173734.14057-19-will@kernel.org>
-User-Agent: NeoMutt/20170113 (1.7.2)
+Received: by 2002:ac8:16ac:0:0:0:0:0 with HTTP; Wed, 1 Jul 2020 10:15:43 -0700 (PDT)
+Reply-To: sctnld11170@tlen.pl
+From:   "Mr. Scott Donald" <missjankipkalya@gmail.com>
+Date:   Wed, 1 Jul 2020 10:15:43 -0700
+Message-ID: <CANYA1jSf2Apk+FwV4sS83-Nhr-+4mSNKqaK_8ysz-VykUZr0Dg@mail.gmail.com>
+Subject: Hello, Please
+To:     undisclosed-recipients:;
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-alpha-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-alpha.vger.kernel.org>
 X-Mailing-List: linux-alpha@vger.kernel.org
 
-On Tue, Jun 30, 2020 at 06:37:34PM +0100, Will Deacon wrote:
-> When building with LTO, there is an increased risk of the compiler
-> converting an address dependency headed by a READ_ONCE() invocation
-> into a control dependency and consequently allowing for harmful
-> reordering by the CPU.
-> 
-> Ensure that such transformations are harmless by overriding the generic
-> READ_ONCE() definition with one that provides acquire semantics when
-> building with LTO.
-> 
-> Signed-off-by: Will Deacon <will@kernel.org>
-> ---
->  arch/arm64/include/asm/rwonce.h   | 63 +++++++++++++++++++++++++++++++
->  arch/arm64/kernel/vdso/Makefile   |  2 +-
->  arch/arm64/kernel/vdso32/Makefile |  2 +-
->  3 files changed, 65 insertions(+), 2 deletions(-)
->  create mode 100644 arch/arm64/include/asm/rwonce.h
-> 
-> diff --git a/arch/arm64/include/asm/rwonce.h b/arch/arm64/include/asm/rwonce.h
-> new file mode 100644
-> index 000000000000..515e360b01a1
-> --- /dev/null
-> +++ b/arch/arm64/include/asm/rwonce.h
-> @@ -0,0 +1,63 @@
-> +/* SPDX-License-Identifier: GPL-2.0 */
-> +/*
-> + * Copyright (C) 2020 Google LLC.
-> + */
-> +#ifndef __ASM_RWONCE_H
-> +#define __ASM_RWONCE_H
-> +
-> +#ifdef CONFIG_CLANG_LTO
+Dear Friend,
+I'm Mr. Scott Donald a Successful business Man dealing with
+Exportation, I got your mail contact through search to let you know my
+Ugly Situation Am a dying Man here in Los Angeles California Hospital
+Bed in (USA), I Lost my Wife and my only Daughter for Covid-19 I'm
+dying with same symptoms. my Doctor open-up to me that he is Afraid to
+tell me my Condition and inside me, I already know that I'm not going
+to survive this alone in this Health,
 
-Don't we have a generic option for LTO that's not specific to Clang.
+I have a project that I am about to hand over to you. I have already
+instructed the Bank to make the transfer to you as soon as the Account
+Manager hears from you. the bank will commence the fund transfer into
+your account. I want you to give 50% to Charitable Home and take 50%
+Please, don't think otherwise and why would anybody send someone you
+barely know a huge amount of money is this real or what? please do as
+I said there was someone from your State that I deeply love so very
+very much and I miss her so very very much I have no means to reach
+any Charitable Home there. that is why I go for a personal search of
+the Country and State and I got your mail contact through search to
+let you know my Bitterness and please, help me is getting Dark I ask
+my Doctor to help me keep you notice failure for me to reach you in
+person Your urgent Response, here is my Doctor Whats-app Number for
+urgent notice +13019692737
 
-Also, can you illustrate code that can only be unsafe with Clang LTO?
+Hope To Hear From You. I'm sending this email to you for the second
+time yet no response from you.
 
-[...]
+My Regards.
 
-Cheers
----Dave
+Mr. Scott Donald
+CEO
