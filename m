@@ -2,24 +2,30 @@ Return-Path: <linux-alpha-owner@vger.kernel.org>
 X-Original-To: lists+linux-alpha@lfdr.de
 Delivered-To: lists+linux-alpha@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 58F38211FF7
-	for <lists+linux-alpha@lfdr.de>; Thu,  2 Jul 2020 11:32:52 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 22B4A21204E
+	for <lists+linux-alpha@lfdr.de>; Thu,  2 Jul 2020 11:48:42 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726475AbgGBJcw (ORCPT <rfc822;lists+linux-alpha@lfdr.de>);
-        Thu, 2 Jul 2020 05:32:52 -0400
-Received: from foss.arm.com ([217.140.110.172]:58934 "EHLO foss.arm.com"
+        id S1728077AbgGBJsl (ORCPT <rfc822;lists+linux-alpha@lfdr.de>);
+        Thu, 2 Jul 2020 05:48:41 -0400
+Received: from mail.kernel.org ([198.145.29.99]:50554 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1727057AbgGBJcv (ORCPT <rfc822;linux-alpha@vger.kernel.org>);
-        Thu, 2 Jul 2020 05:32:51 -0400
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-        by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id D892B31B;
-        Thu,  2 Jul 2020 02:32:50 -0700 (PDT)
-Received: from C02TD0UTHF1T.local (unknown [10.57.12.193])
-        by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 7322A3F71E;
-        Thu,  2 Jul 2020 02:32:46 -0700 (PDT)
-Date:   Thu, 2 Jul 2020 10:32:39 +0100
-From:   Mark Rutland <mark.rutland@arm.com>
-To:     Will Deacon <will@kernel.org>
+        id S1726555AbgGBJsl (ORCPT <rfc822;linux-alpha@vger.kernel.org>);
+        Thu, 2 Jul 2020 05:48:41 -0400
+Received: from willie-the-truck (236.31.169.217.in-addr.arpa [217.169.31.236])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by mail.kernel.org (Postfix) with ESMTPSA id E995020874;
+        Thu,  2 Jul 2020 09:48:36 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=default; t=1593683320;
+        bh=8To++DcBmhQUuz2eqkOVWHaWbqWUTZ6jhRKebFqKYqM=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=pvvSqoKuX6EoQp3iR1pOFMS1VuWVSn9bXK/IVDhTQ1Bb8G4k5KaaptoPD6grev0aX
+         fNdI68lGWQGkuhsT0oBuiB3hXEx9ZLANBXAgOTDc+ixQmjHmi9pG8qTts8l/Xw1PHx
+         R1JOSfYU0SMNZ/OPMRKZNPdqf1Ztg/D9u+MRtgqw=
+Date:   Thu, 2 Jul 2020 10:48:33 +0100
+From:   Will Deacon <will@kernel.org>
+To:     Mark Rutland <mark.rutland@arm.com>
 Cc:     linux-kernel@vger.kernel.org,
         Sami Tolvanen <samitolvanen@google.com>,
         Nick Desaulniers <ndesaulniers@google.com>,
@@ -41,92 +47,72 @@ Cc:     linux-kernel@vger.kernel.org,
         virtualization@lists.linux-foundation.org, kernel-team@android.com
 Subject: Re: [PATCH 04/18] alpha: Override READ_ONCE() with barriered
  implementation
-Message-ID: <20200702093239.GA15391@C02TD0UTHF1T.local>
+Message-ID: <20200702094833.GA16248@willie-the-truck>
 References: <20200630173734.14057-1-will@kernel.org>
  <20200630173734.14057-5-will@kernel.org>
+ <20200702093239.GA15391@C02TD0UTHF1T.local>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20200630173734.14057-5-will@kernel.org>
+In-Reply-To: <20200702093239.GA15391@C02TD0UTHF1T.local>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 Sender: linux-alpha-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-alpha.vger.kernel.org>
 X-Mailing-List: linux-alpha@vger.kernel.org
 
-On Tue, Jun 30, 2020 at 06:37:20PM +0100, Will Deacon wrote:
-> Rather then relying on the core code to use smp_read_barrier_depends()
-> as part of the READ_ONCE() definition, instead override __READ_ONCE()
-> in the Alpha code so that it is treated the same way as
-> smp_load_acquire().
+On Thu, Jul 02, 2020 at 10:32:39AM +0100, Mark Rutland wrote:
+> On Tue, Jun 30, 2020 at 06:37:20PM +0100, Will Deacon wrote:
+> > -#define read_barrier_depends() __asm__ __volatile__("mb": : :"memory")
+> > +#define __smp_load_acquire(p)						\
+> > +({									\
+> > +	__unqual_scalar_typeof(*p) ___p1 =				\
+> > +		(*(volatile typeof(___p1) *)(p));			\
+> > +	compiletime_assert_atomic_type(*p);				\
+> > +	___p1;								\
+> > +})
 > 
-> Acked-by: Paul E. McKenney <paulmck@kernel.org>
-> Signed-off-by: Will Deacon <will@kernel.org>
-> ---
->  arch/alpha/include/asm/barrier.h | 61 ++++----------------------------
->  arch/alpha/include/asm/rwonce.h  | 19 ++++++++++
->  2 files changed, 26 insertions(+), 54 deletions(-)
->  create mode 100644 arch/alpha/include/asm/rwonce.h
+> Sorry if I'm being thick, but doesn't this need a barrier after the
+> volatile access to provide the acquire semantic?
 > 
-> diff --git a/arch/alpha/include/asm/barrier.h b/arch/alpha/include/asm/barrier.h
-> index 92ec486a4f9e..2ecd068d91d1 100644
-> --- a/arch/alpha/include/asm/barrier.h
-> +++ b/arch/alpha/include/asm/barrier.h
-> @@ -2,64 +2,17 @@
->  #ifndef __BARRIER_H
->  #define __BARRIER_H
->  
-> -#include <asm/compiler.h>
-> -
->  #define mb()	__asm__ __volatile__("mb": : :"memory")
->  #define rmb()	__asm__ __volatile__("mb": : :"memory")
->  #define wmb()	__asm__ __volatile__("wmb": : :"memory")
+> IIUC prior to this commit alpha would have used the asm-generic
+> __smp_load_acquire, i.e.
+> 
+> | #ifndef __smp_load_acquire
+> | #define __smp_load_acquire(p)                                           \
+> | ({                                                                      \
+> |         __unqual_scalar_typeof(*p) ___p1 = READ_ONCE(*p);               \
+> |         compiletime_assert_atomic_type(*p);                             \
+> |         __smp_mb();                                                     \
+> |         (typeof(*p))___p1;                                              \
+> | })
+> | #endif
+> 
+> ... where the __smp_mb() would be alpha's mb() from earlier in the patch
+> context, i.e.
+> 
+> | #define mb() __asm__ __volatile__("mb": : :"memory")
+> 
+> ... so don't we need similar before returning ___p1 above in
+> __smp_load_acquire() (and also matching the old read_barrier_depends())?
+> 
+> [...]
+> 
+> > +#include <asm/barrier.h>
+> > +
+> > +/*
+> > + * Alpha is apparently daft enough to reorder address-dependent loads
+> > + * on some CPU implementations. Knock some common sense into it with
+> > + * a memory barrier in READ_ONCE().
+> > + */
+> > +#define __READ_ONCE(x)	__smp_load_acquire(&(x))
+> 
+> As above, I don't see a memory barrier implied here, so this doesn't
+> look quite right.
 
-> -#define read_barrier_depends() __asm__ __volatile__("mb": : :"memory")
-> +#define __smp_load_acquire(p)						\
-> +({									\
-> +	__unqual_scalar_typeof(*p) ___p1 =				\
-> +		(*(volatile typeof(___p1) *)(p));			\
-> +	compiletime_assert_atomic_type(*p);				\
-> +	___p1;								\
-> +})
+You're right, and Peter spotted the same thing off-list. I've reworked
+locally so that the mb() ends up in __READ_ONCE() and __smp_load_acquire()
+calles __READ_ONCE() instead of the other way round (which made more
+sense before the rework in the merge window).
 
-Sorry if I'm being thick, but doesn't this need a barrier after the
-volatile access to provide the acquire semantic?
-
-IIUC prior to this commit alpha would have used the asm-generic
-__smp_load_acquire, i.e.
-
-| #ifndef __smp_load_acquire
-| #define __smp_load_acquire(p)                                           \
-| ({                                                                      \
-|         __unqual_scalar_typeof(*p) ___p1 = READ_ONCE(*p);               \
-|         compiletime_assert_atomic_type(*p);                             \
-|         __smp_mb();                                                     \
-|         (typeof(*p))___p1;                                              \
-| })
-| #endif
-
-... where the __smp_mb() would be alpha's mb() from earlier in the patch
-context, i.e.
-
-| #define mb() __asm__ __volatile__("mb": : :"memory")
-
-... so don't we need similar before returning ___p1 above in
-__smp_load_acquire() (and also matching the old read_barrier_depends())?
-
-[...]
-
-> +#include <asm/barrier.h>
-> +
-> +/*
-> + * Alpha is apparently daft enough to reorder address-dependent loads
-> + * on some CPU implementations. Knock some common sense into it with
-> + * a memory barrier in READ_ONCE().
-> + */
-> +#define __READ_ONCE(x)	__smp_load_acquire(&(x))
-
-As above, I don't see a memory barrier implied here, so this doesn't
-look quite right.
-
-Thanks,
-Mark.
+Will
