@@ -2,38 +2,56 @@ Return-Path: <linux-alpha-owner@vger.kernel.org>
 X-Original-To: lists+linux-alpha@lfdr.de
 Delivered-To: lists+linux-alpha@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 34CE521226F
-	for <lists+linux-alpha@lfdr.de>; Thu,  2 Jul 2020 13:39:35 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id C135B21268C
+	for <lists+linux-alpha@lfdr.de>; Thu,  2 Jul 2020 16:44:26 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728645AbgGBLj3 (ORCPT <rfc822;lists+linux-alpha@lfdr.de>);
-        Thu, 2 Jul 2020 07:39:29 -0400
-Received: from mout.kundenserver.de ([212.227.126.130]:34081 "EHLO
-        mout.kundenserver.de" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727016AbgGBLj3 (ORCPT
-        <rfc822;linux-alpha@vger.kernel.org>); Thu, 2 Jul 2020 07:39:29 -0400
-Received: from mail-qk1-f176.google.com ([209.85.222.176]) by
- mrelayeu.kundenserver.de (mreue010 [212.227.15.129]) with ESMTPSA (Nemesis)
- id 1MyJx6-1isHMh3GRg-00ykb7; Thu, 02 Jul 2020 13:39:27 +0200
-Received: by mail-qk1-f176.google.com with SMTP id e13so25256271qkg.5;
-        Thu, 02 Jul 2020 04:39:27 -0700 (PDT)
-X-Gm-Message-State: AOAM532z0IHA9N1mAsG65XlCWqo+0pwbShicaHgYkplIDL+zOJ4B9Fdd
-        Gx0V0WAJRgyl1kE6Xf/FAxj82S5DvTjR08HdYBs=
-X-Google-Smtp-Source: ABdhPJxZnj5versBmr7lWdCxrevvSnrtGz16SQp4OMCvU87jKF+QYKva7czF6a7gzq//AqJiVHDYLYMn/4Cgp3bsm/o=
-X-Received: by 2002:a37:9dd6:: with SMTP id g205mr30820571qke.352.1593689966522;
- Thu, 02 Jul 2020 04:39:26 -0700 (PDT)
+        id S1729883AbgGBOoI (ORCPT <rfc822;lists+linux-alpha@lfdr.de>);
+        Thu, 2 Jul 2020 10:44:08 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49756 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1729837AbgGBOoI (ORCPT
+        <rfc822;linux-alpha@vger.kernel.org>); Thu, 2 Jul 2020 10:44:08 -0400
+Received: from mail-qv1-xf41.google.com (mail-qv1-xf41.google.com [IPv6:2607:f8b0:4864:20::f41])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2D744C08C5DD
+        for <linux-alpha@vger.kernel.org>; Thu,  2 Jul 2020 07:44:08 -0700 (PDT)
+Received: by mail-qv1-xf41.google.com with SMTP id u8so12749005qvj.12
+        for <linux-alpha@vger.kernel.org>; Thu, 02 Jul 2020 07:44:08 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20161025;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=I9S+YyJ0fLCRa1Cwm+n/NH94ez6mz+li88d6osWWRvM=;
+        b=OiMQcGxeqkk/4Awal6X4kYe1CxbqnKK7VEheoiH3nPUyKTnh9LF8J5gXTddg4gACKu
+         dh7LZ0+LYuI7eqJHJ/AOZoqkJzff1V810uiOwUOHFE+0aGzlogkuyZKbPBFv84u7O+82
+         iBovoaZQTQBeCuaGsrzbeLV4btzHi1QdWyxSlKo044c9PeU1XUjKQxS3EQeKAng4pmlT
+         4YVlrSTVQcZQxbJ+BF1o13Dqwp33TXJKbcXMD9hbtHnqzGzI4Ka8Si7zs63nzb5C0tAm
+         nldmoql8GIbqwZCsgy/B6gF2hROWsp1mdTX3sJXXQs4X/OGGdw9bHJb71AyFIbVPyFWZ
+         FqTQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=I9S+YyJ0fLCRa1Cwm+n/NH94ez6mz+li88d6osWWRvM=;
+        b=UVr86p1oTaD4dbwU4fmwy1oNhj0Dop/JNlOsLstoOezU0BN5OnNkIiZAQKHUin9qrv
+         2ILxqIzdepG+C2s/xL7VwnDKDZYfOVzkzyWZYa8FG9AR1zulwlnyN8g1ey4aQA6o/MP5
+         dl/ivgEh7GU6wiytb5qq2AnHjG3/f5pPJpNOgX8LTuvseNybO6WoDPC0HR30i1V6zAtt
+         sNgYywdrIap/WVzgltOOMl4yr4ppnaIFVEQCesQycWQtfSkjJstnUcah8dAkjD6DV1zt
+         Y1FWkAqmNcFUFzLDEibRleG4e5YRAerqRignAehviyA1XjGvLDA/nXsA0umuiVXEvU73
+         9Eig==
+X-Gm-Message-State: AOAM531+YXIvgxMnKOCN3CgTqrVrcFLPZ6J7CIm9Gql7eOZv1GB5v64K
+        gD/L+2bIOf5XAA3F5+S2BkoqkcUeYa2O/vUNmCt3ng==
+X-Google-Smtp-Source: ABdhPJxhkIJSSmI1llDnnlyk/fpATcXAk1fIHgpTA/vpWwX47DrmByr6pNIiRXw7kSOA73Cz6sk6VvuYvB41dQWJMqI=
+X-Received: by 2002:a05:6214:14e5:: with SMTP id k5mr6836956qvw.125.1593701046654;
+ Thu, 02 Jul 2020 07:44:06 -0700 (PDT)
 MIME-Version: 1.0
 References: <20200630173734.14057-1-will@kernel.org> <20200630173734.14057-5-will@kernel.org>
- <20200702093239.GA15391@C02TD0UTHF1T.local> <20200702094833.GA16248@willie-the-truck>
- <CAK8P3a07G1dLC+RUBDkzDbCRCP_gwZAaVK+k1UxvXT+7Kj=o+g@mail.gmail.com> <20200702111832.GC16418@willie-the-truck>
-In-Reply-To: <20200702111832.GC16418@willie-the-truck>
-From:   Arnd Bergmann <arnd@arndb.de>
-Date:   Thu, 2 Jul 2020 13:39:10 +0200
-X-Gmail-Original-Message-ID: <CAK8P3a3VrEkDf8t1CCsY+g7rtXkqBsiPOr97b1yRbz8NpjdfFA@mail.gmail.com>
-Message-ID: <CAK8P3a3VrEkDf8t1CCsY+g7rtXkqBsiPOr97b1yRbz8NpjdfFA@mail.gmail.com>
+In-Reply-To: <20200630173734.14057-5-will@kernel.org>
+From:   Joel Fernandes <joelaf@google.com>
+Date:   Thu, 2 Jul 2020 10:43:55 -0400
+Message-ID: <CAJWu+oqs-d0oDswB2Owyh-4Zo4WXAqKhKU0L=1HEwEfQbc1izw@mail.gmail.com>
 Subject: Re: [PATCH 04/18] alpha: Override READ_ONCE() with barriered implementation
 To:     Will Deacon <will@kernel.org>
-Cc:     Mark Rutland <mark.rutland@arm.com>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+Cc:     LKML <linux-kernel@vger.kernel.org>,
         Sami Tolvanen <samitolvanen@google.com>,
         Nick Desaulniers <ndesaulniers@google.com>,
         Kees Cook <keescook@chromium.org>,
@@ -47,71 +65,166 @@ Cc:     Mark Rutland <mark.rutland@arm.com>,
         Alan Stern <stern@rowland.harvard.edu>,
         "Michael S. Tsirkin" <mst@redhat.com>,
         Jason Wang <jasowang@redhat.com>,
+        Arnd Bergmann <arnd@arndb.de>,
         Boqun Feng <boqun.feng@gmail.com>,
         Catalin Marinas <catalin.marinas@arm.com>,
-        Linux ARM <linux-arm-kernel@lists.infradead.org>,
-        alpha <linux-alpha@vger.kernel.org>,
+        Mark Rutland <mark.rutland@arm.com>,
+        "moderated list:ARM64 PORT (AARCH64 ARCHITECTURE)" 
+        <linux-arm-kernel@lists.infradead.org>,
+        linux-alpha@vger.kernel.org,
         virtualization@lists.linux-foundation.org,
-        Android Kernel Team <kernel-team@android.com>
+        "Cc: Android Kernel" <kernel-team@android.com>,
+        "Joel Fernandes (Google)" <joel@joelfernandes.org>
 Content-Type: text/plain; charset="UTF-8"
-X-Provags-ID: V03:K1:Z8zyvq6vDbeYzAhJCb6eVc2WB9OLAma8FkNnVfzP5LIPHoG/zM3
- H+stHIIcLhAOQVdPGVb+yvmXZS6bZvAlPlPGAb7K3XN/Yf/9tiD+LfyrHyrF2jie4hgS9KZ
- irhd23yNkSatHVfb8y2fRt4J+qOAfrpIFB+YlKB8CPwZ0m5soww1dXiL+e4/fBrJvO0u51V
- FIQm29ysC2PM1GqgInKpw==
-X-Spam-Flag: NO
-X-UI-Out-Filterresults: notjunk:1;V03:K0:MVQPFMqFHCg=:Mc/Fzv3M0wGaJGNRmiZWUe
- KhM7kbvbSIBkOSpRLKpn2mQuHZQiboCZGmj68hm2SMimxXdnYI3wYcK7GopZhk+JR3aBa1wbc
- b1yaKMwUqylhcFZNngxpMvDzlTF1PvFIjy1TTaAhiTRUB9+xeBPFgbS05UWQRwSmi2JAp+DOb
- w9PpjmmcLdJhOqQzTTiFB20BJKu26jnzomBTvGHtCKhc9ykIackRn29iZzaFfpnZvSRmnkvtQ
- nRB1TJtCrCSzEq2cuZ3HgSGJM0VJ7lBsDmQcm5XEh8rI8t/0TOOtezYCP2qeHZMi2E7wldego
- 58hv1Ra6Ath2DLPfjcT9qJbkmo/521T0VPquIdh/1enx7hnlCBxsv8gxG2QnI8BYnZ3fTUTbQ
- qR3eaMFvTbbNBLDZTj2gNWGUbSrcyEqWPBu76Rmq+UU/d+W1zne8vnaUNyNjsJuIZAAqqnG2b
- UU8wfrD4HFvkfBctfr/Fi7vwMMXIF3BMSoOp78QP8Qj4tJwVoeCI1Sd1EBvtrBR2wQPmOrS68
- eREemZPiU1odDD2L1M3yLfpnjayDnchDXD/nZlp6QVeA6t0OqPfXZm0BQaUv98iolzQP8HxjA
- 9XW1RGsmMsY/mMjUh2fyz5dymegWy+bpNe76EEzhw7+laAeDZEGO3I15Mx6eE0MRiuUjwffdQ
- 5It73uUIRMFuiNK89mNjqT2VH+pSxQ4tl28Zqogpjw/CBt72jxVvhtO+89/7RLoZEz1l6X7Gy
- hdJ0rZ5ohsb3nY2vodf3TGVAKZyMGgO9S+QpihT/Ypet1XCDCqkCdn6XMwIkInXyR4v4dvNJm
- Y3SqJsvXjFHzffKoa+nDO8VFyuSx0FcmDugZDFctFRy2lf2Cw4=
 Sender: linux-alpha-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-alpha.vger.kernel.org>
 X-Mailing-List: linux-alpha@vger.kernel.org
 
-On Thu, Jul 2, 2020 at 1:18 PM Will Deacon <will@kernel.org> wrote:
-> On Thu, Jul 02, 2020 at 12:08:41PM +0200, Arnd Bergmann wrote:
-> > On Thu, Jul 2, 2020 at 11:48 AM Will Deacon <will@kernel.org> wrote:
-> > > On Thu, Jul 02, 2020 at 10:32:39AM +0100, Mark Rutland wrote:
-
-> Not sure I follow you here, but I can confirm that what you're worried
-> about doesn't happen for the usual case of a pointer-to-volatile scalar.
+On Tue, Jun 30, 2020 at 1:38 PM Will Deacon <will@kernel.org> wrote:
 >
-> For example, ignoring dependency ordering:
+> Rather then relying on the core code to use smp_read_barrier_depends()
+> as part of the READ_ONCE() definition, instead override __READ_ONCE()
+> in the Alpha code so that it is treated the same way as
+> smp_load_acquire().
 >
-> unsigned long foo(volatile unsigned long *p)
-> {
->         return smp_load_acquire(p) + 1;
-> }
+> Acked-by: Paul E. McKenney <paulmck@kernel.org>
+> Signed-off-by: Will Deacon <will@kernel.org>
+> ---
+>  arch/alpha/include/asm/barrier.h | 61 ++++----------------------------
+>  arch/alpha/include/asm/rwonce.h  | 19 ++++++++++
+>  2 files changed, 26 insertions(+), 54 deletions(-)
+>  create mode 100644 arch/alpha/include/asm/rwonce.h
 >
-> Ends up looking like:
+> diff --git a/arch/alpha/include/asm/barrier.h b/arch/alpha/include/asm/barrier.h
+> index 92ec486a4f9e..2ecd068d91d1 100644
+> --- a/arch/alpha/include/asm/barrier.h
+> +++ b/arch/alpha/include/asm/barrier.h
+> @@ -2,64 +2,17 @@
+>  #ifndef __BARRIER_H
+>  #define __BARRIER_H
 >
->         unsigned long ___p1 = *(const volatile unsigned long *)p;
->         smp_mb();
->         (volatile unsigned long)___p1;
+> -#include <asm/compiler.h>
+> -
+>  #define mb()   __asm__ __volatile__("mb": : :"memory")
+>  #define rmb()  __asm__ __volatile__("mb": : :"memory")
+>  #define wmb()  __asm__ __volatile__("wmb": : :"memory")
 >
-> My understanding is that casting a non-pointer type to volatile doesn't
-> do anything, so we're good.
+> -/**
+> - * read_barrier_depends - Flush all pending reads that subsequents reads
+> - * depend on.
+> - *
+> - * No data-dependent reads from memory-like regions are ever reordered
+> - * over this barrier.  All reads preceding this primitive are guaranteed
+> - * to access memory (but not necessarily other CPUs' caches) before any
+> - * reads following this primitive that depend on the data return by
+> - * any of the preceding reads.  This primitive is much lighter weight than
+> - * rmb() on most CPUs, and is never heavier weight than is
+> - * rmb().
+> - *
+> - * These ordering constraints are respected by both the local CPU
+> - * and the compiler.
+> - *
+> - * Ordering is not guaranteed by anything other than these primitives,
+> - * not even by data dependencies.  See the documentation for
+> - * memory_barrier() for examples and URLs to more information.
+> - *
+> - * For example, the following code would force ordering (the initial
+> - * value of "a" is zero, "b" is one, and "p" is "&a"):
+> - *
+> - * <programlisting>
+> - *     CPU 0                           CPU 1
+> - *
+> - *     b = 2;
+> - *     memory_barrier();
+> - *     p = &b;                         q = p;
+> - *                                     read_barrier_depends();
+> - *                                     d = *q;
+> - * </programlisting>
+> - *
+> - * because the read of "*q" depends on the read of "p" and these
+> - * two reads are separated by a read_barrier_depends().  However,
+> - * the following code, with the same initial values for "a" and "b":
+> - *
 
-Right, I mixed up the correct
+Would it be Ok to keep this example in the kernel sources? I think it
+serves as good documentation and highlights the issue in the Alpha
+architecture well.
 
-        (typeof(*p))___p;
+> - * <programlisting>
+> - *     CPU 0                           CPU 1
+> - *
+> - *     a = 2;
+> - *     memory_barrier();
+> - *     b = 3;                          y = b;
+> - *                                     read_barrier_depends();
+> - *                                     x = a;
+> - * </programlisting>
+> - *
+> - * does not enforce ordering, since there is no data dependency between
+> - * the read of "a" and the read of "b".  Therefore, on some CPUs, such
+> - * as Alpha, "y" could be set to 3 and "x" to 0.  Use rmb()
+> - * in cases like this where there are no data dependencies.
+> - */
+> -#define read_barrier_depends() __asm__ __volatile__("mb": : :"memory")
+> +#define __smp_load_acquire(p)                                          \
+> +({                                                                     \
+> +       __unqual_scalar_typeof(*p) ___p1 =                              \
+> +               (*(volatile typeof(___p1) *)(p));                       \
+> +       compiletime_assert_atomic_type(*p);                             \
+> +       ___p1;                                                          \
+> +})
 
-with the incorrect
+I had the same question as Mark about the need for a memory barrier
+here, otherwise alpha will again break right? Looking forward to the
+future fix you mentioned.
 
-       *typeof(p)&___p;
+BTW,  do you know any architecture where speculative execution of
+address-dependent loads can cause similar misorderings? That would be
+pretty insane though. In Alpha's case it is not speculation but rather
+the split local cache design as the docs mention.   The reason I ask
+is it is pretty amusing that control-dependent loads do have such
+misordering issues due to speculative branch execution and I wondered
+what other games the CPUs are playing. FWIW I ran into [1] which talks
+about analogy between memory dependence and control dependence.
 
-which would dereference a volatile pointer and cause the
-problem.
+[1] https://en.wikipedia.org/wiki/Memory_dependence_prediction
 
-The code is all fine then.
 
-    Arnd
+ - Joel
+
+
+>
+>  #ifdef CONFIG_SMP
+>  #define __ASM_SMP_MB   "\tmb\n"
+> diff --git a/arch/alpha/include/asm/rwonce.h b/arch/alpha/include/asm/rwonce.h
+> new file mode 100644
+> index 000000000000..83a92e49a615
+> --- /dev/null
+> +++ b/arch/alpha/include/asm/rwonce.h
+> @@ -0,0 +1,19 @@
+> +/* SPDX-License-Identifier: GPL-2.0 */
+> +/*
+> + * Copyright (C) 2019 Google LLC.
+> + */
+> +#ifndef __ASM_RWONCE_H
+> +#define __ASM_RWONCE_H
+> +
+> +#include <asm/barrier.h>
+> +
+> +/*
+> + * Alpha is apparently daft enough to reorder address-dependent loads
+> + * on some CPU implementations. Knock some common sense into it with
+> + * a memory barrier in READ_ONCE().
+> + */
+> +#define __READ_ONCE(x) __smp_load_acquire(&(x))
+> +
+> +#include <asm-generic/rwonce.h>
+> +
+> +#endif /* __ASM_RWONCE_H */
+> --
+> 2.27.0.212.ge8ba1cc988-goog
+>
+> --
+> To unsubscribe from this group and stop receiving emails from it, send an email to kernel-team+unsubscribe@android.com.
+>
