@@ -2,30 +2,56 @@ Return-Path: <linux-alpha-owner@vger.kernel.org>
 X-Original-To: lists+linux-alpha@lfdr.de
 Delivered-To: lists+linux-alpha@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 5A738212721
-	for <lists+linux-alpha@lfdr.de>; Thu,  2 Jul 2020 16:55:57 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 9E4A2212754
+	for <lists+linux-alpha@lfdr.de>; Thu,  2 Jul 2020 17:07:43 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726117AbgGBOzn (ORCPT <rfc822;lists+linux-alpha@lfdr.de>);
-        Thu, 2 Jul 2020 10:55:43 -0400
-Received: from mail.kernel.org ([198.145.29.99]:37196 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726032AbgGBOzm (ORCPT <rfc822;linux-alpha@vger.kernel.org>);
-        Thu, 2 Jul 2020 10:55:42 -0400
-Received: from willie-the-truck (236.31.169.217.in-addr.arpa [217.169.31.236])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 1105F2075D;
-        Thu,  2 Jul 2020 14:55:37 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1593701741;
-        bh=nbXe6nJCNrMku6QIpQkPDTVx3nVSr/HZ3tO6LrfZY8Q=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=PcEiNPxuhlEyLh2HMXcrpBV1EC5XLsFjtMKSlRSdePnrAVWjczQYEysgptdOEIbNb
-         QjfUU6jDXo4nj7OwF7ffPzJvSQ1L4KMCNuYjhVu7foez1h5841jqZdO+/Wfss7iN0Y
-         tyFLYFMHbSNeYbjpimnr2GDt6pYflThH5++ITr0w=
-Date:   Thu, 2 Jul 2020 15:55:33 +0100
-From:   Will Deacon <will@kernel.org>
-To:     Joel Fernandes <joelaf@google.com>
+        id S1729941AbgGBPHe (ORCPT <rfc822;lists+linux-alpha@lfdr.de>);
+        Thu, 2 Jul 2020 11:07:34 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53536 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726032AbgGBPHd (ORCPT
+        <rfc822;linux-alpha@vger.kernel.org>); Thu, 2 Jul 2020 11:07:33 -0400
+Received: from mail-qv1-xf42.google.com (mail-qv1-xf42.google.com [IPv6:2607:f8b0:4864:20::f42])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6C62EC08C5DD
+        for <linux-alpha@vger.kernel.org>; Thu,  2 Jul 2020 08:07:33 -0700 (PDT)
+Received: by mail-qv1-xf42.google.com with SMTP id ed14so2305552qvb.2
+        for <linux-alpha@vger.kernel.org>; Thu, 02 Jul 2020 08:07:33 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20161025;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=NwjTcE9AB3lHB1l2CsQFQTvyIOX/+r8AdYJzECU/66k=;
+        b=Qh0queby7v7wR84UVBBPZgmKhsMZ6EUviWjBkzPvzOaYmzkLE/7Cb48nYN1fKM1dEP
+         RIjY37L54/+aNHRDAdX73WDl/w32GJXpjo/fftx4FoNc30PZJxAskQs2chORu7+heSI6
+         RtAleEaaKvIleusQYZ4sVYmv0JvkVY7zPY/7mQ2zN3oO2c/bpfb14G8CYP26ef+2a+K+
+         aTnup/4rU7HDxpTrSoDuqKy2t2qgjyLxn0nGQz639B2WWteBulgI5V0j0g+kuvvp9/0r
+         EjemCobxfgkkVUe/FTgg31STbDLHABItM3gINiPEp9nA39A3I5feDcW60XE/SnQ4tOXv
+         9RJw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=NwjTcE9AB3lHB1l2CsQFQTvyIOX/+r8AdYJzECU/66k=;
+        b=GiKG6DgUZgbRH+uvVGkr/GXuUSoRedifJpIagtCt4drHoVq/Ybtm+pjF97fD1/ohM3
+         T7RA/iSf4W+b3E7+MSFJMCeF7u1Vufo2Z1FwlESmCrgljnz3CzRappkgXXmvnCnk9i8/
+         lfK4Hx99ykAd+qbn1uFJbTZEzFawEXU0IKQtdNEtbryxwqcbyNvggL9GzkQ4ZGuXecWL
+         0wZNzGVxacccbbatx0V8INPqIYhvCVGSgx62cfbayO79sq9JPuX/l8QAXYhtks0NaLBS
+         zTe3CD2kHj2jDSaANOaHTJRfZT5xK8bC7AoCUZen6eXWBRcD/wYXuzrPezxaFCHpAeaj
+         ZokQ==
+X-Gm-Message-State: AOAM532eGEqSMKvYaUFeuo9aiR2/WJ82j6Vae9LzOEvkF1NjJbKRSrzg
+        SxOFAa2N7FBhEfkIqhax20g3BnhuQElnO0aEdhxgXg==
+X-Google-Smtp-Source: ABdhPJz0RXsbLR/522U+sQlDSxlqhG40ODpQ41EJiiCzWsKIo/gVFRdlB1gDTkyVhyfrzUh+mVIY1r90zeQcaUlAodk=
+X-Received: by 2002:a05:6214:2d2:: with SMTP id g18mr30162630qvu.215.1593702452178;
+ Thu, 02 Jul 2020 08:07:32 -0700 (PDT)
+MIME-Version: 1.0
+References: <20200630173734.14057-1-will@kernel.org> <20200630173734.14057-5-will@kernel.org>
+ <CAJWu+oqs-d0oDswB2Owyh-4Zo4WXAqKhKU0L=1HEwEfQbc1izw@mail.gmail.com> <20200702145532.GB16999@willie-the-truck>
+In-Reply-To: <20200702145532.GB16999@willie-the-truck>
+From:   Joel Fernandes <joelaf@google.com>
+Date:   Thu, 2 Jul 2020 11:07:19 -0400
+Message-ID: <CAJWu+ooEsf70ri4J+M5+Fkz6VrH1kN5541j71LE8=y=rmSLDJQ@mail.gmail.com>
+Subject: Re: [PATCH 04/18] alpha: Override READ_ONCE() with barriered implementation
+To:     Will Deacon <will@kernel.org>
 Cc:     LKML <linux-kernel@vger.kernel.org>,
         Sami Tolvanen <samitolvanen@google.com>,
         Nick Desaulniers <ndesaulniers@google.com>,
@@ -50,104 +76,72 @@ Cc:     LKML <linux-kernel@vger.kernel.org>,
         virtualization@lists.linux-foundation.org,
         "Cc: Android Kernel" <kernel-team@android.com>,
         "Joel Fernandes (Google)" <joel@joelfernandes.org>
-Subject: Re: [PATCH 04/18] alpha: Override READ_ONCE() with barriered
- implementation
-Message-ID: <20200702145532.GB16999@willie-the-truck>
-References: <20200630173734.14057-1-will@kernel.org>
- <20200630173734.14057-5-will@kernel.org>
- <CAJWu+oqs-d0oDswB2Owyh-4Zo4WXAqKhKU0L=1HEwEfQbc1izw@mail.gmail.com>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <CAJWu+oqs-d0oDswB2Owyh-4Zo4WXAqKhKU0L=1HEwEfQbc1izw@mail.gmail.com>
-User-Agent: Mutt/1.10.1 (2018-07-13)
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-alpha-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-alpha.vger.kernel.org>
 X-Mailing-List: linux-alpha@vger.kernel.org
 
-Hi Joel,
+On Thu, Jul 2, 2020 at 10:55 AM Will Deacon <will@kernel.org> wrote:
+> On Thu, Jul 02, 2020 at 10:43:55AM -0400, Joel Fernandes wrote:
+> > On Tue, Jun 30, 2020 at 1:38 PM Will Deacon <will@kernel.org> wrote:
+> > > diff --git a/arch/alpha/include/asm/barrier.h b/arch/alpha/include/asm/barrier.h
+> > > index 92ec486a4f9e..2ecd068d91d1 100644
+> > > --- a/arch/alpha/include/asm/barrier.h
+> > > +++ b/arch/alpha/include/asm/barrier.h
+> > > - * For example, the following code would force ordering (the initial
+> > > - * value of "a" is zero, "b" is one, and "p" is "&a"):
+> > > - *
+> > > - * <programlisting>
+> > > - *     CPU 0                           CPU 1
+> > > - *
+> > > - *     b = 2;
+> > > - *     memory_barrier();
+> > > - *     p = &b;                         q = p;
+> > > - *                                     read_barrier_depends();
+> > > - *                                     d = *q;
+> > > - * </programlisting>
+> > > - *
+> > > - * because the read of "*q" depends on the read of "p" and these
+> > > - * two reads are separated by a read_barrier_depends().  However,
+> > > - * the following code, with the same initial values for "a" and "b":
+> > > - *
+> >
+> > Would it be Ok to keep this example in the kernel sources? I think it
+> > serves as good documentation and highlights the issue in the Alpha
+> > architecture well.
+>
+> I'd _really_ like to remove it, as I think it only serves to confuse people
+> on a topic that is confusing enough already. Paul's perfbook [1] already has
+> plenty of information about this, so I don't think we need to repeat that
+> here. I could add a citation, perhaps?
 
-On Thu, Jul 02, 2020 at 10:43:55AM -0400, Joel Fernandes wrote:
-> On Tue, Jun 30, 2020 at 1:38 PM Will Deacon <will@kernel.org> wrote:
-> > diff --git a/arch/alpha/include/asm/barrier.h b/arch/alpha/include/asm/barrier.h
-> > index 92ec486a4f9e..2ecd068d91d1 100644
-> > --- a/arch/alpha/include/asm/barrier.h
-> > +++ b/arch/alpha/include/asm/barrier.h
-> > - * For example, the following code would force ordering (the initial
-> > - * value of "a" is zero, "b" is one, and "p" is "&a"):
-> > - *
-> > - * <programlisting>
-> > - *     CPU 0                           CPU 1
-> > - *
-> > - *     b = 2;
-> > - *     memory_barrier();
-> > - *     p = &b;                         q = p;
-> > - *                                     read_barrier_depends();
-> > - *                                     d = *q;
-> > - * </programlisting>
-> > - *
-> > - * because the read of "*q" depends on the read of "p" and these
-> > - * two reads are separated by a read_barrier_depends().  However,
-> > - * the following code, with the same initial values for "a" and "b":
-> > - *
-> 
-> Would it be Ok to keep this example in the kernel sources? I think it
-> serves as good documentation and highlights the issue in the Alpha
-> architecture well.
+True, and also found that LKMM docs and the memory-barriers.txt talks
+about it, so removing it here sounds good to me. Maybe a reference
+here to either documentation should be Ok.
 
-I'd _really_ like to remove it, as I think it only serves to confuse people
-on a topic that is confusing enough already. Paul's perfbook [1] already has
-plenty of information about this, so I don't think we need to repeat that
-here. I could add a citation, perhaps?
+> > BTW,  do you know any architecture where speculative execution of
+> > address-dependent loads can cause similar misorderings? That would be
+> > pretty insane though. In Alpha's case it is not speculation but rather
+> > the split local cache design as the docs mention.   The reason I ask
+> > is it is pretty amusing that control-dependent loads do have such
+> > misordering issues due to speculative branch execution and I wondered
+> > what other games the CPUs are playing. FWIW I ran into [1] which talks
+> > about analogy between memory dependence and control dependence.
+>
+> I think you're asking about value prediction, and the implications it would
+> have on address-dependent loads where the address can itself be predicted.
 
-> > - * <programlisting>
-> > - *     CPU 0                           CPU 1
-> > - *
-> > - *     a = 2;
-> > - *     memory_barrier();
-> > - *     b = 3;                          y = b;
-> > - *                                     read_barrier_depends();
-> > - *                                     x = a;
-> > - * </programlisting>
-> > - *
-> > - * does not enforce ordering, since there is no data dependency between
-> > - * the read of "a" and the read of "b".  Therefore, on some CPUs, such
-> > - * as Alpha, "y" could be set to 3 and "x" to 0.  Use rmb()
-> > - * in cases like this where there are no data dependencies.
-> > - */
-> > -#define read_barrier_depends() __asm__ __volatile__("mb": : :"memory")
-> > +#define __smp_load_acquire(p)                                          \
-> > +({                                                                     \
-> > +       __unqual_scalar_typeof(*p) ___p1 =                              \
-> > +               (*(volatile typeof(___p1) *)(p));                       \
-> > +       compiletime_assert_atomic_type(*p);                             \
-> > +       ___p1;                                                          \
-> > +})
-> 
-> I had the same question as Mark about the need for a memory barrier
-> here, otherwise alpha will again break right? Looking forward to the
-> future fix you mentioned.
+Yes.
 
-Yeah, sorry about that. It went missing somehow during the rebase, it seems.
+> I'm not aware of an CPUs where that is observable architecturally.
 
-> BTW,  do you know any architecture where speculative execution of
-> address-dependent loads can cause similar misorderings? That would be
-> pretty insane though. In Alpha's case it is not speculation but rather
-> the split local cache design as the docs mention.   The reason I ask
-> is it is pretty amusing that control-dependent loads do have such
-> misordering issues due to speculative branch execution and I wondered
-> what other games the CPUs are playing. FWIW I ran into [1] which talks
-> about analogy between memory dependence and control dependence.
+I see.
 
-I think you're asking about value prediction, and the implications it would
-have on address-dependent loads where the address can itself be predicted.
-I'm not aware of an CPUs where that is observable architecturally.
+> arm64 has some load instructions that do not honour address dependencies,
+> but I believe that's mainly to enable alternative cache designs for things
+> like non-temporal and large vector loads.
 
-arm64 has some load instructions that do not honour address dependencies,
-but I believe that's mainly to enable alternative cache designs for things
-like non-temporal and large vector loads.
+Good to know this, thanks.
 
-Will
-
-[1] https://mirrors.edge.kernel.org/pub/linux/kernel/people/paulmck/perfbook/perfbook.html
+ - Joel
