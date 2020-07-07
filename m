@@ -2,34 +2,25 @@ Return-Path: <linux-alpha-owner@vger.kernel.org>
 X-Original-To: lists+linux-alpha@lfdr.de
 Delivered-To: lists+linux-alpha@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 5D2F6215F94
-	for <lists+linux-alpha@lfdr.de>; Mon,  6 Jul 2020 21:42:58 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id B76372169BB
+	for <lists+linux-alpha@lfdr.de>; Tue,  7 Jul 2020 12:10:24 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726763AbgGFTmk (ORCPT <rfc822;lists+linux-alpha@lfdr.de>);
-        Mon, 6 Jul 2020 15:42:40 -0400
-Received: from mail.kernel.org ([198.145.29.99]:59306 "EHLO mail.kernel.org"
+        id S1726757AbgGGKKX (ORCPT <rfc822;lists+linux-alpha@lfdr.de>);
+        Tue, 7 Jul 2020 06:10:23 -0400
+Received: from foss.arm.com ([217.140.110.172]:36564 "EHLO foss.arm.com"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726661AbgGFTmh (ORCPT <rfc822;linux-alpha@vger.kernel.org>);
-        Mon, 6 Jul 2020 15:42:37 -0400
-Received: from paulmck-ThinkPad-P72.home (50-39-111-31.bvtn.or.frontiernet.net [50.39.111.31])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 2E08120675;
-        Mon,  6 Jul 2020 19:42:37 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1594064557;
-        bh=gq8OONsZv2DL9Wl2RlB9KVkvm70QuCx2mh8QqqjtMbI=;
-        h=Date:From:To:Cc:Subject:Reply-To:References:In-Reply-To:From;
-        b=lh3vxVKBCu2a1xT47mTYziII5iB0/8GAkDAt71DAfoKVDSx6FVqCJSq59QVsEGSnP
-         Q60Pvq90qvfChKmNKQJkCuTpUGESomfnWfhOoPesvmXeSdfBqBsiWX1GemxQCisw41
-         x0SD+lBBhKrCWfQ4CGoMu0RtilR1klMo8qmHvImM=
-Received: by paulmck-ThinkPad-P72.home (Postfix, from userid 1000)
-        id 181CE3522637; Mon,  6 Jul 2020 12:42:37 -0700 (PDT)
-Date:   Mon, 6 Jul 2020 12:42:37 -0700
-From:   "Paul E. McKenney" <paulmck@kernel.org>
-To:     Marco Elver <elver@google.com>
-Cc:     Will Deacon <will@kernel.org>, Dave Martin <Dave.Martin@arm.com>,
-        Mark Rutland <mark.rutland@arm.com>,
+        id S1725941AbgGGKKX (ORCPT <rfc822;linux-alpha@vger.kernel.org>);
+        Tue, 7 Jul 2020 06:10:23 -0400
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+        by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 87A21C0A;
+        Tue,  7 Jul 2020 03:10:22 -0700 (PDT)
+Received: from arm.com (usa-sjc-imap-foss1.foss.arm.com [10.121.207.14])
+        by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id C4C603F71E;
+        Tue,  7 Jul 2020 03:10:19 -0700 (PDT)
+Date:   Tue, 7 Jul 2020 11:10:17 +0100
+From:   Dave Martin <Dave.Martin@arm.com>
+To:     Will Deacon <will@kernel.org>
+Cc:     Mark Rutland <mark.rutland@arm.com>,
         "Michael S. Tsirkin" <mst@redhat.com>,
         Peter Zijlstra <peterz@infradead.org>,
         Catalin Marinas <catalin.marinas@arm.com>,
@@ -38,81 +29,105 @@ Cc:     Will Deacon <will@kernel.org>, Dave Martin <Dave.Martin@arm.com>,
         Arnd Bergmann <arnd@arndb.de>,
         Alan Stern <stern@rowland.harvard.edu>,
         Sami Tolvanen <samitolvanen@google.com>,
-        Matt Turner <mattst88@gmail.com>,
-        Android Kernel Team <kernel-team@android.com>,
+        Matt Turner <mattst88@gmail.com>, kernel-team@android.com,
+        Marco Elver <elver@google.com>,
         Kees Cook <keescook@chromium.org>,
+        "Paul E. McKenney" <paulmck@kernel.org>,
         Boqun Feng <boqun.feng@gmail.com>,
         Josh Triplett <josh@joshtriplett.org>,
         Ivan Kokshaysky <ink@jurassic.park.msu.ru>,
-        Linux ARM <linux-arm-kernel@lists.infradead.org>,
+        linux-arm-kernel@lists.infradead.org,
         Richard Henderson <rth@twiddle.net>,
         Nick Desaulniers <ndesaulniers@google.com>,
-        LKML <linux-kernel@vger.kernel.org>, linux-alpha@vger.kernel.org
+        linux-kernel@vger.kernel.org, linux-alpha@vger.kernel.org
 Subject: Re: [PATCH 18/18] arm64: lto: Strengthen READ_ONCE() to acquire when
  CLANG_LTO=y
-Message-ID: <20200706194237.GF9247@paulmck-ThinkPad-P72>
-Reply-To: paulmck@kernel.org
+Message-ID: <20200707101015.GH10992@arm.com>
 References: <20200630173734.14057-1-will@kernel.org>
  <20200630173734.14057-19-will@kernel.org>
- <20200701170722.4rte5ssnmrn2uqzg@bakewell.cambridge.arm.com>
- <20200702072301.GA15963@willie-the-truck>
- <20200706160023.GB10992@arm.com>
- <20200706183542.GB23766@willie-the-truck>
- <CANpmjNP9pb4_2S8sf+Ty2ZqtMxWSrBEosDx2wuL2OQnA9YFt9A@mail.gmail.com>
+ <20200706160820.GC10992@arm.com>
+ <20200706183510.GA23766@willie-the-truck>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <CANpmjNP9pb4_2S8sf+Ty2ZqtMxWSrBEosDx2wuL2OQnA9YFt9A@mail.gmail.com>
-User-Agent: Mutt/1.9.4 (2018-02-28)
+In-Reply-To: <20200706183510.GA23766@willie-the-truck>
+User-Agent: Mutt/1.5.23 (2014-03-12)
 Sender: linux-alpha-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-alpha.vger.kernel.org>
 X-Mailing-List: linux-alpha@vger.kernel.org
 
-On Mon, Jul 06, 2020 at 09:23:26PM +0200, Marco Elver wrote:
-> On Mon, 6 Jul 2020 at 20:35, Will Deacon <will@kernel.org> wrote:
-> > On Mon, Jul 06, 2020 at 05:00:23PM +0100, Dave Martin wrote:
-> > > On Thu, Jul 02, 2020 at 08:23:02AM +0100, Will Deacon wrote:
-> > > > On Wed, Jul 01, 2020 at 06:07:25PM +0100, Dave P Martin wrote:
-> > > > > Also, can you illustrate code that can only be unsafe with Clang LTO?
-> > > >
-> > > > I don't have a concrete example, but it's an ongoing concern over on the LTO
-> > > > thread [1], so I cooked this to show one way we could deal with it. The main
-> > > > concern is that the whole-program optimisations enabled by LTO may allow the
-> > > > compiler to enumerate possible values for a pointer at link time and replace
-> > > > an address dependency between two loads with a control dependency instead,
-> > > > defeating the dependency ordering within the CPU.
-> > >
-> > > Why can't that happen without LTO?
-> >
-> > It could, but I'd argue that it's considerably less likely because there
-> > is less information available to the compiler to perform these sorts of
-> > optimisations. It also doesn't appear to be happening in practice.
-> >
-> > The current state of affairs is that, if/when we catch the compiler
-> > performing harmful optimistations, we look for a way to disable them.
-> > However, there are good reasons to enable LTO, so this is one way to
-> > do that without having to worry about the potential impact on dependency
-> > ordering.
+On Mon, Jul 06, 2020 at 07:35:11PM +0100, Will Deacon wrote:
+> On Mon, Jul 06, 2020 at 05:08:20PM +0100, Dave Martin wrote:
+> > On Tue, Jun 30, 2020 at 06:37:34PM +0100, Will Deacon wrote:
+> > > diff --git a/arch/arm64/include/asm/rwonce.h b/arch/arm64/include/asm/rwonce.h
+> > > new file mode 100644
+> > > index 000000000000..515e360b01a1
+> > > --- /dev/null
+> > > +++ b/arch/arm64/include/asm/rwonce.h
+> > > @@ -0,0 +1,63 @@
+> > > +/* SPDX-License-Identifier: GPL-2.0 */
+> > > +/*
+> > > + * Copyright (C) 2020 Google LLC.
+> > > + */
+> > > +#ifndef __ASM_RWONCE_H
+> > > +#define __ASM_RWONCE_H
+> > > +
+> > > +#ifdef CONFIG_CLANG_LTO
+> > > +
+> > > +#include <linux/compiler_types.h>
+> > > +#include <asm/alternative-macros.h>
+> > > +
+> > > +#ifndef BUILD_VDSO
+> > > +
+> > > +#ifdef CONFIG_AS_HAS_LDAPR
+> > > +#define __LOAD_RCPC(sfx, regs...)					\
+> > > +	ALTERNATIVE(							\
+> > > +		"ldar"	#sfx "\t" #regs,				\
+> > 
+> > ^ Should this be here?  It seems that READ_ONCE() will actually read
+> > twice... even if that doesn't actually conflict with the required
+> > semantics of READ_ONCE(), it looks odd.
 > 
-> If it's of any help, I'll see if we can implement that warning in LLVM
-> if data dependencies somehow disappear (although I don't have any
-> cycles to pursue right now myself). Until then, short of manual
-> inspection or encountering a bug in the wild, there is no proof any of
-> this happens or doesn't happen.
+> It's patched at runtime, so it's either LDAR or LDAPR.
+
+Agh ignore me, I somehow failed to sport the ALTERNATIVE().
+
+For my understanding -- my background here is a bit shaky -- the LDAPR
+gives us load-to-load order even if there is just a control dependency?
+
+If so (possibly dumb question): why can't we just turn this on
+unconditionally?  Is there a significant performance impact?
+
+I'm still confused (or ignorant) though.  If both loads are READ_ONCE()
+then switching to LDAPR presumably helps, but otherwise, once the
+compiler has reduced the address dependency to a control dependency
+can't it then go one step further and reverse the order of the loads?
+LDAPR wouldn't rescue us from that.
+
+Or does the "memory" clobber in READ_ONCE() fix that for all important
+cases?  I can't see this mattering for local variables (where it
+definitely won't work), but I wonder whether static variables might not
+count as "memory" in some situations.
+
+Discounting ridiculous things like static register variables, I think
+the only way for a static variable not to count as memory would be if
+there are no writes to it that are reachable from any translation unit
+entry point (possibly after dead code removal).  If so, maybe that's
+enough.
+
+> > Making a direct link between LTO and the memory model also seems highly
+> > spurious (as discussed in the other subthread) so can we have a comment
+> > explaining the reasoning?
 > 
-> Also, as some anecdotal evidence it's extremely unlikely, even with
-> LTO: looking at the passes that LLVM runs, there are a number of
-> passes that seem to want to eliminate basic blocks, thereby getting
-> rid of branches. Intuitively, it makes sense, because branches are
-> expensive on most architectures (for GPU targets, I think it tries
-> even harder to get rid of branches). If we extend our reasoning and
-> assumptions of LTO's aggressiveness in that direction, we might
-> actually end up with fewer branches. That might be beneficial for the
-> data dependencies we worry about (but not so much for control
-> dependencies we want to keep). Still, no point in speculating (no pun
-> intended) until we have hard data what actually happens. :-)
+> Sure, although like I say, this is more about helping to progress that
+> conversation.
 
-Anything along these lines would be very welcome!!!
+That's fair enough, but when there is a consensus it would be good to
+see it documented in the code _especially_ if we know that the fix won't
+address all instances of the problem and in any case works partly by
+accident.  That doesn't mean it's not a good practical compromise, but
+it could be very confusing to unpick later on.
 
-							Thanx, Paul
+Cheers
+---Dave
