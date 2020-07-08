@@ -2,92 +2,74 @@ Return-Path: <linux-alpha-owner@vger.kernel.org>
 X-Original-To: lists+linux-alpha@lfdr.de
 Delivered-To: lists+linux-alpha@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 18F44218F98
-	for <lists+linux-alpha@lfdr.de>; Wed,  8 Jul 2020 20:20:38 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 4D9B221947F
+	for <lists+linux-alpha@lfdr.de>; Thu,  9 Jul 2020 01:43:25 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726416AbgGHSUh (ORCPT <rfc822;lists+linux-alpha@lfdr.de>);
-        Wed, 8 Jul 2020 14:20:37 -0400
-Received: from mail.kernel.org ([198.145.29.99]:42244 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1725949AbgGHSUh (ORCPT <rfc822;linux-alpha@vger.kernel.org>);
-        Wed, 8 Jul 2020 14:20:37 -0400
-Received: from paulmck-ThinkPad-P72.home (50-39-111-31.bvtn.or.frontiernet.net [50.39.111.31])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 84B4720658;
-        Wed,  8 Jul 2020 18:20:36 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1594232436;
-        bh=TonelHlHtWDNOIWLPcZdK8GZofB+N27b/F2Vm9vTRh8=;
-        h=Date:From:To:Cc:Subject:Reply-To:References:In-Reply-To:From;
-        b=ukj3cLrdjnebjlAukmmTASRyw1pa2gMozxAYVE8k3Aal5uTo6H7tEBiy5eJN+QxXL
-         gRJwrI65r1HmPmI3ecywXxV/5VkFMVuEu4tbgwYCZmqCvbTsSU6mGg/xNvJwWULf34
-         9NfF2Ngood+DO+fV+U5vOrrqOFGolG0eKpdqBV2Q=
-Received: by paulmck-ThinkPad-P72.home (Postfix, from userid 1000)
-        id 503CE3522635; Wed,  8 Jul 2020 11:20:36 -0700 (PDT)
-Date:   Wed, 8 Jul 2020 11:20:36 -0700
-From:   "Paul E. McKenney" <paulmck@kernel.org>
-To:     Peter Zijlstra <peterz@infradead.org>
-Cc:     Nick Desaulniers <ndesaulniers@google.com>,
-        Dave Martin <Dave.Martin@arm.com>,
-        Will Deacon <will@kernel.org>,
-        Sami Tolvanen <samitolvanen@google.com>,
-        Marco Elver <elver@google.com>,
-        Mark Rutland <mark.rutland@arm.com>,
-        "Michael S. Tsirkin" <mst@redhat.com>,
-        Catalin Marinas <catalin.marinas@arm.com>,
-        Jason Wang <jasowang@redhat.com>,
-        virtualization@lists.linux-foundation.org,
-        Alan Stern <stern@rowland.harvard.edu>,
-        Matt Turner <mattst88@gmail.com>,
-        kernel-team <kernel-team@android.com>,
-        Kees Cook <keescook@chromium.org>,
-        Arnd Bergmann <arnd@arndb.de>,
-        Boqun Feng <boqun.feng@gmail.com>,
-        Josh Triplett <josh@joshtriplett.org>,
-        Ivan Kokshaysky <ink@jurassic.park.msu.ru>,
-        Linux ARM <linux-arm-kernel@lists.infradead.org>,
-        Richard Henderson <rth@twiddle.net>,
-        LKML <linux-kernel@vger.kernel.org>, linux-alpha@vger.kernel.org,
-        Steven Rostedt <rostedt@goodmis.org>
-Subject: Re: [PATCH 18/18] arm64: lto: Strengthen READ_ONCE() to acquire when
- CLANG_LTO=y
-Message-ID: <20200708182036.GR9247@paulmck-ThinkPad-P72>
-Reply-To: paulmck@kernel.org
-References: <20200701170722.4rte5ssnmrn2uqzg@bakewell.cambridge.arm.com>
- <20200702072301.GA15963@willie-the-truck>
- <20200706160023.GB10992@arm.com>
- <20200706163455.GV9247@paulmck-ThinkPad-P72>
- <20200706170556.GE10992@arm.com>
- <20200706173628.GZ9247@paulmck-ThinkPad-P72>
- <20200707102915.GI10992@arm.com>
- <20200707225122.GJ9247@paulmck-ThinkPad-P72>
- <CAKwvOdkW__H21m8vqqk1-n6-KK67HBk=YbA+MkUS7igxfjV1iw@mail.gmail.com>
- <20200708091620.GF597537@hirez.programming.kicks-ass.net>
+        id S1726106AbgGHXnY (ORCPT <rfc822;lists+linux-alpha@lfdr.de>);
+        Wed, 8 Jul 2020 19:43:24 -0400
+Received: from sonic315-14.consmr.mail.bf2.yahoo.com ([74.6.134.124]:39577
+        "EHLO sonic315-14.consmr.mail.bf2.yahoo.com" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1726065AbgGHXnY (ORCPT
+        <rfc822;linux-alpha@vger.kernel.org>);
+        Wed, 8 Jul 2020 19:43:24 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=yahoo.com; s=s2048; t=1594251803; bh=NajTNMrfMLb6UXcjRhYpYerQX8PtVBLz0oFgaMINSWY=; h=Date:From:Reply-To:Subject:References:From:Subject; b=HN/tC86bgd9/bl0s6IeF7/tTIZBIL2DEL9PrwfD4kVUQ1LMi5I6lm6FBpl/KwSFQtXb2wamnZsFd3+s5GQLHbvZWMPE6bXjI4LmWKNNPYvKpNYd3sAjlI0CyjTzL7o7u1puNU63WnQ1Z8M2eFD+rWQf552GdEtjWNou67aqixJruaCX5ShsT3Z4RDlSHK5DpnRLtjFprtIRwEAypKTAIpUorNSa6zq1lHcRWnnXxxYQ9EbLBfXzINd6YFYAXmFhNLal23cmRn1UKz9oOCp9M6AfdyUoMonpp1c/aM3uh4Jcp4jFAzT1qY+KjeNt92/9HQmgroPrObTyzEMWxbOrsvw==
+X-YMail-OSG: ApNgELwVM1n3OnKggDcyUQbs6uDdswzcjNLrTQsL0FqezVfk.7hmyNK3PaHUDN0
+ Fsn_WbNiwszR6kSu31R5FivOmyuuv5HGWx7vVuii.TR2HlbiqUHnb2KlzsMgqhZpOc3bxngF3ZCb
+ cRjUjqmEL8x7NK8_4CuBWKPmJONtXQdP6eEwuDdUqOBPmVdR.7ypGNjMG1VPKsScoWSt.7A5yhmA
+ J43kLhp5ahK4mBMGvU4.JR_o3BDIyEiyYpP3hYwKLhNZK.D0iQPAM7a4rtxwY_eo1HUr3NkIaPe6
+ hHQJnz4C_f5CUkrRKBS0TnQToQZaHceZkWlXIX2BYt67EZOf7exqrdPpkvFKJNNurrFMativbm7X
+ mDXGcmqxGMtQO8p73kIrkugcvVcw6pfCffrhiWGa2CLPDzIwnvPrSrl2Dyz2kYJ2B3sMdkxTAzTw
+ UFTNsjiosfnJ.muRTIuR463gJ7tynb1k5Z5DIoLMsfL9dDSAvLUE702q_dBjQWU8z9aajFL6CDHT
+ AyvbVuTSdgZq0CN5KRXbBvvj7uy6wbMPnx9VyUWk7NAojM1w6lQZFJI.NUthoUq55vNMf3ue3myr
+ uxEPLl7ZoENxjrNGXG3iGP1P3AGS96G_cdX9.huM.nOj6zxwcCPQzm03LSrzYfrEQgc_q.4Sw29h
+ jaRgIuE4P6Txfrt7l5y78zYidR5.RsJC8yPOW0qLiXET0L_UkE4635ZZ70R2osfK8SXGb4f2ByOO
+ Qiq4qs.nhY69m.8HhZirKOGzF3jnx.Gf54jlYPBvtoaHa3Y4d1avdZEWyd_iXIIuyxNSqS0nXIhl
+ R7iNuM0QE6INCccjK5ALf1tW2lGzPRzn.wOCu5ySSbaY25yvW9iWs1bnoHCgOcYtvAC6Ku.9_e.H
+ .Fqo8q9u34mG.Ww1bEN.DwwPqGsyEULUCHgDKKNlTqacYTYcagUuCGpVLsrXh3Vd5TNpP2bF_tOu
+ N_NsaloNmJi3Fcsoqq46HpiAUjUN0sVCqRQjwQR8i9LDWRTPJv0XeLIdvdb8m8pedbVouWwB8iF5
+ Mjiol6S3IovfHEv0DTZh2t6wHqLYaYU62.5LKz9LnUIX5zrxV_a_fhNrSJlEKXOTHfiRsQbRo80z
+ QAZV6cXio6GnJdpJ4kCPiTI1mjTSsjTESifKh6OaTfQv6XxQEkTd_8eWqcp39icC4_ZN5Y84J6Gi
+ 8DNCP5uG8pt.XHkpGgCgH8tIaYmf3oGqfeNRNsXJwKM39QT0VlSQmitMO.GAQgiNj4.MYWZJjSGf
+ O1bJiE05RUl6IpfNcgWdLfbcZBBCS8vZ_CJis5oFQSjO3KymQlAYmNw.76xleRyiGZtJHSPx5AG7
+ A
+Received: from sonic.gate.mail.ne1.yahoo.com by sonic315.consmr.mail.bf2.yahoo.com with HTTP; Wed, 8 Jul 2020 23:43:23 +0000
+Date:   Wed, 8 Jul 2020 23:43:20 +0000 (UTC)
+From:   Ms lisa Hugh <lisahugh531@gmail.com>
+Reply-To: ms.lisahugh000@gmail.com
+Message-ID: <538527762.4633085.1594251800761@mail.yahoo.com>
+Subject: MASSAGE FROM(Ms Lisa hugh).
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20200708091620.GF597537@hirez.programming.kicks-ass.net>
-User-Agent: Mutt/1.9.4 (2018-02-28)
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+References: <538527762.4633085.1594251800761.ref@mail.yahoo.com>
+X-Mailer: WebService/1.1.16197 YMailNodin Mozilla/5.0 (Windows NT 6.1; Win64; x64; rv:78.0) Gecko/20100101 Firefox/78.0
+To:     unlisted-recipients:; (no To-header on input)
 Sender: linux-alpha-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-alpha.vger.kernel.org>
 X-Mailing-List: linux-alpha@vger.kernel.org
 
-On Wed, Jul 08, 2020 at 11:16:20AM +0200, Peter Zijlstra wrote:
-> On Tue, Jul 07, 2020 at 04:01:28PM -0700, Nick Desaulniers wrote:
-> > I'm trying to put together a Micro Conference for Linux Plumbers
-> > conference focused on "make LLVM slightly less shitty."  Do you all
-> > plan on attending the conference? Would it be worthwhile to hold a
-> > session focused on discussing this (LTO and memory models) be
-> > worthwhile?
-> 
-> I'd love to have a session about compilers and memory ordering with both
-> GCC and CLANG in attendance.
-> 
-> We need a solution for dependent-loads and control-dependencies for both
-> toolchains.
 
-What Peter said!  ;-)
 
-							Thanx, Paul
+Dear Friend,
+
+I am Ms Lisa hugh, work with the department of Audit and accounting manager here in the Bank(B.O.A).
+
+Please i need your assistance for the transferring of thIs fund to your bank account for both of us benefit for life time investment, amount (US$4.5M DOLLARS).
+
+I have every inquiry details to make the bank believe you and release the fund in within 5 banking working days with your full co-operation with me for success.
+
+Note/ 50% for you why 50% for me after success of the transfer to your bank account.
+
+Below information is what i need from you so will can be reaching each other
+
+1)Full name ...
+2)Private telephone number...
+3)Age...
+4)Nationality...
+5)Occupation ...
+
+
+Thanks.
+
+Ms Lisa hugh.
