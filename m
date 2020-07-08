@@ -2,95 +2,98 @@ Return-Path: <linux-alpha-owner@vger.kernel.org>
 X-Original-To: lists+linux-alpha@lfdr.de
 Delivered-To: lists+linux-alpha@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 1D58921875C
-	for <lists+linux-alpha@lfdr.de>; Wed,  8 Jul 2020 14:33:16 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 3BF99218CE8
+	for <lists+linux-alpha@lfdr.de>; Wed,  8 Jul 2020 18:23:28 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728966AbgGHMdM (ORCPT <rfc822;lists+linux-alpha@lfdr.de>);
-        Wed, 8 Jul 2020 08:33:12 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60228 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1729124AbgGHMdL (ORCPT
-        <rfc822;linux-alpha@vger.kernel.org>); Wed, 8 Jul 2020 08:33:11 -0400
-Received: from mail-io1-xd43.google.com (mail-io1-xd43.google.com [IPv6:2607:f8b0:4864:20::d43])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A9C09C08E85B
-        for <linux-alpha@vger.kernel.org>; Wed,  8 Jul 2020 05:33:10 -0700 (PDT)
-Received: by mail-io1-xd43.google.com with SMTP id a12so46789814ion.13
-        for <linux-alpha@vger.kernel.org>; Wed, 08 Jul 2020 05:33:10 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=mime-version:reply-to:from:date:message-id:subject:to
-         :content-transfer-encoding;
-        bh=/vBVbAxvijag95IA6OM26aTa2bKDnUtimRlc1mZm/7M=;
-        b=fRBxl+Jly3zkBGRbLPYyolv6RN+tGDu250AQgHs6wNMnBAQthZ90eOvUI9D0qLlG4W
-         v42kUn+2+5Bhw26pEmDj74BGKBtrXSLCiFAqJXVUU93wwrqcNnYOoDeh2T5ij7kcaTNU
-         vvcKIRhThwOH0A0t6UY9+McUAEh2KRZD3GjnqJSZzRCMKENBJA/2Rbl3FsOHTCJOajpC
-         LS3jwNeXQ97uwHdyAh1QxZJ+4mur60fdsDHmSVGsDvfJfv/rhvN3IA9Xg1IdoNbeETsr
-         ZvBshIQwT/207HPTgTPWcNeBBXKH0zzc3YF+Q8UUDd/gq8TtJ1D8/qpw4gRrvzFvycY2
-         qY/Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:reply-to:from:date:message-id
-         :subject:to:content-transfer-encoding;
-        bh=/vBVbAxvijag95IA6OM26aTa2bKDnUtimRlc1mZm/7M=;
-        b=bIHsbbUMi2lA734Iu0FhBha7ne82dBd+yK3zrh7Esv8fgdFVnG+dBBstgkZlUU9gxl
-         o9FU4ZM4CuXiopqCRpKAbI6+o76jbRFcYbhLfW2lzCuNplSPKbho99GJ2ULeqo5f1t2G
-         b/LG6tu2unq8bWF5w4giTn/GcKwwykYiRd61Cnn83gQKx3cjsvMLOd0ngaDRweH+gFAZ
-         swTDcQEbL2aZy6h41f9QjuPdH9GG3mlcbWjI5vozcyeRe4gOxYqMzcXpDGW49b/+KepP
-         iB17PP/lFWkKvFJg9xYFrMZyZ/wCqs3JVm7WyC74/3ApvLkp+cYw8Y+ahpv6Zm/jKE3h
-         gh2w==
-X-Gm-Message-State: AOAM5313AUOrSkA65SRBx87sPEinduG3kQlTedPmMt2FX4g11iGzME5u
-        1MKN8aqoH/Dg/h8W72G8sTERwM/UTrIwd/S75KA=
-X-Google-Smtp-Source: ABdhPJz+Yw/tRR3NYggdpI3xCJxdjZQQgovxkCgb7YeCM8zekh0rEvkzj7MEhsVQw3diu4X8+/vwvpSUXvtx+pQ6vnY=
-X-Received: by 2002:a05:6602:2c0a:: with SMTP id w10mr36231222iov.46.1594211588881;
- Wed, 08 Jul 2020 05:33:08 -0700 (PDT)
+        id S1730278AbgGHQX1 (ORCPT <rfc822;lists+linux-alpha@lfdr.de>);
+        Wed, 8 Jul 2020 12:23:27 -0400
+Received: from mga05.intel.com ([192.55.52.43]:20744 "EHLO mga05.intel.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1730116AbgGHQX1 (ORCPT <rfc822;linux-alpha@vger.kernel.org>);
+        Wed, 8 Jul 2020 12:23:27 -0400
+IronPort-SDR: wO47Tto9pLNM3vjYiA0VBymsi/2oL2ra2BMj1T1ftKR7qGA+QX22d1JHPC53F2iwz8uPtjm35C
+ aZCzhUP8zLoQ==
+X-IronPort-AV: E=McAfee;i="6000,8403,9676"; a="232725557"
+X-IronPort-AV: E=Sophos;i="5.75,327,1589266800"; 
+   d="scan'208";a="232725557"
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from fmsmga003.fm.intel.com ([10.253.24.29])
+  by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Jul 2020 09:23:27 -0700
+IronPort-SDR: f90kjkVLuSx4DyNZzz4rsmDd7qpDPBBSR89NBD3M2EQQLWtcFWvct98V7UU7YKfU+PxQEX9qNV
+ OR1vznApnrnw==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.75,327,1589266800"; 
+   d="scan'208";a="322983726"
+Received: from smile.fi.intel.com (HELO smile) ([10.237.68.40])
+  by FMSMGA003.fm.intel.com with ESMTP; 08 Jul 2020 09:23:25 -0700
+Received: from andy by smile with local (Exim 4.94)
+        (envelope-from <andriy.shevchenko@linux.intel.com>)
+        id 1jtCr0-000hbm-6r; Wed, 08 Jul 2020 19:23:26 +0300
+Date:   Wed, 8 Jul 2020 19:23:26 +0300
+From:   Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+To:     Richard Henderson <rth@twiddle.net>,
+        Ivan Kokshaysky <ink@jurassic.park.msu.ru>,
+        Matt Turner <mattst88@gmail.com>, linux-alpha@vger.kernel.org
+Cc:     kernel test robot <lkp@intel.com>
+Subject: Re: [PATCH v1] alpha: io: Make sparse happy about bitwise types
+Message-ID: <20200708162326.GO3703480@smile.fi.intel.com>
+References: <20200618135117.14894-1-andriy.shevchenko@linux.intel.com>
 MIME-Version: 1.0
-Received: by 2002:a05:6602:1582:0:0:0:0 with HTTP; Wed, 8 Jul 2020 05:33:07
- -0700 (PDT)
-Reply-To: mmsafiatou057@gmail.com
-From:   "Mrs. Safitaou Zoungrana" <richardlaurentdr@gmail.com>
-Date:   Wed, 8 Jul 2020 12:33:07 +0000
-Message-ID: <CALJAiTWJsL=xj-+mKa2Ry1622htq4_Fbxq9sWotVPkJRo5P=pQ@mail.gmail.com>
-Subject: My Dear Beloved One,
-To:     undisclosed-recipients:;
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20200618135117.14894-1-andriy.shevchenko@linux.intel.com>
+Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
 Sender: linux-alpha-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-alpha.vger.kernel.org>
 X-Mailing-List: linux-alpha@vger.kernel.org
 
-My Dear Beloved One,
+On Thu, Jun 18, 2020 at 04:51:17PM +0300, Andy Shevchenko wrote:
+> On Alpha the IO accessors are using plain unsigned types, such as uXX.
+> But Alpha can be configured to any endianess and implementation of
+> BE IO accessors, such as iowrite32be(), require endianess conversion.
+> This conversion, when done via cpu_to*() and *_to_cpu() helpers, uses
+> bitwise types of which sparse is not happy.
+> 
+> 8250_dwlib.c:45:17: sparse: sparse: incorrect type in argument 1 (different base types)
+> 8250_dwlib.c:45:17: sparse:     expected unsigned int [usertype]
+> 8250_dwlib.c:45:17: sparse:     got restricted __be32 [usertype]
+> 
+> One way is to use a lot of ifdeffery to properly use swab*() combination with
+> writel() or so, another is much simpler, i.e. forcing types, especially taking
+> into consideration the commit message of the original commit for that API.
 
-I greet you in the name of God almighty the givers of all good things
-in life. Please kindly pardon me for any inconvenience this letter may
-cost you because I know it may come to you as a surprise as we have no
-previous correspondence.  I sent this mail praying for it to reach you
-in good health, since I myself are in a very critical health condition
-in which I sleep every night without knowing if I may be alive to see
-the next day.
+Any comment on this so far?
 
-I am Mrs. Safiatou Zoungrana,  the wife of late Engineer Ralph
-Alphonso Zoungrana from Paris France but based here in Burkina Faso
-West Africa since eight years ago as a business woman dealing with
-gold exportation and Sales. We have been married for years before his
-sudden death although we were childless. I have been diagnosed with
-ovarian cancer and I have been battling with the sickness when my late
-lovely husband of a blessed memory was alive. May his soul rest in
-peace, Amen.
+> Fixes: 25534eb77078 ("alpha: add io{read,write}{16,32}be functions")
+> Reported-by: kernel test robot <lkp@intel.com>
+> Signed-off-by: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+> ---
+>  arch/alpha/include/asm/io.h | 4 ++--
+>  1 file changed, 2 insertions(+), 2 deletions(-)
+> 
+> diff --git a/arch/alpha/include/asm/io.h b/arch/alpha/include/asm/io.h
+> index a4d0c19f1e79..9529656c24bb 100644
+> --- a/arch/alpha/include/asm/io.h
+> +++ b/arch/alpha/include/asm/io.h
+> @@ -491,8 +491,8 @@ extern inline void writeq(u64 b, volatile void __iomem *addr)
+>  
+>  #define ioread16be(p) be16_to_cpu(ioread16(p))
+>  #define ioread32be(p) be32_to_cpu(ioread32(p))
+> -#define iowrite16be(v,p) iowrite16(cpu_to_be16(v), (p))
+> -#define iowrite32be(v,p) iowrite32(cpu_to_be32(v), (p))
+> +#define iowrite16be(v,p) iowrite16((__force u16)cpu_to_be16(v), (p))
+> +#define iowrite32be(v,p) iowrite32((__force u32)cpu_to_be32(v), (p))
+>  
+>  #define inb_p		inb
+>  #define inw_p		inw
+> -- 
+> 2.27.0.rc2
+> 
 
-My late Husband left the sum of =E2=82=AC7.900.000.00 Seven Million Nine
-Hundred Thousand Euros in a fix/suspense account in one of the prime
-bank here in Burkina Faso. Recently, my Doctor told me that I have few
-days to live due to the cancer problem. The one that disturbs me most
-is my blood pressure sickness.
+-- 
+With Best Regards,
+Andy Shevchenko
 
-Having known my health condition I decided to seek for your kind
-assistance to transfer this fund into your account and you will use it
-to establish an orphanage home in my name. I will give you more
-details about the project as soon as I receive your reply in my
-private email (mmsafiatou057@gmail.com) to handle this project because
-I do not want to state all here until I see your reply, desire and
-commitment to handle this project.
 
-My Regards to your family.
-Mrs. Safiatou Zoungrana.
