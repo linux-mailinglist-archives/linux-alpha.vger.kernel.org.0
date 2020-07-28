@@ -2,64 +2,157 @@ Return-Path: <linux-alpha-owner@vger.kernel.org>
 X-Original-To: lists+linux-alpha@lfdr.de
 Delivered-To: lists+linux-alpha@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 7FD22230F11
-	for <lists+linux-alpha@lfdr.de>; Tue, 28 Jul 2020 18:19:34 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id E31CB231413
+	for <lists+linux-alpha@lfdr.de>; Tue, 28 Jul 2020 22:40:35 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1730810AbgG1QTd convert rfc822-to-8bit (ORCPT
-        <rfc822;lists+linux-alpha@lfdr.de>); Tue, 28 Jul 2020 12:19:33 -0400
-Received: from customer-201-134-139-73.uninet-ide.com.mx ([201.134.139.73]:33130
-        "EHLO correo.tlalpan.gob.mx" rhost-flags-OK-FAIL-OK-FAIL)
-        by vger.kernel.org with ESMTP id S1730679AbgG1QTd (ORCPT
+        id S1728453AbgG1Ukf (ORCPT <rfc822;lists+linux-alpha@lfdr.de>);
+        Tue, 28 Jul 2020 16:40:35 -0400
+Received: from jabberwock.ucw.cz ([46.255.230.98]:49940 "EHLO
+        jabberwock.ucw.cz" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1728430AbgG1Uke (ORCPT
         <rfc822;linux-alpha@vger.kernel.org>);
-        Tue, 28 Jul 2020 12:19:33 -0400
-X-Greylist: delayed 25602 seconds by postgrey-1.27 at vger.kernel.org; Tue, 28 Jul 2020 12:19:33 EDT
-Received: from localhost (localhost [127.0.0.1])
-        by correo.tlalpan.gob.mx (Postfix) with ESMTP id 7AE4F53DB5E;
-        Tue, 28 Jul 2020 05:58:09 -0500 (CDT)
-Received: from correo.tlalpan.gob.mx ([127.0.0.1])
-        by localhost (correo.tlalpan.gob.mx [127.0.0.1]) (amavisd-new, port 10032)
-        with ESMTP id vB7i6hOoxhxA; Tue, 28 Jul 2020 05:58:09 -0500 (CDT)
-Received: from localhost (localhost [127.0.0.1])
-        by correo.tlalpan.gob.mx (Postfix) with ESMTP id 9707C3BDDC3;
-        Tue, 28 Jul 2020 04:01:15 -0500 (CDT)
-X-Virus-Scanned: amavisd-new at tlalpan.gob.mx
-Received: from correo.tlalpan.gob.mx ([127.0.0.1])
-        by localhost (correo.tlalpan.gob.mx [127.0.0.1]) (amavisd-new, port 10026)
-        with ESMTP id f7kdbnope-lj; Tue, 28 Jul 2020 04:01:15 -0500 (CDT)
-Received: from [10.85.108.11] (unknown [105.8.2.12])
-        by correo.tlalpan.gob.mx (Postfix) with ESMTPSA id B8E6F431C35;
-        Tue, 28 Jul 2020 03:28:44 -0500 (CDT)
-Content-Type: text/plain; charset="utf-8"
+        Tue, 28 Jul 2020 16:40:34 -0400
+Received: by jabberwock.ucw.cz (Postfix, from userid 1017)
+        id 074701C0BD8; Tue, 28 Jul 2020 22:40:31 +0200 (CEST)
+Date:   Tue, 28 Jul 2020 22:40:30 +0200
+From:   Pavel Machek <pavel@ucw.cz>
+To:     Will Deacon <will@kernel.org>
+Cc:     linux-kernel@vger.kernel.org, Joel Fernandes <joelaf@google.com>,
+        Sami Tolvanen <samitolvanen@google.com>,
+        Nick Desaulniers <ndesaulniers@google.com>,
+        Kees Cook <keescook@chromium.org>,
+        Marco Elver <elver@google.com>,
+        "Paul E. McKenney" <paulmck@kernel.org>,
+        Matt Turner <mattst88@gmail.com>,
+        Ivan Kokshaysky <ink@jurassic.park.msu.ru>,
+        Richard Henderson <rth@twiddle.net>,
+        Peter Zijlstra <peterz@infradead.org>,
+        Alan Stern <stern@rowland.harvard.edu>,
+        "Michael S. Tsirkin" <mst@redhat.com>,
+        Jason Wang <jasowang@redhat.com>,
+        Arnd Bergmann <arnd@arndb.de>,
+        Boqun Feng <boqun.feng@gmail.com>,
+        Catalin Marinas <catalin.marinas@arm.com>,
+        Mark Rutland <mark.rutland@arm.com>,
+        linux-arm-kernel@lists.infradead.org, linux-alpha@vger.kernel.org,
+        virtualization@lists.linux-foundation.org, kernel-team@android.com
+Subject: Re: [PATCH v3 19/19] arm64: lto: Strengthen READ_ONCE() to acquire
+ when CONFIG_LTO=y
+Message-ID: <20200728204029.GB1012@bug>
+References: <20200710165203.31284-1-will@kernel.org>
+ <20200710165203.31284-20-will@kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8BIT
-Content-Description: Mail message body
-Subject: =?utf-8?q?Covid_19_Wohlt=C3=A4tigkeitsfonds?=
-To:     Recipients <aguayenergia@tlalpan.gob.mx>
-From:   ''Tayeb Souami'' <aguayenergia@tlalpan.gob.mx>
-Date:   Tue, 28 Jul 2020 10:33:02 +0200
-Reply-To: Tayebsouam.spende@gmail.com
-Message-Id: <20200728082844.B8E6F431C35@correo.tlalpan.gob.mx>
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20200710165203.31284-20-will@kernel.org>
+User-Agent: Mutt/1.5.23 (2014-03-12)
 Sender: linux-alpha-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-alpha.vger.kernel.org>
 X-Mailing-List: linux-alpha@vger.kernel.org
 
-Lieber Freund,
+On Fri 2020-07-10 17:52:03, Will Deacon wrote:
+> When building with LTO, there is an increased risk of the compiler
+> converting an address dependency headed by a READ_ONCE() invocation
+> into a control dependency and consequently allowing for harmful
+> reordering by the CPU.
+> 
+> Ensure that such transformations are harmless by overriding the generic
+> READ_ONCE() definition with one that provides acquire semantics when
+> building with LTO.
 
-Ich bin Herr Tayeb Souami, New Jersey, Vereinigte Staaten von Amerika, der Mega-Gewinner von $ 315million In Mega Millions Jackpot, spende ich an 5 zufällige Personen, wenn Sie diese E-Mail erhalten, dann wurde Ihre E-Mail nach einem Spinball ausgewählt.Ich habe den größten Teil meines Vermögens auf eine Reihe von Wohltätigkeitsorganisationen und Organisationen verteilt.Ich habe mich freiwillig dazu entschieden, die Summe von € 2.000.000,00 an Sie als eine der ausgewählten 5 zu spenden, um meine Gewinne zu überprüfen, sehen Sie bitte meine You Tube Seite unten.
+Traditionally, READ_ONCE had only effects on compiler optimalizations, not on
+special semantics of the load instruction.
 
-UHR MICH HIER: https://www.youtube.com/watch?v=Z6ui8ZDQ6Ks
+Do you have example how LTO optimalizations break the code?
+
+Should some documentation be added? Because I believe users will need to understand
+what is going on there. 
+
+It is not LTO-only problem and it is not arm64-only problem, right?
+
+Best regards,
+									Pavel
 
 
-Das ist dein Spendencode: [TS530342018]
+> +#ifdef CONFIG_AS_HAS_LDAPR
+> +#define __LOAD_RCPC(sfx, regs...)					\
+> +	ALTERNATIVE(							\
+> +		"ldar"	#sfx "\t" #regs,				\
+> +		".arch_extension rcpc\n"				\
+> +		"ldapr"	#sfx "\t" #regs,				\
+> +	ARM64_HAS_LDAPR)
+> +#else
+> +#define __LOAD_RCPC(sfx, regs...)	"ldar" #sfx "\t" #regs
+> +#endif /* CONFIG_AS_HAS_LDAPR */
+> +
+> +#define __READ_ONCE(x)							\
+> +({									\
+> +	typeof(&(x)) __x = &(x);					\
+> +	int atomic = 1;							\
+> +	union { __unqual_scalar_typeof(*__x) __val; char __c[1]; } __u;	\
+> +	switch (sizeof(x)) {						\
+> +	case 1:								\
+> +		asm volatile(__LOAD_RCPC(b, %w0, %1)			\
+> +			: "=r" (*(__u8 *)__u.__c)			\
+> +			: "Q" (*__x) : "memory");			\
+> +		break;							\
+> +	case 2:								\
+> +		asm volatile(__LOAD_RCPC(h, %w0, %1)			\
+> +			: "=r" (*(__u16 *)__u.__c)			\
+> +			: "Q" (*__x) : "memory");			\
+> +		break;							\
+> +	case 4:								\
+> +		asm volatile(__LOAD_RCPC(, %w0, %1)			\
+> +			: "=r" (*(__u32 *)__u.__c)			\
+> +			: "Q" (*__x) : "memory");			\
+> +		break;							\
+> +	case 8:								\
+> +		asm volatile(__LOAD_RCPC(, %0, %1)			\
+> +			: "=r" (*(__u64 *)__u.__c)			\
+> +			: "Q" (*__x) : "memory");			\
+> +		break;							\
+> +	default:							\
+> +		atomic = 0;						\
+> +	}								\
+> +	atomic ? (typeof(*__x))__u.__val : (*(volatile typeof(__x))__x);\
+> +})
+> +
+> +#endif	/* !BUILD_VDSO */
+> +#endif	/* CONFIG_LTO */
+> +
+> +#include <asm-generic/rwonce.h>
+> +
+> +#endif	/* __ASM_RWONCE_H */
+> diff --git a/arch/arm64/kernel/vdso/Makefile b/arch/arm64/kernel/vdso/Makefile
+> index 45d5cfe46429..60df97f2e7de 100644
+> --- a/arch/arm64/kernel/vdso/Makefile
+> +++ b/arch/arm64/kernel/vdso/Makefile
+> @@ -28,7 +28,7 @@ ldflags-y := -shared -nostdlib -soname=linux-vdso.so.1 --hash-style=sysv	\
+>  	     $(btildflags-y) -T
+>  
+>  ccflags-y := -fno-common -fno-builtin -fno-stack-protector -ffixed-x18
+> -ccflags-y += -DDISABLE_BRANCH_PROFILING
+> +ccflags-y += -DDISABLE_BRANCH_PROFILING -DBUILD_VDSO
+>  
+>  CFLAGS_REMOVE_vgettimeofday.o = $(CC_FLAGS_FTRACE) -Os $(CC_FLAGS_SCS) $(GCC_PLUGINS_CFLAGS)
+>  KBUILD_CFLAGS			+= $(DISABLE_LTO)
+> diff --git a/arch/arm64/kernel/vdso32/Makefile b/arch/arm64/kernel/vdso32/Makefile
+> index d88148bef6b0..4fdf3754a058 100644
+> --- a/arch/arm64/kernel/vdso32/Makefile
+> +++ b/arch/arm64/kernel/vdso32/Makefile
+> @@ -43,7 +43,7 @@ cc32-as-instr = $(call try-run,\
+>  # As a result we set our own flags here.
+>  
+>  # KBUILD_CPPFLAGS and NOSTDINC_FLAGS from top-level Makefile
+> -VDSO_CPPFLAGS := -D__KERNEL__ -nostdinc -isystem $(shell $(CC_COMPAT) -print-file-name=include)
+> +VDSO_CPPFLAGS := -DBUILD_VDSO -D__KERNEL__ -nostdinc -isystem $(shell $(CC_COMPAT) -print-file-name=include)
+>  VDSO_CPPFLAGS += $(LINUXINCLUDE)
+>  
+>  # Common C and assembly flags
+> -- 
+> 2.27.0.383.g050319c2ae-goog
 
-
-Antworten Sie mit dem SPENDE-CODE an diese
-
-E-Mail:Tayebsouam.spende@gmail.com
-
-
-Ich hoffe, Sie und Ihre Familie glücklich zu machen.
-
-Grüße
-Herr Tayeb Souami
+-- 
+(english) http://www.livejournal.com/~pavelmachek
+(cesky, pictures) http://atrey.karlin.mff.cuni.cz/~pavel/picture/horses/blog.html
