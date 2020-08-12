@@ -2,56 +2,59 @@ Return-Path: <linux-alpha-owner@vger.kernel.org>
 X-Original-To: lists+linux-alpha@lfdr.de
 Delivered-To: lists+linux-alpha@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id E309E23F08D
-	for <lists+linux-alpha@lfdr.de>; Fri,  7 Aug 2020 18:09:43 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 212AB243112
+	for <lists+linux-alpha@lfdr.de>; Thu, 13 Aug 2020 00:45:24 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1725970AbgHGQJn convert rfc822-to-8bit (ORCPT
-        <rfc822;lists+linux-alpha@lfdr.de>); Fri, 7 Aug 2020 12:09:43 -0400
-Received: from mail.furshetcrimea.ru ([193.27.243.220]:40572 "EHLO
-        furshetcrimea.ru" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725815AbgHGQJm (ORCPT
-        <rfc822;linux-alpha@vger.kernel.org>); Fri, 7 Aug 2020 12:09:42 -0400
-Received: from [154.118.61.214] (account info@furshetcrimea.ru HELO [192.168.8.100])
-  by furshetcrimea.ru (CommuniGate Pro SMTP 6.1.10)
-  with ESMTPA id 11168826; Fri, 07 Aug 2020 19:21:44 +0300
-Content-Type: text/plain; charset="iso-8859-1"
+        id S1726510AbgHLWpX (ORCPT <rfc822;lists+linux-alpha@lfdr.de>);
+        Wed, 12 Aug 2020 18:45:23 -0400
+Received: from mx1.activ.net ([80.96.1.5]:37848 "EHLO mx1.activ.net"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1726485AbgHLWpX (ORCPT <rfc822;linux-alpha@vger.kernel.org>);
+        Wed, 12 Aug 2020 18:45:23 -0400
+X-Greylist: delayed 415 seconds by postgrey-1.27 at vger.kernel.org; Wed, 12 Aug 2020 18:45:22 EDT
+Received: from mx1.activ.net (localhost.localdomain [127.0.0.1])
+        by mx1.activ.net (Proxmox) with ESMTP id 668C73CEF;
+        Thu, 13 Aug 2020 01:38:18 +0300 (EEST)
+Received: from mail.activnet.info (mail.activnet.info [82.208.154.171])
+        by mx1.activ.net (Proxmox) with ESMTP id 5AA833CEB;
+        Thu, 13 Aug 2020 01:38:18 +0300 (EEST)
+Received: from localhost (localhost.localdomain [127.0.0.1])
+        by mail.activnet.info (Postfix) with ESMTP id 353A3802FAA;
+        Thu, 13 Aug 2020 01:38:19 +0300 (EEST)
+X-Virus-Scanned: amavisd-new at chance.ro
+Received: from mail.activnet.info ([127.0.0.1])
+        by localhost (mail.activnet.info [127.0.0.1]) (amavisd-new, port 10024)
+        with ESMTP id pxE89JkHpKCG; Thu, 13 Aug 2020 01:38:18 +0300 (EEST)
+Received: from newmail.uav.ro (cp3.activ.net [80.96.1.3])
+        (using TLSv1 with cipher DHE-RSA-AES128-SHA (128/128 bits))
+        (No client certificate requested)
+        (Authenticated sender: stiinte.exacte@uav.ro)
+        by mail.activnet.info (Postfix) with ESMTP id 196F5802FA2;
+        Thu, 13 Aug 2020 01:38:14 +0300 (EEST)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8BIT
-Content-Description: Mail message body
-Subject: Bei Interesse antworten.
-To:     Recipients <info@furshetcrimea.ru>
-From:   info@furshetcrimea.ru
-Date:   Fri, 07 Aug 2020 17:09:07 +0100
-Reply-To: mattiassjoborg751@gmail.com
-X-Antivirus: Avast (VPS 200807-2, 08/07/2020), Outbound message
-X-Antivirus-Status: Clean
-Message-ID: <auto-000011168826@furshetcrimea.ru>
+Date:   Thu, 13 Aug 2020 00:38:10 +0200
+From:   Mavis <stiinte.exacte@uav.ro>
+To:     undisclosed-recipients:;
+Subject: =?UTF-8?Q?=E8=89=AF=E3=81=84=E3=83=8B=E3=83=A5=E3=83=BC=E3=82=B9?=
+Reply-To: maviswanczykbest@gmail.com
+User-Agent: Roundcube Webmail/1.4.7
+Message-ID: <1aaaa214553d747e5ba0c6bdcfde89b9@uav.ro>
+X-Sender: stiinte.exacte@uav.ro
+Organization: Mavis
+Content-Type: text/plain; charset=UTF-8;
+ format=flowed
+Content-Transfer-Encoding: 8bit
 Sender: linux-alpha-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-alpha.vger.kernel.org>
 X-Mailing-List: linux-alpha@vger.kernel.org
 
-Sch�ne Gr��e,
+こんにちは
 
-Mein Name ist MATTIAS SJOBORG, ich bin Schweizer Staatsb�rger und (Vorsitzender des Verg�tungs- und Nominierungsausschusses) von Tethys Petroleum, einem multinationalen �lkonzern mit Sitz in London-England, Gro�britannien. Ich bitte Sie um Ihre Hilfe, um die Summe von vierzig Millionen Dollar abzurufen, die aus zwei Sendungsboxen besteht.
+758.7ドルの巨額の受賞者であるMavis Wanczykです。メガ·ミリオンズ
+Jackpotと私が直接あなたに200万ドル寄付します。
 
-Dieses Geld wurde von der Firma erworben und von einem Diplomaten begleitet und korrekt in einer Sicherheitsfirma in Amerika hinterlegt. Mein Grund daf�r ist, dass ich von der Firma zu lange um meine Anspr�che betrogen wurde, nur weil ich kein bin Britisch. Die Kontaktdaten des Diplomaten erhalten Sie, wenn Sie Ihr Interesse bekunden, mir zu helfen.
+フルネームと携帯電話番号で返信する
 
-Jede der Schachteln enth�lt 20 Mio. USD. F�r Ihre Hilfe bin ich bereit, 40% an Sie freizugeben. Aus Sicherheitsgr�nden wurde die Sendung als VERTRAULICHE DIPLOMATISCHE DOKUMENTE registriert, und ich kann erkl�ren, warum dies so erkl�rt wurde. Denken Sie daran, dass der Diplomat den Inhalt der Sendung nicht kennt. Er ist seit einem Monat dort, w�hrend ich nach einem zuverl�ssigen Partner suchen m�chte. Ich werde das Land verlassen, sobald die Sendung f�r Sie an Sie geliefert wird Private Investitionen und ich haben geschworen, niemals nach London zur�ckzukehren. Bitte, ich brauche Ihre dringende Antwort, bevor meine Pl�ne, das Unternehmen zu verlassen, entdeckt werden.
-
-www.tethyspetroleum.com/tethys/static/EN_US/au_seniormanagement.html
-
-Im Moment ist die sicherste Form der Korrespondenz meine eigene E-Mail-Adresse. Bitte antworten Sie im Interesse der Vertraulichkeit nur �ber meine direkte E-Mail-Adresse. Antworten Sie zusammen mit Ihrer direkten Telefon- und Faxnummer, unter der ich Sie alternativ erreichen kann.
-
-Bitte, wenn Sie nicht bereit und interessiert sind, mir zu helfen, l�schen Sie bitte diese E-Mail aus Ihrer E-Mail und tun Sie so, als h�tten Sie sie nie erhalten.
-
-Freundliche Gr��e,
-Mr.Mattias Sjoborg
-(Vorsitzender des Verg�tungs- und Nominierungsausschusses)
-Tethys Petroleum.
-London, England
-
--- 
-This email has been checked for viruses by Avast antivirus software.
-https://www.avast.com/antivirus
+Mavis Wanczyk
 
