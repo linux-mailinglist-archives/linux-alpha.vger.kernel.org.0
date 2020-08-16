@@ -2,61 +2,97 @@ Return-Path: <linux-alpha-owner@vger.kernel.org>
 X-Original-To: lists+linux-alpha@lfdr.de
 Delivered-To: lists+linux-alpha@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 237E2244869
-	for <lists+linux-alpha@lfdr.de>; Fri, 14 Aug 2020 12:55:34 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 677902457EB
+	for <lists+linux-alpha@lfdr.de>; Sun, 16 Aug 2020 16:28:57 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728004AbgHNKz0 convert rfc822-to-8bit (ORCPT
-        <rfc822;lists+linux-alpha@lfdr.de>); Fri, 14 Aug 2020 06:55:26 -0400
-Received: from mail.munisurquillo.gob.pe ([190.187.155.157]:50034 "EHLO
-        mail.munisurquillo.gob.pe" rhost-flags-OK-FAIL-OK-FAIL)
-        by vger.kernel.org with ESMTP id S1727977AbgHNKzY (ORCPT
+        id S1729429AbgHPO2y (ORCPT <rfc822;lists+linux-alpha@lfdr.de>);
+        Sun, 16 Aug 2020 10:28:54 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57064 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1729430AbgHPO23 (ORCPT
         <rfc822;linux-alpha@vger.kernel.org>);
-        Fri, 14 Aug 2020 06:55:24 -0400
-X-Greylist: delayed 12855 seconds by postgrey-1.27 at vger.kernel.org; Fri, 14 Aug 2020 06:55:23 EDT
-Received: from localhost (localhost.localdomain [127.0.0.1])
-        by mail.munisurquillo.gob.pe (Postfix) with ESMTP id 2F5D24041A4B3;
-        Fri, 14 Aug 2020 01:58:19 -0500 (-05)
-Received: from mail.munisurquillo.gob.pe ([127.0.0.1])
-        by localhost (mail.munisurquillo.gob.pe [127.0.0.1]) (amavisd-new, port 10032)
-        with ESMTP id pyq1TImcJF8C; Fri, 14 Aug 2020 01:58:19 -0500 (-05)
-Received: from localhost (localhost.localdomain [127.0.0.1])
-        by mail.munisurquillo.gob.pe (Postfix) with ESMTP id D8483403ADF82;
-        Fri, 14 Aug 2020 01:58:18 -0500 (-05)
-X-Virus-Scanned: amavisd-new at munisurquillo.gob.pe
-Received: from mail.munisurquillo.gob.pe ([127.0.0.1])
-        by localhost (mail.munisurquillo.gob.pe [127.0.0.1]) (amavisd-new, port 10026)
-        with ESMTP id SAqqG-DSZ_xP; Fri, 14 Aug 2020 01:58:18 -0500 (-05)
-Received: from [10.54.17.114] (unknown [105.4.7.153])
-        by mail.munisurquillo.gob.pe (Postfix) with ESMTPSA id 35298403B48D9;
-        Fri, 14 Aug 2020 01:58:08 -0500 (-05)
-Content-Type: text/plain; charset="iso-8859-1"
+        Sun, 16 Aug 2020 10:28:29 -0400
+Received: from mail-wr1-x429.google.com (mail-wr1-x429.google.com [IPv6:2a00:1450:4864:20::429])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 04DB2C061343
+        for <linux-alpha@vger.kernel.org>; Sun, 16 Aug 2020 07:28:28 -0700 (PDT)
+Received: by mail-wr1-x429.google.com with SMTP id p20so12427044wrf.0
+        for <linux-alpha@vger.kernel.org>; Sun, 16 Aug 2020 07:28:28 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=mime-version:reply-to:from:date:message-id:subject:to
+         :content-transfer-encoding;
+        bh=Duxa+mmNF3T3C2WDKsmzowR2OzvdY892XFjTPp0RWRI=;
+        b=WydAeewQhr1r/XNZpFH3zIH+szhFi1y3aL3E9C0t+/P/o9UraiFWbofR/CQ6sPEcpC
+         KyCeW8UEKHrP3ODzHNzRF0fXKVacBOmuLb8NECLyUFXYtyIqVUeYoDGst/1ZZTlDrSFg
+         UqSpOJ6dtUV1psB5nDXdq7xdyi/8gRNM1VbIFNZJZ/Jq19E7MYwhVDZIDPjgPqAXZhyn
+         GqeGT1PbpkDjLV3sLnwpKnct94lXuL+96hZmSmobGb3Qy2pozBmBDF2Jj9UT2J2RyTFf
+         8zkXh3Q26txE+QPN4s7K+eUJ2QneFKWjK5m2vP3HOTwJU8+CUBzlx8CYcMp2boJXkNFa
+         Q36Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:reply-to:from:date:message-id
+         :subject:to:content-transfer-encoding;
+        bh=Duxa+mmNF3T3C2WDKsmzowR2OzvdY892XFjTPp0RWRI=;
+        b=IK6h2gVKKmksI+9Eqn07CQFBhR710BMLs+3HWEB0P9Dx8zPXx6f7ITADU7YLy0u6vE
+         s6kWzYxBVjdfFdQwJ32HyMjBp+llG8hwfcaCv8ibuzqaORc/Gb1bl+N+LJtSsMeoOEF1
+         rExbX40Var3UuBnjXeX4GAyrSZYHVuAJkXUeRMLoOecfMP/4E2M1jIHIvN9FyPOIvUHT
+         EkLipBRqut1GnMnEJjaciHElHIdr5cUIJ6X0okdR85UArhnhcVJMvjC4pA8F4rMNKUMd
+         pIGHjDIkVGrqDG8ek80Ti004mHa5iR5w4xUrcOOy15JSkM08ly7vSv+btOYk2Ex4tG9l
+         ufpg==
+X-Gm-Message-State: AOAM533Hbs6rYWCXC9zjCKZE/Pf/eQR+XZmHWFE26Iw62fEhytZBDYdI
+        qGTJMAt7XXKyml0uVczevQWiXhidxsDLKwLN7WQ=
+X-Google-Smtp-Source: ABdhPJwBhDgN8zDFv7Vp+6FwrySrd7+zBZF+4bgjNBXNpkwqG/RDbCaE/Q6+6wMIFZa1PWMJ+xJlLCn7iN4TuC23ED4=
+X-Received: by 2002:adf:97dc:: with SMTP id t28mr10205969wrb.291.1597588104107;
+ Sun, 16 Aug 2020 07:28:24 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8BIT
-Content-Description: Mail message body
-Subject: =?utf-8?q?Covid_19_Wohlt=C3=A4tigkeitsfonds?=
-To:     Recipients <lu.marin@munisurquillo.gob.pe>
-From:   ''charles jackson'' <lu.marin@munisurquillo.gob.pe>
-Date:   Fri, 14 Aug 2020 08:57:59 +0200
-Reply-To: charlesjacksonjr001@gmail.com
-Message-Id: <20200814065809.35298403B48D9@mail.munisurquillo.gob.pe>
+Received: by 2002:a5d:6cd3:0:0:0:0:0 with HTTP; Sun, 16 Aug 2020 07:28:23
+ -0700 (PDT)
+Reply-To: sctnld11170@tlen.pl
+From:   "Mr. Scott Donald" <confianzayrentabilidad@gmail.com>
+Date:   Sun, 16 Aug 2020 07:28:23 -0700
+Message-ID: <CANrrfX4FE9qQHVqDqDeDgrqidfa8Ug7YqLDZJ5dm2fb1ExQM=w@mail.gmail.com>
+Subject: Hello, Please
+To:     undisclosed-recipients:;
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 Sender: linux-alpha-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-alpha.vger.kernel.org>
 X-Mailing-List: linux-alpha@vger.kernel.org
 
-Hallo
+--=20
+Dear Friend,
 
-Ich bin Charles W. Jackson aus North Carolina, Vereinigte Staaten von Amerika, und ich bin der Gewinner des Mega-Millionen-Jackpots von 344 Millionen US-Dollar. Ich spende die Summe von 2.000.000 Millionen Euro als Teil der Hilfsgelder für das Corona-Virus.
+I'm Mr. Scott Donald a Successful businessMan dealing with
+Exportation, I got your mail contact through search to let you know my
+intension and my Ugly Situation Am a dying Man here in Los Angeles
+California Hospital Bed in (USA), I Lost my Wife and my only Daughter
+for Covid-19 and I also have a problem in my Health and I can die
+anytime I Know,
 
-Dies ist Ihr Spendencode: [CJ530342019]
+I have a project that I am about to hand over to you. and I already
+instructed the Bankia S.A. Madrid, Spain(BSA) to transfer my fund sum
+of =C2=A33,7M GBP. Equivalent to =E2=82=AC4,077,033.91 EUR, to you as to en=
+able you
+to give 50% of this fund to Charitable Home in your State and take 50%
+don't think otherwise and why would anybody send someone you barely
+know to help you deliver a message, help me do this for the happiness
+of my soul and for God to mercy me and my Family and give Us a good
+place.
 
-www.youtube.com/watch?v=BSr8myiLPMQ
+please, do as I said there was someone from your State that I deeply
+love so very very much and I miss her so badly I have no means to
+reach any Charitable Home there. that is why I go for a personal
+search of the Country and State and I got your mail contact through
+search to let you know my Bitterness and please, help me is getting
+Dark I ask my Doctor to help me keep you notice failure for me to
+reach you in person Your urgent Response, here is my Doctor Whats-app
+Number for urgent notice +13019692737
 
-Bitte antworten Sie auf diese E-Mail mit dem SPENDERCODE:
+Hope To Hear From You. I'm sending this email to you for the second
+time yet no response from you.
 
-charlesjacksonjr001@gmail.com
+My Regards.
 
-Ich hoffe, dass Sie und Ihre Familie dies durchkommen
-
-
-Herr Charles Jackson
+Mr. Scott Donald
+CEO
