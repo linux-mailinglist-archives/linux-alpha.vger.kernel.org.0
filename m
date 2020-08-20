@@ -2,27 +2,27 @@ Return-Path: <linux-alpha-owner@vger.kernel.org>
 X-Original-To: lists+linux-alpha@lfdr.de
 Delivered-To: lists+linux-alpha@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 7B48C24ABAC
-	for <lists+linux-alpha@lfdr.de>; Thu, 20 Aug 2020 02:13:01 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 737B324AB68
+	for <lists+linux-alpha@lfdr.de>; Thu, 20 Aug 2020 02:10:33 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728176AbgHTAMU (ORCPT <rfc822;lists+linux-alpha@lfdr.de>);
-        Wed, 19 Aug 2020 20:12:20 -0400
-Received: from mail.kernel.org ([198.145.29.99]:58150 "EHLO mail.kernel.org"
+        id S1727030AbgHTACc (ORCPT <rfc822;lists+linux-alpha@lfdr.de>);
+        Wed, 19 Aug 2020 20:02:32 -0400
+Received: from mail.kernel.org ([198.145.29.99]:59310 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726977AbgHTABw (ORCPT <rfc822;linux-alpha@vger.kernel.org>);
-        Wed, 19 Aug 2020 20:01:52 -0400
+        id S1727968AbgHTAC1 (ORCPT <rfc822;linux-alpha@vger.kernel.org>);
+        Wed, 19 Aug 2020 20:02:27 -0400
 Received: from sasha-vm.mshome.net (c-73-47-72-35.hsd1.nh.comcast.net [73.47.72.35])
         (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
         (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 67014208E4;
-        Thu, 20 Aug 2020 00:01:50 +0000 (UTC)
+        by mail.kernel.org (Postfix) with ESMTPSA id BE65E20FC3;
+        Thu, 20 Aug 2020 00:02:25 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1597881711;
-        bh=9Qb0N9+6E/GV3ZEmAcr2/EdtRX3yuWtlrYKP2CZhivA=;
+        s=default; t=1597881747;
+        bh=8wABEDlREpvzT6ukPbd1Mmmvfg+2A2EvnE7zEw6dBsw=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=T6OG6KJQplNumwqoHnNboMT6An4Bwh/iB4lGpe5G68lg4ITTjresXMi12j+5+yhxc
-         Hi74GQa0Ee3aKuArT7NJuO7IR0e0hdj/dFCq27KjW4iI40zKK+zTsI3gE2hFYDtoWy
-         6ay6QyYbkvHMuamTceHHNXmdextPIGHSRYdeyDfw=
+        b=0+UFVxWbCBFWikAStdtsevk/1CoNBgRZw1JHehXwIUtf2q7se+svywePqD+qRtR3D
+         s6j1xSTIjjPU70lImod7Bphbnp7O2wf7h+ooLSBWcKTQ51C4UwmFvAC5v9XC8jluRJ
+         K+yAr2IvE02AkReXWuheYBJxaBhXRmrlSaEyo0Hs=
 From:   Sasha Levin <sashal@kernel.org>
 To:     linux-kernel@vger.kernel.org, stable@vger.kernel.org
 Cc:     Luc Van Oostenryck <luc.vanoostenryck@gmail.com>,
@@ -34,12 +34,12 @@ Cc:     Luc Van Oostenryck <luc.vanoostenryck@gmail.com>,
         Stephen Boyd <sboyd@kernel.org>, Arnd Bergmann <arnd@arndb.de>,
         Linus Torvalds <torvalds@linux-foundation.org>,
         Sasha Levin <sashal@kernel.org>, linux-alpha@vger.kernel.org
-Subject: [PATCH AUTOSEL 5.8 25/27] alpha: fix annotation of io{read,write}{16,32}be()
-Date:   Wed, 19 Aug 2020 20:01:14 -0400
-Message-Id: <20200820000116.214821-25-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 5.7 23/24] alpha: fix annotation of io{read,write}{16,32}be()
+Date:   Wed, 19 Aug 2020 20:01:54 -0400
+Message-Id: <20200820000155.215089-23-sashal@kernel.org>
 X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20200820000116.214821-1-sashal@kernel.org>
-References: <20200820000116.214821-1-sashal@kernel.org>
+In-Reply-To: <20200820000155.215089-1-sashal@kernel.org>
+References: <20200820000155.215089-1-sashal@kernel.org>
 MIME-Version: 1.0
 X-stable: review
 X-Patchwork-Hint: Ignore
@@ -80,10 +80,10 @@ Signed-off-by: Sasha Levin <sashal@kernel.org>
  1 file changed, 4 insertions(+), 4 deletions(-)
 
 diff --git a/arch/alpha/include/asm/io.h b/arch/alpha/include/asm/io.h
-index a4d0c19f1e796..640e1a2f57b42 100644
+index e6225cf40de57..b09dd6bc98a12 100644
 --- a/arch/alpha/include/asm/io.h
 +++ b/arch/alpha/include/asm/io.h
-@@ -489,10 +489,10 @@ extern inline void writeq(u64 b, volatile void __iomem *addr)
+@@ -490,10 +490,10 @@ extern inline void writeq(u64 b, volatile void __iomem *addr)
  }
  #endif
  
