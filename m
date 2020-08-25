@@ -2,134 +2,84 @@ Return-Path: <linux-alpha-owner@vger.kernel.org>
 X-Original-To: lists+linux-alpha@lfdr.de
 Delivered-To: lists+linux-alpha@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id E99D725113F
-	for <lists+linux-alpha@lfdr.de>; Tue, 25 Aug 2020 07:03:20 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 24FAE25121F
+	for <lists+linux-alpha@lfdr.de>; Tue, 25 Aug 2020 08:37:48 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1725287AbgHYFDU (ORCPT <rfc822;lists+linux-alpha@lfdr.de>);
-        Tue, 25 Aug 2020 01:03:20 -0400
-Received: from smtprelay0059.hostedemail.com ([216.40.44.59]:35212 "EHLO
-        smtprelay.hostedemail.com" rhost-flags-OK-OK-OK-FAIL)
-        by vger.kernel.org with ESMTP id S1728377AbgHYFDU (ORCPT
+        id S1729105AbgHYGhr (ORCPT <rfc822;lists+linux-alpha@lfdr.de>);
+        Tue, 25 Aug 2020 02:37:47 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43606 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1729068AbgHYGhr (ORCPT
         <rfc822;linux-alpha@vger.kernel.org>);
-        Tue, 25 Aug 2020 01:03:20 -0400
-Received: from smtprelay.hostedemail.com (10.5.19.251.rfc1918.com [10.5.19.251])
-        by smtpgrave05.hostedemail.com (Postfix) with ESMTP id A8C3418024CF1
-        for <linux-alpha@vger.kernel.org>; Tue, 25 Aug 2020 04:56:49 +0000 (UTC)
-Received: from filter.hostedemail.com (clb03-v110.bra.tucows.net [216.40.38.60])
-        by smtprelay08.hostedemail.com (Postfix) with ESMTP id 5B1DE182CED2A;
-        Tue, 25 Aug 2020 04:56:46 +0000 (UTC)
-X-Session-Marker: 6A6F6540706572636865732E636F6D
-X-Spam-Summary: 2,0,0,,d41d8cd98f00b204,joe@perches.com,,RULES_HIT:41:355:379:541:800:960:973:988:989:1260:1311:1314:1345:1359:1437:1515:1534:1542:1711:1730:1747:1777:1792:2393:2559:2562:2898:3138:3139:3140:3141:3142:3352:3865:3866:3868:3872:4321:4605:5007:6119:6261:10004:10848:11026:11658:11914:12043:12297:12438:12555:12895:12986:13870:13894:13972:14181:14394:14721:21080:21627:30054:30070,0,RBL:none,CacheIP:none,Bayesian:0.5,0.5,0.5,Netcheck:none,DomainCache:0,MSF:not bulk,SPF:,MSBL:0,DNSBL:none,Custom_rules:0:0:0,LFtime:1,LUA_SUMMARY:none
-X-HE-Tag: cover96_0806a5227059
-X-Filterd-Recvd-Size: 3208
-Received: from joe-laptop.perches.com (unknown [47.151.133.149])
-        (Authenticated sender: joe@perches.com)
-        by omf08.hostedemail.com (Postfix) with ESMTPA;
-        Tue, 25 Aug 2020 04:56:44 +0000 (UTC)
-From:   Joe Perches <joe@perches.com>
-To:     Jiri Kosina <trivial@kernel.org>, Robert Richter <rric@kernel.org>
-Cc:     Richard Henderson <rth@twiddle.net>,
+        Tue, 25 Aug 2020 02:37:47 -0400
+Received: from mail-lf1-x141.google.com (mail-lf1-x141.google.com [IPv6:2a00:1450:4864:20::141])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CC24BC061574;
+        Mon, 24 Aug 2020 23:37:46 -0700 (PDT)
+Received: by mail-lf1-x141.google.com with SMTP id c8so5795896lfh.9;
+        Mon, 24 Aug 2020 23:37:46 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=sender:date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to:user-agent;
+        bh=+8J0SMn0DeaTAP1G5XZRDMqDI4C3yEDmcbeRVLLld+A=;
+        b=mnVmkRUn6UwjZ7JzQHaQs097X30CHeAIcUM8gXZJXxbz9UzTWzNWiVADcbcGXiSoR1
+         j1g8q7WdR8PMG3RPhh0gPyq13YFsLxQ5CqIMko/XwVPuYAN1JO9+0ROyxmUehRI7Db69
+         j7xkhYcXWi0BNsm+Aph+dwIZx7EMkLC8pRSebcsmRMvljJWgE4FVXvrYeLF72yNglF8X
+         u+rteBw1n/+ZHQ0+EDI1Pm62AcYOPNSjQ3zNNUl73/gyt8b2R9ZFC+62toNOdfIGWlLJ
+         HhPgc8uwkHno/75s5bY4Knmom8kUkSkTw0zDIReRuqVun62no/SnF/Qhp0OyLrt58sQ/
+         tgrA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:sender:date:from:to:cc:subject:message-id
+         :references:mime-version:content-disposition:in-reply-to:user-agent;
+        bh=+8J0SMn0DeaTAP1G5XZRDMqDI4C3yEDmcbeRVLLld+A=;
+        b=oRc1GPHDYwsre/2tWHFUFE6zUNLkreB15Jqa3vsBPcXMlMxQHSv9nGAZ1f2fBdKdE8
+         qd7ATpQWyLhDhGVwWEH9zvz2SAMhptwd+eDDczOWCGjr18oIKpcHuaC81f5abcrCsRFj
+         zKcf02nenBtxCiy2do+SebD9d37CWIFb0wbUpKJDhr46W8/i7qemLhQcD2rrSipR0BJx
+         E6dLjpo1+1mhSE51mFreLQ81Qwzeod7/D6Bqk3a67LiNa1OAQ0VeAUsNlC/CZ4/ixJqI
+         RxXbtIuZelRoW1BRmfnfEPjxKcyzBlGxD9jQMJ3eHtfG3kTPJEjlSvfGZN1KAtM+Gx1J
+         h5UQ==
+X-Gm-Message-State: AOAM531RbB3/kM5/buJ5EyjJoRQtlqp/IdtSwhI38VEIcGgl164Cq5W7
+        c6oNhk71Ze86w2YyjyHqkZI=
+X-Google-Smtp-Source: ABdhPJygsl82djudIj8ldZzBmKIY8fohNI4qVOnN8UerAuDPt0BwxOnPPd5QCHhqoBvJ6EDIa24y/w==
+X-Received: by 2002:a19:5046:: with SMTP id z6mr3930462lfj.4.1598337465261;
+        Mon, 24 Aug 2020 23:37:45 -0700 (PDT)
+Received: from rric.localdomain (31-208-27-44.cust.bredband2.com. [31.208.27.44])
+        by smtp.gmail.com with ESMTPSA id d6sm2628099lji.110.2020.08.24.23.37.44
+        (version=TLS1_2 cipher=ECDHE-ECDSA-CHACHA20-POLY1305 bits=256/256);
+        Mon, 24 Aug 2020 23:37:44 -0700 (PDT)
+Date:   Tue, 25 Aug 2020 08:37:42 +0200
+From:   Robert Richter <rric@kernel.org>
+To:     Joe Perches <joe@perches.com>
+Cc:     Jiri Kosina <trivial@kernel.org>,
+        Richard Henderson <rth@twiddle.net>,
         Ivan Kokshaysky <ink@jurassic.park.msu.ru>,
         Matt Turner <mattst88@gmail.com>, linux-alpha@vger.kernel.org,
         linux-kernel@vger.kernel.org, oprofile-list@lists.sf.net
-Subject: [PATCH 02/29] alpha: Avoid comma separated statements
-Date:   Mon, 24 Aug 2020 21:55:59 -0700
-Message-Id: <4facd57f80c70437f085ba3a1bcf13ae0b63c3bc.1598331148.git.joe@perches.com>
-X-Mailer: git-send-email 2.26.0
-In-Reply-To: <cover.1598331148.git.joe@perches.com>
+Subject: Re: [PATCH 02/29] alpha: Avoid comma separated statements
+Message-ID: <20200825063742.jopjozosvg5h74fp@rric.localdomain>
 References: <cover.1598331148.git.joe@perches.com>
+ <4facd57f80c70437f085ba3a1bcf13ae0b63c3bc.1598331148.git.joe@perches.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <4facd57f80c70437f085ba3a1bcf13ae0b63c3bc.1598331148.git.joe@perches.com>
+User-Agent: NeoMutt/20170113 (1.7.2)
 Sender: linux-alpha-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-alpha.vger.kernel.org>
 X-Mailing-List: linux-alpha@vger.kernel.org
 
-Use semicolons and braces.
+On 24.08.20 21:55:59, Joe Perches wrote:
+> Use semicolons and braces.
+> 
+> Signed-off-by: Joe Perches <joe@perches.com>
+> ---
+>  arch/alpha/kernel/pci_iommu.c      |  8 +++++---
+>  arch/alpha/oprofile/op_model_ev4.c | 22 ++++++++++++++--------
+>  arch/alpha/oprofile/op_model_ev5.c |  8 +++++---
+>  3 files changed, 24 insertions(+), 14 deletions(-)
 
-Signed-off-by: Joe Perches <joe@perches.com>
----
- arch/alpha/kernel/pci_iommu.c      |  8 +++++---
- arch/alpha/oprofile/op_model_ev4.c | 22 ++++++++++++++--------
- arch/alpha/oprofile/op_model_ev5.c |  8 +++++---
- 3 files changed, 24 insertions(+), 14 deletions(-)
+For oprofile:
 
-diff --git a/arch/alpha/kernel/pci_iommu.c b/arch/alpha/kernel/pci_iommu.c
-index 81037907268d..b8af7ad6c607 100644
---- a/arch/alpha/kernel/pci_iommu.c
-+++ b/arch/alpha/kernel/pci_iommu.c
-@@ -161,10 +161,12 @@ iommu_arena_find_pages(struct device *dev, struct pci_iommu_arena *arena,
- 			goto again;
- 		}
- 
--		if (ptes[p+i])
--			p = ALIGN(p + i + 1, mask + 1), i = 0;
--		else
-+		if (ptes[p+i]) {
-+			p = ALIGN(p + i + 1, mask + 1);
-+			i = 0;
-+		} else {
- 			i = i + 1;
-+		}
- 	}
- 
- 	if (i < n) {
-diff --git a/arch/alpha/oprofile/op_model_ev4.c b/arch/alpha/oprofile/op_model_ev4.c
-index 086a0d5445c5..004f80a4291f 100644
---- a/arch/alpha/oprofile/op_model_ev4.c
-+++ b/arch/alpha/oprofile/op_model_ev4.c
-@@ -46,18 +46,24 @@ ev4_reg_setup(struct op_register_config *reg,
- 	   map it onto one of the possible values, and write it back.  */
- 
- 	count = ctr[0].count;
--	if (count <= 4096)
--		count = 4096, hilo = 1;
--	else
--		count = 65536, hilo = 0;
-+	if (count <= 4096) {
-+		count = 4096;
-+		hilo = 1;
-+	} else {
-+		count = 65536;
-+		hilo = 0;
-+	}
- 	ctr[0].count = count;
- 	ctl |= (ctr[0].enabled && hilo) << 3;
- 
- 	count = ctr[1].count;
--	if (count <= 256)
--		count = 256, hilo = 1;
--	else
--		count = 4096, hilo = 0;
-+	if (count <= 256) {
-+		count = 256;
-+		hilo = 1;
-+	} else {
-+		count = 4096;
-+		hilo = 0;
-+	}
- 	ctr[1].count = count;
- 	ctl |= (ctr[1].enabled && hilo);
- 
-diff --git a/arch/alpha/oprofile/op_model_ev5.c b/arch/alpha/oprofile/op_model_ev5.c
-index c300f5ef3482..6f52244e1181 100644
---- a/arch/alpha/oprofile/op_model_ev5.c
-+++ b/arch/alpha/oprofile/op_model_ev5.c
-@@ -92,9 +92,11 @@ common_reg_setup(struct op_register_config *reg,
- 		if (!ctr[i].enabled)
- 			continue;
- 
--		if (count <= 256)
--			count = 256, hilo = 3, max = 256;
--		else {
-+		if (count <= 256) {
-+			max = 256;
-+			hilo = 3;
-+			count = 256;
-+		} else {
- 			max = (i == 2 ? 16384 : 65536);
- 			hilo = 2;
- 			if (count > max)
--- 
-2.26.0
-
+Acked-by: Robert Richter <rric@kernel.org>
