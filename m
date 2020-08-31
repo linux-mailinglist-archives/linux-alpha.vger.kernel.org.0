@@ -2,95 +2,127 @@ Return-Path: <linux-alpha-owner@vger.kernel.org>
 X-Original-To: lists+linux-alpha@lfdr.de
 Delivered-To: lists+linux-alpha@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 38042257A8F
-	for <lists+linux-alpha@lfdr.de>; Mon, 31 Aug 2020 15:33:45 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 60D6A2582AF
+	for <lists+linux-alpha@lfdr.de>; Mon, 31 Aug 2020 22:38:46 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726586AbgHaNdl (ORCPT <rfc822;lists+linux-alpha@lfdr.de>);
-        Mon, 31 Aug 2020 09:33:41 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35956 "EHLO
+        id S1728791AbgHaUio (ORCPT <rfc822;lists+linux-alpha@lfdr.de>);
+        Mon, 31 Aug 2020 16:38:44 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47192 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726942AbgHaN0i (ORCPT
+        with ESMTP id S1726023AbgHaUio (ORCPT
         <rfc822;linux-alpha@vger.kernel.org>);
-        Mon, 31 Aug 2020 09:26:38 -0400
-Received: from mail-lj1-x241.google.com (mail-lj1-x241.google.com [IPv6:2a00:1450:4864:20::241])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A21AFC0611E2
-        for <linux-alpha@vger.kernel.org>; Mon, 31 Aug 2020 06:26:20 -0700 (PDT)
-Received: by mail-lj1-x241.google.com with SMTP id r13so6715800ljm.0
-        for <linux-alpha@vger.kernel.org>; Mon, 31 Aug 2020 06:26:20 -0700 (PDT)
+        Mon, 31 Aug 2020 16:38:44 -0400
+Received: from mail-pj1-x1042.google.com (mail-pj1-x1042.google.com [IPv6:2607:f8b0:4864:20::1042])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id EF384C061573;
+        Mon, 31 Aug 2020 13:38:43 -0700 (PDT)
+Received: by mail-pj1-x1042.google.com with SMTP id ds1so500207pjb.1;
+        Mon, 31 Aug 2020 13:38:43 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=mime-version:reply-to:sender:from:date:message-id:subject:to;
-        bh=o69Nac3LLMj5CDhyPqLcnP7WGq46U4gQb9HzFdG/MvE=;
-        b=HyW5/n2KU8W3FGefd/FUm/bl6fINTQmZ8owzYdBGhP5oyAu9pJQPQCMOdYEDNFegUA
-         if9VN+pra3iBgWNYJjHcBV7T99CY2GFOcHOVU+3vJ7r2Hvzgah2ZCqHTq6bk4iv0uilM
-         xQiEPrdMcYz9cIZL++pevJSb5RdixTZAk95pbnwmQ3/GOLv8xUS1vQ8t141F6N8CgROI
-         mubb31iIEGHTmIRsfQchZCL6N1v85LnpPi/V/jmyUdodp49jy+hBMBGM/QhsUL+AVu8e
-         3Cg9SzlMyigtpwqPqg6kcnc+pElD0XMp/EB9mY9MxbJL6EWXLnnT1YiTj0+V+0DhoQI2
-         wJdQ==
+        h=from:to:cc:subject:date:message-id;
+        bh=IwVRkCMCyZnv4TAjRBRmsSZkvVEHDfWBL3BIyYi4zQo=;
+        b=ZkZqEI05NuuUmHp4uq5a9dsrbwy6wdRKCA6iPyNirvHNYsQVEQqt6/lvse4QXcTqv2
+         3mJ1pK85ab2S9FLesU7vnJPgRPLpltd14LU7nZlzQx3sQAZgkcVa+sBCkKawqacB1437
+         b+9+HKTj8Bhj2BcACUf2G8k8rjyMCHPBsFUayVjGCPKiSuU3VdSX/AK3nzAUmLgYekB+
+         0n7keCtBO+JccJGJanwqSwRo70x6sH2B+iEoaUSPCdeeSiSwkKtkyAex8kV0D0W0hY0s
+         LZUJCW89ct/rL13iuPmo0Qg+ugXIe6iwZCeXUVA5RHMFZrGt2KQUK7HO1RotW/sE7agp
+         6EFA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:reply-to:sender:from:date
-         :message-id:subject:to;
-        bh=o69Nac3LLMj5CDhyPqLcnP7WGq46U4gQb9HzFdG/MvE=;
-        b=GUOjOoSWrAf/KxJ/XKBkczjN9EmmNtIEEm5DWqPTSvQIT0mz/Nq9r8K2+pH1AIutbF
-         zAlZpMaxKGe3vPrrhTWcrS8Lo41ncoX9gAB5mfJ6m0xvVvWPrcGaVV1Vm+4CFbCD7KHx
-         lxNRGMCk5r8kqCPqIF9k/48zZfkJxlV4uxz4avLI2VMdK2vI66YF5YBrAzdfue11akMG
-         S2yaHf+HaDPNdkoExRIC/Bbe9MfqoQdiiWmZaq+i4G8voW3PTzSBOzjF7fw06zfw4TlQ
-         KFEdseeVcvFTPR3fM1/3u5BCwzv/xVfWBbo6INleFK+Zmju1FtkeMlOtiHD5oAW9IvhJ
-         XEEg==
-X-Gm-Message-State: AOAM532PMJ7QH+dI00uW2rykNlRmFM+10od8Z8RIn6A/rCBx4YuOwYK8
-        KMkKCBn6zlDiNmH6PKDeaSqpcf8iFIYjAvwO5kA=
-X-Google-Smtp-Source: ABdhPJxEvvXnVfErpjDwHOkyCqRTciyX/SNwRaUYVOHmxIQS6MbFpht1V2v8jY7chkhk3ZxIDw/BvL8uxGOjXPjCGG8=
-X-Received: by 2002:a2e:9c86:: with SMTP id x6mr662832lji.346.1598880379026;
- Mon, 31 Aug 2020 06:26:19 -0700 (PDT)
-MIME-Version: 1.0
-Reply-To: marie_avis12@yahoo.com
-Received: by 2002:a2e:9817:0:0:0:0:0 with HTTP; Mon, 31 Aug 2020 06:26:18
- -0700 (PDT)
-From:   Miss Maris Avis <marie.avis11@gmail.com>
-Date:   Mon, 31 Aug 2020 13:26:18 +0000
-X-Google-Sender-Auth: ENkN_TdcXF5NiFOWAHQrklZpWrk
-Message-ID: <CADTVshNj9Ztqm75AkbunLeeRTsk07qB5LsiKLoagvmiH7TvYgQ@mail.gmail.com>
-Subject: Hello
-To:     undisclosed-recipients:;
-Content-Type: text/plain; charset="UTF-8"
+        h=x-gm-message-state:from:to:cc:subject:date:message-id;
+        bh=IwVRkCMCyZnv4TAjRBRmsSZkvVEHDfWBL3BIyYi4zQo=;
+        b=A2DORATqmT4OyPzIwhRYYVJj7YG0xDLuSBcCUjxGqHE0HEJnpXVtV5+pH+/DcAO3oH
+         amfIRM9jhDhqupsP7oPs7j2ih4krRCr6tmhWcKftk/hIp7g6QzFd7lZ57ugDZ/7ESZYj
+         sR43K8GOxtvnf6bAZy2MlXZtKZSCtOuPo0HHa0CBn72XSBWUKcvECwMIMdyIvRWyLFxw
+         is0cT/z575YtAn9esjVCvKdXZqg5jg9yOHXxaHmIfMYkMQH2K4AWfCM05GxqC65jJCZM
+         hlY6Ij6fcC5Ig3Z/j5aqlD1B4UH05hIM2gIRraSIG1DpCTiwPuEWOVl43Tdgt81DB8HH
+         lucg==
+X-Gm-Message-State: AOAM533mEG6ygSoA8WmQlxE+TaKdKjtqJWk2GRwG7QIqgBiDbXw7A4ew
+        nnw1TaTsEMRpoj6gX2B3RUQ=
+X-Google-Smtp-Source: ABdhPJxZWUFmKJnOqKQskXfTYVdxoI7lzl+mkXQEUEnR18yGX2dCIBolzAzimegoss/mYS3BHiIAsg==
+X-Received: by 2002:a17:902:b18e:: with SMTP id s14mr2351578plr.160.1598906323230;
+        Mon, 31 Aug 2020 13:38:43 -0700 (PDT)
+Received: from Asurada-Nvidia.nvidia.com (thunderhill.nvidia.com. [216.228.112.22])
+        by smtp.gmail.com with ESMTPSA id a26sm116850pfn.93.2020.08.31.13.38.41
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 31 Aug 2020 13:38:42 -0700 (PDT)
+From:   Nicolin Chen <nicoleotsuka@gmail.com>
+To:     mpe@ellerman.id.au, benh@kernel.crashing.org, paulus@samba.org,
+        rth@twiddle.net, ink@jurassic.park.msu.ru, mattst88@gmail.com,
+        tony.luck@intel.com, fenghua.yu@intel.com, schnelle@linux.ibm.com,
+        gerald.schaefer@linux.ibm.com, hca@linux.ibm.com,
+        gor@linux.ibm.com, borntraeger@de.ibm.com, davem@davemloft.net,
+        tglx@linutronix.de, mingo@redhat.com, bp@alien8.de, x86@kernel.org,
+        hpa@zytor.com, James.Bottomley@HansenPartnership.com, deller@gmx.de
+Cc:     sfr@canb.auug.org.au, hch@lst.de, linuxppc-dev@lists.ozlabs.org,
+        linux-kernel@vger.kernel.org, linux-alpha@vger.kernel.org,
+        linux-ia64@vger.kernel.org, linux-s390@vger.kernel.org,
+        sparclinux@vger.kernel.org, linux-parisc@vger.kernel.org
+Subject: [RESEND][PATCH 0/7] Avoid overflow at boundary_size
+Date:   Mon, 31 Aug 2020 13:38:04 -0700
+Message-Id: <20200831203811.8494-1-nicoleotsuka@gmail.com>
+X-Mailer: git-send-email 2.17.1
 Sender: linux-alpha-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-alpha.vger.kernel.org>
 X-Mailing-List: linux-alpha@vger.kernel.org
 
-My Dear,
+==== For this resend ====
+The original series have not been acked at any patch. So I am
+resending them, being suggested by Niklas.
 
-My name is Miss Marie Avis the only daughter of Mr. Gabriel Avis, my
-Father was dealing in Cocoa and Timber in this country before his
-death,  It is my pleasure to contact you for a business venture which
-I intend to establish in your country. Though I have not met with you
-before but I believe one has to risk confiding before you can succeed
-sometimes in life.
+==== Coverletter ====
+We are expending the default DMA segmentation boundary to its
+possible maximum value (ULONG_MAX) to indicate that a device
+doesn't specify a boundary limit. So all dma_get_seg_boundary
+callers should take a precaution with the return values since
+it would easily get overflowed.
 
-I can confide in you for my brighter future since you are a human
-being like me. There is this huge amount of Ten Million five hundred
-thousand United States dollars. ($10.500.000.00) which my late Father
-kept for me in a suspense account with one of the bank here in Abidjan
-Cote d'Ivoire before he was assassinated by unknown persons, Now I
-have decided to invest these money in your country or anywhere safe
-enough for me.
+I scanned the entire kernel tree for all the existing callers
+and found that most of callers may get overflowed in two ways:
+either "+ 1" or passing it to ALIGN() that does "+ mask".
 
-I want you to help me claim this fund from the bank and have it
-transfer into your personal account in your country for investment
-purposes in your country in these areas:
+According to kernel defines:
+    #define ALIGN_MASK(x, mask) (((x) + (mask)) & ~(mask))
+    #define ALIGN(x, a)	ALIGN_MASK(x, (typeof(x))(a) - 1)
 
-1). Telecommunication
-2). The transport Industry
-3). Five Star Hotel
-4). Tourism
-5). Real Estate
+We can simplify the logic here:
+  ALIGN(boundary + 1, 1 << shift) >> shift
+= ALIGN_MASK(b + 1, (1 << s) - 1) >> s
+= {[b + 1 + (1 << s) - 1] & ~[(1 << s) - 1]} >> s
+= [b + 1 + (1 << s) - 1] >> s
+= [b + (1 << s)] >> s
+= (b >> s) + 1
 
-If you can be of assistance to me I will be pleased to offer you 20%
-of the total fund.
+So this series of patches fix the potential overflow with this
+overflow-free shortcut.
 
-I await your soonest response.
+As I don't have these platforms, testings/comments are welcome.
 
-Respectfully yours,
-Miss Marie Evis
-Tel: +225597438528
+Thanks
+Nic
+
+Nicolin Chen (7):
+  powerpc/iommu: Avoid overflow at boundary_size
+  alpha: Avoid overflow at boundary_size
+  ia64/sba_iommu: Avoid overflow at boundary_size
+  s390/pci_dma: Avoid overflow at boundary_size
+  sparc: Avoid overflow at boundary_size
+  x86/amd_gart: Avoid overflow at boundary_size
+  parisc: Avoid overflow at boundary_size
+
+ arch/alpha/kernel/pci_iommu.c    | 10 ++++------
+ arch/ia64/hp/common/sba_iommu.c  |  4 ++--
+ arch/powerpc/kernel/iommu.c      | 11 +++++------
+ arch/s390/pci/pci_dma.c          |  4 ++--
+ arch/sparc/kernel/iommu-common.c |  9 +++------
+ arch/sparc/kernel/iommu.c        |  4 ++--
+ arch/sparc/kernel/pci_sun4v.c    |  4 ++--
+ arch/x86/kernel/amd_gart_64.c    |  4 ++--
+ drivers/parisc/ccio-dma.c        |  4 ++--
+ drivers/parisc/sba_iommu.c       |  4 ++--
+ 10 files changed, 26 insertions(+), 32 deletions(-)
+
+-- 
+2.17.1
+
