@@ -2,70 +2,125 @@ Return-Path: <linux-alpha-owner@vger.kernel.org>
 X-Original-To: lists+linux-alpha@lfdr.de
 Delivered-To: lists+linux-alpha@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 955F4258D1D
-	for <lists+linux-alpha@lfdr.de>; Tue,  1 Sep 2020 13:02:16 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id E6CEC258F86
+	for <lists+linux-alpha@lfdr.de>; Tue,  1 Sep 2020 15:54:09 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726674AbgIALCN (ORCPT <rfc822;lists+linux-alpha@lfdr.de>);
-        Tue, 1 Sep 2020 07:02:13 -0400
-Received: from sonic303-20.consmr.mail.ir2.yahoo.com ([77.238.178.201]:38239
-        "EHLO sonic303-20.consmr.mail.ir2.yahoo.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1726618AbgIALAB (ORCPT
-        <rfc822;linux-alpha@vger.kernel.org>);
-        Tue, 1 Sep 2020 07:00:01 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=yahoo.com; s=s2048; t=1598957998; bh=XBE4xSzzkPC5/YTLs8GPUUR7cERQCUTpAxei+5SR1s4=; h=Date:From:Reply-To:Subject:References:From:Subject; b=VfJS0K2spxck/ckeESLpk6425+REOlGgYos+N1Coz9/s0ZZQqigGT9uGKCOSNuzD7bAlIXs9YANO4sMQwk4uFg/cf6ROXR1cG/3MtC3f6Sn1/1A97+f93xUtGLRtoiWzfeG/FGjgM1PFkJkC9ZTHdJNz9mClsWT34DD5ecUSmlLBEHnTJp1QIEgI2R1WtTgJzIECe5GAgoeZn1TRNNly6p5fmshf3plHiVIX7qiEYB278LUosoc5VkF1ZM29aWSNL07N5gDzumTzb3TTCPQsDWe0UwaUxv1efU2YLxumIuOExXvIffqCh15A6xQbaxtdXBxvSgtdnUAXv7mJEqQEvg==
-X-YMail-OSG: .HXDPU0VM1kJa9pNNY239Q6yMzQzgUpewXonNLumnap5ZDQQzyyCCiyALa5Cq0W
- sItndPf5sbMEKUV7zlKjojQm3OCNU7wpivFRYrERe0vo.kE1BsqCsU28ahs3tm89I53uZXZoIfZl
- zMp.H4XP8eqq_6WiZsSj0B8c10p8A54l6teYY_hs5kgQViPfXhBoC4cZ4Tf81suyoTlhPAS4YZ10
- Ckmn48Y7f2YzIeU29Dn00Mlngi0uXiBMkeaY7rzhFIJR6oi9v0DPxlx8YO4WSfKODZoYvHrxMJFn
- .e.86HDpbmlHF7s_1kkxFtFAACtdRZg54HiF0rPar09eQyHJqPdIyeSoIXbFA_XIfPbt9QPPwxVu
- ZZfQC2NiyMEDYyNRfDJ9JiMIfBErsklH553QzmJFozakUft7zj9bdRE6BGLAcDTS30AbXpfFoaVW
- joz7dRL8bbr2wJWIFz8ILfH75014X6CPs3h18OYHpA52m9XMTKYLEABegyee7LDusITRFco2.APc
- QvTgU3ckvEcBUbvBLtqQfSRyrBcl1dON7GB9x3RP8.y8yyoYfnTRqRgKhLcaBrZ_aBahSx2Dc_j9
- 2AkJZgS1TpdFGbUsIdQhQSjGhpVjD1toaX7LdbEhZgQd6NCqXm1KWRkM6mni2LmfanOG54yIIELA
- CwwppRLycpHu5NYP74.3vIrOlYSFNXjrwml7V_rAPZrm_ALBNkW1QDIN1X1XR0p9.qvsyiPAhy9h
- BDApmYt0_Xy.amyaoXL2Xrm8BBSHQaTYaK7Y07b9pvoLCdJ4e0v46h_fwLS30fHPwTbZZZRY4MQX
- T260VxoNeEfHVCXN0fRZI67DgBFtD0SN74FSVKzjYXBpmk3jQI6SfeGkzyE7aAWCgeqk0ZP.Ftgb
- DqLmNSJ0KYIysRl6czUXyiiE0GyD7H9tMK1plVU06987MiQu526nkvA2p_p.do5T7XoiIy7cawQp
- UB6Nqn4F1.i0J0aATpU998UTwQN7iKQXE.z8CC0lRpAyN2CqjvPV1oDRWAZWww83uC4o6t_DhzB3
- Wmq4TGr5aXzyVWOAby3edgB.ihUk2qK9uXisg2JKS5o.AzwAgX4RC4oy53Gt0wXBWngjHSojJ_3J
- VzhnbQBdpQ3PRaoXCDpgbpvrrz4om1mKRkOgRtiNS41hCue4h1K.YbT6EGiephbQhhz6J4YLquEm
- NKfwpbOGSpkjGUDQPIQLyrI6XqniM4TOM7vWROeLPR4yCJkCrTKWIQb61wb6JNN9ZEiX5maTWSyK
- l.gbHyjcP_Q.reThzMce4Gg6.gKtBvNCq5aPWj9POeuQ0yNNpJpzPEWX31D0yqtddjfhVDPsqmpw
- ewdssjKBUdleUXvY3Bn_M0iwAhQvW3YCFYiFqqDyW4yKvIZI1D94UHGnksNpRF3Htaeq.EvsnL6a
- JOkfHeoUwrTzhwk5bIuNCEI2AQJz92cluyvC5ReUzfxkkww--
-Received: from sonic.gate.mail.ne1.yahoo.com by sonic303.consmr.mail.ir2.yahoo.com with HTTP; Tue, 1 Sep 2020 10:59:58 +0000
-Date:   Tue, 1 Sep 2020 10:59:55 +0000 (UTC)
-From:   Dr Rhama Benson <rhamabenson@gmail.com>
-Reply-To: drrhamabenson16@gmail.com
-Message-ID: <1426456914.1756697.1598957995255@mail.yahoo.com>
-Subject: Can you be trusted and sincerely.
+        id S1728115AbgIAN2k (ORCPT <rfc822;lists+linux-alpha@lfdr.de>);
+        Tue, 1 Sep 2020 09:28:40 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35202 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1728047AbgIAN1x (ORCPT
+        <rfc822;linux-alpha@vger.kernel.org>); Tue, 1 Sep 2020 09:27:53 -0400
+Received: from ozlabs.org (bilbo.ozlabs.org [IPv6:2401:3900:2:1::2])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0FD23C061245;
+        Tue,  1 Sep 2020 06:27:52 -0700 (PDT)
+Received: from authenticated.ozlabs.org (localhost [127.0.0.1])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+         key-exchange ECDHE (P-256) server-signature RSA-PSS (4096 bits) server-digest SHA256)
+        (No client certificate requested)
+        by mail.ozlabs.org (Postfix) with ESMTPSA id 4Bgntf72DLz9sTN;
+        Tue,  1 Sep 2020 23:27:38 +1000 (AEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ellerman.id.au;
+        s=201909; t=1598966866;
+        bh=b8fBMPirmgEDaVPbjXdRIYPwIrTUtQaTXRmfGBF/egk=;
+        h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
+        b=pXwfFcp7DEZhdSaVT5PD8DrmDNJcZnA4u3LePXbs+Xb49cAmRXaxJrmXg/VJlWIzR
+         Q9Z+EfZBm7r6mhEVXxyXQhUmW0fa5OWGfrmOVAZI3itGQAU61ebluXbCJK+AIc60vF
+         1lpEQtozskWFVBMd7eJLB6Kr3ed2+dixG5IYLvugFo8ywj0S6XpgkfnAthm3BhrzXv
+         8D0og0Lq9pFYRuwgHyCnfhfBZXrYFBGSojjeGeHhiOdKVVtQpLLH9UWs9qF4OuV5Cr
+         KzxdsR4L7qCBMFnd1HxBtLQKZU2Du8AyMTHI6pRxfwvNsOSSUSd9mxXbEuet6K+c7h
+         OfGS3/kjMeThw==
+From:   Michael Ellerman <mpe@ellerman.id.au>
+To:     Nicolin Chen <nicoleotsuka@gmail.com>, benh@kernel.crashing.org,
+        paulus@samba.org, rth@twiddle.net, ink@jurassic.park.msu.ru,
+        mattst88@gmail.com, tony.luck@intel.com, fenghua.yu@intel.com,
+        schnelle@linux.ibm.com, gerald.schaefer@linux.ibm.com,
+        hca@linux.ibm.com, gor@linux.ibm.com, borntraeger@de.ibm.com,
+        davem@davemloft.net, tglx@linutronix.de, mingo@redhat.com,
+        bp@alien8.de, x86@kernel.org, hpa@zytor.com,
+        James.Bottomley@HansenPartnership.com, deller@gmx.de
+Cc:     sfr@canb.auug.org.au, hch@lst.de, linuxppc-dev@lists.ozlabs.org,
+        linux-kernel@vger.kernel.org, linux-alpha@vger.kernel.org,
+        linux-ia64@vger.kernel.org, linux-s390@vger.kernel.org,
+        sparclinux@vger.kernel.org, linux-parisc@vger.kernel.org
+Subject: Re: [RESEND][PATCH 1/7] powerpc/iommu: Avoid overflow at boundary_size
+In-Reply-To: <20200831203811.8494-2-nicoleotsuka@gmail.com>
+References: <20200831203811.8494-1-nicoleotsuka@gmail.com> <20200831203811.8494-2-nicoleotsuka@gmail.com>
+Date:   Tue, 01 Sep 2020 23:27:36 +1000
+Message-ID: <87lfht1vav.fsf@mpe.ellerman.id.au>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-References: <1426456914.1756697.1598957995255.ref@mail.yahoo.com>
-X-Mailer: WebService/1.1.16565 YMailNodin Mozilla/5.0 (Windows NT 6.1; rv:47.0) Gecko/20100101 Firefox/47.0
-To:     unlisted-recipients:; (no To-header on input)
+Content-Type: text/plain
 Sender: linux-alpha-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-alpha.vger.kernel.org>
 X-Mailing-List: linux-alpha@vger.kernel.org
 
+Nicolin Chen <nicoleotsuka@gmail.com> writes:
+> The boundary_size might be as large as ULONG_MAX, which means
+> that a device has no specific boundary limit. So either "+ 1"
+> or passing it to ALIGN() would potentially overflow.
+>
+> According to kernel defines:
+>     #define ALIGN_MASK(x, mask) (((x) + (mask)) & ~(mask))
+>     #define ALIGN(x, a)	ALIGN_MASK(x, (typeof(x))(a) - 1)
+>
+> We can simplify the logic here:
+>   ALIGN(boundary + 1, 1 << shift) >> shift
+> = ALIGN_MASK(b + 1, (1 << s) - 1) >> s
+> = {[b + 1 + (1 << s) - 1] & ~[(1 << s) - 1]} >> s
+> = [b + 1 + (1 << s) - 1] >> s
+> = [b + (1 << s)] >> s
+> = (b >> s) + 1
+>
+> So fixing a potential overflow with the safer shortcut.
+>
+> Reported-by: Stephen Rothwell <sfr@canb.auug.org.au>
+> Signed-off-by: Nicolin Chen <nicoleotsuka@gmail.com>
+> Cc: Christoph Hellwig <hch@lst.de>
+> ---
+>  arch/powerpc/kernel/iommu.c | 11 +++++------
+>  1 file changed, 5 insertions(+), 6 deletions(-)
+
+Are you asking for acks, or for maintainers to merge the patches
+individually?
+
+> diff --git a/arch/powerpc/kernel/iommu.c b/arch/powerpc/kernel/iommu.c
+> index 9704f3f76e63..c01ccbf8afdd 100644
+> --- a/arch/powerpc/kernel/iommu.c
+> +++ b/arch/powerpc/kernel/iommu.c
+> @@ -236,15 +236,14 @@ static unsigned long iommu_range_alloc(struct device *dev,
+>  		}
+>  	}
+>  
+> -	if (dev)
+> -		boundary_size = ALIGN(dma_get_seg_boundary(dev) + 1,
+> -				      1 << tbl->it_page_shift);
+> -	else
+> -		boundary_size = ALIGN(1UL << 32, 1 << tbl->it_page_shift);
+>  	/* 4GB boundary for iseries_hv_alloc and iseries_hv_map */
+> +	boundary_size = dev ? dma_get_seg_boundary(dev) : U32_MAX;
+
+Is there any path that passes a NULL dev anymore?
+
+Both iseries_hv_alloc() and iseries_hv_map() were removed years ago.
+See:
+  8ee3e0d69623 ("powerpc: Remove the main legacy iSerie platform code")
 
 
-My Dear Friend.
+So maybe we should do a lead-up patch that drops the NULL dev support,
+which will then make this patch simpler.
 
-How are you and your family Today? I hope all is well, and I am happy to share this transaction with you ,but you must keep everything as secret and very confidential.
+cheers
 
-I have a very lucrative business transaction which requires your utmost discretion. Please understand that you and me, are to work as one team to inherit this fund, hence I am your insider in the bank as the transaction commence. I advise you to feel free with me for all is going to be well with us. This business is 100% risk free.
 
-Though, I know it would come to you at uttermost surprise unbelief because it is virtually impossible to know who is trustworthy and who to believed I am Dr. Rhama Benson sum of $10.5 million is lying in our bank without claim i want you to help me to claim and receive it to your account in your country for our benefit.
-
-I am aware of the unsafe nature of the internet, and was compelled to use this medium due to the nature of this project.I have access to every vital information that can be used to transfer this huge amount of money, which may culminate into the investment of the said funds into your account or any lucrative company in your country.
-
-If you will like to assist me as a partner then indicate your interest, after which we shall both discuss the modalities and the sharing percentage. Upon receipt of your reply on your expression of Interest, I will give you full details on how the business will be executed. I am open for negotiation,
-
-Thanks for your anticipated cooperation.Note you might receive this message in your inbox or spam folder, depends on your web host or server network
-
-Compliment of the day,
-Regards,
-Dr. Rhama.
+> +	/* Overflow-free shortcut for: ALIGN(b + 1, 1 << s) >> s */
+> +	boundary_size = (boundary_size >> tbl->it_page_shift) + 1;
+>  
+>  	n = iommu_area_alloc(tbl->it_map, limit, start, npages, tbl->it_offset,
+> -			     boundary_size >> tbl->it_page_shift, align_mask);
+> +			     boundary_size, align_mask);
+>  	if (n == -1) {
+>  		if (likely(pass == 0)) {
+>  			/* First try the pool from the start */
+> -- 
+> 2.17.1
