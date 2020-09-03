@@ -2,85 +2,130 @@ Return-Path: <linux-alpha-owner@vger.kernel.org>
 X-Original-To: lists+linux-alpha@lfdr.de
 Delivered-To: lists+linux-alpha@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 4709B25B95F
-	for <lists+linux-alpha@lfdr.de>; Thu,  3 Sep 2020 05:48:03 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 9FD3F25BFDB
+	for <lists+linux-alpha@lfdr.de>; Thu,  3 Sep 2020 13:05:43 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726814AbgICDr6 (ORCPT <rfc822;lists+linux-alpha@lfdr.de>);
-        Wed, 2 Sep 2020 23:47:58 -0400
-Received: from bilbo.ozlabs.org ([203.11.71.1]:57905 "EHLO ozlabs.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726776AbgICDr5 (ORCPT <rfc822;linux-alpha@vger.kernel.org>);
-        Wed, 2 Sep 2020 23:47:57 -0400
-Received: from authenticated.ozlabs.org (localhost [127.0.0.1])
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-         key-exchange ECDHE (P-256) server-signature RSA-PSS (4096 bits) server-digest SHA256)
-        (No client certificate requested)
-        by mail.ozlabs.org (Postfix) with ESMTPSA id 4Bhmwh08jXz9sR4;
-        Thu,  3 Sep 2020 13:47:48 +1000 (AEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ellerman.id.au;
-        s=201909; t=1599104874;
-        bh=4yAcDTxLmVtFlFmBwViPiQqBxkMUq1/v+ltMjACdmTw=;
-        h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
-        b=sLw7B6tBL0tYeiS7UbUp4SBXAdWw1BiuX1rzRD7UWBO4tYjHsDcRVzXhtw9LnwBSb
-         TVkfoqm3UH9AlqDYsgMpWDtdLM9KmPlrSHeDnjaQHBRgQyRaye8SGf9zquJweA35N7
-         ilN3da+kZMlwnOIFaqVvO5w2y0IGDyDnVFG1VcyDqd8GjM2NTURgLs8goa8r9z4rAX
-         bS7CaEKouymf+JkB9pMsYKQDB1pDC1x6WHKsbhAVF7YeLmzAfKXrfbmEv+zmCeShnW
-         T7ZxEkdC9W8WnKJu7u5s2wHJv1TU45hmfsmEVHLbTCR7rbxTHbwfqjSrB0uc+2ymCK
-         IggJReIsXvpLw==
-From:   Michael Ellerman <mpe@ellerman.id.au>
-To:     Nicolin Chen <nicoleotsuka@gmail.com>, hch@lst.de
-Cc:     sfr@canb.auug.org.au, benh@kernel.crashing.org, paulus@samba.org,
-        linuxppc-dev@lists.ozlabs.org, linux-kernel@vger.kernel.org,
-        rth@twiddle.net, ink@jurassic.park.msu.ru, mattst88@gmail.com,
-        linux-alpha@vger.kernel.org, tony.luck@intel.com,
-        fenghua.yu@intel.com, linux-ia64@vger.kernel.org,
-        schnelle@linux.ibm.com, gerald.schaefer@linux.ibm.com,
-        hca@linux.ibm.com, gor@linux.ibm.com, borntraeger@de.ibm.com,
-        linux-s390@vger.kernel.org, davem@davemloft.net,
-        sparclinux@vger.kernel.org, tglx@linutronix.de, mingo@redhat.com,
-        bp@alien8.de, x86@kernel.org, hpa@zytor.com,
-        James.Bottomley@HansenPartnership.com, deller@gmx.de,
-        linux-parisc@vger.kernel.org
-Subject: Re: [PATCH 1/2] dma-mapping: introduce dma_get_seg_boundary_nr_pages()
-In-Reply-To: <20200901221646.26491-2-nicoleotsuka@gmail.com>
-References: <20200901221646.26491-1-nicoleotsuka@gmail.com> <20200901221646.26491-2-nicoleotsuka@gmail.com>
-Date:   Thu, 03 Sep 2020 13:47:43 +1000
-Message-ID: <87363z1py8.fsf@mpe.ellerman.id.au>
+        id S1728382AbgICLAC (ORCPT <rfc822;lists+linux-alpha@lfdr.de>);
+        Thu, 3 Sep 2020 07:00:02 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59738 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1728354AbgICK6A (ORCPT
+        <rfc822;linux-alpha@vger.kernel.org>); Thu, 3 Sep 2020 06:58:00 -0400
+Received: from mail-pf1-x441.google.com (mail-pf1-x441.google.com [IPv6:2607:f8b0:4864:20::441])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 250A4C061246;
+        Thu,  3 Sep 2020 03:57:57 -0700 (PDT)
+Received: by mail-pf1-x441.google.com with SMTP id u20so2048061pfn.0;
+        Thu, 03 Sep 2020 03:57:57 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=XvxPmxtC0Bk31a11OwZrMge+dU3uUM43arNhidKdfeY=;
+        b=q1yCvbZ8w01P8xuPxnIcZnEF3Hr07ImVQMcXxZgqnSncr+zba54pN3npDYYOjJXhbm
+         XIqjp77VnYo3sJUa9nsc/OkcPZ2a5Y90boSJn50VaZ74haoOIwzEqzuApddDmuRsWA4t
+         5LlNWMh47eFOI/t/pn9hyEBoN/9bMzFwyvwPxAFUkJ5XUIrhRgszLM/M8If1a/RC8WmZ
+         6qZ5sWP8uitmybmf3cwkB0qwBCXj3OoX/HrhU+S1S1dHFyplWZAkXiQoi27iG3iQmbnm
+         EQGK1zrcCUMrp+7WqPhSebA3XqqW6nM8d6/yeJZq7qMNXZRfKdpHSJtV5y0ESKKzTh/Z
+         pJhA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=XvxPmxtC0Bk31a11OwZrMge+dU3uUM43arNhidKdfeY=;
+        b=V3pK3e2Oog1j3HPAQsghba8wYWj1Mtrhpt2ehqrEjsJ/S4lckjMeBl1zy6AwYJ2p07
+         MjPkKE7T6pPseQHyQLb/nrp9N3e0hdaj4sSktyHB2neM406UB+Yd413XzbV+Atn0xfmi
+         Z415AMeFtnBVcs2QNmQPnp891RycLLVRTCwu7GNg8GQcCm7n2+tdQ223nOUWqHELKhlp
+         u7qcXnhY5V0qAnNkJbPbP7rFC2ceG2XU4Au4AOtVXvkUEeqOpVkdX6DTXWd5NrV9057N
+         T4aesZBQZhCHkbWOsAsjy9N8T14T8c3k09Hdw8Puo/L9/9FIaZo2JFKYirXYLYVJMTjH
+         cHRQ==
+X-Gm-Message-State: AOAM533pykzo0Pq5/z+hkZSIkPMwFxvqBvegu3w859zL2aEj/0LXi3qV
+        gKQzm5BlGL2x4mqc/QdhI7FMysM+vkWi7I45vieAzSzRLXUY+g==
+X-Google-Smtp-Source: ABdhPJzWVo7SnArbq5BTD4S1cYWUGvNIOFTqyxYbAJGJHhEbl/k7IWPLuudMRiwWjgcOrgrKPL+6Qt7HKDzE/CcnN7Y=
+X-Received: by 2002:a62:6083:0:b029:13c:1611:66c4 with SMTP id
+ u125-20020a6260830000b029013c161166c4mr1648433pfb.15.1599130676695; Thu, 03
+ Sep 2020 03:57:56 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain
+References: <20200901221646.26491-1-nicoleotsuka@gmail.com> <20200901221646.26491-2-nicoleotsuka@gmail.com>
+In-Reply-To: <20200901221646.26491-2-nicoleotsuka@gmail.com>
+From:   Andy Shevchenko <andy.shevchenko@gmail.com>
+Date:   Thu, 3 Sep 2020 13:57:39 +0300
+Message-ID: <CAHp75VcVJBSnPQ6NfdF8FdEDfM+oQ=Sr+cH5VGX4SrAqrgpf-g@mail.gmail.com>
+Subject: Re: [PATCH 1/2] dma-mapping: introduce dma_get_seg_boundary_nr_pages()
+To:     Nicolin Chen <nicoleotsuka@gmail.com>
+Cc:     Christoph Hellwig <hch@lst.de>,
+        Stephen Rothwell <sfr@canb.auug.org.au>,
+        Michael Ellerman <mpe@ellerman.id.au>,
+        Benjamin Herrenschmidt <benh@kernel.crashing.org>,
+        Paul Mackerras <paulus@samba.org>,
+        "open list:LINUX FOR POWERPC PA SEMI PWRFICIENT" 
+        <linuxppc-dev@lists.ozlabs.org>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        rth@twiddle.net, ink@jurassic.park.msu.ru,
+        Matt Turner <mattst88@gmail.com>, linux-alpha@vger.kernel.org,
+        Tony Luck <tony.luck@intel.com>,
+        Fenghua Yu <fenghua.yu@intel.com>, linux-ia64@vger.kernel.org,
+        schnelle@linux.ibm.com, gerald.schaefer@linux.ibm.com,
+        hca@linux.ibm.com, Vasily Gorbik <gor@linux.ibm.com>,
+        Christian Borntraeger <borntraeger@de.ibm.com>,
+        linux-s390@vger.kernel.org,
+        "David S. Miller" <davem@davemloft.net>,
+        sparclinux@vger.kernel.org, Thomas Gleixner <tglx@linutronix.de>,
+        Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
+        "maintainer:X86 ARCHITECTURE (32-BIT AND 64-BIT)" <x86@kernel.org>,
+        "H. Peter Anvin" <hpa@zytor.com>,
+        James Bottomley <James.Bottomley@hansenpartnership.com>,
+        Helge Deller <deller@gmx.de>, linux-parisc@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-alpha-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-alpha.vger.kernel.org>
 X-Mailing-List: linux-alpha@vger.kernel.org
 
-Nicolin Chen <nicoleotsuka@gmail.com> writes:
-> diff --git a/arch/powerpc/kernel/iommu.c b/arch/powerpc/kernel/iommu.c
-> index 9704f3f76e63..cbc2e62db597 100644
-> --- a/arch/powerpc/kernel/iommu.c
-> +++ b/arch/powerpc/kernel/iommu.c
-> @@ -236,15 +236,10 @@ static unsigned long iommu_range_alloc(struct device *dev,
->  		}
->  	}
->  
-> -	if (dev)
-> -		boundary_size = ALIGN(dma_get_seg_boundary(dev) + 1,
-> -				      1 << tbl->it_page_shift);
-> -	else
-> -		boundary_size = ALIGN(1UL << 32, 1 << tbl->it_page_shift);
-> -	/* 4GB boundary for iseries_hv_alloc and iseries_hv_map */
-> +	boundary_size = dma_get_seg_boundary_nr_pages(dev, tbl->it_page_shift);
->  
->  	n = iommu_area_alloc(tbl->it_map, limit, start, npages, tbl->it_offset,
-> -			     boundary_size >> tbl->it_page_shift, align_mask);
-> +			     boundary_size, align_mask);
+On Wed, Sep 2, 2020 at 1:20 AM Nicolin Chen <nicoleotsuka@gmail.com> wrote:
+>
+> We found that callers of dma_get_seg_boundary mostly do an ALIGN
+> with page mask and then do a page shift to get number of pages:
+>     ALIGN(boundary + 1, 1 << shift) >> shift
+>
+> However, the boundary might be as large as ULONG_MAX, which means
+> that a device has no specific boundary limit. So either "+ 1" or
+> passing it to ALIGN() would potentially overflow.
+>
+> According to kernel defines:
+>     #define ALIGN_MASK(x, mask) (((x) + (mask)) & ~(mask))
+>     #define ALIGN(x, a) ALIGN_MASK(x, (typeof(x))(a) - 1)
+>
+> We can simplify the logic here into a helper function doing:
+>   ALIGN(boundary + 1, 1 << shift) >> shift
+> = ALIGN_MASK(b + 1, (1 << s) - 1) >> s
+> = {[b + 1 + (1 << s) - 1] & ~[(1 << s) - 1]} >> s
+> = [b + 1 + (1 << s) - 1] >> s
+> = [b + (1 << s)] >> s
+> = (b >> s) + 1
+>
+> This patch introduces and applies dma_get_seg_boundary_nr_pages()
+> as an overflow-free helper for the dma_get_seg_boundary() callers
+> to get numbers of pages. It also takes care of the NULL dev case
+> for non-DMA API callers.
 
-This has changed the units of boundary_size, but it's unused elsewhere
-in the function so that's OK.
+...
 
-If you need to do a v2 for any other reason, then I'd just drop
-boundary_size and call dma_get_seg_boundary_nr_pages() directly in the
-function call.
+> +static inline unsigned long dma_get_seg_boundary_nr_pages(struct device *dev,
+> +               unsigned int page_shift)
+> +{
+> +       if (!dev)
+> +               return (U32_MAX >> page_shift) + 1;
+> +       return (dma_get_seg_boundary(dev) >> page_shift) + 1;
 
-Acked-by: Michael Ellerman <mpe@ellerman.id.au> (powerpc)
+Can it be better to do something like
+  unsigned long boundary = dev ? dma_get_seg_boundary(dev) : U32_MAX;
 
-cheers
+  return (boundary >> page_shift) + 1;
+
+?
+
+> +}
+
+-- 
+With Best Regards,
+Andy Shevchenko
