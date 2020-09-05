@@ -2,75 +2,49 @@ Return-Path: <linux-alpha-owner@vger.kernel.org>
 X-Original-To: lists+linux-alpha@lfdr.de
 Delivered-To: lists+linux-alpha@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 82EC825C849
-	for <lists+linux-alpha@lfdr.de>; Thu,  3 Sep 2020 19:59:11 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 26A6025E6BF
+	for <lists+linux-alpha@lfdr.de>; Sat,  5 Sep 2020 11:29:36 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728555AbgICR7J (ORCPT <rfc822;lists+linux-alpha@lfdr.de>);
-        Thu, 3 Sep 2020 13:59:09 -0400
-Received: from pegase1.c-s.fr ([93.17.236.30]:45298 "EHLO pegase1.c-s.fr"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726327AbgICR7I (ORCPT <rfc822;linux-alpha@vger.kernel.org>);
-        Thu, 3 Sep 2020 13:59:08 -0400
-Received: from localhost (mailhub1-int [192.168.12.234])
-        by localhost (Postfix) with ESMTP id 4Bj7pv2kRxz9vG1d;
-        Thu,  3 Sep 2020 19:59:03 +0200 (CEST)
-X-Virus-Scanned: Debian amavisd-new at c-s.fr
-Received: from pegase1.c-s.fr ([192.168.12.234])
-        by localhost (pegase1.c-s.fr [192.168.12.234]) (amavisd-new, port 10024)
-        with ESMTP id GpPnJOAGb8-M; Thu,  3 Sep 2020 19:59:03 +0200 (CEST)
-Received: from messagerie.si.c-s.fr (messagerie.si.c-s.fr [192.168.25.192])
-        by pegase1.c-s.fr (Postfix) with ESMTP id 4Bj7pv1bKMz9vG1Z;
-        Thu,  3 Sep 2020 19:59:03 +0200 (CEST)
-Received: from localhost (localhost [127.0.0.1])
-        by messagerie.si.c-s.fr (Postfix) with ESMTP id 03E038B805;
-        Thu,  3 Sep 2020 19:59:05 +0200 (CEST)
-X-Virus-Scanned: amavisd-new at c-s.fr
-Received: from messagerie.si.c-s.fr ([127.0.0.1])
-        by localhost (messagerie.si.c-s.fr [127.0.0.1]) (amavisd-new, port 10023)
-        with ESMTP id gRZ56r8LcyT0; Thu,  3 Sep 2020 19:59:04 +0200 (CEST)
-Received: from [192.168.4.90] (unknown [192.168.4.90])
-        by messagerie.si.c-s.fr (Postfix) with ESMTP id 6AC828B803;
-        Thu,  3 Sep 2020 19:59:02 +0200 (CEST)
-Subject: Re: [PATCH 1/2] dma-mapping: introduce
- dma_get_seg_boundary_nr_pages()
-To:     Christoph Hellwig <hch@lst.de>,
-        Andy Shevchenko <andy.shevchenko@gmail.com>
-Cc:     linux-ia64@vger.kernel.org,
-        James Bottomley <James.Bottomley@hansenpartnership.com>,
-        Paul Mackerras <paulus@samba.org>,
-        "H. Peter Anvin" <hpa@zytor.com>, sparclinux@vger.kernel.org,
-        Stephen Rothwell <sfr@canb.auug.org.au>,
-        Helge Deller <deller@gmx.de>,
-        "maintainer:X86 ARCHITECTURE (32-BIT AND 64-BIT)" <x86@kernel.org>,
-        Christian Borntraeger <borntraeger@de.ibm.com>,
-        Ingo Molnar <mingo@redhat.com>,
-        Matt Turner <mattst88@gmail.com>,
-        Fenghua Yu <fenghua.yu@intel.com>,
-        Vasily Gorbik <gor@linux.ibm.com>, schnelle@linux.ibm.com,
-        hca@linux.ibm.com, Nicolin Chen <nicoleotsuka@gmail.com>,
-        ink@jurassic.park.msu.ru, Thomas Gleixner <tglx@linutronix.de>,
-        gerald.schaefer@linux.ibm.com, rth@twiddle.net,
-        Tony Luck <tony.luck@intel.com>, linux-parisc@vger.kernel.org,
-        linux-s390@vger.kernel.org,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        linux-alpha@vger.kernel.org, Borislav Petkov <bp@alien8.de>,
-        "open list:LINUX FOR POWERPC PA SEMI PWRFICIENT" 
-        <linuxppc-dev@lists.ozlabs.org>,
-        "David S. Miller" <davem@davemloft.net>
-References: <20200901221646.26491-1-nicoleotsuka@gmail.com>
- <20200901221646.26491-2-nicoleotsuka@gmail.com>
- <CAHp75VcVJBSnPQ6NfdF8FdEDfM+oQ=Sr+cH5VGX4SrAqrgpf-g@mail.gmail.com>
- <20200903161252.GA24841@lst.de>
-From:   Christophe Leroy <christophe.leroy@csgroup.eu>
-Message-ID: <7e1c3632-0917-0892-c1ca-8048674a3b05@csgroup.eu>
-Date:   Thu, 3 Sep 2020 19:53:07 +0200
-User-Agent: Mozilla/5.0 (Windows NT 6.1; WOW64; rv:68.0) Gecko/20100101
- Thunderbird/68.12.0
+        id S1726564AbgIEJ3f (ORCPT <rfc822;lists+linux-alpha@lfdr.de>);
+        Sat, 5 Sep 2020 05:29:35 -0400
+Received: from sonic307-53.consmr.mail.ir2.yahoo.com ([87.248.110.30]:45326
+        "EHLO sonic307-53.consmr.mail.ir2.yahoo.com" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1726372AbgIEJ3f (ORCPT
+        <rfc822;linux-alpha@vger.kernel.org>);
+        Sat, 5 Sep 2020 05:29:35 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=yahoo.com; s=s2048; t=1599298173; bh=NajTNMrfMLb6UXcjRhYpYerQX8PtVBLz0oFgaMINSWY=; h=Date:From:Reply-To:Subject:References:From:Subject; b=DKRKLwtUNyEyetYfPSnrJKCuwRnGf5ri44xzezS60dxLpPiihPxrj+SJ0xDU0wd95SiA2LDWaYmaESzywdhr/TM+6Snhp/Tw+ARkZVI+D/y7RtJLNlp+1805px2GRrA/4CZJuslA1GtYbv3SLQ9iL2VWxDhHtDJEh8+pw0twVpi1rL4zB7vThUz5wdBPKAEwDkiidrP8q2ZlBmHyYn1ucII6LUgrMkefco5jKpi/RakpG4KXjYQ9Ts+NkdYcaxhWnDZorYuh0iAMwCEFRoXKcks6FdTgywc/saMyhTiNp7vguK4icA61orANQMdKS/tAgkdwvsuxQNJtWxg6Kcq1VA==
+X-YMail-OSG: wM8ZSq4VM1kmGNO3eax4S9QX93T_p9s0w5abNUTrEUMRanSy5MtA9wxO5Oxo5CI
+ P_QYgPYm3QiQZeH7dAHKj2M_7Apt7EbPjkqI5KrM3sWMUkPbrz2__Krl7MBMCQjFYVMXlLJc1D50
+ XlM5XNukDYM4jd_q8nB5oJQnSd35rm8LTNycUX2QhW7O3X.Q0DUDJK6QpSlVk14mxfMRU4WTO3g4
+ vkKfL65Vno6h2axmAlgrnyYZnuGORsaKCXBVOxmHRBdSiyVvtu7OcQncosVCZ29BzGaOWC01gL1p
+ Z05q5VMwCh_k0wvZaZi35ZOu23ekVmuFPOQ1bDJ9CSVXE2RthrNpI8I1bSI96okS4a7b51xZmTkn
+ MnAa_Okd_9r43qXHlQbaHQvvFMtsBXJcz5e99GXTplEwNTpXPLuqzgq5nQ3Dabp8fbn4Nmg3YbLY
+ u8abZP0n41vDPNwzR9tOrXpIsC_QRIv_Y_3QjXjNZtvqFdzPlCJzmahlI_P6rAo3bA4rs78aF7FD
+ OUZxLJ_LccTs5uZmCzPBSrlmOL3pnFc0XARHfStZke7v08OJ6PEJGWYE21pXQAmWmLdyKlT7O8FV
+ zoTXnw6i_K0o5bFM7AwY.VsRauHaNKbVTDcdGYgOjUtoXWCwTNtO5NnNAub2K8M7zhJ2bSgLxRSx
+ KGWtSKD4oLuxOROSiuWOdBdTNNcpBJRDd8BXC3vsyaJ3uAJyp6XV1PdcbSDQMBHcg6zstF4DQ1.4
+ 3Qs1SjTfhXvbuzgOTOpwG6jCA4R.jiaOKBncagLL6qryZIfsEUT0lSI2BY3edd2MAeu_S3zDEM.0
+ hPxcZ4y_VTlK.koTOfbH92YbjzDvbbQix3a956LXAESaTChK6OR_xI19A5mqmyOPWZxIzhAveKgQ
+ M36MVSHXne8JKrQ5qs798xsEDpI3iCW_Uc8Eu9RsnB35SzsGYNMRXzocnyjyuUHczjD_o2HadlFg
+ STubDJQyoPGcCpLDGtwns8pQ6MGbUwxGGfhQ3PYHKvw4Tqa9RK50ap.B84S.Vm_diHEuOWjz.JBV
+ eii7Wfs3p8XwPvtyi.g0iOXkbv5zy.kNX1VYDEYDvVIevYcARPVTa1Zl4qRB2gD38uUFRYLZXzCL
+ qikmo.f6B1kYtiuuHBKXA3VpYRo0Yyp9NmP0e7g7GNOO.dQlChkARE0e29eVcHM0DaeGxRqWECWb
+ WAOIPx.QySkbk6nkAzmBIwLE8v6gTOhCYH4ZH7VxVIcqVbwitCpHv77RsQVBjQv1bqL9Ttetj7OM
+ dH9LLYSNeVzUV.Z9FIdTfWcbsNjnSqPs2VaOuMq5YbEIpq8syL8TAkzSKqkZA3qWLt.B2MoIPDA9
+ srGMn0s06k3tOTOGF4pTpsIcRq6GkrpIuYMPa9IPr_FYw33f.64pOhAJvA4BnMerJ.oDC.Hxqg4B
+ wZLUAaDLSgTcArDLjphn.PNDSiQNXSr.MsOIeFYx5uMwDNA--
+Received: from sonic.gate.mail.ne1.yahoo.com by sonic307.consmr.mail.ir2.yahoo.com with HTTP; Sat, 5 Sep 2020 09:29:33 +0000
+Date:   Sat, 5 Sep 2020 09:29:32 +0000 (UTC)
+From:   Ms Lisa Hugh <lisa.hugh0000@gmail.com>
+Reply-To: ms.lisahugh000@gmail.com
+Message-ID: <1137909115.4407550.1599298172358@mail.yahoo.com>
+Subject: REPLY TO MY EMAIL FOR BUSINESS(Ms Lisa hugh).
 MIME-Version: 1.0
-In-Reply-To: <20200903161252.GA24841@lst.de>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: fr
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+References: <1137909115.4407550.1599298172358.ref@mail.yahoo.com>
+X-Mailer: WebService/1.1.16565 YMailNodin Mozilla/5.0 (Windows NT 6.1; Win64; x64; rv:79.0) Gecko/20100101 Firefox/79.0
+To:     unlisted-recipients:; (no To-header on input)
 Sender: linux-alpha-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-alpha.vger.kernel.org>
@@ -78,23 +52,25 @@ X-Mailing-List: linux-alpha@vger.kernel.org
 
 
 
-Le 03/09/2020 à 18:12, Christoph Hellwig a écrit :
-> On Thu, Sep 03, 2020 at 01:57:39PM +0300, Andy Shevchenko wrote:
->>> +{
->>> +       if (!dev)
->>> +               return (U32_MAX >> page_shift) + 1;
->>> +       return (dma_get_seg_boundary(dev) >> page_shift) + 1;
->>
->> Can it be better to do something like
->>    unsigned long boundary = dev ? dma_get_seg_boundary(dev) : U32_MAX;
->>
->>    return (boundary >> page_shift) + 1;
->>
->> ?
-> 
-> I don't really see what that would buy us.
-> 
+Dear Friend,
 
-I guess it would avoid the duplication of    >> page_shift) + 1
+I am Ms Lisa hugh, work with the department of Audit and accounting manager here in the Bank(B.O.A).
 
-Christophe
+Please i need your assistance for the transferring of thIs fund to your bank account for both of us benefit for life time investment, amount (US$4.5M DOLLARS).
+
+I have every inquiry details to make the bank believe you and release the fund in within 5 banking working days with your full co-operation with me for success.
+
+Note/ 50% for you why 50% for me after success of the transfer to your bank account.
+
+Below information is what i need from you so will can be reaching each other
+
+1)Full name ...
+2)Private telephone number...
+3)Age...
+4)Nationality...
+5)Occupation ...
+
+
+Thanks.
+
+Ms Lisa hugh.
