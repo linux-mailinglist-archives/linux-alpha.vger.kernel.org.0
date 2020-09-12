@@ -2,79 +2,75 @@ Return-Path: <linux-alpha-owner@vger.kernel.org>
 X-Original-To: lists+linux-alpha@lfdr.de
 Delivered-To: lists+linux-alpha@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 2B9E9265D4B
-	for <lists+linux-alpha@lfdr.de>; Fri, 11 Sep 2020 12:02:29 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 0CA8026789B
+	for <lists+linux-alpha@lfdr.de>; Sat, 12 Sep 2020 09:45:21 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1725783AbgIKKC2 convert rfc822-to-8bit (ORCPT
-        <rfc822;lists+linux-alpha@lfdr.de>); Fri, 11 Sep 2020 06:02:28 -0400
-Received: from mail.flex.co.jp ([211.8.82.123]:48246 "EHLO www.flex.co.jp"
-        rhost-flags-OK-FAIL-OK-FAIL) by vger.kernel.org with ESMTP
-        id S1725781AbgIKKC2 (ORCPT <rfc822;linux-alpha@vger.kernel.org>);
-        Fri, 11 Sep 2020 06:02:28 -0400
-Received: from live.com.mx ([103.89.89.225])
-        (authenticated bits=0)
-        by www.flex.co.jp (MTA) with ESMTP id 0898nZwe009284
-        for <linux-alpha@vger.kernel.org>; Wed, 9 Sep 2020 17:49:47 +0900
-Reply-To: powerinthewords@yahoo.co.jp
-From:   piyin.crhe@live.com.mx
-To:     linux-alpha@vger.kernel.org
-Subject: =?utf-8?Q?=5BSpam=5D?=
- We are still waiting for your email...
-Date:   09 Sep 2020 01:49:44 -0700
-Message-ID: <20200909014944.E68E5739A0E9C8DD@live.com.mx>
+        id S1725849AbgILHpU (ORCPT <rfc822;lists+linux-alpha@lfdr.de>);
+        Sat, 12 Sep 2020 03:45:20 -0400
+Received: from sonic305-1.consmr.mail.bf2.yahoo.com ([74.6.133.40]:39829 "EHLO
+        sonic305-1.consmr.mail.bf2.yahoo.com" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1725845AbgILHpT (ORCPT
+        <rfc822;linux-alpha@vger.kernel.org>);
+        Sat, 12 Sep 2020 03:45:19 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=yahoo.com; s=s2048; t=1599896718; bh=NajTNMrfMLb6UXcjRhYpYerQX8PtVBLz0oFgaMINSWY=; h=Date:From:Reply-To:Subject:References:From:Subject; b=dXRrSOzWlkHuuuGRGJ+0PwZJMJdM4rfWmlbvmX5UxhqqLk0UXSNC82V9B9iWfUjTd0oEHpx00fRU3aaH1MntekSx6X7BVxm4RZmtp+wed715TsYEFemUOff6P97DlPdv5fXcVHVrFywvSueB9n9t7YI2ZBJjk2t/lvIZwwSQFujm45HuM0dD6rWo833WSqtJwpzcRC5D+xtEldUPleHNTPHjSMpp8gplVXGcLmNZmrfSrZG9WeYa1WQQa/d9D7bfEf4YXsaJrKJpu1Q+6JDrjhqDVO31/KLbHPthY82bK78vz8BjjnbffSVpUcaDbuvCTN+/fLOTT7Q9uy1vZy3KNQ==
+X-YMail-OSG: LLqBhJsVM1kZksikuGjxcP4eHwzfmsmq_ziipfJD6lkbLy0BqM0E0eXOXXkd.M2
+ J0f_ImNIjMx71r7Gr3Dg18.v5WfsvT2QldapBVVcGcdiXhEUP7a.ZEgE7ncud5i5dmOMLlAoxOtW
+ vkhxFtd3TLAODz8jOOWXAncS2nSqDJ63avdo9jDSE56NVstOsZ2aBmLhhMfftWP6LxZ9EanJYrJa
+ eLPQaT6MMV7aP6U09F47VIayFNhvWTEfcAcBWr0vJFGpsAK_poFHCyNsbhBEnR.cOBqlPjHWRr2Z
+ T.9QQ2nHNDE5xcyMARL6PQVj7h4phbDb.RsRcj.0ZMt9LUw4nd0DHA40K67eAE8VHhdFrjQvT7WN
+ lHFfOCz_Kg.jKHq7iQsqmQhuN2BGDxHxWPAgGw6XbOXGkIyLxPRVefiNKiWBxQYjdmJFy9iqBFFp
+ 8gikfcyTg0bL4VpnS84TC3KSMj_fH2sQcGWed7aBy2Yy5C7KCyr6JT01c.vbJ_dGJ16r0a5JanSv
+ tLPGZhuv..SqvpwMbiQfLz4QZMBBpH2sibq_mv7ip4BG7DgxKtmRmypOVbFlvd5_A0xKQy5eVnVu
+ QT2JM7r5EK7G301pC6wDySb9560C6rdBiZ2OSOJF1CdUNq221.k4EmcS_3XGAfCL6A0CwkceNHvL
+ _TVOSrrBsZc8GUI0zHSo9xbxXkiixY0tEcdEnGs7ZMBzTIaRNTKqKBsBWyy2xiaC72EAwpkrHoNQ
+ WtWBAGaEEXnqGbh5mdDcG0yZZL6tEYsDDOBgC69Txk9no.Z4TcXhG5rxLabS68WQ_8mw_qIQNM5x
+ vOSdj_hnpALVLo2JcroF6auJCJULWI3po5B7YZ995h6BVER.7flw6NVIcnNg36hYtUrG6E7CHukA
+ 8cvRGl7BlQ1hRLtgzZ7mV9HxBxRpPT_XNVQmVyADweLoZ9Zo1Ta001yFkjM0rSQ1OmP.DokJmhFt
+ ciH47dKimoIxWM3CInHS424pWNu7BKncWXZgFOfS0uLdfm3gd8w8kPYTwOP9_SymE_cgELIvP1Sj
+ Q0qyLNq0xErPhfkBOhB.hztN2UCbT32DdwoZR_VndF2o.9xoHKlt2K3r.AoA.TsXcBPCo173uIkl
+ 42KraxGzugoaK74EBpFnGoyIOYGBh4T5rm69Z9p6B5xFst0SrIy1lGm3pEJmkxKBB52d75wnjaJf
+ Kc5VpYsWd4KpDZnkcG1QcAjkMydpT86A493th0M7WDnx5WM.7CUWxjXQ_oQJEnf0_q5vmh9i5q8F
+ sXjv447CDgOEP4Kxm.Uiqm5WO15E7UWVu5K7SUq2CJ6Y75lQYmdNp4XFnIYw4hDiJPnXMZ7NxJT.
+ D8YopthXldf4l.AYJwekf1k5Cge9zx.lI3UHgJJqQwpwONwpRqDe74dsyk_ukpE5EcnPw3uQioK_
+ mkRulIQco0PnyjUR1Td.i78rCAziKOBcicuM.bslkcssY9.3LqVwGXVM-
+Received: from sonic.gate.mail.ne1.yahoo.com by sonic305.consmr.mail.bf2.yahoo.com with HTTP; Sat, 12 Sep 2020 07:45:18 +0000
+Date:   Sat, 12 Sep 2020 07:45:13 +0000 (UTC)
+From:   Ms Lisa Hugh <lisa.hugh111@gmail.com>
+Reply-To: ms.lisahugh000@gmail.com
+Message-ID: <307770951.1372798.1599896713776@mail.yahoo.com>
+Subject: BUSINESS ACHIEVEMENT FROM (Ms Lisa hugh).
 MIME-Version: 1.0
-Content-Type: text/plain;
-        charset="utf-8"
-Content-Transfer-Encoding: 8BIT
-X-SpamInfo: FortiGuard-AntiSpam ip, connection black ip 103.89.89.225
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+References: <307770951.1372798.1599896713776.ref@mail.yahoo.com>
+X-Mailer: WebService/1.1.16583 YMailNodin Mozilla/5.0 (Windows NT 6.2; rv:80.0) Gecko/20100101 Firefox/80.0
+To:     unlisted-recipients:; (no To-header on input)
 Sender: linux-alpha-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-alpha.vger.kernel.org>
 X-Mailing-List: linux-alpha@vger.kernel.org
 
-Dear Beneficiary,
 
-We wish to inform you that a power of attorney was forwarded to 
-our office  by two gentlemen regarding your unclaimed fund of $56 
-Million Dollar. One of them is an American citizen named Mr. 
-Robert Porter and the other is Mr. Wilhelm Berg a Swedish 
-citizen.We have be waiting for you to contact us since last year.
 
-The document claims these gentlemen to be your authorized 
-representatives, and the power of attorney states that you are 
-already deceased.  It further states that your death was due to 
-lung cancer, with your date of death being January 27th, 2020.
+Dear Friend,
 
-They have now submitted a new account to replace the receiving 
-account that was in the original claim of funds. These funds have 
-remained unclaimed for quite some time and the need for 
-resolution is pressing. Below is the new account they have 
-submitted.
+I am Ms Lisa hugh, work with the department of Audit and accounting manager here in the Bank(B.O.A).
 
-Account Name's :  Robert Porter /Wilhelm Berg
-Account: 5007-29 438 66
-IBAN-nr: SE4150000000050072943866
-Bic-kod: ESSESESS
-Skandinaviska Enskilda Banken. (SEB :)
-SWEDEN .
+Please i need your assistance for the transferring of thIs fund to your bank account for both of us benefit for life time investment, amount (US$4.5M DOLLARS).
 
-In the event that you are in fact still alive, we ask that you 
-confirm your existence by responding to this email. You are to 
-view this as a matter requiring immediate attention and response. 
-We have 48 hr monitoring of all activities within Federal Reserve 
-Bank.On this regard,you will be directed to any of our office 
-center that you will go in person to sign the final papers,
-because we have our payment center in Europe,Asia,America and 
-Canada.You will go to any of the office that you will be directed 
-to with the copy of the documents of your fund.
+I have every inquiry details to make the bank believe you and release the fund in within 5 banking working days with your full co-operation with me for success.
 
-We have contacted the bank in the Sweden asking them to wait for 
-further directives from Federal Reserve Bank, prior to 
-authorizing any withdrawals in any form.  Our request is based 
-entirely on our attempt to verify that you are in fact deceased, 
-before money is wrongly disbursed.
+Note/ 50% for you why 50% for me after success of the transfer to your bank account.
 
-Your in Service,
+Below information is what i need from you so will can be reaching each other
 
-Robert Steven Kaplan
-2200 N Pearl St, Dallas, TX 75201, United States
+1)Full name ...
+2)Private telephone number...
+3)Age...
+4)Nationality...
+5)Occupation ...
+
+
+Thanks.
+
+Ms Lisa hugh.
