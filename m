@@ -2,68 +2,35 @@ Return-Path: <linux-alpha-owner@vger.kernel.org>
 X-Original-To: lists+linux-alpha@lfdr.de
 Delivered-To: lists+linux-alpha@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 5D82C26C7D3
-	for <lists+linux-alpha@lfdr.de>; Wed, 16 Sep 2020 20:35:42 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 9E51426C9C8
+	for <lists+linux-alpha@lfdr.de>; Wed, 16 Sep 2020 21:26:20 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728212AbgIPSfS (ORCPT <rfc822;lists+linux-alpha@lfdr.de>);
-        Wed, 16 Sep 2020 14:35:18 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43196 "EHLO
+        id S1727459AbgIPTZu (ORCPT <rfc822;lists+linux-alpha@lfdr.de>);
+        Wed, 16 Sep 2020 15:25:50 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50806 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1728204AbgIPSfM (ORCPT
+        with ESMTP id S1727326AbgIPTYE (ORCPT
         <rfc822;linux-alpha@vger.kernel.org>);
-        Wed, 16 Sep 2020 14:35:12 -0400
-Received: from mail-lj1-x242.google.com (mail-lj1-x242.google.com [IPv6:2a00:1450:4864:20::242])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4B7FCC06178A
-        for <linux-alpha@vger.kernel.org>; Wed, 16 Sep 2020 11:35:11 -0700 (PDT)
-Received: by mail-lj1-x242.google.com with SMTP id k25so6832609ljk.0
-        for <linux-alpha@vger.kernel.org>; Wed, 16 Sep 2020 11:35:11 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linux-foundation.org; s=google;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=AxuwlCpSO8TsaLIcauC4aS5tgqsK9SeD3UYfP7DN7g0=;
-        b=ZKGyeh6DjOj0P0poUJri2yvAXd4omTbSKkycPwhZ3i+69eOgCicq7HjntIxGCUS9d/
-         zNZFDIECDK4GwkaKDrKuGgCWjAAnhqqHdcPPPF/38HaA25t0OpynH7kdnV1WYZaxFMxz
-         W50ov+r+RFsylVih7TsRScGj6r7RgJSz63qJs=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=AxuwlCpSO8TsaLIcauC4aS5tgqsK9SeD3UYfP7DN7g0=;
-        b=oV0rCYaoul8+BFi6BPr8zSgCVXPYrKABOw1oRymWH9R/pE0/82uQKYLdJWgRKjcMlN
-         TGYKjqhAt/974ddF/h5sX58iEvFTbYb3/LX8/zz6yYxjZgenhHaQu2Vku0W5bnvqoJGj
-         0h5+rlhj0+bto+S/zpbsXEbbUkSzVS9aiCNjn+5r4xVb4b36hdCJPJjNQe600TfKwFSS
-         X8/y29Xfqs6IkOJNyUUHBfxgeT3gKPOy8QScTZmz/XqW+Dzkg3ZagqIaFT6p+c4kTxlk
-         hGI8JyYelPlW7TpWtxUdMor507zy5o3sNvCwpSRHJyNA6xlod5b9QEInopFhyDlbyF9R
-         C3KQ==
-X-Gm-Message-State: AOAM531N5oaiEmqJBme2dgh9UCespB+ATXgP+yD9XnOeyiQJbdSW5KGw
-        Qvmi//69sLdPqxE0Q04wPTbvnNrJi2CjKg==
-X-Google-Smtp-Source: ABdhPJz8mh/FnC2qXU9PkWdfQe44zPD0p0cW6XGlytArBazAKD8SN+vHTfoiLuUe2upgh/hf5e3+yQ==
-X-Received: by 2002:a2e:8758:: with SMTP id q24mr4062250ljj.162.1600281308937;
-        Wed, 16 Sep 2020 11:35:08 -0700 (PDT)
-Received: from mail-lf1-f53.google.com (mail-lf1-f53.google.com. [209.85.167.53])
-        by smtp.gmail.com with ESMTPSA id c1sm5578397ljd.105.2020.09.16.11.35.07
-        for <linux-alpha@vger.kernel.org>
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 16 Sep 2020 11:35:07 -0700 (PDT)
-Received: by mail-lf1-f53.google.com with SMTP id y17so8045906lfa.8
-        for <linux-alpha@vger.kernel.org>; Wed, 16 Sep 2020 11:35:07 -0700 (PDT)
-X-Received: by 2002:a19:521a:: with SMTP id m26mr9002648lfb.133.1600281306776;
- Wed, 16 Sep 2020 11:35:06 -0700 (PDT)
-MIME-Version: 1.0
-References: <20200914204209.256266093@linutronix.de> <CAHk-=win80rdof8Pb=5k6gT9j_v+hz-TQzKPVastZDvBe9RimQ@mail.gmail.com>
- <871rj4owfn.fsf@nanos.tec.linutronix.de> <CAHk-=wj0eUuVQ=hRFZv_nY7g5ZLt7Fy3K7SMJL0ZCzniPtsbbg@mail.gmail.com>
- <87bli75t7v.fsf@nanos.tec.linutronix.de> <CAHk-=wht7kAeyR5xEW2ORj7m0hibVxZ3t+2ie8vNHLQfdbN2_g@mail.gmail.com>
- <87y2la4xu6.fsf@nanos.tec.linutronix.de>
-In-Reply-To: <87y2la4xu6.fsf@nanos.tec.linutronix.de>
-From:   Linus Torvalds <torvalds@linux-foundation.org>
-Date:   Wed, 16 Sep 2020 11:34:50 -0700
-X-Gmail-Original-Message-ID: <CAHk-=whvULv3M2dQzPra1W-uGiX=_6Z_YeGnRDodbtXgJpihWA@mail.gmail.com>
-Message-ID: <CAHk-=whvULv3M2dQzPra1W-uGiX=_6Z_YeGnRDodbtXgJpihWA@mail.gmail.com>
-Subject: Re: [patch 00/13] preempt: Make preempt count unconditional
+        Wed, 16 Sep 2020 15:24:04 -0400
+Received: from casper.infradead.org (casper.infradead.org [IPv6:2001:8b0:10b:1236::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3111DC06174A;
+        Wed, 16 Sep 2020 12:24:02 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+        d=infradead.org; s=casper.20170209; h=In-Reply-To:Content-Type:MIME-Version:
+        References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
+        Content-Transfer-Encoding:Content-ID:Content-Description;
+        bh=Lu9AW4PaP4+ghxOf92Z5TIuOtrZJHfVdt4GP1kALmko=; b=qie+Isc1xWiVTOH0FpnUHhEdVO
+        U/jpqcMvDRllAqn5p1U7GdefAxVM84Yy20b0cEM1bgiBf5hCnk01e9MB0TfKNwOXtWN1U1K+TKZoh
+        Bf7eW6kpPKuWJAr92A4pFo4s9J4/zlCT/ZybRGMdVlaWMx2Lk0KLJY3uqYA5myPxU7z9T0QBID7Dv
+        QCPTePB01BBKw0BUKhTbux2is2J6jnziOkr8sFb2qrhMyKZ9JnMFHBYx4uJoB16mYi9Z0C/a5HCRA
+        DVWm6Js19jJdrChlv68PKTMdyYhgXX++ENCqsExKeuZiA9F/oE7zG8P2cfvR8n7McmH85zDTJUYAn
+        sSR0hzAg==;
+Received: from willy by casper.infradead.org with local (Exim 4.92.3 #3 (Red Hat Linux))
+        id 1kId20-0006tV-87; Wed, 16 Sep 2020 19:23:52 +0000
+Date:   Wed, 16 Sep 2020 20:23:52 +0100
+From:   Matthew Wilcox <willy@infradead.org>
 To:     Thomas Gleixner <tglx@linutronix.de>
-Cc:     Ard Biesheuvel <ardb@kernel.org>,
-        Herbert Xu <herbert@gondor.apana.org.au>,
+Cc:     Linus Torvalds <torvalds@linux-foundation.org>,
         LKML <linux-kernel@vger.kernel.org>,
         linux-arch <linux-arch@vger.kernel.org>,
         Sebastian Andrzej Siewior <bigeasy@linutronix.de>,
@@ -110,29 +77,53 @@ Cc:     Ard Biesheuvel <ardb@kernel.org>,
         Shuah Khan <shuah@kernel.org>, rcu@vger.kernel.org,
         "open list:KERNEL SELFTEST FRAMEWORK" 
         <linux-kselftest@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+Subject: Re: [patch 00/13] preempt: Make preempt count unconditional
+Message-ID: <20200916192352.GO5449@casper.infradead.org>
+References: <20200914204209.256266093@linutronix.de>
+ <CAHk-=win80rdof8Pb=5k6gT9j_v+hz-TQzKPVastZDvBe9RimQ@mail.gmail.com>
+ <871rj4owfn.fsf@nanos.tec.linutronix.de>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <871rj4owfn.fsf@nanos.tec.linutronix.de>
 Sender: linux-alpha-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-alpha.vger.kernel.org>
 X-Mailing-List: linux-alpha@vger.kernel.org
 
-On Tue, Sep 15, 2020 at 12:57 PM Thomas Gleixner <tglx@linutronix.de> wrote:
->
-> You wish. I just found a 7 year old bug in a 10G network driver which
-> surely would have been found if people would enable debug configs and
-> not just run the crap on their PREEMPT_NONE, all debug off kernel. And
-> that driver is not subject to bitrot, it gets regular bug fixes from
-> people who seem to care (distro folks).
+On Mon, Sep 14, 2020 at 11:55:24PM +0200, Thomas Gleixner wrote:
+> But just look at any check which uses preemptible(), especially those
+> which check !preemptible():
 
-That driver clearly cannot be very well maintained. All the distro
-kernels have the basic debug checks in place, afaik.
+hmm.
 
-Is it some wonderful "enterprise hardware" garbage again that only
-gets used in special data centers?
++++ b/include/linux/preempt.h
+@@ -180,7 +180,9 @@ do { \
+ 
+ #define preempt_enable_no_resched() sched_preempt_enable_no_resched()
+ 
++#ifndef MODULE
+ #define preemptible()  (preempt_count() == 0 && !irqs_disabled())
++#endif
+ 
+ #ifdef CONFIG_PREEMPTION
+ #define preempt_enable() \
 
-Becasue the "enterprise" people really are special. Very much in the
-"short bus" special kind of way. The fact that they have fooled so
-much of the industry into thinking that they are the competent and
-serious people is a disgrace.
 
-              Linus
+$ git grep -w preemptible drivers
+(slightly trimmed by hand to remove, eg, comments)
+drivers/firmware/arm_sdei.c:    WARN_ON_ONCE(preemptible());
+drivers/firmware/arm_sdei.c:    WARN_ON_ONCE(preemptible());
+drivers/firmware/arm_sdei.c:    WARN_ON_ONCE(preemptible());
+drivers/firmware/arm_sdei.c:    WARN_ON_ONCE(preemptible());
+drivers/firmware/arm_sdei.c:    WARN_ON(preemptible());
+drivers/firmware/efi/efi-pstore.c:                            preemptible(), record->size, record->psi->buf);
+drivers/irqchip/irq-gic-v4.c:   WARN_ON(preemptible());
+drivers/irqchip/irq-gic-v4.c:   WARN_ON(preemptible());
+drivers/scsi/hisi_sas/hisi_sas_main.c:          if (!preemptible())
+drivers/xen/time.c:     BUG_ON(preemptible());
+
+That only looks like two drivers that need more than WARNectomies.
+
+Although maybe rcu_read_load_sched_held() or rcu_read_lock_any_held()
+might get called from a module ...
