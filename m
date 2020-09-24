@@ -2,72 +2,76 @@ Return-Path: <linux-alpha-owner@vger.kernel.org>
 X-Original-To: lists+linux-alpha@lfdr.de
 Delivered-To: lists+linux-alpha@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 967D727506F
-	for <lists+linux-alpha@lfdr.de>; Wed, 23 Sep 2020 07:46:32 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id B7B9427679F
+	for <lists+linux-alpha@lfdr.de>; Thu, 24 Sep 2020 06:20:12 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726931AbgIWFqb (ORCPT <rfc822;lists+linux-alpha@lfdr.de>);
-        Wed, 23 Sep 2020 01:46:31 -0400
-Received: from hermes.cta.br ([161.24.235.5]:59892 "EHLO hermes.cta.br"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726883AbgIWFqb (ORCPT <rfc822;linux-alpha@vger.kernel.org>);
-        Wed, 23 Sep 2020 01:46:31 -0400
-X-Greylist: delayed 1821 seconds by postgrey-1.27 at vger.kernel.org; Wed, 23 Sep 2020 01:46:30 EDT
-Received: from localhost (localhost [127.0.0.1])
-        by hermes.cta.br (Postfix) with ESMTP id 7983116E65E6;
-        Wed, 23 Sep 2020 01:56:59 -0300 (-03)
-Received: from hermes.cta.br ([127.0.0.1])
-        by localhost (hermes.cta.br [127.0.0.1]) (amavisd-new, port 10032)
-        with ESMTP id r0laHrZNZsfZ; Wed, 23 Sep 2020 01:56:58 -0300 (-03)
-Received: from localhost (localhost [127.0.0.1])
-        by hermes.cta.br (Postfix) with ESMTP id EE82215487EA;
-        Wed, 23 Sep 2020 01:27:16 -0300 (-03)
-DKIM-Filter: OpenDKIM Filter v2.10.3 hermes.cta.br EE82215487EA
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cta.br;
-        s=50824260-A46F-11E8-B5E3-16F5207DEC71; t=1600835237;
-        bh=PEgy+RpcsckcVXxslQn6d+tc//P81+6V7lvSU9dRFp0=;
-        h=MIME-Version:To:From:Date:Message-Id;
-        b=xaVveW58Y+Y03TT/upwKsWHyv3kP9bB9XVTz5QfbyCuMlPZ6GhGND24DlCF1u7GGd
-         CFJJPX+2FQPyvRVGWRITcoJ11Yk0tmPqTD7AbiiM/p2t7R8Sq5JJZs1QoVt6Rajk+m
-         XKuE799GJkSeH4qwsAf4Uqr0ZyWbyc7WLodGttOIBsF4EJxOXJNfUwDGGSKDQvcWC2
-         41AUlizLMeNF0BMCxu9NElgLUx1GWqJBPLCFzovlxGbEfWqOxuwm7gAhR8DXGm12R3
-         F9ihCVeD8mql3fqI/78UiTyy7/v/akFOyXnAnz/Knfccn/5yYMaS5KlwQrtPbMlWuq
-         1W+QpmbjUkSCg==
-X-Virus-Scanned: amavisd-new at cta.br
-Received: from hermes.cta.br ([127.0.0.1])
-        by localhost (hermes.cta.br [127.0.0.1]) (amavisd-new, port 10026)
-        with ESMTP id GRQGRB-CvJXy; Wed, 23 Sep 2020 01:27:16 -0300 (-03)
-Received: from [10.120.212.214] (unknown [105.12.3.179])
-        by hermes.cta.br (Postfix) with ESMTPSA id 8BFBF16E77C2;
-        Wed, 23 Sep 2020 01:14:32 -0300 (-03)
-Content-Type: text/plain; charset="iso-8859-1"
+        id S1726562AbgIXEUL (ORCPT <rfc822;lists+linux-alpha@lfdr.de>);
+        Thu, 24 Sep 2020 00:20:11 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48486 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726487AbgIXEUL (ORCPT
+        <rfc822;linux-alpha@vger.kernel.org>);
+        Thu, 24 Sep 2020 00:20:11 -0400
+Received: from casper.infradead.org (casper.infradead.org [IPv6:2001:8b0:10b:1236::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6809CC0613CE;
+        Wed, 23 Sep 2020 21:20:11 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+        d=infradead.org; s=casper.20170209; h=Content-Transfer-Encoding:MIME-Version:
+        Message-Id:Date:Subject:Cc:To:From:Sender:Reply-To:Content-Type:Content-ID:
+        Content-Description:In-Reply-To:References;
+        bh=FcKdwf0I1J0dSJnjVNVYUAP29iwsDzFF5w1vapwwcAA=; b=vevxS8n1G81Umvz0FxewqlQIzC
+        oTMh4mMU4Mo22Hmu1WM9gz5zRamGfnh7jaE+yzdhwO29+fkld3vCcxkNRW0JTamq7T/bNI22Aot5X
+        MwzXTdfhH60Gs+5QCse5/YfmJh6rfYiZcxxlLVmN3VMpYLoOZN5/xtGV/0WcIGSGDip0ki/sQaLaM
+        UVS2bLv9ljyJLEpPhw+F2QdPSnz/y5D/O/+NH56Tj4L2Mw67QkFeR3gaTUsvN/uQyfmzuYl6Dw+h0
+        W7QFPFhvrY3yzNeaOu6iIVyBful2CKnQrPOLSNykhm9XcRnlOOERWJjiYQ+WuyObDx70GuIooyB6q
+        3MIrcphA==;
+Received: from p4fdb0c34.dip0.t-ipconnect.de ([79.219.12.52] helo=localhost)
+        by casper.infradead.org with esmtpsa (Exim 4.92.3 #3 (Red Hat Linux))
+        id 1kLIjj-0001sP-Er; Thu, 24 Sep 2020 04:20:03 +0000
+From:   Christoph Hellwig <hch@lst.de>
+To:     rth@twiddle.net, ink@jurassic.park.msu.ru, mattst88@gmail.com
+Cc:     linux-alpha@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: [PATCH] alpha: switch defconfig from the legacy ide driver to libata
+Date:   Thu, 24 Sep 2020 06:20:02 +0200
+Message-Id: <20200924042002.521411-1-hch@lst.de>
+X-Mailer: git-send-email 2.28.0
 MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-Content-Description: Mail message body
-Subject: spende von 2,000,000 euro
-To:     Recipients <scco@cta.br>
-From:   ''Tayeb souami'' <scco@cta.br>
-Date:   Wed, 23 Sep 2020 06:16:51 +0200
-Reply-To: Tayebsouam.spende@gmail.com
-Message-Id: <20200923041432.8BFBF16E77C2@hermes.cta.br>
+Content-Transfer-Encoding: 8bit
+X-SRS-Rewrite: SMTP reverse-path rewritten from <hch@infradead.org> by casper.infradead.org. See http://www.infradead.org/rpr.html
 Precedence: bulk
 List-ID: <linux-alpha.vger.kernel.org>
 X-Mailing-List: linux-alpha@vger.kernel.org
 
-Hallo mein lieber Freund
-                                  Mein Name ist Tayeb Souami aus New Jersey=
- in Amerika und ich habe den America Lottery Jackpot von 315 Millionen Euro=
- gewonnen. Ich habe mich entschlossen, die Summe von 2.000.000 Euro an f=FC=
-nf gl=FCckliche Personen zu spenden, und Sie wurden als einer der Beg=FCnst=
-igten ausgew=E4hlt. Bitte klicken Sie auf diesen Link, um mehr =FCber meine=
-n Gewinn zu erfahren.
+Switch from the soon to be removed legacy ide driver to libata.
 
+Signed-off-by: Christoph Hellwig <hch@lst.de>
+---
+ arch/alpha/configs/defconfig | 12 +++++-------
+ 1 file changed, 5 insertions(+), 7 deletions(-)
 
-UHR MICH HIER: https://www.youtube.com/watch?v=3DZ6ui8ZDQ6Ks
+diff --git a/arch/alpha/configs/defconfig b/arch/alpha/configs/defconfig
+index 6293675db1644a..387174e2422f6b 100644
+--- a/arch/alpha/configs/defconfig
++++ b/arch/alpha/configs/defconfig
+@@ -26,13 +26,11 @@ CONFIG_PNP=y
+ CONFIG_ISAPNP=y
+ CONFIG_BLK_DEV_FD=y
+ CONFIG_BLK_DEV_LOOP=m
+-CONFIG_IDE=y
+-CONFIG_BLK_DEV_IDECD=y
+-CONFIG_IDE_GENERIC=y
+-CONFIG_BLK_DEV_GENERIC=y
+-CONFIG_BLK_DEV_ALI15X3=y
+-CONFIG_BLK_DEV_CMD64X=y
+-CONFIG_BLK_DEV_CY82C693=y
++CONFIG_ATA=y
++CONFIG_ATA_GENERIC=y
++CONFIG_PATA_ALI=y
++CONFIG_PATA_CMD64X=y
++CONFIG_PATA_CYPRESS=y
+ CONFIG_SCSI=y
+ CONFIG_BLK_DEV_SD=y
+ CONFIG_BLK_DEV_SR=y
+-- 
+2.28.0
 
-Bitte kontaktieren Sie mich =FCber diese E-Mail: Tayebsouam.spende@gmail.com
-
-
-Ich hoffe, Sie und Ihre Familie gl=FCcklich zu machen.
-
-Gr=FC=DFe
-Herr Tayeb Souami
