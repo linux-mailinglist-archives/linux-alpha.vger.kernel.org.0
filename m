@@ -2,89 +2,57 @@ Return-Path: <linux-alpha-owner@vger.kernel.org>
 X-Original-To: lists+linux-alpha@lfdr.de
 Delivered-To: lists+linux-alpha@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 018CC277A33
-	for <lists+linux-alpha@lfdr.de>; Thu, 24 Sep 2020 22:30:11 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 238E6278B17
+	for <lists+linux-alpha@lfdr.de>; Fri, 25 Sep 2020 16:42:30 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726483AbgIXU3w (ORCPT <rfc822;lists+linux-alpha@lfdr.de>);
-        Thu, 24 Sep 2020 16:29:52 -0400
-Received: from [125.140.134.231] ([125.140.134.231]:59260 "EHLO
-        WIN-DAONO245HJF" rhost-flags-FAIL-FAIL-OK-FAIL) by vger.kernel.org
-        with ESMTP id S1726281AbgIXU3w (ORCPT
+        id S1728996AbgIYOm3 convert rfc822-to-8bit (ORCPT
+        <rfc822;lists+linux-alpha@lfdr.de>); Fri, 25 Sep 2020 10:42:29 -0400
+Received: from mail.hlgd.gob.ec ([181.112.154.212]:46230 "EHLO
+        mail.hlgd.gob.ec" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1728654AbgIYOm3 (ORCPT
         <rfc822;linux-alpha@vger.kernel.org>);
-        Thu, 24 Sep 2020 16:29:52 -0400
-Received: from User ([185.191.231.247]) by WIN-DAONO245HJF with Microsoft SMTPSVC(8.5.9600.16384);
-         Fri, 25 Sep 2020 05:26:31 +0900
-Reply-To: <samthong5555@yahoo.com>
-From:   "SAM THONG" <samthong5555@gmail.com>
-Subject: Business Acquisition 1
-Date:   Thu, 24 Sep 2020 13:26:31 -0700
+        Fri, 25 Sep 2020 10:42:29 -0400
+Received: from localhost (localhost [127.0.0.1])
+        by mail.hlgd.gob.ec (Postfix) with ESMTP id 41B4734A16C4;
+        Thu, 24 Sep 2020 21:58:34 -0500 (-05)
+Received: from mail.hlgd.gob.ec ([127.0.0.1])
+        by localhost (mail.hlgd.gob.ec [127.0.0.1]) (amavisd-new, port 10032)
+        with ESMTP id dUwThFcrn0mF; Thu, 24 Sep 2020 21:58:34 -0500 (-05)
+Received: from localhost (localhost [127.0.0.1])
+        by mail.hlgd.gob.ec (Postfix) with ESMTP id E366834A00BD;
+        Thu, 24 Sep 2020 21:58:33 -0500 (-05)
+X-Virus-Scanned: amavisd-new at hlgd.gob.ec
+Received: from mail.hlgd.gob.ec ([127.0.0.1])
+        by localhost (mail.hlgd.gob.ec [127.0.0.1]) (amavisd-new, port 10026)
+        with ESMTP id bk_F5Vc_kPZ1; Thu, 24 Sep 2020 21:58:33 -0500 (-05)
+Received: from [10.123.39.92] (unknown [105.12.6.205])
+        by mail.hlgd.gob.ec (Postfix) with ESMTPSA id 2FEB634A16C4;
+        Thu, 24 Sep 2020 21:58:23 -0500 (-05)
+Content-Type: text/plain; charset="iso-8859-1"
 MIME-Version: 1.0
-Content-Type: text/plain;
-        charset="Windows-1251"
-Content-Transfer-Encoding: 7bit
-X-Priority: 3
-X-MSMail-Priority: Normal
-X-Mailer: Microsoft Outlook Express 6.00.2600.0000
-X-MimeOLE: Produced By Microsoft MimeOLE V6.00.2600.0000
-Message-ID: <WIN-DAONO245HJFyjE200e70a04@WIN-DAONO245HJF>
-X-OriginalArrivalTime: 24 Sep 2020 20:26:31.0413 (UTC) FILETIME=[FD36BA50:01D692B0]
-To:     unlisted-recipients:; (no To-header on input)
+Content-Transfer-Encoding: 8BIT
+Content-Description: Mail message body
+Subject: spende von 2,000,000 euro
+To:     Recipients <vanessa.ramirez@hlgd.gob.ec>
+From:   ''Tayeb souami'' <vanessa.ramirez@hlgd.gob.ec>
+Date:   Fri, 25 Sep 2020 04:58:14 +0200
+Reply-To: Tayebsouam.spende@gmail.com
+Message-Id: <20200925025824.2FEB634A16C4@mail.hlgd.gob.ec>
 Precedence: bulk
 List-ID: <linux-alpha.vger.kernel.org>
 X-Mailing-List: linux-alpha@vger.kernel.org
 
 
-
-Dear sir
-
-Our underwriter company is seeking the attention of genuine and reliable persons, companies
-
-who are indeed in need of funds as investment capital or business expansion in form of a
-
-direct loan to partner with us and benefit in our new Loan and Project funding programs.
+Hallo mein lieber Freund
+Mein Name ist Tayeb Souami aus New Jersey in Amerika und ich habe den America Lottery Jackpot von 315 Millionen Euro gewonnen. Ich habe mich entschlossen, die Summe von 2.000.000 Euro an fünf glückliche Personen zu spenden, und Sie wurden als einer der Begünstigten ausgewählt. Bitte klicken Sie auf diesen Link, um mehr über meinen Gewinn zu erfahren.
 
 
+UHR MICH HIER: https://www.youtube.com/watch?v=Z6ui8ZDQ6Ks
 
-We offer flexible loans and funding for various projects at very affordable low interest
-
-rate of 3% annually for a period of 1-15 years on Non collateral loan/funding . We offer
-
-loan/funding from a minimum of Euro ? / USD$ 1 Million to Euro ? / USD$ 1 Billion. Max,
-
-depending on the nature of business/project.
-
-We are currently funding for:-
+Bitte kontaktieren Sie mich über diese E-Mail: Tayebsouam.spende@gmail.com
 
 
+Ich hoffe, Sie und Ihre Familie glücklich zu machen.
 
-* Starting up a Franchise
-
-* Business Acquisition
-
-* Business Expansion
-
-* Commercial Real Estate purchase
-
-* Consultancy and Contract Execution, Marine , ETC.
-
-
-
-Kindly get in touch for further details and procedure. samthong5555@yahoo.com 
-
-
-
-Respectfully,
-
-
-SAM THONG
-
-
-
-
-
-
-
-	
-
-
-
+Grüße
+Herr Tayeb Souami
