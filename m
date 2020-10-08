@@ -2,79 +2,61 @@ Return-Path: <linux-alpha-owner@vger.kernel.org>
 X-Original-To: lists+linux-alpha@lfdr.de
 Delivered-To: lists+linux-alpha@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 985D42863EF
-	for <lists+linux-alpha@lfdr.de>; Wed,  7 Oct 2020 18:29:18 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 0680D286C6B
+	for <lists+linux-alpha@lfdr.de>; Thu,  8 Oct 2020 03:42:32 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726388AbgJGQ3P (ORCPT <rfc822;lists+linux-alpha@lfdr.de>);
-        Wed, 7 Oct 2020 12:29:15 -0400
-Received: from sonic313-13.consmr.mail.bf2.yahoo.com ([74.6.133.123]:40507
-        "EHLO sonic313-13.consmr.mail.bf2.yahoo.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1726702AbgJGQ3P (ORCPT
+        id S1728044AbgJHBmb (ORCPT <rfc822;lists+linux-alpha@lfdr.de>);
+        Wed, 7 Oct 2020 21:42:31 -0400
+Received: from sonic305-37.consmr.mail.bf2.yahoo.com ([74.6.133.236]:43817
+        "EHLO sonic305-37.consmr.mail.bf2.yahoo.com" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1728014AbgJHBma (ORCPT
         <rfc822;linux-alpha@vger.kernel.org>);
-        Wed, 7 Oct 2020 12:29:15 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=yahoo.com; s=s2048; t=1602088153; bh=PxMwWzXvs+dqOoH0/FHvFmQpYH2JguaCUHYAVLLmaiw=; h=Date:From:Reply-To:Subject:References:From:Subject; b=BYUpui7n3XZ3A3WOCI+c+axsdjFRRR8Kj/NhfK7wk+AUcR7GUA+Gv4e434PqYaCZh6mtxwLtquwlIFuEf6Na1HFVhrSaE59rTdxRSZ0RkX9n2MjOOUpOk4M55oCLM0oKHCRtRdOBsEwr1v4qtqlQCy5wj6GuiM8NzsXsrQ2x8vtxmrnAJa7EFLMe2Vi7W83Bz+WriWB39WwYman6xOYQE594fB1Uif6xt25GguZHaBodAWnLDKUS40D9s4oOHcPu57xObw1+bmHh0R9IiqkOzz2tSlD2xx/+J2sB/lrAGd87BJwAeLU7m5H2hwTbsl0A6klNoHBZ+PB5e4S50qsQcg==
-X-YMail-OSG: hff22QwVM1n1lr7kUhvwHmB9d.SXs.adS5qmrkMziCP7qYJ9pOzG_a.Jx2ZQdFI
- C.SumHH6zu8GKC8cBNlJ8SARPLEuET.ZZ7.NCDhxfsZS7kqz8pG2I63tcuGf_4aTEuNmPBepRmpd
- rXYdcNAdfpeTAutwPy_UjIZs8MqWFFNDBsh_tKhoZdZSyIhRpSEMkrr2fO7hNv93wFwq0fZf9JrA
- oWBAfS7o4CJb6910ZfCfyUn9r23w1J17jPO_m_l1498U3_cNbD4qjgehHdaNq9fXVPTgnxeH69Wj
- yjKpEVjlxb90g_.Z9MJtxVNKM6laAdSgXa.5Xu403O5NBGVAQKrXUpBHCxlWneTJMfqpd2AYYust
- WswH5DyBwOaJr6GQw0XxSRw5.uTzgajso_cEsmSNvcF4tt32Ay.lVUr5sh0Ij1r_x92XGQUga21H
- IYNF1yTUy45.r0RSpyy.mXJcYY9.r3tdw5r28Mag6S5EEj0nih3UdDyLA30o_0BNE_BveeGP3kkX
- LiwfaKUAB8WD.ZyO4zAioik11yttXhI8FY6EpOOiP8U4P1mPHfefZPo98qRdmegPTPn8t0VUEIAV
- 5On5c0In5O44vVN_5cxeq867PX.5ixfR50.mwRL71s5Tv_M8w7SZFW7HT26MqcMGeCcxUHHprjGb
- ACBX0sMZ_OpVytBx0Y.f8pW51q3T_32iWy36i0GyJboYWWgvHUjcd_bXS7a8Mz3TVx0vmw1dbyE4
- RbrcotyrMj2o5Wp_BRy2ZhKGwht.ue6b7dywa_0XZStuWqr3pPAcGTQJmFCPyy3Ir1TbpsZN3uai
- 2IptIMGz8dk2gSoDG6AFWl1yOg2CHY7rBKSjFqx4envIzFt_diyjsNw.TINVFTlVAyIljaMGNHF6
- CXBngo_a9Bt9r1LJFpxCl_CNYnJTZ9I7lCeMnaOPT0xiCsiF5Ms3FXmuSLwsUVKpAtV9XVodP4WT
- l5RfdKAR8TRWmRnvu9zQDMc_Xl3i0Dl__mmAYZLwHEOQxlw2bdrTmXWLWg8u37c_Hq0_BQS_DVc.
- VKa3WATcbYuU05K86Blp6FGPUqGiDVGvlM840nH0tjsNSVYLpaE6hWk8c9udvxN770bLwnUPZrOX
- 3.6spxFK8IH7Uulrh4eTvsa5BhvSCgf9jW.mjVG_DDI5cJ1yiobbmWlGieXX7216ZfjmejOGfcCC
- LDm9ngoz4O_TgbwHgyFSV0nvCvKcWxFNwYQ.yNXw9ftYfWJk8QI6wkpMtZuij1jrProlGSRBJFcy
- vFGCe7eKaKKBnVuSJxpWfk8IiEn3PMCe5AqM7EFzz0POq3PdJFbVwThiS9ZMeYO0hvN4FP7NOwwK
- x_jOJYCG_.084eLouohjeMp6aR2lXmRAuBDPMHGKlJqyaimMljVMMk7eMwnoxWVeaoqnIxN3vvWq
- uF140tj8r3xk2KJfa5Hy5t2WORUBnlCgATtBoFMO9
-Received: from sonic.gate.mail.ne1.yahoo.com by sonic313.consmr.mail.bf2.yahoo.com with HTTP; Wed, 7 Oct 2020 16:29:13 +0000
-Date:   Wed, 7 Oct 2020 16:23:24 +0000 (UTC)
-From:   Marilyn Robert <fredodinga22@gmail.com>
-Reply-To: marilyobert@gmail.com
-Message-ID: <1187042417.143758.1602087804794@mail.yahoo.com>
-Subject: =?UTF-8?B?0J3QsNGY0LzQuNC70LAg0LrQsNGYINCz0L7RgdC/0L7QtNCw0YDQvtGC?=
+        Wed, 7 Oct 2020 21:42:30 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=yahoo.com; s=s2048; t=1602121349; bh=KhejUjG+aIFEdaJtUCWO7uMjCXcLLdLXH7PJ9JLxOyc=; h=Date:From:Reply-To:Subject:References:From:Subject; b=mxTCY5u8dojIAoEK7dRRm3e8tg6fQX6p/BSFuCqeFD97orLo/FdEqaUL+Vgv68beRODtWE6heUs3t3B+iCrdkPZy28wUTgEdThl6fQfvPy7Cmjj45R2nqHRz4orr0o5lzILlm7SxT8t/JnS3FFGcXXVml/PsbkAU/grwW0DsmgF/+JX4CKAX/MHjB1Z/Fc6+tETC7+C3bkApWT3CWMvzwZzcrEkjnmCXfDaKgyz2MmhjzZJcAmLTLRucb8uOv6LA5ilSkiI59v8EyKxo9ikH1ok/VFF+PwsHy5ZM/ZrKelzlpDNaHUHtAbnAx10XQk94QLBWkHx84PZc/UAfQz4kYg==
+X-SONIC-DKIM-SIGN: v=1; a=rsa-sha256; c=relaxed/relaxed; d=yahoo.com; s=s2048; t=1602121349; bh=uqDj2VPrKPT25U9T/+fYHyMjjjh3wcJG6jaJ8gvI7Ws=; h=Date:From:Subject; b=JtBSkhoMJzEvWPM48YC1y17q1Cw6lQAEqD4glqgpMbIQ4lSWeupmtDnE9H7mo3uK2gA9VbTzpNk/F51uZ8j4QC0Y92g4a8xzM261RpFFZIsCRnIkWqNWR+HXXV5uHffTmbSDD1SczHuyG5LuHu8M4uCR6Ot+4k36nK/iQjFKKTdPzvpZNkRjSf9z1izmXmdO9UJbmGsv+vUMSiBjXR2R1k5IDm4pF0cC/f5dU45qJ21lJqE3nnbXftaPdT7xR2/CoMv4tD9mcvFpuHD6hIh6+ifDkEurvBudyLEn29nRThkIYO9Hzc+hEI/GB0EjNZb3WlZpNB3WwXWmoEbzOK7wyw==
+X-YMail-OSG: UTHzd1gVM1kUOprq2E7c7l7h8ZbDBFFCByblZ4goQS9jWtmdXfMcT6U_Ox7H4Ds
+ X52X6Hqp.i0BTg0dcEHbfnVwE7EPDJT0shydaqCdNkKCKLcop0J5BEe8W7R1hNrjO6IZBic.Ty0e
+ Vi2utWyLe8OW3rwC2BixdqwpybZ0pOGqkfpnO7feQDYlZ.MuzlxL0xKB92uI7d5sI1pcKFanYbJH
+ _v_tOo51CKqUQvJkYfdxsJNNSTWN6dfyBkWIVXKLQZN4rxhgVMtUeJMXl2LeWZ2a78uaXLmXL776
+ UPo72i7127qvJDkDo5hPtUPPJt_TbspsHmuHddiJwmEqpip1TMfAah2ZfFakY0_rgcW9AFFKrTMl
+ QHKytwHq632bmejes29GXqabaTUWEQ99V_K79z3zeBrWXnvGeV3u9KQevsBuL3Ci3g9AwLYvLz7s
+ jH1j59q8Y6y5CjsHo2.ylfnaQRqh4E2mJLH4A8EoDMHXlcB8.2RTUj3LnqeYkVGxkHftR2gcMIwk
+ mm51HDr4h9z6z8zqSTLK0FwuYhWVU1BVHsOeFTfVR9S.gIW8G..C49x35u6WgBNV6WMYzHKvZqzQ
+ 7Supxu4WVexoenT9Es5ae3wMuBwSZchSyWX9TxOlWaooazNNkWTiJnZ4pQGcXpl.ZSEDJ8AwejMv
+ g14ZUbqVkHdxAiGBOdFdC51JgqgzwfoodHwWF53UkoBTG_XxedDarMuTfx2b5r3vzlJIPxFx5iMQ
+ b7zwi6iRKgNOblRDKdttHGlpZAcayXXC.E55z8Wf0oplY_acn4IgN_oYaYkenNx_iD8e5BlO5FI_
+ FHn1KoSfR24.y1JswUl_X8KXzqMKBJ1nQ.HiTli75cqpRbNIbUtCNfTdvbJES4iwVPrLPAyupyFw
+ KJGPy00fIyKDyxj_ALsuei1cy7PhEkLOBwK2a5emJw7flzrRqV54WKWX3HaZOJzoerLjVPKLNVuV
+ CEwCe86d4FF.pgZI0jPMmOh6v0cK1fD8MoMNdiyDI7rs9W8DFl1yerEi9kDJpuEw1mqIZozZfWfp
+ 4BGAfmt29jYZ2bKSpc2gRiZjBQ_3DmvVDRRa1FvM8GKWv4uubkIZpPr9UFnkpJqi3vr0X2E5F7W5
+ EFgWkGbuuNNz2REdFabs3IDmlf9f7udTWB0PNgSls8sKxapX01i0HKI3C9vPZbmRT8lYrUToPm9T
+ Zzip2GLrebwroSMpXkLZJFtkISpZwgqKa1_nUuP2uxx0Pma_ZNYUnKCBIrxHPgajlakK_m71Cunt
+ 2X8xe4ORYjEzj0rJXU2YDyW2jay5hpCwpXGHMoVCR8bwzEcqtVIZ7tmqgnMJG9y1sHSClGF5G1AT
+ 8eE.ScH4cCKAKKiTxvJE2RQsGvAm9zpEZTrOOyHtKhni7mWP3AdgANxal6OvRvxL87wVgsstADZ0
+ Q6D3TndATmhtW.vJ7nRkjDtyTloWdIW2LGR68ORCtLbk0Ff_N6cWlqPswla8YWDgfP2X3YwfUzGq
+ y
+Received: from sonic.gate.mail.ne1.yahoo.com by sonic305.consmr.mail.bf2.yahoo.com with HTTP; Thu, 8 Oct 2020 01:42:29 +0000
+Date:   Thu, 8 Oct 2020 01:40:25 +0000 (UTC)
+From:   "Mrs. Maureen Hinckley" <mau9@fdco.in>
+Reply-To: maurhinck4@gmail.com
+Message-ID: <2103559524.308380.1602121225814@mail.yahoo.com>
+Subject: RE
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: base64
-References: <1187042417.143758.1602087804794.ref@mail.yahoo.com>
-X-Mailer: WebService/1.1.16795 YMailNodin Mozilla/5.0 (Windows NT 6.1) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/84.0.4147.125 Safari/537.36
+Content-Transfer-Encoding: quoted-printable
+References: <2103559524.308380.1602121225814.ref@mail.yahoo.com>
+X-Mailer: WebService/1.1.16795 YMailNodin Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/84.0.4147.135 Safari/537.36
 To:     unlisted-recipients:; (no To-header on input)
 Precedence: bulk
 List-ID: <linux-alpha.vger.kernel.org>
 X-Mailing-List: linux-alpha@vger.kernel.org
 
-DQoNCtCd0LDRmNC80LjQu9CwINC60LDRmCDQs9C+0YHQv9C+0LTQsNGA0L7Rgg0KDQrQiNCw0YEg
-0YHRg9C8IDY4LdCz0L7QtNC40YjQvdCwINC20LXQvdCwLCDQutC+0ZjQsCDRgdGC0YDQsNC00LAg
-0L7QtCDQv9GA0L7QtNC+0LvQttC10L0g0LrQsNGA0YbQuNC90L7QvCDQvdCwINC00L7RmNC60LAs
-INC+0LQg0YHQuNGC0LUg0LzQtdC00LjRhtC40L3RgdC60Lgg0LjQvdC00LjQutCw0YbQuNC4LCDQ
-vNC+0ZjQsNGC0LAg0YHQvtGB0YLQvtGY0LHQsCDQvdCw0LLQuNGB0YLQuNC90LAg0YHQtSDQstC7
-0L7RiNC4INC4INC+0YfQuNCz0LvQtdC00L3QviDQtSDQtNC10LrQsCDQvNC+0LbQtdCx0Lgg0L3Q
-tdC80LAg0LTQsCDQttC40LLQtdCw0Lwg0L/QvtCy0LXRnNC1INC+0LQg0YjQtdGB0YIg0LzQtdGB
-0LXRhtC4INC60LDQutC+INGA0LXQt9GD0LvRgtCw0YIg0L3QsCDQsdGA0LfQuNC+0YIg0YDQsNGB
-0YIg0Lgg0LHQvtC70LrQsNGC0LAg0YjRgtC+INGB0LUg0ZjQsNCy0YPQstCwINC60LDRmCDQvdC1
-0LAuINCc0L7RmNC+0YIg0YHQvtC/0YDRg9CzINC/0L7Rh9C40L3QsCDQvdC10LrQvtC70LrRgyDQ
-s9C+0LTQuNC90Lgg0L3QsNC90LDQt9Cw0LQg0Lgg0L3QsNGI0LjRgtC1INC00L7Qu9Cz0Lgg0LPQ
-vtC00LjQvdC4INCx0YDQsNC6INC90LUg0LHQtdCwINCx0LvQsNCz0L7RgdC70L7QstC10L3QuCDR
-gdC+INC90LjRgtGDINC10LTQvdC+INC00LXRgtC1LCDQv9C+INC90LXQs9C+0LLQsNGC0LAg0YHQ
-vNGA0YIg0LPQviDQvdCw0YHQu9C10LTQuNCyINGG0LXQu9C+0YLQviDQvdC10LPQvtCy0L4g0LHQ
-vtCz0LDRgtGB0YLQstC+Lg0KDQrQlNC+0LDRk9Cw0Lwg0LrQsNGYINCy0LDRgSDQvtGC0LrQsNC6
-0L4g0YHQtSDQv9C+0LzQvtC70LjQsiDQt9CwINGC0L7QsCwg0L/QvtC00LPQvtGC0LLQtdC9INGB
-0YPQvCDQtNCwINC00L7QvdC40YDQsNC8INGB0YPQvNCwINC+0LQgMiwgMzAwLCAwMDAg0LXQstGA
-0LAg0LfQsCDQv9C+0LzQvtGIINC90LAg0YHQuNGA0L7QvNCw0YjQvdC40YLQtSwg0YHQuNGA0L7Q
-vNCw0YjQvdC40YLQtSDQuCDQv9C+0LzQsNC70LrRgyDQv9GA0LjQstC40LvQtdCz0LjRgNCw0L3Q
-uNGC0LUg0LzQtdGT0YMg0LLQsNGI0LjRgtC1INGB0L7QsdGA0LDQvdC40ZjQsCAvINC+0L/RiNGC
-0LXRgdGC0LLQvi4g0JfQsNCx0LXQu9C10LbQtdGC0LUg0LTQtdC60LAg0L7QstC+0Zgg0YTQvtC9
-0LQg0LUg0LTQtdC/0L7QvdC40YDQsNC9INCy0L4g0LHQsNC90LrQsCDQutCw0LTQtSDRiNGC0L4g
-0YDQsNCx0L7RgtC10YjQtSDQvNC+0ZjQvtGCINGB0L7Qv9GA0YPQsy4gQXBwcmVjaWF0ZdC1INGG
-0LXQvdCw0Lwg0LDQutC+INC+0LHRgNC90LXRgtC1INCy0L3QuNC80LDQvdC40LUg0L3QsCDQvNC+
-0LXRgtC+INCx0LDRgNCw0ZrQtSDQt9CwINC/0YDQvtC/0LDQs9C40YDQsNGa0LUg0L3QsCDQvNCw
-0YHQsNC20LDRgtCwINC90LAg0LrRgNCw0LvRgdGC0LLQvtGC0L4sINGc0LUg0LLQuCDQtNCw0LTQ
-sNC8INC/0L7QstC10ZzQtSDQtNC10YLQsNC70Lgg0LfQsCDRgtC+0LAg0LrQsNC60L4g0LTQsCDQ
-v9C+0YHRgtCw0L/QuNGC0LUuDQoNCtCR0LvQsNCz0L7QtNCw0YDQsNC8DQrQky3Rk9CwINCc0LXR
-gNC40LvQuNC9INCg0L7QsdC10YDRgg==
+
+
+I am Maureen Hinckley and my foundation is donating (Five hundred and fifty=
+ thousand USD) to you. Contact us via my email at (maurhinck4@gmail.com) fo=
+r further details.
+
+Best Regards,
+Mrs. Maureen Hinckley,
+Copyright =C2=A92020 The Maureen Hinckley Foundation All Rights Reserved.
