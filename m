@@ -2,75 +2,55 @@ Return-Path: <linux-alpha-owner@vger.kernel.org>
 X-Original-To: lists+linux-alpha@lfdr.de
 Delivered-To: lists+linux-alpha@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 7EFB0289003
-	for <lists+linux-alpha@lfdr.de>; Fri,  9 Oct 2020 19:32:38 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 98A47289229
+	for <lists+linux-alpha@lfdr.de>; Fri,  9 Oct 2020 21:47:59 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727311AbgJIRch (ORCPT <rfc822;lists+linux-alpha@lfdr.de>);
-        Fri, 9 Oct 2020 13:32:37 -0400
-Received: from sonic308-2.consmr.mail.bf2.yahoo.com ([74.6.130.41]:33091 "EHLO
-        sonic308-2.consmr.mail.bf2.yahoo.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1731996AbgJIRcT (ORCPT
-        <rfc822;linux-alpha@vger.kernel.org>);
-        Fri, 9 Oct 2020 13:32:19 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=yahoo.com; s=s2048; t=1602264738; bh=NajTNMrfMLb6UXcjRhYpYerQX8PtVBLz0oFgaMINSWY=; h=Date:From:Reply-To:Subject:References:From:Subject; b=SOtT2VgeHfft266ugwCihXEtz4N4We2yXqjNq1w6PiXM/dyIr3L4ddrP9R8/EfLh3kaJhUuRPaECz3JgSatzWsbBb1XgkFc1Zhq+tuVTQPuokANhpf3PvRYaiu0KZQch1Keds+vmhITY07gTRsrZLEEu7lIoh5FeWwiou9oDOKFpv+XaqAFByH7lQArutGYOdiuUyzQcU5VrKxSyVyhXQfG0O4eiBwn9Cac3hOf7STEu2l1TVAEM7MisZCePRx3nFPQC9QaB+h7P8yv+QHQ1bnRIS5GrAGfBkWjWi8TodueylRd5ShFpN9cKmX5jnvf5yWXl428XTymMbwyZ6mRlwA==
-X-SONIC-DKIM-SIGN: v=1; a=rsa-sha256; c=relaxed/relaxed; d=yahoo.com; s=s2048; t=1602264738; bh=oweOsO+InI43hbFRLRBgRoVInuaToCahnYHWVDihvYz=; h=Date:From:Subject; b=Ud/Pn8nER++HsWwYThWr42M8s8VLv+MjEdDip6fb0SEuzvsr7zuHEouzGCKZ+TdznrXPBE14flfJdOp60LSsqGOPX6OUsQBneIY7ceRaC2uRiHoKfxasVHlZL0oKfi35RzujKfHn+2L5OT1q+sGU8wgCyMg6EdcqdbnDIEmZYMbq04Vo6/grFca1mYUtq5gJgJy5sitquRZAiIujsiXSNJ90alImV7rFovhmpOf/kNmrlkbowUi7HSpjTMjuTpCoDdllFZXokJk6kKzZsI0k95wkfmeXcisTNyyiUWKiEYvTTWCNS4rZrf2kGwfFadE0g1XwjrOCo/xzduuwRVmlWQ==
-X-YMail-OSG: 5v9hkRwVM1lz8abwSsgESaGyahNwILSbkFwtLM7oGCnHCY7DgceUY5bBQW8ZtjA
- Gd3HTL2t2qAAIsGFPZbAZyn0JH3FZsMMMlJgDaCDDHn9ptWs_ZPO_cU9IEva6NxUEnSioUk9P_hi
- MDcnF04k010QJRqUH0K9RKZnMc7stui8J1WO2xEmO4p01M0wkb6QQxLYwhQemGIkUCeH.BD4BQWS
- oi0qiuufWT59XtCIlm._yy65l9x2iVuQyyyj7sKMSF1rffUNW5fyD.KXiihGQtMTaT4sEdckst6K
- djU.zsAv.eC4nUhX2xF9K2VCt_uBc70fTB2EaHhChVYeSiebFN_FzCnlqLrKYRzkCLiuKYNsZ7.S
- QBxH8JYfvkqT2NjNjhtbIQJs8GnFjblimaU1HQsn0Y8qOxRkx1arxjHlhLeNUOqbdr7MCVAywJtc
- hINIDXhr6SJnL8RypnjjG5xrDlRX6Ke.DeW5vRjm59VhqGGclwbfga9yTRT6YD2LnW0qemTco4ZY
- a7jn.2qkFGP1w5Ai5JornvwAwSkbxjF4Bg9d3E3ilMdmjwL0mOHhrm32_Bptbt5jJBf7NWq.GRYd
- xmSGbyRpP2oEfBdgRhdpvGXvOFHWetss9pKpcrPrQj7gYnB7LRn671uivYqVz.EUTu4kAPxxJckn
- wNvKt7smcWwvgC90mQAJZMzLe6bhY4qk7TpH.e3rcz1dExTEVLVCyi7bw0U8Zk6IpxoWy3pndzXz
- k42KkBMOGvVrqENIzTDE7yJEFRnJN.35by2WOZsA05IT0B6dNhJap7cpDlY56XuhkH45WJNkYwfC
- 1k9BwCBhCbTMt6tKq4AFCvCOOskSomPgcR8JTmYFy_wq2U413Ak_Qg_e_h4DMUXkamjdef5SnB5J
- q.BRk2ZZCUbZ7OF8b1JsA0zthlW3RFYyYtir.LW6uhHHJnFvEP.vQ37O0NJQ2tSfoUap6D0MUvjg
- gDFQ1LWd1HkGcmmm4dYTwIAOxyMed14ukPRJ1LQKrWfPNqBOBfVJChgn0_zbOzCMm4T7KuV8dm4j
- 0eA6RR8AaPb3Z7YOgLLW7aKw6ZrnKywh1wdf5PzcAWDY8ghpMvjZnKWJWOJtRHdMM3SPdJ.Nra_H
- Y6koh23aFm32J_vdxYVcGoTv8z9vJfzG37vluaxJ5Pj6HfylpHEsjGLwCR6CL2LFay6kwtME836F
- Bf78c6S1Wt6DZI0dQkHdlWZepHj769tL5ggmaFaSA_7xhssiBliZl.t3j.a980nxeEDpNDF7D73e
- NnhQwOx9F2KYTFRF9yy8QuZFhWF3Xh_8hjqwcCuoKB3hkKZh3yr8UEzDx..FL8wWr0DrRI5PycxE
- bGe_oH1USQlZTR7jvTmcilQZBSLG.vDlRSCo2Omii3u3u0djpbL7INSpKr1xAQnilZmn1ixqqs.2
- u6H9wEuoRJhVbncUCkXbm4ip1owWBmNwQKmV8yQ_DcM_DcVYT
-Received: from sonic.gate.mail.ne1.yahoo.com by sonic308.consmr.mail.bf2.yahoo.com with HTTP; Fri, 9 Oct 2020 17:32:18 +0000
-Date:   Fri, 9 Oct 2020 17:32:16 +0000 (UTC)
-From:   Ms lisa Hugh <lisahugh531@gmail.com>
-Reply-To: ms.lisahugh000@gmail.com
-Message-ID: <648437096.795318.1602264736931@mail.yahoo.com>
-Subject: BUSINESS CO-OPERATION FROM (Ms Lisa Hugh).
+        id S1729280AbgJITr6 convert rfc822-to-8bit (ORCPT
+        <rfc822;lists+linux-alpha@lfdr.de>); Fri, 9 Oct 2020 15:47:58 -0400
+Received: from mail.csu.ru ([195.54.14.68]:33069 "HELO mail.csu.ru"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with SMTP
+        id S1726357AbgJITr5 (ORCPT <rfc822;linux-alpha@vger.kernel.org>);
+        Fri, 9 Oct 2020 15:47:57 -0400
+X-Greylist: delayed 1464 seconds by postgrey-1.27 at vger.kernel.org; Fri, 09 Oct 2020 15:47:46 EDT
+Received: from webmail.csu.ru (webmail.csu.ru [195.54.14.80])
+        (Authenticated sender: gmu)
+        by mail.csu.ru (Postfix) with ESMTPA id E1824146B7E;
+        Sat, 10 Oct 2020 00:22:16 +0500 (+05)
+DKIM-Filter: OpenDKIM Filter v2.11.0 mail.csu.ru E1824146B7E
+Received: from 156.146.59.22
+        (SquirrelMail authenticated user gmu)
+        by webmail.csu.ru with HTTP;
+        Sat, 10 Oct 2020 00:22:20 +0500
+Message-ID: <128c2889cefd3df5268809c69949ba8d.squirrel@webmail.csu.ru>
+Date:   Sat, 10 Oct 2020 00:22:20 +0500
+Subject: Vorschlag
+From:   "Yi Huiman" <info@bsu.de>
+Reply-To: info@huiman.cf
+User-Agent: SquirrelMail/1.4.22
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-References: <648437096.795318.1602264736931.ref@mail.yahoo.com>
-X-Mailer: WebService/1.1.16795 YMailNodin Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:81.0) Gecko/20100101 Firefox/81.0
+Content-Type: text/plain;charset=iso-8859-1
+X-Priority: 3 (Normal)
+Importance: Normal
+X-KLMS-Rule-ID: 1
+X-KLMS-Message-Action: clean
+X-KLMS-AntiSpam-Lua-Profiles: 159051 [Oct 09 2020]
+X-KLMS-AntiSpam-Version: 5.9.11.0
+X-KLMS-AntiSpam-Envelope-From: info@bsu.de
+X-KLMS-AntiSpam-Auth: dmarc=none header.from=bsu.de;spf=none smtp.mailfrom=bsu.de;dkim=none
+X-KLMS-AntiSpam-Rate: 70
+X-KLMS-AntiSpam-Status: not_detected
+X-KLMS-AntiSpam-Method: none
+X-KLMS-AntiSpam-Info: LuaCore: 381 381 faef97d3f9d8f5dd6a9feadc50ba5b34b9486c58, {rep_avail}, {Tracking_content_type, plain}, {Prob_reply_not_match_from}, {Prob_to_header_missing}, {Prob_Reply_to_without_To}, {Tracking_susp_macro_from_formal}, d41d8cd98f00b204e9800998ecf8427e.com:7.1.1;195.54.14.80:7.1.2;huiman.cf:7.1.1;127.0.0.199:7.1.2;webmail.csu.ru:7.1.1;bsu.de:7.1.1, ApMailHostAddress: 195.54.14.80
+X-MS-Exchange-Organization-SCL: -1
+X-KLMS-AntiSpam-Interceptor-Info: scan successful
+X-KLMS-AntiPhishing: Clean, bases: 2020/10/09 16:54:00
+X-KLMS-AntiVirus: Kaspersky Security for Linux Mail Server, version 8.0.3.30, bases: 2020/10/09 00:29:00 #15463494
+X-KLMS-AntiVirus-Status: Clean, skipped
+Content-Transfer-Encoding: 8BIT
 To:     unlisted-recipients:; (no To-header on input)
 Precedence: bulk
 List-ID: <linux-alpha.vger.kernel.org>
 X-Mailing-List: linux-alpha@vger.kernel.org
 
+ich habe ein Geschäft Vorschlag für dich.
 
-
-Dear Friend,
-
-I am Ms Lisa hugh, work with the department of Audit and accounting manager here in the Bank(B.O.A).
-
-Please i need your assistance for the transferring of thIs fund to your bank account for both of us benefit for life time investment, amount (US$4.5M DOLLARS).
-
-I have every inquiry details to make the bank believe you and release the fund in within 5 banking working days with your full co-operation with me for success.
-
-Note/ 50% for you why 50% for me after success of the transfer to your bank account.
-
-Below information is what i need from you so will can be reaching each other
-
-1)Full name ...
-2)Private telephone number...
-3)Age...
-4)Nationality...
-5)Occupation ...
-
-
-Thanks.
-
-Ms Lisa hugh.
