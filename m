@@ -2,107 +2,75 @@ Return-Path: <linux-alpha-owner@vger.kernel.org>
 X-Original-To: lists+linux-alpha@lfdr.de
 Delivered-To: lists+linux-alpha@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id A91BD2887FF
-	for <lists+linux-alpha@lfdr.de>; Fri,  9 Oct 2020 13:42:38 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id C77A2289008
+	for <lists+linux-alpha@lfdr.de>; Fri,  9 Oct 2020 19:32:40 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2388189AbgJILmg (ORCPT <rfc822;lists+linux-alpha@lfdr.de>);
-        Fri, 9 Oct 2020 07:42:36 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55696 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1731908AbgJILmc (ORCPT
-        <rfc822;linux-alpha@vger.kernel.org>); Fri, 9 Oct 2020 07:42:32 -0400
-Received: from casper.infradead.org (casper.infradead.org [IPv6:2001:8b0:10b:1236::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2FE26C0613D2;
-        Fri,  9 Oct 2020 04:42:32 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-        d=infradead.org; s=casper.20170209; h=In-Reply-To:Content-Type:MIME-Version:
-        References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
-        Content-Transfer-Encoding:Content-ID:Content-Description;
-        bh=RcamcxMM04cAFejMyuerox9iFyryVbfUvRjDUF6K+9E=; b=rV/73fj+p5/T3eYZYDymfCt5SP
-        EGKltICU3UJgzJot3PlAdj3AbR+gk5Fu9ALysyRXUjXz1Zz9lkn1oy67SKaaUgwwoVb88K0SV7Bsh
-        FqvpyAsddMNfO/uaOg5us46reQYdxoaw4V+Z56lK4XPhIyX56i/ukTdBdBh7EvlM1NHScvtTABqpo
-        znLocfz8vCn//mXjXUAto9jooaYcx8KnZYLrEJUFEaEecZwQ67rFlXOnv+PAUplGmjypRkBw6zEJZ
-        e0yFWzBMPGuSmWRNegKe32QuMxAhYnEeqk1p16v+xTaCE9aMZ0ypzDv+kqeYOcTeyxLPICzHhq0Jp
-        54eNIb9Q==;
-Received: from j217100.upc-j.chello.nl ([24.132.217.100] helo=noisy.programming.kicks-ass.net)
-        by casper.infradead.org with esmtpsa (Exim 4.92.3 #3 (Red Hat Linux))
-        id 1kQqmw-0003xU-UC; Fri, 09 Oct 2020 11:42:19 +0000
-Received: from hirez.programming.kicks-ass.net (hirez.programming.kicks-ass.net [192.168.1.225])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (Client did not present a certificate)
-        by noisy.programming.kicks-ass.net (Postfix) with ESMTPS id E04B9300455;
-        Fri,  9 Oct 2020 13:42:16 +0200 (CEST)
-Received: by hirez.programming.kicks-ass.net (Postfix, from userid 1000)
-        id 8A6E02B08A0EA; Fri,  9 Oct 2020 13:42:16 +0200 (CEST)
-Date:   Fri, 9 Oct 2020 13:42:16 +0200
-From:   Peter Zijlstra <peterz@infradead.org>
-To:     Michal Hocko <mhocko@suse.com>
-Cc:     Thomas Gleixner <tglx@linutronix.de>,
-        Frederic Weisbecker <fweisbecker@suse.de>,
-        LKML <linux-kernel@vger.kernel.org>,
-        Mel Gorman <mgorman@suse.de>, Ingo Molnar <mingo@redhat.com>,
-        Richard Henderson <rth@twiddle.net>,
-        Ivan Kokshaysky <ink@jurassic.park.msu.ru>,
-        Matt Turner <mattst88@gmail.com>, linux-alpha@vger.kernel.org,
-        Brian Cain <bcain@codeaurora.org>,
-        linux-hexagon@vger.kernel.org,
-        Geert Uytterhoeven <geert@linux-m68k.org>,
-        linux-m68k@lists.linux-m68k.org, Jeff Dike <jdike@addtoit.com>,
-        Richard Weinberger <richard@nod.at>,
-        Anton Ivanov <anton.ivanov@cambridgegreys.com>,
-        linux-um@lists.infradead.org
-Subject: Re: [RFC PATCH] kernel: allow to configure PREEMPT_NONE,
- PREEMPT_VOLUNTARY on kernel command line
-Message-ID: <20201009114216.GM2628@hirez.programming.kicks-ass.net>
-References: <20201007120401.11200-1-mhocko@kernel.org>
- <20201009091218.GF4967@dhcp22.suse.cz>
- <20201009094245.GG2628@hirez.programming.kicks-ass.net>
- <20201009101044.GH4967@dhcp22.suse.cz>
- <20201009101431.GJ2628@hirez.programming.kicks-ass.net>
- <20201009103730.GJ4967@dhcp22.suse.cz>
+        id S1732999AbgJIRcE (ORCPT <rfc822;lists+linux-alpha@lfdr.de>);
+        Fri, 9 Oct 2020 13:32:04 -0400
+Received: from sonic312-21.consmr.mail.bf2.yahoo.com ([74.6.128.83]:44080 "EHLO
+        sonic312-21.consmr.mail.bf2.yahoo.com" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1732152AbgJIRcD (ORCPT
+        <rfc822;linux-alpha@vger.kernel.org>);
+        Fri, 9 Oct 2020 13:32:03 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=yahoo.com; s=s2048; t=1602264722; bh=NajTNMrfMLb6UXcjRhYpYerQX8PtVBLz0oFgaMINSWY=; h=Date:From:Reply-To:Subject:References:From:Subject; b=i4yeVMf1WmzzZ2gNvIXKaGXddbat6nzn+ZsvKRd8ZJfHnUksDGlOOtNXW7RxYs+O2aetC1K9JojQy8eayXuZwtfsAiDX51e1kblPPWDW/1c2ZHYERqKc0eyhOY5p1BorHyx5/U7ekEOnKs0L3FHelY3KgJJgrDA0iqjH82Urne0vQml3XBEyQSn+1Lw4YCqrMyvlrGKZCQt/4CesS0hQu+EstL2rg0LsaE3Wy4nYz9XX5E7uLoAxvhUOEWuIFs+O4ikuXYJso807XWtS81AW9pNGNPEvIQbOdrmsny/gXVd+W4L2+AH4keCBvhyz636G+azc+97+Hj9PCHWqihoqvA==
+X-SONIC-DKIM-SIGN: v=1; a=rsa-sha256; c=relaxed/relaxed; d=yahoo.com; s=s2048; t=1602264722; bh=RYhzEYt6qJdZ7zGcneJUohepkSKimQxPkalnlCDY/ci=; h=Date:From:Subject; b=lwLZ11brptxByuXUNSgg0U8FccqLztm2gaIeu/WWUEbzHpWYP45h/Z0Jg4lGNYbfAjkSuLkDvhPvg3N/iWhlVBAfuNaQeO+AFWZ6H62ZLQzxUpCEPuez8aWuc78tAQ8AbqqBqx5TlZwN+0pTNUZPJeilUKl99w76hRsEGjpIX0Aj8RIjb6z4KHkGQkUPudkmTRROFgUapnAKRmbSlR4n52+4bDxkvEwEg+VPAke+QJoVbzsxYuMzuie7reK/8bgXc7fA63Odu5tPMho1Gj8CxkOo4WnweUpF6iBinH83hLbIP7Xq98R+e7X/Dj/stZwTABKa7LPMdZ0dIpCcXeMFRA==
+X-YMail-OSG: QXkto0IVM1ksLG3UQ9KQPAfw3n9W0qoZNAGtiXfYg5lvdmWUY_vV5aTvOFc8OMy
+ ejyIt2PoAfxSHpazWNO5nRO40J1vp8HmGAfehAEO0nBkem0aJ.a.GhhA4gHvW1oXNkdUMKigVsaa
+ YfE1xYIasd39pmw4MQ7BmUcrtHH02j9oRTXj7q87Hv0XTH2vg_chjbOTk42fHPkOjQmcYaj5GXJK
+ mY2.RI55WH4H29BALUInGlp6QCbdWpoDc4JlOnvyp6d9z9fDnny2JtX9rO0NpTJY72.PGYicVBMy
+ 6EuRjFMrMCEml9HKSo8QBDh548EtkaNjBYWxEDxt_4YWn6567fxVvIvN6.l1TihiOhCRJBZe64hi
+ zewXIaJqwaw0RxpQkUSCfjPnluHixpJ8S.s_2kDi0muJJmiVjY_Mjd.pkJXjjHFngRmPS6aNR02G
+ hr2UAIg1.jzsokjfdOjFZ9Yy21SkrxwsfNQAu5bZDy7DzyAPhoe94PV5VrduJdvrMgrbwuCa_d4e
+ qu2MVwJRey5UUcPTWp8EPfeGR.0dhFAZoXVlCj_FV.mfiWDdnkkdluekA1010s5ocS.uo.4VN4Q2
+ OKJp76lUQGFka7lwtAkYh1Ff5gWabgU5AtYcQ72gDFk1VUysTrqXJtwu_NzzabJV.DYzfLGmIH.L
+ 8x_.mERlyZu7qeezcbQ3LUGlfihdNUfXctWx6KqrkiOF.nPJZzonrdUAKWCv7XhuIjA2PLET3dss
+ w4NqAm9Wf7oB3PX8UHQIOBrqb5zjv3WNDc_0e06GHVOTTdF1wp7nXq2.siS60jsvTC0wDGBI.vpv
+ UE_w2qgAMUJ3smCYfwub3qblns7p3KNvglfh4UQgjYUKa8XVdughXSIyMY3mCW86k9k4.MUPOPdW
+ Brci5etghJNnQAde3ywRA8N0IwYLpF_PfjVPMWi90Fsb8IISYwMQpv4xPR_aXEzqPTIeY4qgZ.2_
+ 62KwcfSQ5fRCBMTwRmJcGmVr9JysknJjf3CHnyL.VeHdrnVuZLQPYEiaeS_sEj_mm_VEbbAWZWE1
+ wN9GGsnEMuTrLgONZ0ijRDb240Oo4B.bWGcXBqN4Um_qAKv5700iQxkp0Q1NekobD6bIDBRneU27
+ 4RPfR6_rJGyFePxc8lkpYX4_4keULcFaO9EYENGr7RieKhu61olI3qDe8HTSFoD7NEY__EoNPDqJ
+ Xyd2k5x3.Qrr1_dOS4ozUu1mU9TOongnD0Xsf5Z8s5fbXSdgyLcx0WGmsdwHAtXyPBm.TLH94KcT
+ wWSwh7dcRTtsdTaF3MElT0rE1d5MVtbD8TbWeQEz14hti3nL8A_n9bhgEuT1tb8yfaorO0vscM5B
+ Awc.YvDWKllstzj9lIhEYHCWmA9nMHoYjD4Lo6DNivzL_sBScyAmHcrcVIxrqT_7oNx4N3YJpWdA
+ uymTMNlmf18Cd5mwzvjVSBO_mEPj1_N8zXemTERO1J3KXqcKc
+Received: from sonic.gate.mail.ne1.yahoo.com by sonic312.consmr.mail.bf2.yahoo.com with HTTP; Fri, 9 Oct 2020 17:32:02 +0000
+Date:   Fri, 9 Oct 2020 17:32:00 +0000 (UTC)
+From:   Ms lisa Hugh <lisahugh531@gmail.com>
+Reply-To: ms.lisahugh000@gmail.com
+Message-ID: <70189328.794834.1602264720676@mail.yahoo.com>
+Subject: BUSINESS CO-OPERATION FROM (Ms Lisa Hugh).
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20201009103730.GJ4967@dhcp22.suse.cz>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+References: <70189328.794834.1602264720676.ref@mail.yahoo.com>
+X-Mailer: WebService/1.1.16795 YMailNodin Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:81.0) Gecko/20100101 Firefox/81.0
+To:     unlisted-recipients:; (no To-header on input)
 Precedence: bulk
 List-ID: <linux-alpha.vger.kernel.org>
 X-Mailing-List: linux-alpha@vger.kernel.org
 
-On Fri, Oct 09, 2020 at 12:37:30PM +0200, Michal Hocko wrote:
-> On Fri 09-10-20 12:14:31, Peter Zijlstra wrote:
-> > On Fri, Oct 09, 2020 at 12:10:44PM +0200, Michal Hocko wrote:
-> > > On Fri 09-10-20 11:42:45, Peter Zijlstra wrote:
-> > > > On Fri, Oct 09, 2020 at 11:12:18AM +0200, Michal Hocko wrote:
-> > > > > Is there any additional feedback? Should I split up the patch and repost
-> > > > > for inclusion?
-> > > > 
-> > > > Maybe remove PREEMPT_NONE after that?  Since that's then equivalent to
-> > > > building with VOLUNTARY and booting with preempt=none.
-> > > 
-> > > So do you mean that I should post an additional patch which does this on
-> > > top? With a justification that there is one option less to chose from?
-> > 
-> > Exactly!
-> 
-> It seems we have to get rid of CONFIG_NO_PREEMPT first
-> $ git grep ARCH_NO_PREEMPT
-> arch/Kconfig:config ARCH_NO_PREEMPT
-> arch/alpha/Kconfig:     select ARCH_NO_PREEMPT
-> arch/hexagon/Kconfig:   select ARCH_NO_PREEMPT
-> arch/m68k/Kconfig:      select ARCH_NO_PREEMPT if !COLDFIRE
-> arch/um/Kconfig:        select ARCH_NO_PREEMPT
-> kernel/Kconfig.preempt: depends on !ARCH_NO_PREEMPT
-> kernel/Kconfig.preempt: depends on !ARCH_NO_PREEMPT
-> lib/Kconfig.debug:      select PREEMPT_COUNT if !ARCH_NO_PREEMPT
-> lib/Kconfig.debug:      depends on !ARCH_NO_PREEMPT
-> 
-> Is there anybody working on that. Is this even possible? I can see it
-> has been added by 87a4c375995e ("kconfig: include kernel/Kconfig.preempt
-> from init/Kconfig") but this looks more like a mechanical change and it
-> has defined ARCH_NO_PREEMPT all arches which haven't included
-> Kconfig.preempt. But is there any reason why those cannot support
-> preemption for some reason? Cc respective maintainer (the email thread
-> starts http://lkml.kernel.org/r/20201007120401.11200-1-mhocko@kernel.org
 
-I suspect we can drop ARCH_NO_PREEMPT from VOLUNTARY, IIRC there's no
-arch dependency there. PREEMPT itself obviously needs arch help.
+
+Dear Friend,
+
+I am Ms Lisa hugh, work with the department of Audit and accounting manager here in the Bank(B.O.A).
+
+Please i need your assistance for the transferring of thIs fund to your bank account for both of us benefit for life time investment, amount (US$4.5M DOLLARS).
+
+I have every inquiry details to make the bank believe you and release the fund in within 5 banking working days with your full co-operation with me for success.
+
+Note/ 50% for you why 50% for me after success of the transfer to your bank account.
+
+Below information is what i need from you so will can be reaching each other
+
+1)Full name ...
+2)Private telephone number...
+3)Age...
+4)Nationality...
+5)Occupation ...
+
+
+Thanks.
+
+Ms Lisa hugh.
