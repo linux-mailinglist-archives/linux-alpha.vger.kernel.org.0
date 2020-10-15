@@ -2,52 +2,40 @@ Return-Path: <linux-alpha-owner@vger.kernel.org>
 X-Original-To: lists+linux-alpha@lfdr.de
 Delivered-To: lists+linux-alpha@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id E04B128F3D1
-	for <lists+linux-alpha@lfdr.de>; Thu, 15 Oct 2020 15:53:28 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 208A028FA52
+	for <lists+linux-alpha@lfdr.de>; Thu, 15 Oct 2020 22:58:47 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1730018AbgJONxR (ORCPT <rfc822;lists+linux-alpha@lfdr.de>);
-        Thu, 15 Oct 2020 09:53:17 -0400
-Received: from edge.kilargo.pl ([77.252.52.110]:24065 "EHLO edge.kilargo.pl"
+        id S1732750AbgJOU6q (ORCPT <rfc822;lists+linux-alpha@lfdr.de>);
+        Thu, 15 Oct 2020 16:58:46 -0400
+Received: from www.mobis.si ([46.163.76.180]:33020 "EHLO www.mobis.si"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S2387851AbgJONxR (ORCPT <rfc822;linux-alpha@vger.kernel.org>);
-        Thu, 15 Oct 2020 09:53:17 -0400
-X-Greylist: delayed 593 seconds by postgrey-1.27 at vger.kernel.org; Thu, 15 Oct 2020 09:52:17 EDT
-Received: from mail.kilargo.pl (77.252.52.107) by edge.kilargo.pl
- (77.252.52.109) with Microsoft SMTP Server (TLS) id 8.3.485.1; Thu, 15 Oct
- 2020 15:41:37 +0200
-Received: from User (185.248.12.71) by MAIL.kilargo.pl (172.22.0.36) with
- Microsoft SMTP Server (TLS) id 15.0.1497.2; Thu, 15 Oct 2020 14:54:49 +0200
-Reply-To: <kim.leang2011@yahoo.com>
-From:   Kim Leang <mechanik@kilargo.pl>
-Subject: Greeting! !!
-Date:   Thu, 15 Oct 2020 15:54:53 +0300
+        id S1732684AbgJOU6q (ORCPT <rfc822;linux-alpha@vger.kernel.org>);
+        Thu, 15 Oct 2020 16:58:46 -0400
+X-Greylist: delayed 806 seconds by postgrey-1.27 at vger.kernel.org; Thu, 15 Oct 2020 16:58:46 EDT
+Received: from www.mobis.si (localhost.localdomain [127.0.0.1])
+        by www.mobis.si (Postfix) with ESMTPSA id 348C066191;
+        Thu, 15 Oct 2020 22:43:33 +0200 (CEST)
+Authentication-Results: www.mobis.si;
+        spf=pass (sender IP is 127.0.0.1) smtp.mailfrom=asprayberry@carnegielearning.com smtp.helo=www.mobis.si
+Received-SPF: pass (www.mobis.si: connection is authenticated)
+Received: from [169.159.103.120] ([169.159.103.120]) by webmail.storja.si
+ (Horde Framework) with HTTP; Thu, 15 Oct 2020 20:43:33 +0000
+Date:   Thu, 15 Oct 2020 20:43:32 +0000
+Message-ID: <20201015204332.Horde.hu8nlCYfbSVYbfmq6OCUe7h@webmail.storja.si>
+From:   Katarina Osolnik <asprayberry@carnegielearning.com>
+Subject: Did you get my mail?
+Reply-to: l.schulz67@ubseu.com
+User-Agent: Horde Application Framework 5
+Content-Type: text/plain; charset=utf-8; format=flowed; DelSp=Yes
 MIME-Version: 1.0
-Content-Type: text/plain; charset="Windows-1251"
-Content-Transfer-Encoding: 7bit
-X-Priority: 3
-X-MSMail-Priority: Normal
-X-Mailer: Microsoft Outlook Express 6.00.2600.0000
-X-MimeOLE: Produced By Microsoft MimeOLE V6.00.2600.0000
-Message-ID: <3fbd9a3dc5e04de19174c5184ffa4827@mail.kilargo.pl>
-To:     Undisclosed recipients:;
-X-Originating-IP: [185.248.12.71]
-X-ClientProxiedBy: mail.kilargo.pl (172.22.0.36) To MAIL.kilargo.pl
- (172.22.0.36)
-X-EsetResult: clean, is OK
-X-EsetId: 37303A295AAB9B6B647163
+Content-Disposition: inline
+To:     unlisted-recipients:; (no To-header on input)
 Precedence: bulk
 List-ID: <linux-alpha.vger.kernel.org>
 X-Mailing-List: linux-alpha@vger.kernel.org
 
-Greeting!
 
-I am contacting you to receive and share with me an abandoned fund ( $21,537.000.00 ) left in our bank by a deceased customer. I was going through the Internet search when I found your email address. My name is Mr. Kim Leang.
 
-I want to utilize this opportunity and make use of this fund if I should present your name to the bank to stand as his business associate/ trustee for the fund to be released to you via Visa card for easy withdrawals in any VISA ATM machine anywhere in the World.
+-- 
+Hello. I am still waiting to hear from you regarding my proposal. Thanks
 
-The bank will also give you international online transfer options. With these you can transfer the funds without any risk.
-
-Should you be interested in working with me in this project? Please reply back and let's benefit from this golden opportunity.You are my first contact. I shall wait a few days and if I do not hear from you, I shall look for another person.
-
-Thanks and have a nice day,
-Mr. Kim Leang.
