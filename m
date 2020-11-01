@@ -2,87 +2,88 @@ Return-Path: <linux-alpha-owner@vger.kernel.org>
 X-Original-To: lists+linux-alpha@lfdr.de
 Delivered-To: lists+linux-alpha@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 45D142A1309
-	for <lists+linux-alpha@lfdr.de>; Sat, 31 Oct 2020 03:39:27 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 44F572A1BB9
+	for <lists+linux-alpha@lfdr.de>; Sun,  1 Nov 2020 04:02:38 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726067AbgJaCjJ (ORCPT <rfc822;lists+linux-alpha@lfdr.de>);
-        Fri, 30 Oct 2020 22:39:09 -0400
-Received: from server.msgroupspa.com ([185.149.113.111]:35286 "EHLO
-        server.msgroupspa.com" rhost-flags-OK-FAIL-OK-FAIL) by vger.kernel.org
-        with ESMTP id S1725536AbgJaCjI (ORCPT
+        id S1726229AbgKADCh (ORCPT <rfc822;lists+linux-alpha@lfdr.de>);
+        Sat, 31 Oct 2020 23:02:37 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33488 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726195AbgKADCh (ORCPT
         <rfc822;linux-alpha@vger.kernel.org>);
-        Fri, 30 Oct 2020 22:39:08 -0400
-X-Greylist: delayed 66465 seconds by postgrey-1.27 at vger.kernel.org; Fri, 30 Oct 2020 22:38:58 EDT
+        Sat, 31 Oct 2020 23:02:37 -0400
+Received: from merlin.infradead.org (merlin.infradead.org [IPv6:2001:8b0:10b:1231::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id DB927C0617A6;
+        Sat, 31 Oct 2020 20:02:36 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-        d=msgroupspa.com; s=default; h=Content-Transfer-Encoding:Content-Type:
-        Message-ID:Reply-To:Subject:To:From:Date:MIME-Version:Sender:Cc:Content-ID:
-        Content-Description:Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc
-        :Resent-Message-ID:In-Reply-To:References:List-Id:List-Help:List-Unsubscribe:
-        List-Subscribe:List-Post:List-Owner:List-Archive;
-        bh=gOeEglh1DIJatPKqyvOsPs4e0Zw8Lzg9wwjnNfQdiM8=; b=nK3IDYT+DT+afspoRk1vnh030x
-        JBANriWCpwGFqkJTHXsxgXz4zPu7XOm+ROYW+1LhSp6Xws1Wm9Gxv0Soi++3fpbt9358vEM1Vilpv
-        5xlCNIs/Y8Yak5vs3SvhE9OTE/TC6Vf04ze0iphAaRgUliWRhAsWS8s68bwFyUv4tdChHxOH/JwR2
-        Vv+jWIv637j1UH3aZ6QLvXZrjdEmRucUTVxZtH4VnCDjrc4XZi9EwE5rzVsYDmyiNG+eYB+1QY+/8
-        bPWWeacOm9DyYRD9g3bLyiVv0uincEH4/sdJ6fuUSabQfGsi095GX6rsmNCONVo4/rhE4INecsjOZ
-        9QdrBN4A==;
-Received: from [::1] (port=55352 helo=server.msgroupspa.com)
-        by server.msgroupspa.com with esmtpa (Exim 4.93)
-        (envelope-from <no-reply@msgroupspa.com>)
-        id 1kYPRU-0006Ky-OT; Fri, 30 Oct 2020 16:07:24 +0800
+        d=infradead.org; s=merlin.20170209; h=Content-Transfer-Encoding:MIME-Version:
+        Message-Id:Date:Subject:Cc:To:From:Sender:Reply-To:Content-Type:Content-ID:
+        Content-Description:In-Reply-To:References;
+        bh=epwr0xo7+qH8MVywg7EUJv5PcSM06it9MYSIBNMH0zQ=; b=EOYU5hvobvducAvPimZvxhAHwG
+        3vVEggSCO0Lgj8ZcbZ9kvevg3a2xrwii/tXpcP6/RE6m0Z1I2PXzFBazCKuk51T8nTFGEPmE+YNCe
+        lHv1Nvip+Fs7MkZ6P8vTqSJt0NVepf58eyFfJ2x3sFYSMV9BIeioqnjFvxWFi2r7rXYv9m702eUkH
+        w6L8C+f4MRhSoK5ozExBfpp88Y/b1TA4MbCNL+Cfg/dlr9WSYkv3QCz84vFfo83Ch21HRzhtwjd3B
+        cb/UWGiXJOCT9AEnTp0A/Y7tsSCxOvV/4iw+HtUBazCdv1dtcajkMEaWo7UskYjWQ4j8FNw2LMO1S
+        MR1iL24A==;
+Received: from [2601:1c0:6280:3f0::9850] (helo=smtpauth.infradead.org)
+        by merlin.infradead.org with esmtpsa (Exim 4.92.3 #3 (Red Hat Linux))
+        id 1kZ3dO-0002eF-FZ; Sun, 01 Nov 2020 03:02:24 +0000
+From:   Randy Dunlap <rdunlap@infradead.org>
+To:     linux-kernel@vger.kernel.org
+Cc:     Randy Dunlap <rdunlap@infradead.org>,
+        kernel test robot <lkp@intel.com>,
+        David Howells <dhowells@redhat.com>,
+        Arnd Bergmann <arnd@arndb.de>,
+        Richard Henderson <rth@twiddle.net>,
+        Ivan Kokshaysky <ink@jurassic.park.msu.ru>,
+        Matt Turner <mattst88@gmail.com>, linux-alpha@vger.kernel.org
+Subject: [PATCH] asm-generic: barrier.h: fix ALPHA builds when SMP is not enabled
+Date:   Sat, 31 Oct 2020 20:01:59 -0700
+Message-Id: <20201101030159.15858-1-rdunlap@infradead.org>
+X-Mailer: git-send-email 2.26.2
 MIME-Version: 1.0
-Date:   Fri, 30 Oct 2020 16:07:24 +0800
-From:   "Mr. John Galvan" <no-reply@msgroupspa.com>
-To:     undisclosed-recipients:;
-Subject: Hello/Hallo
-Reply-To: galvan.johnny@outlook.com
-User-Agent: Roundcube Webmail/1.4.8
-Message-ID: <8970d4ac30f8022b0ae628d9b69a2d43@msgroupspa.com>
-X-Sender: no-reply@msgroupspa.com
-Content-Type: text/plain; charset=UTF-8;
- format=flowed
 Content-Transfer-Encoding: 8bit
-X-AntiAbuse: This header was added to track abuse, please include it with any abuse report
-X-AntiAbuse: Primary Hostname - server.msgroupspa.com
-X-AntiAbuse: Original Domain - vger.kernel.org
-X-AntiAbuse: Originator/Caller UID/GID - [47 12] / [47 12]
-X-AntiAbuse: Sender Address Domain - msgroupspa.com
-X-Get-Message-Sender-Via: server.msgroupspa.com: authenticated_id: no-reply@msgroupspa.com
-X-Authenticated-Sender: server.msgroupspa.com: no-reply@msgroupspa.com
-X-Source: 
-X-Source-Args: 
-X-Source-Dir: 
 Precedence: bulk
 List-ID: <linux-alpha.vger.kernel.org>
 X-Mailing-List: linux-alpha@vger.kernel.org
 
+<asm-generic/barrier.h> uses barrier() but needs to #include
+<linux/compiler.h> to get a generic definition of it to fix
+build errors in arch/alpha/ builds when CONFIG_SMP is not enabled.
 
+Fixes build errors like this (there are several like this):
+[49 in the kernel config that was supplied by the 0day bot]
 
--- 
-Sir/Madam,
+In file included from ../arch/alpha/include/asm/barrier.h:21,
+                 from ../arch/alpha/include/asm/atomic.h:6,
+                 from ../include/linux/atomic.h:7,
+                 from ../include/linux/dcache.h:5,
+                 from ../fs/proc/util.c:1:
+../arch/alpha/include/asm/atomic.h: In function 'atomic_add_return_relaxed':
+../include/asm-generic/barrier.h:78:18: error: implicit declaration of function 'barrier' [-Werror=implicit-function-declaration]
+   78 | #define smp_mb() barrier()
+      |                  ^~~~~~~
 
-I have access to very vital information that can be used to move a huge 
-amount of money. I have done my homework very well and I have the 
-machineries in place to get it done since I am still in active service. 
-If it was possible for me to do it alone I would not have bothered 
-contacting you. Ultimately I need an honest foreigner to play an 
-important role in the completion of this business transaction. Send 
-responds to this email: galvan.johnny@outlook.com
+Fixes: 885df91ca357 ("Create asm-generic/barrier.h")
+Signed-off-by: Randy Dunlap <rdunlap@infradead.org>
+Reported-by: kernel test robot <lkp@intel.com>
+Cc: David Howells <dhowells@redhat.com>
+Cc: Arnd Bergmann <arnd@arndb.de>
+Cc: Richard Henderson <rth@twiddle.net>
+Cc: Ivan Kokshaysky <ink@jurassic.park.msu.ru>
+Cc: Matt Turner <mattst88@gmail.com>
+Cc: linux-alpha@vger.kernel.org
+---
+ include/asm-generic/barrier.h |    1 +
+ 1 file changed, 1 insertion(+)
 
-Regards,
-John Galvan
-
----------------------------------------------------------------
-
-Sir / Madam,
-
-Ich habe Zugang zu sehr wichtigen Informationen, mit denen ich eine 
-große Menge Geld bewegen kann. Ich habe meine Hausaufgaben sehr gut 
-gemacht und ich habe die Maschinen, um sie zu erledigen, da ich immer 
-noch im aktiven Dienst bin. Wenn es mir möglich gewesen wäre, es alleine 
-zu tun, hätte ich mich nicht darum gekümmert, Sie zu kontaktieren. 
-Letztendlich brauche ich einen ehrlichen Ausländer, der eine wichtige 
-Rolle beim Abschluss dieses Geschäftsvorgangs spielt. Senden Sie 
-Antworten auf diese E-Mail: galvan.johnny@outlook.com
-
-Grüße,
-John Galvan
+--- linux-next-20201030.orig/include/asm-generic/barrier.h
++++ linux-next-20201030/include/asm-generic/barrier.h
+@@ -13,6 +13,7 @@
+ 
+ #ifndef __ASSEMBLY__
+ 
++#include <linux/compiler.h>
+ #include <asm/rwonce.h>
+ 
+ #ifndef nop
