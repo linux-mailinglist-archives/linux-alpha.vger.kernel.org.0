@@ -2,71 +2,92 @@ Return-Path: <linux-alpha-owner@vger.kernel.org>
 X-Original-To: lists+linux-alpha@lfdr.de
 Delivered-To: lists+linux-alpha@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id AEB772C5F1B
-	for <lists+linux-alpha@lfdr.de>; Fri, 27 Nov 2020 04:55:37 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 86DBD2C9C5F
+	for <lists+linux-alpha@lfdr.de>; Tue,  1 Dec 2020 10:18:25 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2392380AbgK0Dyg (ORCPT <rfc822;lists+linux-alpha@lfdr.de>);
-        Thu, 26 Nov 2020 22:54:36 -0500
-Received: from mail.loongson.cn ([114.242.206.163]:51490 "EHLO loongson.cn"
-        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
-        id S1726908AbgK0Dyf (ORCPT <rfc822;linux-alpha@vger.kernel.org>);
-        Thu, 26 Nov 2020 22:54:35 -0500
-Received: from bogon.localdomain (unknown [113.200.148.30])
-        by mail.loongson.cn (Coremail) with SMTP id AQAAf9Dx79N3eMBflk8XAA--.47333S2;
-        Fri, 27 Nov 2020 11:54:32 +0800 (CST)
-From:   Youling Tang <tangyouling@loongson.cn>
-To:     Oleg Nesterov <oleg@redhat.com>
-Cc:     linux-alpha@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: [PATCH] alpha: ptrace generic requests
-Date:   Fri, 27 Nov 2020 11:54:31 +0800
-Message-Id: <1606449271-13922-1-git-send-email-tangyouling@loongson.cn>
-X-Mailer: git-send-email 2.1.0
-X-CM-TRANSID: AQAAf9Dx79N3eMBflk8XAA--.47333S2
-X-Coremail-Antispam: 1UD129KBjvdXoW7Gr15Kr43CF1DKr1DZr1xAFb_yoWftwc_XF
-        yaqw1kGFy5GrsrC3WY9w1xXr4Yyas5WFyYgasFkrZrJ3y3XFy5XrZxArnxuF1UZa1FgFs5
-        A34fGryUAF1SkjkaLaAFLSUrUUUUUb8apTn2vfkv8UJUUUU8Yxn0WfASr-VFAUDa7-sFnT
-        9fnUUIcSsGvfJTRUUUb2xYjsxI4VW3JwAYFVCjjxCrM7AC8VAFwI0_Jr0_Gr1l1xkIjI8I
-        6I8E6xAIw20EY4v20xvaj40_Wr0E3s1l1IIY67AEw4v_Jr0_Jr4l8cAvFVAK0II2c7xJM2
-        8CjxkF64kEwVA0rcxSw2x7M28EF7xvwVC0I7IYx2IY67AKxVW8JVW5JwA2z4x0Y4vE2Ix0
-        cI8IcVCY1x0267AKxVW8JVWxJwA2z4x0Y4vEx4A2jsIE14v26r4UJVWxJr1l84ACjcxK6I
-        8E87Iv6xkF7I0E14v26rxl6s0DM2AIxVAIcxkEcVAq07x20xvEncxIr21l5I8CrVACY4xI
-        64kE6c02F40Ex7xfMcIj6xIIjxv20xvE14v26r1Y6r17McIj6I8E87Iv67AKxVW8JVWxJw
-        Am72CE4IkC6x0Yz7v_Jr0_Gr1lF7xvr2IYc2Ij64vIr41lc2xSY4AK67AK6r48MxAIw28I
-        cxkI7VAKI48JMxC20s026xCaFVCjc4AY6r1j6r4UMI8I3I0E5I8CrVAFwI0_Jr0_Jr4lx2
-        IqxVCjr7xvwVAFwI0_JrI_JrWlx4CE17CEb7AF67AKxVWUXVWUAwCIc40Y0x0EwIxGrwCI
-        42IY6xIIjxv20xvE14v26r1j6r1xMIIF0xvE2Ix0cI8IcVCY1x0267AKxVWUJVW8JwCI42
-        IY6xAIw20EY4v20xvaj40_Wr1j6rW3Jr1lIxAIcVC2z280aVAFwI0_Jr0_Gr1lIxAIcVC2
-        z280aVCY1x0267AKxVWUJVW8JbIYCTnIWIevJa73UjIFyTuYvjxUs73vUUUUU
-X-CM-SenderInfo: 5wdqw5prxox03j6o00pqjv00gofq/
+        id S2389579AbgLAJLt (ORCPT <rfc822;lists+linux-alpha@lfdr.de>);
+        Tue, 1 Dec 2020 04:11:49 -0500
+Received: from outpost1.zedat.fu-berlin.de ([130.133.4.66]:42849 "EHLO
+        outpost1.zedat.fu-berlin.de" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S2389562AbgLAJLs (ORCPT
+        <rfc822;linux-alpha@vger.kernel.org>);
+        Tue, 1 Dec 2020 04:11:48 -0500
+Received: from inpost2.zedat.fu-berlin.de ([130.133.4.69])
+          by outpost.zedat.fu-berlin.de (Exim 4.94)
+          with esmtps (TLS1.2)
+          tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
+          (envelope-from <glaubitz@zedat.fu-berlin.de>)
+          id 1kk1gY-003MrK-Et; Tue, 01 Dec 2020 10:10:58 +0100
+Received: from p57bd9091.dip0.t-ipconnect.de ([87.189.144.145] helo=[192.168.178.139])
+          by inpost2.zedat.fu-berlin.de (Exim 4.94)
+          with esmtpsa (TLS1.2)
+          tls TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256
+          (envelope-from <glaubitz@physik.fu-berlin.de>)
+          id 1kk1gX-000Ce2-UF; Tue, 01 Dec 2020 10:10:58 +0100
+Subject: Re: [PATCH v2 00/13] arch, mm: deprecate DISCONTIGMEM
+To:     Mike Rapoport <rppt@kernel.org>
+Cc:     Andrew Morton <akpm@linux-foundation.org>,
+        Alexey Dobriyan <adobriyan@gmail.com>,
+        Catalin Marinas <catalin.marinas@arm.com>,
+        Geert Uytterhoeven <geert@linux-m68k.org>,
+        Greg Ungerer <gerg@linux-m68k.org>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Matt Turner <mattst88@gmail.com>, Meelis Roos <mroos@linux.ee>,
+        Michael Schmitz <schmitzmic@gmail.com>,
+        Mike Rapoport <rppt@linux.ibm.com>,
+        Russell King <linux@armlinux.org.uk>,
+        Tony Luck <tony.luck@intel.com>,
+        Vineet Gupta <vgupta@synopsys.com>,
+        Will Deacon <will@kernel.org>, linux-alpha@vger.kernel.org,
+        linux-arm-kernel@lists.infradead.org, linux-doc@vger.kernel.org,
+        linux-fsdevel@vger.kernel.org, linux-ia64@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-m68k@lists.linux-m68k.org,
+        linux-mm@kvack.org, linux-snps-arc@lists.infradead.org
+References: <20201101170454.9567-1-rppt@kernel.org>
+ <43c53597-6267-bdc2-a975-0aab5daa0d37@physik.fu-berlin.de>
+ <20201117062316.GB370813@kernel.org>
+From:   John Paul Adrian Glaubitz <glaubitz@physik.fu-berlin.de>
+Message-ID: <a7d01146-77f9-d363-af99-af3aee3789b4@physik.fu-berlin.de>
+Date:   Tue, 1 Dec 2020 10:10:56 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.5.0
+MIME-Version: 1.0
+In-Reply-To: <20201117062316.GB370813@kernel.org>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+X-Original-Sender: glaubitz@physik.fu-berlin.de
+X-Originating-IP: 87.189.144.145
 Precedence: bulk
 List-ID: <linux-alpha.vger.kernel.org>
 X-Mailing-List: linux-alpha@vger.kernel.org
 
-This removes duplicated code by calling the generic ptrace_request
-function for the things they already handle.
+Hi Mike!
 
-Signed-off-by: Youling Tang <tangyouling@loongson.cn>
----
- arch/alpha/kernel/ptrace.c | 6 ------
- 1 file changed, 6 deletions(-)
+On 11/17/20 7:23 AM, Mike Rapoport wrote:
+>> Apologies for the late reply. Is this still relevant for testing?
+>>
+>> I have already successfully tested v1 of the patch set, shall I test v2?
+> 
+> There were minor differences only for m68k between the versions. I've
+> verified them on ARAnyM but if you have a real machine a run there would
+> be nice.
 
-diff --git a/arch/alpha/kernel/ptrace.c b/arch/alpha/kernel/ptrace.c
-index 8c43212..eb4d566 100644
---- a/arch/alpha/kernel/ptrace.c
-+++ b/arch/alpha/kernel/ptrace.c
-@@ -301,12 +301,6 @@ long arch_ptrace(struct task_struct *child, long request,
- 		DBG(DBG_MEM, ("peek $%lu->%#lx\n", addr, ret));
- 		break;
- 
--	/* When I and D space are separate, this will have to be fixed.  */
--	case PTRACE_POKETEXT: /* write the word at location addr. */
--	case PTRACE_POKEDATA:
--		ret = generic_ptrace_pokedata(child, addr, data);
--		break;
--
- 	case PTRACE_POKEUSR: /* write the specified register */
- 		DBG(DBG_MEM, ("poke $%lu<-%#lx\n", addr, data));
- 		ret = put_reg(child, addr, data);
+I have just built a fresh kernel from the tip of Linus' tree and it boots
+fine on my RX-2600:
+
+root@glendronach:~# uname -a
+Linux glendronach 5.10.0-rc6 #6 SMP Tue Dec 1 04:52:49 CET 2020 ia64 GNU/Linux
+root@glendronach:~#
+
+No issues observed so far. Looking at the git log, it seems these changes haven't
+been merged for 5.10 yet. I assume they will be coming with 5.11?
+
+Adrian
+
 -- 
-2.1.0
+ .''`.  John Paul Adrian Glaubitz
+: :' :  Debian Developer - glaubitz@debian.org
+`. `'   Freie Universitaet Berlin - glaubitz@physik.fu-berlin.de
+  `-    GPG: 62FF 8A75 84E0 2956 9546  0006 7426 3B37 F5B5 F913
 
