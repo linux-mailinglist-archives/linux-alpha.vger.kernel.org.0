@@ -2,90 +2,142 @@ Return-Path: <linux-alpha-owner@vger.kernel.org>
 X-Original-To: lists+linux-alpha@lfdr.de
 Delivered-To: lists+linux-alpha@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 02B962D87E2
-	for <lists+linux-alpha@lfdr.de>; Sat, 12 Dec 2020 17:25:38 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id B75972D8C6C
+	for <lists+linux-alpha@lfdr.de>; Sun, 13 Dec 2020 09:37:34 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2407510AbgLLQSQ (ORCPT <rfc822;lists+linux-alpha@lfdr.de>);
-        Sat, 12 Dec 2020 11:18:16 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43642 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S2392473AbgLLQRZ (ORCPT
-        <rfc822;linux-alpha@vger.kernel.org>);
-        Sat, 12 Dec 2020 11:17:25 -0500
-Received: from mail-pl1-x642.google.com (mail-pl1-x642.google.com [IPv6:2607:f8b0:4864:20::642])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 741B6C0613CF
-        for <linux-alpha@vger.kernel.org>; Sat, 12 Dec 2020 08:16:45 -0800 (PST)
-Received: by mail-pl1-x642.google.com with SMTP id x12so5842747plr.10
-        for <linux-alpha@vger.kernel.org>; Sat, 12 Dec 2020 08:16:45 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=kernel-dk.20150623.gappssmtp.com; s=20150623;
-        h=subject:to:cc:references:from:message-id:date:user-agent
-         :mime-version:in-reply-to:content-language:content-transfer-encoding;
-        bh=b0rAOZsxZdjcq1aaJb1C05KPrkqpKvcEQxgTLsgMxKU=;
-        b=CrR07OntPIZTR7d4wnZ9J5UOuDZq6gLOR5OIJYSjeEuAp8KtWt3+7GsvQEeD1PLDN0
-         kw5pg8sdwEcDBGENZKJbon36gZNQ/dH5oJEr1For6xRNmkF9rVDkTISTbjrxy40KkOcb
-         PgjbhM2Pji+OZCFbF+DKvC+wxz+unHR68g+NYenZbtxiSGcCMing0QlnXgCCJWEoJGBz
-         WyU1PI236NBc8ygH5YlefXYPdy/TNIxTaEyV086+DRKGdiW6PaDV9I0e16SWDpsX2HQm
-         hlyy4lV+SE38CsrNSKtKvGpnOrRN/mU/tNWmnP7DXbUPLhni+SakkD/pagRCznZTfAvG
-         Et0w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
-         :user-agent:mime-version:in-reply-to:content-language
-         :content-transfer-encoding;
-        bh=b0rAOZsxZdjcq1aaJb1C05KPrkqpKvcEQxgTLsgMxKU=;
-        b=SBuejudl5qrB5moBQ6HK7wnkZTRWmaBh5izkEE+Vtq5k+V7FZVY7OwmIJ/U8icJJ1o
-         f4v788UF7fWYLb9hq2X+rNRnnYBhpQQopt8VvQ+hzMxlRi7vlcMTZg+nUnbdly39Z291
-         OfQvwk95uP9tZX83OWMFd3a051rDtgeiqzD/kpzkqIB6TcKIKe5QaIL5P4ursmOO6pF5
-         yTsBXrWJbPsGoxS3xcamFeyxW+gwG8WStiYdlxLk7IiGglIr0jI8ApyNsl8GexslLxum
-         8MR+osPJxaOw1H0XcMYamXLx1kWDt0FPTeWrfjZ2D3z0S42rhmaU/FTdv+WvOMcy2I5T
-         67nw==
-X-Gm-Message-State: AOAM5327QvCn3YLACmXAKjb1LEWSe4qXs0+Cc53aT4okkjQjNAbRe66W
-        oZtJD/oEmiS4fu9frv5or+NDAg==
-X-Google-Smtp-Source: ABdhPJwbgyulSYVGxK5wutxsYcY6/o5J1K01Cyr0carGapyBJww5CkFZJKiR/zLIQneq8z1NaskzsQ==
-X-Received: by 2002:a17:902:7001:b029:da:bbb6:c7e2 with SMTP id y1-20020a1709027001b02900dabbb6c7e2mr15676291plk.50.1607789805012;
-        Sat, 12 Dec 2020 08:16:45 -0800 (PST)
-Received: from [192.168.1.134] ([66.219.217.173])
-        by smtp.gmail.com with ESMTPSA id u124sm15312511pfb.171.2020.12.12.08.16.43
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Sat, 12 Dec 2020 08:16:44 -0800 (PST)
-Subject: Re: [PATCH] alpha: add support for TIF_NOTIFY_SIGNAL
+        id S2405306AbgLMIhQ (ORCPT <rfc822;lists+linux-alpha@lfdr.de>);
+        Sun, 13 Dec 2020 03:37:16 -0500
+Received: from mail.kernel.org ([198.145.29.99]:38846 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S2405258AbgLMIhQ (ORCPT <rfc822;linux-alpha@vger.kernel.org>);
+        Sun, 13 Dec 2020 03:37:16 -0500
+Date:   Sun, 13 Dec 2020 10:36:23 +0200
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1607848595;
+        bh=Oe5JGmuoMJ7Fs86WbZB5DZ1VQL2J/VAWBl+yhiWVzvc=;
+        h=From:To:Cc:Subject:References:In-Reply-To:From;
+        b=giEpchRcy5TjV9ZPzj0N2Wlz7xFPJvYE3eB6uLRF2S+KF2bzg5LCT6jd1ZWDSoGpo
+         IDu1rDd1+q8X76G5XPDmzweszjCemSA+1Y3Xm7O6/ikSbuLm+0W6A03T+FDqjCREjR
+         A2bH0triUWEEOsEsJD1E6iOmbfGUf8t6lTz6+0BU8O24Yt+WaVjupEsTb4ik4kweIO
+         KUmQ7pq2euLIkksCLx1dbpbat2gG4ZarsEmZIRHK1iIbo1tfiGBcyRtFBoc5oiqE60
+         SvASYLoEtg1dHP0ygnpg2NlWoCAEAmL9bR3Xsmh8b2AVNXcs+p9DtN7w7jWs7mq2QS
+         JE8iYzcEHWvpg==
+From:   Mike Rapoport <rppt@kernel.org>
 To:     Guenter Roeck <linux@roeck-us.net>
-Cc:     linux-alpha@vger.kernel.org, Richard Henderson <rth@twiddle.net>,
-        Matt Turner <mattst88@gmail.com>,
-        Ivan Kokshaysky <ink@jurassic.park.msu.ru>
-References: <20201212153514.GA108207@roeck-us.net>
-From:   Jens Axboe <axboe@kernel.dk>
-Message-ID: <0c2dabaa-4bc5-fda2-6317-a5c273d2caf5@kernel.dk>
-Date:   Sat, 12 Dec 2020 09:16:44 -0700
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.10.0
+Cc:     Andrew Morton <akpm@linux-foundation.org>,
+        Alexey Dobriyan <adobriyan@gmail.com>,
+        Catalin Marinas <catalin.marinas@arm.com>,
+        Geert Uytterhoeven <geert@linux-m68k.org>,
+        Greg Ungerer <gerg@linux-m68k.org>,
+        John Paul Adrian Glaubitz <glaubitz@physik.fu-berlin.de>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Matt Turner <mattst88@gmail.com>, Meelis Roos <mroos@linux.ee>,
+        Michael Schmitz <schmitzmic@gmail.com>,
+        Mike Rapoport <rppt@linux.ibm.com>,
+        Russell King <linux@armlinux.org.uk>,
+        Tony Luck <tony.luck@intel.com>,
+        Vineet Gupta <vgupta@synopsys.com>,
+        Will Deacon <will@kernel.org>, linux-alpha@vger.kernel.org,
+        linux-arm-kernel@lists.infradead.org, linux-doc@vger.kernel.org,
+        linux-fsdevel@vger.kernel.org, linux-ia64@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-m68k@lists.linux-m68k.org,
+        linux-mm@kvack.org, linux-snps-arc@lists.infradead.org
+Subject: Re: [PATCH 07/13] ia64: make SPARSEMEM default and disable
+ DISCONTIGMEM
+Message-ID: <20201213083623.GA198219@kernel.org>
+References: <20201027112955.14157-1-rppt@kernel.org>
+ <20201027112955.14157-8-rppt@kernel.org>
+ <20201212160144.GA174701@roeck-us.net>
 MIME-Version: 1.0
-In-Reply-To: <20201212153514.GA108207@roeck-us.net>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20201212160144.GA174701@roeck-us.net>
 Precedence: bulk
 List-ID: <linux-alpha.vger.kernel.org>
 X-Mailing-List: linux-alpha@vger.kernel.org
 
-On 12/12/20 8:35 AM, Guenter Roeck wrote:
-> On Thu, Oct 08, 2020 at 09:11:42AM -0600, Jens Axboe wrote:
->> Wire up TIF_NOTIFY_SIGNAL handling for alpha.
->>
->> Cc: linux-alpha@vger.kernel.org
->> Signed-off-by: Jens Axboe <axboe@kernel.dk>
->> ---
-> ...
->>  work_pending:
->> -	and	$17, _TIF_NOTIFY_RESUME | _TIF_SIGPENDING, $2
->> +	and	$17, _TIF_NOTIFY_RESUME | _TIF_SIGPENDING, | _TIF_NOTIFY_SIGNAL, $2
->                                                          ^^^^^
+On Sat, Dec 12, 2020 at 08:01:44AM -0800, Guenter Roeck wrote:
+> On Tue, Oct 27, 2020 at 01:29:49PM +0200, Mike Rapoport wrote:
+> > From: Mike Rapoport <rppt@linux.ibm.com>
+> > 
+> > SPARSEMEM memory model suitable for systems with large holes in their
+> > phyiscal memory layout. With SPARSEMEM_VMEMMAP enabled it provides
+> > pfn_to_page() and page_to_pfn() as fast as FLATMEM.
+> > 
+> > Make it the default memory model for IA-64 and disable DISCONTIGMEM which
+> > is considered obsolete for quite some time.
+> > 
+> > Signed-off-by: Mike Rapoport <rppt@linux.ibm.com>
 > 
-> Does this compile anywhere ?
+> This patch results in 
+> 
+> include/linux/mmzone.h:1156:2: error: #error Allocator MAX_ORDER exceeds SECTION_SIZE
+>  1156 | #error Allocator MAX_ORDER exceeds SECTION_SIZE
+> 
+> when building ia64:defconfig.
+> 
+> Also, PAGE_SHIFT is not defined, though I don't know if that is related.
 
-Fixed up, thanks.
+This is realated as sparesemem.h on ia64 needs PAGE_SHIFT for
+SECTION_SIZE and it is not there.
+This fixes the build for me (the patch is vs
+v5.10-rc7-mmots-2020-12-11-14-43)
+
+diff --git a/arch/ia64/include/asm/sparsemem.h b/arch/ia64/include/asm/sparsemem.h
+index dd8c166ffd7b..84652c26f3d9 100644
+--- a/arch/ia64/include/asm/sparsemem.h
++++ b/arch/ia64/include/asm/sparsemem.h
+@@ -3,6 +3,8 @@
+ #define _ASM_IA64_SPARSEMEM_H
+ 
+ #ifdef CONFIG_SPARSEMEM
++#include <asm/page.h>
++
+ /*
+  * SECTION_SIZE_BITS            2^N: how big each section will be
+  * MAX_PHYSMEM_BITS             2^N: how much memory we can have in that space
+
+> Reverting the patch fixes the problem for me.
+> 
+> Guenter
+> 
+> ---
+> bisect log:
+> 
+> # bad: [3cc2bd440f2171f093b3a8480a4b54d8c270ed38] Add linux-next specific files for 20201211
+> # good: [0477e92881850d44910a7e94fc2c46f96faa131f] Linux 5.10-rc7
+> git bisect start 'HEAD' 'v5.10-rc7'
+> # good: [0a701401d4e29d9e73f0f3cc02179fc6c9191646] Merge remote-tracking branch 'crypto/master'
+> git bisect good 0a701401d4e29d9e73f0f3cc02179fc6c9191646
+> # good: [6fd39ad603b113e9c68180b9138084710c036e34] Merge remote-tracking branch 'spi/for-next'
+> git bisect good 6fd39ad603b113e9c68180b9138084710c036e34
+> # good: [c96b2eec436e87b8c673213b203559bed9e551b9] Merge remote-tracking branch 'vfio/next'
+> git bisect good c96b2eec436e87b8c673213b203559bed9e551b9
+> # good: [4f2e7f6a2ce4e621b77e59c8763549fa8bee7b4b] Merge remote-tracking branch 'gpio/for-next'
+> git bisect good 4f2e7f6a2ce4e621b77e59c8763549fa8bee7b4b
+> # good: [5ee06b21caaeb37a1ff5143e8ce91b376fe73dc2] swiotlb.h: add "inline" to swiotlb_adjust_size
+> git bisect good 5ee06b21caaeb37a1ff5143e8ce91b376fe73dc2
+> # bad: [46aa09d885ce303efd6444def783ec575a5b57ee] mm, page_poison: remove CONFIG_PAGE_POISONING_ZERO
+> git bisect bad 46aa09d885ce303efd6444def783ec575a5b57ee
+> # good: [3b77356d530bfd93e2450c063718292aa435eede] mm: mmap_lock: add tracepoints around lock acquisition
+> git bisect good 3b77356d530bfd93e2450c063718292aa435eede
+> # bad: [e0287fb91c006d12bed9e6fbfc7fe661ad7f9647] mm,hwpoison: disable pcplists before grabbing a refcount
+> git bisect bad e0287fb91c006d12bed9e6fbfc7fe661ad7f9647
+> # bad: [94d171d065be406a2407f0d723afe14c05526283] ia64: make SPARSEMEM default and disable DISCONTIGMEM
+> git bisect bad 94d171d065be406a2407f0d723afe14c05526283
+> # good: [7499e1e91e18a285274e9b761ba2abf21e4343fa] mm/vmalloc: use free_vm_area() if an allocation fails
+> git bisect good 7499e1e91e18a285274e9b761ba2abf21e4343fa
+> # good: [eba50fff503fa6d6e20679509a1a960c3e003d22] lib/test_kasan.c: add workqueue test case
+> git bisect good eba50fff503fa6d6e20679509a1a960c3e003d22
+> # good: [e343d6ff702aaae6181448a38ff85cf201b011ba] ia64: remove 'ifdef CONFIG_ZONE_DMA32' statements
+> git bisect good e343d6ff702aaae6181448a38ff85cf201b011ba
+> # good: [a0bfb938ae29239a3f13f6a6a4ef41c3c7f0c84c] ia64: split virtual map initialization out of paging_init()
+> git bisect good a0bfb938ae29239a3f13f6a6a4ef41c3c7f0c84c
+> # good: [0e791e5138cde9b96d34ba68136fd26bb97f81e5] ia64: forbid using VIRTUAL_MEM_MAP with FLATMEM
+> git bisect good 0e791e5138cde9b96d34ba68136fd26bb97f81e5
+> # first bad commit: [94d171d065be406a2407f0d723afe14c05526283] ia64: make SPARSEMEM default and disable DISCONTIGMEM
+> 
 
 -- 
-Jens Axboe
-
+Sincerely yours,
+Mike.
