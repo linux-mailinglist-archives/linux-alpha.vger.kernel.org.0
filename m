@@ -2,81 +2,69 @@ Return-Path: <linux-alpha-owner@vger.kernel.org>
 X-Original-To: lists+linux-alpha@lfdr.de
 Delivered-To: lists+linux-alpha@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 575B62F9DFB
-	for <lists+linux-alpha@lfdr.de>; Mon, 18 Jan 2021 12:23:08 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id A77652FD530
+	for <lists+linux-alpha@lfdr.de>; Wed, 20 Jan 2021 17:14:56 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2390211AbhARLVe (ORCPT <rfc822;lists+linux-alpha@lfdr.de>);
-        Mon, 18 Jan 2021 06:21:34 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41720 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S2390207AbhARLV0 (ORCPT
-        <rfc822;linux-alpha@vger.kernel.org>);
-        Mon, 18 Jan 2021 06:21:26 -0500
-Received: from mail-wr1-x434.google.com (mail-wr1-x434.google.com [IPv6:2a00:1450:4864:20::434])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0D049C061573
-        for <linux-alpha@vger.kernel.org>; Mon, 18 Jan 2021 03:20:40 -0800 (PST)
-Received: by mail-wr1-x434.google.com with SMTP id c5so16068129wrp.6
-        for <linux-alpha@vger.kernel.org>; Mon, 18 Jan 2021 03:20:39 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=baylibre-com.20150623.gappssmtp.com; s=20150623;
-        h=from:to:cc:subject:date:message-id;
-        bh=/7fg9ZprR2DPa+4Jsl6UVEuZoNjc7tPVVMDh2sLrbZc=;
-        b=MI82XlpW2CglNKbsqGQ0jQwpJcb1UJzgBvNOwn7KdkNCtge+NFANxEhnjPBQlo7rKn
-         RZumD1IWmsu4r4KSxgFt86Ea68hXlGIZEFyXImQibURSrf6nVwg4MVIKBgrd6pA58DPy
-         ioK7BZwc/0p9fRCQV5jWD+lb3lpVQF2YtqL9UJ1zZiYu9ju+L4PkDnBxF0xL2sM1NmFE
-         RuXNZbBaDvJ4f7c486y6pjOZqu46jMiqYy+3Ceeaw65KAZtKkg4VGal+AjQqBpKBhI2O
-         g+9wvfdA5hDX2pRzus41yCkN4xhAGKf/99lM7extU/rCBaDr7PIlX+0r2BSirxabAYfB
-         7VHw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id;
-        bh=/7fg9ZprR2DPa+4Jsl6UVEuZoNjc7tPVVMDh2sLrbZc=;
-        b=si77Vhv4Og4aQhX3rxznlkwFRgF0a4rWZ2E8waRoVYfWZDTTei4hzXpBzgSqiPXkdA
-         a3e+1YqWPYHJ72dGl60Fd3aa+DOyU3T5Cg/kMNz/+O70xPDnIhi2Tbu3QZyd6wYbzu9F
-         BHO7XwQm6wjXS7P64vSqIAQSWq6Rm2fXUFtc9Al4PMAnqHE3PBOmGszJRChvsetRfyIx
-         7j1uF8Yj1IKYS5MfY9LNZLczRur0IY4n0V9Cp7bYfPVtjHQJW/5DlbvlRFwO/7XN8Huz
-         Qi1k9N5gwkXa2xVqQY2CGDRhX28tNuBL9pWJIW/rca+z39KE0J6xaaukCaqaSsiVMFVv
-         njCA==
-X-Gm-Message-State: AOAM531hfQAc1zScsNjVldxHJsUuJNYpeX2BCFe1gk3HmlnDalRm+NTY
-        fVgDoJaMYkWlQvxDKmF2+4zKlP4mSZwvlg==
-X-Google-Smtp-Source: ABdhPJxlSpMzvy/BRCmNGkmKYq/7wCKxtDAy2SEf84RNvxAKynFcWBIW//nHetwqErxnZgIB16UI/w==
-X-Received: by 2002:adf:d1cb:: with SMTP id b11mr19904157wrd.118.1610968838789;
-        Mon, 18 Jan 2021 03:20:38 -0800 (PST)
-Received: from localhost.localdomain ([163.172.76.58])
-        by smtp.googlemail.com with ESMTPSA id s3sm23986809wmc.44.2021.01.18.03.20.37
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 18 Jan 2021 03:20:38 -0800 (PST)
-From:   Corentin Labbe <clabbe@baylibre.com>
-To:     ink@jurassic.park.msu.ru, mattst88@gmail.com, rth@twiddle.net
+        id S2391008AbhATQOF (ORCPT <rfc822;lists+linux-alpha@lfdr.de>);
+        Wed, 20 Jan 2021 11:14:05 -0500
+Received: from m12-16.163.com ([220.181.12.16]:50664 "EHLO m12-16.163.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S2391344AbhATQN5 (ORCPT <rfc822;linux-alpha@vger.kernel.org>);
+        Wed, 20 Jan 2021 11:13:57 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=163.com;
+        s=s110527; h=From:Subject:Date:Message-Id:MIME-Version; bh=D4mdl
+        yQB1pXTj9GqLmepuC+vdfy4ZaH+ugJ/Ulh//J4=; b=TMPeezjfmQrHY3pQEhJOP
+        1n72vr2n57TIa5TLyfdJNWaATjQepDy+rGanRsi3Icn2x74geH3hZDTJzOPpcLBI
+        FbXfOR6MJr4KZ8043bBy7FwJomODGaSupSvN1pTeSZfBbDzD30O9Ldg7Nd+fV25r
+        JK48GMbjN+Dk/bjFuJvs1g=
+Received: from COOL-20200911ZP.ccdomain.com (unknown [218.94.48.178])
+        by smtp12 (Coremail) with SMTP id EMCowADXykRJMQhgPnUmYA--.25667S2;
+        Wed, 20 Jan 2021 21:34:09 +0800 (CST)
+From:   ChunyouTang <tangchunyou@163.com>
+To:     ink@jurassic.park.msu.ru, mattst88@gmail.com,
+        akpm@linux-foundation.org, rppt@kernel.org
 Cc:     linux-alpha@vger.kernel.org, linux-kernel@vger.kernel.org,
-        Corentin Labbe <clabbe@baylibre.com>
-Subject: [PATCH] alpha: defconfig: add necessary configs for boot testing
-Date:   Mon, 18 Jan 2021 11:20:29 +0000
-Message-Id: <20210118112029.19894-1-clabbe@baylibre.com>
-X-Mailer: git-send-email 2.17.1
+        zhangwen@yulong.com, tangchunyou@yulong.com
+Subject: [PATCH] arch/alpha: fix typo in a comment in arch/alpha/boot/bootpz.c
+Date:   Wed, 20 Jan 2021 21:34:10 +0800
+Message-Id: <20210120133410.2182-1-tangchunyou@163.com>
+X-Mailer: git-send-email 2.30.0.windows.1
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
+X-CM-TRANSID: EMCowADXykRJMQhgPnUmYA--.25667S2
+X-Coremail-Antispam: 1Uf129KBjvdXoWruw13Ar4fuFWxCFy5XF1fZwb_yoW3JFbEvF
+        1aqw42g3yfXFZIvr1kA3yfur9Yyan5Cr1rtrn7Xry7ZFnxZrn8JFZrJr4avr47WrWvqana
+        grs2qrn7uw18KjkaLaAFLSUrUUUUUb8apTn2vfkv8UJUUUU8Yxn0WfASr-VFAUDa7-sFnT
+        9fnUUvcSsGvfC2KfnxnUUI43ZEXa7IU06VbDUUUUU==
+X-Originating-IP: [218.94.48.178]
+X-CM-SenderInfo: 5wdqwu5kxq50rx6rljoofrz/1tbiHhEgUVSIsZKXIgAAs0
 Precedence: bulk
 List-ID: <linux-alpha.vger.kernel.org>
 X-Mailing-List: linux-alpha@vger.kernel.org
 
-Gentoo's KernelCI will soon boot test alpha kernel and we need
-CONFIG_DEVTMPFS=y to be set for that.
-Note that CONFIG_DEVTMPFS=y is already necessary for lot of other
-distribution/tools like recent udev/systemd.
+From: tangchunyou <tangchunyou@yulong.com>
 
-Signed-off-by: Corentin Labbe <clabbe@baylibre.com>
+"kerne" -> "kernel"
+
+Signed-off-by: tangchunyou <tangchunyou@yulong.com>
 ---
- arch/alpha/configs/defconfig | 1 +
- 1 file changed, 1 insertion(+)
+ arch/alpha/boot/bootpz.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/arch/alpha/configs/defconfig b/arch/alpha/configs/defconfig
-index 6293675db164..b52ed626ab55 100644
---- a/arch/alpha/configs/defconfig
-+++ b/arch/alpha/configs/defconfig
-@@ -72,3 +72,4 @@ CONFIG_DEBUG_INFO=y
- CONFIG_ALPHA_LEGACY_START_ADDRESS=y
- CONFIG_MATHEMU=y
- CONFIG_CRYPTO_HMAC=y
-+CONFIG_DEVTMPFS=y
+diff --git a/arch/alpha/boot/bootpz.c b/arch/alpha/boot/bootpz.c
+index 43af718..61b61be 100644
+--- a/arch/alpha/boot/bootpz.c
++++ b/arch/alpha/boot/bootpz.c
+@@ -200,7 +200,7 @@ extern int decompress_kernel(void* destination, void *source,
+ 	START_ADDR	KSEG address of the entry point of kernel code.
+ 
+ 	ZERO_PGE	KSEG address of page full of zeroes, but 
+-			upon entry to kerne cvan be expected
++			upon entry to kernel cvan be expected
+ 			to hold the parameter list and possible
+ 			INTRD information.
+ 
 -- 
-2.26.2
+1.9.1
+
 
