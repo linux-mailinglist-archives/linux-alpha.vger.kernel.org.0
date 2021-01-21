@@ -2,71 +2,82 @@ Return-Path: <linux-alpha-owner@vger.kernel.org>
 X-Original-To: lists+linux-alpha@lfdr.de
 Delivered-To: lists+linux-alpha@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 38F102FE31D
-	for <lists+linux-alpha@lfdr.de>; Thu, 21 Jan 2021 07:44:01 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id F3C562FE48C
+	for <lists+linux-alpha@lfdr.de>; Thu, 21 Jan 2021 09:01:58 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726304AbhAUGno (ORCPT <rfc822;lists+linux-alpha@lfdr.de>);
-        Thu, 21 Jan 2021 01:43:44 -0500
-Received: from m12-18.163.com ([220.181.12.18]:55791 "EHLO m12-18.163.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726492AbhAUGnn (ORCPT <rfc822;linux-alpha@vger.kernel.org>);
-        Thu, 21 Jan 2021 01:43:43 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=163.com;
-        s=s110527; h=From:Subject:Date:Message-Id:MIME-Version; bh=xdab7
-        uurP4KG1QJtVUzCo6bsWMRYXE0ma24Vt/kVsPI=; b=izkAtZ1yss3owuBEmTLaH
-        C4NluMfU/0EfihjbFwDstlgqNvnXA2y8Iyi3gGOCW8m9SNht5ScgnA5dmxEgnexF
-        DOEDYU3GvbuCvgjvV5MZ57j9IlTwgeuTnRvXe4oYwGkvJ6dtTZXjNmMmtD0MTRJY
-        jOPzcUflTLxnHKKz82Qt/k=
-Received: from COOL-20200911ZP.ccdomain.com (unknown [218.94.48.178])
-        by smtp14 (Coremail) with SMTP id EsCowAA3SRCJ6whg9R_eQA--.30496S2;
-        Thu, 21 Jan 2021 10:48:47 +0800 (CST)
-From:   ChunyouTang <tangchunyou@163.com>
-To:     rth@twiddle.net, ink@jurassic.park.msu.ru, mattst88@gmail.com,
-        rppt@kernel.org, akpm@linux-foundation.org
-Cc:     linux-alpha@vger.kernel.org, linux-kernel@vger.kernel.org,
+        id S1727817AbhAUIBh (ORCPT <rfc822;lists+linux-alpha@lfdr.de>);
+        Thu, 21 Jan 2021 03:01:37 -0500
+Received: from outpost1.zedat.fu-berlin.de ([130.133.4.66]:42561 "EHLO
+        outpost1.zedat.fu-berlin.de" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1727617AbhAUIBd (ORCPT
+        <rfc822;linux-alpha@vger.kernel.org>);
+        Thu, 21 Jan 2021 03:01:33 -0500
+Received: from inpost2.zedat.fu-berlin.de ([130.133.4.69])
+          by outpost.zedat.fu-berlin.de (Exim 4.94)
+          with esmtps (TLS1.2)
+          tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
+          (envelope-from <glaubitz@zedat.fu-berlin.de>)
+          id 1l2Ut6-002EdT-NB; Thu, 21 Jan 2021 09:00:16 +0100
+Received: from p5b13a61e.dip0.t-ipconnect.de ([91.19.166.30] helo=[192.168.178.139])
+          by inpost2.zedat.fu-berlin.de (Exim 4.94)
+          with esmtpsa (TLS1.2)
+          tls TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256
+          (envelope-from <glaubitz@physik.fu-berlin.de>)
+          id 1l2Ut6-000N4k-2q; Thu, 21 Jan 2021 09:00:16 +0100
+Subject: Re: [PATCH] arch/alpha: fix typo in a comment in
+ arch/alpha/boot/bootpz.c
+To:     Chunyou Tang <tangchunyou@163.com>
+Cc:     Randy Dunlap <rdunlap@infradead.org>, ink@jurassic.park.msu.ru,
+        mattst88@gmail.com, akpm@linux-foundation.org, rppt@kernel.org,
+        linux-alpha@vger.kernel.org, linux-kernel@vger.kernel.org,
         zhangwen@yulong.com, tangchunyou@yulong.com
-Subject: [PATCH v2] arch/alpha:fix typo in a comment
-Date:   Thu, 21 Jan 2021 10:48:34 +0800
-Message-Id: <20210121024834.2389-1-tangchunyou@163.com>
-X-Mailer: git-send-email 2.30.0.windows.1
+References: <20210120133410.2182-1-tangchunyou@163.com>
+ <5e4ed85d-140c-3d85-e4f4-97b27fa37885@infradead.org>
+ <0df77d48-8541-32c9-d39d-3e59f89f1f86@physik.fu-berlin.de>
+ <20210121102042.00005504@163.com>
+From:   John Paul Adrian Glaubitz <glaubitz@physik.fu-berlin.de>
+Message-ID: <42a71690-28a9-6bf8-e413-2fd1e03f7f7c@physik.fu-berlin.de>
+Date:   Thu, 21 Jan 2021 09:00:14 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.6.1
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-CM-TRANSID: EsCowAA3SRCJ6whg9R_eQA--.30496S2
-X-Coremail-Antispam: 1Uf129KBjvdXoW7XrWUGr1fZFW7WFy5ur1DAwb_yoW3AwcEvF
-        13Xa12g3yfJrZIvr18ArZxCr9Yyan8Cr18trn7XryUXFnxZrn8JFs7Jr1avr17WrW0gan3
-        Wr4Dtr17Ww18KjkaLaAFLSUrUUUUUb8apTn2vfkv8UJUUUU8Yxn0WfASr-VFAUDa7-sFnT
-        9fnUUvcSsGvfC2KfnxnUUI43ZEXa7IU8X4S5UUUUU==
-X-Originating-IP: [218.94.48.178]
-X-CM-SenderInfo: 5wdqwu5kxq50rx6rljoofrz/xtbBRQ8hUVPAJp-KIAAAs6
+In-Reply-To: <20210121102042.00005504@163.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+X-Original-Sender: glaubitz@physik.fu-berlin.de
+X-Originating-IP: 91.19.166.30
 Precedence: bulk
 List-ID: <linux-alpha.vger.kernel.org>
 X-Mailing-List: linux-alpha@vger.kernel.org
 
-From: tangchunyou <tangchunyou@yulong.com>
+Hi Chunyou!
 
-Fix typo in a comment in arch/alpha/boot/bootpz.c
+On 1/21/21 3:20 AM, Chunyou Tang wrote:
+>> Right. Reading the whole paragraph helps. It probably should be:
+>>
+>> ZERO_PGE	KSEG address of page full of zeroes, but
+>> 		upon entry to kernel, it can be expected
+>> 		to hold the parameter list and possible
+>> 		INTRD information.
+>>
+>> Adrian
+>>
+> 
+> ok, I change it as :
+> ZERO_PGE	KSEG address of page full of zeroes, but
+> 		upon entry to kernel, it can be expected
+> 		to hold the parameter list and possible
+> 		INTRD information.
+> then I commit it.
 
-"cvan" -> ", it can"
+Great, thank you.
 
-Signed-off-by: tangchunyou <tangchunyou@yulong.com>
----
- arch/alpha/boot/bootpz.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+Adrian
 
-diff --git a/arch/alpha/boot/bootpz.c b/arch/alpha/boot/bootpz.c
-index 61b61be..90a2b34 100644
---- a/arch/alpha/boot/bootpz.c
-+++ b/arch/alpha/boot/bootpz.c
-@@ -200,7 +200,7 @@ extern int decompress_kernel(void* destination, void *source,
- 	START_ADDR	KSEG address of the entry point of kernel code.
- 
- 	ZERO_PGE	KSEG address of page full of zeroes, but 
--			upon entry to kernel cvan be expected
-+			upon entry to kernel, it can be expected
- 			to hold the parameter list and possible
- 			INTRD information.
- 
 -- 
-1.9.1
-
+ .''`.  John Paul Adrian Glaubitz
+: :' :  Debian Developer - glaubitz@debian.org
+`. `'   Freie Universitaet Berlin - glaubitz@physik.fu-berlin.de
+  `-    GPG: 62FF 8A75 84E0 2956 9546  0006 7426 3B37 F5B5 F913
 
