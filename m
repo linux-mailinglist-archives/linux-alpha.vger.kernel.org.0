@@ -2,89 +2,97 @@ Return-Path: <linux-alpha-owner@vger.kernel.org>
 X-Original-To: lists+linux-alpha@lfdr.de
 Delivered-To: lists+linux-alpha@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id D5D542FD5DE
-	for <lists+linux-alpha@lfdr.de>; Wed, 20 Jan 2021 17:43:03 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id DA88F2FE03B
+	for <lists+linux-alpha@lfdr.de>; Thu, 21 Jan 2021 04:54:04 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2391576AbhATQjc (ORCPT <rfc822;lists+linux-alpha@lfdr.de>);
-        Wed, 20 Jan 2021 11:39:32 -0500
-Received: from outpost1.zedat.fu-berlin.de ([130.133.4.66]:54725 "EHLO
-        outpost1.zedat.fu-berlin.de" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S2391263AbhATQiC (ORCPT
-        <rfc822;linux-alpha@vger.kernel.org>);
-        Wed, 20 Jan 2021 11:38:02 -0500
-Received: from inpost2.zedat.fu-berlin.de ([130.133.4.69])
-          by outpost.zedat.fu-berlin.de (Exim 4.94)
-          with esmtps (TLS1.2)
-          tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
-          (envelope-from <glaubitz@zedat.fu-berlin.de>)
-          id 1l2GTl-003FBA-3X; Wed, 20 Jan 2021 17:37:08 +0100
-Received: from p5b13a61e.dip0.t-ipconnect.de ([91.19.166.30] helo=[192.168.178.139])
-          by inpost2.zedat.fu-berlin.de (Exim 4.94)
-          with esmtpsa (TLS1.2)
-          tls TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256
-          (envelope-from <glaubitz@physik.fu-berlin.de>)
-          id 1l2GTk-002sLr-FP; Wed, 20 Jan 2021 17:37:08 +0100
+        id S1726755AbhAUDxf (ORCPT <rfc822;lists+linux-alpha@lfdr.de>);
+        Wed, 20 Jan 2021 22:53:35 -0500
+Received: from m12-14.163.com ([220.181.12.14]:36873 "EHLO m12-14.163.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S2393210AbhAUCXJ (ORCPT <rfc822;linux-alpha@vger.kernel.org>);
+        Wed, 20 Jan 2021 21:23:09 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=163.com;
+        s=s110527; h=Date:From:Subject:Message-ID:MIME-Version; bh=suB9M
+        vgNkgi6OBoaUS2FIQFjCRzO9+B2UkAsx0+Ld/4=; b=mT5qT08jGB9Yevps0oaMY
+        6ueIVt8dDzFAmRTxnPxuXEQZloK2CsHujxOgZAQew3jSJTrJLnzND2Pb2g+8HHtW
+        yX+hDhnojluleaPrx+ESHtUr2ACOvH3a49jWXqnaAuWtnCL7KYAqL9LhmYJgWWo5
+        zobbFLNszLcAjOnk7bAMOU=
+Received: from localhost (unknown [218.94.48.178])
+        by smtp10 (Coremail) with SMTP id DsCowACn3Jjv5AhgBvFYhA--.3300S2;
+        Thu, 21 Jan 2021 10:20:40 +0800 (CST)
+Date:   Thu, 21 Jan 2021 10:20:42 +0800
+From:   Chunyou Tang <tangchunyou@163.com>
+To:     John Paul Adrian Glaubitz <glaubitz@physik.fu-berlin.de>
+Cc:     Randy Dunlap <rdunlap@infradead.org>, ink@jurassic.park.msu.ru,
+        mattst88@gmail.com, akpm@linux-foundation.org, rppt@kernel.org,
+        linux-alpha@vger.kernel.org, linux-kernel@vger.kernel.org,
+        zhangwen@yulong.com, tangchunyou@yulong.com
 Subject: Re: [PATCH] arch/alpha: fix typo in a comment in
  arch/alpha/boot/bootpz.c
-To:     Randy Dunlap <rdunlap@infradead.org>,
-        ChunyouTang <tangchunyou@163.com>, ink@jurassic.park.msu.ru,
-        mattst88@gmail.com, akpm@linux-foundation.org, rppt@kernel.org
-Cc:     linux-alpha@vger.kernel.org, linux-kernel@vger.kernel.org,
-        zhangwen@yulong.com, tangchunyou@yulong.com
+Message-ID: <20210121102042.00005504@163.com>
+In-Reply-To: <0df77d48-8541-32c9-d39d-3e59f89f1f86@physik.fu-berlin.de>
 References: <20210120133410.2182-1-tangchunyou@163.com>
- <5e4ed85d-140c-3d85-e4f4-97b27fa37885@infradead.org>
-From:   John Paul Adrian Glaubitz <glaubitz@physik.fu-berlin.de>
-Message-ID: <0df77d48-8541-32c9-d39d-3e59f89f1f86@physik.fu-berlin.de>
-Date:   Wed, 20 Jan 2021 17:37:07 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.6.1
+        <5e4ed85d-140c-3d85-e4f4-97b27fa37885@infradead.org>
+        <0df77d48-8541-32c9-d39d-3e59f89f1f86@physik.fu-berlin.de>
+Organization: yulong
+X-Mailer: Claws Mail 3.17.3 (GTK+ 2.24.32; i686-w64-mingw32)
 MIME-Version: 1.0
-In-Reply-To: <5e4ed85d-140c-3d85-e4f4-97b27fa37885@infradead.org>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
+Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: 7bit
-X-Original-Sender: glaubitz@physik.fu-berlin.de
-X-Originating-IP: 91.19.166.30
+X-CM-TRANSID: DsCowACn3Jjv5AhgBvFYhA--.3300S2
+X-Coremail-Antispam: 1Uf129KBjvJXoW7Cr1Uuw4Uury3ArWDCr45ZFb_yoW8GrWfpa
+        48JayDA3ykuFWava47tF1ruFWFq3ZrtF47G34UKry5Jry2vry0qr1SkrWxua48CrWFg34j
+        vw4aka4a9rs8Cw7anT9S1TB71UUUUUUqnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
+        9KBjDUYxBIdaVFxhVjvjDU0xZFpf9x07USQ6XUUUUU=
+X-Originating-IP: [218.94.48.178]
+X-CM-SenderInfo: 5wdqwu5kxq50rx6rljoofrz/1tbiHhghUVSIsZ1HvgAAs-
 Precedence: bulk
 List-ID: <linux-alpha.vger.kernel.org>
 X-Mailing-List: linux-alpha@vger.kernel.org
 
-On 1/20/21 5:20 PM, Randy Dunlap wrote:
-> On 1/20/21 5:34 AM, ChunyouTang wrote:
->> From: tangchunyou <tangchunyou@yulong.com>
->>
->> "kerne" -> "kernel"
->>
->> Signed-off-by: tangchunyou <tangchunyou@yulong.com>
->> ---
->>  arch/alpha/boot/bootpz.c | 2 +-
->>  1 file changed, 1 insertion(+), 1 deletion(-)
->>
->> diff --git a/arch/alpha/boot/bootpz.c b/arch/alpha/boot/bootpz.c
->> index 43af718..61b61be 100644
->> --- a/arch/alpha/boot/bootpz.c
->> +++ b/arch/alpha/boot/bootpz.c
->> @@ -200,7 +200,7 @@ extern int decompress_kernel(void* destination, void *source,
->>  	START_ADDR	KSEG address of the entry point of kernel code.
->>  
->>  	ZERO_PGE	KSEG address of page full of zeroes, but 
->> -			upon entry to kerne cvan be expected
->> +			upon entry to kernel cvan be expected
+On Wed, 20 Jan 2021 17:37:07 +0100
+John Paul Adrian Glaubitz <glaubitz@physik.fu-berlin.de> wrote:
+
+> On 1/20/21 5:20 PM, Randy Dunlap wrote:
+> > On 1/20/21 5:34 AM, ChunyouTang wrote:  
+> >> From: tangchunyou <tangchunyou@yulong.com>
+> >>
+> >> "kerne" -> "kernel"
+> >>
+> >> Signed-off-by: tangchunyou <tangchunyou@yulong.com>
+> >> ---
+> >>  arch/alpha/boot/bootpz.c | 2 +-
+> >>  1 file changed, 1 insertion(+), 1 deletion(-)
+> >>
+> >> diff --git a/arch/alpha/boot/bootpz.c b/arch/alpha/boot/bootpz.c
+> >> index 43af718..61b61be 100644
+> >> --- a/arch/alpha/boot/bootpz.c
+> >> +++ b/arch/alpha/boot/bootpz.c
+> >> @@ -200,7 +200,7 @@ extern int decompress_kernel(void*
+> >> destination, void *source, START_ADDR	KSEG address of the
+> >> entry point of kernel code. 
+> >>  	ZERO_PGE	KSEG address of page full of zeroes, but 
+> >> -			upon entry to kerne cvan be expected
+> >> +			upon entry to kernel cvan be expected  
+> > 
+> > s/cvan/can/ also  
 > 
-> s/cvan/can/ also
+> Right. Reading the whole paragraph helps. It probably should be:
+> 
+> ZERO_PGE	KSEG address of page full of zeroes, but
+> 		upon entry to kernel, it can be expected
+> 		to hold the parameter list and possible
+> 		INTRD information.
+> 
+> Adrian
+> 
 
-Right. Reading the whole paragraph helps. It probably should be:
-
+ok, I change it as :
 ZERO_PGE	KSEG address of page full of zeroes, but
 		upon entry to kernel, it can be expected
 		to hold the parameter list and possible
 		INTRD information.
+then I commit it.
 
-Adrian
-
--- 
- .''`.  John Paul Adrian Glaubitz
-: :' :  Debian Developer - glaubitz@debian.org
-`. `'   Freie Universitaet Berlin - glaubitz@physik.fu-berlin.de
-  `-    GPG: 62FF 8A75 84E0 2956 9546  0006 7426 3B37 F5B5 F913
+Chunyou Tang
 
