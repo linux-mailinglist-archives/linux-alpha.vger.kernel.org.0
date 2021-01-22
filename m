@@ -2,82 +2,58 @@ Return-Path: <linux-alpha-owner@vger.kernel.org>
 X-Original-To: lists+linux-alpha@lfdr.de
 Delivered-To: lists+linux-alpha@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id F3C562FE48C
-	for <lists+linux-alpha@lfdr.de>; Thu, 21 Jan 2021 09:01:58 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 7BDDD300F62
+	for <lists+linux-alpha@lfdr.de>; Fri, 22 Jan 2021 22:59:15 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727817AbhAUIBh (ORCPT <rfc822;lists+linux-alpha@lfdr.de>);
-        Thu, 21 Jan 2021 03:01:37 -0500
-Received: from outpost1.zedat.fu-berlin.de ([130.133.4.66]:42561 "EHLO
-        outpost1.zedat.fu-berlin.de" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1727617AbhAUIBd (ORCPT
+        id S1730473AbhAVVwL (ORCPT <rfc822;lists+linux-alpha@lfdr.de>);
+        Fri, 22 Jan 2021 16:52:11 -0500
+Received: from mail.padangpariamankab.go.id ([103.94.3.123]:40924 "EHLO
+        mail.padangpariamankab.go.id" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1730365AbhAVVv4 (ORCPT
         <rfc822;linux-alpha@vger.kernel.org>);
-        Thu, 21 Jan 2021 03:01:33 -0500
-Received: from inpost2.zedat.fu-berlin.de ([130.133.4.69])
-          by outpost.zedat.fu-berlin.de (Exim 4.94)
-          with esmtps (TLS1.2)
-          tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
-          (envelope-from <glaubitz@zedat.fu-berlin.de>)
-          id 1l2Ut6-002EdT-NB; Thu, 21 Jan 2021 09:00:16 +0100
-Received: from p5b13a61e.dip0.t-ipconnect.de ([91.19.166.30] helo=[192.168.178.139])
-          by inpost2.zedat.fu-berlin.de (Exim 4.94)
-          with esmtpsa (TLS1.2)
-          tls TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256
-          (envelope-from <glaubitz@physik.fu-berlin.de>)
-          id 1l2Ut6-000N4k-2q; Thu, 21 Jan 2021 09:00:16 +0100
-Subject: Re: [PATCH] arch/alpha: fix typo in a comment in
- arch/alpha/boot/bootpz.c
-To:     Chunyou Tang <tangchunyou@163.com>
-Cc:     Randy Dunlap <rdunlap@infradead.org>, ink@jurassic.park.msu.ru,
-        mattst88@gmail.com, akpm@linux-foundation.org, rppt@kernel.org,
-        linux-alpha@vger.kernel.org, linux-kernel@vger.kernel.org,
-        zhangwen@yulong.com, tangchunyou@yulong.com
-References: <20210120133410.2182-1-tangchunyou@163.com>
- <5e4ed85d-140c-3d85-e4f4-97b27fa37885@infradead.org>
- <0df77d48-8541-32c9-d39d-3e59f89f1f86@physik.fu-berlin.de>
- <20210121102042.00005504@163.com>
-From:   John Paul Adrian Glaubitz <glaubitz@physik.fu-berlin.de>
-Message-ID: <42a71690-28a9-6bf8-e413-2fd1e03f7f7c@physik.fu-berlin.de>
-Date:   Thu, 21 Jan 2021 09:00:14 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.6.1
+        Fri, 22 Jan 2021 16:51:56 -0500
+X-Greylist: delayed 2959 seconds by postgrey-1.27 at vger.kernel.org; Fri, 22 Jan 2021 16:50:43 EST
+Received: from localhost (localhost [127.0.0.1])
+        by mail.padangpariamankab.go.id (Postfix) with ESMTP id 3E68F6E6C72;
+        Sat, 23 Jan 2021 03:48:10 +0700 (WIB)
+Received: from mail.padangpariamankab.go.id ([127.0.0.1])
+        by localhost (mail.padangpariamankab.go.id [127.0.0.1]) (amavisd-new, port 10032)
+        with ESMTP id kBGXOQypupm6; Sat, 23 Jan 2021 03:48:09 +0700 (WIB)
+Received: from localhost (localhost [127.0.0.1])
+        by mail.padangpariamankab.go.id (Postfix) with ESMTP id 294CB6E6C77;
+        Sat, 23 Jan 2021 03:48:09 +0700 (WIB)
+DKIM-Filter: OpenDKIM Filter v2.10.3 mail.padangpariamankab.go.id 294CB6E6C77
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=padangpariamankab.go.id; s=D2C6CDEC-3607-11EA-BC8A-EEDE4AB8B776;
+        t=1611348489; bh=4AhSoXRU63EAbbOwseUY/pxjidGey07DskAQ7pZ9AvE=;
+        h=Date:From:Message-ID:MIME-Version;
+        b=HThFhYOADhRCtO5N541vi9Gyg7fJmmutk/OT2THWWyfJ95sWN76AgwUEgQZtSvKhP
+         x/LxSc8MhKoXFOnNTieirEJIp/EcM8e1Pjx1VBDwhPK07CSOtfO2YNC/YwcDHmyfyz
+         2Lf9drxpZNkkPji5hrUXs8+6FbGouclsglppsLR4=
+X-Virus-Scanned: amavisd-new at padangpariamankab.go.id
+Received: from mail.padangpariamankab.go.id ([127.0.0.1])
+        by localhost (mail.padangpariamankab.go.id [127.0.0.1]) (amavisd-new, port 10026)
+        with ESMTP id mxYAXxb3FYdJ; Sat, 23 Jan 2021 03:48:08 +0700 (WIB)
+Received: from mail.padangpariamankab.go.id (mail.padangpariamankab.go.id [103.94.3.123])
+        by mail.padangpariamankab.go.id (Postfix) with ESMTP id B15016E6C6F;
+        Sat, 23 Jan 2021 03:48:05 +0700 (WIB)
+Date:   Sat, 23 Jan 2021 03:48:05 +0700 (WIB)
+From:   GREENLIGHT <rsud@padangpariamankab.go.id>
+Reply-To: "Greenlight Financial Services " <greenlightservices@usa.com>
+Message-ID: <1668595482.19502.1611348485649.JavaMail.zimbra@padangpariamankab.go.id>
+Subject: Update
 MIME-Version: 1.0
-In-Reply-To: <20210121102042.00005504@163.com>
 Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
 Content-Transfer-Encoding: 7bit
-X-Original-Sender: glaubitz@physik.fu-berlin.de
-X-Originating-IP: 91.19.166.30
+X-Originating-IP: [103.94.3.123]
+X-Mailer: Zimbra 8.8.15_GA_3895 (zclient/8.8.15_GA_3895)
+Thread-Index: YwDzoLjYr5wvIyGTK9ZPzksGXyGLMw==
+Thread-Topic: Update
+To:     unlisted-recipients:; (no To-header on input)
 Precedence: bulk
 List-ID: <linux-alpha.vger.kernel.org>
 X-Mailing-List: linux-alpha@vger.kernel.org
 
-Hi Chunyou!
 
-On 1/21/21 3:20 AM, Chunyou Tang wrote:
->> Right. Reading the whole paragraph helps. It probably should be:
->>
->> ZERO_PGE	KSEG address of page full of zeroes, but
->> 		upon entry to kernel, it can be expected
->> 		to hold the parameter list and possible
->> 		INTRD information.
->>
->> Adrian
->>
-> 
-> ok, I change it as :
-> ZERO_PGE	KSEG address of page full of zeroes, but
-> 		upon entry to kernel, it can be expected
-> 		to hold the parameter list and possible
-> 		INTRD information.
-> then I commit it.
 
-Great, thank you.
-
-Adrian
-
--- 
- .''`.  John Paul Adrian Glaubitz
-: :' :  Debian Developer - glaubitz@debian.org
-`. `'   Freie Universitaet Berlin - glaubitz@physik.fu-berlin.de
-  `-    GPG: 62FF 8A75 84E0 2956 9546  0006 7426 3B37 F5B5 F913
-
+We offer Reliable/Low Interest Rate Financial Services to Companies & Individuals including; Start-Up Business, Loans & Mortgage ETC. Apply Now
