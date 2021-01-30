@@ -2,145 +2,64 @@ Return-Path: <linux-alpha-owner@vger.kernel.org>
 X-Original-To: lists+linux-alpha@lfdr.de
 Delivered-To: lists+linux-alpha@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id ACA883097C1
-	for <lists+linux-alpha@lfdr.de>; Sat, 30 Jan 2021 20:04:26 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id BBD6630CDBD
+	for <lists+linux-alpha@lfdr.de>; Tue,  2 Feb 2021 22:10:48 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231701AbhA3TEK (ORCPT <rfc822;lists+linux-alpha@lfdr.de>);
-        Sat, 30 Jan 2021 14:04:10 -0500
-Received: from smtprelay0075.hostedemail.com ([216.40.44.75]:51208 "EHLO
-        smtprelay.hostedemail.com" rhost-flags-OK-OK-OK-FAIL)
-        by vger.kernel.org with ESMTP id S231641AbhA3TEJ (ORCPT
-        <rfc822;linux-alpha@vger.kernel.org>);
-        Sat, 30 Jan 2021 14:04:09 -0500
-X-Greylist: delayed 522 seconds by postgrey-1.27 at vger.kernel.org; Sat, 30 Jan 2021 14:04:08 EST
-Received: from smtprelay.hostedemail.com (10.5.19.251.rfc1918.com [10.5.19.251])
-        by smtpgrave03.hostedemail.com (Postfix) with ESMTP id 0F55D1801739F
-        for <linux-alpha@vger.kernel.org>; Sat, 30 Jan 2021 18:55:27 +0000 (UTC)
-Received: from filter.hostedemail.com (clb03-v110.bra.tucows.net [216.40.38.60])
-        by smtprelay06.hostedemail.com (Postfix) with ESMTP id D06351800AEC5;
-        Sat, 30 Jan 2021 18:54:44 +0000 (UTC)
-X-Session-Marker: 6A6F6540706572636865732E636F6D
-X-Spam-Summary: 2,0,0,,d41d8cd98f00b204,joe@perches.com,,RULES_HIT:41:355:379:599:800:960:973:988:989:1260:1261:1277:1311:1313:1314:1345:1359:1437:1515:1516:1518:1534:1542:1593:1594:1711:1730:1747:1777:1792:2393:2559:2562:2828:2898:3138:3139:3140:3141:3142:3355:3622:3865:3866:3868:3872:4321:4605:5007:6119:7652:10004:10400:10848:11026:11232:11658:11914:12043:12297:12438:12555:12740:12895:12986:13439:13870:13894:13972:14181:14659:14721:21080:21627:30054:30070:30091,0,RBL:none,CacheIP:none,Bayesian:0.5,0.5,0.5,Netcheck:none,DomainCache:0,MSF:not bulk,SPF:,MSBL:0,DNSBL:none,Custom_rules:0:0:0,LFtime:1,LUA_SUMMARY:none
-X-HE-Tag: match33_441563d275b3
-X-Filterd-Recvd-Size: 3597
-Received: from [192.168.1.159] (unknown [47.151.137.21])
-        (Authenticated sender: joe@perches.com)
-        by omf16.hostedemail.com (Postfix) with ESMTPA;
-        Sat, 30 Jan 2021 18:54:43 +0000 (UTC)
-Message-ID: <52f038d9ff547deee4e5b5628507e61ec8d056b7.camel@perches.com>
-Subject: Re: [PATCH 02/29] alpha: Avoid comma separated statements
-From:   Joe Perches <joe@perches.com>
-To:     Jiri Kosina <trivial@kernel.org>, Robert Richter <rric@kernel.org>
-Cc:     Richard Henderson <rth@twiddle.net>,
-        Ivan Kokshaysky <ink@jurassic.park.msu.ru>,
-        Matt Turner <mattst88@gmail.com>, linux-alpha@vger.kernel.org,
-        linux-kernel@vger.kernel.org, oprofile-list@lists.sf.net
-Date:   Sat, 30 Jan 2021 10:54:42 -0800
-In-Reply-To: <4facd57f80c70437f085ba3a1bcf13ae0b63c3bc.1598331148.git.joe@perches.com>
-References: <cover.1598331148.git.joe@perches.com>
-         <4facd57f80c70437f085ba3a1bcf13ae0b63c3bc.1598331148.git.joe@perches.com>
-Content-Type: text/plain; charset="ISO-8859-1"
-User-Agent: Evolution 3.38.1-1 
+        id S232632AbhBBVKT (ORCPT <rfc822;lists+linux-alpha@lfdr.de>);
+        Tue, 2 Feb 2021 16:10:19 -0500
+Received: from [20.39.40.203] ([20.39.40.203]:65313 "EHLO optinix.in"
+        rhost-flags-FAIL-FAIL-OK-OK) by vger.kernel.org with ESMTP
+        id S231256AbhBBVKS (ORCPT <rfc822;linux-alpha@vger.kernel.org>);
+        Tue, 2 Feb 2021 16:10:18 -0500
+dkim-signature: v=1; a=rsa-sha256; d=digitalsol.in; s=dkim;
+        c=relaxed/relaxed; q=dns/txt; h=From:Reply-To:Subject:Date:Message-ID:MIME-Version:Content-Type:Content-Transfer-Encoding;
+        bh=wK2neTcOXNiSQ+RBxrnFed+mRrGUU/ndLGEgvo8IMCc=;
+        b=TP5ImnyHcJd6ZOutD2G4fr5f8wWoUQwQgOLW2PI/280OHeTqlZLToIxAIofahXeo75Wu3EjCyPUkWCAvONVwZu0fevODO9NabCWAisW+z0dGu9MXtR6qZycknhfK+mQQvORufc2uJdOyxsLmIaqgju02ah6NTaY7MUrrDAsnypqV/dHvFc1ZCeNq9M9cnBgI6P8moRvB3Uy5b0Di8H1i0zAyCi2Ui0iRGfGkTkO0ugXob5Evs8zBCz+bQn
+        OGNJsvkyEuoIiGf1dhK8ZygeNRPTDeubCEGrI3iP2v+CePRDNJj0O+GADoZLV93dYARi5DbbBgbqte2GtdOqu1KHIrhw==
+Received: from User (Unknown [52.231.31.5])
+        by optinix.in with ESMTP
+        ; Sat, 30 Jan 2021 02:13:52 +0000
+Message-ID: <8F335769-7194-475D-8960-10F7C26454EB@optinix.in>
+Reply-To: <ms.reem@yandex.com>
+From:   "Ms. Reem" <support@digitalsol.in>
+Subject: Re:read
+Date:   Sat, 30 Jan 2021 02:13:50 -0000
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain;
+        charset="Windows-1251"
+Content-Transfer-Encoding: 7bit
+X-Priority: 3
+X-MSMail-Priority: Normal
+X-Mailer: Microsoft Outlook Express 6.00.2600.0000
+X-MimeOLE: Produced By Microsoft MimeOLE V6.00.2600.0000
+To:     unlisted-recipients:; (no To-header on input)
 Precedence: bulk
 List-ID: <linux-alpha.vger.kernel.org>
 X-Mailing-List: linux-alpha@vger.kernel.org
 
-On Mon, 2020-08-24 at 21:55 -0700, Joe Perches wrote:
-> Use semicolons and braces.
+Hello,
 
-ping?
+My name is Ms. Reem Ebrahim Al-Hashimi, I am the "Minister of state
+and Petroleum" also "Minister of State for International Cooperation"
+in UAE. I write to you on behalf of my other "three (3) colleagues"
+who has approved me to solicit for your "partnership in claiming of
+{us$47=Million}" from a Financial Home in Cambodia on their behalf and
+for our "Mutual Benefits".
 
-> 
-> Signed-off-by: Joe Perches <joe@perches.com>
-> ---
->  arch/alpha/kernel/pci_iommu.c      |  8 +++++---
->  arch/alpha/oprofile/op_model_ev4.c | 22 ++++++++++++++--------
->  arch/alpha/oprofile/op_model_ev5.c |  8 +++++---
->  3 files changed, 24 insertions(+), 14 deletions(-)
-> 
-> diff --git a/arch/alpha/kernel/pci_iommu.c b/arch/alpha/kernel/pci_iommu.c
-> index 81037907268d..b8af7ad6c607 100644
-> --- a/arch/alpha/kernel/pci_iommu.c
-> +++ b/arch/alpha/kernel/pci_iommu.c
-> @@ -161,10 +161,12 @@ iommu_arena_find_pages(struct device *dev, struct pci_iommu_arena *arena,
->  			goto again;
->  		}
->  
-> 
-> -		if (ptes[p+i])
-> -			p = ALIGN(p + i + 1, mask + 1), i = 0;
-> -		else
-> +		if (ptes[p+i]) {
-> +			p = ALIGN(p + i + 1, mask + 1);
-> +			i = 0;
-> +		} else {
->  			i = i + 1;
-> +		}
->  	}
->  
-> 
->  	if (i < n) {
-> diff --git a/arch/alpha/oprofile/op_model_ev4.c b/arch/alpha/oprofile/op_model_ev4.c
-> index 086a0d5445c5..004f80a4291f 100644
-> --- a/arch/alpha/oprofile/op_model_ev4.c
-> +++ b/arch/alpha/oprofile/op_model_ev4.c
-> @@ -46,18 +46,24 @@ ev4_reg_setup(struct op_register_config *reg,
->  	   map it onto one of the possible values, and write it back.  */
->  
-> 
->  	count = ctr[0].count;
-> -	if (count <= 4096)
-> -		count = 4096, hilo = 1;
-> -	else
-> -		count = 65536, hilo = 0;
-> +	if (count <= 4096) {
-> +		count = 4096;
-> +		hilo = 1;
-> +	} else {
-> +		count = 65536;
-> +		hilo = 0;
-> +	}
->  	ctr[0].count = count;
->  	ctl |= (ctr[0].enabled && hilo) << 3;
->  
-> 
->  	count = ctr[1].count;
-> -	if (count <= 256)
-> -		count = 256, hilo = 1;
-> -	else
-> -		count = 4096, hilo = 0;
-> +	if (count <= 256) {
-> +		count = 256;
-> +		hilo = 1;
-> +	} else {
-> +		count = 4096;
-> +		hilo = 0;
-> +	}
->  	ctr[1].count = count;
->  	ctl |= (ctr[1].enabled && hilo);
->  
-> 
-> diff --git a/arch/alpha/oprofile/op_model_ev5.c b/arch/alpha/oprofile/op_model_ev5.c
-> index c300f5ef3482..6f52244e1181 100644
-> --- a/arch/alpha/oprofile/op_model_ev5.c
-> +++ b/arch/alpha/oprofile/op_model_ev5.c
-> @@ -92,9 +92,11 @@ common_reg_setup(struct op_register_config *reg,
->  		if (!ctr[i].enabled)
->  			continue;
->  
-> 
-> -		if (count <= 256)
-> -			count = 256, hilo = 3, max = 256;
-> -		else {
-> +		if (count <= 256) {
-> +			max = 256;
-> +			hilo = 3;
-> +			count = 256;
-> +		} else {
->  			max = (i == 2 ? 16384 : 65536);
->  			hilo = 2;
->  			if (count > max)
+The Fund {us$47=Million} is our share from the (over-invoiced) Oil/Gas
+deal with Cambodian/Vietnam Government within 2013/2014, however, we
+don't want our government to know about the fund. If this proposal
+interests you, let me know, by sending me an email and I will send to
+you detailed information on how this business would be successfully
+transacted. Be informed that nobody knows about the secret of this
+fund except us, and we know how to carry out the entire transaction.
+So I am compelled to ask, that you will stand on our behalf and
+receive this fund into any account that is solely controlled by you.
 
+We will compensate you with 15% of the total amount involved as
+gratification for being our partner in this transaction. Reply to:
+ms.reem@yandex.com
+
+Regards,
+Ms. Reem.
 
