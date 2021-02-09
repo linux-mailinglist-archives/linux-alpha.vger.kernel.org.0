@@ -2,113 +2,78 @@ Return-Path: <linux-alpha-owner@vger.kernel.org>
 X-Original-To: lists+linux-alpha@lfdr.de
 Delivered-To: lists+linux-alpha@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id C4606314350
-	for <lists+linux-alpha@lfdr.de>; Mon,  8 Feb 2021 23:56:45 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 7A15031502A
+	for <lists+linux-alpha@lfdr.de>; Tue,  9 Feb 2021 14:29:38 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230402AbhBHWzL (ORCPT <rfc822;lists+linux-alpha@lfdr.de>);
-        Mon, 8 Feb 2021 17:55:11 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38542 "EHLO
+        id S230335AbhBIN3X (ORCPT <rfc822;lists+linux-alpha@lfdr.de>);
+        Tue, 9 Feb 2021 08:29:23 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56602 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231357AbhBHWzF (ORCPT
-        <rfc822;linux-alpha@vger.kernel.org>); Mon, 8 Feb 2021 17:55:05 -0500
-Received: from mail-ot1-x335.google.com (mail-ot1-x335.google.com [IPv6:2607:f8b0:4864:20::335])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 56B20C061786
-        for <linux-alpha@vger.kernel.org>; Mon,  8 Feb 2021 14:54:25 -0800 (PST)
-Received: by mail-ot1-x335.google.com with SMTP id s107so15752158otb.8
-        for <linux-alpha@vger.kernel.org>; Mon, 08 Feb 2021 14:54:25 -0800 (PST)
+        with ESMTP id S230187AbhBIN3N (ORCPT
+        <rfc822;linux-alpha@vger.kernel.org>); Tue, 9 Feb 2021 08:29:13 -0500
+Received: from mail-qt1-x842.google.com (mail-qt1-x842.google.com [IPv6:2607:f8b0:4864:20::842])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 93524C061786
+        for <linux-alpha@vger.kernel.org>; Tue,  9 Feb 2021 05:28:32 -0800 (PST)
+Received: by mail-qt1-x842.google.com with SMTP id v3so12885479qtw.4
+        for <linux-alpha@vger.kernel.org>; Tue, 09 Feb 2021 05:28:32 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20161025;
-        h=date:from:to:cc:subject:in-reply-to:message-id:references
-         :user-agent:mime-version;
-        bh=kVUOEc5nkXmVvfZidGnyIjkcOxFERzMz3epUtID1enM=;
-        b=HnBDHRhtT5UEp7iPoSHsC38SU/teqOAMudFS/tRIWgMSz/HRv5hjIF3E42OPTc2jby
-         zkGe4KLfxuujJnSJ5+rjhLCzG+I8FCGeve+XqieANDs7k2Xv7Yp7y1Vf42I7AV5TjTTO
-         Yr8Focc9SbKedfVNZGW6OYr+JoxVlonA3VUmkNnGmgd8iuSN7z4D6K5GhC75Z4wG0a7b
-         BRo+0iixfOVaTdXnhgNxCBgdpF+McR5mmLTRJ12RorJdJ9WZK+pQOMDHu8eXZUjWJ0+m
-         B7nS+1kmc0eNDYbXmd/DOLB08vClYB0J0dbv3CxTu+W+2BgZXi0AeAAigUg5Kggi1k5g
-         Y1hw==
+        d=gmail.com; s=20161025;
+        h=mime-version:from:date:message-id:subject:to;
+        bh=aixkCWk7IZwnn+KMBVR51D4f627eXwhSfGhxRlFtEfU=;
+        b=BcFNtR+zRVJsPPX/5KpwvqNZ9RXNzS0OmxDhUUyQB8BK8/LnXBi52HTS3aSix5h2al
+         MlAXGt8plujEuvlChgYmG6mQz8pKdY/jh57QzCmlr8ZvLU8ARH9fwkIW5fc/vjPIDALq
+         m1xtocx65KMFpOK4s6cz2DPrSuVuiEPhS+EoPXMcB5qSvr7/4kS3EYHHtZ2ncsovZaCU
+         aBZsHPxzLsPAf6M6HhwbSSlfs72j2BM5gdkgIBUAi3ryND6kHrwa0MlIVbyC04B0B84w
+         SGunWIiUqzCgUsXo2KJmsuriME8+OB8mLvjxeKYEi9WUm0YANpja9VQiHqR50Qivzf4l
+         G6tQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:in-reply-to:message-id
-         :references:user-agent:mime-version;
-        bh=kVUOEc5nkXmVvfZidGnyIjkcOxFERzMz3epUtID1enM=;
-        b=U4vsh8NOqaozQhKNtk2yYseY+fJ7hjIKdDwim5/HcSeERE2/ed/J80u/JDL717eW8L
-         tEFZgvj0DlltPfBKIbRrBxIvrhVDlxVKBpQr6lnxA+NBE3GCfJUn1Ak8miAXsqI2NTHJ
-         u9xV4phFn9ZM1urtEsawvx1bpHN7zRR9FR1ZO5dltNP6OSJsFaDANNpzZ7iqvqvLv2xU
-         nJsbrxTFu7P2TZwViyM7oK3jC/MuDYMEmS3fXKqtdZzqHQ9MAr0sXj1NzTSqLtcTU4z5
-         Ir+pE2c3Lz1gtErn05FDPwuOCkXOfWiH2rtdbbUGULeu4I8xg5Tvo/JIbnFaQ14MC6dJ
-         Iyow==
-X-Gm-Message-State: AOAM5317iR9OsfeUxqiPtvElllKIByZXrdAFnAeNpPQPnyLeAgT9Lfnf
-        4rQpgMiR9MBrtWfuYFOTp5Go+A==
-X-Google-Smtp-Source: ABdhPJy6ZAJf2785F9OGdiYnUNfZToYJLrL7FwNOvKftEOKRek5KVmb6Aw4ovS2MYtwBFFBVOVFkwA==
-X-Received: by 2002:a9d:27e3:: with SMTP id c90mr10623578otb.2.1612824864438;
-        Mon, 08 Feb 2021 14:54:24 -0800 (PST)
-Received: from eggly.attlocal.net (172-10-233-147.lightspeed.sntcca.sbcglobal.net. [172.10.233.147])
-        by smtp.gmail.com with ESMTPSA id w124sm853165oiw.40.2021.02.08.14.54.22
-        (version=TLS1 cipher=ECDHE-ECDSA-AES128-SHA bits=128/128);
-        Mon, 08 Feb 2021 14:54:23 -0800 (PST)
-Date:   Mon, 8 Feb 2021 14:54:20 -0800 (PST)
-From:   Hugh Dickins <hughd@google.com>
-X-X-Sender: hugh@eggly.anvils
-To:     Seth Forshee <seth.forshee@canonical.com>
-cc:     Andrew Morton <akpm@linux-foundation.org>,
-        Chris Down <chris@chrisdown.name>,
-        Amir Goldstein <amir73il@gmail.com>,
-        Richard Henderson <rth@twiddle.net>,
-        Ivan Kokshaysky <ink@jurassic.park.msu.ru>,
-        Matt Turner <mattst88@gmail.com>,
-        "Kirill A. Shutemov" <kirill@shutemov.name>, linux-mm@kvack.org,
-        linux-alpha@vger.kernel.org, linux-kernel@vger.kernel.org,
-        stable@vger.kernel.org
-Subject: Re: [PATCH] tmpfs: disallow CONFIG_TMPFS_INODE64 on alpha
-In-Reply-To: <20210208215726.608197-1-seth.forshee@canonical.com>
-Message-ID: <alpine.LSU.2.11.2102081451180.4656@eggly.anvils>
-References: <20210208215726.608197-1-seth.forshee@canonical.com>
-User-Agent: Alpine 2.11 (LSU 23 2013-08-11)
+        h=x-gm-message-state:mime-version:from:date:message-id:subject:to;
+        bh=aixkCWk7IZwnn+KMBVR51D4f627eXwhSfGhxRlFtEfU=;
+        b=EAYFX3p3QSw6phpMVC2+nMOOdhtExJu1+j9p/Q+0089Sd6p1nUBdUp3YTE3jKh2v9F
+         sDo8I2PwDmoT4Fm3syHX2edC0Xp4GwAkF5J6w+9Yxour6nsJMS4Bf88N1d1LaXI0Co/N
+         116e4ikwjrDhnMIhiTxtUA2NgkjdX4ljB0k6SdxTSOJsiQCNAcV+iU6VWoAwQaVNIVoh
+         PDRPjrX6xTrkhAJKeMG1xo8N130M2xE4/2NFPIkBGZEApyaY2KtEHWM5ne4KoP5rvXOM
+         a8Kizkpzsr7AHg9lMeh8sSQ+l4DJhzJEeTIWLkPM1lICDvM1Rl3xkTC2l3AuK4/kvvrQ
+         9CNA==
+X-Gm-Message-State: AOAM533Q6OFxT+puAnqcQNUNSbrrQZ6Q+TLbpdAK454rdaFf4rjALYkC
+        xX17h0E39IEKXIvV5uSde2CBEb2sSkZsXNwp/k8=
+X-Google-Smtp-Source: ABdhPJy/+nyYLnHlmyb3/WLZ18Thc9IsBQxgzC1zyRzMf+h3flQwTKOGhknAnqU4YTHHjAQIVYnseVUFcCO7yxrdCeY=
+X-Received: by 2002:ac8:58c5:: with SMTP id u5mr19595915qta.94.1612877311790;
+ Tue, 09 Feb 2021 05:28:31 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: TEXT/PLAIN; charset=US-ASCII
+Received: by 2002:a0c:ba0e:0:0:0:0:0 with HTTP; Tue, 9 Feb 2021 05:28:31 -0800 (PST)
+From:   lisa hugh <lisa.hugh39@gmail.com>
+Date:   Tue, 9 Feb 2021 14:28:31 +0100
+Message-ID: <CACL9SgkXXQQR41mF+p9P=S+vJbB+JxoG00wL6TxfM2oSBBOZ6w@mail.gmail.com>
+Subject: BUSINESS INTEREST OPPORTUNITY.
+To:     undisclosed-recipients:;
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-alpha.vger.kernel.org>
 X-Mailing-List: linux-alpha@vger.kernel.org
 
-On Mon, 8 Feb 2021, Seth Forshee wrote:
+Dear Friend,
 
-> As with s390, alpha is a 64-bit architecture with a 32-bit ino_t.
-> With CONFIG_TMPFS_INODE64=y tmpfs mounts will get 64-bit inode
-> numbers and display "inode64" in the mount options, whereas
-> passing "inode64" in the mount options will fail. This leads to
-> erroneous behaviours such as this:
-> 
->  # mkdir mnt
->  # mount -t tmpfs nodev mnt
->  # mount -o remount,rw mnt
->  mount: /home/ubuntu/mnt: mount point not mounted or bad option.
-> 
-> Prevent CONFIG_TMPFS_INODE64 from being selected on alpha.
-> 
-> Fixes: ea3271f7196c ("tmpfs: support 64-bit inums per-sb")
-> Cc: stable@vger.kernel.org # v5.9+
-> Signed-off-by: Seth Forshee <seth.forshee@canonical.com>
+I am Ms Lisa Hugh, work in the department of Audit and accounting
+manager here in the Bank.
 
-Thanks,
-Acked-by: Hugh Dickins <hughd@google.com>
+Please i need your assistance for the transferring of this fund to
+your bank account for both of us benefit for life time investment,
 
-> ---
->  fs/Kconfig | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
-> 
-> diff --git a/fs/Kconfig b/fs/Kconfig
-> index 3347ec7bd837..da524c4d7b7e 100644
-> --- a/fs/Kconfig
-> +++ b/fs/Kconfig
-> @@ -203,7 +203,7 @@ config TMPFS_XATTR
->  
->  config TMPFS_INODE64
->  	bool "Use 64-bit ino_t by default in tmpfs"
-> -	depends on TMPFS && 64BIT && !S390
-> +	depends on TMPFS && 64BIT && !(S390 || ALPHA)
->  	default n
->  	help
->  	  tmpfs has historically used only inode numbers as wide as an unsigned
-> -- 
-> 2.29.2
+I have every inquiry details to make the bank believe you and release
+the fund in within 5 banking working days with your full co-operation
+with me for success.
+
+Below information is what i need from you so will can be reaching each other
+
+1)Private telephone number for communication
+2)Age
+3)Country
+
+Note. reply me with this email as usual for quick check and reply back
+without delay (        ms.lisahugh000@gmail.com        )
+
+Thanks.
+
+Ms Lisa Hugh,
