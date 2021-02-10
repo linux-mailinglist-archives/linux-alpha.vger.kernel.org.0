@@ -2,78 +2,139 @@ Return-Path: <linux-alpha-owner@vger.kernel.org>
 X-Original-To: lists+linux-alpha@lfdr.de
 Delivered-To: lists+linux-alpha@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 7A15031502A
-	for <lists+linux-alpha@lfdr.de>; Tue,  9 Feb 2021 14:29:38 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 552B0316628
+	for <lists+linux-alpha@lfdr.de>; Wed, 10 Feb 2021 13:11:08 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230335AbhBIN3X (ORCPT <rfc822;lists+linux-alpha@lfdr.de>);
-        Tue, 9 Feb 2021 08:29:23 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56602 "EHLO
+        id S231697AbhBJMKy (ORCPT <rfc822;lists+linux-alpha@lfdr.de>);
+        Wed, 10 Feb 2021 07:10:54 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39426 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230187AbhBIN3N (ORCPT
-        <rfc822;linux-alpha@vger.kernel.org>); Tue, 9 Feb 2021 08:29:13 -0500
-Received: from mail-qt1-x842.google.com (mail-qt1-x842.google.com [IPv6:2607:f8b0:4864:20::842])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 93524C061786
-        for <linux-alpha@vger.kernel.org>; Tue,  9 Feb 2021 05:28:32 -0800 (PST)
-Received: by mail-qt1-x842.google.com with SMTP id v3so12885479qtw.4
-        for <linux-alpha@vger.kernel.org>; Tue, 09 Feb 2021 05:28:32 -0800 (PST)
+        with ESMTP id S229898AbhBJMIy (ORCPT
+        <rfc822;linux-alpha@vger.kernel.org>);
+        Wed, 10 Feb 2021 07:08:54 -0500
+Received: from mail-wm1-x32a.google.com (mail-wm1-x32a.google.com [IPv6:2a00:1450:4864:20::32a])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A1586C061221
+        for <linux-alpha@vger.kernel.org>; Wed, 10 Feb 2021 04:04:37 -0800 (PST)
+Received: by mail-wm1-x32a.google.com with SMTP id 190so1621065wmz.0
+        for <linux-alpha@vger.kernel.org>; Wed, 10 Feb 2021 04:04:37 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=mime-version:from:date:message-id:subject:to;
-        bh=aixkCWk7IZwnn+KMBVR51D4f627eXwhSfGhxRlFtEfU=;
-        b=BcFNtR+zRVJsPPX/5KpwvqNZ9RXNzS0OmxDhUUyQB8BK8/LnXBi52HTS3aSix5h2al
-         MlAXGt8plujEuvlChgYmG6mQz8pKdY/jh57QzCmlr8ZvLU8ARH9fwkIW5fc/vjPIDALq
-         m1xtocx65KMFpOK4s6cz2DPrSuVuiEPhS+EoPXMcB5qSvr7/4kS3EYHHtZ2ncsovZaCU
-         aBZsHPxzLsPAf6M6HhwbSSlfs72j2BM5gdkgIBUAi3ryND6kHrwa0MlIVbyC04B0B84w
-         SGunWIiUqzCgUsXo2KJmsuriME8+OB8mLvjxeKYEi9WUm0YANpja9VQiHqR50Qivzf4l
-         G6tQ==
+        d=cloudflare.com; s=google;
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=+9PeUG6v1r8aFGi6ORK3pCJUjeurz7TuWVSE9CMni0c=;
+        b=vefKpoHHE9JY7wsXqdCVcvzKivbYRTXzF+0dgJaRh4tzwGHJlFAPcT6iyCPjtVk/QO
+         2nbSc5689PqMRWiH0mYBu5uUXuBmmxhvZbfVsxAu4AYbT9KkUXLQ8GUARAWnmp4QnaYC
+         qrzOL4EoDzuwTZWyGC0rpjwwcObKmnDgs1a7A=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:from:date:message-id:subject:to;
-        bh=aixkCWk7IZwnn+KMBVR51D4f627eXwhSfGhxRlFtEfU=;
-        b=EAYFX3p3QSw6phpMVC2+nMOOdhtExJu1+j9p/Q+0089Sd6p1nUBdUp3YTE3jKh2v9F
-         sDo8I2PwDmoT4Fm3syHX2edC0Xp4GwAkF5J6w+9Yxour6nsJMS4Bf88N1d1LaXI0Co/N
-         116e4ikwjrDhnMIhiTxtUA2NgkjdX4ljB0k6SdxTSOJsiQCNAcV+iU6VWoAwQaVNIVoh
-         PDRPjrX6xTrkhAJKeMG1xo8N130M2xE4/2NFPIkBGZEApyaY2KtEHWM5ne4KoP5rvXOM
-         a8Kizkpzsr7AHg9lMeh8sSQ+l4DJhzJEeTIWLkPM1lICDvM1Rl3xkTC2l3AuK4/kvvrQ
-         9CNA==
-X-Gm-Message-State: AOAM533Q6OFxT+puAnqcQNUNSbrrQZ6Q+TLbpdAK454rdaFf4rjALYkC
-        xX17h0E39IEKXIvV5uSde2CBEb2sSkZsXNwp/k8=
-X-Google-Smtp-Source: ABdhPJy/+nyYLnHlmyb3/WLZ18Thc9IsBQxgzC1zyRzMf+h3flQwTKOGhknAnqU4YTHHjAQIVYnseVUFcCO7yxrdCeY=
-X-Received: by 2002:ac8:58c5:: with SMTP id u5mr19595915qta.94.1612877311790;
- Tue, 09 Feb 2021 05:28:31 -0800 (PST)
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=+9PeUG6v1r8aFGi6ORK3pCJUjeurz7TuWVSE9CMni0c=;
+        b=X4m8AIZAvZ/9hTMBr+bDkv7TKSgMwd6dVDa0clQ/zqAFv/8URPO4G4s3DzKvp9zRUt
+         wqYIwCjoFIk9XUu8Skm6OFJJXhy9dfgStFphu7FXrRnSpEBGTJd0Rb+bKBmPzOZ6uQiv
+         uX1F19wgux7/8LVZsEjYr2Xj3/wWlPCrjKq7OSs6HNdlCjTvZOyRSb7xR59O45VkEPJf
+         NlT/iE7ibj/bIjI9g2IiQbiWt43xJkrdJORLsVf3hWJXX6PDpMEh/geTYJfR0auEN7Ep
+         X6S4ExdhkEjl8qlNeW+ZzAyNTEpopwEVpjul8Q3otymxW00F6RM8yXd1EVhWPsqXP8SD
+         YZ5A==
+X-Gm-Message-State: AOAM530XHYidMMsk4uEoHqLAsuoeB7W+WYho0sypct2v7nohw7LRbAnv
+        h64imUBkstNhyCpzAFmaEcXmMw==
+X-Google-Smtp-Source: ABdhPJwpmZw+y59+QzJHB79z4KhJzeSBdFZ5h0S1sHnxAqBTLAPp1GIONJS8JzIW2wEz2gPnFzl8PA==
+X-Received: by 2002:a1c:9851:: with SMTP id a78mr2600203wme.66.1612958676276;
+        Wed, 10 Feb 2021 04:04:36 -0800 (PST)
+Received: from antares.lan (c.3.c.9.d.d.c.e.0.a.6.8.a.9.e.c.f.f.6.2.a.5.a.7.0.b.8.0.1.0.0.2.ip6.arpa. [2001:8b0:7a5a:26ff:ce9a:86a0:ecdd:9c3c])
+        by smtp.gmail.com with ESMTPSA id j7sm2837854wrp.72.2021.02.10.04.04.35
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 10 Feb 2021 04:04:35 -0800 (PST)
+From:   Lorenz Bauer <lmb@cloudflare.com>
+To:     Alexei Starovoitov <ast@kernel.org>,
+        Daniel Borkmann <daniel@iogearbox.net>,
+        Andrii Nakryiko <andrii@kernel.org>
+Cc:     kernel-team@cloudflare.com, Lorenz Bauer <lmb@cloudflare.com>,
+        bpf@vger.kernel.org, linux-alpha@vger.kernel.org,
+        linux-api@vger.kernel.org, linux-arch@vger.kernel.org,
+        linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-kselftest@vger.kernel.org, linux-mips@vger.kernel.org,
+        linux-parisc@vger.kernel.org, netdev@vger.kernel.org,
+        sparclinux@vger.kernel.org
+Subject: [PATCH bpf 0/4] Expose network namespace cookies to user space
+Date:   Wed, 10 Feb 2021 12:04:21 +0000
+Message-Id: <20210210120425.53438-1-lmb@cloudflare.com>
+X-Mailer: git-send-email 2.27.0
 MIME-Version: 1.0
-Received: by 2002:a0c:ba0e:0:0:0:0:0 with HTTP; Tue, 9 Feb 2021 05:28:31 -0800 (PST)
-From:   lisa hugh <lisa.hugh39@gmail.com>
-Date:   Tue, 9 Feb 2021 14:28:31 +0100
-Message-ID: <CACL9SgkXXQQR41mF+p9P=S+vJbB+JxoG00wL6TxfM2oSBBOZ6w@mail.gmail.com>
-Subject: BUSINESS INTEREST OPPORTUNITY.
-To:     undisclosed-recipients:;
-Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-alpha.vger.kernel.org>
 X-Mailing-List: linux-alpha@vger.kernel.org
 
-Dear Friend,
+We're working on a user space control plane for the BPF sk_lookup
+hook [1]. The hook attaches to a network namespace and allows
+control over which socket receives a new connection / packet.
 
-I am Ms Lisa Hugh, work in the department of Audit and accounting
-manager here in the Bank.
+Roughly, applications can give a socket to our user space component
+to participate in custom bind semantics. This creates an edge case
+where  an application can provide us with a socket that lives in
+a different network namespace than our BPF sk_lookup program.
+We'd like to return an error in this case.
 
-Please i need your assistance for the transferring of this fund to
-your bank account for both of us benefit for life time investment,
+Additionally, we have some user space state that is tied to the
+network namespace. We currently use the inode of the nsfs entry
+in a directory name, but this is suffers from inode reuse.
 
-I have every inquiry details to make the bank believe you and release
-the fund in within 5 banking working days with your full co-operation
-with me for success.
+I'm proposing to fix both of these issues by adding a new
+SO_NETNS_COOKIE socket option as well as a NS_GET_COOKIE ioctl.
+Using these we get a stable, unique identifier for a network
+namespace and check whether a socket belongs to the "correct"
+namespace.
 
-Below information is what i need from you so will can be reaching each other
+NS_GET_COOKIE could be renamed to NS_GET_NET_COOKIE. I kept the
+name generic because it seems like other namespace types could
+benefit from a cookie as well.
 
-1)Private telephone number for communication
-2)Age
-3)Country
+I'm trying to land this via the bpf tree since this is where the
+netns cookie originated, please let me know if this isn't
+appropriate.
 
-Note. reply me with this email as usual for quick check and reply back
-without delay (        ms.lisahugh000@gmail.com        )
+1: https://www.kernel.org/doc/html/latest/bpf/prog_sk_lookup.html
 
-Thanks.
+Cc: bpf@vger.kernel.org
+Cc: linux-alpha@vger.kernel.org
+Cc: linux-api@vger.kernel.org
+Cc: linux-arch@vger.kernel.org
+Cc: linux-fsdevel@vger.kernel.org
+Cc: linux-kernel@vger.kernel.org
+Cc: linux-kselftest@vger.kernel.org
+Cc: linux-mips@vger.kernel.org
+Cc: linux-parisc@vger.kernel.org
+Cc: netdev@vger.kernel.org
+Cc: sparclinux@vger.kernel.org
 
-Ms Lisa Hugh,
+Lorenz Bauer (4):
+  net: add SO_NETNS_COOKIE socket option
+  nsfs: add an ioctl to discover the network namespace cookie
+  tools/testing: add test for NS_GET_COOKIE
+  tools/testing: add a selftest for SO_NETNS_COOKIE
+
+ arch/alpha/include/uapi/asm/socket.h          |  2 +
+ arch/mips/include/uapi/asm/socket.h           |  2 +
+ arch/parisc/include/uapi/asm/socket.h         |  2 +
+ arch/sparc/include/uapi/asm/socket.h          |  2 +
+ fs/nsfs.c                                     |  9 +++
+ include/linux/sock_diag.h                     | 20 ++++++
+ include/net/net_namespace.h                   | 11 ++++
+ include/uapi/asm-generic/socket.h             |  2 +
+ include/uapi/linux/nsfs.h                     |  2 +
+ net/core/filter.c                             |  9 ++-
+ net/core/sock.c                               |  7 +++
+ tools/testing/selftests/net/.gitignore        |  1 +
+ tools/testing/selftests/net/Makefile          |  2 +-
+ tools/testing/selftests/net/so_netns_cookie.c | 61 +++++++++++++++++++
+ tools/testing/selftests/nsfs/.gitignore       |  1 +
+ tools/testing/selftests/nsfs/Makefile         |  2 +-
+ tools/testing/selftests/nsfs/netns.c          | 57 +++++++++++++++++
+ 17 files changed, 185 insertions(+), 7 deletions(-)
+ create mode 100644 tools/testing/selftests/net/so_netns_cookie.c
+ create mode 100644 tools/testing/selftests/nsfs/netns.c
+
+-- 
+2.27.0
+
