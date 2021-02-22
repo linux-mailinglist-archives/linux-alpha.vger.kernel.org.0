@@ -2,102 +2,81 @@ Return-Path: <linux-alpha-owner@vger.kernel.org>
 X-Original-To: lists+linux-alpha@lfdr.de
 Delivered-To: lists+linux-alpha@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 8F399320C02
-	for <lists+linux-alpha@lfdr.de>; Sun, 21 Feb 2021 18:16:56 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id A4C14321776
+	for <lists+linux-alpha@lfdr.de>; Mon, 22 Feb 2021 13:49:30 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230129AbhBURQY (ORCPT <rfc822;lists+linux-alpha@lfdr.de>);
-        Sun, 21 Feb 2021 12:16:24 -0500
-Received: from conssluserg-06.nifty.com ([210.131.2.91]:33446 "EHLO
-        conssluserg-06.nifty.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229970AbhBURQX (ORCPT
-        <rfc822;linux-alpha@vger.kernel.org>);
-        Sun, 21 Feb 2021 12:16:23 -0500
-Received: from mail-pl1-f175.google.com (mail-pl1-f175.google.com [209.85.214.175]) (authenticated)
-        by conssluserg-06.nifty.com with ESMTP id 11LHFQMn029412;
-        Mon, 22 Feb 2021 02:15:26 +0900
-DKIM-Filter: OpenDKIM Filter v2.10.3 conssluserg-06.nifty.com 11LHFQMn029412
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nifty.com;
-        s=dec2015msa; t=1613927726;
-        bh=+E+JRgKeitH5eFBx4Z/rh8FyWasix1MSTNAEXqizMQU=;
-        h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-        b=fY8q6G98uh1+un5PrwsG4Zb3rSAd52PO9NSoxDJ8nwquEkzuJdR6rBF5sZrJUQbe9
-         KWCT8wBjnWUfz7vheSDo+fWEVgovNo9SHlNVuFyQQj0HmV7nB2ApBNZANPZVurwuRE
-         OPvztrgFoeH+fOxkb4nxTbw8JucqU5hHRx4mF3+AMVhL15XIswHkujGL0xSI8cL6QI
-         Ii+CzdqSBbptV3imDDdvgz94e1uZBko1b579roKG6OFciJ/jTRWVIx1O7HbRt/m0Tc
-         pLkXdi0thvqyabjecA6KbCP/kR2SvsJ0NPIVn7afYMW4aobGgVsdv/ZSnZtoPqwJ1E
-         OSXLJ0vAyyr9A==
-X-Nifty-SrcIP: [209.85.214.175]
-Received: by mail-pl1-f175.google.com with SMTP id u11so6119214plg.13;
-        Sun, 21 Feb 2021 09:15:26 -0800 (PST)
-X-Gm-Message-State: AOAM530f3OWgCXm+QZ167geaZY82/Uo9+39wdJo5pmm4HsKG5QmkcNNT
-        mL1vjaSkpRTYyM05el/V9QycQ4fsrEROqr66210=
-X-Google-Smtp-Source: ABdhPJxczjkYYwfFedULPavyehBQNlTo4yyE2oDz3aAz68ppY9EMF/VKLUDXMsDnW+fSNSL17VJtx2kpM0VX1zgRRK4=
-X-Received: by 2002:a17:90a:609:: with SMTP id j9mr19512007pjj.198.1613927724902;
- Sun, 21 Feb 2021 09:15:24 -0800 (PST)
-MIME-Version: 1.0
-References: <20210215004823.440102-1-masahiroy@kernel.org>
-In-Reply-To: <20210215004823.440102-1-masahiroy@kernel.org>
-From:   Masahiro Yamada <masahiroy@kernel.org>
-Date:   Mon, 22 Feb 2021 02:14:47 +0900
-X-Gmail-Original-Message-ID: <CAK7LNATvCAyHSUQNTdSck3JM1MfHNFcanjn0i4835okWE9Km5w@mail.gmail.com>
-Message-ID: <CAK7LNATvCAyHSUQNTdSck3JM1MfHNFcanjn0i4835okWE9Km5w@mail.gmail.com>
-Subject: Re: [PATCH 1/2] arch: syscalls: add missing FORCE and fix 'targets'
- to make if_changed work
-To:     Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>
-Cc:     Geert Uytterhoeven <geert@linux-m68k.org>,
-        Andy Lutomirski <luto@kernel.org>,
-        Benjamin Herrenschmidt <benh@kernel.crashing.org>,
-        Borislav Petkov <bp@alien8.de>,
-        Chris Zankel <chris@zankel.net>,
-        "David S. Miller" <davem@davemloft.net>,
-        Fenghua Yu <fenghua.yu@intel.com>,
-        "H. Peter Anvin" <hpa@zytor.com>, Helge Deller <deller@gmx.de>,
-        Ingo Molnar <mingo@redhat.com>,
-        Ivan Kokshaysky <ink@jurassic.park.msu.ru>,
-        "James E.J. Bottomley" <James.Bottomley@hansenpartnership.com>,
-        Matt Turner <mattst88@gmail.com>,
-        Max Filippov <jcmvbkbc@gmail.com>,
-        Michael Ellerman <mpe@ellerman.id.au>,
-        Michal Simek <monstr@monstr.eu>,
-        Paul Mackerras <paulus@samba.org>,
-        Rich Felker <dalias@libc.org>,
+        id S231485AbhBVMsz (ORCPT <rfc822;lists+linux-alpha@lfdr.de>);
+        Mon, 22 Feb 2021 07:48:55 -0500
+Received: from mx2.suse.de ([195.135.220.15]:39944 "EHLO mx2.suse.de"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S231629AbhBVMrY (ORCPT <rfc822;linux-alpha@vger.kernel.org>);
+        Mon, 22 Feb 2021 07:47:24 -0500
+X-Virus-Scanned: by amavisd-new at test-mx.suse.de
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.com; s=susede1;
+        t=1613997998; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+         mime-version:mime-version:content-type:content-type:
+         in-reply-to:in-reply-to:references:references;
+        bh=pSoQkwih8ksFFRXBnQ2uGYGVyAUL6YhMR0u+WuJWwqg=;
+        b=XqMjnMB7820VC1A4vgfme9m2Hi31qX2p6kBGzOO6c/eIdI+pfkp1/RDkL+7WgOIBXaVB6M
+        HOScBSKlqCkR9P1qVM1CvzxtuNwVi1OLvpl4xp6M9Y4rZW9Hntb22y0lB+L15WhsWbIx28
+        j7Yi6MpOwdivG/IyiOW/jl6Vfd2KeY4=
+Received: from relay2.suse.de (unknown [195.135.221.27])
+        by mx2.suse.de (Postfix) with ESMTP id D0C5AAD2B;
+        Mon, 22 Feb 2021 12:46:37 +0000 (UTC)
+Date:   Mon, 22 Feb 2021 13:46:35 +0100
+From:   Michal Hocko <mhocko@suse.com>
+To:     David Hildenbrand <david@redhat.com>
+Cc:     Peter Xu <peterx@redhat.com>, linux-kernel@vger.kernel.org,
+        linux-mm@kvack.org, Andrew Morton <akpm@linux-foundation.org>,
+        Arnd Bergmann <arnd@arndb.de>,
+        Oscar Salvador <osalvador@suse.de>,
+        Matthew Wilcox <willy@infradead.org>,
+        Andrea Arcangeli <aarcange@redhat.com>,
+        Minchan Kim <minchan@kernel.org>, Jann Horn <jannh@google.com>,
+        Jason Gunthorpe <jgg@ziepe.ca>,
+        Dave Hansen <dave.hansen@intel.com>,
+        Hugh Dickins <hughd@google.com>,
+        Rik van Riel <riel@surriel.com>,
+        "Michael S . Tsirkin" <mst@redhat.com>,
+        "Kirill A . Shutemov" <kirill.shutemov@linux.intel.com>,
+        Vlastimil Babka <vbabka@suse.cz>,
         Richard Henderson <rth@twiddle.net>,
+        Ivan Kokshaysky <ink@jurassic.park.msu.ru>,
+        Matt Turner <mattst88@gmail.com>,
         Thomas Bogendoerfer <tsbogend@alpha.franken.de>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Tony Luck <tony.luck@intel.com>,
-        Yoshinori Sato <ysato@users.sourceforge.jp>,
-        linux-alpha@vger.kernel.org, linux-ia64@vger.kernel.org,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        linux-m68k <linux-m68k@lists.linux-m68k.org>,
+        "James E.J. Bottomley" <James.Bottomley@hansenpartnership.com>,
+        Helge Deller <deller@gmx.de>, Chris Zankel <chris@zankel.net>,
+        Max Filippov <jcmvbkbc@gmail.com>, linux-alpha@vger.kernel.org,
         linux-mips@vger.kernel.org, linux-parisc@vger.kernel.org,
-        Linux-sh list <linux-sh@vger.kernel.org>,
-        "open list:TENSILICA XTENSA PORT (xtensa)" 
-        <linux-xtensa@linux-xtensa.org>,
-        linuxppc-dev <linuxppc-dev@lists.ozlabs.org>,
-        sparclinux <sparclinux@vger.kernel.org>, X86 ML <x86@kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+        linux-xtensa@linux-xtensa.org, linux-arch@vger.kernel.org
+Subject: Re: [PATCH RFC] mm/madvise: introduce MADV_POPULATE to
+ prefault/prealloc memory
+Message-ID: <YDOnq9Nliopj9kQL@dhcp22.suse.cz>
+References: <20210217154844.12392-1-david@redhat.com>
+ <20210218225904.GB6669@xz-x1>
+ <b24996a6-7652-f88c-301e-28417637fd02@redhat.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <b24996a6-7652-f88c-301e-28417637fd02@redhat.com>
 Precedence: bulk
 List-ID: <linux-alpha.vger.kernel.org>
 X-Mailing-List: linux-alpha@vger.kernel.org
 
-On Mon, Feb 15, 2021 at 9:50 AM Masahiro Yamada <masahiroy@kernel.org> wrote:
->
-> The rules in these Makefiles cannot detect the command line change
-> because the prerequisite 'FORCE' is missing.
->
-> Adding 'FORCE' will result in the headers being rebuilt every time
-> because the 'targets' additions are also wrong; the file paths in
-> 'targets' must be relative to the current Makefile.
->
-> Fix all of them so the if_changed rules work correctly.
->
-> Signed-off-by: Masahiro Yamada <masahiroy@kernel.org>
-> Acked-by: Geert Uytterhoeven <geert@linux-m68k.org>
+I am slowly catching up with this thread.
 
+On Fri 19-02-21 09:20:16, David Hildenbrand wrote:
+[...]
+> So if we have zero, we write zero. We'll COW pages, triggering a write fault
+> - and that's the only good thing about it. For example, similar to
+> MADV_POPULATE, nothing stops KSM from merging anonymous pages again. So for
+> anonymous memory the actual write is not helpful at all. Similarly for
+> hugetlbfs, the actual write is not necessary - but there is no other way to
+> really achieve the goal.
 
-Both applied to linux-kbuild.
-
-
+I really do not see why you care about KSM so much. Isn't KSM an
+explicit opt-in with a fine grained interface to control which memory to
+KSM or not?
 -- 
-Best Regards
-Masahiro Yamada
+Michal Hocko
+SUSE Labs
