@@ -2,40 +2,38 @@ Return-Path: <linux-alpha-owner@vger.kernel.org>
 X-Original-To: lists+linux-alpha@lfdr.de
 Delivered-To: lists+linux-alpha@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id BBB3F32416F
-	for <lists+linux-alpha@lfdr.de>; Wed, 24 Feb 2021 17:06:42 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 9F7A1324C2E
+	for <lists+linux-alpha@lfdr.de>; Thu, 25 Feb 2021 09:43:14 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S236059AbhBXP4P (ORCPT <rfc822;lists+linux-alpha@lfdr.de>);
-        Wed, 24 Feb 2021 10:56:15 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:39194 "EHLO
+        id S235937AbhBYIm5 (ORCPT <rfc822;lists+linux-alpha@lfdr.de>);
+        Thu, 25 Feb 2021 03:42:57 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:48466 "EHLO
         us-smtp-delivery-124.mimecast.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S233693AbhBXPIN (ORCPT
+        by vger.kernel.org with ESMTP id S235963AbhBYIm4 (ORCPT
         <rfc822;linux-alpha@vger.kernel.org>);
-        Wed, 24 Feb 2021 10:08:13 -0500
+        Thu, 25 Feb 2021 03:42:56 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1614179169;
+        s=mimecast20190719; t=1614242489;
         h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
          to:to:cc:cc:mime-version:mime-version:content-type:content-type:
          content-transfer-encoding:content-transfer-encoding:
          in-reply-to:in-reply-to:references:references;
-        bh=hE/JW8Dw5e6ABCMHC+aiwNgbhT17E1ZqRTDBWqvHAHE=;
-        b=cfyexALChXT7zf6RREJ6miqZmVm7cMzstEPTMK/60c0vQpYfudYhR/1wnmhOp1U8bOmvlw
-        iMfhOLHmwQWwHCQmdt8KONIfQeSZDG+NCNYjOnt4rsadI0dpuWps7iNJt4Tsr7vUqoaQZi
-        j3SyFP/HVH0FdusxSM6519z7aILY9HY=
+        bh=fqVSsomUJyTIz0gYNIicWiu4aghYekNv2Fcx+hAQcqI=;
+        b=T/FSs6fsgWB7zg1Z1FqW7cO1Xgn003odA4qxCdaLaanCk0z7B/l/Nw7S4zSayOlhxvdrFD
+        XZ1/liRqA4z56Phi8EVIKohBU78dSNu/mhbsMg9pMRWuw8kl6QvGgViCf2ssYpCdGyy1Ey
+        7gdnSlkH6ROavcWJs9MSjPIb5rW8JAQ=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-237-WeJ4SY0uNIOI_e9AL1yUkw-1; Wed, 24 Feb 2021 10:06:05 -0500
-X-MC-Unique: WeJ4SY0uNIOI_e9AL1yUkw-1
-Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com [10.5.11.23])
+ us-mta-598-PdpzTNHiPv2rFA2I1NLbbQ-1; Thu, 25 Feb 2021 03:41:24 -0500
+X-MC-Unique: PdpzTNHiPv2rFA2I1NLbbQ-1
+Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com [10.5.11.11])
         (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
         (No client certificate requested)
-        by mimecast-mx01.redhat.com (Postfix) with ESMTPS id A17918C6C52;
-        Wed, 24 Feb 2021 14:38:34 +0000 (UTC)
-Received: from [10.36.114.83] (ovpn-114-83.ams2.redhat.com [10.36.114.83])
-        by smtp.corp.redhat.com (Postfix) with ESMTP id B293D19D9C;
-        Wed, 24 Feb 2021 14:38:25 +0000 (UTC)
-Subject: Re: [PATCH RFC] mm/madvise: introduce MADV_POPULATE to
- prefault/prealloc memory
+        by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 007DA100CCC3;
+        Thu, 25 Feb 2021 08:41:19 +0000 (UTC)
+Received: from [10.36.114.58] (ovpn-114-58.ams2.redhat.com [10.36.114.58])
+        by smtp.corp.redhat.com (Postfix) with ESMTP id 1F11318A9E;
+        Thu, 25 Feb 2021 08:41:07 +0000 (UTC)
 From:   David Hildenbrand <david@redhat.com>
 To:     linux-kernel@vger.kernel.org
 Cc:     linux-mm@kvack.org, Andrew Morton <akpm@linux-foundation.org>,
@@ -63,16 +61,18 @@ Cc:     linux-mm@kvack.org, Andrew Morton <akpm@linux-foundation.org>,
 References: <20210217154844.12392-1-david@redhat.com>
  <4bb9071b-e6c1-a732-0ed6-46aff0eaa70c@redhat.com>
 Organization: Red Hat GmbH
-Message-ID: <0f1c6f39-6a51-f8a6-8542-be1eb9c6fa0a@redhat.com>
-Date:   Wed, 24 Feb 2021 15:38:24 +0100
+Subject: Re: [PATCH RFC] mm/madvise: introduce MADV_POPULATE to
+ prefault/prealloc memory
+Message-ID: <e78dfe59-3552-91f1-e234-5f37d2600eb6@redhat.com>
+Date:   Thu, 25 Feb 2021 09:41:07 +0100
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
  Thunderbird/78.7.0
 MIME-Version: 1.0
 In-Reply-To: <4bb9071b-e6c1-a732-0ed6-46aff0eaa70c@redhat.com>
 Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
+Content-Transfer-Encoding: 8bit
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
 Precedence: bulk
 List-ID: <linux-alpha.vger.kernel.org>
 X-Mailing-List: linux-alpha@vger.kernel.org
@@ -247,10 +247,31 @@ On 24.02.21 15:25, David Hildenbrand wrote:
 > 
 > 2) In all 4k cases, the POPULATE_READ/POPULATE_WRITE variants are faster
 > than manually reading or writing from user space.
+> 
+> 
+> What sticks out a bit is:
+> 
+> 3) For MAP_SHARED on anonymous memory, it is fastest to first read and
+> then write memory. It's slightly faster than POPULATE_WRITE and quite a
+> lot faster than a simple write - what?!. It's even faster than
+> POPULATE_WRITE - what?! I assume with the read access we prepare a fresh
+> zero page and with the write access we only have to change PTE access
+> rights. But why is this faster than writing directly?
 
-Forgot to mention one case: Except on Memfd 4 KiB with MAP_PRIVATE: 
-POPULATE_WRITE is slower than a simple write. And a read fault is 
-exceptionally slower than a write fault (what?).
+Okay, MADV_DONTNEED does not seem to really work on MAP_SHARED of 
+anonymous memory. If I use a fresh mmap for each and every iteration the 
+numbers make more sense:
+
+**************************************************
+4096 MiB MAP_SHARED:
+**************************************************
+Anonymous      : Read           :  1054.154 ms
+Anonymous      : Write          :   924.572 ms
+Anonymous      : Read+Write     :  1075.215 ms
+Anonymous      : POPULATE       :   911.386 ms
+Anonymous      : POPULATE_READ  :   909.392 ms
+Anonymous      : POPULATE_WRITE :   793.143 ms
+
 
 -- 
 Thanks,
