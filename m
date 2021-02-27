@@ -2,279 +2,149 @@ Return-Path: <linux-alpha-owner@vger.kernel.org>
 X-Original-To: lists+linux-alpha@lfdr.de
 Delivered-To: lists+linux-alpha@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 9F7A1324C2E
-	for <lists+linux-alpha@lfdr.de>; Thu, 25 Feb 2021 09:43:14 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 5C402326D0A
+	for <lists+linux-alpha@lfdr.de>; Sat, 27 Feb 2021 13:30:28 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235937AbhBYIm5 (ORCPT <rfc822;lists+linux-alpha@lfdr.de>);
-        Thu, 25 Feb 2021 03:42:57 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:48466 "EHLO
-        us-smtp-delivery-124.mimecast.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S235963AbhBYIm4 (ORCPT
-        <rfc822;linux-alpha@vger.kernel.org>);
-        Thu, 25 Feb 2021 03:42:56 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1614242489;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         content-transfer-encoding:content-transfer-encoding:
-         in-reply-to:in-reply-to:references:references;
-        bh=fqVSsomUJyTIz0gYNIicWiu4aghYekNv2Fcx+hAQcqI=;
-        b=T/FSs6fsgWB7zg1Z1FqW7cO1Xgn003odA4qxCdaLaanCk0z7B/l/Nw7S4zSayOlhxvdrFD
-        XZ1/liRqA4z56Phi8EVIKohBU78dSNu/mhbsMg9pMRWuw8kl6QvGgViCf2ssYpCdGyy1Ey
-        7gdnSlkH6ROavcWJs9MSjPIb5rW8JAQ=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-598-PdpzTNHiPv2rFA2I1NLbbQ-1; Thu, 25 Feb 2021 03:41:24 -0500
-X-MC-Unique: PdpzTNHiPv2rFA2I1NLbbQ-1
-Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com [10.5.11.11])
-        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
-        (No client certificate requested)
-        by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 007DA100CCC3;
-        Thu, 25 Feb 2021 08:41:19 +0000 (UTC)
-Received: from [10.36.114.58] (ovpn-114-58.ams2.redhat.com [10.36.114.58])
-        by smtp.corp.redhat.com (Postfix) with ESMTP id 1F11318A9E;
-        Thu, 25 Feb 2021 08:41:07 +0000 (UTC)
-From:   David Hildenbrand <david@redhat.com>
-To:     linux-kernel@vger.kernel.org
-Cc:     linux-mm@kvack.org, Andrew Morton <akpm@linux-foundation.org>,
-        Arnd Bergmann <arnd@arndb.de>, Michal Hocko <mhocko@suse.com>,
-        Oscar Salvador <osalvador@suse.de>,
-        Matthew Wilcox <willy@infradead.org>,
-        Andrea Arcangeli <aarcange@redhat.com>,
-        Minchan Kim <minchan@kernel.org>, Jann Horn <jannh@google.com>,
-        Jason Gunthorpe <jgg@ziepe.ca>,
-        Dave Hansen <dave.hansen@intel.com>,
-        Hugh Dickins <hughd@google.com>,
-        Rik van Riel <riel@surriel.com>,
-        "Michael S . Tsirkin" <mst@redhat.com>,
-        "Kirill A . Shutemov" <kirill.shutemov@linux.intel.com>,
-        Vlastimil Babka <vbabka@suse.cz>,
-        Richard Henderson <rth@twiddle.net>,
-        Ivan Kokshaysky <ink@jurassic.park.msu.ru>,
-        Matt Turner <mattst88@gmail.com>,
-        Thomas Bogendoerfer <tsbogend@alpha.franken.de>,
-        "James E.J. Bottomley" <James.Bottomley@HansenPartnership.com>,
-        Helge Deller <deller@gmx.de>, Chris Zankel <chris@zankel.net>,
-        Max Filippov <jcmvbkbc@gmail.com>, linux-alpha@vger.kernel.org,
-        linux-mips@vger.kernel.org, linux-parisc@vger.kernel.org,
-        linux-xtensa@linux-xtensa.org, linux-arch@vger.kernel.org
-References: <20210217154844.12392-1-david@redhat.com>
- <4bb9071b-e6c1-a732-0ed6-46aff0eaa70c@redhat.com>
-Organization: Red Hat GmbH
-Subject: Re: [PATCH RFC] mm/madvise: introduce MADV_POPULATE to
- prefault/prealloc memory
-Message-ID: <e78dfe59-3552-91f1-e234-5f37d2600eb6@redhat.com>
-Date:   Thu, 25 Feb 2021 09:41:07 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.7.0
+        id S229953AbhB0Ma1 (ORCPT <rfc822;lists+linux-alpha@lfdr.de>);
+        Sat, 27 Feb 2021 07:30:27 -0500
+Received: from mail.kernel.org ([198.145.29.99]:40310 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S229864AbhB0Ma0 (ORCPT <rfc822;linux-alpha@vger.kernel.org>);
+        Sat, 27 Feb 2021 07:30:26 -0500
+Received: by mail.kernel.org (Postfix) with ESMTPSA id C693664F30;
+        Sat, 27 Feb 2021 12:29:45 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1614428985;
+        bh=MCaTtkyFYXAFPxtrnr47vRHXHJOy/Gg2Vrr9l/na0sg=;
+        h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+        b=CKh7xfyclyllhRVu4I19vTdJumgCcMnWUTj3YuPPr6n9s0ZwarhwYKwvaXpA5zsPk
+         kjheqrihhZX9hTum3WvSGTgeoJ+xzL2a3tFIsYwPT2DYFkGsXFLtNbH1AQK/XE65Jy
+         7ODttEw7Aw819AV+g2vrIBapd68nJgXEHkuKup43oUbNS75BcOG8PU3kGIxYTIuFgQ
+         kr35RilkrLGxVzsCHpKSv01urnc5s8IaN23UnTsVMsNuL7dS7f4/3rJ0+OEmb9edTe
+         Rtl9QZ0TJZHHGxSEkkTDznfomkTSjXewIxRsLTOFSbgxtuT0PJqfh5Jv+XXd6TpuEJ
+         1sL6oERHBuDBw==
+Received: by mail-oi1-f177.google.com with SMTP id x20so12785028oie.11;
+        Sat, 27 Feb 2021 04:29:45 -0800 (PST)
+X-Gm-Message-State: AOAM533i8A+rD3h+bo9ws+Wa0rIPTxAqePfEVrYQfFPSXmVbG2eCnjqk
+        B94bvBk6hamp9YFzsm4pizn4fBbZj1IfOXjn+nM=
+X-Google-Smtp-Source: ABdhPJw+sS31kUMuqqG7Xvzrc/bl5nZf4IXDxtaoqR1oc3oCESkxd/Uqpt93xGp+rerEKCpBIjcnLJNsJvd5DN5hCDI=
+X-Received: by 2002:aca:4fd3:: with SMTP id d202mr5148843oib.11.1614428984716;
+ Sat, 27 Feb 2021 04:29:44 -0800 (PST)
 MIME-Version: 1.0
-In-Reply-To: <4bb9071b-e6c1-a732-0ed6-46aff0eaa70c@redhat.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
+References: <tencent_30362DDFFEE04E6CDACB6F803734A8DC7B06@qq.com>
+In-Reply-To: <tencent_30362DDFFEE04E6CDACB6F803734A8DC7B06@qq.com>
+From:   Arnd Bergmann <arnd@kernel.org>
+Date:   Sat, 27 Feb 2021 13:29:28 +0100
+X-Gmail-Original-Message-ID: <CAK8P3a3UOpW_m=_VfxzmC_FxRnG4yYKRXnkP8k4HeNtuu7dVcg@mail.gmail.com>
+Message-ID: <CAK8P3a3UOpW_m=_VfxzmC_FxRnG4yYKRXnkP8k4HeNtuu7dVcg@mail.gmail.com>
+Subject: Re: [PATCH] ipc/msg: add msgsnd_timed and msgrcv_timed syscall for
+ system V message queue
+To:     Eric Gao <eric.tech@foxmail.com>
+Cc:     Catalin Marinas <catalin.marinas@arm.com>,
+        Will Deacon <will@kernel.org>,
+        Geert Uytterhoeven <geert@linux-m68k.org>,
+        Michal Simek <monstr@monstr.eu>,
+        Thomas Bogendoerfer <tsbogend@alpha.franken.de>,
+        James Bottomley <James.Bottomley@hansenpartnership.com>,
+        Helge Deller <deller@gmx.de>,
+        Michael Ellerman <mpe@ellerman.id.au>,
+        Heiko Carstens <hca@linux.ibm.com>,
+        Vasily Gorbik <gor@linux.ibm.com>,
+        Christian Borntraeger <borntraeger@de.ibm.com>,
+        Yoshinori Sato <ysato@users.sourceforge.jp>,
+        Rich Felker <dalias@libc.org>,
+        David Miller <davem@davemloft.net>,
+        Andy Lutomirski <luto@kernel.org>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
+        Chris Zankel <chris@zankel.net>,
+        Max Filippov <jcmvbkbc@gmail.com>,
+        Arnd Bergmann <arnd@arndb.de>,
+        Benjamin Herrenschmidt <benh@kernel.crashing.org>,
+        Paul Mackerras <paulus@samba.org>,
+        "H. Peter Anvin" <hpa@zytor.com>,
+        alpha <linux-alpha@vger.kernel.org>,
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+        Linux ARM <linux-arm-kernel@lists.infradead.org>,
+        Linux API <linux-api@vger.kernel.org>,
+        linux-arch <linux-arch@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-alpha.vger.kernel.org>
 X-Mailing-List: linux-alpha@vger.kernel.org
 
-On 24.02.21 15:25, David Hildenbrand wrote:
->> +		tmp_end = min_t(unsigned long, end, vma->vm_end);
->> +		pages = populate_vma_page_range(vma, start, tmp_end, &locked);
->> +		if (!locked) {
->> +			mmap_read_lock(mm);
->> +			*prev = NULL;
->> +			vma = NULL;
-> 
-> ^ locked = 1; is missing here.
-> 
-> 
-> --- Simple benchmark ---
-> 
-> I implemented MADV_POPULATE_READ and MADV_POPULATE_WRITE and performed
-> some simple measurements to simulate memory preallocation with empty files:
-> 
-> 1) mmap a 2 MiB/128 MiB/4 GiB region (anonymous, memfd, memfd hugetlb)
-> 2) Discard all memory using fallocate/madvise
-> 3) Prefault memory using different approaches and measure the time this
->      takes.
-> 
-> I repeat 2)+3) 10 times and compute the average. I only use a single thread.
-> 
-> Read: Read from each page a byte.
-> Write: Write one byte of each page (0).
-> Read/Write: Read one byte and write the value back for each page
-> POPULATE: MADV_POPULATE (this patch)
-> POPULATE_READ: MADV_POPULATE_READ
-> POPULATE_WRITE: MADV_POPULATE_WRITE
-> 
-> --- Benchmark results ---
-> 
-> Measuring 10 iterations each:
-> ==================================================
-> 2 MiB MAP_PRIVATE:
-> **************************************************
-> Anonymous      : Read           :     0.159 ms
-> Anonymous      : Write          :     0.244 ms
-> Anonymous      : Read+Write     :     0.383 ms
-> Anonymous      : POPULATE       :     0.167 ms
-> Anonymous      : POPULATE_READ  :     0.064 ms
-> Anonymous      : POPULATE_WRITE :     0.165 ms
-> Memfd 4 KiB    : Read           :     0.401 ms
-> Memfd 4 KiB    : Write          :     0.056 ms
-> Memfd 4 KiB    : Read+Write     :     0.075 ms
-> Memfd 4 KiB    : POPULATE       :     0.057 ms
-> Memfd 4 KiB    : POPULATE_READ  :     0.337 ms
-> Memfd 4 KiB    : POPULATE_WRITE :     0.056 ms
-> Memfd 2 MiB    : Read           :     0.041 ms
-> Memfd 2 MiB    : Write          :     0.030 ms
-> Memfd 2 MiB    : Read+Write     :     0.031 ms
-> Memfd 2 MiB    : POPULATE       :     0.031 ms
-> Memfd 2 MiB    : POPULATE_READ  :     0.031 ms
-> Memfd 2 MiB    : POPULATE_WRITE :     0.031 ms
-> **************************************************
-> 2 MiB MAP_SHARED:
-> **************************************************
-> Anonymous      : Read           :     0.071 ms
-> Anonymous      : Write          :     0.181 ms
-> Anonymous      : Read+Write     :     0.081 ms
-> Anonymous      : POPULATE       :     0.069 ms
-> Anonymous      : POPULATE_READ  :     0.069 ms
-> Anonymous      : POPULATE_WRITE :     0.115 ms
-> Memfd 4 KiB    : Read           :     0.401 ms
-> Memfd 4 KiB    : Write          :     0.351 ms
-> Memfd 4 KiB    : Read+Write     :     0.414 ms
-> Memfd 4 KiB    : POPULATE       :     0.338 ms
-> Memfd 4 KiB    : POPULATE_READ  :     0.339 ms
-> Memfd 4 KiB    : POPULATE_WRITE :     0.279 ms
-> Memfd 2 MiB    : Read           :     0.031 ms
-> Memfd 2 MiB    : Write          :     0.031 ms
-> Memfd 2 MiB    : Read+Write     :     0.031 ms
-> Memfd 2 MiB    : POPULATE       :     0.031 ms
-> Memfd 2 MiB    : POPULATE_READ  :     0.031 ms
-> Memfd 2 MiB    : POPULATE_WRITE :     0.031 ms
-> **************************************************
-> 128 MiB MAP_PRIVATE:
-> **************************************************
-> Anonymous      : Read           :     7.517 ms
-> Anonymous      : Write          :    22.503 ms
-> Anonymous      : Read+Write     :    33.186 ms
-> Anonymous      : POPULATE       :    18.381 ms
-> Anonymous      : POPULATE_READ  :     3.952 ms
-> Anonymous      : POPULATE_WRITE :    18.354 ms
-> Memfd 4 KiB    : Read           :    34.300 ms
-> Memfd 4 KiB    : Write          :     4.659 ms
-> Memfd 4 KiB    : Read+Write     :     6.531 ms
-> Memfd 4 KiB    : POPULATE       :     5.219 ms
-> Memfd 4 KiB    : POPULATE_READ  :    29.744 ms
-> Memfd 4 KiB    : POPULATE_WRITE :     5.244 ms
-> Memfd 2 MiB    : Read           :    10.228 ms
-> Memfd 2 MiB    : Write          :    10.130 ms
-> Memfd 2 MiB    : Read+Write     :    10.190 ms
-> Memfd 2 MiB    : POPULATE       :    10.007 ms
-> Memfd 2 MiB    : POPULATE_READ  :    10.008 ms
-> Memfd 2 MiB    : POPULATE_WRITE :    10.010 ms
-> **************************************************
-> 128 MiB MAP_SHARED:
-> **************************************************
-> Anonymous      : Read           :     7.295 ms
-> Anonymous      : Write          :    15.234 ms
-> Anonymous      : Read+Write     :     7.460 ms
-> Anonymous      : POPULATE       :     5.196 ms
-> Anonymous      : POPULATE_READ  :     5.190 ms
-> Anonymous      : POPULATE_WRITE :     8.245 ms
-> Memfd 4 KiB    : Read           :    34.412 ms
-> Memfd 4 KiB    : Write          :    30.586 ms
-> Memfd 4 KiB    : Read+Write     :    35.157 ms
-> Memfd 4 KiB    : POPULATE       :    29.643 ms
-> Memfd 4 KiB    : POPULATE_READ  :    29.691 ms
-> Memfd 4 KiB    : POPULATE_WRITE :    25.790 ms
-> Memfd 2 MiB    : Read           :    10.210 ms
-> Memfd 2 MiB    : Write          :    10.074 ms
-> Memfd 2 MiB    : Read+Write     :    10.068 ms
-> Memfd 2 MiB    : POPULATE       :    10.034 ms
-> Memfd 2 MiB    : POPULATE_READ  :    10.037 ms
-> Memfd 2 MiB    : POPULATE_WRITE :    10.031 ms
-> **************************************************
-> 4096 MiB MAP_PRIVATE:
-> **************************************************
-> Anonymous      : Read           :   240.947 ms
-> Anonymous      : Write          :   712.941 ms
-> Anonymous      : Read+Write     :  1027.636 ms
-> Anonymous      : POPULATE       :   571.816 ms
-> Anonymous      : POPULATE_READ  :   120.215 ms
-> Anonymous      : POPULATE_WRITE :   570.750 ms
-> Memfd 4 KiB    : Read           :  1054.739 ms
-> Memfd 4 KiB    : Write          :   145.534 ms
-> Memfd 4 KiB    : Read+Write     :   202.275 ms
-> Memfd 4 KiB    : POPULATE       :   162.597 ms
-> Memfd 4 KiB    : POPULATE_READ  :   914.747 ms
-> Memfd 4 KiB    : POPULATE_WRITE :   161.281 ms
-> Memfd 2 MiB    : Read           :   351.818 ms
-> Memfd 2 MiB    : Write          :   352.357 ms
-> Memfd 2 MiB    : Read+Write     :   352.762 ms
-> Memfd 2 MiB    : POPULATE       :   351.471 ms
-> Memfd 2 MiB    : POPULATE_READ  :   351.553 ms
-> Memfd 2 MiB    : POPULATE_WRITE :   351.931 ms
-> **************************************************
-> 4096 MiB MAP_SHARED:
-> **************************************************
-> Anonymous      : Read           :   229.338 ms
-> Anonymous      : Write          :   478.964 ms
-> Anonymous      : Read+Write     :   234.546 ms
-> Anonymous      : POPULATE       :   161.635 ms
-> Anonymous      : POPULATE_READ  :   160.943 ms
-> Anonymous      : POPULATE_WRITE :   252.686 ms
-> Memfd 4 KiB    : Read           :  1052.828 ms
-> Memfd 4 KiB    : Write          :   929.237 ms
-> Memfd 4 KiB    : Read+Write     :  1074.494 ms
-> Memfd 4 KiB    : POPULATE       :   915.663 ms
-> Memfd 4 KiB    : POPULATE_READ  :   915.001 ms
-> Memfd 4 KiB    : POPULATE_WRITE :   787.388 ms
-> Memfd 2 MiB    : Read           :   353.580 ms
-> Memfd 2 MiB    : Write          :   353.197 ms
-> Memfd 2 MiB    : Read+Write     :   353.172 ms
-> Memfd 2 MiB    : POPULATE       :   353.686 ms
-> Memfd 2 MiB    : POPULATE_READ  :   353.465 ms
-> Memfd 2 MiB    : POPULATE_WRITE :   352.776 ms
-> **************************************************
-> 
-> 
-> --- Discussion ---
-> 
-> 1) With huge pages, the performance benefit is negligible with the sizes
-> I tried, because there are little actual page faults. Most time is spent
-> zeroing huge pages I guess. It will take quite a lot of memory to pay off.
-> 
-> 2) In all 4k cases, the POPULATE_READ/POPULATE_WRITE variants are faster
-> than manually reading or writing from user space.
-> 
-> 
-> What sticks out a bit is:
-> 
-> 3) For MAP_SHARED on anonymous memory, it is fastest to first read and
-> then write memory. It's slightly faster than POPULATE_WRITE and quite a
-> lot faster than a simple write - what?!. It's even faster than
-> POPULATE_WRITE - what?! I assume with the read access we prepare a fresh
-> zero page and with the write access we only have to change PTE access
-> rights. But why is this faster than writing directly?
+On Sat, Feb 27, 2021 at 7:52 AM Eric Gao <eric.tech@foxmail.com> wrote:
+>
+> sometimes, we need the msgsnd or msgrcv syscall can return after a limited
+> time, so that the business thread do not be blocked here all the time. In
+> this case, I add the msgsnd_timed and msgrcv_timed syscall that with time
+> parameter, which has a unit of ms.
+>
+> Signed-off-by: Eric Gao <eric.tech@foxmail.com>
 
-Okay, MADV_DONTNEED does not seem to really work on MAP_SHARED of 
-anonymous memory. If I use a fresh mmap for each and every iteration the 
-numbers make more sense:
+I have no opinion on whether we want or need this, but I'll have a look
+at the implementation, to see if the ABI makes sense.
 
-**************************************************
-4096 MiB MAP_SHARED:
-**************************************************
-Anonymous      : Read           :  1054.154 ms
-Anonymous      : Write          :   924.572 ms
-Anonymous      : Read+Write     :  1075.215 ms
-Anonymous      : POPULATE       :   911.386 ms
-Anonymous      : POPULATE_READ  :   909.392 ms
-Anonymous      : POPULATE_WRITE :   793.143 ms
+> index 8fd8c17..42b7db5 100644
+> --- a/arch/mips/kernel/syscalls/syscall_n32.tbl
+> +++ b/arch/mips/kernel/syscalls/syscall_n32.tbl
+> @@ -381,3 +381,5 @@
+>  440    n32     process_madvise                 sys_process_madvise
+>  441    n32     epoll_pwait2                    compat_sys_epoll_pwait2
+>  442    n32     mount_setattr                   sys_mount_setattr
+> +443    n32     msgrcv_timed                    sys_msgrcv_timed
+> +444    n32     msgsnd_timed                    sys_msgsnd_timed
+> diff --git a/arch/mips/kernel/syscalls/syscall_o32.tbl b/arch/mips/kernel/syscalls/syscall_o32.tbl
+> index 090d29c..0f1f6ee 100644
+> --- a/arch/mips/kernel/syscalls/syscall_o32.tbl
+> +++ b/arch/mips/kernel/syscalls/syscall_o32.tbl
+> @@ -430,3 +430,5 @@
+>  440    o32     process_madvise                 sys_process_madvise
+>  441    o32     epoll_pwait2                    sys_epoll_pwait2                compat_sys_epoll_pwait2
+>  442    o32     mount_setattr                   sys_mount_setattr
+> +443    o32     msgrcv_timed                    sys_msgrcv_timed
+> +444    o32     msgsnd_timed                    sys_msgsnd_timed
 
+I think mips n32 and o32 both need to use the compat version when running on
+a 64-bit kernel, while your patch makes them use the native version.
 
--- 
-Thanks,
+> @@ -905,7 +906,15 @@ static long do_msgsnd(int msqid, long mtype, void __user *mtext,
+>
+>                 ipc_unlock_object(&msq->q_perm);
+>                 rcu_read_unlock();
+> -               schedule();
+> +
+> +               /* sometimes, we need msgsnd syscall return after a given time */
+> +               if (timeoutms <= 0) {
+> +                       schedule();
+> +               } else {
+> +                       timeoutms = schedule_timeout(timeoutms);
+> +                       if (timeoutms == 0)
+> +                               timeoutflag = true;
+> +               }
 
-David / dhildenb
+I wonder if this should be schedule_timeout_interruptible() or at least
+schedule_timeout_killable() instead of schedule_timeout(). If it should,
+this should probably be done as a separate change.
 
+> +COMPAT_SYSCALL_DEFINE5(msgsnd_timed, int, msqid, compat_uptr_t, msgp,
+> +                      compat_ssize_t, msgsz, int, msgflg, compat_long_t, timeoutms)
+> +{
+> +       struct compat_msgbuf __user *up = compat_ptr(msgp);
+> +       compat_long_t mtype;
+> +
+> +       timeoutms = (timeoutms + 9) / 10;
+> +
+> +       if (get_user(mtype, &up->mtype))
+> +               return -EFAULT;
+> +
+> +       return do_msgsnd(msqid, mtype, up->mtext, (ssize_t)msgsz, msgflg, (long)timeoutms);
+> +}
+
+My preference would be to simplify both the timed and non-timed version by
+moving the get_user() into do_msgsnd() and using in_compat_task() to pick
+the right type. Same for the receive side of course. If you do this,
+watch out for
+x32 support, which uses the 64-bit version.
+
+       Arnd
