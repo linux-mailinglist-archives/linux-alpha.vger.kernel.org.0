@@ -2,87 +2,82 @@ Return-Path: <linux-alpha-owner@vger.kernel.org>
 X-Original-To: lists+linux-alpha@lfdr.de
 Delivered-To: lists+linux-alpha@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 03B713431DB
-	for <lists+linux-alpha@lfdr.de>; Sun, 21 Mar 2021 10:21:50 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id E505A34483B
+	for <lists+linux-alpha@lfdr.de>; Mon, 22 Mar 2021 15:55:10 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230079AbhCUJVQ (ORCPT <rfc822;lists+linux-alpha@lfdr.de>);
-        Sun, 21 Mar 2021 05:21:16 -0400
-Received: from outpost1.zedat.fu-berlin.de ([130.133.4.66]:48191 "EHLO
-        outpost1.zedat.fu-berlin.de" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S229990AbhCUJUr (ORCPT
-        <rfc822;linux-alpha@vger.kernel.org>);
-        Sun, 21 Mar 2021 05:20:47 -0400
-Received: from inpost2.zedat.fu-berlin.de ([130.133.4.69])
-          by outpost.zedat.fu-berlin.de (Exim 4.94)
-          with esmtps (TLS1.2)
-          tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
-          (envelope-from <glaubitz@zedat.fu-berlin.de>)
-          id 1lNuGE-003lHF-1r; Sun, 21 Mar 2021 10:20:38 +0100
-Received: from p57bd9a6f.dip0.t-ipconnect.de ([87.189.154.111] helo=[192.168.178.139])
-          by inpost2.zedat.fu-berlin.de (Exim 4.94)
-          with esmtpsa (TLS1.2)
-          tls TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256
-          (envelope-from <glaubitz@physik.fu-berlin.de>)
-          id 1lNuGD-001TwM-Dq; Sun, 21 Mar 2021 10:20:37 +0100
-Subject: Re: remove the legacy ide driver
-To:     Christoph Hellwig <hch@lst.de>,
+        id S230272AbhCVOyi (ORCPT <rfc822;lists+linux-alpha@lfdr.de>);
+        Mon, 22 Mar 2021 10:54:38 -0400
+Received: from verein.lst.de ([213.95.11.211]:56129 "EHLO verein.lst.de"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S231366AbhCVOyI (ORCPT <rfc822;linux-alpha@vger.kernel.org>);
+        Mon, 22 Mar 2021 10:54:08 -0400
+Received: by verein.lst.de (Postfix, from userid 2407)
+        id A32F268BEB; Mon, 22 Mar 2021 15:54:03 +0100 (CET)
+Date:   Mon, 22 Mar 2021 15:54:03 +0100
+From:   Christoph Hellwig <hch@lst.de>
+To:     Russell King - ARM Linux admin <linux@armlinux.org.uk>
+Cc:     Christoph Hellwig <hch@lst.de>,
         "David S. Miller" <davem@davemloft.net>,
         Jens Axboe <axboe@kernel.dk>,
-        Geert Uytterhoeven <geert@linux-m68k.org>
-Cc:     Richard Henderson <rth@twiddle.net>,
+        Geert Uytterhoeven <geert@linux-m68k.org>,
+        Richard Henderson <rth@twiddle.net>,
         Ivan Kokshaysky <ink@jurassic.park.msu.ru>,
         Matt Turner <mattst88@gmail.com>,
-        Russell King <linux@armlinux.org.uk>,
         Thomas Bogendoerfer <tsbogend@alpha.franken.de>,
         Michael Ellerman <mpe@ellerman.id.au>,
         linux-ide@vger.kernel.org, linux-doc@vger.kernel.org,
         linux-kernel@vger.kernel.org, linux-alpha@vger.kernel.org,
         linux-arm-kernel@lists.infradead.org,
         linux-m68k@lists.linux-m68k.org, linux-mips@vger.kernel.org,
-        linuxppc-dev@lists.ozlabs.org,
-        Bartlomiej Zolnierkiewicz <b.zolnierkie@samsung.com>
-References: <20210318045706.200458-1-hch@lst.de>
-From:   John Paul Adrian Glaubitz <glaubitz@physik.fu-berlin.de>
-Message-ID: <4ac2f934-fa64-f8c2-8a4d-4b15c8a421a6@physik.fu-berlin.de>
-Date:   Sun, 21 Mar 2021 10:20:36 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.8.1
+        linuxppc-dev@lists.ozlabs.org
+Subject: Re: [PATCH 02/10] ARM: disable CONFIG_IDE in footbridge_defconfig
+Message-ID: <20210322145403.GA30942@lst.de>
+References: <20210318045706.200458-1-hch@lst.de> <20210318045706.200458-3-hch@lst.de> <20210319170753.GV1463@shell.armlinux.org.uk> <20210319175311.GW1463@shell.armlinux.org.uk>
 MIME-Version: 1.0
-In-Reply-To: <20210318045706.200458-1-hch@lst.de>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-X-Original-Sender: glaubitz@physik.fu-berlin.de
-X-Originating-IP: 87.189.154.111
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20210319175311.GW1463@shell.armlinux.org.uk>
+User-Agent: Mutt/1.5.17 (2007-11-01)
 Precedence: bulk
 List-ID: <linux-alpha.vger.kernel.org>
 X-Mailing-List: linux-alpha@vger.kernel.org
 
-Hello Christoph!
+On Fri, Mar 19, 2021 at 05:53:12PM +0000, Russell King - ARM Linux admin wrote:
+> If I extend the arch/arm/kernel/bios32.c code to kill BARs 2/3 (which
+> actually are not present on the CY82C693) then the IDE driver works
+> for me, but the PATA driver does not:
+> 
+> cy82c693 0000:00:06.1: IDE controller (0x1080:0xc693 rev 0x00)
+> cy82c693 0000:00:06.1: not 100% native mode: will probe irqs later
+> legacy IDE will be removed in 2021, please switch to libata
+> Report any missing HW support to linux-ide@vger.kernel.org
+>     ide0: BM-DMA at 0x1080-0x1087
+>     ide1: BM-DMA at 0x1088-0x108f
+> Probing IDE interface ide0...
+> hda: PIONEER DVD-RW DVR-105, ATAPI CD/DVD-ROM drive
+> hda: host max PIO4 wanted PIO255(auto-tune) selected PIO4
+> ...
+> 
+> (unbind Cypress_IDE and try binding pata_cypress)
+> 
+> pata_cypress 0000:00:06.1: no available native port
 
-On 3/18/21 5:56 AM, Christoph Hellwig wrote:
-> libata mostly covers all hardware supported by the legacy ide driver.
-> There are three mips drivers that are not supported, but the linux-mips
-> list could not identify any users of those.  There also are two m68k
-> drivers that do not have libata equivalents, which might or might not
-> have users, so we'll need some input and possibly help from the m68k
-> community here.
+This comes from ata_pci_sff_init_host when it tails to initialize
+a port.  There are three cases why it can't initialize the port:
 
-I think those drivers were the Q60 driver and the MacIDE driver, weren't they?
+ 1) because it is marked as dummy, which is the case for the second
+    port of the cypress controller, but you're not using that even
+    with the old ide driver, and we'd still not get that message just
+    because of that second port.
+ 2) when ata_resources_present returns false because the BAR has
+    a zero start or length
+ 3) because pcim_iomap_regions() fails.  This prints a warning to the
+    log ("failed to request/iomap BARs for port %d (errno=%d)") that you
+    should have seen
 
-Either way, I have so far been unsuccessful in obtaining access to these machines
-but I assume once we gain access to such machines, Bartlomiej could convert the
-drivers the same way he already converted the falcon, gayle and buddha drivers,
-for example.
+So the problem here has to be number two.  The legacy ide driver OTOH
+seems to lack a lot of these checks, although I'm not sure how it
+manages to actually work without those.
 
-One could also just convert the drivers to libata and include them untested, the
-conversion itself seems pretty little work for someone experienced with libata.
-
-Adrian
-
--- 
- .''`.  John Paul Adrian Glaubitz
-: :' :  Debian Developer - glaubitz@debian.org
-`. `'   Freie Universitaet Berlin - glaubitz@physik.fu-berlin.de
-  `-    GPG: 62FF 8A75 84E0 2956 9546  0006 7426 3B37 F5B5 F913
-
+Can you show how the BAR assignment for the device looks using lscpi
+or a tool of your choice?
