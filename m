@@ -2,62 +2,43 @@ Return-Path: <linux-alpha-owner@vger.kernel.org>
 X-Original-To: lists+linux-alpha@lfdr.de
 Delivered-To: lists+linux-alpha@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id DC099344CDF
-	for <lists+linux-alpha@lfdr.de>; Mon, 22 Mar 2021 18:11:00 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id EBC643460E7
+	for <lists+linux-alpha@lfdr.de>; Tue, 23 Mar 2021 15:04:10 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231916AbhCVRK1 (ORCPT <rfc822;lists+linux-alpha@lfdr.de>);
-        Mon, 22 Mar 2021 13:10:27 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56168 "EHLO
+        id S230509AbhCWODi (ORCPT <rfc822;lists+linux-alpha@lfdr.de>);
+        Tue, 23 Mar 2021 10:03:38 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43234 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231838AbhCVRKN (ORCPT
+        with ESMTP id S232001AbhCWODR (ORCPT
         <rfc822;linux-alpha@vger.kernel.org>);
-        Mon, 22 Mar 2021 13:10:13 -0400
-Received: from mail-pf1-x433.google.com (mail-pf1-x433.google.com [IPv6:2607:f8b0:4864:20::433])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2FF8AC061574;
-        Mon, 22 Mar 2021 10:10:13 -0700 (PDT)
-Received: by mail-pf1-x433.google.com with SMTP id q5so11385280pfh.10;
-        Mon, 22 Mar 2021 10:10:13 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=fiyXOeQWEig0s6UT1FT5pCXalIidRHvGHYc/I0I86U4=;
-        b=QKCSek145JEuRPcVGh+jry7eSFRT7rDliJdVjjDPerK0DFdLuxLHuth+sgT617W5Mm
-         jecfEAMmOTZUwEtOT3NVkAuqnrRYhKJ/CPAWXtEAfpcv5KG+ByG0IJxfzUFn3hGP6OsW
-         oPWtBEalIpy+zv0CWGZlMW8GxXXGV7ADUru4p65y9tx2V70fFVPGVCDw2XknH9W9/seH
-         rGXSeCTpJaVlOEifvnGhW30lT6qTGVC8HeDy6eR1kA3bHZjb4uNfitWtT0tuQ4nhlZPN
-         JOrlTpcixGngqPjLmXcVOVdlhvxtSuD9Os696fAhe93PNbZoIWZPQiMeHjELruNKLkUN
-         u7Rw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=fiyXOeQWEig0s6UT1FT5pCXalIidRHvGHYc/I0I86U4=;
-        b=e6MMktrDdCoTNtGegQcQFUMgR9FqHo4oZK4DjO0H0/ky4VtjScGgtbREDgDEJCOY9y
-         ObaszwJqkYdND/mLQOYMvm/h4VWTNR/yiE7kcVBvkqouvuDg74KfV2m/oIpqGOLn6ygw
-         mduUbj+WtKvgvpfvtkcig4o1oJAwkvhnFjjL0MEa+ZHfgMFQpwGMgCJPEVztOGp2/Vq0
-         59/srjQEWrxKRU4ZFFm3DvF86c0pPG7PG7u3K4jfrQlOUR4kq57AwGnfE/ga2rZfZSTR
-         ux9F2J1gEBeziS4kZQL1zJK935p0Gvlen8Jn4q9PkbdZ/6yHQiZakta+zvxeVCb9B3Iu
-         N4Hw==
-X-Gm-Message-State: AOAM532XA6xIyDMk/DQm605wrMerOw0A6Fx18EtIAwG2TZuDLBgTZvYm
-        4RlvbubYwex51RWWcii7CnbRsHpafH7SovGHusU=
-X-Google-Smtp-Source: ABdhPJyo1TSVtrx9+IOM2nIeFXCEIk7pxXeayGexYBlLGasNOgy9jn+8roBBPwJzj7t1TMvI/kT0tl7xmg8I5hxgK3k=
-X-Received: by 2002:a63:cc:: with SMTP id 195mr493605pga.282.1616433012697;
- Mon, 22 Mar 2021 10:10:12 -0700 (PDT)
-MIME-Version: 1.0
-References: <20210318045706.200458-1-hch@lst.de> <20210318045706.200458-3-hch@lst.de>
- <20210319170753.GV1463@shell.armlinux.org.uk> <20210319175311.GW1463@shell.armlinux.org.uk>
- <20210322145403.GA30942@lst.de> <20210322151503.GX1463@shell.armlinux.org.uk>
- <224b110e-7c42-4e19-800e-e0fa23d3bf7f@physik.fu-berlin.de> <20210322170338.GZ1463@shell.armlinux.org.uk>
-In-Reply-To: <20210322170338.GZ1463@shell.armlinux.org.uk>
-From:   Cye Borg <cyborgyn@gmail.com>
-Date:   Mon, 22 Mar 2021 18:10:01 +0100
-Message-ID: <CAD4NMuZWoV0m85OyBDHLt+J8NYCV5wYx7fFZaivBNEgDnrN5xw@mail.gmail.com>
-Subject: Re: [PATCH 02/10] ARM: disable CONFIG_IDE in footbridge_defconfig
-To:     Russell King - ARM Linux admin <linux@armlinux.org.uk>
-Cc:     John Paul Adrian Glaubitz <glaubitz@physik.fu-berlin.de>,
-        Christoph Hellwig <hch@lst.de>,
-        "David S. Miller" <davem@davemloft.net>,
+        Tue, 23 Mar 2021 10:03:17 -0400
+Received: from pandora.armlinux.org.uk (pandora.armlinux.org.uk [IPv6:2001:4d48:ad52:32c8:5054:ff:fe00:142])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 21DBBC061763;
+        Tue, 23 Mar 2021 07:03:16 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+        d=armlinux.org.uk; s=pandora-2019; h=Sender:In-Reply-To:Content-Type:
+        MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
+        Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
+        Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:
+        List-Help:List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
+         bh=N2uCmQ8vi2Ep5UQ3oogYPNPYrv32/jec/EyUkk8lTs8=; b=X+JdXLoQWsdpRf+AXi8/3tUI/
+        jXnKmRfCxmqfZ3epNEm5hZd6PTJjrEfchsuMTTlqSuqlwy6qnEC631sY4eZU+osiWuHRhcxdwfmBD
+        EcYvmwvWC1bY3+5djEQq4uPoU/zCK3YUQHS/90ljVFZtIVLjCNXfSahRqSQjUFj/aqr7rUZvqKCg4
+        nAFII9fQW+Yo8eMKfe/x8Vh7CDPqW0zVh4L6fCzsTfFC91VsLLsN1Nuepys1ybTCHaDv7p6juNvev
+        jSWu7nxKgl0Rmv4lCgJG2fgIHHEpOcy5Vg45Bw0aV7bKbBtPXM47Pr9bcIU6ymZXkeYIVCo3YUFhi
+        YIUU7TlWA==;
+Received: from shell.armlinux.org.uk ([fd8f:7570:feb6:1:5054:ff:fe00:4ec]:51628)
+        by pandora.armlinux.org.uk with esmtpsa (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
+        (Exim 4.92)
+        (envelope-from <linux@armlinux.org.uk>)
+        id 1lOhcg-0007nq-TU; Tue, 23 Mar 2021 14:03:07 +0000
+Received: from linux by shell.armlinux.org.uk with local (Exim 4.92)
+        (envelope-from <linux@shell.armlinux.org.uk>)
+        id 1lOhcd-0004D5-LA; Tue, 23 Mar 2021 14:03:03 +0000
+Date:   Tue, 23 Mar 2021 14:03:03 +0000
+From:   Russell King - ARM Linux admin <linux@armlinux.org.uk>
+To:     Christoph Hellwig <hch@lst.de>
+Cc:     "David S. Miller" <davem@davemloft.net>,
         Jens Axboe <axboe@kernel.dk>,
         Geert Uytterhoeven <geert@linux-m68k.org>,
         Richard Henderson <rth@twiddle.net>,
@@ -70,85 +51,113 @@ Cc:     John Paul Adrian Glaubitz <glaubitz@physik.fu-berlin.de>,
         linux-arm-kernel@lists.infradead.org,
         linux-m68k@lists.linux-m68k.org, linux-mips@vger.kernel.org,
         linuxppc-dev@lists.ozlabs.org
-Content-Type: text/plain; charset="UTF-8"
+Subject: Re: [PATCH 02/10] ARM: disable CONFIG_IDE in footbridge_defconfig
+Message-ID: <20210323140303.GD1463@shell.armlinux.org.uk>
+References: <20210318045706.200458-1-hch@lst.de>
+ <20210318045706.200458-3-hch@lst.de>
+ <20210319170753.GV1463@shell.armlinux.org.uk>
+ <20210319175311.GW1463@shell.armlinux.org.uk>
+ <20210322145403.GA30942@lst.de>
+ <20210322151503.GX1463@shell.armlinux.org.uk>
+ <20210322151823.GA2764@lst.de>
+ <20210322153314.GA3440@lst.de>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20210322153314.GA3440@lst.de>
+User-Agent: Mutt/1.10.1 (2018-07-13)
+Sender: Russell King - ARM Linux admin <linux@armlinux.org.uk>
 Precedence: bulk
 List-ID: <linux-alpha.vger.kernel.org>
 X-Mailing-List: linux-alpha@vger.kernel.org
 
-PWS 500au:
-
-snow / # lspci -vvx -s 7.1
-00:07.1 IDE interface: Contaq Microsystems 82c693 (prog-if 80 [ISA
-Compatibility mode-only controller, supports bus mastering])
-        Control: I/O+ Mem- BusMaster+ SpecCycle- MemWINV- VGASnoop-
-ParErr+ Stepping- SERR- FastB2B- DisINTx-
-        Status: Cap- 66MHz- UDF- FastB2B+ ParErr- DEVSEL=medium
->TAbort- <TAbort- <MAbort- >SERR- <PERR- INTx-
-        Latency: 0
-        Interrupt: pin A routed to IRQ 0
-        Region 0: I/O ports at 01f0 [size=8]
-        Region 1: I/O ports at 03f4
-        Region 4: I/O ports at 9080 [size=16]
-        Kernel driver in use: pata_cypress
-        Kernel modules: pata_cypress
-00: 80 10 93 c6 45 00 80 02 00 80 01 01 00 00 80 00
-10: f1 01 00 00 f5 03 00 00 00 00 00 00 00 00 00 00
-20: 81 90 00 00 00 00 00 00 00 00 00 00 00 00 00 00
-30: 00 00 00 00 00 00 00 00 00 00 00 00 00 01 00 00
-
-snow / # lspci -vvx -s 7.2
-00:07.2 IDE interface: Contaq Microsystems 82c693 (prog-if 00 [ISA
-Compatibility mode-only controller])
-        Control: I/O+ Mem- BusMaster+ SpecCycle- MemWINV- VGASnoop-
-ParErr+ Stepping- SERR- FastB2B- DisINTx-
-        Status: Cap- 66MHz- UDF- FastB2B+ ParErr- DEVSEL=medium
->TAbort- <TAbort- <MAbort- >SERR- <PERR- INTx-
-        Latency: 0
-        Interrupt: pin B routed to IRQ 0
-        Region 0: I/O ports at 0170 [size=8]
-        Region 1: I/O ports at 0374
-        Region 4: Memory at 0c240000 (32-bit, non-prefetchable)
-[disabled] [size=64K]
-        Kernel modules: pata_cypress
-00: 80 10 93 c6 45 00 80 02 00 00 01 01 00 00 80 00
-10: 71 01 00 00 75 03 00 00 00 00 00 00 00 00 00 00
-20: 00 00 24 0c 00 00 00 00 00 00 00 00 00 00 00 00
-30: 00 00 00 00 00 00 00 00 00 00 00 00 00 02 00 00
-
-On Mon, Mar 22, 2021 at 6:04 PM Russell King - ARM Linux admin
-<linux@armlinux.org.uk> wrote:
->
-> On Mon, Mar 22, 2021 at 05:09:13PM +0100, John Paul Adrian Glaubitz wrote:
-> > On 3/22/21 4:15 PM, Russell King - ARM Linux admin wrote:
+On Mon, Mar 22, 2021 at 04:33:14PM +0100, Christoph Hellwig wrote:
+> On Mon, Mar 22, 2021 at 04:18:23PM +0100, Christoph Hellwig wrote:
+> > On Mon, Mar 22, 2021 at 03:15:03PM +0000, Russell King - ARM Linux admin wrote:
+> > > It gets worse than that though - due to a change to remove
+> > > pcibios_min_io from the generic code, moving it into the ARM
+> > > architecture code, this has caused a regression that prevents the
+> > > legacy resources being registered against the bus resource. So even
+> > > if they are there, they cause probe failures. I haven't found a
+> > > reasonable way to solve this yet, but until there is, there is no
+> > > way that the PATA driver can be used as the "legacy mode" support
+> > > is effectively done via the PCI code assigning virtual IO port
+> > > resources.
+> > > 
 > > > I'm quite surprised that the CY82C693 even works on Alpha - I've
 > > > asked for a lspci for that last week but nothing has yet been
 > > > forthcoming from whoever responded to your patch for Alpha - so I
 > > > can't compare what I'm seeing with what's happening with Alpha.
-> >
-> > Here is lspci on my DEC Alpha XP-1000:
-> >
-> > root@tsunami:~> lspci
-> > 0000:00:07.0 ISA bridge: Contaq Microsystems 82c693
-> > 0000:00:07.1 IDE interface: Contaq Microsystems 82c693
-> > 0000:00:07.2 IDE interface: Contaq Microsystems 82c693
-> > 0000:00:07.3 USB controller: Contaq Microsystems 82c693
-> > 0000:00:0d.0 VGA compatible controller: Texas Instruments TVP4020 [Permedia 2] (rev 01)
-> > 0001:01:03.0 Ethernet controller: Digital Equipment Corporation DECchip 21142/43 (rev 41)
-> > 0001:01:06.0 SCSI storage controller: QLogic Corp. ISP1020 Fast-wide SCSI (rev 06)
-> > 0001:01:08.0 PCI bridge: Digital Equipment Corporation DECchip 21152 (rev 03)
-> > 0001:02:09.0 Ethernet controller: Intel Corporation 82541PI Gigabit Ethernet Controller (rev 05)
-> > root@tsunami:~>
->
-> This is no good. What I asked last Thursday was:
->
-> "Could you send me the output of lspci -vvx -s 7.1 and lspci -vvx -s 7.2
-> please?"
->
-> so I can see the resources the kernel is using and a dump of the PCI
-> config space to see what the hardware is using.
->
-> Thanks.
->
-> --
-> RMK's Patch system: https://www.armlinux.org.uk/developer/patches/
-> FTTP is here! 40Mbps down 10Mbps up. Decent connectivity at last!
+> > 
+> > That sounds like something we could fix with a quirk for function 2
+> > in the PCI resource assignment code.  Can you show what vendor and
+> > device ID function 2 has so that I could try to come up with one?
+> 
+> Something like this:
+
+That solves the problem for the IDE driver, which knows how to deal
+with legacy mode, but not the PATA driver, which doesn't. The PATA
+driver needs these resources.
+
+As I say, having these resources presents a problem on ARM. A previous
+commit (3c5d1699887b) changed the way the bus resources are setup which
+results in /proc/ioports containing:
+
+00000000-0000000f : dma1
+00000020-0000003f : pic1
+00000060-0000006f : i8042
+00000070-00000073 : rtc_cmos
+  00000070-00000073 : rtc0
+00000080-0000008f : dma low page
+000000a0-000000bf : pic2
+000000c0-000000df : dma2
+00000213-00000213 : ISAPnP
+000002f8-000002ff : serial8250.0
+  000002f8-000002ff : serial
+000003c0-000003df : vga+
+000003f8-000003ff : serial8250.0
+  000003f8-000003ff : serial
+00000480-0000048f : dma high page
+00000a79-00000a79 : isapnp write
+00001000-0000ffff : PCI0 I/O
+  00001000-0000107f : 0000:00:08.0
+    00001000-0000107f : 3c59x
+  00001080-0000108f : 0000:00:06.1
+  00001090-0000109f : 0000:00:07.0
+    00001090-0000109f : pata_it821x
+  000010a0-000010a7 : 0000:00:07.0
+    000010a0-000010a7 : pata_it821x
+  000010a8-000010af : 0000:00:07.0
+    000010a8-000010af : pata_it821x
+  000010b0-000010b3 : 0000:00:07.0
+    000010b0-000010b3 : pata_it821x
+  000010b4-000010b7 : 0000:00:07.0
+    000010b4-000010b7 : pata_it821x
+
+The "PCI0 I/O" resource is the bus level resource, and the legacy
+resources can not be claimed against that.
+
+Without these resources, the PATA cypress driver doesn't work.
+
+As I said previously, the reason this regression was not picked up
+earlier is because I don't upgrade the kernel on this machine very
+often; the machine has had uptimes into thousands of days.
+
+I need to try reverting Rob's commit to find out if anything breaks
+on this platform - it's completely wrong from a technical point of
+view for any case where we have a PCI southbridge, since the
+southbridge provides ISA based resources. I'm not entirely sure
+what the point of it was, since we still have the PCIBIOS_MIN_IO
+macro which still uses pcibios_min_io.
+
+I'm looking at some of the other changes Rob made back at that time
+which also look wrong, such as 8ef6e6201b26 which has the effect of
+locating the 21285 IO resources to PCI address 0, over the top of
+the ISA southbridge resources. I've no idea what Rob was thinking
+when he removed the csrio allocation code in that commit, but
+looking at it to day, it's soo obviously wrong even to a casual
+glance.
+
+-- 
+RMK's Patch system: https://www.armlinux.org.uk/developer/patches/
+FTTP is here! 40Mbps down 10Mbps up. Decent connectivity at last!
