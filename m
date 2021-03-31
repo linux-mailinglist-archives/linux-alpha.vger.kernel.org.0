@@ -2,169 +2,47 @@ Return-Path: <linux-alpha-owner@vger.kernel.org>
 X-Original-To: lists+linux-alpha@lfdr.de
 Delivered-To: lists+linux-alpha@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id EF9C734EDE7
-	for <lists+linux-alpha@lfdr.de>; Tue, 30 Mar 2021 18:32:39 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id B0A8C34F9D6
+	for <lists+linux-alpha@lfdr.de>; Wed, 31 Mar 2021 09:30:45 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232236AbhC3QcI (ORCPT <rfc822;lists+linux-alpha@lfdr.de>);
-        Tue, 30 Mar 2021 12:32:08 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:34786 "EHLO
-        us-smtp-delivery-124.mimecast.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S232221AbhC3QcG (ORCPT
+        id S233999AbhCaHaK convert rfc822-to-8bit (ORCPT
+        <rfc822;lists+linux-alpha@lfdr.de>); Wed, 31 Mar 2021 03:30:10 -0400
+Received: from bizcloud-power.sawafuji.co.jp ([128.199.220.203]:47845 "EHLO
+        mta0.sawafuji.co.jp" rhost-flags-OK-FAIL-OK-FAIL) by vger.kernel.org
+        with ESMTP id S234004AbhCaH3y (ORCPT
         <rfc822;linux-alpha@vger.kernel.org>);
-        Tue, 30 Mar 2021 12:32:06 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1617121926;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         content-transfer-encoding:content-transfer-encoding:
-         in-reply-to:in-reply-to:references:references;
-        bh=5DxGbfaWBQohyHUg4T2hAugoPQ+5ugb6cQ8DhRFqjyc=;
-        b=Qk0asC3LG6zgnKEmQtkAH1xFva/ZxNB7u7F2Llgg9rcqbKey8nqtnlNC4T8KmlGXTwHkyM
-        /hi15jXxSIOq048ry1PaaejxpViSKshutbNnu9WXE4YOYoDwKtW5NkMqxH5SgS2odtZgWG
-        BFqMO2wVPSsSBvJVSclboBT1Q+0TiBA=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-332-4doft93uOSKqpQWwdKTZlg-1; Tue, 30 Mar 2021 12:32:02 -0400
-X-MC-Unique: 4doft93uOSKqpQWwdKTZlg-1
-Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com [10.5.11.22])
-        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
-        (No client certificate requested)
-        by mimecast-mx01.redhat.com (Postfix) with ESMTPS id F06F184BA40;
-        Tue, 30 Mar 2021 16:31:58 +0000 (UTC)
-Received: from [10.36.114.210] (ovpn-114-210.ams2.redhat.com [10.36.114.210])
-        by smtp.corp.redhat.com (Postfix) with ESMTP id 12B9B10016DB;
-        Tue, 30 Mar 2021 16:31:42 +0000 (UTC)
-Subject: Re: [PATCH v1 2/5] mm/madvise: introduce MADV_POPULATE_(READ|WRITE)
- to prefault/prealloc memory
-From:   David Hildenbrand <david@redhat.com>
-To:     Jann Horn <jannh@google.com>
-Cc:     kernel list <linux-kernel@vger.kernel.org>,
-        Linux-MM <linux-mm@kvack.org>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Arnd Bergmann <arnd@arndb.de>, Michal Hocko <mhocko@suse.com>,
-        Oscar Salvador <osalvador@suse.de>,
-        Matthew Wilcox <willy@infradead.org>,
-        Andrea Arcangeli <aarcange@redhat.com>,
-        Minchan Kim <minchan@kernel.org>,
-        Jason Gunthorpe <jgg@ziepe.ca>,
-        Dave Hansen <dave.hansen@intel.com>,
-        Hugh Dickins <hughd@google.com>,
-        Rik van Riel <riel@surriel.com>,
-        "Michael S . Tsirkin" <mst@redhat.com>,
-        "Kirill A . Shutemov" <kirill.shutemov@linux.intel.com>,
-        Vlastimil Babka <vbabka@suse.cz>,
-        Richard Henderson <rth@twiddle.net>,
-        Ivan Kokshaysky <ink@jurassic.park.msu.ru>,
-        Matt Turner <mattst88@gmail.com>,
-        Thomas Bogendoerfer <tsbogend@alpha.franken.de>,
-        "James E.J. Bottomley" <James.Bottomley@hansenpartnership.com>,
-        Helge Deller <deller@gmx.de>, Chris Zankel <chris@zankel.net>,
-        Max Filippov <jcmvbkbc@gmail.com>,
-        Mike Kravetz <mike.kravetz@oracle.com>,
-        Peter Xu <peterx@redhat.com>,
-        Rolf Eike Beer <eike-kernel@sf-tec.de>,
-        linux-alpha@vger.kernel.org, linux-mips@vger.kernel.org,
-        linux-parisc@vger.kernel.org, linux-xtensa@linux-xtensa.org,
-        linux-arch <linux-arch@vger.kernel.org>,
-        Linux API <linux-api@vger.kernel.org>
-References: <20210317110644.25343-1-david@redhat.com>
- <20210317110644.25343-3-david@redhat.com>
- <CAG48ez0BQ3Vd3nDLEvyiSU0XALgUQ=c-fAwcFVScUkgo_9qVuQ@mail.gmail.com>
- <2bab28c7-08c0-7ff0-c70e-9bf94da05ce1@redhat.com>
- <CAG48ez20rLRNPZj6hLHQ_PLT8H60kTac-uXRiLByD70Q7+qsdQ@mail.gmail.com>
- <26227fc6-3e7b-4e69-f69d-4dc2a67ecfe8@redhat.com>
-Organization: Red Hat GmbH
-Message-ID: <54165ffe-dbf7-377a-a710-d15be4701f20@redhat.com>
-Date:   Tue, 30 Mar 2021 18:31:41 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.8.0
+        Wed, 31 Mar 2021 03:29:54 -0400
+X-Greylist: delayed 642 seconds by postgrey-1.27 at vger.kernel.org; Wed, 31 Mar 2021 03:29:54 EDT
+From:   Albert Bourla <info@universalautomation.com.pk>
+To:     linux-alpha@vger.kernel.org
+Subject: Bidding invitation
+Date:   31 Mar 2021 09:09:28 +0200
+Message-ID: <20210331090927.148AE30DA94B0094@universalautomation.com.pk>
 MIME-Version: 1.0
-In-Reply-To: <26227fc6-3e7b-4e69-f69d-4dc2a67ecfe8@redhat.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
+Content-Type: text/plain;
+        charset="utf-8"
+Content-Transfer-Encoding: 8BIT
 Precedence: bulk
 List-ID: <linux-alpha.vger.kernel.org>
 X-Mailing-List: linux-alpha@vger.kernel.org
 
-On 30.03.21 18:30, David Hildenbrand wrote:
-> On 30.03.21 18:21, Jann Horn wrote:
->> On Tue, Mar 30, 2021 at 5:01 PM David Hildenbrand <david@redhat.com> wrote:
->>>>> +long faultin_vma_page_range(struct vm_area_struct *vma, unsigned long start,
->>>>> +                           unsigned long end, bool write, int *locked)
->>>>> +{
->>>>> +       struct mm_struct *mm = vma->vm_mm;
->>>>> +       unsigned long nr_pages = (end - start) / PAGE_SIZE;
->>>>> +       int gup_flags;
->>>>> +
->>>>> +       VM_BUG_ON(!PAGE_ALIGNED(start));
->>>>> +       VM_BUG_ON(!PAGE_ALIGNED(end));
->>>>> +       VM_BUG_ON_VMA(start < vma->vm_start, vma);
->>>>> +       VM_BUG_ON_VMA(end > vma->vm_end, vma);
->>>>> +       mmap_assert_locked(mm);
->>>>> +
->>>>> +       /*
->>>>> +        * FOLL_HWPOISON: Return -EHWPOISON instead of -EFAULT when we hit
->>>>> +        *                a poisoned page.
->>>>> +        * FOLL_POPULATE: Always populate memory with VM_LOCKONFAULT.
->>>>> +        * !FOLL_FORCE: Require proper access permissions.
->>>>> +        */
->>>>> +       gup_flags = FOLL_TOUCH | FOLL_POPULATE | FOLL_MLOCK | FOLL_HWPOISON;
->>>>> +       if (write)
->>>>> +               gup_flags |= FOLL_WRITE;
->>>>> +
->>>>> +       /*
->>>>> +        * See check_vma_flags(): Will return -EFAULT on incompatible mappings
->>>>> +        * or with insufficient permissions.
->>>>> +        */
->>>>> +       return __get_user_pages(mm, start, nr_pages, gup_flags,
->>>>> +                               NULL, NULL, locked);
->>>>
->>>> You mentioned in the commit message that you don't want to actually
->>>> dirty all the file pages and force writeback; but doesn't
->>>> POPULATE_WRITE still do exactly that? In follow_page_pte(), if
->>>> FOLL_TOUCH and FOLL_WRITE are set, we mark the page as dirty:
->>>
->>> Well, I mention that POPULATE_READ explicitly doesn't do that. I
->>> primarily set it because populate_vma_page_range() also sets it.
->>>
->>> Is it safe to *not* set it? IOW, fault something writable into a page
->>> table (where the CPU could dirty it without additional page faults)
->>> without marking it accessed? For me, this made logically sense. Thus I
->>> also understood why populate_vma_page_range() set it.
->>
->> FOLL_TOUCH doesn't have anything to do with installing the PTE - it
->> essentially means "the caller of get_user_pages wants to read/write
->> the contents of the returned page, so please do the same things you
->> would do if userspace was accessing the page". So in particular, if
->> you look up a page via get_user_pages() with FOLL_WRITE|FOLL_TOUCH,
->> that tells the MM subsystem "I will be writing into this page directly
->> from the kernel, bypassing the userspace page tables, so please mark
->> it as dirty now so that it will be properly written back later". Part
->> of that is that it marks the page as recently used, which has an
->> effect on LRU pageout behavior, I think - as far as I understand, that
->> is why populate_vma_page_range() uses FOLL_TOUCH.
->>
->> If you look at __get_user_pages(), you can see that it is split up
->> into two major parts: faultin_page() for creating PTEs, and
->> follow_page_mask() for grabbing pages from PTEs. faultin_page()
->> ignores FOLL_TOUCH completely; only follow_page_mask() uses it.
->>
->> In a way I guess maybe you do want the "mark as recently accessed"
->> part that FOLL_TOUCH would give you without FOLL_WRITE? But I think
->> you very much don't want the dirtying that FOLL_TOUCH|FOLL_WRITE leads
->> to. Maybe the ideal approach would be to add a new FOLL flag to say "I
->> only want to mark as recently used, I don't want to dirty". Or maybe
->> it's enough to just leave out the FOLL_TOUCH entirely, I don't know.
-> 
-> Any thoughts why populate_vma_page_range() does it?
+Good Day Sir/Ms,
 
-Sorry, I missed the explanation above - thanks!
+We are please to invite you or your company to quote the 
+following item listed below:
+ 
+Product/Model No: A702TH FYNE PRESSURE REGULATOR
+Model Number: A702TH
+Qty. 30 units
 
 
--- 
-Thanks,
+Compulsory,Kindly send your quotation to: 
+quotation@pfizerbvsupply.com 
+for immediate approval.
 
-David / dhildenb
-
+Kind Regards,
+Albert Bourla
+PFIZER B.V Supply Chain Manager
+Tel: +31(0)208080 880
+ADDRESS: Rivium Westlaan 142, 2909 LD
+Capelle aan den IJssel, Netherlands
