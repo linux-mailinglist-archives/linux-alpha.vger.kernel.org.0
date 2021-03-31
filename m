@@ -2,53 +2,76 @@ Return-Path: <linux-alpha-owner@vger.kernel.org>
 X-Original-To: lists+linux-alpha@lfdr.de
 Delivered-To: lists+linux-alpha@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id D30AD34FC20
-	for <lists+linux-alpha@lfdr.de>; Wed, 31 Mar 2021 11:05:47 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id D330E34FCD5
+	for <lists+linux-alpha@lfdr.de>; Wed, 31 Mar 2021 11:30:06 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234086AbhCaJFQ (ORCPT <rfc822;lists+linux-alpha@lfdr.de>);
-        Wed, 31 Mar 2021 05:05:16 -0400
-Received: from angie.orcam.me.uk ([157.25.102.26]:38266 "EHLO
-        angie.orcam.me.uk" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S234476AbhCaJEo (ORCPT
-        <rfc822;linux-alpha@vger.kernel.org>);
-        Wed, 31 Mar 2021 05:04:44 -0400
-Received: by angie.orcam.me.uk (Postfix, from userid 500)
-        id 88F1792009C; Wed, 31 Mar 2021 11:04:42 +0200 (CEST)
-Received: from localhost (localhost [127.0.0.1])
-        by angie.orcam.me.uk (Postfix) with ESMTP id 819FF92009B;
-        Wed, 31 Mar 2021 11:04:42 +0200 (CEST)
-Date:   Wed, 31 Mar 2021 11:04:42 +0200 (CEST)
-From:   "Maciej W. Rozycki" <macro@orcam.me.uk>
-To:     Bob Tracy <rct@frus.com>
-cc:     debian-alpha@lists.debian.org, mcree@orcon.net.nz,
-        linux-alpha@vger.kernel.org
-Subject: Re: X11 system lockup with 5.11.0 kernel
-In-Reply-To: <YF1k+3462hOXkI6d@gherkin.frus.com>
-Message-ID: <alpine.DEB.2.21.2103311059480.18977@angie.orcam.me.uk>
-References: <YFtRTqxFhXfs7r9a@gherkin.frus.com> <YF1k+3462hOXkI6d@gherkin.frus.com>
-User-Agent: Alpine 2.21 (DEB 202 2017-01-01)
+        id S234735AbhCaJ3e (ORCPT <rfc822;lists+linux-alpha@lfdr.de>);
+        Wed, 31 Mar 2021 05:29:34 -0400
+Received: from mail.kernel.org ([198.145.29.99]:47022 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S234718AbhCaJ3N (ORCPT <rfc822;linux-alpha@vger.kernel.org>);
+        Wed, 31 Mar 2021 05:29:13 -0400
+Received: by mail.kernel.org (Postfix) with ESMTPSA id 3578661606;
+        Wed, 31 Mar 2021 09:29:01 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1617182952;
+        bh=aMxacYx0WSuYSq+RvcHg7XLnuWTcQHWfWM2hCy7hYJU=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=ZilpE/CgLvY3Nm3hLeCdPrSzQ0bka0Q/xAMzoDxoKT2sksg/+xdgw70lbIQlKRH9q
+         HQM7q1tR3SOaufoC3EF8clnG+n8fTsUXBRqFIqRReR3kDRE9b5+HETaEN2azemUCyN
+         +dywdbjbEuNLM1pOQ9fKcI8/BlabXbx6EDZQjXTlXZiHlwJBGfmHuNxznBzTG2bJFd
+         nNykz3YpDvfjp1B8PgDSj0QLp5Bc0UJEz3WtQfw8cmvL2FnE443FSPWgxCOoGmWTX7
+         urjc5s1XzZrXM3ARPcSSDIS4mEkSxEnbcwd3SAssAB5TkbJXQ91S3vF7J6sARmo8bJ
+         QvnQEWfFitvHA==
+Date:   Wed, 31 Mar 2021 12:28:57 +0300
+From:   Mike Rapoport <rppt@kernel.org>
+To:     Kefeng Wang <wangkefeng.wang@huawei.com>
+Cc:     linux-kernel@vger.kernel.org,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Russell King <linux@armlinux.org.uk>,
+        Catalin Marinas <catalin.marinas@arm.com>,
+        Richard Henderson <rth@twiddle.net>,
+        Guo Ren <guoren@kernel.org>,
+        Yoshinori Sato <ysato@users.sourceforge.jp>,
+        Huacai Chen <chenhuacai@kernel.org>,
+        Jonas Bonn <jonas@southpole.se>,
+        Palmer Dabbelt <palmer@dabbelt.com>,
+        Heiko Carstens <hca@linux.ibm.com>,
+        "David S. Miller" <davem@davemloft.net>,
+        Dave Hansen <dave.hansen@linux.intel.com>,
+        Peter Zijlstra <peterz@infradead.org>,
+        Ingo Molnar <mingo@redhat.com>, linux-alpha@vger.kernel.org,
+        linux-snps-arc@lists.infradead.org,
+        linux-arm-kernel@lists.infradead.org, linux-csky@vger.kernel.org,
+        linux-hexagon@vger.kernel.org, linux-ia64@vger.kernel.org,
+        linux-m68k@lists.linux-m68k.org, linux-mips@vger.kernel.org,
+        openrisc@lists.librecores.org, linux-parisc@vger.kernel.org,
+        linuxppc-dev@lists.ozlabs.org, linux-riscv@lists.infradead.org,
+        linux-s390@vger.kernel.org, linux-sh@vger.kernel.org,
+        sparclinux@vger.kernel.org, linux-um@lists.infradead.org,
+        linux-xtensa@linux-xtensa.org, linux-mm@kvack.org
+Subject: Re: [PATCH v2] mm: Move mem_init_print_info() into mm_init()
+Message-ID: <YGRA2SU28yciN9xU@kernel.org>
+References: <4d488195-7281-9238-b30d-9f89a6100fb9@csgroup.eu>
+ <20210317015210.33641-1-wangkefeng.wang@huawei.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20210317015210.33641-1-wangkefeng.wang@huawei.com>
 Precedence: bulk
 List-ID: <linux-alpha.vger.kernel.org>
 X-Mailing-List: linux-alpha@vger.kernel.org
 
-On Thu, 25 Mar 2021, Bob Tracy wrote:
-
-> > Everything worked as well as it's going to for kernel versions up
-> > through v5.10.0.  When I boot on v5.11.0, "lightdm" starts, the screen
-> > goes blank as usual, I get a mouse pointer as usual, and shortly after
-> > that, the system locks up solid (completely nonresponsive except for
-> > being able to ping it -- can't login remotely).  Recovery is via the
-> > reset switch at that point :-(.
-> > (...)
+On Wed, Mar 17, 2021 at 09:52:10AM +0800, Kefeng Wang wrote:
+> mem_init_print_info() is called in mem_init() on each architecture,
+> and pass NULL argument, so using void argument and move it into mm_init().
 > 
-> Same results for 5.12.0-rc4 kernel.
+> Acked-by: Dave Hansen <dave.hansen@linux.intel.com>
+> Signed-off-by: Kefeng Wang <wangkefeng.wang@huawei.com>
 
- I think the only feasible way of determining what has happened here is 
-that you track the offending change down by bisecting the upstream kernel 
-repository with `git bisect'.  Once you have it someone may help, either 
-the author of the change, or the relevant maintainer, or someone else at 
-<linux-kernel@vger.kernel.org>.
+Acked-by: Mike Rapoport <rppt@linux.ibm.com>
 
-  Maciej
+> ---
+> v2:
+> - Cleanup 'str' line suggested by Christophe and ACK
+> 
