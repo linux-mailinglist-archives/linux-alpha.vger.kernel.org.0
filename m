@@ -2,70 +2,99 @@ Return-Path: <linux-alpha-owner@vger.kernel.org>
 X-Original-To: lists+linux-alpha@lfdr.de
 Delivered-To: lists+linux-alpha@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 556AF36E351
-	for <lists+linux-alpha@lfdr.de>; Thu, 29 Apr 2021 04:36:43 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 1885F36FF9D
+	for <lists+linux-alpha@lfdr.de>; Fri, 30 Apr 2021 19:35:13 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S236068AbhD2Ch1 (ORCPT <rfc822;lists+linux-alpha@lfdr.de>);
-        Wed, 28 Apr 2021 22:37:27 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52792 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229762AbhD2Ch1 (ORCPT
+        id S231418AbhD3RgA (ORCPT <rfc822;lists+linux-alpha@lfdr.de>);
+        Fri, 30 Apr 2021 13:36:00 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:25160 "EHLO
+        us-smtp-delivery-124.mimecast.com" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S231150AbhD3Rf4 (ORCPT
         <rfc822;linux-alpha@vger.kernel.org>);
-        Wed, 28 Apr 2021 22:37:27 -0400
-Received: from mail-ej1-x631.google.com (mail-ej1-x631.google.com [IPv6:2a00:1450:4864:20::631])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1CEECC06138B;
-        Wed, 28 Apr 2021 19:36:40 -0700 (PDT)
-Received: by mail-ej1-x631.google.com with SMTP id u17so97672685ejk.2;
-        Wed, 28 Apr 2021 19:36:40 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=O/vop45HHXD7xdWpJ3LqRkscEPKwG+bV95vmdn+ZXRQ=;
-        b=i9Mdnar7Joz9zzIF+3zVrEX8TnA0bOMhfP20/XDOX7h1QzUlUFFJEbYBw0YV0NUb9Y
-         RKKzADx1vNokvehQsmrVtCF2rzcUU0FjeaEv5nBgR3yhMJLBmqhBbGH0LjGFm3TzU8Wl
-         On1sD4rmam2ZrXYCu1huAsYhr7ggHBkfKdVtzaTZfrEaP37cRlbCMN2/Fi3PefqRQDEA
-         CQMrussJzSTFPozJa6vAY4h/5wbIOnWfItR4KN8vMwhM3gs8K5Z93265aBA4y7OSWC6m
-         UaM2osFrT4x+L1RGNKU5eZTsaLWFcvGYTtR7X+l0GIWqEObXT1Lop4/60kgpq17YeKQv
-         rqug==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=O/vop45HHXD7xdWpJ3LqRkscEPKwG+bV95vmdn+ZXRQ=;
-        b=lh5uhxzBOsBFqOt366TpAXFaKkHwrslLHY72E0c+yVOTfGao0LBD6pHWzOJ1bxyqkZ
-         J+X0dv5m2Bk6OYL4DfwH0Smm8583hG2EQMrw1DWl8lv6e/KgP6ExG4TYc+2VDsT3YjW0
-         9u6L5U8wmj/jZzVxca2VjL86s59Zs6HMabPKxsRgTFhYF4/R2FLk/U0a88h40lfccNPk
-         cYym6JQQd0HjkHCewPwKQ9DSIaEGwuIkMfpRBxCq/meD/tW6dy0IxkuIn31vAEOoL2eF
-         yMqCMoAiKIVPRIHqoaQOhbboMATRzWxoW74hHonG82WX1byyZr05HQKWglXThSgGfWGu
-         UkUQ==
-X-Gm-Message-State: AOAM532oP/eawW7WhKoR0dLkmhzBexAeli+Mif59rlgReD39KPeT7SrM
-        R3J7ERoJcHK44laQNKW4qRGPKnposSONKfp0fs8=
-X-Google-Smtp-Source: ABdhPJzo1sZapVxbBmhcf28OPaKfJB1HEKMZz3n9P0QBcSLXxZ0ZdS9NveO6RNNNtHkJnqN7ig4uJOlshMU4EEVFTPQ=
-X-Received: by 2002:a17:906:4d11:: with SMTP id r17mr11168971eju.217.1619663798868;
- Wed, 28 Apr 2021 19:36:38 -0700 (PDT)
-MIME-Version: 1.0
-References: <20210420175631.46923-1-david@redhat.com>
-In-Reply-To: <20210420175631.46923-1-david@redhat.com>
-From:   Matt Turner <mattst88@gmail.com>
-Date:   Wed, 28 Apr 2021 22:36:27 -0400
-Message-ID: <CAEdQ38FOJdZxB7OGd569Lkn+RGPyjoukriwDfBEf2QKHvYguXQ@mail.gmail.com>
-Subject: Re: [PATCH v1] binfmt: remove support for em86 (alpha only)
-To:     David Hildenbrand <david@redhat.com>
-Cc:     LKML <linux-kernel@vger.kernel.org>,
+        Fri, 30 Apr 2021 13:35:56 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+        s=mimecast20190719; t=1619804107;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:
+         content-transfer-encoding:content-transfer-encoding;
+        bh=rnOgPKZjZy0onTXRBA27q6w7KxyfRvenQEgxZ63aGEE=;
+        b=QwxO8YgiP3jNaXNS8rmLRFCnBxktdRfoM3/sMu/yNbLONjCKapaNz2f6+5eEy6Ts4jrmuR
+        IAzCPxFvJItRPR6ciTkVPp/ezLlIe1F1jFjoYpf3OD6QmA5hc/fzawtImAlPgbNlX2k9j+
+        IyrBte7lRvHu7D/ywhpVzXCcxLuVwKk=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-470-6zgAS2f6Nnmac7MOH3zjHQ-1; Fri, 30 Apr 2021 13:35:00 -0400
+X-MC-Unique: 6zgAS2f6Nnmac7MOH3zjHQ-1
+Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com [10.5.11.12])
+        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+        (No client certificate requested)
+        by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 1F69F501ED;
+        Fri, 30 Apr 2021 17:34:58 +0000 (UTC)
+Received: from madcap2.tricolour.ca (unknown [10.3.128.45])
+        by smtp.corp.redhat.com (Postfix) with ESMTP id 79AB136DE;
+        Fri, 30 Apr 2021 17:34:48 +0000 (UTC)
+From:   Richard Guy Briggs <rgb@redhat.com>
+To:     Linux-Audit Mailing List <linux-audit@redhat.com>,
+        LKML <linux-kernel@vger.kernel.org>,
+        linux-fsdevel@vger.kernel.org
+Cc:     Paul Moore <paul@paul-moore.com>,
+        Eric Paris <eparis@parisplace.org>,
+        Steve Grubb <sgrubb@redhat.com>,
+        Richard Guy Briggs <rgb@redhat.com>,
         Alexander Viro <viro@zeniv.linux.org.uk>,
-        Richard Henderson <rth@twiddle.net>,
-        Ivan Kokshaysky <ink@jurassic.park.msu.ru>,
-        Linus Torvalds <torvalds@linux-foundation.org>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Jonathan Corbet <corbet@lwn.net>,
-        linux-fsdevel <linux-fsdevel@vger.kernel.org>,
-        Linux API <linux-api@vger.kernel.org>,
-        linux-alpha <linux-alpha@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+        Eric Paris <eparis@redhat.com>, x86@kernel.org,
+        linux-alpha@vger.kernel.org, linux-ia64@vger.kernel.org,
+        linux-parisc@vger.kernel.org, linuxppc-dev@lists.ozlabs.org,
+        linux-s390@vger.kernel.org, sparclinux@vger.kernel.org,
+        Aleksa Sarai <cyphar@cyphar.com>
+Subject: [PATCH v2 0/3] audit: add support for openat2
+Date:   Fri, 30 Apr 2021 13:29:34 -0400
+Message-Id: <cover.1619729297.git.rgb@redhat.com>
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
 Precedence: bulk
 List-ID: <linux-alpha.vger.kernel.org>
 X-Mailing-List: linux-alpha@vger.kernel.org
 
-This seems very reasonable, and I'll merge it through my tree unless
-someone beats me to it.
+The openat2(2) syscall was added in v5.6.  Add support for openat2 to the
+audit syscall classifier and for recording openat2 parameters that cannot
+be captured in the syscall parameters of the SYSCALL record.
+
+Supporting userspace code can be found in
+https://github.com/rgbriggs/audit-userspace/tree/ghau-openat2
+
+Supporting test case can be found in
+https://github.com/linux-audit/audit-testsuite/pull/103
+
+Richard Guy Briggs (3):
+  audit: replace magic audit syscall class numbers with macros
+  audit: add support for the openat2 syscall
+  audit: add OPENAT2 record to list how
+
+ arch/alpha/kernel/audit.c          | 10 ++++++----
+ arch/ia64/kernel/audit.c           | 10 ++++++----
+ arch/parisc/kernel/audit.c         | 10 ++++++----
+ arch/parisc/kernel/compat_audit.c  | 11 +++++++----
+ arch/powerpc/kernel/audit.c        | 12 +++++++-----
+ arch/powerpc/kernel/compat_audit.c | 13 ++++++++-----
+ arch/s390/kernel/audit.c           | 12 +++++++-----
+ arch/s390/kernel/compat_audit.c    | 13 ++++++++-----
+ arch/sparc/kernel/audit.c          | 12 +++++++-----
+ arch/sparc/kernel/compat_audit.c   | 13 ++++++++-----
+ arch/x86/ia32/audit.c              | 13 ++++++++-----
+ arch/x86/kernel/audit_64.c         | 10 ++++++----
+ fs/open.c                          |  2 ++
+ include/linux/audit.h              | 11 +++++++++++
+ include/linux/auditscm.h           | 24 +++++++++++++++++++++++
+ include/uapi/linux/audit.h         |  1 +
+ kernel/audit.h                     |  2 ++
+ kernel/auditsc.c                   | 31 ++++++++++++++++++++++++------
+ lib/audit.c                        | 14 +++++++++-----
+ lib/compat_audit.c                 | 15 ++++++++++-----
+ 20 files changed, 168 insertions(+), 71 deletions(-)
+ create mode 100644 include/linux/auditscm.h
+
+-- 
+2.27.0
+
