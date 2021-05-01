@@ -2,312 +2,83 @@ Return-Path: <linux-alpha-owner@vger.kernel.org>
 X-Original-To: lists+linux-alpha@lfdr.de
 Delivered-To: lists+linux-alpha@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id F0930370237
-	for <lists+linux-alpha@lfdr.de>; Fri, 30 Apr 2021 22:37:53 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id AF4DA37086E
+	for <lists+linux-alpha@lfdr.de>; Sat,  1 May 2021 20:41:58 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235694AbhD3Uhc (ORCPT <rfc822;lists+linux-alpha@lfdr.de>);
-        Fri, 30 Apr 2021 16:37:32 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:50577 "EHLO
-        us-smtp-delivery-124.mimecast.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S235899AbhD3Uha (ORCPT
-        <rfc822;linux-alpha@vger.kernel.org>);
-        Fri, 30 Apr 2021 16:37:30 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1619815001;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:
-         content-transfer-encoding:content-transfer-encoding:
-         in-reply-to:in-reply-to:references:references;
-        bh=88ObglMi23PFhsx5xuK+j7sB27VL+IqmOJ432hGAy4o=;
-        b=Mr/OvA24tk8sa+X02QIEhyVGcEivq78XyFAh2oSAuy8FqISWSCXWgi/9qfrGI11ruL2fKN
-        MZ0y0mb/NgjrnRqb0FsR5qJZLYyn1THdAWEZ4q/FC3a3g/iWXrkjbXzgH9B1XAm1npp2hE
-        sU5PSnpJ/kUYzNcm6jYz60jPNnGpTcQ=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-369-LbToS9TlOeqCAV1sGlyDkA-1; Fri, 30 Apr 2021 16:36:38 -0400
-X-MC-Unique: LbToS9TlOeqCAV1sGlyDkA-1
-Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com [10.5.11.13])
-        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
-        (No client certificate requested)
-        by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 96090107ACE3;
-        Fri, 30 Apr 2021 20:36:36 +0000 (UTC)
-Received: from madcap2.tricolour.ca (unknown [10.3.128.45])
-        by smtp.corp.redhat.com (Postfix) with ESMTP id DE0F93807;
-        Fri, 30 Apr 2021 20:36:32 +0000 (UTC)
-From:   Richard Guy Briggs <rgb@redhat.com>
-To:     Linux-Audit Mailing List <linux-audit@redhat.com>,
-        LKML <linux-kernel@vger.kernel.org>,
-        linux-fsdevel@vger.kernel.org
-Cc:     Paul Moore <paul@paul-moore.com>,
-        Eric Paris <eparis@parisplace.org>,
-        Steve Grubb <sgrubb@redhat.com>,
-        Richard Guy Briggs <rgb@redhat.com>,
-        Alexander Viro <viro@zeniv.linux.org.uk>,
-        Eric Paris <eparis@redhat.com>, x86@kernel.org,
-        linux-alpha@vger.kernel.org, linux-ia64@vger.kernel.org,
-        linux-parisc@vger.kernel.org, linuxppc-dev@lists.ozlabs.org,
-        linux-s390@vger.kernel.org, sparclinux@vger.kernel.org,
-        Aleksa Sarai <cyphar@cyphar.com>,
-        Arnd Bergmann <arnd@kernel.org>
-Subject: [PATCH v3 2/3] audit: add support for the openat2 syscall
-Date:   Fri, 30 Apr 2021 16:35:22 -0400
-Message-Id: <29e7068e8121aee22bdd9f4c9a6d08a1762b20e9.1619811762.git.rgb@redhat.com>
-In-Reply-To: <cover.1619811762.git.rgb@redhat.com>
-References: <cover.1619811762.git.rgb@redhat.com>
+        id S232151AbhEASmq (ORCPT <rfc822;lists+linux-alpha@lfdr.de>);
+        Sat, 1 May 2021 14:42:46 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46742 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S232043AbhEASmp (ORCPT
+        <rfc822;linux-alpha@vger.kernel.org>); Sat, 1 May 2021 14:42:45 -0400
+Received: from mail-vs1-xe44.google.com (mail-vs1-xe44.google.com [IPv6:2607:f8b0:4864:20::e44])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D134EC06138B
+        for <linux-alpha@vger.kernel.org>; Sat,  1 May 2021 11:41:54 -0700 (PDT)
+Received: by mail-vs1-xe44.google.com with SMTP id c21so906225vso.11
+        for <linux-alpha@vger.kernel.org>; Sat, 01 May 2021 11:41:54 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=mime-version:reply-to:from:date:message-id:subject:to
+         :content-transfer-encoding;
+        bh=qem/5G9VQ87o0IvLQuipJJrpHSS02p/vpeaVtenoDtU=;
+        b=WdJspx40BGlcxH1OAFnlZwVNC/gLdpN3aed2JfgBOyR3Ssy6M5P32G1Op9F1brwd6c
+         9WMNWd1CcdzcalyjYS6Xz9mrFqEt57+yeFhOKfokjF5t17hdPeAKDGR9VH+zKwuT74A9
+         SfBQqzaIvmB+BBmIno8vwQnSmBrgyxRguSGQj6zaVTB4SntyKNjx31truOwbLOq6fcP3
+         7gcUmrwrnZ8JcsMUar1Go84E2tP7qUmfKueVcZ8lisLT9DTR914QMBQ59b8X5nAwxQ3m
+         76H9hp3zjPo2t/tpU8sxg6ThV9bUZlLC7+mZph/EgS53wNPqmhsQhXzBq5p4fi8nmrj7
+         VvHw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:reply-to:from:date:message-id
+         :subject:to:content-transfer-encoding;
+        bh=qem/5G9VQ87o0IvLQuipJJrpHSS02p/vpeaVtenoDtU=;
+        b=H/2LlFlpJg6dc0qklZxOQxb3lNsK8M/iO0XqVsMfqyvg080mYyc81TOI8QpNSePvAC
+         X+xiImbWsgn+M9R3Jp9NBXwGJ6fexZDRaOx/wwwg78/l+Re1sbwpDlOWdokKfgFdkw53
+         y2/ZRGTYoxOL6fzz+qUnVRw29AdifWHpsPi5gSePYgIsWm0X6GnBqeSRCqkBii9i6t/T
+         ZhZZeLy6ySnEKnrpLO4of4EeAaeB2pEVyeq0+w06agnwVbEdhIMo5/gy1SXbUl5GpikL
+         5IJStm2hE5/DOXXok7MJ8/RyP0VMY77bhjzgb8kbWa1cjcqJqa0/9r59Ga83LPvYHsar
+         h54Q==
+X-Gm-Message-State: AOAM531ykN14ejS+hvUAsNByyAn5iIKvAvn42Z0qDVV2XjcwddcG7T3a
+        8sILidfMxqby9kn9CYll27erVwS5iiZ4InKQiHw=
+X-Google-Smtp-Source: ABdhPJzIWZV4PFUx9SUNT648JfSfokWCZKoD59sRGr3l/Tre+4E9vrgq/3dZJS9nev2Kye6+HKG8KD7IHU1e6UwNyRQ=
+X-Received: by 2002:a67:be0a:: with SMTP id x10mr11654826vsq.21.1619894514125;
+ Sat, 01 May 2021 11:41:54 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
+Received: by 2002:ab0:7810:0:0:0:0:0 with HTTP; Sat, 1 May 2021 11:41:53 -0700 (PDT)
+Reply-To: david.djossa01@yahoo.com
+From:   "MR.DAVID DJOSSA" <david.djossa02@gmail.com>
+Date:   Sat, 1 May 2021 21:41:53 +0300
+Message-ID: <CADmiCUBWuiGvzeGgEKEgD2wk65D+f0BykknMja2KCYrNK+cw-A@mail.gmail.com>
+Subject: Give This Attention
+To:     undisclosed-recipients:;
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 Precedence: bulk
 List-ID: <linux-alpha.vger.kernel.org>
 X-Mailing-List: linux-alpha@vger.kernel.org
 
-The openat2(2) syscall was added in kernel v5.6 with commit fddb5d430ad9
-("open: introduce openat2(2) syscall")
+Dear Recipient;
 
-Add the openat2(2) syscall to the audit syscall classifier.
 
-See the github issue
-https://github.com/linux-audit/audit-kernel/issues/67
 
-Signed-off-by: Richard Guy Briggs <rgb@redhat.com>
----
- arch/alpha/kernel/audit.c          | 2 ++
- arch/ia64/kernel/audit.c           | 2 ++
- arch/parisc/kernel/audit.c         | 2 ++
- arch/parisc/kernel/compat_audit.c  | 2 ++
- arch/powerpc/kernel/audit.c        | 2 ++
- arch/powerpc/kernel/compat_audit.c | 2 ++
- arch/s390/kernel/audit.c           | 2 ++
- arch/s390/kernel/compat_audit.c    | 2 ++
- arch/sparc/kernel/audit.c          | 2 ++
- arch/sparc/kernel/compat_audit.c   | 2 ++
- arch/x86/ia32/audit.c              | 2 ++
- arch/x86/kernel/audit_64.c         | 2 ++
- include/linux/auditscm.h           | 1 +
- kernel/auditsc.c                   | 3 +++
- lib/audit.c                        | 4 ++++
- lib/compat_audit.c                 | 4 ++++
- 16 files changed, 36 insertions(+)
+Please for your information, this proposal is not a scam. Could you be
+so kind to collaborate with me to run a business deal that would be
+yielding USD5, 000.00 (per day) into your hands till March 2023? You
+will be earning =E2=80=9CUnited States Dollar=E2=80=9D (US$2500) daily as y=
+our own
+(personal share) till March 2023.It=E2=80=99s a cool business deal; therefo=
+re,
+if you are available and interested to know more about the business
+before to decide doing it, reply me URGENTLY for full details.
 
-diff --git a/arch/alpha/kernel/audit.c b/arch/alpha/kernel/audit.c
-index 81cbd804e375..3ab04709784a 100644
---- a/arch/alpha/kernel/audit.c
-+++ b/arch/alpha/kernel/audit.c
-@@ -42,6 +42,8 @@ int audit_classify_syscall(int abi, unsigned syscall)
- 		return AUDITSC_OPENAT;
- 	case __NR_execve:
- 		return AUDITSC_EXECVE;
-+	case __NR_openat2:
-+		return AUDITSC_OPENAT2;
- 	default:
- 		return AUDITSC_NATIVE;
- 	}
-diff --git a/arch/ia64/kernel/audit.c b/arch/ia64/kernel/audit.c
-index dba6a74c9ab3..ec61f20ca61f 100644
---- a/arch/ia64/kernel/audit.c
-+++ b/arch/ia64/kernel/audit.c
-@@ -43,6 +43,8 @@ int audit_classify_syscall(int abi, unsigned syscall)
- 		return AUDITSC_OPENAT;
- 	case __NR_execve:
- 		return AUDITSC_EXECVE;
-+	case __NR_openat2:
-+		return AUDITSC_OPENAT2;
- 	default:
- 		return AUDITSC_NATIVE;
- 	}
-diff --git a/arch/parisc/kernel/audit.c b/arch/parisc/kernel/audit.c
-index 14244e83db75..f420b5552140 100644
---- a/arch/parisc/kernel/audit.c
-+++ b/arch/parisc/kernel/audit.c
-@@ -52,6 +52,8 @@ int audit_classify_syscall(int abi, unsigned syscall)
- 		return AUDITSC_OPENAT;
- 	case __NR_execve:
- 		return AUDITSC_EXECVE;
-+	case __NR_openat2:
-+		return AUDITSC_OPENAT2;
- 	default:
- 		return AUDITSC_NATIVE;
- 	}
-diff --git a/arch/parisc/kernel/compat_audit.c b/arch/parisc/kernel/compat_audit.c
-index 0c181bb39f34..02cfd9d1ebeb 100644
---- a/arch/parisc/kernel/compat_audit.c
-+++ b/arch/parisc/kernel/compat_audit.c
-@@ -36,6 +36,8 @@ int parisc32_classify_syscall(unsigned syscall)
- 		return AUDITSC_OPENAT;
- 	case __NR_execve:
- 		return AUDITSC_EXECVE;
-+	case __NR_openat2:
-+		return AUDITSC_OPENAT2;
- 	default:
- 		return AUDITSC_COMPAT;
- 	}
-diff --git a/arch/powerpc/kernel/audit.c b/arch/powerpc/kernel/audit.c
-index 6eb18ef77dff..1bcfca5fdf67 100644
---- a/arch/powerpc/kernel/audit.c
-+++ b/arch/powerpc/kernel/audit.c
-@@ -54,6 +54,8 @@ int audit_classify_syscall(int abi, unsigned syscall)
- 		return AUDITSC_SOCKETCALL;
- 	case __NR_execve:
- 		return AUDITSC_EXECVE;
-+	case __NR_openat2:
-+		return AUDITSC_OPENAT2;
- 	default:
- 		return AUDITSC_NATIVE;
- 	}
-diff --git a/arch/powerpc/kernel/compat_audit.c b/arch/powerpc/kernel/compat_audit.c
-index f250777f6365..1fa0c902be8a 100644
---- a/arch/powerpc/kernel/compat_audit.c
-+++ b/arch/powerpc/kernel/compat_audit.c
-@@ -39,6 +39,8 @@ int ppc32_classify_syscall(unsigned syscall)
- 		return AUDITSC_SOCKETCALL;
- 	case __NR_execve:
- 		return AUDITSC_EXECVE;
-+	case __NR_openat2:
-+		return AUDITSC_OPENAT2;
- 	default:
- 		return AUDITSC_COMPAT;
- 	}
-diff --git a/arch/s390/kernel/audit.c b/arch/s390/kernel/audit.c
-index 7e331e1831d4..02051a596b87 100644
---- a/arch/s390/kernel/audit.c
-+++ b/arch/s390/kernel/audit.c
-@@ -54,6 +54,8 @@ int audit_classify_syscall(int abi, unsigned syscall)
- 		return AUDITSC_SOCKETCALL;
- 	case __NR_execve:
- 		return AUDITSC_EXECVE;
-+	case __NR_openat2:
-+		return AUDITSC_OPENAT2;
- 	default:
- 		return AUDITSC_NATIVE;
- 	}
-diff --git a/arch/s390/kernel/compat_audit.c b/arch/s390/kernel/compat_audit.c
-index b2a2ed5d605a..320b5e7d96f0 100644
---- a/arch/s390/kernel/compat_audit.c
-+++ b/arch/s390/kernel/compat_audit.c
-@@ -40,6 +40,8 @@ int s390_classify_syscall(unsigned syscall)
- 		return AUDITSC_SOCKETCALL;
- 	case __NR_execve:
- 		return AUDITSC_EXECVE;
-+	case __NR_openat2:
-+		return AUDITSC_OPENAT2;
- 	default:
- 		return AUDITSC_COMPAT;
- 	}
-diff --git a/arch/sparc/kernel/audit.c b/arch/sparc/kernel/audit.c
-index 50fab35bdaba..b092274eca79 100644
---- a/arch/sparc/kernel/audit.c
-+++ b/arch/sparc/kernel/audit.c
-@@ -55,6 +55,8 @@ int audit_classify_syscall(int abi, unsigned int syscall)
- 		return AUDITSC_SOCKETCALL;
- 	case __NR_execve:
- 		return AUDITSC_EXECVE;
-+	case __NR_openat2:
-+		return AUDITSC_OPENAT2;
- 	default:
- 		return AUDITSC_NATIVE;
- 	}
-diff --git a/arch/sparc/kernel/compat_audit.c b/arch/sparc/kernel/compat_audit.c
-index fdf0d70b569b..b0a7d0112b96 100644
---- a/arch/sparc/kernel/compat_audit.c
-+++ b/arch/sparc/kernel/compat_audit.c
-@@ -40,6 +40,8 @@ int sparc32_classify_syscall(unsigned int syscall)
- 		return AUDITSC_SOCKETCALL;
- 	case __NR_execve:
- 		return AUDITSC_EXECVE;
-+	case __NR_openat2:
-+		return AUDITSC_OPENAT2;
- 	default:
- 		return AUDITSC_COMPAT;
- 	}
-diff --git a/arch/x86/ia32/audit.c b/arch/x86/ia32/audit.c
-index d3dc8b57df81..8f6bf3a46a3a 100644
---- a/arch/x86/ia32/audit.c
-+++ b/arch/x86/ia32/audit.c
-@@ -40,6 +40,8 @@ int ia32_classify_syscall(unsigned syscall)
- 	case __NR_execve:
- 	case __NR_execveat:
- 		return AUDITSC_EXECVE;
-+	case __NR_openat2:
-+		return AUDITSC_OPENAT2;
- 	default:
- 		return AUDITSC_COMPAT;
- 	}
-diff --git a/arch/x86/kernel/audit_64.c b/arch/x86/kernel/audit_64.c
-index 2a6cc9c9c881..44c3601cfdc4 100644
---- a/arch/x86/kernel/audit_64.c
-+++ b/arch/x86/kernel/audit_64.c
-@@ -53,6 +53,8 @@ int audit_classify_syscall(int abi, unsigned syscall)
- 	case __NR_execve:
- 	case __NR_execveat:
- 		return AUDITSC_EXECVE;
-+	case __NR_openat2:
-+		return AUDITSC_OPENAT2;
- 	default:
- 		return AUDITSC_NATIVE;
- 	}
-diff --git a/include/linux/auditscm.h b/include/linux/auditscm.h
-index 1c4f0ead5931..0893c373e12b 100644
---- a/include/linux/auditscm.h
-+++ b/include/linux/auditscm.h
-@@ -16,6 +16,7 @@ enum auditsc_class_t {
- 	AUDITSC_OPENAT,
- 	AUDITSC_SOCKETCALL,
- 	AUDITSC_EXECVE,
-+	AUDITSC_OPENAT2,
- 
- 	AUDITSC_NVALS /* count */
- };
-diff --git a/kernel/auditsc.c b/kernel/auditsc.c
-index 8807afa6e237..27c747e0d5ab 100644
---- a/kernel/auditsc.c
-+++ b/kernel/auditsc.c
-@@ -76,6 +76,7 @@
- #include <linux/fsnotify_backend.h>
- #include <uapi/linux/limits.h>
- #include <uapi/linux/netfilter/nf_tables.h>
-+#include <uapi/linux/openat2.h>
- 
- #include "audit.h"
- 
-@@ -195,6 +196,8 @@ static int audit_match_perm(struct audit_context *ctx, int mask)
- 		return ((mask & AUDIT_PERM_WRITE) && ctx->argv[0] == SYS_BIND);
- 	case AUDITSC_EXECVE:
- 		return mask & AUDIT_PERM_EXEC;
-+	case AUDITSC_OPENAT2:
-+		return mask & ACC_MODE((u32)((struct open_how *)ctx->argv[2])->flags);
- 	default:
- 		return 0;
- 	}
-diff --git a/lib/audit.c b/lib/audit.c
-index 3ec1a94d8d64..738bda22dd39 100644
---- a/lib/audit.c
-+++ b/lib/audit.c
-@@ -60,6 +60,10 @@ int audit_classify_syscall(int abi, unsigned syscall)
- #endif
- 	case __NR_execve:
- 		return AUDITSC_EXECVE;
-+#ifdef __NR_openat2
-+	case __NR_openat2:
-+		return AUDITSC_OPENAT2;
-+#endif
- 	default:
- 		return AUDITSC_NATIVE;
- 	}
-diff --git a/lib/compat_audit.c b/lib/compat_audit.c
-index 63125ad2edc0..7ed9461b52b7 100644
---- a/lib/compat_audit.c
-+++ b/lib/compat_audit.c
-@@ -46,6 +46,10 @@ int audit_classify_compat_syscall(int abi, unsigned syscall)
- #endif
- 	case __NR_execve:
- 		return AUDITSC_EXECVE;
-+#ifdef __NR_openat2
-+	case __NR_openat2:
-+		return AUDITSC_OPENAT2;
-+#endif
- 	default:
- 		return AUDITSC_COMPAT;
- 	}
--- 
-2.27.0
 
+
+P.S: You might receive this message in your inbox; spam or junk
+folders; depending on your web host or server network. I will be
+waiting for your respond, including your Mobile Phone Number:
+
+
++00____________________________for Short Message Service (SMS) or Text Mass=
+age.
+Yours Sincerely
+MR. DAVID DJOSSA
