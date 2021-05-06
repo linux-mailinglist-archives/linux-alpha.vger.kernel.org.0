@@ -2,54 +2,55 @@ Return-Path: <linux-alpha-owner@vger.kernel.org>
 X-Original-To: lists+linux-alpha@lfdr.de
 Delivered-To: lists+linux-alpha@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id AF4DA37086E
-	for <lists+linux-alpha@lfdr.de>; Sat,  1 May 2021 20:41:58 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id C1A573759FB
+	for <lists+linux-alpha@lfdr.de>; Thu,  6 May 2021 20:11:39 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232151AbhEASmq (ORCPT <rfc822;lists+linux-alpha@lfdr.de>);
-        Sat, 1 May 2021 14:42:46 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46742 "EHLO
+        id S230488AbhEFSMh (ORCPT <rfc822;lists+linux-alpha@lfdr.de>);
+        Thu, 6 May 2021 14:12:37 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41118 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232043AbhEASmp (ORCPT
-        <rfc822;linux-alpha@vger.kernel.org>); Sat, 1 May 2021 14:42:45 -0400
-Received: from mail-vs1-xe44.google.com (mail-vs1-xe44.google.com [IPv6:2607:f8b0:4864:20::e44])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D134EC06138B
-        for <linux-alpha@vger.kernel.org>; Sat,  1 May 2021 11:41:54 -0700 (PDT)
-Received: by mail-vs1-xe44.google.com with SMTP id c21so906225vso.11
-        for <linux-alpha@vger.kernel.org>; Sat, 01 May 2021 11:41:54 -0700 (PDT)
+        with ESMTP id S230104AbhEFSMh (ORCPT
+        <rfc822;linux-alpha@vger.kernel.org>); Thu, 6 May 2021 14:12:37 -0400
+Received: from mail-lj1-x232.google.com (mail-lj1-x232.google.com [IPv6:2a00:1450:4864:20::232])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 59455C061574
+        for <linux-alpha@vger.kernel.org>; Thu,  6 May 2021 11:11:38 -0700 (PDT)
+Received: by mail-lj1-x232.google.com with SMTP id v6so8242777ljj.5
+        for <linux-alpha@vger.kernel.org>; Thu, 06 May 2021 11:11:38 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=mime-version:reply-to:from:date:message-id:subject:to
          :content-transfer-encoding;
-        bh=qem/5G9VQ87o0IvLQuipJJrpHSS02p/vpeaVtenoDtU=;
-        b=WdJspx40BGlcxH1OAFnlZwVNC/gLdpN3aed2JfgBOyR3Ssy6M5P32G1Op9F1brwd6c
-         9WMNWd1CcdzcalyjYS6Xz9mrFqEt57+yeFhOKfokjF5t17hdPeAKDGR9VH+zKwuT74A9
-         SfBQqzaIvmB+BBmIno8vwQnSmBrgyxRguSGQj6zaVTB4SntyKNjx31truOwbLOq6fcP3
-         7gcUmrwrnZ8JcsMUar1Go84E2tP7qUmfKueVcZ8lisLT9DTR914QMBQ59b8X5nAwxQ3m
-         76H9hp3zjPo2t/tpU8sxg6ThV9bUZlLC7+mZph/EgS53wNPqmhsQhXzBq5p4fi8nmrj7
-         VvHw==
+        bh=4Fi+lUNU3jDf/s7zaQekSPqMgipjsFvVBc8ZBp3thgM=;
+        b=VxwobE56Nfsu/DMom2sYoxF2d8cB5/416dRKbDuqJ7NEZzxgZFrJQD6+y0tp/JId4l
+         yOsMkI8iQuknO35CFa0OksnxlclctYhhKJhltf8kY0IDa8wYpNqD791M/Kg9ViZIyipi
+         126DXW7n+mBUnsPwFPdA+ybj0jMKX36R1ns9/aTbvmTKX8HTOdfwwJkUVi9sco0dwO2Z
+         PWsyTO8hlRz0xDMpQ3HCAm+Fz1pRFMqYoUF1/e5sxpdgPjFr1+bkyeYCYK5fu0ujUPtb
+         Wjb6G2384jkhdzQ4/ankmpKSHXwGZxUN9rnCaU8pbDIshQYWG2mNpbfYQ6n6wWGjy9RA
+         /K9A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:mime-version:reply-to:from:date:message-id
          :subject:to:content-transfer-encoding;
-        bh=qem/5G9VQ87o0IvLQuipJJrpHSS02p/vpeaVtenoDtU=;
-        b=H/2LlFlpJg6dc0qklZxOQxb3lNsK8M/iO0XqVsMfqyvg080mYyc81TOI8QpNSePvAC
-         X+xiImbWsgn+M9R3Jp9NBXwGJ6fexZDRaOx/wwwg78/l+Re1sbwpDlOWdokKfgFdkw53
-         y2/ZRGTYoxOL6fzz+qUnVRw29AdifWHpsPi5gSePYgIsWm0X6GnBqeSRCqkBii9i6t/T
-         ZhZZeLy6ySnEKnrpLO4of4EeAaeB2pEVyeq0+w06agnwVbEdhIMo5/gy1SXbUl5GpikL
-         5IJStm2hE5/DOXXok7MJ8/RyP0VMY77bhjzgb8kbWa1cjcqJqa0/9r59Ga83LPvYHsar
-         h54Q==
-X-Gm-Message-State: AOAM531ykN14ejS+hvUAsNByyAn5iIKvAvn42Z0qDVV2XjcwddcG7T3a
-        8sILidfMxqby9kn9CYll27erVwS5iiZ4InKQiHw=
-X-Google-Smtp-Source: ABdhPJzIWZV4PFUx9SUNT648JfSfokWCZKoD59sRGr3l/Tre+4E9vrgq/3dZJS9nev2Kye6+HKG8KD7IHU1e6UwNyRQ=
-X-Received: by 2002:a67:be0a:: with SMTP id x10mr11654826vsq.21.1619894514125;
- Sat, 01 May 2021 11:41:54 -0700 (PDT)
+        bh=4Fi+lUNU3jDf/s7zaQekSPqMgipjsFvVBc8ZBp3thgM=;
+        b=sY9lIKg7PSCrw93v6P/8ks+vNx8eesWt2/NouUC/eG+s0Bof69TKhf62PElRdVNCJV
+         2xrFA9tTP0tAg0VJM5RgNV2ShPFs9mAaKCwyNUni2LcWoXOdyb1fMPUMfUjkGxjcFSOG
+         QnhTYzq25xg4rMHNCE5zyN6YyRgHu5b5RN2GgnwOLkwikwuwJpJSRefrQ6IDJH70cgaM
+         TV2MPgMmUh0vh+lcMLV1yC2R4ZGvFh3H86swCOgEE0hlBljSh2IDUZdwdKfzzUs5xx6U
+         Gja+/FKnu2oPDuhPTFMvEi4neU6IgA9r0kiYrDU7X9pnIwpVBfvCAKCe4NNgKMF1nq4d
+         4bDQ==
+X-Gm-Message-State: AOAM5312kTqQoFJuK76odFsrkiAmJupxJK3cZJMY8/7Lj9zDGWDQp5nX
+        rbfaNeCis3XO5XpQRER3xGCgTDx8mJ+MXJw78FE=
+X-Google-Smtp-Source: ABdhPJysJi18FNHnwVil3HBrgH87HAsNuGkkeGCEcBKUieuUgu1/dkbY2CIIpfwbS3sEVz4KMFO3mzAyFTwFH6F8aE8=
+X-Received: by 2002:a2e:3508:: with SMTP id z8mr4437408ljz.424.1620324696945;
+ Thu, 06 May 2021 11:11:36 -0700 (PDT)
 MIME-Version: 1.0
-Received: by 2002:ab0:7810:0:0:0:0:0 with HTTP; Sat, 1 May 2021 11:41:53 -0700 (PDT)
-Reply-To: david.djossa01@yahoo.com
-From:   "MR.DAVID DJOSSA" <david.djossa02@gmail.com>
-Date:   Sat, 1 May 2021 21:41:53 +0300
-Message-ID: <CADmiCUBWuiGvzeGgEKEgD2wk65D+f0BykknMja2KCYrNK+cw-A@mail.gmail.com>
-Subject: Give This Attention
+Received: by 2002:a05:6520:2665:b029:c7:d3c8:643d with HTTP; Thu, 6 May 2021
+ 11:11:36 -0700 (PDT)
+Reply-To: stephenbordeaux@yahoo.com
+From:   Stephen Bordeaux <ajojo6946@gmail.com>
+Date:   Thu, 6 May 2021 20:11:36 +0200
+Message-ID: <CAPgeixWuWAFq=01=kpf+7uhK3sX44DTLLzNcPaYcX8Dg196gFg@mail.gmail.com>
+Subject: 
 To:     undisclosed-recipients:;
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
@@ -57,28 +58,9 @@ Precedence: bulk
 List-ID: <linux-alpha.vger.kernel.org>
 X-Mailing-List: linux-alpha@vger.kernel.org
 
-Dear Recipient;
-
-
-
-Please for your information, this proposal is not a scam. Could you be
-so kind to collaborate with me to run a business deal that would be
-yielding USD5, 000.00 (per day) into your hands till March 2023? You
-will be earning =E2=80=9CUnited States Dollar=E2=80=9D (US$2500) daily as y=
-our own
-(personal share) till March 2023.It=E2=80=99s a cool business deal; therefo=
-re,
-if you are available and interested to know more about the business
-before to decide doing it, reply me URGENTLY for full details.
-
-
-
-P.S: You might receive this message in your inbox; spam or junk
-folders; depending on your web host or server network. I will be
-waiting for your respond, including your Mobile Phone Number:
-
-
-+00____________________________for Short Message Service (SMS) or Text Mass=
-age.
-Yours Sincerely
-MR. DAVID DJOSSA
+Guten Morgen, ich bin Rechtsanwalt Stephen Bordeaux, Anwalt in der
+Anwaltskanzlei Bordeaux. Ich habe Sie bez=C3=BCglich des kontaktiert
+Eigentum des verstorbenen Dr. Edwin sollen 8,5 Millionen Dollar sein
+R=C3=BCckkehrer auf Ihr Konto. Auch in dieser Transaktion m=C3=B6chte ich d=
+ass
+Sie vertraulich antworten. Stephen Bordeaux
