@@ -2,61 +2,81 @@ Return-Path: <linux-alpha-owner@vger.kernel.org>
 X-Original-To: lists+linux-alpha@lfdr.de
 Delivered-To: lists+linux-alpha@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id DCE893762DB
-	for <lists+linux-alpha@lfdr.de>; Fri,  7 May 2021 11:30:34 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id AD2A8376C8C
+	for <lists+linux-alpha@lfdr.de>; Sat,  8 May 2021 00:24:49 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234545AbhEGJbd (ORCPT <rfc822;lists+linux-alpha@lfdr.de>);
-        Fri, 7 May 2021 05:31:33 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46704 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230092AbhEGJbc (ORCPT
-        <rfc822;linux-alpha@vger.kernel.org>); Fri, 7 May 2021 05:31:32 -0400
-X-Greylist: delayed 474 seconds by postgrey-1.37 at lindbergh.monkeyblade.net; Fri, 07 May 2021 02:30:32 PDT
-Received: from mail.schwarzvogel.de (mail.schwarzvogel.de [IPv6:2a01:4f8:173:2c8b::25])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 764EBC061574;
-        Fri,  7 May 2021 02:30:32 -0700 (PDT)
-Received: from klausman by mail.schwarzvogel.de with local (Exim 4.94.2)
-        (envelope-from <klausman@schwarzvogel.de>)
-        id 1lewgt-000Csv-Pv; Fri, 07 May 2021 11:22:35 +0200
-Date:   Fri, 7 May 2021 11:22:35 +0200
-From:   Tobias Klausmann <klausman@schwarzvogel.de>
-To:     linux-alpha@vger.kernel.org, LKML <linux-kernel@vger.kernel.org>
-Subject: Re: Concern about arch/alpha/kernel/smc37c669.c
-Message-ID: <YJUG2wovDYZQpJ9R@skade.schwarzvogel.de>
-Mail-Followup-To: linux-alpha@vger.kernel.org,
-        LKML <linux-kernel@vger.kernel.org>
-References: <7b314145-cbb9-b491-ccf5-d6021a574339@windriver.com>
+        id S229941AbhEGWZq (ORCPT <rfc822;lists+linux-alpha@lfdr.de>);
+        Fri, 7 May 2021 18:25:46 -0400
+Received: from bosmailout03.eigbox.net ([66.96.186.3]:45669 "EHLO
+        bosmailout03.eigbox.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S229470AbhEGWZo (ORCPT
+        <rfc822;linux-alpha@vger.kernel.org>); Fri, 7 May 2021 18:25:44 -0400
+X-Greylist: delayed 1816 seconds by postgrey-1.27 at vger.kernel.org; Fri, 07 May 2021 18:25:34 EDT
+Received: from bosmailscan08.eigbox.net ([10.20.15.8])
+        by bosmailout03.eigbox.net with esmtp (Exim)
+        id 1lf8QM-0003Fa-7M; Fri, 07 May 2021 17:54:18 -0400
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+        d=godsofu4.com; s=dkim; h=Sender:Content-Transfer-Encoding:Content-Type:
+        Message-ID:Reply-To:Subject:To:From:Date:MIME-Version:Cc:Content-ID:
+        Content-Description:Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc
+        :Resent-Message-ID:In-Reply-To:References:List-Id:List-Help:List-Unsubscribe:
+        List-Subscribe:List-Post:List-Owner:List-Archive;
+        bh=aM9bUFGSTpfnep8zAVAJMnojqhcwpuHDFPgQnPqW4M4=; b=I+6Bb1DJY/YYTRas0wZTN+AC1D
+        vtIg40M7SDAM/b29+/wY3GjGjzug9/OzX2aPoevJgNlEKSTs0SrEPfP3WhSQM0PCLHlkQfkyX8QT9
+        UZ7TTwAz03WtyNGtE+DdqqC0pYUcPkHvqE4MDSKlo5Vm1z1vJqGpkJRtWe2MFWIr6++JBuHOfV7Fd
+        34Die1lJ1lpPfDh70Zq++IiTaMjdlcGGo7pbn4hVn1WweIC9h772TR5+6npXCISSeeyCgPsBbikdE
+        ZWIrJkpukBwvBgblKKCxDugovauKoCEDbS56mNadJP+sg7ztteNlHrnEQFJYYsCNrcdD1v8ilxnSi
+        f8nqykSw==;
+Received: from [10.115.3.32] (helo=bosimpout12)
+        by bosmailscan08.eigbox.net with esmtp (Exim)
+        id 1lf8QK-0002fP-Rn; Fri, 07 May 2021 17:54:16 -0400
+Received: from boswebmail06.eigbox.net ([10.20.16.6])
+        by bosimpout12 with 
+        id 1xuC2500D07qujN01xuFUj; Fri, 07 May 2021 17:54:16 -0400
+X-EN-SP-DIR: OUT
+X-EN-SP-SQ: 1
+Received: from [127.0.0.1] (helo=homestead)
+        by boswebmail06.eigbox.net with esmtp (Exim)
+        id 1lf8PX-0006IT-Ae; Fri, 07 May 2021 17:53:27 -0400
+Received: from [197.239.81.229]
+ by emailmg.homestead.com
+ with HTTP (HTTP/1.1 POST); Fri, 07 May 2021 17:53:27 -0400
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <7b314145-cbb9-b491-ccf5-d6021a574339@windriver.com>
+Date:   Fri, 07 May 2021 21:53:27 +0000
+From:   Mrs Suzara Maling Wan <fast65@godsofu4.com>
+To:     undisclosed-recipients:;
+Subject: URGENT REPLY NEEDED
+Reply-To: suzara2017malingwan@gmail.com
+Mail-Reply-To: suzara2017malingwan@gmail.com
+Message-ID: <4c6a48748f6731dac9b66cce1916443b@godsofu4.com>
+X-Sender: fast65@godsofu4.com
+User-Agent: Roundcube Webmail/1.3.14
+Content-Type: text/plain; charset=US-ASCII;
+ format=flowed
+Content-Transfer-Encoding: 7bit
+X-EN-AuthUser: fast65@godsofu4.com
+Sender:  Mrs Suzara Maling Wan <fast65@godsofu4.com>
 Precedence: bulk
 List-ID: <linux-alpha.vger.kernel.org>
 X-Mailing-List: linux-alpha@vger.kernel.org
 
-Hi! 
 
-On Fri, 07 May 2021, He Zhe wrote:
-> There is no "SPDX-License-Identifier: GPL-2.0" in arch/alpha/kernel/smc37c669.c
-> and the following copyright is found.
-> "
-> Copyright (C) 1997 by
-> Digital Equipment Corporation, Maynard, Massachusetts.
-> All rights reserved.
-> "
 
-That file is ancient (I reckon it's at least two decades old) and
-looks like a wholesale include of a DEC/Digital .h file for that
-particular chip. Since we didn't have DCOs or anything like that
-back then, I am unsure what the license (if any) actually is.
+My names are Mrs Suzara Maling Wan, I am a Nationality of the Republic
+of the Philippine presently base in West Africa B/F, dealing with
+exportation of Gold, I was diagnose of blood Causal decease, and my
+doctor have announce to me that I have few days to leave due to the
+condition of my sickness.
 
-It's even difficult to figure out when (and by who) it was first
-committed. The oldest reference in a grafted-together git repo I
-could find was from 2.1.88. 
+I have a desire to build an orphanage home in your country of which i
+cannot execute the project myself due to my present health condition,
+I am willing to hand over the project under your care for you to help
+me fulfill my dreams and desire of building an orphanage home in your
+country.
 
-Best,
-Tobias
+Reply in you are will to help so that I can direct you to my bank for
+the urgent transfer of the fund/money require for the project to your
+account as I have already made the fund/money available.
 
--- 
-/* panic??  These should never occur in our application. */
-        linux-2.6.6/drivers/scsi/aic7xxx/aiclib.c
+With kind regards
+Mrs Suzara Maling Wan
