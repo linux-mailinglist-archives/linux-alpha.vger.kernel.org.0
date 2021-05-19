@@ -2,225 +2,126 @@ Return-Path: <linux-alpha-owner@vger.kernel.org>
 X-Original-To: lists+linux-alpha@lfdr.de
 Delivered-To: lists+linux-alpha@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id E03BE387860
-	for <lists+linux-alpha@lfdr.de>; Tue, 18 May 2021 14:04:06 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 9009A389734
+	for <lists+linux-alpha@lfdr.de>; Wed, 19 May 2021 22:01:56 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S244645AbhERMFQ (ORCPT <rfc822;lists+linux-alpha@lfdr.de>);
-        Tue, 18 May 2021 08:05:16 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:51908 "EHLO
+        id S232452AbhESUDP (ORCPT <rfc822;lists+linux-alpha@lfdr.de>);
+        Wed, 19 May 2021 16:03:15 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:45719 "EHLO
         us-smtp-delivery-124.mimecast.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S244366AbhERMFP (ORCPT
+        by vger.kernel.org with ESMTP id S232498AbhESUDO (ORCPT
         <rfc822;linux-alpha@vger.kernel.org>);
-        Tue, 18 May 2021 08:05:15 -0400
+        Wed, 19 May 2021 16:03:14 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1621339437;
+        s=mimecast20190719; t=1621454514;
         h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         content-transfer-encoding:content-transfer-encoding:
-         in-reply-to:in-reply-to:references:references;
-        bh=F7A0h/wa7e7/Tasvo9gaiD2QfuqTtOZnS8ypc2xwcz8=;
-        b=DTS27fLufhJV3alG0gV1+kkaf0+lif+eSU1HS0RWFF3kBPa7WbC92J6OD8GD85YQATrrhZ
-        dfy7CQI23BRIDaaD/pQbusGxihlZks4C3GxnomXfZE7xREibH1WYr/uQ8iAzBrH/+wlKvj
-        wjwEzab9FZB4vNEMTd8XrSh+FQuKdYM=
-Received: from mail-wm1-f70.google.com (mail-wm1-f70.google.com
- [209.85.128.70]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-365-nMtWndmSMLGzFxGItC_x4Q-1; Tue, 18 May 2021 08:03:56 -0400
-X-MC-Unique: nMtWndmSMLGzFxGItC_x4Q-1
-Received: by mail-wm1-f70.google.com with SMTP id y193-20020a1c32ca0000b029014cbf30c3f2so477600wmy.1
-        for <linux-alpha@vger.kernel.org>; Tue, 18 May 2021 05:03:55 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:to:cc:references:from:organization:subject
-         :message-id:date:user-agent:mime-version:in-reply-to
-         :content-language:content-transfer-encoding;
-        bh=F7A0h/wa7e7/Tasvo9gaiD2QfuqTtOZnS8ypc2xwcz8=;
-        b=M5fpgOaXYfN3TbQ9qj4s68TYqkfOtKCQsFt0AFoc+RK6kjjWjlqZAutMdgf4ynRiCR
-         z4vMBAfdERo/pzLYxunUtDgX+6VawLZG1onZE312fSMpFnuAOSbnJWp79hd+zTK+I8ix
-         8S6gvLD/YkefjR52pbo534FPDUTT9T+s062tX5WNHkweIvHYcE3BP0XqzQKaOHYIvYpX
-         isXHhS5CbyHNiMCPdpKGskcVzGHKOgHnJA5PnIDjEvC19RV54H5TenAFBHs95tx2q8g+
-         kO+Kqpyj83OXvIqc68wkRMvD2UZ7bcWwMJ01w3okUaJdhObCi1uFwvQ2/0VaLq9RVqd9
-         jq2g==
-X-Gm-Message-State: AOAM533CVl+9T6DAjO10+xGbhUAe6e4hQtiQ77M1i908TtX+UlKV4/fq
-        5NVrLD7R1RjUSkcK+gdqMUfzNGI5dIOIjq2nLbo6nKxrIeha6SPZSf6QCaSsRGsP0Pr+UI1XfAq
-        5vL8e7G3L+DyPnIwnaPKJNB8=
-X-Received: by 2002:a1c:4c03:: with SMTP id z3mr5151128wmf.58.1621339434755;
-        Tue, 18 May 2021 05:03:54 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJyr5Bgt53O6C5VMUFGO4r7zh5yLm4RnZeG8MK0yO3eR1vv5vvDmG2V0a/pykWs1t6HOhZ/1gg==
-X-Received: by 2002:a1c:4c03:: with SMTP id z3mr5151081wmf.58.1621339434387;
-        Tue, 18 May 2021 05:03:54 -0700 (PDT)
-Received: from [192.168.3.132] (p5b0c64fd.dip0.t-ipconnect.de. [91.12.100.253])
-        by smtp.gmail.com with ESMTPSA id q19sm2364810wmc.44.2021.05.18.05.03.52
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 18 May 2021 05:03:54 -0700 (PDT)
-To:     Michal Hocko <mhocko@suse.com>
-Cc:     linux-kernel@vger.kernel.org, linux-mm@kvack.org,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Arnd Bergmann <arnd@arndb.de>,
-        Oscar Salvador <osalvador@suse.de>,
-        Matthew Wilcox <willy@infradead.org>,
-        Andrea Arcangeli <aarcange@redhat.com>,
-        Minchan Kim <minchan@kernel.org>, Jann Horn <jannh@google.com>,
-        Jason Gunthorpe <jgg@ziepe.ca>,
-        Dave Hansen <dave.hansen@intel.com>,
-        Hugh Dickins <hughd@google.com>,
-        Rik van Riel <riel@surriel.com>,
-        "Michael S . Tsirkin" <mst@redhat.com>,
-        "Kirill A . Shutemov" <kirill.shutemov@linux.intel.com>,
-        Vlastimil Babka <vbabka@suse.cz>,
-        Richard Henderson <rth@twiddle.net>,
-        Ivan Kokshaysky <ink@jurassic.park.msu.ru>,
-        Matt Turner <mattst88@gmail.com>,
-        Thomas Bogendoerfer <tsbogend@alpha.franken.de>,
-        "James E.J. Bottomley" <James.Bottomley@hansenpartnership.com>,
-        Helge Deller <deller@gmx.de>, Chris Zankel <chris@zankel.net>,
-        Max Filippov <jcmvbkbc@gmail.com>,
-        Mike Kravetz <mike.kravetz@oracle.com>,
-        Peter Xu <peterx@redhat.com>,
-        Rolf Eike Beer <eike-kernel@sf-tec.de>,
-        linux-alpha@vger.kernel.org, linux-mips@vger.kernel.org,
-        linux-parisc@vger.kernel.org, linux-xtensa@linux-xtensa.org,
-        linux-arch@vger.kernel.org, Linux API <linux-api@vger.kernel.org>
-References: <20210511081534.3507-1-david@redhat.com>
- <20210511081534.3507-3-david@redhat.com> <YKOR/8LzEaOgCvio@dhcp22.suse.cz>
- <bb0e2ebb-e66d-176c-b20a-fbadd95cde98@redhat.com>
- <YKOiV9VkEdYFM9nB@dhcp22.suse.cz>
-From:   David Hildenbrand <david@redhat.com>
-Organization: Red Hat
-Subject: Re: [PATCH resend v2 2/5] mm/madvise: introduce
- MADV_POPULATE_(READ|WRITE) to prefault page tables
-Message-ID: <b2fa988d-9625-7c0e-ce83-158af0058e38@redhat.com>
-Date:   Tue, 18 May 2021 14:03:52 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.10.1
+         to:to:cc:cc:mime-version:mime-version:
+         content-transfer-encoding:content-transfer-encoding;
+        bh=oqR82qYZ5cHPW+jMmb6LKw1zBxDgfEa0K+Sm55MnPRw=;
+        b=EPf+1bHeNhuGn0Rrr6sUg9QfQAd3pj66II1RbGEWOtigcjPVeLdlvnzLgdbZ4Y3Ml5/UY+
+        JV4+aRg24ZyBhNCJp+s2XFZ1vidOVJ/5Fg0FSke4zSpY4N3zWQdfhJSfd69xWB+3HO+5KU
+        EsCQ+Uui8eWob2LecfwVc6NOTIvYi0s=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-587-6OHx4A6KP1SdsuldedHntQ-1; Wed, 19 May 2021 16:01:50 -0400
+X-MC-Unique: 6OHx4A6KP1SdsuldedHntQ-1
+Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com [10.5.11.12])
+        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+        (No client certificate requested)
+        by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 65013107AFA7;
+        Wed, 19 May 2021 20:01:48 +0000 (UTC)
+Received: from madcap2.tricolour.ca (unknown [10.3.128.45])
+        by smtp.corp.redhat.com (Postfix) with ESMTP id 7788D60BF1;
+        Wed, 19 May 2021 20:01:44 +0000 (UTC)
+From:   Richard Guy Briggs <rgb@redhat.com>
+To:     Linux-Audit Mailing List <linux-audit@redhat.com>,
+        LKML <linux-kernel@vger.kernel.org>,
+        linux-fsdevel@vger.kernel.org
+Cc:     Paul Moore <paul@paul-moore.com>,
+        Eric Paris <eparis@parisplace.org>,
+        Steve Grubb <sgrubb@redhat.com>,
+        Richard Guy Briggs <rgb@redhat.com>,
+        Alexander Viro <viro@zeniv.linux.org.uk>,
+        Eric Paris <eparis@redhat.com>, x86@kernel.org,
+        linux-alpha@vger.kernel.org, linux-ia64@vger.kernel.org,
+        linux-parisc@vger.kernel.org, linuxppc-dev@lists.ozlabs.org,
+        linux-s390@vger.kernel.org, sparclinux@vger.kernel.org,
+        Aleksa Sarai <cyphar@cyphar.com>,
+        Arnd Bergmann <arnd@kernel.org>
+Subject: [PATCH v4 0/3] audit: add support for openat2
+Date:   Wed, 19 May 2021 16:00:19 -0400
+Message-Id: <cover.1621363275.git.rgb@redhat.com>
 MIME-Version: 1.0
-In-Reply-To: <YKOiV9VkEdYFM9nB@dhcp22.suse.cz>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
 Content-Transfer-Encoding: 8bit
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
 Precedence: bulk
 List-ID: <linux-alpha.vger.kernel.org>
 X-Mailing-List: linux-alpha@vger.kernel.org
 
->>> This means that you want to have two different uses depending on the
->>> underlying mapping type. MADV_POPULATE_READ seems rather weak for
->>> anonymous/private mappings. Memory backed by zero pages seems rather
->>> unhelpful as the PF would need to do all the heavy lifting anyway.
->>> Or is there any actual usecase when this is desirable?
->>
->> Currently, userfaultfd-wp, which requires "some mapping" to be able to arm
->> successfully. In QEMU, we currently have to prefault the shared zeropage for
->> userfaultfd-wp to work as expected.
-> 
-> Just for clarification. The aim is to reduce the memory footprint at the
-> same time, right? If that is really the case then this is worth adding.
+The openat2(2) syscall was added in v5.6.  Add support for openat2 to the
+audit syscall classifier and for recording openat2 parameters that cannot
+be captured in the syscall parameters of the SYSCALL record.
 
-Yes. userfaultfd-wp is right now used in QEMU for background 
-snapshotting of VMs. Just because you trigger a background snapshot 
-doesn't mean that you want to COW all pages. (especially, if your VM 
-previously inflated the balloon, was using free page reporting etc.)
+Supporting userspace code can be found in
+https://github.com/rgbriggs/audit-userspace/tree/ghau-openat2
 
-> 
->> I expect that use case might vanish over
->> time (eventually with new kernels and updated user space), but it might
->> stick for a bit.
-> 
-> Could you elaborate some more please?
+Supporting test case can be found in
+https://github.com/linux-audit/audit-testsuite/pull/103
 
-After I raised that the current behavior of userfaultfd-wp is 
-suboptimal, Peter started working on a userfaultfd-wp mode that doesn't 
-require to prefault all pages just to have it working reliably -- 
-getting notified when any page changes, including ones that haven't been 
-populated yet and would have been populated with the shared zeropage on 
-first access. Not sure what the state of that is and when we might see it.
+Changelog:
+v4:
+- change filename include/linux/auditscm.h to auditsc_classmacros.h to avoid socket association
 
-> 
->> Apart from that, populating the shared zeropage might be relevant in some
->> corner cases: I remember there are sparse matrix algorithms that operate
->> heavily on the shared zeropage.
-> 
-> I am not sure I see why this would be a useful interface for those? Zero
-> page read fault is really low cost. Or are you worried about cummulative
-> overhead by entering the kernel many times?
+v3:
+- re-add commit descriptions that somehow got dropped
+- add new file to MAINTAINERS
 
-Yes, cumulative overhead when dealing with large, sparse matrices. Just 
-an example where I think it could be applied in the future -- but not 
-that I consider populating the shared zeropage a really important use 
-case in general (besides for userfaultfd-wp right now).
+v2:
+- add include/linux/auditscm.h for audit syscall class macros due to syscall redefinition warnings:
+        arch/x86/ia32/audit.c:3:
+        ./include/linux/audit.h:12,
+        ./include/linux/sched.h:22,
+        ./include/linux/seccomp.h:21,
+        ./arch/x86/include/asm/seccomp.h:5,
+        ./arch/x86/include/asm/unistd.h:20,
+        ./arch/x86/include/generated/uapi/asm/unistd_64.h:4: warning: "__NR_read" redefined #define __NR_read 0
+	...
+        ./arch/x86/include/generated/uapi/asm/unistd_64.h:338: warning: "__NR_rseq" redefined #define __NR_rseq 334
+    previous:
+        arch/x86/ia32/audit.c:2:
+        ./arch/x86/include/generated/uapi/asm/unistd_32.h:7: note: this is the location of the previous definition #define __NR_read 3                                                                                                      
+	...
+        ./arch/x86/include/generated/uapi/asm/unistd_32.h:386: note: this is the location of the previous definition #define __NR_rseq 386
 
-> 
->>> So the split into these two modes seems more like gup interface
->>> shortcomings bubbling up to the interface. I do expect userspace only
->>> cares about pre-faulting the address range. No matter what the backing
->>> storage is.
->>>
->>> Or do I still misunderstand all the usecases?
->>
->> Let me give you an example where we really cannot tell what would be best
->> from a kernel perspective.
->>
->> a) Mapping a file into a VM to be used as RAM. We might expect the guest
->> writing all memory immediately (e.g., booting Windows). We would want
->> MADV_POPULATE_WRITE as we expect a write access immediately.
->>
->> b) Mapping a file into a VM to be used as fake-NVDIMM, for example, ROOTFS
->> or just data storage. We expect mostly reading from this memory, thus, we
->> would want MADV_POPULATE_READ.
-> 
-> I am afraid I do not follow. Could you be more explicit about advantages
-> of using those two modes for those example usecases? Is that to share
-> resources (e.g. by not breaking CoW)?
+Richard Guy Briggs (3):
+  audit: replace magic audit syscall class numbers with macros
+  audit: add support for the openat2 syscall
+  audit: add OPENAT2 record to list how
 
-I'm only talking about shared mappings "ordinary files" for now, because 
-that's where MADV_POPULATE_READ vs MADV_POPULATE_WRITE differ in regards 
-of "mark something dirty and write it back"; CoW doesn't apply to shared 
-mappings, it's really just a difference in dirtying and having to write 
-back. For things like PMEM/hugetlbfs/... we usually want 
-MADV_POPULATE_WRITE because then we'd avoid a context switch when our VM 
-actually writes to a page the first time -- and we don't care about 
-dirtying, because we don't have writeback.
-
-But again, that's just one use case I have in mind coming from the VM 
-area. I consider MADV_POPULATE_READ really only useful when we are 
-expecting mostly read access on a mapping. (I assume there are other use 
-cases for databases etc. not explored yet where MADV_POPULATE_WRITE 
-would not be desired for performance reasons)
-
-> 
->> Instead of trying to be smart in the kernel, I think for this case it makes
->> much more sense to provide user space the options. IMHO it doesn't really
->> hurt to let user space decide on what it thinks is best.
-> 
-> I am mostly worried that this will turn out to be more confusing than
-> helpful. People will need to grasp non trivial concepts and kernel
-> internal implementation details about how read/write faults are handled.
-
-And that's the point: in the simplest case (without any additional 
-considerations about the underlying mapping), if you end up mostly 
-*reading* MADV_POPULATE_READ is the right thing. If you end up mostly 
-*writing* MADV_POPULATE_WRITE is the right thing. Only care has to be 
-taken when you really want a "prealloction" as in "allocate backend 
-storage" or "don't ever use the shared zeropage". I agree that these 
-details require more knowledge, but so does anything that messes with 
-memory mappings on that level (VMs, databases, ...).
-
-QEMU currently implements exactly these two cases manually in user space.
-
-Anyhow, please suggest a way to handle it via a single flag in the 
-kernel -- which would be some kind of heuristic as we know from 
-MAP_POPULATE. Having an alternative at hand would make it easier to 
-discuss this topic further. I certainly *don't* want MAP_POPULATE 
-semantics when it comes to MADV_POPULATE, especially when it comes to 
-shared mappings. Not useful in QEMU now and in the future.
-
-We could make MADV_POPULATE act depending on the readability/writability 
-of a mapping. Use MADV_POPULATE_WRITE on writable mappings, use 
-MADV_POPULATE_READ on readable mappings. Certainly not perfect for use 
-cases where you have writable mappings that are mostly read only (as in 
-the example with fake-NVDIMMs I gave ...), but if it makes people happy, 
-fine with me. I mostly care about MADV_POPULATE_WRITE.
+ MAINTAINERS                         |  1 +
+ arch/alpha/kernel/audit.c           | 10 ++++++----
+ arch/ia64/kernel/audit.c            | 10 ++++++----
+ arch/parisc/kernel/audit.c          | 10 ++++++----
+ arch/parisc/kernel/compat_audit.c   | 11 ++++++----
+ arch/powerpc/kernel/audit.c         | 12 ++++++-----
+ arch/powerpc/kernel/compat_audit.c  | 13 +++++++-----
+ arch/s390/kernel/audit.c            | 12 ++++++-----
+ arch/s390/kernel/compat_audit.c     | 13 +++++++-----
+ arch/sparc/kernel/audit.c           | 12 ++++++-----
+ arch/sparc/kernel/compat_audit.c    | 13 +++++++-----
+ arch/x86/ia32/audit.c               | 13 +++++++-----
+ arch/x86/kernel/audit_64.c          | 10 ++++++----
+ fs/open.c                           |  2 ++
+ include/linux/audit.h               | 11 ++++++++++
+ include/linux/auditsc_classmacros.h | 24 ++++++++++++++++++++++
+ include/uapi/linux/audit.h          |  1 +
+ kernel/audit.h                      |  2 ++
+ kernel/auditsc.c                    | 31 +++++++++++++++++++++++------
+ lib/audit.c                         | 14 ++++++++-----
+ lib/compat_audit.c                  | 15 +++++++++-----
+ 21 files changed, 169 insertions(+), 71 deletions(-)
+ create mode 100644 include/linux/auditsc_classmacros.h
 
 -- 
-Thanks,
-
-David / dhildenb
+2.27.0
 
