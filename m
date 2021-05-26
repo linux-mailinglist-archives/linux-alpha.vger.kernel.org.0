@@ -2,151 +2,396 @@ Return-Path: <linux-alpha-owner@vger.kernel.org>
 X-Original-To: lists+linux-alpha@lfdr.de
 Delivered-To: lists+linux-alpha@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 87ECE390EF2
-	for <lists+linux-alpha@lfdr.de>; Wed, 26 May 2021 05:43:30 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 4B70E391A40
+	for <lists+linux-alpha@lfdr.de>; Wed, 26 May 2021 16:33:19 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231377AbhEZDpA (ORCPT <rfc822;lists+linux-alpha@lfdr.de>);
-        Tue, 25 May 2021 23:45:00 -0400
-Received: from mx0a-0064b401.pphosted.com ([205.220.166.238]:56742 "EHLO
-        mx0a-0064b401.pphosted.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S230313AbhEZDo7 (ORCPT
+        id S234737AbhEZOet (ORCPT <rfc822;lists+linux-alpha@lfdr.de>);
+        Wed, 26 May 2021 10:34:49 -0400
+Received: from conssluserg-04.nifty.com ([210.131.2.83]:20173 "EHLO
+        conssluserg-04.nifty.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S234416AbhEZOes (ORCPT
         <rfc822;linux-alpha@vger.kernel.org>);
-        Tue, 25 May 2021 23:44:59 -0400
-Received: from pps.filterd (m0250809.ppops.net [127.0.0.1])
-        by mx0a-0064b401.pphosted.com (8.16.0.43/8.16.0.43) with SMTP id 14Q3cb8X013361;
-        Tue, 25 May 2021 20:43:04 -0700
-Received: from nam11-dm6-obe.outbound.protection.outlook.com (mail-dm6nam11lp2171.outbound.protection.outlook.com [104.47.57.171])
-        by mx0a-0064b401.pphosted.com with ESMTP id 38s7nt87w9-1
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-        Tue, 25 May 2021 20:43:04 -0700
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=GD6RZkNz4YPf8dtTsRP59EI5KH0ikAe7BMvM+xP0Le2wA/mRmYMgEHiP2WB5nbE7E3mMmBRHJRbWxWKVFiYqekRr//9/Gu8UT3Lwp34YyeZogJHx6Xwh3YlKtkfyf7lgYUFor32YT1QdY/OMiqFsESn9hqpjhDHFk0Oc+NqKqWis7XF4FZgeIwIc0P7emdBn1bLnsDA/4XqkoiNeHpBz1kPWJrcq/sJ++f38OdAUCHDAh2RYhCMyFAcWP5qZcHbvMwrKSsBBNxvwluM+tFH3wE0qm/ut0mLtqokB/rn7obP7101NjTGc1mHK6BzsjeW1py0uPVky1GaSZit8++/TXw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=BHQOjMj+b/mYq/s6gIwEbETWWUNzThNGPI2GjMvHypw=;
- b=TebEnbKqnVi5Dmhu6HEGYUwQsETZoHaiMDksHeCT6a6ivWmstM+C23gXFyREEEe1dz+3+haz3WNFpZYBiVPo7HXSOaXizgGPlkyOaGA7tWZXlvzEEIVN7zxXiJo8mimWGcYgAMouJAMg87plaNs9T0dyZmm9/DUaC3hBlcguQqIUOnuLEkLFCtFMeWTATd+I1PgOYq7cEieDq8PFMgkgmpBbg3+kH0P1bgJtCHCEhCwky3IQYp0+FuyQ4o5fWXNGUYJH15zVQSf1F+YiQ63Qhim28BpXldfDBg1ZU/pnZ97uoC4VOwhcmUBRYjt8IwWJFk97nLzUD/1b+zZayvsyZg==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=windriver.com; dmarc=pass action=none
- header.from=windriver.com; dkim=pass header.d=windriver.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=windriversystems.onmicrosoft.com;
- s=selector2-windriversystems-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=BHQOjMj+b/mYq/s6gIwEbETWWUNzThNGPI2GjMvHypw=;
- b=PpiTt00P2UAtioS6ziWSxp0GOv/uxdtkh2vYP6Tkx3TlCMQc08ro00ToAUXCQ48FRhEc3+4TRQ4mmfWAKCL5v7M7iIfzH7aYiCNxWXHIxeL0BPFvzYBNSffkWawjjrlbkWjrDOu0NJ6dUlp457FiRzmBnOO4Dp+S2I4Akt3zZUk=
-Authentication-Results: vger.kernel.org; dkim=none (message not signed)
- header.d=none;vger.kernel.org; dmarc=none action=none
- header.from=windriver.com;
-Received: from MWHPR1101MB2351.namprd11.prod.outlook.com
- (2603:10b6:300:74::18) by CO1PR11MB5074.namprd11.prod.outlook.com
- (2603:10b6:303:97::19) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4150.23; Wed, 26 May
- 2021 03:43:02 +0000
-Received: from MWHPR1101MB2351.namprd11.prod.outlook.com
- ([fe80::c156:455d:860e:ba87]) by MWHPR1101MB2351.namprd11.prod.outlook.com
- ([fe80::c156:455d:860e:ba87%4]) with mapi id 15.20.4173.021; Wed, 26 May 2021
- 03:43:02 +0000
-Subject: Re: Concern about arch/alpha/kernel/smc37c669.c
-From:   He Zhe <zhe.he@windriver.com>
-To:     rth@twiddle.net, ink@jurassic.park.msu.ru, mattst88@gmail.com,
-        linux-alpha@vger.kernel.org, LKML <linux-kernel@vger.kernel.org>
-References: <7b314145-cbb9-b491-ccf5-d6021a574339@windriver.com>
-Message-ID: <705dd441-27f0-6cdd-180c-a911ffaa015e@windriver.com>
-Date:   Wed, 26 May 2021 11:42:42 +0800
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.10.0
-In-Reply-To: <7b314145-cbb9-b491-ccf5-d6021a574339@windriver.com>
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: 7bit
-Content-Language: en-US
-X-Originating-IP: [147.11.3.104]
-X-ClientProxiedBy: BY3PR05CA0028.namprd05.prod.outlook.com
- (2603:10b6:a03:254::33) To MWHPR1101MB2351.namprd11.prod.outlook.com
- (2603:10b6:300:74::18)
+        Wed, 26 May 2021 10:34:48 -0400
+Received: from mail-pl1-f181.google.com (mail-pl1-f181.google.com [209.85.214.181]) (authenticated)
+        by conssluserg-04.nifty.com with ESMTP id 14QEX0hZ030416;
+        Wed, 26 May 2021 23:33:01 +0900
+DKIM-Filter: OpenDKIM Filter v2.10.3 conssluserg-04.nifty.com 14QEX0hZ030416
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nifty.com;
+        s=dec2015msa; t=1622039581;
+        bh=K2JBpUyGmknhlRJpT71wl4Baxz8GsbPi2HBWhe0fUJY=;
+        h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+        b=cnmXS+DqWdAPC0p8MNIg0X+ZuRBIktoOUUR+EQB4vPPRCGwGVlLjEGNDw3EmAqZlv
+         xlyoU4qIgALC1L++WZgyjKMXDzp+GxzDeYEL0F6IhJRd7Rpw2XWDIFJ8o7cQRW8BJc
+         58bmB0Jh48QslQPtKIaufL8A/fujJ7UQngW2AlQLs93Fom+msv11CPKYfc9S8R6atG
+         3OOPiA7jJYoMBhNmRyZsxR2MDGv0EVvIwT7A7e7yI9l8/pHrO3j3QQFOzjOgPaV2AN
+         D3pbKwvq9+nlzItRdCDnwVjN2eBR7ykeJ5nQmYRfOW40+I524Aqu+Vsx77vDiJBmu1
+         zIUzibiWGcAvw==
+X-Nifty-SrcIP: [209.85.214.181]
+Received: by mail-pl1-f181.google.com with SMTP id d20so700064pls.13;
+        Wed, 26 May 2021 07:33:00 -0700 (PDT)
+X-Gm-Message-State: AOAM530GOUOKnQj3QL/c4ZQ46GiqErhr0ztzPNR1/JAnM+d4jhe3s5UJ
+        GuU5kapvCyfdDuHaoVR2HnibyZ/eo5oliR92Jac=
+X-Google-Smtp-Source: ABdhPJw/7i4Yr5Lur94Y0RHgLFU9NY7pValTqlXUvZTdqsgLwd6wmbbeeFmUfP1tSYkLq/bZEryNx1br7CSMU1EHLow=
+X-Received: by 2002:a17:902:541:b029:f0:3187:409b with SMTP id
+ 59-20020a1709020541b02900f03187409bmr36247746plf.47.1622039579510; Wed, 26
+ May 2021 07:32:59 -0700 (PDT)
 MIME-Version: 1.0
-X-MS-Exchange-MessageSentRepresentingType: 1
-Received: from [128.224.162.175] (147.11.3.104) by BY3PR05CA0028.namprd05.prod.outlook.com (2603:10b6:a03:254::33) with Microsoft SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4173.12 via Frontend Transport; Wed, 26 May 2021 03:43:00 +0000
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: 6eae7194-85b2-4693-20e2-08d91ff85d29
-X-MS-TrafficTypeDiagnostic: CO1PR11MB5074:
-X-Microsoft-Antispam-PRVS: <CO1PR11MB5074F95D6B789DA4E1F690038F249@CO1PR11MB5074.namprd11.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:7691;
-X-MS-Exchange-SenderADCheck: 1
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: iI8Qb1uYUnQtQKvJVzKmvQXHabnLB9+Fwq/m3g+DFypp1vzEOafGNJvQ8+ZQdlfUIWgUNyuZLXHiv3DClx0mbpeEdcxRgSYIdWHl6QT08v/xZs0hO1ep9pDawWXChfgm2fGGForw3D764BXfKPNdnDfRk+QsRCGtLc4ykFNJZVbSlu0XV+yKZlsMGNti22TlF+dC4wcL9qGwd0xhPJaPrctcfOYK8Tu4gsXUUVlzi11ndpp72Vx3XWzd0eTQ1lIG+qAFSGTqikBffRk7q9t0lDw94oAQ9OEQOkJBeObXAa9nbEtBpcfKtHU4Kk/I1lexV9jmMS7SsBAmZXS2ieS66yV/U9RaEo53wfiLBavariBsHZ89Zo9H3O8PG20Y60DpfUz/7TnHXYW3SCfRKKoK6K5rnKMTCaeINJHOwHQ8K6FKTx1doQEk3Mv+wT44gJ4X4u+vghURTmIeGin9nHI2ZMnLXNol3HNrb88Yab3zq8KnvOejldIm9XBHrTJ7RLv4Qnknh9s8tfSSw9XhCCQASUwZhMRRJSJp2t8TRwHO+eXv9dhU0rfxw0uvnt1vmVq73GV4BXZnJ57804OhMgnDq9HiF24nXY60DBQKfXQwHahJsrV/yWh8LRXDOpzAJHXDaHHPyMGH3j0JPRPtnWSn5zbgO9m2cfqehyRhcwiuwJIJSZePeDmbntxvIC1drgmNqs5ACuEZiHj+yFXHwAWF77xE8QyhF2/bX5ZFwhZhGjMiXL/eeuftP7+H7mlVX6kz
-X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:MWHPR1101MB2351.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(4636009)(396003)(376002)(346002)(39850400004)(366004)(136003)(4744005)(53546011)(186003)(6666004)(52116002)(6706004)(6486002)(6916009)(16526019)(31696002)(316002)(2906002)(5660300002)(86362001)(31686004)(66476007)(66556008)(16576012)(66946007)(478600001)(38100700002)(26005)(8936002)(8676002)(38350700002)(956004)(36756003)(2616005)(78286007)(45980500001)(43740500002);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData: =?utf-8?B?akV3KzV5cy8vTTVmVUVZaGt2UlZUaGNrdzhzMTR5aUFqOEdLSnM0YkFka2VO?=
- =?utf-8?B?NmlKdSsxYUZaK2pCcVZCQ0tLVndxejN2OUhWdUZWZDFZemUyQmxUZ3RPS2FV?=
- =?utf-8?B?NllsczF0dGx3dTNFVSt4WmVOWXpKOGErd29IeEo5V1BBcCt2YitOdCtkUXdU?=
- =?utf-8?B?dEFZN0hDRUY2MzZSaTJvYnBOOXUwZjZDcjJ1WGJKaDdGcVByM0hMSUZmOFcw?=
- =?utf-8?B?SWZQSUd3dW5uZHhDOWdqYkFySktpNElqNEdNSWI1S0Ywb0xGbmxOa0lySEk0?=
- =?utf-8?B?ZjFQbXUrd0RlZnFRQlhnUDN5S0tOR0xQbUEwKytaREx5dHh6V3Z6SkhVMVlH?=
- =?utf-8?B?eUZzOXBQSDBmRXhtYWZuZ090TER2d0RVRlhSWS9SOFd3SW93M2xTQ3lYUVpU?=
- =?utf-8?B?U3FoODRKRVlDNVhETVFOS3RLcGVSTGZlTXgxTkUwQVBEM1hpM05qMHBJVGpX?=
- =?utf-8?B?MjZmb1dZelB5eG1ZWGExUXBOeldRNTlJb2hNNlAvYzFrUmZyZ0wvV2owUmIw?=
- =?utf-8?B?dktaVUFSNzlrZlRUdjVPTk9BdlNhZU9KZTFsbnZPalBYRDVTRUQrK1pXcHBF?=
- =?utf-8?B?cGg5R0hTbFZ6WGRMUXV2bk1UdWtCc2dzZGJVV2ZTQmVBTjl4ZGNRUGZLc2Va?=
- =?utf-8?B?LzJNdWtHRnZMV3NXSTNHVTNPT0R5aFlIcUdkd0JMeDg5Z2hMYTR1ZVFJRUtW?=
- =?utf-8?B?TzJKUlNRYTNpT2NYVnBZdHdBdlJ6WUtUWng4SHU0TUJrT2RxOVVrZFZjVEVQ?=
- =?utf-8?B?Y0dqNE9aZnE0eS8yWU5VaGpvSDV0aHNraG4wRjg5bWV4VFB4YXI2b05Hcmtv?=
- =?utf-8?B?WFdDcWlBT2IycEFLZEhZMjhOZDJVa0xQVzVFUHRqSHVGaElzbU5HZkhKcjR6?=
- =?utf-8?B?cFRKeS9DZjl4UVExVDZYQ0hRcXBjdlR5Ykg2b0dhbDJpaTZqY3IxdmdGQXBT?=
- =?utf-8?B?eWNqemNDSnljWHpzN01mWTZHY1NIYjRBemlsY0lMQUpQMEtxTEpFejFUMlc0?=
- =?utf-8?B?K2M1dlZwZkUwUkFWWFBib0s4bGdSYzJMRE83TjZZZHNEeWh1M25rK1hRRnYz?=
- =?utf-8?B?T2dqZGxlSXZzVW9rOVYzbU1ldm5leFFSek5kYVN0UWxTR0xISWprMFpBcjJH?=
- =?utf-8?B?YjFORUxZMkNxR1hWUDN3Z3VZSWJPd2xERlA3Vm0zK3hLNVFRUTJReEJlV3A1?=
- =?utf-8?B?bE5UVGJzUWF0YlNUTTFyQmg3MnE0c09YYjU0dTVZUTFvV3FDZ3FyejE0dWIw?=
- =?utf-8?B?ek5CYXJ0M2V6cXJJWkQ1cWhncVBRTDhpcmJhVXlvSmFOQXdUTGhnWVZHYjVr?=
- =?utf-8?B?N1kvbXRnYmhLbmpaYVowVjY3WG44ckQ5L0dSNklaMGwzWVRDMWN1S0crZ3dH?=
- =?utf-8?B?RnZ0VVprUUtBZ2ZrMVJkMmo4UlRlRVNvaGFhdk0rYmZmQ3Zmdm1VU0FDYXlS?=
- =?utf-8?B?T3JjOFlabTcrb1Q5VDJwanFUS21uQzlvcVJJYXVlNDdlakJTQ0IzOHplSzZJ?=
- =?utf-8?B?ZkhMVUxPanlhcU84R05EbUtUNnpMcXI5ekEzb3Z6aE11V3VhbDFRVDFycXRw?=
- =?utf-8?B?TituSDdZd0hBSzF1QXNBWFlOUTZaOWd3aFNnYjlMNUV6OHo3UVNzaGhnelVK?=
- =?utf-8?B?YUNZYXZXRTNsTXo5eWlncERRQXBXd1lCczUyRmxEN25YaWdFRHhCeTF3NUJW?=
- =?utf-8?B?VFpZQ2tVZ3NwZTY2ZXkxano1dWZKdTBMbzNpWitZYmYrTGJoTDZreWJhaU1Y?=
- =?utf-8?Q?rPO5oBKdgnmlL3bhozb6i8uuEjcKcMOxO2gJC3U?=
-X-OriginatorOrg: windriver.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 6eae7194-85b2-4693-20e2-08d91ff85d29
-X-MS-Exchange-CrossTenant-AuthSource: MWHPR1101MB2351.namprd11.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 26 May 2021 03:43:02.6312
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 8ddb2873-a1ad-4a18-ae4e-4644631433be
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: j7MEf6Agy3/93QZDOuWQuDCYc4Ea1JrrneNXbBjetpSGLJyBZXvOGCt8ErAck+NdtCoThJzgmNKS1EDbTtLYCA==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: CO1PR11MB5074
-X-Proofpoint-ORIG-GUID: EVj6dOieH2fgFmVCH6oBBUWwxmCliwkb
-X-Proofpoint-GUID: EVj6dOieH2fgFmVCH6oBBUWwxmCliwkb
-X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.391,18.0.761
- definitions=2021-05-26_02:2021-05-25,2021-05-26 signatures=0
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 malwarescore=0 suspectscore=0
- bulkscore=0 lowpriorityscore=0 adultscore=0 mlxlogscore=934 clxscore=1011
- priorityscore=1501 mlxscore=0 phishscore=0 spamscore=0 impostorscore=0
- classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2104190000
- definitions=main-2105260022
+References: <20210512075729.60291-1-masahiroy@kernel.org>
+In-Reply-To: <20210512075729.60291-1-masahiroy@kernel.org>
+From:   Masahiro Yamada <masahiroy@kernel.org>
+Date:   Wed, 26 May 2021 23:32:22 +0900
+X-Gmail-Original-Message-ID: <CAK7LNAS7cEj9h=Hi0O-AoFjJPg2mxp0zbi8boXj4O9aYt_yg6Q@mail.gmail.com>
+Message-ID: <CAK7LNAS7cEj9h=Hi0O-AoFjJPg2mxp0zbi8boXj4O9aYt_yg6Q@mail.gmail.com>
+Subject: Re: [PATCH 1/5] kbuild: require all architectures to have arch/$(SRCARCH)/Kbuild
+To:     Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>
+Cc:     Albert Ou <aou@eecs.berkeley.edu>,
+        Anton Ivanov <anton.ivanov@cambridgegreys.com>,
+        Benjamin Herrenschmidt <benh@kernel.crashing.org>,
+        Borislav Petkov <bp@alien8.de>,
+        Brian Cain <bcain@codeaurora.org>,
+        Catalin Marinas <catalin.marinas@arm.com>,
+        Chris Zankel <chris@zankel.net>,
+        Christian Borntraeger <borntraeger@de.ibm.com>,
+        "David S. Miller" <davem@davemloft.net>,
+        Greentime Hu <green.hu@gmail.com>, Guo Ren <guoren@kernel.org>,
+        "H. Peter Anvin" <hpa@zytor.com>,
+        Heiko Carstens <hca@linux.ibm.com>,
+        Helge Deller <deller@gmx.de>, Ingo Molnar <mingo@redhat.com>,
+        Ivan Kokshaysky <ink@jurassic.park.msu.ru>,
+        "James E.J. Bottomley" <James.Bottomley@hansenpartnership.com>,
+        Jeff Dike <jdike@addtoit.com>, Jonas Bonn <jonas@southpole.se>,
+        Ley Foon Tan <ley.foon.tan@intel.com>,
+        Matt Turner <mattst88@gmail.com>,
+        Max Filippov <jcmvbkbc@gmail.com>,
+        Michael Ellerman <mpe@ellerman.id.au>,
+        Michal Marek <michal.lkml@markovi.net>,
+        Michal Simek <monstr@monstr.eu>,
+        Nick Hu <nickhu@andestech.com>,
+        Palmer Dabbelt <palmer@dabbelt.com>,
+        Paul Mackerras <paulus@samba.org>,
+        Paul Walmsley <paul.walmsley@sifive.com>,
+        Rich Felker <dalias@libc.org>,
+        Richard Henderson <rth@twiddle.net>,
+        Richard Weinberger <richard@nod.at>,
+        Russell King <linux@armlinux.org.uk>,
+        Stafford Horne <shorne@gmail.com>,
+        Stefan Kristiansson <stefan.kristiansson@saunalahti.fi>,
+        Thomas Bogendoerfer <tsbogend@alpha.franken.de>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Vasily Gorbik <gor@linux.ibm.com>,
+        Vincent Chen <deanbo422@gmail.com>,
+        Vineet Gupta <vgupta@synopsys.com>,
+        Will Deacon <will@kernel.org>,
+        Yoshinori Sato <ysato@users.sourceforge.jp>,
+        linux-alpha@vger.kernel.org,
+        linux-arm-kernel <linux-arm-kernel@lists.infradead.org>,
+        linux-csky@vger.kernel.org, linux-hexagon@vger.kernel.org,
+        linux-ia64@vger.kernel.org,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        "open list:BROADCOM NVRAM DRIVER" <linux-mips@vger.kernel.org>,
+        Parisc List <linux-parisc@vger.kernel.org>,
+        "open list:SIFIVE DRIVERS" <linux-riscv@lists.infradead.org>,
+        linux-s390 <linux-s390@vger.kernel.org>,
+        Linux-sh list <linux-sh@vger.kernel.org>,
+        arcml <linux-snps-arc@lists.infradead.org>,
+        linux-um@lists.infradead.org,
+        "open list:TENSILICA XTENSA PORT (xtensa)" 
+        <linux-xtensa@linux-xtensa.org>,
+        linuxppc-dev <linuxppc-dev@lists.ozlabs.org>,
+        openrisc@lists.librecores.org,
+        sparclinux <sparclinux@vger.kernel.org>,
+        "moderated list:H8/300 ARCHITECTURE" 
+        <uclinux-h8-devel@lists.sourceforge.jp>, X86 ML <x86@kernel.org>
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-alpha.vger.kernel.org>
 X-Mailing-List: linux-alpha@vger.kernel.org
 
-Kindly ping.
-
-Zhe
-
-On 5/7/21 4:30 PM, He Zhe wrote:
-> Hello maintainers,
+On Wed, May 12, 2021 at 5:00 PM Masahiro Yamada <masahiroy@kernel.org> wrote:
 >
-> There is no "SPDX-License-Identifier: GPL-2.0" in arch/alpha/kernel/smc37c669.c
-> and the following copyright is found.
-> "
-> Copyright (C) 1997 by
-> Digital Equipment Corporation, Maynard, Massachusetts.
-> All rights reserved.
-> "
+> arch/$(SRCARCH)/Kbuild is useful for Makefile cleanups because you can
+> use the obj-y syntax.
 >
-> Does this conflict with GPLv2? Anything else we need to know when using this as opensource software?
+> Add an empty file if it is missing in arch/$(SRCARCH)/.
 >
-> Thanks,
-> Zhe
+> Signed-off-by: Masahiro Yamada <masahiroy@kernel.org>
+> ---
 
+
+Applied to linux-kbuild.
+
+>
+>  Makefile               | 2 +-
+>  arch/alpha/Kbuild      | 1 +
+>  arch/arc/Makefile      | 3 ---
+>  arch/arm/Makefile      | 1 -
+>  arch/arm64/Makefile    | 1 -
+>  arch/csky/Kbuild       | 1 +
+>  arch/h8300/Kbuild      | 1 +
+>  arch/hexagon/Kbuild    | 1 +
+>  arch/ia64/Kbuild       | 1 +
+>  arch/microblaze/Kbuild | 1 +
+>  arch/mips/Makefile     | 3 ---
+>  arch/nds32/Kbuild      | 1 +
+>  arch/nios2/Kbuild      | 1 +
+>  arch/openrisc/Makefile | 1 -
+>  arch/parisc/Kbuild     | 1 +
+>  arch/powerpc/Makefile  | 3 ---
+>  arch/riscv/Makefile    | 1 -
+>  arch/s390/Makefile     | 3 ---
+>  arch/sh/Kbuild         | 1 +
+>  arch/sparc/Makefile    | 3 ---
+>  arch/um/Kbuild         | 1 +
+>  arch/x86/Makefile      | 3 ---
+>  arch/xtensa/Kbuild     | 1 +
+>  23 files changed, 13 insertions(+), 23 deletions(-)
+>  create mode 100644 arch/alpha/Kbuild
+>  create mode 100644 arch/csky/Kbuild
+>  create mode 100644 arch/h8300/Kbuild
+>  create mode 100644 arch/hexagon/Kbuild
+>  create mode 100644 arch/ia64/Kbuild
+>  create mode 100644 arch/microblaze/Kbuild
+>  create mode 100644 arch/nds32/Kbuild
+>  create mode 100644 arch/nios2/Kbuild
+>  create mode 100644 arch/parisc/Kbuild
+>  create mode 100644 arch/sh/Kbuild
+>  create mode 100644 arch/um/Kbuild
+>  create mode 100644 arch/xtensa/Kbuild
+>
+> diff --git a/Makefile b/Makefile
+> index 15b6476d0f89..7df040b1b023 100644
+> --- a/Makefile
+> +++ b/Makefile
+> @@ -658,7 +658,7 @@ endif
+>
+>  ifeq ($(KBUILD_EXTMOD),)
+>  # Objects we will link into vmlinux / subdirs we need to visit
+> -core-y         := init/ usr/
+> +core-y         := init/ usr/ arch/$(SRCARCH)/
+>  drivers-y      := drivers/ sound/
+>  drivers-$(CONFIG_SAMPLES) += samples/
+>  drivers-$(CONFIG_NET) += net/
+> diff --git a/arch/alpha/Kbuild b/arch/alpha/Kbuild
+> new file mode 100644
+> index 000000000000..a4e40e534e6a
+> --- /dev/null
+> +++ b/arch/alpha/Kbuild
+> @@ -0,0 +1 @@
+> +# SPDX-License-Identifier: GPL-2.0-only
+> diff --git a/arch/arc/Makefile b/arch/arc/Makefile
+> index 4392c9c189c4..3e6d4b84797f 100644
+> --- a/arch/arc/Makefile
+> +++ b/arch/arc/Makefile
+> @@ -85,9 +85,6 @@ KBUILD_LDFLAGS        += $(ldflags-y)
+>
+>  head-y         := arch/arc/kernel/head.o
+>
+> -# See arch/arc/Kbuild for content of core part of the kernel
+> -core-y         += arch/arc/
+> -
+>  # w/o this dtb won't embed into kernel binary
+>  core-y         += arch/arc/boot/dts/
+>
+> diff --git a/arch/arm/Makefile b/arch/arm/Makefile
+> index 415c3514573a..173da685a52e 100644
+> --- a/arch/arm/Makefile
+> +++ b/arch/arm/Makefile
+> @@ -252,7 +252,6 @@ endif
+>
+>  export TEXT_OFFSET GZFLAGS MMUEXT
+>
+> -core-y                         += arch/arm/
+>  # If we have a machine-specific directory, then include it in the build.
+>  core-y                         += $(machdirs) $(platdirs)
+>
+> diff --git a/arch/arm64/Makefile b/arch/arm64/Makefile
+> index 7ef44478560d..b73c151f3a53 100644
+> --- a/arch/arm64/Makefile
+> +++ b/arch/arm64/Makefile
+> @@ -149,7 +149,6 @@ KBUILD_CFLAGS += -DKASAN_SHADOW_SCALE_SHIFT=$(KASAN_SHADOW_SCALE_SHIFT)
+>  KBUILD_CPPFLAGS += -DKASAN_SHADOW_SCALE_SHIFT=$(KASAN_SHADOW_SCALE_SHIFT)
+>  KBUILD_AFLAGS += -DKASAN_SHADOW_SCALE_SHIFT=$(KASAN_SHADOW_SCALE_SHIFT)
+>
+> -core-y         += arch/arm64/
+>  libs-y         := arch/arm64/lib/ $(libs-y)
+>  libs-$(CONFIG_EFI_STUB) += $(objtree)/drivers/firmware/efi/libstub/lib.a
+>
+> diff --git a/arch/csky/Kbuild b/arch/csky/Kbuild
+> new file mode 100644
+> index 000000000000..a4e40e534e6a
+> --- /dev/null
+> +++ b/arch/csky/Kbuild
+> @@ -0,0 +1 @@
+> +# SPDX-License-Identifier: GPL-2.0-only
+> diff --git a/arch/h8300/Kbuild b/arch/h8300/Kbuild
+> new file mode 100644
+> index 000000000000..a4e40e534e6a
+> --- /dev/null
+> +++ b/arch/h8300/Kbuild
+> @@ -0,0 +1 @@
+> +# SPDX-License-Identifier: GPL-2.0-only
+> diff --git a/arch/hexagon/Kbuild b/arch/hexagon/Kbuild
+> new file mode 100644
+> index 000000000000..a4e40e534e6a
+> --- /dev/null
+> +++ b/arch/hexagon/Kbuild
+> @@ -0,0 +1 @@
+> +# SPDX-License-Identifier: GPL-2.0-only
+> diff --git a/arch/ia64/Kbuild b/arch/ia64/Kbuild
+> new file mode 100644
+> index 000000000000..a4e40e534e6a
+> --- /dev/null
+> +++ b/arch/ia64/Kbuild
+> @@ -0,0 +1 @@
+> +# SPDX-License-Identifier: GPL-2.0-only
+> diff --git a/arch/microblaze/Kbuild b/arch/microblaze/Kbuild
+> new file mode 100644
+> index 000000000000..a4e40e534e6a
+> --- /dev/null
+> +++ b/arch/microblaze/Kbuild
+> @@ -0,0 +1 @@
+> +# SPDX-License-Identifier: GPL-2.0-only
+> diff --git a/arch/mips/Makefile b/arch/mips/Makefile
+> index 258234c35a09..4e942b7ef022 100644
+> --- a/arch/mips/Makefile
+> +++ b/arch/mips/Makefile
+> @@ -332,9 +332,6 @@ head-y := arch/mips/kernel/head.o
+>  libs-y                 += arch/mips/lib/
+>  libs-$(CONFIG_MIPS_FP_SUPPORT) += arch/mips/math-emu/
+>
+> -# See arch/mips/Kbuild for content of core part of the kernel
+> -core-y += arch/mips/
+> -
+>  drivers-y                      += arch/mips/crypto/
+>
+>  # suspend and hibernation support
+> diff --git a/arch/nds32/Kbuild b/arch/nds32/Kbuild
+> new file mode 100644
+> index 000000000000..a4e40e534e6a
+> --- /dev/null
+> +++ b/arch/nds32/Kbuild
+> @@ -0,0 +1 @@
+> +# SPDX-License-Identifier: GPL-2.0-only
+> diff --git a/arch/nios2/Kbuild b/arch/nios2/Kbuild
+> new file mode 100644
+> index 000000000000..a4e40e534e6a
+> --- /dev/null
+> +++ b/arch/nios2/Kbuild
+> @@ -0,0 +1 @@
+> +# SPDX-License-Identifier: GPL-2.0-only
+> diff --git a/arch/openrisc/Makefile b/arch/openrisc/Makefile
+> index 410e7abfac69..c52de526e518 100644
+> --- a/arch/openrisc/Makefile
+> +++ b/arch/openrisc/Makefile
+> @@ -42,7 +42,6 @@ endif
+>
+>  head-y                 := arch/openrisc/kernel/head.o
+>
+> -core-y         += arch/openrisc/
+>  libs-y         += $(LIBGCC)
+>
+>  PHONY += vmlinux.bin
+> diff --git a/arch/parisc/Kbuild b/arch/parisc/Kbuild
+> new file mode 100644
+> index 000000000000..a4e40e534e6a
+> --- /dev/null
+> +++ b/arch/parisc/Kbuild
+> @@ -0,0 +1 @@
+> +# SPDX-License-Identifier: GPL-2.0-only
+> diff --git a/arch/powerpc/Makefile b/arch/powerpc/Makefile
+> index 3212d076ac6a..af669aa75b73 100644
+> --- a/arch/powerpc/Makefile
+> +++ b/arch/powerpc/Makefile
+> @@ -267,9 +267,6 @@ head-$(CONFIG_PPC_FPU)              += arch/powerpc/kernel/fpu.o
+>  head-$(CONFIG_ALTIVEC)         += arch/powerpc/kernel/vector.o
+>  head-$(CONFIG_PPC_OF_BOOT_TRAMPOLINE)  += arch/powerpc/kernel/prom_init.o
+>
+> -# See arch/powerpc/Kbuild for content of core part of the kernel
+> -core-y += arch/powerpc/
+> -
+>  # Default to zImage, override when needed
+>  all: zImage
+>
+> diff --git a/arch/riscv/Makefile b/arch/riscv/Makefile
+> index 3eb9590a0775..c5f359540862 100644
+> --- a/arch/riscv/Makefile
+> +++ b/arch/riscv/Makefile
+> @@ -90,7 +90,6 @@ endif
+>
+>  head-y := arch/riscv/kernel/head.o
+>
+> -core-y += arch/riscv/
+>  core-$(CONFIG_RISCV_ERRATA_ALTERNATIVE) += arch/riscv/errata/
+>
+>  libs-y += arch/riscv/lib/
+> diff --git a/arch/s390/Makefile b/arch/s390/Makefile
+> index e443ed9947bd..37b61645694c 100644
+> --- a/arch/s390/Makefile
+> +++ b/arch/s390/Makefile
+> @@ -128,9 +128,6 @@ OBJCOPYFLAGS        := -O binary
+>
+>  head-y         := arch/s390/kernel/head64.o
+>
+> -# See arch/s390/Kbuild for content of core part of the kernel
+> -core-y         += arch/s390/
+> -
+>  libs-y         += arch/s390/lib/
+>  drivers-y      += drivers/s390/
+>
+> diff --git a/arch/sh/Kbuild b/arch/sh/Kbuild
+> new file mode 100644
+> index 000000000000..a4e40e534e6a
+> --- /dev/null
+> +++ b/arch/sh/Kbuild
+> @@ -0,0 +1 @@
+> +# SPDX-License-Identifier: GPL-2.0-only
+> diff --git a/arch/sparc/Makefile b/arch/sparc/Makefile
+> index bee99e65fe23..4e65245bc755 100644
+> --- a/arch/sparc/Makefile
+> +++ b/arch/sparc/Makefile
+> @@ -58,9 +58,6 @@ endif
+>
+>  head-y                 := arch/sparc/kernel/head_$(BITS).o
+>
+> -# See arch/sparc/Kbuild for the core part of the kernel
+> -core-y                 += arch/sparc/
+> -
+>  libs-y                 += arch/sparc/prom/
+>  libs-y                 += arch/sparc/lib/
+>
+> diff --git a/arch/um/Kbuild b/arch/um/Kbuild
+> new file mode 100644
+> index 000000000000..a4e40e534e6a
+> --- /dev/null
+> +++ b/arch/um/Kbuild
+> @@ -0,0 +1 @@
+> +# SPDX-License-Identifier: GPL-2.0-only
+> diff --git a/arch/x86/Makefile b/arch/x86/Makefile
+> index c77c5d8a7b3e..4307bf48ec53 100644
+> --- a/arch/x86/Makefile
+> +++ b/arch/x86/Makefile
+> @@ -239,9 +239,6 @@ head-y += arch/x86/kernel/platform-quirks.o
+>
+>  libs-y  += arch/x86/lib/
+>
+> -# See arch/x86/Kbuild for content of core part of the kernel
+> -core-y += arch/x86/
+> -
+>  # drivers-y are linked after core-y
+>  drivers-$(CONFIG_MATH_EMULATION) += arch/x86/math-emu/
+>  drivers-$(CONFIG_PCI)            += arch/x86/pci/
+> diff --git a/arch/xtensa/Kbuild b/arch/xtensa/Kbuild
+> new file mode 100644
+> index 000000000000..a4e40e534e6a
+> --- /dev/null
+> +++ b/arch/xtensa/Kbuild
+> @@ -0,0 +1 @@
+> +# SPDX-License-Identifier: GPL-2.0-only
+> --
+> 2.27.0
+>
+
+
+-- 
+Best Regards
+Masahiro Yamada
