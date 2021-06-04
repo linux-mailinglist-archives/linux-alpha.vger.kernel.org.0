@@ -2,82 +2,167 @@ Return-Path: <linux-alpha-owner@vger.kernel.org>
 X-Original-To: lists+linux-alpha@lfdr.de
 Delivered-To: lists+linux-alpha@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id D9C9139B20B
-	for <lists+linux-alpha@lfdr.de>; Fri,  4 Jun 2021 07:37:15 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id D1F8039B2D6
+	for <lists+linux-alpha@lfdr.de>; Fri,  4 Jun 2021 08:49:29 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229820AbhFDFjA (ORCPT <rfc822;lists+linux-alpha@lfdr.de>);
-        Fri, 4 Jun 2021 01:39:00 -0400
-Received: from cpe-67-11-230-143.satx.res.rr.com ([67.11.230.143]:43232 "EHLO
-        gherkin.frus.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229787AbhFDFjA (ORCPT
-        <rfc822;linux-alpha@vger.kernel.org>); Fri, 4 Jun 2021 01:39:00 -0400
-Received: by gherkin.frus.com (Postfix, from userid 500)
-        id 418F16BF46; Fri,  4 Jun 2021 00:37:14 -0500 (CDT)
-Date:   Fri, 4 Jun 2021 00:37:14 -0500
-From:   Bob Tracy <rct@frus.com>
-To:     "Maciej W. Rozycki" <macro@orcam.me.uk>
-Cc:     John Paul Adrian Glaubitz <glaubitz@physik.fu-berlin.de>,
-        Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>,
-        Michael Cree <mcree@orcon.net.nz>,
-        debian-alpha@lists.debian.org, linux-alpha@vger.kernel.org
-Subject: Re: X11 system lockup with 5.11.0 kernel
-Message-ID: <YLm8Cu2VwGQdRdgU@gherkin.frus.com>
-References: <YGqWfkMbChi7G/Vj@gherkin.frus.com>
- <20210405045515.GA6637@tower>
- <20210405095825.GA17443@tower>
- <fd607d8e-9118-a38b-62af-2c4d9f6659a0@amd.com>
- <20210406091431.GA4462@tower>
- <dda17ea7-2abd-3e81-475f-8f103f7c9217@amd.com>
- <e6c7209e-de57-a9b8-dc23-70444aac8d1e@physik.fu-berlin.de>
- <YLhPeYdhLrFqsbCY@gherkin.frus.com>
- <alpine.DEB.2.21.2106031511500.25828@angie.orcam.me.uk>
- <YLm3wsDSxgWgrNEk@gherkin.frus.com>
+        id S229922AbhFDGvO (ORCPT <rfc822;lists+linux-alpha@lfdr.de>);
+        Fri, 4 Jun 2021 02:51:14 -0400
+Received: from mail.kernel.org ([198.145.29.99]:35300 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S229799AbhFDGvN (ORCPT <rfc822;linux-alpha@vger.kernel.org>);
+        Fri, 4 Jun 2021 02:51:13 -0400
+Received: by mail.kernel.org (Postfix) with ESMTPSA id 7F86561407;
+        Fri,  4 Jun 2021 06:49:21 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1622789367;
+        bh=KthqUglb+nC6623tWkfvh5H+9BVnVYgnX+fsls7NSQI=;
+        h=From:To:Cc:Subject:Date:From;
+        b=FPkh7u7zsbRYGcZJvxXgY/1+e0VcoeE6oUNzwZHn0L7C4hfp+UCz3v3M1G3BVjFo8
+         jRmgV1kFDiQmq8LnAjG0i+ptbq/s7j7syTBnI9+CBM5Xa3U6+OUQd3nn2wC/3jL92h
+         E25RlQI+dfP/ART5SU/K+3T3M7k/KA9qJl9p3bdadA5vN3MTOkLq0gNCkji5zfjuh8
+         z/UaNiomJuD82SDVlpF+BDaKnjo7bLolktLue1MKw7PH+ahqEtTIGruba/wWEXiP0h
+         e1k7JcCxLKK0YalV522yLE+V8eK+kv8aXBjMlNyfNxKOZPHRWjYuvfSszEFVfgGUaV
+         hFwY9CFMbHm4A==
+From:   Mike Rapoport <rppt@kernel.org>
+To:     Andrew Morton <akpm@linux-foundation.org>
+Cc:     Arnd Bergmann <arnd@arndb.de>,
+        Geert Uytterhoeven <geert@linux-m68k.org>,
+        Ivan Kokshaysky <ink@jurassic.park.msu.ru>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Matt Turner <mattst88@gmail.com>,
+        Mike Rapoport <rppt@kernel.org>,
+        Mike Rapoport <rppt@linux.ibm.com>,
+        Richard Henderson <rth@twiddle.net>,
+        Vineet Gupta <vgupta@synopsys.com>, kexec@lists.infradead.org,
+        linux-alpha@vger.kernel.org, linux-arch@vger.kernel.org,
+        linux-arm-kernel@lists.infradead.org, linux-doc@vger.kernel.org,
+        linux-ia64@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-m68k@lists.linux-m68k.org, linux-mips@vger.kernel.org,
+        linux-mm@kvack.org, linux-riscv@lists.infradead.org,
+        linux-s390@vger.kernel.org, linux-sh@vger.kernel.org,
+        linux-snps-arc@lists.infradead.org, linux-xtensa@linux-xtensa.org,
+        linuxppc-dev@lists.ozlabs.org, sparclinux@vger.kernel.org
+Subject: [PATCH v2 0/9] Remove DISCINTIGMEM memory model
+Date:   Fri,  4 Jun 2021 09:49:07 +0300
+Message-Id: <20210604064916.26580-1-rppt@kernel.org>
+X-Mailer: git-send-email 2.28.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <YLm3wsDSxgWgrNEk@gherkin.frus.com>
 Precedence: bulk
 List-ID: <linux-alpha.vger.kernel.org>
 X-Mailing-List: linux-alpha@vger.kernel.org
 
-On Fri, Jun 04, 2021 at 12:18:58AM -0500, Bob Tracy wrote:
-> On Thu, Jun 03, 2021 at 03:15:05PM +0200, Maciej W. Rozycki wrote:
-> >  I have lost track about this issue, so please fill me in as to whether 
-> > the offending commit causing the regression has been bisected or not.
-> 
-> It has.  Michael Cree reported the following back on April 5th:
-> 
-> And the first bad commit is:
-> 
-> 0fe3cf3a53b5c1205ec7d321be1185b075dff205 is the first bad commit
-> commit 0fe3cf3a53b5c1205ec7d321be1185b075dff205
-> Author: Christian König <christian.koenig@amd.com>
-> Date:   Sat Oct 24 13:12:23 2020 +0200
-> 
->     drm/radeon: switch to new allocator v2
->     
->     It should be able to handle all cases here.
->     
->     v2: fix debugfs as well
->     
->     Signed-off-by: Christian König <christian.koenig@amd.com>
->     Reviewed-by: Dave Airlie <airlied@redhat.com>
->     Reviewed-by: Madhav Chauhan <madhav.chauhan@amd.com>
->     Tested-by: Huang Rui <ray.huang@amd.com>
->     Link: https://patchwork.freedesktop.org/patch/397088/?series=83051&rev=1
-> 
-> :040000 040000 4e643ef861b921392bc67be21a42298c91c7ff7a b36453567c3176a3cd50fa0b23886b0fd642560d M	drivers
+From: Mike Rapoport <rppt@linux.ibm.com>
 
-There were a few follow-up messages in this thread that left me with the
-impression there *may* have been a patch submitted, although Christian
-complained at the time he was having problems locating Alpha hardware to
-test with.
+Hi,
 
-The current (5.12.0 kernel) problem symptoms show some "improvement".
-I at least got to the point that the login screen displayed, but it
-had a bit of pixelation/distortion in a few areas indicative of "bad
-things about to happen".  Then I got the expected system lock-up,
-just as I originally reported: had to hit the reset switch to recover.
+SPARSEMEM memory model was supposed to entirely replace DISCONTIGMEM a
+(long) while ago. The last architectures that used DISCONTIGMEM were
+updated to use other memory models in v5.11 and it is about the time to
+entirely remove DISCONTIGMEM from the kernel.
 
---Bob
+This set removes DISCONTIGMEM from alpha, arc and m68k, simplifies memory
+model selection in mm/Kconfig and replaces usage of redundant
+CONFIG_NEED_MULTIPLE_NODES and CONFIG_FLAT_NODE_MEM_MAP with CONFIG_NUMA
+and CONFIG_FLATMEM respectively. 
+
+I've also removed NUMA support on alpha that was BROKEN for more than 15
+years.
+
+There were also minor updates all over arch/ to remove mentions of
+DISCONTIGMEM in comments and #ifdefs.
+
+v2:
+* Fix build errors reported by kbuild bot
+* Add additional cleanups in m68k as suggested by Geert
+
+v1: Link: https://lore.kernel.org/lkml/20210602105348.13387-1-rppt@kernel.org
+
+Mike Rapoport (9):
+  alpha: remove DISCONTIGMEM and NUMA
+  arc: update comment about HIGHMEM implementation
+  arc: remove support for DISCONTIGMEM
+  m68k: remove support for DISCONTIGMEM
+  mm: remove CONFIG_DISCONTIGMEM
+  arch, mm: remove stale mentions of DISCONIGMEM
+  docs: remove description of DISCONTIGMEM
+  mm: replace CONFIG_NEED_MULTIPLE_NODES with CONFIG_NUMA
+  mm: replace CONFIG_FLAT_NODE_MEM_MAP with CONFIG_FLATMEM
+
+ Documentation/admin-guide/sysctl/vm.rst |  12 +-
+ Documentation/vm/memory-model.rst       |  45 +----
+ arch/alpha/Kconfig                      |  22 ---
+ arch/alpha/include/asm/machvec.h        |   6 -
+ arch/alpha/include/asm/mmzone.h         | 100 -----------
+ arch/alpha/include/asm/pgtable.h        |   4 -
+ arch/alpha/include/asm/topology.h       |  39 -----
+ arch/alpha/kernel/core_marvel.c         |  53 +-----
+ arch/alpha/kernel/core_wildfire.c       |  29 +--
+ arch/alpha/kernel/pci_iommu.c           |  29 ---
+ arch/alpha/kernel/proto.h               |   8 -
+ arch/alpha/kernel/setup.c               |  16 --
+ arch/alpha/kernel/sys_marvel.c          |   5 -
+ arch/alpha/kernel/sys_wildfire.c        |   5 -
+ arch/alpha/mm/Makefile                  |   2 -
+ arch/alpha/mm/init.c                    |   3 -
+ arch/alpha/mm/numa.c                    | 223 ------------------------
+ arch/arc/Kconfig                        |  13 --
+ arch/arc/include/asm/mmzone.h           |  40 -----
+ arch/arc/mm/init.c                      |  21 +--
+ arch/arm64/Kconfig                      |   2 +-
+ arch/ia64/Kconfig                       |   2 +-
+ arch/ia64/kernel/topology.c             |   5 +-
+ arch/ia64/mm/numa.c                     |   5 +-
+ arch/m68k/Kconfig.cpu                   |  10 --
+ arch/m68k/include/asm/mmzone.h          |  10 --
+ arch/m68k/include/asm/page.h            |   2 +-
+ arch/m68k/include/asm/page_mm.h         |  35 ----
+ arch/m68k/mm/init.c                     |  20 ---
+ arch/mips/Kconfig                       |   2 +-
+ arch/mips/include/asm/mmzone.h          |   8 +-
+ arch/mips/include/asm/page.h            |   2 +-
+ arch/mips/mm/init.c                     |   7 +-
+ arch/nds32/include/asm/memory.h         |   6 -
+ arch/powerpc/Kconfig                    |   2 +-
+ arch/powerpc/include/asm/mmzone.h       |   4 +-
+ arch/powerpc/kernel/setup_64.c          |   2 +-
+ arch/powerpc/kernel/smp.c               |   2 +-
+ arch/powerpc/kexec/core.c               |   4 +-
+ arch/powerpc/mm/Makefile                |   2 +-
+ arch/powerpc/mm/mem.c                   |   4 +-
+ arch/riscv/Kconfig                      |   2 +-
+ arch/s390/Kconfig                       |   2 +-
+ arch/sh/include/asm/mmzone.h            |   4 +-
+ arch/sh/kernel/topology.c               |   2 +-
+ arch/sh/mm/Kconfig                      |   2 +-
+ arch/sh/mm/init.c                       |   2 +-
+ arch/sparc/Kconfig                      |   2 +-
+ arch/sparc/include/asm/mmzone.h         |   4 +-
+ arch/sparc/kernel/smp_64.c              |   2 +-
+ arch/sparc/mm/init_64.c                 |  12 +-
+ arch/x86/Kconfig                        |   2 +-
+ arch/x86/kernel/setup_percpu.c          |   6 +-
+ arch/x86/mm/init_32.c                   |   4 +-
+ arch/xtensa/include/asm/page.h          |   4 -
+ include/asm-generic/memory_model.h      |  37 +---
+ include/asm-generic/topology.h          |   2 +-
+ include/linux/gfp.h                     |   4 +-
+ include/linux/memblock.h                |   6 +-
+ include/linux/mm.h                      |   4 +-
+ include/linux/mmzone.h                  |  20 ++-
+ kernel/crash_core.c                     |   4 +-
+ mm/Kconfig                              |  36 +---
+ mm/memblock.c                           |   8 +-
+ mm/page_alloc.c                         |  25 +--
+ mm/page_ext.c                           |   2 +-
+ 66 files changed, 100 insertions(+), 909 deletions(-)
+ delete mode 100644 arch/alpha/include/asm/mmzone.h
+ delete mode 100644 arch/alpha/mm/numa.c
+ delete mode 100644 arch/arc/include/asm/mmzone.h
+ delete mode 100644 arch/m68k/include/asm/mmzone.h
+
+
+base-commit: c4681547bcce777daf576925a966ffa824edd09d
+-- 
+2.28.0
+
