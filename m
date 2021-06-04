@@ -2,55 +2,70 @@ Return-Path: <linux-alpha-owner@vger.kernel.org>
 X-Original-To: lists+linux-alpha@lfdr.de
 Delivered-To: lists+linux-alpha@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id CBDD239A3DB
-	for <lists+linux-alpha@lfdr.de>; Thu,  3 Jun 2021 17:00:54 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 2A29B39B1E2
+	for <lists+linux-alpha@lfdr.de>; Fri,  4 Jun 2021 07:19:01 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231553AbhFCPCi (ORCPT <rfc822;lists+linux-alpha@lfdr.de>);
-        Thu, 3 Jun 2021 11:02:38 -0400
-Received: from mail-pg1-f194.google.com ([209.85.215.194]:35559 "EHLO
-        mail-pg1-f194.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231502AbhFCPCh (ORCPT
-        <rfc822;linux-alpha@vger.kernel.org>); Thu, 3 Jun 2021 11:02:37 -0400
-Received: by mail-pg1-f194.google.com with SMTP id o9so2513831pgd.2
-        for <linux-alpha@vger.kernel.org>; Thu, 03 Jun 2021 08:00:53 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=mime-version:from:date:message-id:subject:to;
-        bh=F8WxErafitHPitHtLweh74EJns0w00V6jij4VlpVcJ8=;
-        b=KteQ7ka8R2S9hr4H6NvUq9MSbp8wWFuY9qq9EVMwahAKPbATL0+8qwPz/rLqBUJSq2
-         7lIJ6hmcnyTabggchs2Q8v/pfjuuKh5ABux0zwxoPkidoZq0fwwpidfd+zypW4D6U/Iz
-         XkYHliAjPdUmgFkcoMhX+qt+JyGwgIFeVSJ4EdQkRzxhyOG7zcVwIJ8kzLTyV2N+40ZJ
-         JSib3Eg7t6Jh/+Ds+SxoUMnQ84oXRGmNiJOJcc4LB+4jC38ylPs9AR2Mb/xN25ec+dxd
-         uGHHCmfsuOr13Iyfz1ZL4Gy5uDx3/po6sD7/E1TuQoIEsUM52Qp6LycZ+J6N2qftORsl
-         Bg8w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:from:date:message-id:subject:to;
-        bh=F8WxErafitHPitHtLweh74EJns0w00V6jij4VlpVcJ8=;
-        b=VbWGMo5e76prwh+UsHYSCCvNVYQMwSfNsoFGw7cTzWSxQkHd3rv2RG08nDe1rs6ZaF
-         X6+AKX9H2Zwn72XdXZCVZQ+JXkWNosIn+p1kuC7SIVUxAHUgCCMWgt79I/p3YT7kGpza
-         J+LDpRKC1d58gvLT9YOymHkr32lFQDg+Cx18cXaOsxEruTI2uqtwyt15hXZwwKliS7ML
-         azQPiYdPR96ojh+faAykM0my6Y5sHIOF076vLG9qCgvcdpdnGt5JInMp1txeBSMnifkP
-         LwesDeBMWb13R+yKa74ZGucHrhQgHPuFF24T4CTjdcSCqe7ZR555JWLwLy5jEpAzzxtH
-         sJhQ==
-X-Gm-Message-State: AOAM530p+NnWATZ5xxl2Luu5IVGueacc4gqOzIVWTLpd0YEF/rAXq0/Y
-        NHlLArWkBrNJyQTSOGYpsyu5ybTGLkYM6Ti4BcY=
-X-Google-Smtp-Source: ABdhPJybFRWhuJMv3aqDxGF3m52xtHfyZDz5mgsvwrVGAWw4eQ8pYjoMW2aYczVq4iu3DC+9uD+fOs5AEqj7lrMC/xo=
-X-Received: by 2002:a65:584d:: with SMTP id s13mr280982pgr.77.1622732393305;
- Thu, 03 Jun 2021 07:59:53 -0700 (PDT)
+        id S229704AbhFDFUp (ORCPT <rfc822;lists+linux-alpha@lfdr.de>);
+        Fri, 4 Jun 2021 01:20:45 -0400
+Received: from cpe-67-11-230-143.satx.res.rr.com ([67.11.230.143]:43174 "EHLO
+        gherkin.frus.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S229527AbhFDFUp (ORCPT
+        <rfc822;linux-alpha@vger.kernel.org>); Fri, 4 Jun 2021 01:20:45 -0400
+Received: by gherkin.frus.com (Postfix, from userid 500)
+        id DB1F96BF46; Fri,  4 Jun 2021 00:18:58 -0500 (CDT)
+Date:   Fri, 4 Jun 2021 00:18:58 -0500
+From:   Bob Tracy <rct@frus.com>
+To:     "Maciej W. Rozycki" <macro@orcam.me.uk>
+Cc:     John Paul Adrian Glaubitz <glaubitz@physik.fu-berlin.de>,
+        Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>,
+        Michael Cree <mcree@orcon.net.nz>,
+        debian-alpha@lists.debian.org, linux-alpha@vger.kernel.org
+Subject: Re: X11 system lockup with 5.11.0 kernel
+Message-ID: <YLm3wsDSxgWgrNEk@gherkin.frus.com>
+References: <alpine.DEB.2.21.2103311059480.18977@angie.orcam.me.uk>
+ <YGqWfkMbChi7G/Vj@gherkin.frus.com>
+ <20210405045515.GA6637@tower>
+ <20210405095825.GA17443@tower>
+ <fd607d8e-9118-a38b-62af-2c4d9f6659a0@amd.com>
+ <20210406091431.GA4462@tower>
+ <dda17ea7-2abd-3e81-475f-8f103f7c9217@amd.com>
+ <e6c7209e-de57-a9b8-dc23-70444aac8d1e@physik.fu-berlin.de>
+ <YLhPeYdhLrFqsbCY@gherkin.frus.com>
+ <alpine.DEB.2.21.2106031511500.25828@angie.orcam.me.uk>
 MIME-Version: 1.0
-Received: by 2002:a05:6a10:389:0:0:0:0 with HTTP; Thu, 3 Jun 2021 07:59:52
- -0700 (PDT)
-From:   colins fred <fredcolinsldpt@gmail.com>
-Date:   Thu, 3 Jun 2021 07:59:52 -0700
-Message-ID: <CAMDh3CKbCY2vMQsEFkT1AAD5RjRrynVEoHB=UG90gGg+xT8eLw@mail.gmail.com>
-Subject: 
-To:     undisclosed-recipients:;
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <alpine.DEB.2.21.2106031511500.25828@angie.orcam.me.uk>
 Precedence: bulk
 List-ID: <linux-alpha.vger.kernel.org>
 X-Mailing-List: linux-alpha@vger.kernel.org
 
--- 
-Looking for an affordable loan how much do you need? & the time you
-can pay back?
+On Thu, Jun 03, 2021 at 03:15:05PM +0200, Maciej W. Rozycki wrote:
+>  I have lost track about this issue, so please fill me in as to whether 
+> the offending commit causing the regression has been bisected or not.
+
+It has.  Michael Cree reported the following back on April 5th:
+
+And the first bad commit is:
+
+0fe3cf3a53b5c1205ec7d321be1185b075dff205 is the first bad commit
+commit 0fe3cf3a53b5c1205ec7d321be1185b075dff205
+Author: Christian König <christian.koenig@amd.com>
+Date:   Sat Oct 24 13:12:23 2020 +0200
+
+    drm/radeon: switch to new allocator v2
+    
+    It should be able to handle all cases here.
+    
+    v2: fix debugfs as well
+    
+    Signed-off-by: Christian König <christian.koenig@amd.com>
+    Reviewed-by: Dave Airlie <airlied@redhat.com>
+    Reviewed-by: Madhav Chauhan <madhav.chauhan@amd.com>
+    Tested-by: Huang Rui <ray.huang@amd.com>
+    Link: https://patchwork.freedesktop.org/patch/397088/?series=83051&rev=1
+
+:040000 040000 4e643ef861b921392bc67be21a42298c91c7ff7a b36453567c3176a3cd50fa0b23886b0fd642560d M	drivers
+
+--Bob
