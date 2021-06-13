@@ -2,269 +2,206 @@ Return-Path: <linux-alpha-owner@vger.kernel.org>
 X-Original-To: lists+linux-alpha@lfdr.de
 Delivered-To: lists+linux-alpha@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id AA9D53A4CFF
-	for <lists+linux-alpha@lfdr.de>; Sat, 12 Jun 2021 07:43:48 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id D603B3A5AB5
+	for <lists+linux-alpha@lfdr.de>; Sun, 13 Jun 2021 23:55:28 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230229AbhFLFpo (ORCPT <rfc822;lists+linux-alpha@lfdr.de>);
-        Sat, 12 Jun 2021 01:45:44 -0400
-Received: from mail.kernel.org ([198.145.29.99]:38704 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S229446AbhFLFpn (ORCPT <rfc822;linux-alpha@vger.kernel.org>);
-        Sat, 12 Jun 2021 01:45:43 -0400
-Received: by mail.kernel.org (Postfix) with ESMTPSA id 5410B61019;
-        Sat, 12 Jun 2021 05:43:37 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1623476624;
-        bh=jXSf9kPU6/p3Pl02zFLTjgmsn62vO+wR89LkyYwqjYE=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=jQzBYFAXgxUH9zPpsPc2S9koB6TyWpzCJ1FcyoOFUPs7glHYtJWXiwaYLZbOYr1MD
-         e8dUX72/dMktQcP+MfbQLugr1DigtCWPruv02QxyYGEBDlYcEvhTSF63D1F76zo+eL
-         vOmDN5XDSPdJfrU5UpdF1koBNLPwdNgaB2Yne6m3YDq4mBcFE1Twi6f4e9jRCCYQMf
-         fXFfPo4RoZ3j+NJMVPgoFRy/0IXayxTFHiwh1+yLk0mxoQNt6KiYCSMshhiOPS7yS1
-         6HDTiCLiwW9bME21jEq92F8Esv4cZpDqtMIPSa1vd/42SwMmpCSE4nvcQy4brkpojX
-         7a11xyl6jl4EA==
-Date:   Sat, 12 Jun 2021 08:43:33 +0300
-From:   Mike Rapoport <rppt@kernel.org>
-To:     Stephen Brennan <stephen@brennan.io>
-Cc:     Andrew Morton <akpm@linux-foundation.org>,
-        Arnd Bergmann <arnd@arndb.de>,
-        Geert Uytterhoeven <geert@linux-m68k.org>,
-        Ivan Kokshaysky <ink@jurassic.park.msu.ru>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Matt Turner <mattst88@gmail.com>,
-        Mike Rapoport <rppt@linux.ibm.com>,
+        id S232147AbhFMV53 (ORCPT <rfc822;lists+linux-alpha@lfdr.de>);
+        Sun, 13 Jun 2021 17:57:29 -0400
+Received: from out02.mta.xmission.com ([166.70.13.232]:41562 "EHLO
+        out02.mta.xmission.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S232020AbhFMV50 (ORCPT
+        <rfc822;linux-alpha@vger.kernel.org>);
+        Sun, 13 Jun 2021 17:57:26 -0400
+Received: from in01.mta.xmission.com ([166.70.13.51])
+        by out02.mta.xmission.com with esmtps  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
+        (Exim 4.93)
+        (envelope-from <ebiederm@xmission.com>)
+        id 1lsY4e-00BfB2-O9; Sun, 13 Jun 2021 15:55:20 -0600
+Received: from ip68-227-160-95.om.om.cox.net ([68.227.160.95] helo=email.xmission.com)
+        by in01.mta.xmission.com with esmtpsa  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
+        (Exim 4.93)
+        (envelope-from <ebiederm@xmission.com>)
+        id 1lsY4d-008LUl-KS; Sun, 13 Jun 2021 15:55:20 -0600
+From:   ebiederm@xmission.com (Eric W. Biederman)
+To:     Linus Torvalds <torvalds@linux-foundation.org>
+Cc:     linux-arch <linux-arch@vger.kernel.org>,
+        Jens Axboe <axboe@kernel.dk>, Oleg Nesterov <oleg@redhat.com>,
+        Al Viro <viro@zeniv.linux.org.uk>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
         Richard Henderson <rth@twiddle.net>,
-        Vineet Gupta <vgupta@synopsys.com>, kexec@lists.infradead.org,
-        linux-alpha@vger.kernel.org, linux-arch@vger.kernel.org,
-        linux-arm-kernel@lists.infradead.org, linux-doc@vger.kernel.org,
-        linux-ia64@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-m68k@lists.linux-m68k.org, linux-mips@vger.kernel.org,
-        linux-mm@kvack.org, linux-riscv@lists.infradead.org,
-        linux-s390@vger.kernel.org, linux-sh@vger.kernel.org,
-        linux-snps-arc@lists.infradead.org, linux-xtensa@linux-xtensa.org,
-        linuxppc-dev@lists.ozlabs.org, sparclinux@vger.kernel.org
-Subject: Re: [PATCH v3 5/9] mm: remove CONFIG_DISCONTIGMEM
-Message-ID: <YMRJhezHRZrbrO0Y@kernel.org>
-References: <20210608091316.3622-1-rppt@kernel.org>
- <20210608091316.3622-6-rppt@kernel.org>
- <87r1h886n7.fsf@stepbren-lnx.us.oracle.com>
+        Ivan Kokshaysky <ink@jurassic.park.msu.ru>,
+        Matt Turner <mattst88@gmail.com>,
+        alpha <linux-alpha@vger.kernel.org>,
+        Geert Uytterhoeven <geert@linux-m68k.org>,
+        linux-m68k <linux-m68k@lists.linux-m68k.org>,
+        Arnd Bergmann <arnd@kernel.org>,
+        Ley Foon Tan <ley.foon.tan@intel.com>,
+        Tejun Heo <tj@kernel.org>,
+        Daniel Jacobowitz <drow@nevyn.them.org>,
+        Kees Cook <keescook@chromium.org>
+References: <87sg1p30a1.fsf@disp2133>
+        <CAHk-=wjiBXCZBxLiCG5hxpd0vMkMjiocenponWygG5SCG6DXNw@mail.gmail.com>
+        <87pmwsytb3.fsf@disp2133>
+        <CAHk-=wgdO5VwSUFjfF9g=DAQNYmVxzTq73NtdisYErzdZKqDGg@mail.gmail.com>
+Date:   Sun, 13 Jun 2021 16:54:05 -0500
+In-Reply-To: <CAHk-=wgdO5VwSUFjfF9g=DAQNYmVxzTq73NtdisYErzdZKqDGg@mail.gmail.com>
+        (Linus Torvalds's message of "Fri, 11 Jun 2021 16:26:21 -0700")
+Message-ID: <87sg1lwhvm.fsf@disp2133>
+User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/26.1 (gnu/linux)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <87r1h886n7.fsf@stepbren-lnx.us.oracle.com>
+Content-Type: text/plain
+X-XM-SPF: eid=1lsY4d-008LUl-KS;;;mid=<87sg1lwhvm.fsf@disp2133>;;;hst=in01.mta.xmission.com;;;ip=68.227.160.95;;;frm=ebiederm@xmission.com;;;spf=neutral
+X-XM-AID: U2FsdGVkX19b5C0aF+plb+/5FAhTXq2CXegUQeVKyl0=
+X-SA-Exim-Connect-IP: 68.227.160.95
+X-SA-Exim-Mail-From: ebiederm@xmission.com
+X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on sa01.xmission.com
+X-Spam-Level: 
+X-Spam-Status: No, score=0.5 required=8.0 tests=ALL_TRUSTED,BAYES_50,
+        DCC_CHECK_NEGATIVE,T_TM2_M_HEADER_IN_MSG,XMSubLong autolearn=disabled
+        version=3.4.2
+X-Spam-Virus: No
+X-Spam-Report: * -1.0 ALL_TRUSTED Passed through trusted hosts only via SMTP
+        *  0.8 BAYES_50 BODY: Bayes spam probability is 40 to 60%
+        *      [score: 0.5000]
+        *  0.7 XMSubLong Long Subject
+        *  0.0 T_TM2_M_HEADER_IN_MSG BODY: No description available.
+        * -0.0 DCC_CHECK_NEGATIVE Not listed in DCC
+        *      [sa01 1397; Body=1 Fuz1=1 Fuz2=1]
+X-Spam-DCC: XMission; sa01 1397; Body=1 Fuz1=1 Fuz2=1 
+X-Spam-Combo: ;Linus Torvalds <torvalds@linux-foundation.org>
+X-Spam-Relay-Country: 
+X-Spam-Timing: total 544 ms - load_scoreonly_sql: 0.02 (0.0%),
+        signal_user_changed: 3.4 (0.6%), b_tie_ro: 2.3 (0.4%), parse: 1.26
+        (0.2%), extract_message_metadata: 18 (3.2%), get_uri_detail_list: 3.3
+        (0.6%), tests_pri_-1000: 17 (3.1%), tests_pri_-950: 1.06 (0.2%),
+        tests_pri_-900: 0.83 (0.2%), tests_pri_-90: 103 (18.9%), check_bayes:
+        95 (17.4%), b_tokenize: 8 (1.4%), b_tok_get_all: 9 (1.7%),
+        b_comp_prob: 2.2 (0.4%), b_tok_touch_all: 73 (13.4%), b_finish: 0.63
+        (0.1%), tests_pri_0: 390 (71.6%), check_dkim_signature: 0.42 (0.1%),
+        check_dkim_adsp: 1.74 (0.3%), poll_dns_idle: 0.19 (0.0%),
+        tests_pri_10: 1.74 (0.3%), tests_pri_500: 5 (1.0%), rewrite_mail: 0.00
+        (0.0%)
+Subject: Re: Kernel stack read with PTRACE_EVENT_EXIT and io_uring threads
+X-SA-Exim-Version: 4.2.1 (built Sat, 08 Feb 2020 21:53:50 +0000)
+X-SA-Exim-Scanned: Yes (on in01.mta.xmission.com)
 Precedence: bulk
 List-ID: <linux-alpha.vger.kernel.org>
 X-Mailing-List: linux-alpha@vger.kernel.org
 
-On Fri, Jun 11, 2021 at 01:53:48PM -0700, Stephen Brennan wrote:
-> Mike Rapoport <rppt@kernel.org> writes:
-> > From: Mike Rapoport <rppt@linux.ibm.com>
-> >
-> > There are no architectures that support DISCONTIGMEM left.
-> >
-> > Remove the configuration option and the dead code it was guarding in the
-> > generic memory management code.
-> >
-> > Signed-off-by: Mike Rapoport <rppt@linux.ibm.com>
-> > ---
-> >  include/asm-generic/memory_model.h | 37 ++++--------------------------
-> >  include/linux/mmzone.h             |  8 ++++---
-> >  mm/Kconfig                         | 25 +++-----------------
-> >  mm/page_alloc.c                    | 13 -----------
-> >  4 files changed, 12 insertions(+), 71 deletions(-)
-> >
-> > diff --git a/include/asm-generic/memory_model.h b/include/asm-generic/memory_model.h
-> > index 7637fb46ba4f..a2c8ed60233a 100644
-> > --- a/include/asm-generic/memory_model.h
-> > +++ b/include/asm-generic/memory_model.h
-> > @@ -6,47 +6,18 @@
-> >  
-> >  #ifndef __ASSEMBLY__
-> >  
-> > +/*
-> > + * supports 3 memory models.
-> > + */
-> 
-> This comment could either be updated to reflect 2 memory models, or
-> removed entirely.
+Linus Torvalds <torvalds@linux-foundation.org> writes:
 
-I counted SPARSE and SPARSE_VMEMMAP as 2.
+> On Fri, Jun 11, 2021 at 2:40 PM Eric W. Biederman <ebiederm@xmission.com> wrote:
+>>
+>> Looking at copy_thread it looks like at least on alpha we are dealing
+>> with a structure that defines all of the registers in copy_thread.
+>
+> On the target side, yes.
+>
+> On the _source_ side, the code does
+>
+>         struct pt_regs *regs = current_pt_regs();
+>
+> and that's the part that means that fork() and related functions need
+> to have done that DO_SWITCH_STACK(), so that they have the full
+> register set to be copied.
+>
+> Otherwise it would copy random contents from the source stack.
+>
+> But that
+>
+>         if (unlikely(p->flags & (PF_KTHREAD | PF_IO_WORKER))) {
+>
+> ends up protecting us, and the code never uses that set of source
+> registers for the io worker threads.
 
-The code below has three clauses: one for FLATMEM, one for SPARSE and one
-for VMEMMAP.
- 
-> Thanks,
-> Stephen
-> 
-> >  #if defined(CONFIG_FLATMEM)
-> >  
-> >  #ifndef ARCH_PFN_OFFSET
-> >  #define ARCH_PFN_OFFSET		(0UL)
-> >  #endif
-> >  
-> > -#elif defined(CONFIG_DISCONTIGMEM)
-> > -
-> > -#ifndef arch_pfn_to_nid
-> > -#define arch_pfn_to_nid(pfn)	pfn_to_nid(pfn)
-> > -#endif
-> > -
-> > -#ifndef arch_local_page_offset
-> > -#define arch_local_page_offset(pfn, nid)	\
-> > -	((pfn) - NODE_DATA(nid)->node_start_pfn)
-> > -#endif
-> > -
-> > -#endif /* CONFIG_DISCONTIGMEM */
-> > -
-> > -/*
-> > - * supports 3 memory models.
-> > - */
-> > -#if defined(CONFIG_FLATMEM)
-> > -
-> >  #define __pfn_to_page(pfn)	(mem_map + ((pfn) - ARCH_PFN_OFFSET))
-> >  #define __page_to_pfn(page)	((unsigned long)((page) - mem_map) + \
-> >  				 ARCH_PFN_OFFSET)
-> > -#elif defined(CONFIG_DISCONTIGMEM)
-> > -
-> > -#define __pfn_to_page(pfn)			\
-> > -({	unsigned long __pfn = (pfn);		\
-> > -	unsigned long __nid = arch_pfn_to_nid(__pfn);  \
-> > -	NODE_DATA(__nid)->node_mem_map + arch_local_page_offset(__pfn, __nid);\
-> > -})
-> > -
-> > -#define __page_to_pfn(pg)						\
-> > -({	const struct page *__pg = (pg);					\
-> > -	struct pglist_data *__pgdat = NODE_DATA(page_to_nid(__pg));	\
-> > -	(unsigned long)(__pg - __pgdat->node_mem_map) +			\
-> > -	 __pgdat->node_start_pfn;					\
-> > -})
-> >  
-> >  #elif defined(CONFIG_SPARSEMEM_VMEMMAP)
-> >  
-> > @@ -70,7 +41,7 @@
-> >  	struct mem_section *__sec = __pfn_to_section(__pfn);	\
-> >  	__section_mem_map_addr(__sec) + __pfn;		\
-> >  })
-> > -#endif /* CONFIG_FLATMEM/DISCONTIGMEM/SPARSEMEM */
-> > +#endif /* CONFIG_FLATMEM/SPARSEMEM */
-> >  
-> >  /*
-> >   * Convert a physical address to a Page Frame Number and back
-> > diff --git a/include/linux/mmzone.h b/include/linux/mmzone.h
-> > index 0d53eba1c383..700032e99419 100644
-> > --- a/include/linux/mmzone.h
-> > +++ b/include/linux/mmzone.h
-> > @@ -738,10 +738,12 @@ struct zonelist {
-> >  	struct zoneref _zonerefs[MAX_ZONES_PER_ZONELIST + 1];
-> >  };
-> >  
-> > -#ifndef CONFIG_DISCONTIGMEM
-> > -/* The array of struct pages - for discontigmem use pgdat->lmem_map */
-> > +/*
-> > + * The array of struct pages for flatmem.
-> > + * It must be declared for SPARSEMEM as well because there are configurations
-> > + * that rely on that.
-> > + */
-> >  extern struct page *mem_map;
-> > -#endif
-> >  
-> >  #ifdef CONFIG_TRANSPARENT_HUGEPAGE
-> >  struct deferred_split {
-> > diff --git a/mm/Kconfig b/mm/Kconfig
-> > index 02d44e3420f5..218b96ccc84a 100644
-> > --- a/mm/Kconfig
-> > +++ b/mm/Kconfig
-> > @@ -19,7 +19,7 @@ choice
-> >  
-> >  config FLATMEM_MANUAL
-> >  	bool "Flat Memory"
-> > -	depends on !(ARCH_DISCONTIGMEM_ENABLE || ARCH_SPARSEMEM_ENABLE) || ARCH_FLATMEM_ENABLE
-> > +	depends on !ARCH_SPARSEMEM_ENABLE || ARCH_FLATMEM_ENABLE
-> >  	help
-> >  	  This option is best suited for non-NUMA systems with
-> >  	  flat address space. The FLATMEM is the most efficient
-> > @@ -32,21 +32,6 @@ config FLATMEM_MANUAL
-> >  
-> >  	  If unsure, choose this option (Flat Memory) over any other.
-> >  
-> > -config DISCONTIGMEM_MANUAL
-> > -	bool "Discontiguous Memory"
-> > -	depends on ARCH_DISCONTIGMEM_ENABLE
-> > -	help
-> > -	  This option provides enhanced support for discontiguous
-> > -	  memory systems, over FLATMEM.  These systems have holes
-> > -	  in their physical address spaces, and this option provides
-> > -	  more efficient handling of these holes.
-> > -
-> > -	  Although "Discontiguous Memory" is still used by several
-> > -	  architectures, it is considered deprecated in favor of
-> > -	  "Sparse Memory".
-> > -
-> > -	  If unsure, choose "Sparse Memory" over this option.
-> > -
-> >  config SPARSEMEM_MANUAL
-> >  	bool "Sparse Memory"
-> >  	depends on ARCH_SPARSEMEM_ENABLE
-> > @@ -62,17 +47,13 @@ config SPARSEMEM_MANUAL
-> >  
-> >  endchoice
-> >  
-> > -config DISCONTIGMEM
-> > -	def_bool y
-> > -	depends on (!SELECT_MEMORY_MODEL && ARCH_DISCONTIGMEM_ENABLE) || DISCONTIGMEM_MANUAL
-> > -
-> >  config SPARSEMEM
-> >  	def_bool y
-> >  	depends on (!SELECT_MEMORY_MODEL && ARCH_SPARSEMEM_ENABLE) || SPARSEMEM_MANUAL
-> >  
-> >  config FLATMEM
-> >  	def_bool y
-> > -	depends on (!DISCONTIGMEM && !SPARSEMEM) || FLATMEM_MANUAL
-> > +	depends on !SPARSEMEM || FLATMEM_MANUAL
-> >  
-> >  config FLAT_NODE_MEM_MAP
-> >  	def_bool y
-> > @@ -85,7 +66,7 @@ config FLAT_NODE_MEM_MAP
-> >  #
-> >  config NEED_MULTIPLE_NODES
-> >  	def_bool y
-> > -	depends on DISCONTIGMEM || NUMA
-> > +	depends on NUMA
-> >  
-> >  #
-> >  # SPARSEMEM_EXTREME (which is the default) does some bootmem
-> > diff --git a/mm/page_alloc.c b/mm/page_alloc.c
-> > index aaa1655cf682..6fc22482eaa8 100644
-> > --- a/mm/page_alloc.c
-> > +++ b/mm/page_alloc.c
-> > @@ -331,20 +331,7 @@ compound_page_dtor * const compound_page_dtors[NR_COMPOUND_DTORS] = {
-> >  
-> >  int min_free_kbytes = 1024;
-> >  int user_min_free_kbytes = -1;
-> > -#ifdef CONFIG_DISCONTIGMEM
-> > -/*
-> > - * DiscontigMem defines memory ranges as separate pg_data_t even if the ranges
-> > - * are not on separate NUMA nodes. Functionally this works but with
-> > - * watermark_boost_factor, it can reclaim prematurely as the ranges can be
-> > - * quite small. By default, do not boost watermarks on discontigmem as in
-> > - * many cases very high-order allocations like THP are likely to be
-> > - * unsupported and the premature reclaim offsets the advantage of long-term
-> > - * fragmentation avoidance.
-> > - */
-> > -int watermark_boost_factor __read_mostly;
-> > -#else
-> >  int watermark_boost_factor __read_mostly = 15000;
-> > -#endif
-> >  int watermark_scale_factor = 10;
-> >  
-> >  static unsigned long nr_kernel_pages __initdata;
-> > -- 
-> > 2.28.0
-> 
-> _______________________________________________
-> linux-riscv mailing list
-> linux-riscv@lists.infradead.org
-> http://lists.infradead.org/mailman/listinfo/linux-riscv
+The test in copy_thread.  That isn't the case I am worried about.
 
--- 
-Sincerely yours,
-Mike.
+> So io_uring looks fine on alpha. I didn't check m68k and friends, but
+> I think they have the same thing going.
+
+As I have read through the code more I don't think so.
+
+The code paths I am worried about are:
+
+	ret_from_kernel_thread
+        	io_wqe_worker
+                	get_signal
+                        	do_coredump
+                        	ptrace_stop
+
+	ret_from_kernel_thread
+        	io_sq_thread
+                	get_signal
+                        	do_coredump
+                        	ptrace_stop
+
+
+As I understand the code the new thread created by create_thread
+initially has a full complement of registers, and then is started
+by alpha_switch_to:
+
+	.align	4
+	.globl	alpha_switch_to
+	.type	alpha_switch_to, @function
+	.cfi_startproc
+alpha_switch_to:
+	DO_SWITCH_STACK
+	call_pal PAL_swpctx
+	lda	$8, 0x3fff
+	UNDO_SWITCH_STACK
+	bic	$sp, $8, $8
+	mov	$17, $0
+	ret
+	.cfi_endproc
+	.size	alpha_switch_to, .-alpha_switch_to
+
+
+The alpha_switch_to will remove the extra registers from the stack and
+then call ret which if I understand alpha assembly correctly is
+equivalent to jumping to where $26 points.  Which is
+ret_from_kernel_thread (as setup by copy_thread).
+
+Which leaves ret_from_kernel_thread and everything it calls without
+the extra context saved on the stack.
+
+I am still trying to understand how we get registers populated at a
+fixed offset on the stack during schedule.  As it looks like switch_to
+assumes the stack pointer is in the proper location.
+
+>> It looks like we just need something like this to cover the userspace
+>> side of exit.
+>
+> Looks correct to me. Except I think you could just use "fork_like()"
+> instead of creating a new (and identical) "exit_like()" macro.
+>
+>> > But I really wish we had some way to test and trigger this so that we
+>> > wouldn't get caught on this before. Something in task_pt_regs() that
+>> > catches "this doesn't actually work" and does a WARN_ON_ONCE() on the
+>> > affected architectures?
+>>
+>> I think that would require pushing an extra magic value in SWITCH_STACK
+>> and not just popping it but deliberately changing that value in
+>> UNDO_SWITCH_STACK.  Basically stack canaries.
+>>
+>> I don't see how we could do it in an arch independent way though.
+>
+> No, I think you're right. There's no obvious generic solution to it,
+> and once we look at arch-specific ones we're vback to "just alpha,
+> m68k and nios needs this or cares" and tonce you're there you might as
+> well just fix it.
+>
+> ia64 has soem "fast system call" model with limited registers too, but
+> I think that's limited to just a few very special system calls (ie it
+> does the reverse of what alpha does: alpha does the fast case by
+> default, and then marks fork/vfork/clone as special).
+
+I wonder if the arch specific solution should be to move the registers
+to a fixed location in task_struct (perhaps thread_struct ) so that the
+same patterns can apply across all architectures and we don't get
+surprises at all.
+
+What appears to be unique about alpha, m68k, and nios is that
+space is not always reserved for all of the registers, so we can't
+always count on them being saved after a task switch.
+
+Eric
