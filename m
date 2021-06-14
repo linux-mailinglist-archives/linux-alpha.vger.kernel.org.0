@@ -2,60 +2,30 @@ Return-Path: <linux-alpha-owner@vger.kernel.org>
 X-Original-To: lists+linux-alpha@lfdr.de
 Delivered-To: lists+linux-alpha@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 3E1DD3A5C55
-	for <lists+linux-alpha@lfdr.de>; Mon, 14 Jun 2021 07:05:00 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 549F63A6BAD
+	for <lists+linux-alpha@lfdr.de>; Mon, 14 Jun 2021 18:27:00 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229829AbhFNFHA (ORCPT <rfc822;lists+linux-alpha@lfdr.de>);
-        Mon, 14 Jun 2021 01:07:00 -0400
-Received: from mail-pj1-f47.google.com ([209.85.216.47]:43520 "EHLO
-        mail-pj1-f47.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229596AbhFNFHA (ORCPT
+        id S234561AbhFNQ3B (ORCPT <rfc822;lists+linux-alpha@lfdr.de>);
+        Mon, 14 Jun 2021 12:29:01 -0400
+Received: from out01.mta.xmission.com ([166.70.13.231]:51962 "EHLO
+        out01.mta.xmission.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S234124AbhFNQ3A (ORCPT
         <rfc822;linux-alpha@vger.kernel.org>);
-        Mon, 14 Jun 2021 01:07:00 -0400
-Received: by mail-pj1-f47.google.com with SMTP id x21-20020a17090aa395b029016e25313bfcso9410543pjp.2;
-        Sun, 13 Jun 2021 22:04:43 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=subject:to:references:cc:from:message-id:date:user-agent
-         :mime-version:in-reply-to:content-transfer-encoding;
-        bh=/Shcl0CcwcVQvnqm4kjruvfteHB5V70Bgq+EW67+hVs=;
-        b=B5SBMSbjT8JJZ0clP7225Gi2clR3Q4OchlvIiY/CVvOS/s3gFjPf0ybYVRqwbIG/dZ
-         Y8fJHjfu8wY1guNyM/wNNFbHK+cMl/eMbnj3TVjh8v7tBKbjRrt5ivQORq0NjueN9QXa
-         x6x0nPCYp+HfTubRj1wmV4idu6a/kvc2wnsRx5LyQ7CLvBsu7qQIu6s5MRo+cSTHs51z
-         FJRDLeLVosLvWgeGb5rV8piHUEoVvgaZ8PYvVHCrSOExft7bgqRESMuQ+KAxHiCu22A+
-         lSmXN9GdGs/9vgPpg0Md5tu3/RxBd29BWkXJYO1MPH6PcllXlp8hVlnIvMHJQm5foksZ
-         Ue2A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:subject:to:references:cc:from:message-id:date
-         :user-agent:mime-version:in-reply-to:content-transfer-encoding;
-        bh=/Shcl0CcwcVQvnqm4kjruvfteHB5V70Bgq+EW67+hVs=;
-        b=nYlaa/HjpO0M/neBiKxWue1+wsMdMK072kksKmmnOZA/KzqXvuIDK7AO/HbuAK5r4y
-         g4kamt+x37eIKCptFnACQlfA9V8yzkMcG2kAgdlws8IcqbNx50vRl8u9jszq7H1jt+Oa
-         gaUaXpnVrlodd9Q7B3DZ3EfZrlBSVAHmHD2rJed2WOhdB7Xxso+cQWgX3uhRASnWpkid
-         ajFIerMwBzfKa6ph2K06+jL82cLVwBU9KznzX6M2HK0OeWDOfi0kxPTI1c+qEe0Lgtzz
-         dlsHQVYs30gKzLBdBMmnj+uFEYhOCpRWER16UTZc0+kdx9X81uRM9e317XjJtC2LLk+U
-         JNTg==
-X-Gm-Message-State: AOAM532UOoaAm9meOUGld+gwnZv8j1coeBKn3hJePpGvgiyXoLLywLda
-        6ilf53UIXSpBEJzF9nWjqH0=
-X-Google-Smtp-Source: ABdhPJwkPl8QjSwHR1OhgiNQGW21SvV1YCn2jXTQrmZjnukE9TtSBBVhBqVhbHYh9Co4wob1faZfnQ==
-X-Received: by 2002:a17:902:8307:b029:103:c733:e5e0 with SMTP id bd7-20020a1709028307b0290103c733e5e0mr15280288plb.8.1623647023369;
-        Sun, 13 Jun 2021 22:03:43 -0700 (PDT)
-Received: from [10.1.1.25] (222-152-189-137-fibre.sparkbb.co.nz. [222.152.189.137])
-        by smtp.gmail.com with ESMTPSA id b5sm5251727pfp.102.2021.06.13.22.03.34
-        (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
-        Sun, 13 Jun 2021 22:03:42 -0700 (PDT)
-Subject: Re: Kernel stack read with PTRACE_EVENT_EXIT and io_uring threads
-To:     Linus Torvalds <torvalds@linux-foundation.org>,
-        "Eric W. Biederman" <ebiederm@xmission.com>
-References: <87sg1p30a1.fsf@disp2133>
- <CAHk-=wjiBXCZBxLiCG5hxpd0vMkMjiocenponWygG5SCG6DXNw@mail.gmail.com>
- <87pmwsytb3.fsf@disp2133>
- <CAHk-=wgdO5VwSUFjfF9g=DAQNYmVxzTq73NtdisYErzdZKqDGg@mail.gmail.com>
- <87sg1lwhvm.fsf@disp2133>
- <CAHk-=wgsnMTr0V-0F4FOk30Q1h7CeT8wLvR1MSnjack7EpyWtQ@mail.gmail.com>
- <6e47eff8-d0a4-8390-1222-e975bfbf3a65@gmail.com>
-Cc:     linux-arch <linux-arch@vger.kernel.org>,
+        Mon, 14 Jun 2021 12:29:00 -0400
+Received: from in02.mta.xmission.com ([166.70.13.52])
+        by out01.mta.xmission.com with esmtps  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
+        (Exim 4.93)
+        (envelope-from <ebiederm@xmission.com>)
+        id 1lspQM-00E1Ph-7M; Mon, 14 Jun 2021 10:26:54 -0600
+Received: from ip68-227-160-95.om.om.cox.net ([68.227.160.95] helo=email.xmission.com)
+        by in02.mta.xmission.com with esmtpsa  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
+        (Exim 4.93)
+        (envelope-from <ebiederm@xmission.com>)
+        id 1lspQL-00Bgki-8b; Mon, 14 Jun 2021 10:26:53 -0600
+From:   ebiederm@xmission.com (Eric W. Biederman)
+To:     Michael Schmitz <schmitzmic@gmail.com>
+Cc:     Linus Torvalds <torvalds@linux-foundation.org>,
+        linux-arch <linux-arch@vger.kernel.org>,
         Jens Axboe <axboe@kernel.dk>, Oleg Nesterov <oleg@redhat.com>,
         Al Viro <viro@zeniv.linux.org.uk>,
         Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
@@ -68,61 +38,100 @@ Cc:     linux-arch <linux-arch@vger.kernel.org>,
         Arnd Bergmann <arnd@kernel.org>,
         Ley Foon Tan <ley.foon.tan@intel.com>,
         Tejun Heo <tj@kernel.org>, Kees Cook <keescook@chromium.org>
-From:   Michael Schmitz <schmitzmic@gmail.com>
-Message-ID: <924ec53c-2fd9-2e1c-bbb1-3fda49809be4@gmail.com>
-Date:   Mon, 14 Jun 2021 17:03:32 +1200
-User-Agent: Mozilla/5.0 (X11; Linux ppc; rv:45.0) Gecko/20100101
- Icedove/45.4.0
+In-Reply-To: <924ec53c-2fd9-2e1c-bbb1-3fda49809be4@gmail.com> (Michael
+        Schmitz's message of "Mon, 14 Jun 2021 17:03:32 +1200")
+References: <87sg1p30a1.fsf@disp2133>
+        <CAHk-=wjiBXCZBxLiCG5hxpd0vMkMjiocenponWygG5SCG6DXNw@mail.gmail.com>
+        <87pmwsytb3.fsf@disp2133>
+        <CAHk-=wgdO5VwSUFjfF9g=DAQNYmVxzTq73NtdisYErzdZKqDGg@mail.gmail.com>
+        <87sg1lwhvm.fsf@disp2133>
+        <CAHk-=wgsnMTr0V-0F4FOk30Q1h7CeT8wLvR1MSnjack7EpyWtQ@mail.gmail.com>
+        <6e47eff8-d0a4-8390-1222-e975bfbf3a65@gmail.com>
+        <924ec53c-2fd9-2e1c-bbb1-3fda49809be4@gmail.com>
+User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/26.1 (gnu/linux)
+Date:   Mon, 14 Jun 2021 11:26:39 -0500
+Message-ID: <87eed4v2dc.fsf@disp2133>
 MIME-Version: 1.0
-In-Reply-To: <6e47eff8-d0a4-8390-1222-e975bfbf3a65@gmail.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain
+X-XM-SPF: eid=1lspQL-00Bgki-8b;;;mid=<87eed4v2dc.fsf@disp2133>;;;hst=in02.mta.xmission.com;;;ip=68.227.160.95;;;frm=ebiederm@xmission.com;;;spf=neutral
+X-XM-AID: U2FsdGVkX1+p8M0GsrdXS5+5TC221baY4cqTIjSrQBA=
+X-SA-Exim-Connect-IP: 68.227.160.95
+X-SA-Exim-Mail-From: ebiederm@xmission.com
+X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on sa07.xmission.com
+X-Spam-Level: *
+X-Spam-Status: No, score=1.5 required=8.0 tests=ALL_TRUSTED,BAYES_50,
+        DCC_CHECK_NEGATIVE,T_TM2_M_HEADER_IN_MSG,T_XMDrugObfuBody_08,XMSubLong
+        autolearn=disabled version=3.4.2
+X-Spam-Report: * -1.0 ALL_TRUSTED Passed through trusted hosts only via SMTP
+        *  0.8 BAYES_50 BODY: Bayes spam probability is 40 to 60%
+        *      [score: 0.4998]
+        *  0.7 XMSubLong Long Subject
+        *  0.0 T_TM2_M_HEADER_IN_MSG BODY: No description available.
+        * -0.0 DCC_CHECK_NEGATIVE Not listed in DCC
+        *      [sa07 1397; Body=1 Fuz1=1 Fuz2=1]
+        *  1.0 T_XMDrugObfuBody_08 obfuscated drug references
+X-Spam-DCC: XMission; sa07 1397; Body=1 Fuz1=1 Fuz2=1 
+X-Spam-Combo: *;Michael Schmitz <schmitzmic@gmail.com>
+X-Spam-Relay-Country: 
+X-Spam-Timing: total 411 ms - load_scoreonly_sql: 0.03 (0.0%),
+        signal_user_changed: 11 (2.6%), b_tie_ro: 9 (2.3%), parse: 0.90 (0.2%),
+         extract_message_metadata: 3.1 (0.7%), get_uri_detail_list: 1.28
+        (0.3%), tests_pri_-1000: 4.4 (1.1%), tests_pri_-950: 1.25 (0.3%),
+        tests_pri_-900: 1.02 (0.2%), tests_pri_-90: 105 (25.5%), check_bayes:
+        103 (25.1%), b_tokenize: 8 (1.9%), b_tok_get_all: 8 (1.9%),
+        b_comp_prob: 2.5 (0.6%), b_tok_touch_all: 81 (19.7%), b_finish: 1.07
+        (0.3%), tests_pri_0: 267 (64.8%), check_dkim_signature: 0.52 (0.1%),
+        check_dkim_adsp: 3.0 (0.7%), poll_dns_idle: 1.20 (0.3%), tests_pri_10:
+        3.0 (0.7%), tests_pri_500: 7 (1.8%), rewrite_mail: 0.00 (0.0%)
+Subject: Re: Kernel stack read with PTRACE_EVENT_EXIT and io_uring threads
+X-SA-Exim-Version: 4.2.1 (built Sat, 08 Feb 2020 21:53:50 +0000)
+X-SA-Exim-Scanned: Yes (on in02.mta.xmission.com)
 Precedence: bulk
 List-ID: <linux-alpha.vger.kernel.org>
 X-Mailing-List: linux-alpha@vger.kernel.org
 
-On second thought, I'm not certain what adding another empty stack frame 
-would achieve here.
+Michael Schmitz <schmitzmic@gmail.com> writes:
 
-On m68k, 'frame' already is a new stack frame, for running the new 
-thread in. This new frame does not have any user context at all, and 
-it's explicitly wiped anyway.
+> On second thought, I'm not certain what adding another empty stack frame would
+> achieve here.
+>
+> On m68k, 'frame' already is a new stack frame, for running the new thread
+> in. This new frame does not have any user context at all, and it's explicitly
+> wiped anyway.
+>
+> Unless we save all user context on the stack, then push that context to a new
+> save frame, and somehow point get_signal to look there for IO threads
+> (essentially what Eric suggested), I don't see how this could work?
+>
+> I must be missing something.
 
-Unless we save all user context on the stack, then push that context to 
-a new save frame, and somehow point get_signal to look there for IO 
-threads (essentially what Eric suggested), I don't see how this could work?
+It is only designed to work well enough so that ptrace will access
+something well defined when ptrace accesses io_uring tasks.
 
-I must be missing something.
+The io_uring tasks are special in that they are user process
+threads that never run in userspace.  So as long as everything
+ptrace can read is accessible on that process all is well.
 
-Cheers,
+Having stared a bit longer at the code I think the short term
+fix for both of PTRACE_EVENT_EXIT and io_uring is to guard
+them both with CONFIG_HAVE_ARCH_TRACEHOOK.
 
-	Michael Schmitz
+Today CONFIG_HAVE_ARCH_TRACEHOOK guards access to /proc/self/syscall.
+Which out of necessity ensures that user context is always readable.
+Which seems to solve both the PTRACE_EVENT_EXIT and the io_uring
+problems.
 
-Am 14.06.2021 um 14:05 schrieb Michael Schmitz:
->>
->> I wouldn't be surprised if m68k has the exact same thing for the exact
->> same reason, but I didn't check..
->
-> m68k is indeed similar, it has:
->
->        if (unlikely(p->flags & (PF_KTHREAD | PF_IO_WORKER))) {
->                 /* kernel thread */
->                 memset(frame, 0, sizeof(struct fork_frame));
->                 frame->regs.sr = PS_S;
->                 frame->sw.a3 = usp; /* function */
->                 frame->sw.d7 = arg;
->                 frame->sw.retpc = (unsigned long)ret_from_kernel_thread;
->                 p->thread.usp = 0;
->                 return 0;
->         }
->
-> so a similar patch should be possible.
->
-> Cheers,
->
->     Michael
->
->
->
->>
->>                    Linus
+What I especially like about that is there are a lot of other reasons
+to encourage architectures in a CONFIG_HAVE_ARCH_TRACEHOOK direction.
+I think the biggies are getting architectures to store the extra
+saved state on context switch into some place in task_struct
+and to implement the regset view of registers.
+
+Hmm. This is odd. CONFIG_HAVE_ARCH_TRACEHOOK is supposed to imply
+CORE_DUMP_USE_REGSET.  But alpha, csky, h8300, m68k, microblaze, nds32
+don't implement CORE_DUMP_USE_REGSET but nds32 implements
+CONFIG_ARCH_HAVE_TRACEHOOK.
+
+I will keep digging and see what clean code I can come up with.
+
+Eric
