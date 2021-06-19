@@ -2,109 +2,85 @@ Return-Path: <linux-alpha-owner@vger.kernel.org>
 X-Original-To: lists+linux-alpha@lfdr.de
 Delivered-To: lists+linux-alpha@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 572403ACDAF
-	for <lists+linux-alpha@lfdr.de>; Fri, 18 Jun 2021 16:39:00 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 90F9D3AD805
+	for <lists+linux-alpha@lfdr.de>; Sat, 19 Jun 2021 08:03:11 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234598AbhFROlH (ORCPT <rfc822;lists+linux-alpha@lfdr.de>);
-        Fri, 18 Jun 2021 10:41:07 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47558 "EHLO
+        id S233807AbhFSGFT (ORCPT <rfc822;lists+linux-alpha@lfdr.de>);
+        Sat, 19 Jun 2021 02:05:19 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55290 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S234593AbhFROlG (ORCPT
+        with ESMTP id S233782AbhFSGFT (ORCPT
         <rfc822;linux-alpha@vger.kernel.org>);
-        Fri, 18 Jun 2021 10:41:06 -0400
-Received: from mail-ot1-x32e.google.com (mail-ot1-x32e.google.com [IPv6:2607:f8b0:4864:20::32e])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6B85EC061574
-        for <linux-alpha@vger.kernel.org>; Fri, 18 Jun 2021 07:38:56 -0700 (PDT)
-Received: by mail-ot1-x32e.google.com with SMTP id 66-20020a9d02c80000b02903615edf7c1aso9838885otl.13
-        for <linux-alpha@vger.kernel.org>; Fri, 18 Jun 2021 07:38:56 -0700 (PDT)
+        Sat, 19 Jun 2021 02:05:19 -0400
+Received: from mail-qk1-x730.google.com (mail-qk1-x730.google.com [IPv6:2607:f8b0:4864:20::730])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 26390C06175F
+        for <linux-alpha@vger.kernel.org>; Fri, 18 Jun 2021 23:03:08 -0700 (PDT)
+Received: by mail-qk1-x730.google.com with SMTP id d196so16419027qkg.12
+        for <linux-alpha@vger.kernel.org>; Fri, 18 Jun 2021 23:03:08 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=kernel-dk.20150623.gappssmtp.com; s=20150623;
-        h=subject:from:to:cc:references:message-id:date:user-agent
-         :mime-version:in-reply-to:content-language:content-transfer-encoding;
-        bh=T9YZ9nd9UJQBiMGTA8SwSx9fF/IkYT4ggh3TTtYGORU=;
-        b=ELMedzfqm5gGYiZMpebilxyhIz30HP+7MOrFhLWMfRM7CNAGCIQMGLIobxyzi2vTvr
-         aj3eqq2G0rINF61dtcVNMqxlKrb2V4BxLPEmPZiRqvpDoudbV/EgJiamQGWpXpxflQmO
-         ND3tV4XYaw4ZeFHRCzpd+EOeGFKQC2rJD985zQdcFF3mqvI4ET4kgMto7ucO5bfXIzvY
-         /cBGMYPqdnkSCTr4+YLVPB0A5rpI9N5gZtGLbFQa1CNCzSRtYfXQmZ4FMBc/itdFoj/X
-         Z09tQjkcsSNNkxC1pLW0oyfttF9xqvdh30nPpapcASD+YC/vcdSisam+uu+KYMjXS1oZ
-         jueQ==
+        d=gmail.com; s=20161025;
+        h=mime-version:reply-to:from:date:message-id:subject:to
+         :content-transfer-encoding;
+        bh=wAVqLsnfNHPtzpij5O3nzBsHWWTKNNltQQPvyugJZcM=;
+        b=h3+EnlepC8d2dDo2Md1KnOy2ztgoCfBhFfXTzNnaptNTP/FPz7mKYBiDeLU7m4HLxK
+         l71kkGPhzcf8agUvnNgb2uWf/TG+fr87vbCG23WvqlW4i1pcTdptNKblju6VXmF2r/x1
+         EbNIDkuA9YSgclaEqsRmkldmpsyzM928zb4JI3x9USiA0ntI+WLRgohVzC3Lg7eGtX19
+         dJv6FMUsXJ3fazUDteAgPXPyTf4AKHRyLXnP80hGt8dPZoTrKqFUUWVEQXiO7G9/9xOl
+         j8BpoMcg8bwW65Ob8TuChi4RxUV4PAufzYBo+CVlCq4ApaNrBb/P7LWVJlU9QtJmzPG8
+         I5tw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:subject:from:to:cc:references:message-id:date
-         :user-agent:mime-version:in-reply-to:content-language
-         :content-transfer-encoding;
-        bh=T9YZ9nd9UJQBiMGTA8SwSx9fF/IkYT4ggh3TTtYGORU=;
-        b=ivuUdcCtWYklRaBIUMHyuV3tZrBwJ/swUNFdQXNK0MUnzYBPyd1LCH92u1LMbkNRlb
-         fGZqKHBA57L4VOKCtsbaFGxvSAdMLd35YK+dAWbOqi4e4yX4a22wytdzu0nx3QYLlWrd
-         +Hcj+mQlqhUJlDDr4/8j2IlTy+th4cJoZlwZ0aq4KVVly8tIJ4DTqcZYlyOHzLNtDnt7
-         QBUe4+GD30abGBCsu7+fx2OFRZP4nUH+NyrBTKzJMOFibsiBUlkBsoDXCLtQx1Snrpx9
-         RIx30apKrGs7j0w1dfyLyqBK0I0QT/0mvajBqMXTVMAixDDxXnFsQWtV2OPU6fuLL54h
-         +JOA==
-X-Gm-Message-State: AOAM531HHpBzO0Iz865hnddOWQEymydag28SqoIYP7RGo2szsJIom0ot
-        MxqFSxyajIWXCIyYfTRQ5sIO/A==
-X-Google-Smtp-Source: ABdhPJzHAmLUNJckmU3abFOD9WQomHPPF2qlw1+78hJMYelf0T+g8MkjAjpQ3BD9i4JwVNNbP4pUfw==
-X-Received: by 2002:a9d:426:: with SMTP id 35mr9427857otc.162.1624027135675;
-        Fri, 18 Jun 2021 07:38:55 -0700 (PDT)
-Received: from [192.168.1.134] ([198.8.77.61])
-        by smtp.gmail.com with ESMTPSA id l2sm2126772otl.27.2021.06.18.07.38.53
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 18 Jun 2021 07:38:55 -0700 (PDT)
-Subject: Re: remove the legacy ide driver v2
-From:   Jens Axboe <axboe@kernel.dk>
-To:     Christoph Hellwig <hch@lst.de>,
-        "David S. Miller" <davem@davemloft.net>,
-        Geert Uytterhoeven <geert@linux-m68k.org>
-Cc:     Richard Henderson <rth@twiddle.net>,
-        Ivan Kokshaysky <ink@jurassic.park.msu.ru>,
-        Matt Turner <mattst88@gmail.com>,
-        Russell King <linux@armlinux.org.uk>,
-        Michael Ellerman <mpe@ellerman.id.au>,
-        Linus Torvalds <torvalds@linux-foundation.org>,
-        linux-ide@vger.kernel.org, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-alpha@vger.kernel.org,
-        linux-arm-kernel@lists.infradead.org,
-        linux-m68k@lists.linux-m68k.org
-References: <20210616134658.1471835-1-hch@lst.de>
- <4b003372-41d0-507a-b74b-b73aa33189f4@kernel.dk>
-Message-ID: <57488a7b-02fa-3b3a-6719-81ab8dd64b53@kernel.dk>
-Date:   Fri, 18 Jun 2021 08:38:56 -0600
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.10.0
+        h=x-gm-message-state:mime-version:reply-to:from:date:message-id
+         :subject:to:content-transfer-encoding;
+        bh=wAVqLsnfNHPtzpij5O3nzBsHWWTKNNltQQPvyugJZcM=;
+        b=RYEb2j/AjhBCIiYM2w/+m1P4RyE8xX6Q6th5m0PfMIhSpogNPfjK4AvpfYH2K23LAN
+         RN/13zzS1aRqqAAR6diERyUyNuQp3sUe273QHlJ3XC14fB8ZovBHd91CAvTs8JaBVz/R
+         +pPPWgyU7gox5Nx74YMOHZfvGp4lcSLApFtpmQ4eOi21fkwTXmMa/LwoGm1G/BGzzutc
+         ivTEV6G9/YCaxFjgPgyLGdlWfVExh4n8R+dAkEucoP/1jPbJ6m3Jh/Fej574bzo2Mo9Z
+         bCByZ+UKiG8kQ6rlpnYPugiDMfgT/KcbSP17fhMK5fhb1TPM1J1P03N7j2MGKpyYZbGg
+         MyTA==
+X-Gm-Message-State: AOAM530nibkS7HGtYOSnT7x0NKhQK89mCQf+vyGvbYHN+vbEDsyvi7h/
+        P0hBGceSC1F8daTuZ+DP2jjCo1y9TKjuHnyNwQ8=
+X-Google-Smtp-Source: ABdhPJw9zhQJIlxTWY2bkpmzGPveYHO9AIh+9MZ3tflgiZlmOCpcea2iv2CeqrsVhKG97R4uOWvRol+hdNhgfSjDpCs=
+X-Received: by 2002:ae9:e407:: with SMTP id q7mr13070933qkc.410.1624082587183;
+ Fri, 18 Jun 2021 23:03:07 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <4b003372-41d0-507a-b74b-b73aa33189f4@kernel.dk>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+Received: by 2002:a05:6214:852:0:0:0:0 with HTTP; Fri, 18 Jun 2021 23:03:06
+ -0700 (PDT)
+Reply-To: rita44303@yahoo.co.jp
+From:   rita williams <rita67will@gmail.com>
+Date:   Sat, 19 Jun 2021 07:03:06 +0100
+Message-ID: <CAL+t9WDEOFNLCc2Py7DbUEqHzOE2JmceDHxSPhFZ5rc-RXNNyw@mail.gmail.com>
+Subject: Od pani Rity Williams
+To:     undisclosed-recipients:;
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 Precedence: bulk
 List-ID: <linux-alpha.vger.kernel.org>
 X-Mailing-List: linux-alpha@vger.kernel.org
 
-On 6/16/21 8:52 AM, Jens Axboe wrote:
-> On 6/16/21 7:46 AM, Christoph Hellwig wrote:
->> Hi all,
->>
->> we've been trying to get rid of the legacy ide driver for a while now,
->> and finally scheduled a removal for 2021, which is three month old now.
->>
->> In general distros and most defconfigs have switched to libata long ago,
->> but there are a few exceptions.  This series first switches over all
->> remaining defconfigs to use libata and then removes the legacy ide
->> driver.
->>
->> libata mostly covers all hardware supported by the legacy ide driver.
->> There are three mips drivers that are not supported, but the linux-mips
->> list could not identify any users of those.  There also are two m68k
->> drivers that do not have libata equivalents, which might or might not
->> have users, so we'll need some input and possibly help from the m68k
->> community here.
->>
->> This series is against Jens' for-5.14/libata branch.
-> 
-> Unless someone complains loudly, I plan on queueing this up end this
-> week.
+Najdro=C5=BCszy w Chrystusie,
 
-This has now been applied for 5.14, thanks.
+Jestem pani=C4=85 Rita Williams, =C5=BCon=C4=99 Mr.David Williamsa, przez 1=
+9 lat bez
+dziecka, a m=C3=B3j m=C4=85=C5=BC zmar=C5=82 w 2007 roku Od mojego zmar=C5=
+=82ego m=C4=99=C5=BCa do
+mi=C5=82o=C5=9Bci, obecnie fundusz jest nadal w banku. Ostatnio m=C3=B3j le=
+karz
+powiedzia=C5=82 mi, =C5=BCe mam powa=C5=BCn=C4=85 chorob=C4=99, kt=C3=B3ra =
+jest problemem raka i nie
+trwam przez nast=C4=99pne 2 miesi=C4=85ce.
+Chc=C4=99 osob=C4=99, kt=C3=B3ra wykorzysta ten fundusz dla sieroci=C5=84c=
+=C3=B3w, szk=C3=B3=C5=82,
+ko=C5=9Bcio=C5=82=C3=B3w, wd=C3=B3w, propaguj=C4=85cych S=C5=82owo Bo=C5=BC=
+e w swoim kraju.
+Odpowiedz mi, aby uzyska=C4=87 wi=C4=99cej informacji, a tak=C5=BCe wy=C5=
+=9Blij mi
+nast=C4=99puj=C4=85ce informacje, jak poni=C5=BCej.
+Twoje pe=C5=82ne imi=C4=99 ..........
+Adres ...........
+Zdj=C4=99cie ...............
+Pozosta=C4=87 b=C5=82ogos=C5=82awiony
+Twoja siostra w Chrystusie
 
--- 
-Jens Axboe
-
+Pani Rita Williams.
