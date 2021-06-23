@@ -2,73 +2,68 @@ Return-Path: <linux-alpha-owner@vger.kernel.org>
 X-Original-To: lists+linux-alpha@lfdr.de
 Delivered-To: lists+linux-alpha@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id BFD233B1120
-	for <lists+linux-alpha@lfdr.de>; Wed, 23 Jun 2021 02:48:00 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 2F8423B1333
+	for <lists+linux-alpha@lfdr.de>; Wed, 23 Jun 2021 07:26:36 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229774AbhFWAuQ (ORCPT <rfc822;lists+linux-alpha@lfdr.de>);
-        Tue, 22 Jun 2021 20:50:16 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44756 "EHLO
+        id S229726AbhFWF2w (ORCPT <rfc822;lists+linux-alpha@lfdr.de>);
+        Wed, 23 Jun 2021 01:28:52 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49596 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229751AbhFWAuQ (ORCPT
+        with ESMTP id S229660AbhFWF2v (ORCPT
         <rfc822;linux-alpha@vger.kernel.org>);
-        Tue, 22 Jun 2021 20:50:16 -0400
-Received: from mail-lj1-x236.google.com (mail-lj1-x236.google.com [IPv6:2a00:1450:4864:20::236])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A1C3BC061574
-        for <linux-alpha@vger.kernel.org>; Tue, 22 Jun 2021 17:47:58 -0700 (PDT)
-Received: by mail-lj1-x236.google.com with SMTP id s22so624178ljg.5
-        for <linux-alpha@vger.kernel.org>; Tue, 22 Jun 2021 17:47:58 -0700 (PDT)
+        Wed, 23 Jun 2021 01:28:51 -0400
+Received: from mail-pj1-x102c.google.com (mail-pj1-x102c.google.com [IPv6:2607:f8b0:4864:20::102c])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id EFE00C061574;
+        Tue, 22 Jun 2021 22:26:33 -0700 (PDT)
+Received: by mail-pj1-x102c.google.com with SMTP id h23so846148pjv.2;
+        Tue, 22 Jun 2021 22:26:33 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linux-foundation.org; s=google;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=1pJi6stLtza5ZFdImIffUNgdJoHKsMjc09flZZ4qiAI=;
-        b=SFcCe3m1FiAXHxPsSVxKjvrdNckQVrxdff+U4unr4V4zJzTMYaBEpSK9jjYtU7tMd6
-         D6+UsvBUdCLcIdv0JgGtdHlWRGtgBWAILphbvJEUZilovxO8PsYLDfvqyyYAEF0oFQuI
-         Rb1F4OutZ2mQyaIxFkh4FOdwyNm9Ixhuqq2qU=
+        d=gmail.com; s=20161025;
+        h=subject:to:references:cc:from:message-id:date:user-agent
+         :mime-version:in-reply-to:content-transfer-encoding;
+        bh=cn5envrgx5GAtu7W+COJVqITqJD+Wu8CREApOZRkqO8=;
+        b=F04KpScvxEheYc8J+kj6npBZrB1QkG3uPUJUEAd9HSr+Fr/FOVvBk+txbsFbiCy0Dl
+         1rXk5hFjSNLWjBumIazVLVTJqxFdQg/Rh0vPJxAQnDgB1TGnfVZ9WHCdaD/QrBoR4otC
+         Mk65Lz7xwkKYaBJVQ7c9lOaD+sp/MW0rmUsV6cYp/VCjUxBHv9dAiXbMFHnsz64pkdJE
+         jQTKq2GiiLcDZ3fxss/KUXQW1G2jmA5JodTwGY5rGuTDfMI2TcOchMGpAJpeXf9uIW8v
+         Yx78DKad7rEWxzb8DJeOag8tt+C9WrJNjigo5zxsu0PCnFiGtLJeLYErU9YRfInKkpYO
+         RVTA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=1pJi6stLtza5ZFdImIffUNgdJoHKsMjc09flZZ4qiAI=;
-        b=uQLWz6WIMbT35GXLt5B7qy6UpF4pnuE3nr0FvOqfR/F6J+sQrEtik8TLVAcN/NZPqC
-         KTU37uWxluuSDourHa/eQd+19rg601Jh97lFZGpyMnh5Y7bVUj8E/gBceMFScP2vVT0k
-         LdficqC3QJmE98uBzrP9a7YPJADhou4Y8ivyhWHjimz6gt8648qxWU//7mVTsFJCHjcv
-         T4yNZlk2hIr3WN6vIw8QqeoPPEH9lfThwbc8MO6nA9Kic5QuvuW279wnNXKPWI1g5RiF
-         Cp2pXCPnMbR+f1P26CNpYau4ODalvE4r27PieHydrmDN2xCh05Gq5xU8G4/U/sqywpn6
-         EuPA==
-X-Gm-Message-State: AOAM532fOxLeg2y5D4DNPOzBne9d44gJQnD9DRkaMnzzJqtow+N13It1
-        2LzyP3crOfOoOJSvWNaFhMYY0AKxaFEzDrKT
-X-Google-Smtp-Source: ABdhPJymh/EC7bLk5RmyuxobMbgKiLf+2kFoZQgDQCvBosPlTcf9npw/VV+OfPgTPvkMjcSrIMmVPQ==
-X-Received: by 2002:a2e:6c12:: with SMTP id h18mr5638948ljc.125.1624409276692;
-        Tue, 22 Jun 2021 17:47:56 -0700 (PDT)
-Received: from mail-lf1-f49.google.com (mail-lf1-f49.google.com. [209.85.167.49])
-        by smtp.gmail.com with ESMTPSA id c30sm1241225lfv.196.2021.06.22.17.47.56
-        for <linux-alpha@vger.kernel.org>
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 22 Jun 2021 17:47:56 -0700 (PDT)
-Received: by mail-lf1-f49.google.com with SMTP id t17so1303411lfq.0
-        for <linux-alpha@vger.kernel.org>; Tue, 22 Jun 2021 17:47:56 -0700 (PDT)
-X-Received: by 2002:a05:6512:15a2:: with SMTP id bp34mr4693530lfb.40.1624408926925;
- Tue, 22 Jun 2021 17:42:06 -0700 (PDT)
-MIME-Version: 1.0
-References: <CAHk-=wgdO5VwSUFjfF9g=DAQNYmVxzTq73NtdisYErzdZKqDGg@mail.gmail.com>
- <87sg1lwhvm.fsf@disp2133> <CAHk-=wgsnMTr0V-0F4FOk30Q1h7CeT8wLvR1MSnjack7EpyWtQ@mail.gmail.com>
- <6e47eff8-d0a4-8390-1222-e975bfbf3a65@gmail.com> <924ec53c-2fd9-2e1c-bbb1-3fda49809be4@gmail.com>
- <87eed4v2dc.fsf@disp2133> <5929e116-fa61-b211-342a-c706dcb834ca@gmail.com>
- <87fsxjorgs.fsf@disp2133> <CAHk-=wj5cJjpjAmDptmP9u4__6p3Y93SCQHG8Ef4+h=cnLiCsA@mail.gmail.com>
- <YNCaMDQVYB04bk3j@zeniv-ca.linux.org.uk> <YNDhdb7XNQE6zQzL@zeniv-ca.linux.org.uk>
- <CAHk-=whAsWXcJkpMM8ji77DkYkeJAT4Cj98WBX-S6=GnMQwhzg@mail.gmail.com>
- <87a6njf0ia.fsf@disp2133> <CAHk-=wh4_iMRmWcao6a8kCvR0Hhdrz+M9L+q4Bfcwx9E9D0huw@mail.gmail.com>
- <87tulpbp19.fsf@disp2133>
-In-Reply-To: <87tulpbp19.fsf@disp2133>
-From:   Linus Torvalds <torvalds@linux-foundation.org>
-Date:   Tue, 22 Jun 2021 17:41:51 -0700
-X-Gmail-Original-Message-ID: <CAHk-=wi_kQAff1yx2ufGRo2zApkvqU8VGn7kgPT-Kv71FTs=AA@mail.gmail.com>
-Message-ID: <CAHk-=wi_kQAff1yx2ufGRo2zApkvqU8VGn7kgPT-Kv71FTs=AA@mail.gmail.com>
+        h=x-gm-message-state:subject:to:references:cc:from:message-id:date
+         :user-agent:mime-version:in-reply-to:content-transfer-encoding;
+        bh=cn5envrgx5GAtu7W+COJVqITqJD+Wu8CREApOZRkqO8=;
+        b=jMa+XGXYXsb5FyyTHC/vNRtI1zSNWg0LDplzm8DSOGLBrjSDi5xFTrNdpgdbPzLgG7
+         gBe2LRrKxjvvfEID/txk0jLx5ix8q0nQBYQkSB/5v6wjln8nnrvTPoBsnpiVtBNwmM1h
+         GEQjwTU4S0Wi8OU+NdmJP88QAt5JLWKWaEicBROU1Wsg+v/hz8M8CPs7aBOPjXlHV2DZ
+         kLKv2LOpZMucxxWkTzBr9HgZyBuIzMZy9ZeY+HpQGYEY5hRem6qYx2chawYRM8G52d4m
+         9PLyRxyfYqS7+5VWhOw4EQUsipKIAztw/tZUkyOzM4zUCyCZ+XmEJ/0locbpe3yohKto
+         9LlQ==
+X-Gm-Message-State: AOAM533lOHHzduYYzyTjUx2DuuVBjHMkrwDpQhSsitAtEFbhoH5JV6vp
+        EpHo2h8xvFr1EX8BLS5EzQc=
+X-Google-Smtp-Source: ABdhPJwtTPgr9/TC5SCNAt/BhMKJv8yHF4vp9bxraRVqz1W/jpRTDwopkssngp94CqTqDkWNRFJKMw==
+X-Received: by 2002:a17:902:da84:b029:126:2a2:cb89 with SMTP id j4-20020a170902da84b029012602a2cb89mr8971220plx.6.1624425993509;
+        Tue, 22 Jun 2021 22:26:33 -0700 (PDT)
+Received: from [10.1.1.25] (222-152-189-137-fibre.sparkbb.co.nz. [222.152.189.137])
+        by smtp.gmail.com with ESMTPSA id o1sm994113pfk.152.2021.06.22.22.26.24
+        (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
+        Tue, 22 Jun 2021 22:26:32 -0700 (PDT)
 Subject: Re: Kernel stack read with PTRACE_EVENT_EXIT and io_uring threads
-To:     "Eric W. Biederman" <ebiederm@xmission.com>
+To:     "Eric W. Biederman" <ebiederm@xmission.com>,
+        Linus Torvalds <torvalds@linux-foundation.org>
+References: <924ec53c-2fd9-2e1c-bbb1-3fda49809be4@gmail.com>
+ <87eed4v2dc.fsf@disp2133> <5929e116-fa61-b211-342a-c706dcb834ca@gmail.com>
+ <87fsxjorgs.fsf@disp2133>
+ <CAHk-=wj5cJjpjAmDptmP9u4__6p3Y93SCQHG8Ef4+h=cnLiCsA@mail.gmail.com>
+ <YNCaMDQVYB04bk3j@zeniv-ca.linux.org.uk>
+ <YNDhdb7XNQE6zQzL@zeniv-ca.linux.org.uk>
+ <CAHk-=whAsWXcJkpMM8ji77DkYkeJAT4Cj98WBX-S6=GnMQwhzg@mail.gmail.com>
+ <YNDsYk6kbisbNy3I@zeniv-ca.linux.org.uk>
+ <CAHk-=wh82uJ5Poqby3brn-D7xWbCMnGv-JnwfO0tuRfCvsVgXA@mail.gmail.com>
+ <YNEfXhi80e/VXgc9@zeniv-ca.linux.org.uk>
+ <CAHk-=wjtagi3g5thA-T8ooM8AXcy3brdHzugCPU0itdbpDYH_A@mail.gmail.com>
+ <87h7hpbojt.fsf@disp2133> <20c787ec-4a3c-061c-c649-5bc3e7ef0464@gmail.com>
 Cc:     Al Viro <viro@zeniv.linux.org.uk>,
-        Michael Schmitz <schmitzmic@gmail.com>,
         linux-arch <linux-arch@vger.kernel.org>,
         Jens Axboe <axboe@kernel.dk>, Oleg Nesterov <oleg@redhat.com>,
         Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
@@ -78,39 +73,44 @@ Cc:     Al Viro <viro@zeniv.linux.org.uk>,
         alpha <linux-alpha@vger.kernel.org>,
         Geert Uytterhoeven <geert@linux-m68k.org>,
         linux-m68k <linux-m68k@lists.linux-m68k.org>,
-        Arnd Bergmann <arnd@kernel.org>,
-        Ley Foon Tan <ley.foon.tan@intel.com>,
-        Tejun Heo <tj@kernel.org>, Kees Cook <keescook@chromium.org>
-Content-Type: text/plain; charset="UTF-8"
+        Arnd Bergmann <arnd@kernel.org>, Tejun Heo <tj@kernel.org>,
+        Kees Cook <keescook@chromium.org>,
+        Tetsuo Handa <penguin-kernel@i-love.sakura.ne.jp>,
+        John Paul Adrian Glaubitz <glaubitz@physik.fu-berlin.de>
+From:   Michael Schmitz <schmitzmic@gmail.com>
+Message-ID: <55bdad37-187b-e1f5-a359-c5206b20ff4d@gmail.com>
+Date:   Wed, 23 Jun 2021 17:26:22 +1200
+User-Agent: Mozilla/5.0 (X11; Linux ppc; rv:45.0) Gecko/20100101
+ Icedove/45.4.0
+MIME-Version: 1.0
+In-Reply-To: <20c787ec-4a3c-061c-c649-5bc3e7ef0464@gmail.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-alpha.vger.kernel.org>
 X-Mailing-List: linux-alpha@vger.kernel.org
 
-On Tue, Jun 22, 2021 at 1:53 PM Eric W. Biederman <ebiederm@xmission.com> wrote:
+Hi Eric,
+
+Am 23.06.2021 um 09:48 schrieb Michael Schmitz:
+>>
+>> The challenging ones are /proc/pid/syscall and seccomp which want to see
+>> all of the system call arguments.  I think every architecture always
+>> saves the system call arguments unconditionally, so those cases are
+>> probably not as interesting.  But they certain look like they could be
+>> trouble.
 >
-> Playing with it some more I think I have everything working working
-> except for PTRACE_EVENT_SECCOMP (which can stay ptrace_event) and
-> group_exit(2).
+> Seccomp hasn't yet been implemented on m68k, though I'm working on that
+> with Adrian. The sole secure_computing() call will happen in
+> syscall_trace_enter(), so all system call arguments have been saved on
+> the stack.
 >
-> Basically in exit sending yourself a signal and then calling do_exit
-> from the signal handler is not unreasonable, as exit is an ordinary
-> system call.
+> Haven't looked at /proc/pid/syscall yet ...
 
-Ok, this is a bit odd, but I do like the concept of just making
-ptrace_event just post a signal, and have all ptrace things always be
-handled at signal time (or the special system call entry/exit, which
-is fine too).
+Not supported at present (no HAVE_ARCH_TRACEHOOK for m68k). And the 
+syscall_get_arguments I wrote for seccomp support only copies the first 
+five data registers, which are always saved.
 
-> For purposes of discussion this is my current draft implementation.
+Cheers,
 
-I didn't check what is so different about exit_group() that you left
-that as an exercise for the reader, but if that ends up then removing
-the whole "wait synchromously for ptrace" cases for good I don't
-_hate_ this. It's a bit odd, but it would be really nice to limit
-where ptrace picks up data.
-
-We do end up doing that stuff in "get_signal()", and that means that
-we have the interaction with io_uring calling it directly, but it's at
-least not a new thing.
-
-               Linus
+	Michael
