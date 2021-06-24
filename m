@@ -2,54 +2,54 @@ Return-Path: <linux-alpha-owner@vger.kernel.org>
 X-Original-To: lists+linux-alpha@lfdr.de
 Delivered-To: lists+linux-alpha@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 8657E3B3797
-	for <lists+linux-alpha@lfdr.de>; Thu, 24 Jun 2021 22:10:16 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 78D013B37B7
+	for <lists+linux-alpha@lfdr.de>; Thu, 24 Jun 2021 22:19:42 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232370AbhFXUMe (ORCPT <rfc822;lists+linux-alpha@lfdr.de>);
-        Thu, 24 Jun 2021 16:12:34 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37882 "EHLO
+        id S232554AbhFXUWB (ORCPT <rfc822;lists+linux-alpha@lfdr.de>);
+        Thu, 24 Jun 2021 16:22:01 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40042 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232120AbhFXUMe (ORCPT
+        with ESMTP id S232498AbhFXUWA (ORCPT
         <rfc822;linux-alpha@vger.kernel.org>);
-        Thu, 24 Jun 2021 16:12:34 -0400
-Received: from mail-ed1-x52a.google.com (mail-ed1-x52a.google.com [IPv6:2a00:1450:4864:20::52a])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id ECD3EC061756
-        for <linux-alpha@vger.kernel.org>; Thu, 24 Jun 2021 13:10:13 -0700 (PDT)
-Received: by mail-ed1-x52a.google.com with SMTP id n20so10267417edv.8
-        for <linux-alpha@vger.kernel.org>; Thu, 24 Jun 2021 13:10:13 -0700 (PDT)
+        Thu, 24 Jun 2021 16:22:00 -0400
+Received: from mail-ed1-x536.google.com (mail-ed1-x536.google.com [IPv6:2a00:1450:4864:20::536])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1FFAFC061574
+        for <linux-alpha@vger.kernel.org>; Thu, 24 Jun 2021 13:19:41 -0700 (PDT)
+Received: by mail-ed1-x536.google.com with SMTP id df12so10355451edb.2
+        for <linux-alpha@vger.kernel.org>; Thu, 24 Jun 2021 13:19:41 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=linux-foundation.org; s=google;
         h=mime-version:references:in-reply-to:from:date:message-id:subject:to
          :cc;
-        bh=dpe9lEwhUIwO0xWlospxCxEaXe3xRtOW0AcnGSWOsWM=;
-        b=V94FyFfUNYCwwe5Eb2/5kXStEjd/SAXTGvq9l3G716GpB3crhuLMAj4BaMF1jfEK7l
-         hV9Mh/oX2jaBezpijTHMrktNaoBzZ2MLDXYRj+Z1Tsy6ssSFue4MMET/K4ItVOa7I6ly
-         u5rW/mU/nBnbe/kLYL8ohoz+2IaV4nvB4PYLw=
+        bh=QdsTxdbLy6OAQCJe+BxLmLcw7gNCvC1VuxBL+c/EdBc=;
+        b=CN50qFEZiM/KC40ZFphsMGum7u0fgQ/7PSKkzLv3Imv2qoT+m2I4xle85ef/hnSBmd
+         jQ7V9plRVWmia3duLG9JtlwtA8gRKNqUguKYIy9mayOSyo2ct58AmgGxinOrbYWP7B9+
+         tKraksvFmL2Pf/jciosSyTRbQSZ6FxNlrKsF4=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
          :message-id:subject:to:cc;
-        bh=dpe9lEwhUIwO0xWlospxCxEaXe3xRtOW0AcnGSWOsWM=;
-        b=HqxPcjisA+KuLhD+3YuL1HZwoaymS6lKJcD+jOnmvhPwZNmn+Zz+X3i0PT/yDYTcjY
-         uIWuzwXuDGqrshJwkDqS9IZAUIYHcyzCdZHZX3QvAYSX6yyNY6Xy5fHE1tufW8ji7+Ct
-         4YBa7F8aW448VV2eDH1yxdOYM394Z6z/o+63lABpTHrw4cgwoH5hfRoLnymCq68RgdtB
-         vvDPXZBrfmCG7M7ilmO2wDV1zKfKlPuIEcpAAYXl2O5fWysXXYck1ObgOJjgXKFNWDLP
-         yRn+EdFfAz4wh4sDRcN8xASxpZdY+Wj9p1Z4titYYm1o5YxIxGpFIOSYTeekRuvR7God
-         EEqg==
-X-Gm-Message-State: AOAM531fraf/hxWFZ/ql4RcCIEZSrU/iq7xcj5VkbshVqQbOJAc+QZE7
-        zWcstgfgLMJVy918/6G3kblgtFfOat4Ty/c9G6s=
-X-Google-Smtp-Source: ABdhPJxGHe+972n3fqVHVqvzwBQI44nUC4TU4Tp6GtkDDhHrk1KrGD+rSDJc1DaJ3257CS5a8gEE+w==
-X-Received: by 2002:a50:fd1a:: with SMTP id i26mr9491513eds.181.1624565412337;
-        Thu, 24 Jun 2021 13:10:12 -0700 (PDT)
-Received: from mail-ej1-f46.google.com (mail-ej1-f46.google.com. [209.85.218.46])
-        by smtp.gmail.com with ESMTPSA id x17sm2609388edl.58.2021.06.24.13.10.11
+        bh=QdsTxdbLy6OAQCJe+BxLmLcw7gNCvC1VuxBL+c/EdBc=;
+        b=qMzlR1GxbmQmO3UOVKmJRBA/UvBHZAYdg+3rJrWWqrXqQFdOYu672C8DJro8qyyWHC
+         RUkLPPSjdJOzUIj6h8LIWNT+0RttdQg9wEs/jf/65juuNv7CvTe7fiLSuE1aU1yn+gXd
+         n5DesRU4JAwGFBGtwzroyHSWI9lUtiMSwbLp6iM3My+IPnn04pcuoW5U+poNAQ2gSQtC
+         aGxBdzQjrRI/8Cu72nAoS+2eV0EL0pWAmBG5HT10/fUhu3NJqZiKsDDXRd2bEinJ9Gov
+         oXYr/RzYd6Hz0y9XJuN2SPrtzVSGdkc9TyK5MqlSNhgmi35fHVkjJ0kgW0BWsFpV3tEf
+         m8UA==
+X-Gm-Message-State: AOAM532bpbJa6ME7ba+HdVn1hsvc+vwL7R2AzsvCXWKCM7rBZJDGwIvN
+        /SQnh/CGKWWP2R87UBNv/Y0uC5Hnjv76MZsRE84=
+X-Google-Smtp-Source: ABdhPJy6+LCyGbrZrCrGficHRxT6UJhjP9R4zEB/MEJdR6mojxKKef6CfO1Q+rMdW27gT1l2IztuWA==
+X-Received: by 2002:a05:6402:2687:: with SMTP id w7mr9691044edd.98.1624565979619;
+        Thu, 24 Jun 2021 13:19:39 -0700 (PDT)
+Received: from mail-ej1-f41.google.com (mail-ej1-f41.google.com. [209.85.218.41])
+        by smtp.gmail.com with ESMTPSA id z28sm1564181ejl.69.2021.06.24.13.19.39
         for <linux-alpha@vger.kernel.org>
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 24 Jun 2021 13:10:11 -0700 (PDT)
-Received: by mail-ej1-f46.google.com with SMTP id hc16so11260952ejc.12
-        for <linux-alpha@vger.kernel.org>; Thu, 24 Jun 2021 13:10:11 -0700 (PDT)
-X-Received: by 2002:a2e:850e:: with SMTP id j14mr3525901lji.251.1624565080001;
- Thu, 24 Jun 2021 13:04:40 -0700 (PDT)
+        Thu, 24 Jun 2021 13:19:39 -0700 (PDT)
+Received: by mail-ej1-f41.google.com with SMTP id d16so7952304ejm.7
+        for <linux-alpha@vger.kernel.org>; Thu, 24 Jun 2021 13:19:39 -0700 (PDT)
+X-Received: by 2002:a05:6512:baa:: with SMTP id b42mr4974557lfv.487.1624565494034;
+ Thu, 24 Jun 2021 13:11:34 -0700 (PDT)
 MIME-Version: 1.0
 References: <CAHk-=wgdO5VwSUFjfF9g=DAQNYmVxzTq73NtdisYErzdZKqDGg@mail.gmail.com>
  <87sg1lwhvm.fsf@disp2133> <CAHk-=wgsnMTr0V-0F4FOk30Q1h7CeT8wLvR1MSnjack7EpyWtQ@mail.gmail.com>
@@ -60,13 +60,13 @@ References: <CAHk-=wgdO5VwSUFjfF9g=DAQNYmVxzTq73NtdisYErzdZKqDGg@mail.gmail.com>
  <CAHk-=whAsWXcJkpMM8ji77DkYkeJAT4Cj98WBX-S6=GnMQwhzg@mail.gmail.com>
  <87a6njf0ia.fsf@disp2133> <CAHk-=wh4_iMRmWcao6a8kCvR0Hhdrz+M9L+q4Bfcwx9E9D0huw@mail.gmail.com>
  <87tulpbp19.fsf@disp2133> <CAHk-=wi_kQAff1yx2ufGRo2zApkvqU8VGn7kgPT-Kv71FTs=AA@mail.gmail.com>
- <87zgvgabw1.fsf@disp2133> <875yy3850g.fsf_-_@disp2133> <87czsb6q9r.fsf_-_@disp2133>
-In-Reply-To: <87czsb6q9r.fsf_-_@disp2133>
+ <87zgvgabw1.fsf@disp2133> <875yy3850g.fsf_-_@disp2133> <87y2az5bmt.fsf_-_@disp2133>
+In-Reply-To: <87y2az5bmt.fsf_-_@disp2133>
 From:   Linus Torvalds <torvalds@linux-foundation.org>
-Date:   Thu, 24 Jun 2021 13:04:24 -0700
-X-Gmail-Original-Message-ID: <CAHk-=wi2OpVrBD38A5Re4=rSSWnjwg3GcmsxtAPeHVSmQZy1VA@mail.gmail.com>
-Message-ID: <CAHk-=wi2OpVrBD38A5Re4=rSSWnjwg3GcmsxtAPeHVSmQZy1VA@mail.gmail.com>
-Subject: Re: [PATCH 4/9] signal: Factor start_group_exit out of complete_signal
+Date:   Thu, 24 Jun 2021 13:11:18 -0700
+X-Gmail-Original-Message-ID: <CAHk-=wg16ZBqtLngzE2edV8e68Qxje2kFehnKTrBBe5opcsj-w@mail.gmail.com>
+Message-ID: <CAHk-=wg16ZBqtLngzE2edV8e68Qxje2kFehnKTrBBe5opcsj-w@mail.gmail.com>
+Subject: Re: [PATCH 7/9] signal: Make individual tasks exiting a first class concept.
 To:     "Eric W. Biederman" <ebiederm@xmission.com>
 Cc:     Al Viro <viro@zeniv.linux.org.uk>,
         Michael Schmitz <schmitzmic@gmail.com>,
@@ -87,17 +87,29 @@ Precedence: bulk
 List-ID: <linux-alpha.vger.kernel.org>
 X-Mailing-List: linux-alpha@vger.kernel.org
 
-I don't really mind the patch, but this patch doesn't actually do what
-it says it does.
+On Thu, Jun 24, 2021 at 12:03 PM Eric W. Biederman
+<ebiederm@xmission.com> wrote:
+>
+> Implement start_task_exit_locked and rewrite the de_thread logic
+> in exec using it.
+>
+> Calling start_task_exit_locked is equivalent to asyncrhonously
+> calling exit(2) aka pthread_exit on a task.
 
-It factors out start_group_exit_locked() - which all looks good.
+Ok, so this is the patch that makes me go "Yeah, this seems to all go together".
 
-But then it also creates that new start_group_exit() function and
-makes the declaration for it, and nothing actually uses it. Yet.
+The whole "start_exit()" thing seemed fairly sane as an interesting
+concept to the whole ptrace notification thing, but this one actually
+made me think it makes conceptual sense and how we had exactly that
+"start exit asynchronously" case already in zap_other_threads().
 
-I'd do that second part later when you actually introduce the use in
-the next patch (5/9).
+So doing that zap_other_threads() as that async exit makes me just
+thin kthat yes, this series is the right thing, because it not only
+cleans up the ptrace condition, it makes sense in this entirely
+unrelated area too.
 
-Hmm?
+So I think I'm convinced. I'd like Oleg in particular to Ack this
+series, and Al to look it over, but I do think this is the right
+direction.
 
            Linus
