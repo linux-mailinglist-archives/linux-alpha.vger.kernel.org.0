@@ -2,87 +2,70 @@ Return-Path: <linux-alpha-owner@vger.kernel.org>
 X-Original-To: lists+linux-alpha@lfdr.de
 Delivered-To: lists+linux-alpha@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id B63023BDBEB
-	for <lists+linux-alpha@lfdr.de>; Tue,  6 Jul 2021 19:07:22 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 1482A3BDC62
+	for <lists+linux-alpha@lfdr.de>; Tue,  6 Jul 2021 19:36:48 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229956AbhGFRJx (ORCPT <rfc822;lists+linux-alpha@lfdr.de>);
-        Tue, 6 Jul 2021 13:09:53 -0400
-Received: from outpost1.zedat.fu-berlin.de ([130.133.4.66]:37221 "EHLO
-        outpost1.zedat.fu-berlin.de" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S230314AbhGFRJw (ORCPT
-        <rfc822;linux-alpha@vger.kernel.org>);
-        Tue, 6 Jul 2021 13:09:52 -0400
-Received: from inpost2.zedat.fu-berlin.de ([130.133.4.69])
-          by outpost.zedat.fu-berlin.de (Exim 4.94)
-          with esmtps (TLS1.2)
-          tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
-          (envelope-from <glaubitz@zedat.fu-berlin.de>)
-          id 1m0oXP-002Cmb-J9; Tue, 06 Jul 2021 19:07:11 +0200
-Received: from p57bd964c.dip0.t-ipconnect.de ([87.189.150.76] helo=[192.168.178.81])
-          by inpost2.zedat.fu-berlin.de (Exim 4.94)
-          with esmtpsa (TLS1.2)
-          tls TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256
-          (envelope-from <glaubitz@physik.fu-berlin.de>)
-          id 1m0oXP-0046JR-2i; Tue, 06 Jul 2021 19:07:11 +0200
-Subject: Re: add linux-alpha archives to lore.kernel.org?
-To:     Bjorn Helgaas <helgaas@kernel.org>,
-        Richard Henderson <rth@twiddle.net>,
-        Ivan Kokshaysky <ink@jurassic.park.msu.ru>,
-        Matt Turner <mattst88@gmail.com>
-Cc:     linux-alpha@vger.kernel.org,
-        =?UTF-8?Q?Krzysztof_Wilczy=c5=84ski?= <kw@linux.com>,
-        Eric Biederman <ebiederm@xmission.com>,
-        linux-kernel@vger.kernel.org
-References: <20210706161234.GA797557@bjorn-Precision-5520>
-From:   John Paul Adrian Glaubitz <glaubitz@physik.fu-berlin.de>
-Message-ID: <73238fc5-c9da-df08-aa21-fefee98beef1@physik.fu-berlin.de>
-Date:   Tue, 6 Jul 2021 19:07:09 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.11.0
+        id S229971AbhGFRiG (ORCPT <rfc822;lists+linux-alpha@lfdr.de>);
+        Tue, 6 Jul 2021 13:38:06 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45588 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S229949AbhGFRiF (ORCPT
+        <rfc822;linux-alpha@vger.kernel.org>); Tue, 6 Jul 2021 13:38:05 -0400
+Received: from mail-ej1-x62e.google.com (mail-ej1-x62e.google.com [IPv6:2a00:1450:4864:20::62e])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 991C7C061574;
+        Tue,  6 Jul 2021 10:35:25 -0700 (PDT)
+Received: by mail-ej1-x62e.google.com with SMTP id hc16so35411054ejc.12;
+        Tue, 06 Jul 2021 10:35:25 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=rzTl/84YKN02YpAuy0KqaRqKVDD2jRop8NkpUhp1Su4=;
+        b=nBTP6+Lg0F+ps4zkUIrLODN5eB+Xg5+exkspQs0pM4g3HipT1hQxgSsmJjMz97+Dxl
+         7zVX/JLkcWAy8Yss9rPZWJEhErmDqQMHrNVbvYK2CVSrslk0qSllF4SD7KY8rnpvG6/Q
+         +fwllJGXE4RFrWaQolw4nW61e3tvokXWfpod3FSzvoC3xdIq60N8IJ25xoG+aly1Z6JD
+         4SkqqngaEc7Ay0M44HTvzc1qr1/Vk6L3fMwp4F9uXup19KxS9Jkii1oaOQEzJUmFAEdJ
+         eCvb35HFAIQQnKSlJk3nN0uTMsRUXex/KIkZiMjEXb41qBXhWtbv5eOwHCgoTH39wU3t
+         plMg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=rzTl/84YKN02YpAuy0KqaRqKVDD2jRop8NkpUhp1Su4=;
+        b=JPDn3joAe6knrSyIHwAefIkAGcAQYfe6kO3GTs14EuJlydV26bJnhgUeAGbjoyBW20
+         5Q8HL3rbPhGjACe8lDTPReGi20eAajF4vz4WwZNESNAM1YC2sXH+T8kY7vYjwMcp3Vnk
+         zWVZJW4SvxqDz1wXz+mcx3OMdHoELXvg/exzThGtMdzTDk5vXoFhzBv9UtpCaen9RxgC
+         io8MC1FfUEhpz8KqbQrLznLArFPSZ0rQ71vcNaoGSrUCggPTCs7ekXq5qDDwo9yWIUVv
+         QuoNnG6hRpf6nMfVV4lnM8BjmXRLYkNx9LuK4zXo1YrLR01iGbUtBeqxnsWvJR9AvM+W
+         yFdQ==
+X-Gm-Message-State: AOAM532+QxO6heufjgeUa6opq4nTd977VW1uzRhzo4lxWm4c/+OW3EqL
+        0Xw9IMbTcIZUwFcisBOiqdu3KNW+mCJ0VolqBf8=
+X-Google-Smtp-Source: ABdhPJxMdUhnBmUkMeuKVgXzWFzoHuBNWhriV2UA3IQbKroOcsdBo9msapOY2k7XuE4F3cBAjySiTqC6UyNCZ9v6LLg=
+X-Received: by 2002:a17:907:60d6:: with SMTP id hv22mr16725922ejc.80.1625592923424;
+ Tue, 06 Jul 2021 10:35:23 -0700 (PDT)
 MIME-Version: 1.0
+References: <20210706161234.GA797557@bjorn-Precision-5520>
 In-Reply-To: <20210706161234.GA797557@bjorn-Precision-5520>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-X-Original-Sender: glaubitz@physik.fu-berlin.de
-X-Originating-IP: 87.189.150.76
+From:   Matt Turner <mattst88@gmail.com>
+Date:   Tue, 6 Jul 2021 10:35:11 -0700
+Message-ID: <CAEdQ38HxsK+mvXWmxDbRMG_oKw7zPdaYnZ10f307771aBic8Gw@mail.gmail.com>
+Subject: Re: add linux-alpha archives to lore.kernel.org?
+To:     Bjorn Helgaas <helgaas@kernel.org>
+Cc:     Richard Henderson <rth@twiddle.net>,
+        Ivan Kokshaysky <ink@jurassic.park.msu.ru>,
+        linux-alpha <linux-alpha@vger.kernel.org>,
+        =?UTF-8?Q?Krzysztof_Wilczy=C5=84ski?= <kw@linux.com>,
+        Eric Biederman <ebiederm@xmission.com>,
+        LKML <linux-kernel@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-alpha.vger.kernel.org>
 X-Mailing-List: linux-alpha@vger.kernel.org
 
-Hi Bjorn!
-
-On 7/6/21 6:12 PM, Bjorn Helgaas wrote:
+On Tue, Jul 6, 2021 at 9:12 AM Bjorn Helgaas <helgaas@kernel.org> wrote:
+>
 > Is there any interest in adding linux-alpha archives to
 > lore.kernel.org?  See https://korg.docs.kernel.org/lore.html for
 > details.
-> 
-> I don't know whether alpha is still viable.  Krzysztof has been
-> struggling to get a working alpha qemu and userspace working to do
-> boot testing of some PCI-related changes, and it's pretty hard.  But
-> maybe it's at least of historical interest, since alpha was one of the
-> first non-x86 ports?
 
-If Krzysztof has any patches for testing available, I'm happy to give those
-a spin on any of my Alphas. I have various AlphaStations available (233,
-433au, XP1000 as well as a DS-20E and an ES-40).
-
-> Cc'd you, Eric, since you've done recent alpha fixes and apparently
-> have a bootable qemu-system-alpha:
-> https://www.spinics.net/lists/linux-alpha/msg07206.html
-
-FWIW, I haven't had any issues installing Debian unstable inside qemu-system-alpha
-with the images I am regularly creating for Debian Ports:
-
-> https://cdimage.debian.org/cdimage/ports/snapshots/2021-06-09/
-
-Let me know if you run into any problems.
-
-Thanks,
-Adrian
-
--- 
- .''`.  John Paul Adrian Glaubitz
-: :' :  Debian Developer - glaubitz@debian.org
-`. `'   Freie Universitaet Berlin - glaubitz@physik.fu-berlin.de
-  `-    GPG: 62FF 8A75 84E0 2956 9546  0006 7426 3B37 F5B5 F913
+Yes, that would be nice!
