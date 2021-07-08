@@ -2,70 +2,46 @@ Return-Path: <linux-alpha-owner@vger.kernel.org>
 X-Original-To: lists+linux-alpha@lfdr.de
 Delivered-To: lists+linux-alpha@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 1482A3BDC62
-	for <lists+linux-alpha@lfdr.de>; Tue,  6 Jul 2021 19:36:48 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 351763C148A
+	for <lists+linux-alpha@lfdr.de>; Thu,  8 Jul 2021 15:42:42 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229971AbhGFRiG (ORCPT <rfc822;lists+linux-alpha@lfdr.de>);
-        Tue, 6 Jul 2021 13:38:06 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45588 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229949AbhGFRiF (ORCPT
-        <rfc822;linux-alpha@vger.kernel.org>); Tue, 6 Jul 2021 13:38:05 -0400
-Received: from mail-ej1-x62e.google.com (mail-ej1-x62e.google.com [IPv6:2a00:1450:4864:20::62e])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 991C7C061574;
-        Tue,  6 Jul 2021 10:35:25 -0700 (PDT)
-Received: by mail-ej1-x62e.google.com with SMTP id hc16so35411054ejc.12;
-        Tue, 06 Jul 2021 10:35:25 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=rzTl/84YKN02YpAuy0KqaRqKVDD2jRop8NkpUhp1Su4=;
-        b=nBTP6+Lg0F+ps4zkUIrLODN5eB+Xg5+exkspQs0pM4g3HipT1hQxgSsmJjMz97+Dxl
-         7zVX/JLkcWAy8Yss9rPZWJEhErmDqQMHrNVbvYK2CVSrslk0qSllF4SD7KY8rnpvG6/Q
-         +fwllJGXE4RFrWaQolw4nW61e3tvokXWfpod3FSzvoC3xdIq60N8IJ25xoG+aly1Z6JD
-         4SkqqngaEc7Ay0M44HTvzc1qr1/Vk6L3fMwp4F9uXup19KxS9Jkii1oaOQEzJUmFAEdJ
-         eCvb35HFAIQQnKSlJk3nN0uTMsRUXex/KIkZiMjEXb41qBXhWtbv5eOwHCgoTH39wU3t
-         plMg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=rzTl/84YKN02YpAuy0KqaRqKVDD2jRop8NkpUhp1Su4=;
-        b=JPDn3joAe6knrSyIHwAefIkAGcAQYfe6kO3GTs14EuJlydV26bJnhgUeAGbjoyBW20
-         5Q8HL3rbPhGjACe8lDTPReGi20eAajF4vz4WwZNESNAM1YC2sXH+T8kY7vYjwMcp3Vnk
-         zWVZJW4SvxqDz1wXz+mcx3OMdHoELXvg/exzThGtMdzTDk5vXoFhzBv9UtpCaen9RxgC
-         io8MC1FfUEhpz8KqbQrLznLArFPSZ0rQ71vcNaoGSrUCggPTCs7ekXq5qDDwo9yWIUVv
-         QuoNnG6hRpf6nMfVV4lnM8BjmXRLYkNx9LuK4zXo1YrLR01iGbUtBeqxnsWvJR9AvM+W
-         yFdQ==
-X-Gm-Message-State: AOAM532+QxO6heufjgeUa6opq4nTd977VW1uzRhzo4lxWm4c/+OW3EqL
-        0Xw9IMbTcIZUwFcisBOiqdu3KNW+mCJ0VolqBf8=
-X-Google-Smtp-Source: ABdhPJxMdUhnBmUkMeuKVgXzWFzoHuBNWhriV2UA3IQbKroOcsdBo9msapOY2k7XuE4F3cBAjySiTqC6UyNCZ9v6LLg=
-X-Received: by 2002:a17:907:60d6:: with SMTP id hv22mr16725922ejc.80.1625592923424;
- Tue, 06 Jul 2021 10:35:23 -0700 (PDT)
+        id S231839AbhGHNpX (ORCPT <rfc822;lists+linux-alpha@lfdr.de>);
+        Thu, 8 Jul 2021 09:45:23 -0400
+Received: from mx-n07.wc2.phx1.stabletransit.com ([207.246.242.253]:32854 "HELO
+        mx-n07.wc2.phx1.stabletransit.com" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with SMTP id S231843AbhGHNpW (ORCPT
+        <rfc822;linux-alpha@vger.kernel.org>);
+        Thu, 8 Jul 2021 09:45:22 -0400
+Received: by mx-n07.wc2.phx1.stabletransit.com (Postfix, from userid 114)
+        id 93E6412258A; Thu,  8 Jul 2021 08:32:29 -0500 (CDT)
+X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on
+        mx-n07.wc2.phx1.stabletransit.com
+X-Spam-Level: **
+X-Spam-Status: No, score=2.6 required=6.0 tests=BAYES_50,FREEMAIL_FROM,
+        FREEMAIL_REPLYTO,FREEMAIL_REPLYTO_END_DIGIT,SUBJ_ALL_CAPS,
+        T_FILL_THIS_FORM_SHORT,UNPARSEABLE_RELAY autolearn=no
+        autolearn_force=no version=3.4.2
+X-Spam-Virus: No
+Received: from php-v027.wc2.phx1.stabletransit.com (unknown [10.40.206.156])
+        by mx-n07.wc2.phx1.stabletransit.com (Postfix) with ESMTP id CA596147F6E
+        for <linux-alpha@vger.kernel.org>; Thu,  8 Jul 2021 08:32:28 -0500 (CDT)
+Received: from digilu (uid 2914979)
+        (envelope-from mabeljohnson@citromail.hu)
+        id 2017e
+        by php-v027.wc2.phx1.stabletransit.com (DragonFly Mail Agent v0.11);
+        Thu, 08 Jul 2021 08:32:28 -0500
+To:     linux-alpha@vger.kernel.org
+Subject: WORK OF GOD.
+X-PHP-Originating-Script: 2914979:class.engine.php(12) : runtime-created function
+Date:   Thu, 8 Jul 2021 08:32:28 -0500
+From:   MARY JOHNSON <mabeljohnson@citromail.hu>
+Reply-To: mj224294@gmail.com
+Message-ID: <f6df6df32a3cb47bd2219f2dd44ecb6e@jackieleestudio.com>
 MIME-Version: 1.0
-References: <20210706161234.GA797557@bjorn-Precision-5520>
-In-Reply-To: <20210706161234.GA797557@bjorn-Precision-5520>
-From:   Matt Turner <mattst88@gmail.com>
-Date:   Tue, 6 Jul 2021 10:35:11 -0700
-Message-ID: <CAEdQ38HxsK+mvXWmxDbRMG_oKw7zPdaYnZ10f307771aBic8Gw@mail.gmail.com>
-Subject: Re: add linux-alpha archives to lore.kernel.org?
-To:     Bjorn Helgaas <helgaas@kernel.org>
-Cc:     Richard Henderson <rth@twiddle.net>,
-        Ivan Kokshaysky <ink@jurassic.park.msu.ru>,
-        linux-alpha <linux-alpha@vger.kernel.org>,
-        =?UTF-8?Q?Krzysztof_Wilczy=C5=84ski?= <kw@linux.com>,
-        Eric Biederman <ebiederm@xmission.com>,
-        LKML <linux-kernel@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=UTF-8
 Precedence: bulk
 List-ID: <linux-alpha.vger.kernel.org>
 X-Mailing-List: linux-alpha@vger.kernel.org
 
-On Tue, Jul 6, 2021 at 9:12 AM Bjorn Helgaas <helgaas@kernel.org> wrote:
->
-> Is there any interest in adding linux-alpha archives to
-> lore.kernel.org?  See https://korg.docs.kernel.org/lore.html for
-> details.
+I am Mrs. Mary Johnson,78years,an aging widow suffering from cancer, I am on admission at a hospital.I would like to willfully entrust the rest of my monetary assets to you, Kindly reply back with your full Name, cellphone, address, to enable me to send you a letter of authorization to contact my bank first inland bank nigeria plc so that they can transfer my funds to your account for the purpose of helping the poor as indicated on my WILL.
 
-Yes, that would be nice!
