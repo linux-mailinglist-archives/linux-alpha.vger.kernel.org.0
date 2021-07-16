@@ -2,77 +2,77 @@ Return-Path: <linux-alpha-owner@vger.kernel.org>
 X-Original-To: lists+linux-alpha@lfdr.de
 Delivered-To: lists+linux-alpha@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 4C94B3CA3F4
-	for <lists+linux-alpha@lfdr.de>; Thu, 15 Jul 2021 19:24:54 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 29F6F3CB281
+	for <lists+linux-alpha@lfdr.de>; Fri, 16 Jul 2021 08:28:49 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234349AbhGOR1p (ORCPT <rfc822;lists+linux-alpha@lfdr.de>);
-        Thu, 15 Jul 2021 13:27:45 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37086 "EHLO
+        id S234465AbhGPGbm (ORCPT <rfc822;lists+linux-alpha@lfdr.de>);
+        Fri, 16 Jul 2021 02:31:42 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45190 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S234501AbhGOR1o (ORCPT
+        with ESMTP id S230011AbhGPGbm (ORCPT
         <rfc822;linux-alpha@vger.kernel.org>);
-        Thu, 15 Jul 2021 13:27:44 -0400
-Received: from mail-wm1-x332.google.com (mail-wm1-x332.google.com [IPv6:2a00:1450:4864:20::332])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 40905C061760
-        for <linux-alpha@vger.kernel.org>; Thu, 15 Jul 2021 10:24:50 -0700 (PDT)
-Received: by mail-wm1-x332.google.com with SMTP id l17-20020a05600c1d11b029021f84fcaf75so6533871wms.1
-        for <linux-alpha@vger.kernel.org>; Thu, 15 Jul 2021 10:24:50 -0700 (PDT)
+        Fri, 16 Jul 2021 02:31:42 -0400
+Received: from mail-ej1-x630.google.com (mail-ej1-x630.google.com [IPv6:2a00:1450:4864:20::630])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 36818C06175F;
+        Thu, 15 Jul 2021 23:28:46 -0700 (PDT)
+Received: by mail-ej1-x630.google.com with SMTP id v20so13476291eji.10;
+        Thu, 15 Jul 2021 23:28:46 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=mime-version:reply-to:from:date:message-id:subject:to;
-        bh=Ibb5KNEw1DKqJEg9n4gJy5KnzVasBofn6QaWYsu9UCQ=;
-        b=o95sP91j4SYQ4F4yMZkQdklAh0tECHyOVF4RDJjtqUpxjOk9jlE6ak/li2a6dEdoLY
-         Cu/4ATPM6l+UKUPlRyWzSRojszX9yymc830gEsDRmUXSoUg/Rt0JgeXoLMPluA8yAQzV
-         tgYcEDkVdB6I1RTRWNmVbZdNwU+JgEnhbRNrDkpgFSyF6uYMYuDUAp7PtM2OWYu6SrQv
-         AbCNlo2HlF3yBytq1BuPSqTZ1Ek1L09vpfuSz7qHTp/F56F/hGXEvrRbmsWaboXcgfGZ
-         gSnfdLo206nrfXwsKAgJ943zzqbKUAZEaUZVVZFqFq77Qxw37mHpsJz1ncHU4WIQMQOg
-         ewxw==
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=kQbnoZ4GXI+Z/rBFLWYGRWA+0vR/EX50wcqWIvvUhI8=;
+        b=NP6XNMxQc37xj118IifdcxKmgwuiZ+s0zb8sCoyhFMA0Trez8FyAUk9m/ZfUKppvjq
+         WdaaPeD+IubA/cHuuO/64D3ChjKsuCDzLgjxSsWuVJEL+Moutr3tlF7WyZtpl34YHYx8
+         rUl4ewW1qWPcqfgOff2FXe/9EjK+WAC708CeRz8Mav83FEOGUwHRO/dgF83SofkGeLIF
+         Vizuad5jS6WfH7rMp7vmPGfSelPkskFixkA7LGm3mj3K/CHKJR/YFCuQDwXFKnHyVBU2
+         bnQ45b4tutRZhmjHGNjm6m/oHuMG5aXn0S0Df9DuwqmRTBT1uExA02sU9nfPJwwp9TOi
+         voWg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:reply-to:from:date:message-id
-         :subject:to;
-        bh=Ibb5KNEw1DKqJEg9n4gJy5KnzVasBofn6QaWYsu9UCQ=;
-        b=cnSx1cueap4neLUVM8s0sDpdcjjepoewz3ghzrakIvjVRHcJkrhpk+2MFFu9a/yI1g
-         d4JBKDggVXRJ+ez7RqpwSINNzud5FAdFVbzX18BbgubW0QLu6dwyBrOZcO6zrhJZuFil
-         K3Im+ln8ZJLVeFaW1CE6+E2lUMrb+8AI0hjc43L/XxHMqkoVQueBg0HPRfIEsNH77iam
-         rnj85oh+Pmmnx81QAk/K2bia7fA9rHfSRioLbeVgBzHyIIjO/HA1pL02CtTlMSumWvFU
-         z5P3pEE2buHXgoeF8ruV+bT3I8UUkurWksevcYy+ktt4JfIlsHWIsLN8rVjk7ooNj11+
-         mwRg==
-X-Gm-Message-State: AOAM531KZLT0TwMP+bM/aaYI8lX2YfXXhLZtCaMGnYdri3kjwwOVLDUu
-        fC8hP8ZALckomaJJ1WRD7t0qP9ClUjq7tt6nnDQ=
-X-Google-Smtp-Source: ABdhPJz1M/hHf7BdBz3GK7XR8mhZC4pBBhAF+fLnwTSbvlF4nAAEeZ3GSVXKADw3h1fGJ9uaWaIZdjj3kCo2gQ1U7qM=
-X-Received: by 2002:a1c:416:: with SMTP id 22mr11923787wme.59.1626369888523;
- Thu, 15 Jul 2021 10:24:48 -0700 (PDT)
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=kQbnoZ4GXI+Z/rBFLWYGRWA+0vR/EX50wcqWIvvUhI8=;
+        b=L84i+FmUvisACVyeWj6O+iDj1lxs4dsMI5BUBXSfi4n+IwB8D48FWCmmZeG1jjXuEL
+         IKFyObRBlecthV1MKcMlSmFJxSYf6FhoQQAr8VPicA5MoHiik6O9PiEHLmmCOAqLhopF
+         seK4EEADPDRapzVFpXkF0Hg1N79gycBq8tjGi8Id/7NhYOpioXuW8rd5V9/nlUg62WxT
+         +GV8W6CG7fo0oQ6WjGCB7VsaDHBr2W5bnup+9+W/4arxwGzCRZr947EZTlZ/E74oIlfT
+         gD2EBS4EjHz4n19i+N7TQ+gGvx47C0ul/BxW24jLg71KoTBsfkdl7Cn0Yl9FXtSzfc/H
+         YWBg==
+X-Gm-Message-State: AOAM5311h7lONSit/zTZRvWue+kS1hhVcxXcDOK03YFkpovGPmelrude
+        jf6unOY7e6RZPnVhst2K8/l0s1JeqF6ExdO2R96hb6q/xySOWg==
+X-Google-Smtp-Source: ABdhPJw/bcGLwdj0/xP/xdMIz2z7UnMYkykbaqfvQIwLSYO8cGV916JAHIqxJK0WavDf0aJV77IgVtHrWpyjtb6V04I=
+X-Received: by 2002:a17:906:7691:: with SMTP id o17mr10364345ejm.209.1626416924808;
+ Thu, 15 Jul 2021 23:28:44 -0700 (PDT)
 MIME-Version: 1.0
-Received: by 2002:adf:f30c:0:0:0:0:0 with HTTP; Thu, 15 Jul 2021 10:24:47
- -0700 (PDT)
-Reply-To: faty.muhamad@gmail.com
-From:   Fatima Muhammad <rallispeterrallie@gmail.com>
-Date:   Thu, 15 Jul 2021 17:24:47 +0000
-Message-ID: <CAG5NioepHT-5D-VOA-wEcKyXRgSxA1SHew6MMS7cLtWEG6fXmw@mail.gmail.com>
-Subject: Hello Dear
-To:     undisclosed-recipients:;
+References: <7b314145-cbb9-b491-ccf5-d6021a574339@windriver.com>
+In-Reply-To: <7b314145-cbb9-b491-ccf5-d6021a574339@windriver.com>
+From:   Matt Turner <mattst88@gmail.com>
+Date:   Thu, 15 Jul 2021 23:28:33 -0700
+Message-ID: <CAEdQ38Ht+WfROb1nvQBJaMjn49d98NYpEa6idAaWNMVJ8V-PFg@mail.gmail.com>
+Subject: Re: Concern about arch/alpha/kernel/smc37c669.c
+To:     He Zhe <zhe.he@windriver.com>
+Cc:     Richard Henderson <rth@twiddle.net>,
+        Ivan Kokshaysky <ink@jurassic.park.msu.ru>,
+        linux-alpha <linux-alpha@vger.kernel.org>,
+        LKML <linux-kernel@vger.kernel.org>
 Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-alpha.vger.kernel.org>
 X-Mailing-List: linux-alpha@vger.kernel.org
 
-Hello Dear,
+On Fri, May 7, 2021 at 1:31 AM He Zhe <zhe.he@windriver.com> wrote:
+>
+> Hello maintainers,
+>
+> There is no "SPDX-License-Identifier: GPL-2.0" in arch/alpha/kernel/smc37c669.c
+> and the following copyright is found.
+> "
+> Copyright (C) 1997 by
+> Digital Equipment Corporation, Maynard, Massachusetts.
+> All rights reserved.
+> "
+>
+> Does this conflict with GPLv2? Anything else we need to know when using this as opensource software?
 
-My name is Ms.Fatima Muhammad., Please forgive me for stressing you
-with my predicaments and I sorry to approach you through this media
-because is serves the fastest means of  my communication right now,
-
-I came across your Email from my personal search and I decided to
-contact you believing you will be honest to fulfill my business
-proposal which I believe that will be a very good opportunity for both
-of us. Please it is my pleasure to contact you today for a business
-partnership investments projects worth $4.6 million USD which I intend
-to establish in your country..
-
-Pls If this business proposal offends your moral and ethic values do
-accept my apology. therefore kindly contact me immediately if you are
-interested for more details.
-
-Thank you for your wiliness to help me
-Yours Sincerely Fatima Muhammad
+Unless you're using a DEC Alpha CPU, you're not using this code.
