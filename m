@@ -2,78 +2,35 @@ Return-Path: <linux-alpha-owner@vger.kernel.org>
 X-Original-To: lists+linux-alpha@lfdr.de
 Delivered-To: lists+linux-alpha@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 686093CEFDC
-	for <lists+linux-alpha@lfdr.de>; Tue, 20 Jul 2021 01:28:50 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id B15623D3F2A
+	for <lists+linux-alpha@lfdr.de>; Fri, 23 Jul 2021 19:50:22 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S243241AbhGSWrR (ORCPT <rfc822;lists+linux-alpha@lfdr.de>);
-        Mon, 19 Jul 2021 18:47:17 -0400
-Received: from mx0b-00069f02.pphosted.com ([205.220.177.32]:64046 "EHLO
-        mx0b-00069f02.pphosted.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1386889AbhGSTm1 (ORCPT
+        id S231807AbhGWRJr (ORCPT <rfc822;lists+linux-alpha@lfdr.de>);
+        Fri, 23 Jul 2021 13:09:47 -0400
+Received: from ale.deltatee.com ([204.191.154.188]:50568 "EHLO
+        ale.deltatee.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S231166AbhGWRJr (ORCPT
         <rfc822;linux-alpha@vger.kernel.org>);
-        Mon, 19 Jul 2021 15:42:27 -0400
-Received: from pps.filterd (m0246631.ppops.net [127.0.0.1])
-        by mx0b-00069f02.pphosted.com (8.16.0.43/8.16.0.43) with SMTP id 16JKBCDb013444;
-        Mon, 19 Jul 2021 20:22:15 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com; h=subject : to : cc :
- references : from : message-id : date : in-reply-to : content-type :
- content-transfer-encoding : mime-version; s=corp-2021-07-09;
- bh=BNsCGg2QiqJt2o1wi4MUZO169T4Ki1eHlXiKgwijNKc=;
- b=J9p544sL474mofe+xTQoq8YsvbFrw64oRD5IzTopdPOc91RntHYiswdp+l0iBRxeKsc+
- LcbktqEYtgbIj618AUH+mwgxSMvNsZNUfmN5q0R4CqG4hanO3nDhSowI1eoszHWzWRwR
- 4CTXr5nPlUhfI3A53N/MhA8T1pcmM9h5IOwEtui66Ny8pqW9rOmitzNSRdTLMNLrjSCF
- b7BTflkgSt4xkLqJiSaD1JsInPlQnXw4sEV8jRW5VOcm2mhDN6hHGvGb3cFLOD4JnBRJ
- ZbtIt8y0gtUaXpe/YLXPcV3r2J1dr2XHNnTNty3cujYk7RporaQh8GCy1b0AKWgPm6j4 lQ== 
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com; h=subject : to : cc :
- references : from : message-id : date : in-reply-to : content-type :
- content-transfer-encoding : mime-version; s=corp-2020-01-29;
- bh=BNsCGg2QiqJt2o1wi4MUZO169T4Ki1eHlXiKgwijNKc=;
- b=vAfFDN0FVWtFDBxChUpMGJe1jHbRAEf/DAYpK7h724vkUPKNPOp2KtwljQa40crfQb1D
- SP/dBs0HPDzbDyts5CUSy/0ajs62rF2NwRnogKxFF36HN5se6O1/GIF4bqM2QYFOpmyH
- 5p/EBPKSLDR5LUgwkXwM9NGmmpPHxhkbJQ3fTQL0AMbQ9tLNcLmI5CrZZDC80iypBKQ/
- zNLH1fM+VmcD0+S8i21ETVE/gQW76CFIj7IoywDqJWGxxIUlA9HdwxMLF5lM7AgAK1uZ
- Rn9HkvFK5T+Wvcpz8lUQvGMOLR2g3UoQSNwsLLHTMeQgrVXMAMLLLlIBUfd1ZbH9s5fz Fg== 
-Received: from aserp3020.oracle.com (aserp3020.oracle.com [141.146.126.70])
-        by mx0b-00069f02.pphosted.com with ESMTP id 39w83cs5eu-1
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-        Mon, 19 Jul 2021 20:22:15 +0000
-Received: from pps.filterd (aserp3020.oracle.com [127.0.0.1])
-        by aserp3020.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 16JKF3i7160410;
-        Mon, 19 Jul 2021 20:22:14 GMT
-Received: from nam02-dm3-obe.outbound.protection.outlook.com (mail-dm3nam07lp2040.outbound.protection.outlook.com [104.47.56.40])
-        by aserp3020.oracle.com with ESMTP id 39uq15cccq-1
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-        Mon, 19 Jul 2021 20:22:14 +0000
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=i3fmxg4rVjpzHE5ssuXZZ0AIWBw6zeVhp3RyGArLeO579plKxIvOwEJlZP4MamhGsmXTyqIu/sPLgUnt8QxSqnNapwF4qB266MqchoU1M35EWTh/FyEw4g0AJFp87X7iE2z63sEmCEy3Boe61XDwufM8HiFhXw5czYFOiF0Ygp4ZH7P+7wjymMq8UCm8yMNRVHJpEXsmvKu85OXpVux/PZFz6n1UCWRTd3RaT0fxPQSI8fJ7CJxvMq2OhcF0Rga4ZsHMNDTeeO3MkNPP2x8fns56fsVS0JXDQeqGe/YVSfQ3Dhu/lP916Qr3QIiPwy6cDtkyDWSjAb02aKdEalcSTg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=BNsCGg2QiqJt2o1wi4MUZO169T4Ki1eHlXiKgwijNKc=;
- b=gNIVZDyCz2CmtpUJOew51Q8jOtkNPWNqUcy+Fg+BZjIaYd3TyenpHF22dnFbN8f+cHTttks2SHYvuMoGD1bPsVsuMBSqZAh4l+qabFuMFD591ka9UwVgCYAB/v5XQRTJhTY65gKqH1XsbV0MrCnKsCEaqz3hN68Abr+92LfCvi8KbQoqzsc6Aj8a5DNSmhgsPtU4xCYxI79YEPqsFlO6yW/OGBGWz1vUKljPBKcpgVC1fT6HI9U61CSBpCV2YHq6LJvyXJU6HTAwM8AE36VJdO5qB8mXEZhQ9sHItms8+48DEpRjYqPY+err1zXarcYowtIpifucQG5V8jw2l+z88A==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=oracle.com; dmarc=pass action=none header.from=oracle.com;
- dkim=pass header.d=oracle.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=oracle.onmicrosoft.com; s=selector2-oracle-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=BNsCGg2QiqJt2o1wi4MUZO169T4Ki1eHlXiKgwijNKc=;
- b=Z0bNny2Hn8+wx5EDqRhz5h639ftRumqbgaiVVQ4vUM2dMQ5J1J+75SbZT8ZCLv/vFqMEoFpgbe/5F/Rglo8hGwHz0n+L2lYm//xvCOn+IuFRlm6MuvY+Tib/9SWiWCVEd5BYNtXKHsCQ0GahVlCLStRq0vGBG6VgpsDsIlgyeBM=
-Authentication-Results: kernel.org; dkim=none (message not signed)
- header.d=none;kernel.org; dmarc=none action=none header.from=oracle.com;
-Received: from BLAPR10MB5009.namprd10.prod.outlook.com (2603:10b6:208:321::10)
- by BLAPR10MB5329.namprd10.prod.outlook.com (2603:10b6:208:307::24) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4331.22; Mon, 19 Jul
- 2021 20:22:11 +0000
-Received: from BLAPR10MB5009.namprd10.prod.outlook.com
- ([fe80::f10d:29d2:cb38:ed0]) by BLAPR10MB5009.namprd10.prod.outlook.com
- ([fe80::f10d:29d2:cb38:ed0%8]) with mapi id 15.20.4331.033; Mon, 19 Jul 2021
- 20:22:11 +0000
-Subject: Re: [PATCH v1 13/16] xen: swiotlb: return error code from
- xen_swiotlb_map_sg()
-To:     Logan Gunthorpe <logang@deltatee.com>,
-        linux-kernel@vger.kernel.org, linux-alpha@vger.kernel.org,
+        Fri, 23 Jul 2021 13:09:47 -0400
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+        d=deltatee.com; s=20200525; h=Subject:MIME-Version:Message-Id:Date:Cc:To:From
+        :references:content-disposition:in-reply-to;
+        bh=LQAXJCFOAL4wucMr1J1VtJo8YmjL7Kj+0Z4w4rvIHlA=; b=TaYSXIwq9R6P6E55tx/ubbtnmS
+        Ix5S11dwF37+JjGSmV0s6xjYEbeV6HdQPY8L4ceTMQxqpBLWTmndOS7kQPDkYi2krgtZOLSSVrbb9
+        c0wyfIKZ/WK/9ISrP+H4LcIuYdyOl+C/RV6yOHboEG5zPmMsNfK3aO2OoJum1Yw5QAO6ceknbIXSK
+        YJ19q++0q3iOK/z8UWCCZbVtohsVag7m/aVg7sT15ZTzk7ir/QgR0nCButA7tc9Ka/8+8ms4RDMBa
+        ZTvS5QgWu1CMefIqiLZqWI4h41+KbLiC3sS/uG0C6Qqc+uqKCjukEFJp4LCqKNzSSEPRjV4K5xyIk
+        redVVngg==;
+Received: from cgy1-donard.priv.deltatee.com ([172.16.1.31])
+        by ale.deltatee.com with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
+        (Exim 4.92)
+        (envelope-from <gunthorp@deltatee.com>)
+        id 1m6zJN-0005Lg-Sm; Fri, 23 Jul 2021 11:50:14 -0600
+Received: from gunthorp by cgy1-donard.priv.deltatee.com with local (Exim 4.92)
+        (envelope-from <gunthorp@deltatee.com>)
+        id 1m6zJK-0005qW-Eh; Fri, 23 Jul 2021 11:50:10 -0600
+From:   Logan Gunthorpe <logang@deltatee.com>
+To:     linux-kernel@vger.kernel.org, linux-alpha@vger.kernel.org,
         linux-arm-kernel@lists.infradead.org, linux-ia64@vger.kernel.org,
         linux-mips@vger.kernel.org, linuxppc-dev@lists.ozlabs.org,
         linux-s390@vger.kernel.org, sparclinux@vger.kernel.org,
@@ -84,102 +41,121 @@ Cc:     Christoph Hellwig <hch@lst.de>,
         Robin Murphy <robin.murphy@arm.com>,
         Stephen Bates <sbates@raithlin.com>,
         Martin Oliveira <martin.oliveira@eideticom.com>,
-        Konrad Rzeszutek Wilk <konrad.wilk@oracle.com>,
-        Juergen Gross <jgross@suse.com>,
-        Stefano Stabellini <sstabellini@kernel.org>
-References: <20210715164544.6827-1-logang@deltatee.com>
- <20210715164544.6827-14-logang@deltatee.com>
-From:   Boris Ostrovsky <boris.ostrovsky@oracle.com>
-Message-ID: <8cccf120-0b4b-4d66-0b96-4114af27a3d1@oracle.com>
-Date:   Mon, 19 Jul 2021 16:22:04 -0400
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:78.0)
- Gecko/20100101 Thunderbird/78.11.0
-In-Reply-To: <20210715164544.6827-14-logang@deltatee.com>
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: 7bit
-Content-Language: en-US
-X-ClientProxiedBy: SA9PR13CA0017.namprd13.prod.outlook.com
- (2603:10b6:806:21::22) To BLAPR10MB5009.namprd10.prod.outlook.com
- (2603:10b6:208:321::10)
+        Logan Gunthorpe <logang@deltatee.com>
+Date:   Fri, 23 Jul 2021 11:49:47 -0600
+Message-Id: <20210723175008.22410-1-logang@deltatee.com>
+X-Mailer: git-send-email 2.20.1
 MIME-Version: 1.0
-X-MS-Exchange-MessageSentRepresentingType: 1
-Received: from [10.74.102.166] (160.34.88.166) by SA9PR13CA0017.namprd13.prod.outlook.com (2603:10b6:806:21::22) with Microsoft SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4352.9 via Frontend Transport; Mon, 19 Jul 2021 20:22:07 +0000
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: a216d6ca-9dee-431e-753d-08d94af2e391
-X-MS-TrafficTypeDiagnostic: BLAPR10MB5329:
-X-MS-Exchange-Transport-Forked: True
-X-Microsoft-Antispam-PRVS: <BLAPR10MB53295EB44276FE6AEA15CAD38AE19@BLAPR10MB5329.namprd10.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:4303;
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: AiyY7elKT7NtOhGt2GzFvXpn9LtSNnhX9ehTyI8sETfsQV+K4tgFyeXf5D2NpKP+r1F56ND/56FfKOLi/Ad5IPWKQsc0rbn1QslGBFT3wa/lRS+5jz6C91ofQdVVAfwC+1CbW0HmfP9qy8mpnlYbmhuBwgdDJMtXfPLxUBBFw4TQN0InvGLT0mRLCxCWeaDJVVv/wcVjG0m2r5ndwoIyvfMUkOGSXsSn0ZCiARkK5J2XSA/h2bu4sMIcdFYJGpKcIwQOCrORrARr8h7xXgkJ6Oa3tHLTHXSOKDSSsIgnc7kjRjemqx8+S95PW6X/IGH9gI8F1WreDtlIwFEy5TZdtkpzj9v5MHuZT2uFfzdmpp38RTruOgxK8ZRTs8HLyrNsCnx02eKywjm+qDps2t+hHn0FuDDP3I/9JdpCme5w5qtCu5reQeb6c7wMEQz519mTSlnhprMYpj/POulMN+9hJc3tVNaz4rKlFrdPiqMrZI9cy6lbRyI69O9WBPutx2dCP+fG+1T2ke2rWoK3PDIuT4XQpAWbXgZrp7N9Ee2XkQ7PQKJFjDsuCGFO+R7r6HqpXbwQx0pEVuCR0DIIsNwYHJilc4lDrBlgGsG3/zfKTyoyv1C2f7MdDnGaDLsqj0pkm4gcWHrJ0BoY6R5dSzc5mWqawOOk7z0EOELuN+//Q+a9NYDxn3wazpPjCmriKcLBt2ZDBcYAWno+UgeetbJ6CoTmHS1kfZl3T8gE8s8/fgJ/L+AMlja7YDDdlVUL9GZW
-X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:BLAPR10MB5009.namprd10.prod.outlook.com;PTR:;CAT:NONE;SFS:(39860400002)(396003)(366004)(346002)(376002)(136003)(6666004)(31696002)(31686004)(66476007)(66946007)(83380400001)(921005)(8676002)(86362001)(4744005)(5660300002)(38100700002)(6486002)(186003)(478600001)(53546011)(2906002)(54906003)(16576012)(36756003)(44832011)(316002)(8936002)(26005)(7416002)(956004)(4326008)(66556008)(2616005)(45980500001)(43740500002);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?QmZRb1ZkVjk2N092d1FOWm1TTFhxbGh0RFoza2MzZ3lycm8xdVMxUGhZaEh0?=
- =?utf-8?B?QjBueXhvTHVSQXdpYUdUVmRSZDRYV1Z2bFRpbXptdXFVNzRGejhaRWRlRWd6?=
- =?utf-8?B?aVQ5cXNFMFlCdVB5MUtDNjhVbUVpd3pWREZRWVdzYWp0U3FPbjdQVGs3US9R?=
- =?utf-8?B?aDFJS0lQR1FqNDVKSTR2UU1xNEFSTXk3aDJleDdPR2NBL3J6Z1RPNnV2Nkwz?=
- =?utf-8?B?eW1EVDhVSU9ITisrRkVZMEl0TFUvUmlNMlgvL0Z6SzJwYjFwMU5ldzhQclpM?=
- =?utf-8?B?WG5LaFVZcU41VXpEVUJLUDF6bzhFbVBOZFNkWEcvTE0rb1VoZElUQkxKcVdY?=
- =?utf-8?B?SmhnUkg0WmlxcTJUcWRTZVlnNHExaW85d2hRTy9nRzlNUXdBS2lHTlZKYm9j?=
- =?utf-8?B?aXFuUjdsb01ldFQ2Y3d4YlBXVU1FVk1TSVl4ZjBNcUZCRU1hd3BYMFM5WldH?=
- =?utf-8?B?SW93T0xHYUdFMzBvVEVBaExNUTNMZ25pOG9ncTNPN0ZmOHl3WUp2aGpBL3Vs?=
- =?utf-8?B?RTZ4ckNFSjVGWTFONmpVRlQ2K05lWWdCZy9JVEdjT2dtWXpia043OFlmdDM2?=
- =?utf-8?B?R2FQQnBUVXpZZkVMdGpvc21SZDFnclBKN1lyWk0vN0tGeGZad09wZzA1cDQr?=
- =?utf-8?B?eUdxeXFsOGY2WTB5dVJ4NGxxb2MzMzVDNStsWm5Cb3Z0Y2h5aWNwZmdCRTJW?=
- =?utf-8?B?ME9nK01sVnJBaSt6ZVpjOTE4YnlreEl1bmp5M1Vsc1ZXZ2g2U0J1RmpEenho?=
- =?utf-8?B?SThNMWZ5MmlueStmakR5TTE1cnBvcmwxR0YzL1FNTUxIMTVMMkgxV2NqUzcx?=
- =?utf-8?B?ZFJOZFpWOHlycEUrQVBzUXNNN3ZhRXdkc3dYZGtSQjBsdWZEWm5WdU9ZVGJp?=
- =?utf-8?B?bjRUQ3JjdGNhdjJycXAyZXBBZmd6SjUzUE9zQjg1VkNEcDhsTnRLbkVXREpY?=
- =?utf-8?B?RUtWMWhzdnRYNWtrZDl4SEg1K1dPRlByZ2cwRm9lVm9QRC9BVFN3N1VyM000?=
- =?utf-8?B?TGwyeWNyVnA2V2k0c3Q1bmNueVRodDhBME83WTdIY085aG9QYUJneWFoemIz?=
- =?utf-8?B?VnpxSExMK0JEZ0c4THNzd1k1NFNWR2ZiVGpDWFR3QnFNcm1jc0RXWVZBY1d5?=
- =?utf-8?B?SjhEVTdDeVhHeHI2bGZ1SG53M0ErTTBzN1ZwSEFtb1dhbTBrdStWUHhIK3dC?=
- =?utf-8?B?R0RYMjFoZVNFUlNRMXV0ZzBzNXVJSExDWHVyMk5RV3lkMDJuZkR2Q0kzWW1I?=
- =?utf-8?B?clVVelZ1cXVOVDZycmg3aWdrMWVUN0tvN0xqNWE3WDdNSzdlbFhRb3lhT3VC?=
- =?utf-8?B?Y21FVW81clhZU1A4SUphczhxbkN5cnd1WDdWUXYveHdTTzJPSWoxdUhURERJ?=
- =?utf-8?B?WTluVGdTSjRlalFwMTY5dUgzWitmQUQ2NnIrSDViaEhHVmhCUzFFR2VobC9H?=
- =?utf-8?B?SzZINlpmQ2xsbHBSY2ZvRE9nZmx6dXgvbkRqS3RQYTRvWExINHBWdVc3N3c0?=
- =?utf-8?B?T1lhWkRSQVpSR0V2dFROQzZZZjNvM0U2WGFKRVNSNGxPYW1uZGZYRlNXUHF3?=
- =?utf-8?B?cnpxcWNXd1RXYlRNNGpZTmlxMWhuSVlGazJUakpzVWRId01odnZrSFNVOS9N?=
- =?utf-8?B?UTduWCswaEwxQytHdGpvcGVYenBmV1JIRHdoNlVpb25BU012Y042QXpoQkZn?=
- =?utf-8?B?cktsMXlZdHNSQUdWbWZHZlk2eXZwVXZ1TVJ3dmNCWndaZ2tGWkxhV2NDVVM0?=
- =?utf-8?Q?DBIJwv/jd/HznDJYxfZnFinYCAnKo9LlcvWSUWl?=
-X-OriginatorOrg: oracle.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: a216d6ca-9dee-431e-753d-08d94af2e391
-X-MS-Exchange-CrossTenant-AuthSource: BLAPR10MB5009.namprd10.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 19 Jul 2021 20:22:11.2965
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 4e2c6054-71cb-48f1-bd6c-3a9705aca71b
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: K97vCe0npmkTp49QrAX4OWSxMu8DMopmlOiZzs9AQfGU1HVg1GS2LPNO7DOigqdxTluTquQ3cHxA7t8V0LFM5v3x2McQALVFOkBMOo5GQpA=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: BLAPR10MB5329
-X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=10050 signatures=668682
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 adultscore=0 malwarescore=0
- mlxlogscore=999 suspectscore=0 bulkscore=0 spamscore=0 phishscore=0
- mlxscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2104190000 definitions=main-2107190115
-X-Proofpoint-GUID: PucKbcTaJehG5tuAIXx5icmYiBHWHK4A
-X-Proofpoint-ORIG-GUID: PucKbcTaJehG5tuAIXx5icmYiBHWHK4A
+Content-Transfer-Encoding: 8bit
+X-SA-Exim-Connect-IP: 172.16.1.31
+X-SA-Exim-Rcpt-To: linux-arm-kernel@lists.infradead.org, linuxppc-dev@lists.ozlabs.org, iommu@lists.linux-foundation.org, linux-kernel@vger.kernel.org, linux-alpha@vger.kernel.org, linux-ia64@vger.kernel.org, linux-mips@vger.kernel.org, linux-s390@vger.kernel.org, sparclinux@vger.kernel.org, linux-parisc@vger.kernel.org, xen-devel@lists.xenproject.org, hch@lst.de, m.szyprowski@samsung.com, robin.murphy@arm.com, sbates@raithlin.com, martin.oliveira@eideticom.com, logang@deltatee.com
+X-SA-Exim-Mail-From: gunthorp@deltatee.com
+X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on ale.deltatee.com
+X-Spam-Level: 
+X-Spam-Status: No, score=-6.7 required=5.0 tests=ALL_TRUSTED,BAYES_00,
+        MYRULES_NO_TEXT autolearn=no autolearn_force=no version=3.4.2
+Subject: [PATCH v2 00/21] .map_sg() error cleanup
+X-SA-Exim-Version: 4.2.1 (built Wed, 08 May 2019 21:11:16 +0000)
+X-SA-Exim-Scanned: Yes (on ale.deltatee.com)
 Precedence: bulk
 List-ID: <linux-alpha.vger.kernel.org>
 X-Mailing-List: linux-alpha@vger.kernel.org
 
+Hi,
 
-On 7/15/21 12:45 PM, Logan Gunthorpe wrote:
-> From: Martin Oliveira <martin.oliveira@eideticom.com>
->
-> The .map_sg() op now expects an error code instead of zero on failure.
->
-> xen_swiotlb_map_sg() may only fail if xen_swiotlb_map_page() fails, but
-> xen_swiotlb_map_page() only supports returning errors as
-> DMA_MAPPING_ERROR. So coalesce all errors into EINVAL.
+This v2 of the series is spun out and expanded from my work to add
+P2PDMA support to DMA map operations[1]. v1 is at [2]. The main changes
+in v1 are to more carefully define the meaning of the error codes for
+dma_map_sgtable().
+
+The P2PDMA work requires distinguishing different error conditions in
+a map_sg operation. dma_map_sgtable() already allows for returning an
+error code (where as dma_map_sg() is only allowed to return zero)
+however, it currently only returns -EINVAL when a .map_sg() call returns
+zero.
+
+This series cleans up all .map_sg() implementations to return appropriate
+error codes. After the cleanup, dma_map_sg() will still return zero,
+however dma_map_sgtable() will pass the error code from the .map_sg()
+call. Thanks go to Martn Oliveira for doing a lot of the cleanup of the
+obscure implementations.
+
+The patch set is based off of v5.14-rc2 and a git repo can be found
+here:
+
+  https://github.com/sbates130272/linux-p2pmem map_sg_err_cleanup_v2
+
+Thanks,
+
+Logan
+
+[1] https://lore.kernel.org/linux-block/20210513223203.5542-1-logang@deltatee.com/
+[2] https://lore.kernel.org/linux-mips/20210715164544.6827-1-logang@deltatee.com/
+
+--
+
+Changes in v2:
+  - Attempt to define the meanings of the errors returned by
+    dma_map_sgtable() and restrict the valid return codes of
+    .map_sg implementations. (Per Christoph)
+  - Change dma_map_sgtable() to EXPORT_SYMBOL_GPL() (Per Christoph)
+  - Add patches to remove the erroneous setting of sg->dma_address
+    to DMA_MAP_ERROR in a few .map_sg(0 implementations. (Per
+    Christoph).
+
+--
+
+Logan Gunthorpe (10):
+  dma-mapping: Allow map_sg() ops to return negative error codes
+  dma-direct: Return appropriate error code from dma_direct_map_sg()
+  iommu: Return full error code from iommu_map_sg[_atomic]()
+  dma-iommu: Return error code from iommu_dma_map_sg()
+  ARM/dma-mapping: don't set failed sg dma_address to DMA_MAPPING_ERROR
+  powerpc/iommu: don't set failed sg dma_address to DMA_MAPPING_ERROR
+  s390/pci: don't set failed sg dma_address to DMA_MAPPING_ERROR
+  sparc/iommu: don't set failed sg dma_address to DMA_MAPPING_ERROR
+  x86/amd_gart: don't set failed sg dma_address to DMA_MAPPING_ERROR
+  dma-mapping: Disallow .map_sg operations from returning zero on error
+
+Martin Oliveira (11):
+  alpha: return error code from alpha_pci_map_sg()
+  ARM/dma-mapping: return error code from .map_sg() ops
+  ia64/sba_iommu: return error code from sba_map_sg_attrs()
+  MIPS/jazzdma: return error code from jazz_dma_map_sg()
+  powerpc/iommu: return error code from .map_sg() ops
+  s390/pci: return error code from s390_dma_map_sg()
+  sparc/iommu: return error codes from .map_sg() ops
+  parisc: return error code from .map_sg() ops
+  xen: swiotlb: return error code from xen_swiotlb_map_sg()
+  x86/amd_gart: return error code from gart_map_sg()
+  dma-mapping: return error code from dma_dummy_map_sg()
+
+ arch/alpha/kernel/pci_iommu.c           | 10 ++-
+ arch/arm/mm/dma-mapping.c               | 26 +++++---
+ arch/ia64/hp/common/sba_iommu.c         |  6 +-
+ arch/mips/jazz/jazzdma.c                |  2 +-
+ arch/powerpc/kernel/iommu.c             |  6 +-
+ arch/powerpc/platforms/ps3/system-bus.c |  2 +-
+ arch/powerpc/platforms/pseries/vio.c    |  5 +-
+ arch/s390/pci/pci_dma.c                 | 13 ++--
+ arch/sparc/kernel/iommu.c               |  6 +-
+ arch/sparc/kernel/pci_sun4v.c           |  6 +-
+ arch/sparc/mm/iommu.c                   |  2 +-
+ arch/x86/kernel/amd_gart_64.c           | 18 +++---
+ drivers/iommu/dma-iommu.c               | 23 +++++--
+ drivers/iommu/iommu.c                   | 15 ++---
+ drivers/parisc/ccio-dma.c               |  2 +-
+ drivers/parisc/sba_iommu.c              |  2 +-
+ drivers/xen/swiotlb-xen.c               |  2 +-
+ include/linux/dma-map-ops.h             |  5 +-
+ include/linux/dma-mapping.h             | 35 ++--------
+ include/linux/iommu.h                   | 22 +++----
+ kernel/dma/direct.c                     |  2 +-
+ kernel/dma/dummy.c                      |  2 +-
+ kernel/dma/mapping.c                    | 86 ++++++++++++++++++++++---
+ 23 files changed, 181 insertions(+), 117 deletions(-)
 
 
-Reviewed-by: Boris Ostrovsky <boris.ostrovsky@oracle.com>
-
-
-
+base-commit: 2734d6c1b1a089fb593ef6a23d4b70903526fe0c
+--
+2.20.1
