@@ -2,103 +2,133 @@ Return-Path: <linux-alpha-owner@vger.kernel.org>
 X-Original-To: lists+linux-alpha@lfdr.de
 Delivered-To: lists+linux-alpha@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id AAB353D677C
-	for <lists+linux-alpha@lfdr.de>; Mon, 26 Jul 2021 21:28:01 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id EE1AA3D67DF
+	for <lists+linux-alpha@lfdr.de>; Mon, 26 Jul 2021 22:06:50 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231639AbhGZSrc (ORCPT <rfc822;lists+linux-alpha@lfdr.de>);
-        Mon, 26 Jul 2021 14:47:32 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43040 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231540AbhGZSrc (ORCPT
+        id S231540AbhGZT0V (ORCPT <rfc822;lists+linux-alpha@lfdr.de>);
+        Mon, 26 Jul 2021 15:26:21 -0400
+Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5]:63714 "EHLO
+        mx0a-001b2d01.pphosted.com" rhost-flags-OK-OK-OK-FAIL)
+        by vger.kernel.org with ESMTP id S229646AbhGZT0V (ORCPT
         <rfc822;linux-alpha@vger.kernel.org>);
-        Mon, 26 Jul 2021 14:47:32 -0400
-Received: from mail-pl1-x632.google.com (mail-pl1-x632.google.com [IPv6:2607:f8b0:4864:20::632])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C8EF9C061757;
-        Mon, 26 Jul 2021 12:27:59 -0700 (PDT)
-Received: by mail-pl1-x632.google.com with SMTP id k1so12801587plt.12;
-        Mon, 26 Jul 2021 12:27:59 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=date:from:to:cc:subject:message-id:mime-version:content-disposition;
-        bh=1UdDzrra23dH9YokfKPvE1AeA2jAHVIroGq1SNBQhuw=;
-        b=MXRrw0ZZsitiE9Skwj7bh0DNNijMrePYVHp7uEChWsp7D77WbfAThhYYBC2WO+q2wf
-         NboTspa5DGdHXqIcnd8mFfLYOI+5FKdyVzKeHFEYpiZ0KpdsrD7qErPAsgJvkbZfdXpL
-         la1FgQ12OZkU6yz5Tobg/8FZL5+0L+yUMurqUlJZCZEw+AzrF1oRA+NEu1U49iYb/cPZ
-         3wbOSkSn4YCqbJf+Brle4G9lbtySBXa0iOpQIAUnf5qhL+VAFwQJhC3quNE2oRApgrxA
-         61BPag9gmZc5yd6sUq1sefi4+KZP7K0OytFa6obcpZBOBS6SWBKbNGXnFxAdbI8UOF/J
-         fAfw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:mime-version
-         :content-disposition;
-        bh=1UdDzrra23dH9YokfKPvE1AeA2jAHVIroGq1SNBQhuw=;
-        b=RzjXrkGT0EzxCdWhcQulPFZpwf2VwDZTYgpdLpP2lsKlhJ3eVY/nhWJkQabtb50Noh
-         XYjj9RUyIuV2uCb/2SdcrFYLuAtBdzNyAImWgRy2NKhDj4X6O8gMSqCRE+TAEOxnBPyM
-         licLF446PNtOelf7cIaC+FeT2Fi+ZqDK7reV3r53gdJhV4pzpvRjlkSGU+9O73VdV67C
-         Mn/PzuJakTWm/vOVE4i5NaHHnbdiTExLFNaSohwHzhVA3QYSxP6Jbp2jg4A37lmDrNkX
-         1GBX5woC0ccaFcA6PABXEBfeDs9smpIPF0w/dy27pzfevgTghqf2Pz3Kdw+Ej38jeCXf
-         /+hA==
-X-Gm-Message-State: AOAM530+ZUIMfKeOh1yPLVkjkCF2wzhJduJ1VCsxtuMYzI7IoljdQNgD
-        Ar7i0aLh9mxD/BYgB2LygZd9fymv8NTxQw==
-X-Google-Smtp-Source: ABdhPJyKIa2tBdwRxa14RYdzaKZvi7hz0ilJLanTVJ8nLbjcw7fODHKHN0rhx5KhPD9MpwdXxNO31Q==
-X-Received: by 2002:a17:90a:d250:: with SMTP id o16mr9430341pjw.181.1627327679240;
-        Mon, 26 Jul 2021 12:27:59 -0700 (PDT)
-Received: from localhost ([108.161.26.224])
-        by smtp.gmail.com with ESMTPSA id 26sm413610pjj.27.2021.07.26.12.27.51
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 26 Jul 2021 12:27:53 -0700 (PDT)
-Date:   Mon, 26 Jul 2021 12:27:50 -0700
-From:   Matt Turner <mattst88@gmail.com>
-To:     Mike Rapoport <rppt@linux.ibm.com>
+        Mon, 26 Jul 2021 15:26:21 -0400
+Received: from pps.filterd (m0098420.ppops.net [127.0.0.1])
+        by mx0b-001b2d01.pphosted.com (8.16.0.43/8.16.0.43) with SMTP id 16QK593V018129;
+        Mon, 26 Jul 2021 16:06:38 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com; h=date : from : to : cc :
+ subject : message-id : references : mime-version : content-type :
+ in-reply-to; s=pp1; bh=hU37SZ69R0NzM9u0/Q/TcpUqbJmAa+F8/i/B0yPzv7w=;
+ b=X8MF+hPh5Te1PfFvJ/6jKYDjQduc2nTKpvnWAyeHnYDvj3hBf3sdvo1q9dzH0lJqK4qx
+ ceQ3lcuh/EqXfAsuhGUm4hyArz7EU9gpVvatLYX8gtKPWZelVL/BDPRGJTfmHi0Wp5XV
+ WdVGay7Bb6+npRF69sEq++ZnjkcYOUbQr4SvMWhyAvGSuXJ/UvcVcC0p2YKwxHOMO7yo
+ NzBuSNNhflkq1yNtRW2GxpGlU3WtHo/5uIX9C2n/g9D3Q/1N2XU9CDfqI44fG7tPCadb
+ h3aF5PK+fnGxpxGtYmZgNEYfa8eImSwq9UFqIUiPMiJ9Kd83ga6s36kBNI3fHy/Avbt9 lA== 
+Received: from pps.reinject (localhost [127.0.0.1])
+        by mx0b-001b2d01.pphosted.com with ESMTP id 3a23159a9b-1
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+        Mon, 26 Jul 2021 16:06:38 -0400
+Received: from m0098420.ppops.net (m0098420.ppops.net [127.0.0.1])
+        by pps.reinject (8.16.0.43/8.16.0.43) with SMTP id 16QK5Rat020447;
+        Mon, 26 Jul 2021 16:06:37 -0400
+Received: from ppma05fra.de.ibm.com (6c.4a.5195.ip4.static.sl-reverse.com [149.81.74.108])
+        by mx0b-001b2d01.pphosted.com with ESMTP id 3a23159a8a-1
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+        Mon, 26 Jul 2021 16:06:37 -0400
+Received: from pps.filterd (ppma05fra.de.ibm.com [127.0.0.1])
+        by ppma05fra.de.ibm.com (8.16.1.2/8.16.1.2) with SMTP id 16QK3fgo031536;
+        Mon, 26 Jul 2021 20:06:36 GMT
+Received: from b06avi18878370.portsmouth.uk.ibm.com (b06avi18878370.portsmouth.uk.ibm.com [9.149.26.194])
+        by ppma05fra.de.ibm.com with ESMTP id 3a235pr0b0-1
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+        Mon, 26 Jul 2021 20:06:35 +0000
+Received: from d06av21.portsmouth.uk.ibm.com (d06av21.portsmouth.uk.ibm.com [9.149.105.232])
+        by b06avi18878370.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id 16QK3tBT26214780
+        (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+        Mon, 26 Jul 2021 20:03:55 GMT
+Received: from d06av21.portsmouth.uk.ibm.com (unknown [127.0.0.1])
+        by IMSVA (Postfix) with ESMTP id 620B152050;
+        Mon, 26 Jul 2021 20:06:33 +0000 (GMT)
+Received: from linux.ibm.com (unknown [9.145.31.73])
+        by d06av21.portsmouth.uk.ibm.com (Postfix) with ESMTPS id A462E5204E;
+        Mon, 26 Jul 2021 20:06:32 +0000 (GMT)
+Date:   Mon, 26 Jul 2021 23:06:30 +0300
+From:   Mike Rapoport <rppt@linux.ibm.com>
+To:     Matt Turner <mattst88@gmail.com>
 Cc:     Michael Cree <mcree@orcon.net.nz>, linux-mm@kvack.org,
         linux-alpha@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Regression bisected to fa3354e4ea39 (mm: free_area_init: use maximal
- zone PFNs rather than zone sizes)
-Message-ID: <20210726192311.uffqnanxw3ac5wwi@ivybridge>
+Subject: Re: Regression bisected to fa3354e4ea39 (mm: free_area_init: use
+ maximal zone PFNs rather than zone sizes)
+Message-ID: <YP8Vxt0xuV1m5EPS@linux.ibm.com>
+References: <20210726192311.uffqnanxw3ac5wwi@ivybridge>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii; format=flowed
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20210726192311.uffqnanxw3ac5wwi@ivybridge>
+X-TM-AS-GCONF: 00
+X-Proofpoint-ORIG-GUID: x0y-SDgBhG6-F_cnI_wlHkfkGzSKw941
+X-Proofpoint-GUID: JYt-xnelJjDtNFZV3OYu9F88n5CeFwyu
+X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.391,18.0.790
+ definitions=2021-07-26_14:2021-07-26,2021-07-26 signatures=0
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 impostorscore=0
+ lowpriorityscore=0 bulkscore=0 malwarescore=0 suspectscore=0 mlxscore=0
+ spamscore=0 priorityscore=1501 clxscore=1011 phishscore=0 mlxlogscore=999
+ adultscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2104190000 definitions=main-2107260118
 Precedence: bulk
 List-ID: <linux-alpha.vger.kernel.org>
 X-Mailing-List: linux-alpha@vger.kernel.org
 
-Reply-To:
+Hi Matt,
 
-Hi Mike!
+On Mon, Jul 26, 2021 at 12:27:50PM -0700, Matt Turner wrote:
+> Reply-To:
+> 
+> Hi Mike!
+> 
+> Since commit fa3354e4ea39 (mm: free_area_init: use maximal zone PFNs rather
+> than zone sizes), I get the following BUG on Alpha (an AlphaServer ES47 Marvel)
+> and loading userspace leads to a segfault:
+> 
+> (I didn't notice this for a long time because of other unrelated regressions,
+> the pandemic, changing jobs, ...)
+ 
+I suspect there will be more surprises down the road :)
 
-Since commit fa3354e4ea39 (mm: free_area_init: use maximal zone PFNs rather
-than zone sizes), I get the following BUG on Alpha (an AlphaServer ES47 Marvel)
-and loading userspace leads to a segfault:
+> BUG: Bad page state in process swapper  pfn:2ffc53
+> page:fffffc000ecf14c0 refcount:0 mapcount:1 mapping:0000000000000000 index:0x0
+> flags: 0x0()
+> raw: 0000000000000000 0000000000000000 0000000000000000 0000000000000000
+> raw: 0000000000000000 0000000000000000 0000000000000000 0000000000000000
+> page dumped because: nonzero mapcount  Modules linked in:
+> CPU: 0 PID: 0 Comm: swapper Not tainted 5.7.0-03841-gfa3354e4ea39-dirty #26
+>        fffffc0001b5bd68 fffffc0001b5be80 fffffc00011cd148 fffffc000ecf14c0
+>        fffffc00019803df fffffc0001b5be80 fffffc00011ce340 fffffc000ecf14c0
+>        0000000000000000 fffffc0001b5be80 fffffc0001b482c0 fffffc00027d6618
+>        fffffc00027da7d0 00000000002ff97a 0000000000000000 fffffc0001b5be80
+>        fffffc00011d1abc fffffc000ecf14c0 fffffc0002d00000 fffffc0001b5be80
+>        fffffc0001b2350c 0000000000300000 fffffc0001b48298 fffffc0001b482c0
+> Trace:
+> [<fffffc00011cd148>] bad_page+0x168/0x1b0
+> [<fffffc00011ce340>] free_pcp_prepare+0x1e0/0x290
+> [<fffffc00011d1abc>] free_unref_page+0x2c/0xa0
+> [<fffffc00014ee5f0>] cmp_ex_sort+0x0/0x30
+> [<fffffc00014ee5f0>] cmp_ex_sort+0x0/0x30
+> [<fffffc000101001c>] _stext+0x1c/0x20
+> 
+> I haven't tried reproducing this on other machines or QEMU, but I'd be glad to
+> if that helps.
 
-(I didn't notice this for a long time because of other unrelated regressions,
-the pandemic, changing jobs, ...)
+If it's reproducible on QEMU I can debug it locally.
+ 
+> Any ideas?
 
-BUG: Bad page state in process swapper  pfn:2ffc53
-page:fffffc000ecf14c0 refcount:0 mapcount:1 mapping:0000000000000000 index:0x0
-flags: 0x0()
-raw: 0000000000000000 0000000000000000 0000000000000000 0000000000000000
-raw: 0000000000000000 0000000000000000 0000000000000000 0000000000000000
-page dumped because: nonzero mapcount  
-Modules linked in:
-CPU: 0 PID: 0 Comm: swapper Not tainted 5.7.0-03841-gfa3354e4ea39-dirty #26
-        fffffc0001b5bd68 fffffc0001b5be80 fffffc00011cd148 fffffc000ecf14c0
-        fffffc00019803df fffffc0001b5be80 fffffc00011ce340 fffffc000ecf14c0
-        0000000000000000 fffffc0001b5be80 fffffc0001b482c0 fffffc00027d6618
-        fffffc00027da7d0 00000000002ff97a 0000000000000000 fffffc0001b5be80
-        fffffc00011d1abc fffffc000ecf14c0 fffffc0002d00000 fffffc0001b5be80
-        fffffc0001b2350c 0000000000300000 fffffc0001b48298 fffffc0001b482c0
-Trace:
-[<fffffc00011cd148>] bad_page+0x168/0x1b0
-[<fffffc00011ce340>] free_pcp_prepare+0x1e0/0x290
-[<fffffc00011d1abc>] free_unref_page+0x2c/0xa0
-[<fffffc00014ee5f0>] cmp_ex_sort+0x0/0x30
-[<fffffc00014ee5f0>] cmp_ex_sort+0x0/0x30
-[<fffffc000101001c>] _stext+0x1c/0x20
+It seems like memory map is not properly initialized. Can you enable
+CONFIG_DEBUG_MEMORY_INIT and add mminit_debug=4 to the command line. The
+interesting part of the log would be before "Memory: xK/yK available ..."
+line.
 
-I haven't tried reproducing this on other machines or QEMU, but I'd be glad to
-if that helps.
+Hopefully it'll give some clues.
 
-Any ideas?
-
-Thanks,
-Matt
+-- 
+Sincerely yours,
+Mike.
