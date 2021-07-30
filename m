@@ -2,102 +2,175 @@ Return-Path: <linux-alpha-owner@vger.kernel.org>
 X-Original-To: lists+linux-alpha@lfdr.de
 Delivered-To: lists+linux-alpha@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 953A43DAC98
-	for <lists+linux-alpha@lfdr.de>; Thu, 29 Jul 2021 22:16:00 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 310773DB1C1
+	for <lists+linux-alpha@lfdr.de>; Fri, 30 Jul 2021 05:08:49 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232750AbhG2UP7 (ORCPT <rfc822;lists+linux-alpha@lfdr.de>);
-        Thu, 29 Jul 2021 16:15:59 -0400
-Received: from ale.deltatee.com ([204.191.154.188]:59098 "EHLO
-        ale.deltatee.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229788AbhG2UP5 (ORCPT
+        id S232559AbhG3DIw (ORCPT <rfc822;lists+linux-alpha@lfdr.de>);
+        Thu, 29 Jul 2021 23:08:52 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44476 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S230199AbhG3DIv (ORCPT
         <rfc822;linux-alpha@vger.kernel.org>);
-        Thu, 29 Jul 2021 16:15:57 -0400
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-        d=deltatee.com; s=20200525; h=Subject:MIME-Version:References:In-Reply-To:
-        Message-Id:Date:Cc:To:From:content-disposition;
-        bh=X/PGh6GTfJ6ZdtihVioh5gR+sLDdDHokoaBTKsSS/Sc=; b=Cl0pwajPUF0MbvvK+bH3m8G15c
-        iHGMTRHjC70auqPKPrfU/+fnjiDq8xpUMiFyYl3bcXjcpeMj0bAqbgfhD+GY9+ktWOOjLziknbBpV
-        eOrDDhbu2P6PbvlVWSvYgPEnlp2BricnQaa43UTkbJu+XUYXR7je7h3vqOKBtF35iiPZChQvy2Y6T
-        SQk28+qNruG/mX+ypm5KCA5pmv+A8RtK+979e9bCfNDpbieX0+q4/AvvQXFkzgOrHSbjqtMqcmzC3
-        ChuWTdKg/GFTa5IPAkYTKqDInd6tjgcT2Sy8uBUU77cbYGKw3nkXhBa/lC9mrNgps7kOEZnUPfeL7
-        SViD+cFQ==;
-Received: from cgy1-donard.priv.deltatee.com ([172.16.1.31])
-        by ale.deltatee.com with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
-        (Exim 4.92)
-        (envelope-from <gunthorp@deltatee.com>)
-        id 1m9CRZ-0008VM-Dl; Thu, 29 Jul 2021 14:15:50 -0600
-Received: from gunthorp by cgy1-donard.priv.deltatee.com with local (Exim 4.92)
-        (envelope-from <gunthorp@deltatee.com>)
-        id 1m9CRW-0001UQ-LZ; Thu, 29 Jul 2021 14:15:46 -0600
-From:   Logan Gunthorpe <logang@deltatee.com>
-To:     linux-kernel@vger.kernel.org, linux-alpha@vger.kernel.org,
-        linux-arm-kernel@lists.infradead.org, linux-ia64@vger.kernel.org,
-        linux-mips@vger.kernel.org, linuxppc-dev@lists.ozlabs.org,
-        linux-s390@vger.kernel.org, sparclinux@vger.kernel.org,
-        iommu@lists.linux-foundation.org, linux-parisc@vger.kernel.org,
-        xen-devel@lists.xenproject.org
-Cc:     Christoph Hellwig <hch@lst.de>,
-        Marek Szyprowski <m.szyprowski@samsung.com>,
-        Robin Murphy <robin.murphy@arm.com>,
-        Stephen Bates <sbates@raithlin.com>,
-        Martin Oliveira <martin.oliveira@eideticom.com>,
-        Logan Gunthorpe <logang@deltatee.com>
-Date:   Thu, 29 Jul 2021 14:15:39 -0600
-Message-Id: <20210729201539.5602-22-logang@deltatee.com>
-X-Mailer: git-send-email 2.20.1
-In-Reply-To: <20210729201539.5602-1-logang@deltatee.com>
-References: <20210729201539.5602-1-logang@deltatee.com>
+        Thu, 29 Jul 2021 23:08:51 -0400
+Received: from mail-pl1-x629.google.com (mail-pl1-x629.google.com [IPv6:2607:f8b0:4864:20::629])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id BB141C061765;
+        Thu, 29 Jul 2021 20:08:46 -0700 (PDT)
+Received: by mail-pl1-x629.google.com with SMTP id e21so9368131pla.5;
+        Thu, 29 Jul 2021 20:08:46 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=date:from:to:cc:subject:message-id:mime-version:content-disposition;
+        bh=FGli0G5ovwMHnEV6R6FenXzO7sxU6LjELt5khjX4A+E=;
+        b=VwkM08Y4LHHttykzFq9x2l4TW7pUVaswpnJEDUXkUUO6TvEdalDhhzjDRjP/kMBD9u
+         qpLNqlTxaZK05gifeKOCGD6S4KLAdt9/05m3dlBenlzWHFYbEEMC4l8fu0FDuQ0mzgIa
+         0BI49FXDhHei5M+V4BrSiSPPA3dgOz23OTYfAfRjFrtPRVoLaLUpc8LBKHCeTXi/uPr+
+         1uq71jl1jAwKzadVYCiE/+6P9XGE2TPDZuHm8pJBixaj4Npf9qkknRTn3Cm5LUHbCO35
+         8jbL7TJeSqgXaix5/TUw2R1Fp/1T7HXoDe/r6mEF73oiu6UOQoZEZMpePhlKnRl0BCMd
+         vOpw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:mime-version
+         :content-disposition;
+        bh=FGli0G5ovwMHnEV6R6FenXzO7sxU6LjELt5khjX4A+E=;
+        b=KyXKt1BUEhyTPjohmb5OvahjRVqYM47W4/JBrQwTfzgVF8815gE5FNVitt+uY46FCQ
+         oqJP62uHsyWiipxHCBwyMRndC5buMo6mOW3XtyGeP73VxJhGmqeV7TjV33KCYAkJxGOF
+         aFGN/el6obj4rmxHcaFPT/7PQEylO8PMLnDiZ7YT7b47c7Pj79wUnls3j9UUeOI6oIn5
+         kOMIp84YYzFJEZqHHYQuEjg8R+tA4zmz2bH/YXotBgpQ1c6SRmtw8RFpBc02XAWE2hlN
+         UpCfOOZMedCvMkHwExpcoBWqck39NMggVtqO1cF5PYtciJhreAaJ3u6KqP381ggkEUL/
+         Pe4g==
+X-Gm-Message-State: AOAM530mZHUNy/HI2EYOxDt4zg+L1BL1CXO3bfKKBsChgqevtu2nSgKr
+        7d8ckoPf8SHEzKXvxkPThCuavaBp0bCLXA==
+X-Google-Smtp-Source: ABdhPJyza6LJi7DuYemwCdW4J3yYhmFdBbdaVD3GRF+khUjcrsEl27kn2s/1EEByESWhy6DjnGXoaQ==
+X-Received: by 2002:a17:90b:1b06:: with SMTP id nu6mr755732pjb.192.1627614526229;
+        Thu, 29 Jul 2021 20:08:46 -0700 (PDT)
+Received: from localhost ([108.161.26.224])
+        by smtp.gmail.com with ESMTPSA id p10sm283859pgr.14.2021.07.29.20.08.44
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 29 Jul 2021 20:08:44 -0700 (PDT)
+Date:   Thu, 29 Jul 2021 20:08:38 -0700
+From:   Matt Turner <mattst88@gmail.com>
+To:     Linus Torvalds <torvalds@linux-foundation.org>
+Cc:     linux-alpha@vger.kernel.org, linux-kernel@vger.kernel.org,
+        "Alexander A. Klimov" <grandmaster@al2klimov.de>,
+        Arnd Bergmann <arnd@arndb.de>, Chen Li <chenli@uniontech.com>,
+        Corentin Labbe <clabbe@baylibre.com>,
+        David Hildenbrand <david@redhat.com>,
+        gushengxian <gushengxian@yulong.com>,
+        He Zhe <zhe.he@windriver.com>, Mike Rapoport <rppt@kernel.org>,
+        Prarit Bhargava <prarit@redhat.com>,
+        tangchunyou <tangchunyou@yulong.com>,
+        Zheng Yongjun <zhengyongjun3@huawei.com>,
+        Al Viro <viro@zeniv.linux.org.uk>
+Subject: [PULL] alpha.git
+Message-ID: <20210730030838.5mp7srx73wuttx5m@ivybridge>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-SA-Exim-Connect-IP: 172.16.1.31
-X-SA-Exim-Rcpt-To: linux-arm-kernel@lists.infradead.org, linuxppc-dev@lists.ozlabs.org, iommu@lists.linux-foundation.org, linux-kernel@vger.kernel.org, linux-alpha@vger.kernel.org, linux-ia64@vger.kernel.org, linux-mips@vger.kernel.org, linux-s390@vger.kernel.org, sparclinux@vger.kernel.org, linux-parisc@vger.kernel.org, xen-devel@lists.xenproject.org, hch@lst.de, m.szyprowski@samsung.com, robin.murphy@arm.com, sbates@raithlin.com, martin.oliveira@eideticom.com, logang@deltatee.com
-X-SA-Exim-Mail-From: gunthorp@deltatee.com
-X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on ale.deltatee.com
-X-Spam-Level: 
-X-Spam-Status: No, score=-6.7 required=5.0 tests=ALL_TRUSTED,BAYES_00,
-        MYRULES_NO_TEXT autolearn=no autolearn_force=no version=3.4.2
-Subject: [PATCH v3 21/21] dma-mapping: Disallow .map_sg operations from returning zero on error
-X-SA-Exim-Version: 4.2.1 (built Wed, 08 May 2019 21:11:16 +0000)
-X-SA-Exim-Scanned: Yes (on ale.deltatee.com)
+Content-Type: multipart/signed; micalg=pgp-sha512;
+        protocol="application/pgp-signature"; boundary="v4v74npvwpxrqo5o"
+Content-Disposition: inline
 Precedence: bulk
 List-ID: <linux-alpha.vger.kernel.org>
 X-Mailing-List: linux-alpha@vger.kernel.org
 
-Now that all the .map_sg operations have been converted to returning
-proper error codes, drop the code to handle a zero return value,
-add a warning if a zero is returned.
 
-Signed-off-by: Logan Gunthorpe <logang@deltatee.com>
----
- kernel/dma/mapping.c | 8 +++-----
- 1 file changed, 3 insertions(+), 5 deletions(-)
+--v4v74npvwpxrqo5o
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-diff --git a/kernel/dma/mapping.c b/kernel/dma/mapping.c
-index 9f0bb56eb9aa..cbcbdc877458 100644
---- a/kernel/dma/mapping.c
-+++ b/kernel/dma/mapping.c
-@@ -196,8 +196,8 @@ static int __dma_map_sg_attrs(struct device *dev, struct scatterlist *sg,
- 
- 	if (ents > 0)
- 		debug_dma_map_sg(dev, sg, nents, ents, dir);
--	else if (WARN_ON_ONCE(ents != -EINVAL && ents != -ENOMEM &&
--			      ents != -EIO && ents != 0))
-+	else if (WARN_ON_ONCE((ents != -EINVAL && ents != -ENOMEM &&
-+			       ents != -EIO) || ents == 0))
- 		return -EIO;
- 
- 	return ents;
-@@ -262,9 +262,7 @@ int dma_map_sgtable(struct device *dev, struct sg_table *sgt,
- 	int nents;
- 
- 	nents = __dma_map_sg_attrs(dev, sgt->sgl, sgt->orig_nents, dir, attrs);
--	if (nents == 0)
--		return -EIO;
--	else if (nents < 0)
-+	if (nents < 0)
- 		return nents;
- 
- 	sgt->nents = nents;
--- 
-2.20.1
+Hi Linus,
 
+Please pull a few changes for alpha. They're mostly small janitorial fixes but
+there's also more important ones: a patch to drop the alpha-specific x86 binary
+loader (from David Hildenbrand), a regression fix for at least Marvel platforms
+(from Mike Rapoport), and a fix for a scary-looking typo (from Zheng Yongjun).
+
+Thanks,
+Matt
+
+The following changes since commit ff1176468d368232b684f75e82563369208bc371:
+
+  Linux 5.14-rc3 (2021-07-25 15:35:14 -0700)
+
+are available in the Git repository at:
+
+  https://git.kernel.org/pub/scm/linux/kernel/git/mattst88/alpha.git for-linus
+
+for you to fetch changes up to 640b7ea5f888b521dcf28e2564ce75d08a783fd7:
+
+  alpha: register early reserved memory in memblock (2021-07-28 20:49:18 -0700)
+
+----------------------------------------------------------------
+Alexander A. Klimov (1):
+      alpha: Kconfig: Replace HTTP links with HTTPS ones
+
+Arnd Bergmann (1):
+      alpha: fp_emul: avoid init/cleanup_module names
+
+Chen Li (1):
+      alpha: remove undef inline in compiler.h
+
+Corentin Labbe (2):
+      alpha: __udiv_qrnnd should be exported
+      alpha: defconfig: add necessary configs for boot testing
+
+David Hildenbrand (1):
+      binfmt: remove support for em86 (alpha only)
+
+He Zhe (1):
+      alpha: Add syscall_get_return_value()
+
+Mike Rapoport (1):
+      alpha: register early reserved memory in memblock
+
+Prarit Bhargava (1):
+      alpha: Send stop IPI to send to online CPUs
+
+Zheng Yongjun (1):
+      alpha: convert comma to semicolon
+
+gushengxian (2):
+      alpha: Remove space between * and parameter name
+      alpha: fix spelling mistakes
+
+tangchunyou (1):
+      alpha: fix typos in a comment
+
+ arch/alpha/Kconfig                |   2 +-
+ arch/alpha/boot/bootp.c           |   2 +-
+ arch/alpha/boot/bootpz.c          |   2 +-
+ arch/alpha/boot/misc.c            |   2 +-
+ arch/alpha/configs/defconfig      |   1 +
+ arch/alpha/include/asm/compiler.h |  11 ----
+ arch/alpha/include/asm/syscall.h  |   6 +++
+ arch/alpha/kernel/osf_sys.c       |   4 +-
+ arch/alpha/kernel/perf_event.c    |   2 +-
+ arch/alpha/kernel/process.c       |   2 +-
+ arch/alpha/kernel/setup.c         |  13 ++---
+ arch/alpha/kernel/smp.c           |   2 +-
+ arch/alpha/kernel/sys_nautilus.c  |   2 +-
+ arch/alpha/kernel/traps.c         |   2 +-
+ arch/alpha/math-emu/math.c        |   8 ++-
+ fs/Kconfig.binfmt                 |  15 ------
+ fs/Makefile                       |   1 -
+ fs/binfmt_em86.c                  | 110 --------------------------------------
+ 18 files changed, 31 insertions(+), 156 deletions(-)
+ delete mode 100644 fs/binfmt_em86.c
+
+--v4v74npvwpxrqo5o
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+Version: GnuPG v2
+
+iQGTBAABCgB9FiEEvu9JS1spHrMAon8T7S7Rn4WzaCwFAmEDbTBfFIAAAAAALgAo
+aXNzdWVyLWZwckBub3RhdGlvbnMub3BlbnBncC5maWZ0aGhvcnNlbWFuLm5ldEJF
+RUY0OTRCNUIyOTFFQjMwMEEyN0YxM0VEMkVEMTlGODVCMzY4MkMACgkQ7S7Rn4Wz
+aCxBlwf6A1KJKyMAmG5vLTMwLOMxFX5C4lv+PZPADoUSejlowMNbZfR2YDmDQ0G8
+l/tE11JM/2TSX5vcj+Hku7QlhO32QiW3bkd6eZMzFSG3ZDWmwIICVrsyPIqbr5xq
+FgU6X0l5ng13XJwA6OlHOUcNuv08Y2i69KByWu4shw6tP7TBA/y5LH39iC7qg/dB
+ETuQckM+03hiVGtxQLKPHA/zP3BQDn1SjdYm9MlNrQ9VVQSyPRSMsqKw6n2/CPrY
+zxn3WCNMtaS4KcH/kuBPDW5u3p26xAXLCZ2Fi91bCp7deFYp1p1lKyeVUO6Bn5CA
+IEU1D9PjRVQpVcttmxvYeN+IDXpwrA==
+=CT1b
+-----END PGP SIGNATURE-----
+
+--v4v74npvwpxrqo5o--
