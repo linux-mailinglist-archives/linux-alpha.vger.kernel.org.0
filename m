@@ -2,27 +2,27 @@ Return-Path: <linux-alpha-owner@vger.kernel.org>
 X-Original-To: lists+linux-alpha@lfdr.de
 Delivered-To: lists+linux-alpha@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 366063DEC9E
+	by mail.lfdr.de (Postfix) with ESMTP id CC9DA3DECA0
 	for <lists+linux-alpha@lfdr.de>; Tue,  3 Aug 2021 13:44:42 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S236135AbhHCLou (ORCPT <rfc822;lists+linux-alpha@lfdr.de>);
-        Tue, 3 Aug 2021 07:44:50 -0400
-Received: from mail.kernel.org ([198.145.29.99]:35212 "EHLO mail.kernel.org"
+        id S236288AbhHCLov (ORCPT <rfc822;lists+linux-alpha@lfdr.de>);
+        Tue, 3 Aug 2021 07:44:51 -0400
+Received: from mail.kernel.org ([198.145.29.99]:35364 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S236168AbhHCLo1 (ORCPT <rfc822;linux-alpha@vger.kernel.org>);
-        Tue, 3 Aug 2021 07:44:27 -0400
-Received: by mail.kernel.org (Postfix) with ESMTPSA id B374060EFD;
-        Tue,  3 Aug 2021 11:44:15 +0000 (UTC)
+        id S235745AbhHCLoj (ORCPT <rfc822;linux-alpha@vger.kernel.org>);
+        Tue, 3 Aug 2021 07:44:39 -0400
+Received: by mail.kernel.org (Postfix) with ESMTPSA id 3611660F11;
+        Tue,  3 Aug 2021 11:44:27 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1627991056;
-        bh=6pfrQY5QyDEqVrt2lMWcXkE5SO4dTw+z8f67Irfj2EA=;
+        s=k20201202; t=1627991068;
+        bh=SWzNVkkJN/YQ3UperAk+X4Zg45n7gU01oc91TaBOFXs=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=ExIOw9ueZBbSesxTUQxpRWpj75BmWqluzoSr8MF4TzrM2UjyTxSMdqlkHxudoQhvM
-         HLx5DQ0yVgdx6Ds7TNGz7zlIWHoIocq2DihvE97w+Mq3V+pRpaOJX2NRnWY4iPhEMn
-         rsi2K5zJBqTIFtebMU0SzRIC/3XrO6bqwZQreSd1bGuGIB1gbjff2ykK/Xqdj0xyAq
-         D82pqZQ8IeYJu5WYhc2uMn5IUD6PXeK3EHfWFALjUUT0kYiclzLGMCmtapzrnll4oO
-         CR+4jq3RRqyxHFN7AyS0e04UhJ9R0WhESDeBCF0ZbhG0c7f3tA9OXcrGKizwLel3z/
-         dYghaQsU+HB7Q==
+        b=uINeUu7Bwzryu+P0Y6HVCdt9hHAuGRUgUJtCk1eW+KOAJmbopZrJNeOmSypdym6AL
+         PpRZBlsDN0Uz7dow19tj0UPfMLSwRRemAJ+3NDpuEuXRAj793ZEuNKXN4xceeOM5Nq
+         pIX+y/TzgNILe+bVsF7TfX63s9JbnGTwQi5Yo8IDEDdhDH8a9xygAaSL7cEhCoUKCk
+         31o0dq4CjulKr/BhUBWp7blVqJd8n5dCI0UxpQc/5nupfFVKqJ4WF9Xu0T8XJbwVk9
+         PoWXqjHAVJCOZh3F051Etkwr1dgtTlPDvCuLqCgUfJ79pJVN9Bc7w3bQZIJYzvy5/W
+         5HbC5okCxj28A==
 From:   Sasha Levin <sashal@kernel.org>
 To:     linux-kernel@vger.kernel.org, stable@vger.kernel.org
 Cc:     Prarit Bhargava <prarit@redhat.com>,
@@ -30,12 +30,12 @@ Cc:     Prarit Bhargava <prarit@redhat.com>,
         Ivan Kokshaysky <ink@jurassic.park.msu.ru>,
         Matt Turner <mattst88@gmail.com>,
         Sasha Levin <sashal@kernel.org>, linux-alpha@vger.kernel.org
-Subject: [PATCH AUTOSEL 5.10 6/9] alpha: Send stop IPI to send to online CPUs
-Date:   Tue,  3 Aug 2021 07:44:05 -0400
-Message-Id: <20210803114408.2252713-6-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 5.4 5/6] alpha: Send stop IPI to send to online CPUs
+Date:   Tue,  3 Aug 2021 07:44:20 -0400
+Message-Id: <20210803114421.2252840-5-sashal@kernel.org>
 X-Mailer: git-send-email 2.30.2
-In-Reply-To: <20210803114408.2252713-1-sashal@kernel.org>
-References: <20210803114408.2252713-1-sashal@kernel.org>
+In-Reply-To: <20210803114421.2252840-1-sashal@kernel.org>
+References: <20210803114421.2252840-1-sashal@kernel.org>
 MIME-Version: 1.0
 X-stable: review
 X-Patchwork-Hint: Ignore
@@ -72,10 +72,10 @@ Signed-off-by: Sasha Levin <sashal@kernel.org>
  1 file changed, 1 insertion(+), 1 deletion(-)
 
 diff --git a/arch/alpha/kernel/smp.c b/arch/alpha/kernel/smp.c
-index 4b2575f936d4..cb64e4797d2a 100644
+index 5f90df30be20..06fd42417aa9 100644
 --- a/arch/alpha/kernel/smp.c
 +++ b/arch/alpha/kernel/smp.c
-@@ -582,7 +582,7 @@ void
+@@ -585,7 +585,7 @@ void
  smp_send_stop(void)
  {
  	cpumask_t to_whom;
