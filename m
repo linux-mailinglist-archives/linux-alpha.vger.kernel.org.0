@@ -2,88 +2,63 @@ Return-Path: <linux-alpha-owner@vger.kernel.org>
 X-Original-To: lists+linux-alpha@lfdr.de
 Delivered-To: lists+linux-alpha@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id CA32F3DECD7
-	for <lists+linux-alpha@lfdr.de>; Tue,  3 Aug 2021 13:45:35 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id D32F43DEE06
+	for <lists+linux-alpha@lfdr.de>; Tue,  3 Aug 2021 14:42:07 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S236238AbhHCLpU (ORCPT <rfc822;lists+linux-alpha@lfdr.de>);
-        Tue, 3 Aug 2021 07:45:20 -0400
-Received: from mail.kernel.org ([198.145.29.99]:36032 "EHLO mail.kernel.org"
+        id S236025AbhHCMmQ (ORCPT <rfc822;lists+linux-alpha@lfdr.de>);
+        Tue, 3 Aug 2021 08:42:16 -0400
+Received: from mail.kernel.org ([198.145.29.99]:51496 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S236392AbhHCLpG (ORCPT <rfc822;linux-alpha@vger.kernel.org>);
-        Tue, 3 Aug 2021 07:45:06 -0400
-Received: by mail.kernel.org (Postfix) with ESMTPSA id 0E36A610FC;
-        Tue,  3 Aug 2021 11:44:54 +0000 (UTC)
+        id S235805AbhHCMmP (ORCPT <rfc822;linux-alpha@vger.kernel.org>);
+        Tue, 3 Aug 2021 08:42:15 -0400
+Received: by mail.kernel.org (Postfix) with ESMTPSA id 270B060F58;
+        Tue,  3 Aug 2021 12:42:04 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1627991095;
-        bh=WTcoYn764YW43k/A0/6SVzKX1dcFrJatAQAOKKY6Mcw=;
-        h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=EmlUmn4JvU4EFCB+Y4EllH2dUATvTIff9Gvza9lAekMJDIIqwyRE9OROyIY5H7hFT
-         B+c4ruP2uoocRmbJC1gZc6Yxyy32VdEI71u0P5erBk01U8fZnvzCW5puWjDIdjui+G
-         bw39hfYapPlyORZQ3Igffbw4A+rnicunS/ZvmDaDuSRfdfa+WiPdHcWRQZihhVB4f4
-         x6PAtoCFHNg6D0fwsq/vwj7iS3o3R9BjucVLPTovzeyHoWdczfkvlWDhiNjcMIrkAg
-         pPGPuJP68hQj+6BIM3BmEdp2uvrgyu7D6ysv7o5Vh6ukTb3ulKBwfwkKdFdaYDkPeb
-         8TFo23p/Qyxgw==
-From:   Sasha Levin <sashal@kernel.org>
-To:     linux-kernel@vger.kernel.org, stable@vger.kernel.org
-Cc:     Prarit Bhargava <prarit@redhat.com>,
-        Richard Henderson <rth@twiddle.net>,
-        Ivan Kokshaysky <ink@jurassic.park.msu.ru>,
-        Matt Turner <mattst88@gmail.com>,
-        Sasha Levin <sashal@kernel.org>, linux-alpha@vger.kernel.org
-Subject: [PATCH AUTOSEL 4.4 3/4] alpha: Send stop IPI to send to online CPUs
-Date:   Tue,  3 Aug 2021 07:44:50 -0400
-Message-Id: <20210803114451.2253268-3-sashal@kernel.org>
-X-Mailer: git-send-email 2.30.2
-In-Reply-To: <20210803114451.2253268-1-sashal@kernel.org>
-References: <20210803114451.2253268-1-sashal@kernel.org>
+        s=k20201202; t=1627994524;
+        bh=/YmirlCTIhPtprJXOvqz8B7MGjooX1KKSv8hYxHOghM=;
+        h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+        b=Hk9z3JZICKM+/Vx48pAqV0XXsNJ5kZcFlm2Dp3HMOIplfqpCavjEBfz2F+dabjMni
+         GUdJpRll32pJQ3MFIBh8kr+nTt0RMCRF2XI+moP58+vrhd/Sx5Quz7XM4ZXwT/BJZR
+         JAJw1IkctepZmohF315IV+vYW9iFbG+0YZo3r0yxMQaRtd3soq+BeSJhpbyGUsnV4m
+         RsvUOnYHqAFun/vf5gqwbnPwNAseN79jFQcJxGpCng8aBjhRf4RIuR4eWEv8jllVGs
+         5Kul5AEol8uKKsUD8h6dPCwVHnQv66LkkwYvbHJ08aFnMQ7dpZOuroKrJ5iEK2v2eg
+         72LbyUWJnj39A==
+Date:   Tue, 3 Aug 2021 05:42:03 -0700
+From:   Jakub Kicinski <kuba@kernel.org>
+To:     Pavel Tikhomirov <ptikhomirov@virtuozzo.com>
+Cc:     netdev@vger.kernel.org, "David S. Miller" <davem@davemloft.net>,
+        Arnd Bergmann <arnd@arndb.de>,
+        Eric Dumazet <edumazet@google.com>,
+        Paolo Abeni <pabeni@redhat.com>,
+        Florian Westphal <fw@strlen.de>, linux-kernel@vger.kernel.org,
+        linux-alpha@vger.kernel.org, linux-mips@vger.kernel.org,
+        linux-parisc@vger.kernel.org, sparclinux@vger.kernel.org,
+        linux-arch@vger.kernel.org, Andrei Vagin <avagin@gmail.com>
+Subject: Re: [PATCH v2] sock: allow reading and changing sk_userlocks with
+ setsockopt
+Message-ID: <20210803054203.4f1eb9a9@kicinski-fedora-pc1c0hjn.dhcp.thefacebook.com>
+In-Reply-To: <ffcf4fe5-814e-b232-c749-01511eb1ceb7@virtuozzo.com>
+References: <20210730160708.6544-1-ptikhomirov@virtuozzo.com>
+        <20210730094631.106b8bec@kicinski-fedora-pc1c0hjn.dhcp.thefacebook.com>
+        <9ead0d04-f243-b637-355c-af11af45fb5a@virtuozzo.com>
+        <20210802091102.314fa0f6@kicinski-fedora-pc1c0hjn.dhcp.thefacebook.com>
+        <ffcf4fe5-814e-b232-c749-01511eb1ceb7@virtuozzo.com>
 MIME-Version: 1.0
-X-stable: review
-X-Patchwork-Hint: Ignore
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-alpha.vger.kernel.org>
 X-Mailing-List: linux-alpha@vger.kernel.org
 
-From: Prarit Bhargava <prarit@redhat.com>
+On Tue, 3 Aug 2021 14:04:39 +0300 Pavel Tikhomirov wrote:
+> > Just to double check - is the expectation that the value returned is
+> > completely opaque to the user space? The defines in question are not
+> > part of uAPI.  
+> 
+> Sorry, didn't though about it initially. For criu we don't care about 
+> the actual bits we restore same what we've dumped. Buf if some real 
+> users would like to use this interface to restore default autoadjustment 
+> on their sockets we should probably export SOCK_SNDBUF_LOCK and 
+> SOCK_RCVBUF_LOCK to uAPI.
 
-[ Upstream commit caace6ca4e06f09413fb8f8a63319594cfb7d47d ]
-
-This issue was noticed while debugging a shutdown issue where some
-secondary CPUs are not being shutdown correctly.  A fix for that [1] requires
-that secondary cpus be offlined using the cpu_online_mask so that the
-stop operation is a no-op if CPU HOTPLUG is disabled.  I, like the author in
-[1] looked at the architectures and found that alpha is one of two
-architectures that executes smp_send_stop() on all possible CPUs.
-
-On alpha, smp_send_stop() sends an IPI to all possible CPUs but only needs
-to send them to online CPUs.
-
-Send the stop IPI to only the online CPUs.
-
-[1] https://lkml.org/lkml/2020/1/10/250
-
-Signed-off-by: Prarit Bhargava <prarit@redhat.com>
-Cc: Richard Henderson <rth@twiddle.net>
-Cc: Ivan Kokshaysky <ink@jurassic.park.msu.ru>
-Signed-off-by: Matt Turner <mattst88@gmail.com>
-Signed-off-by: Sasha Levin <sashal@kernel.org>
----
- arch/alpha/kernel/smp.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
-
-diff --git a/arch/alpha/kernel/smp.c b/arch/alpha/kernel/smp.c
-index 2f24447fef92..1543b571bd99 100644
---- a/arch/alpha/kernel/smp.c
-+++ b/arch/alpha/kernel/smp.c
-@@ -584,7 +584,7 @@ void
- smp_send_stop(void)
- {
- 	cpumask_t to_whom;
--	cpumask_copy(&to_whom, cpu_possible_mask);
-+	cpumask_copy(&to_whom, cpu_online_mask);
- 	cpumask_clear_cpu(smp_processor_id(), &to_whom);
- #ifdef DEBUG_IPI_MSG
- 	if (hard_smp_processor_id() != boot_cpu_id)
--- 
-2.30.2
-
+Just to be sure - please mention this in the commit message.
