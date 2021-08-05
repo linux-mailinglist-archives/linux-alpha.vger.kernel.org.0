@@ -2,179 +2,60 @@ Return-Path: <linux-alpha-owner@vger.kernel.org>
 X-Original-To: lists+linux-alpha@lfdr.de
 Delivered-To: lists+linux-alpha@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 69CE63E0BE1
-	for <lists+linux-alpha@lfdr.de>; Thu,  5 Aug 2021 02:55:53 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id C28FB3E11E2
+	for <lists+linux-alpha@lfdr.de>; Thu,  5 Aug 2021 12:05:31 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229995AbhHEA4F (ORCPT <rfc822;lists+linux-alpha@lfdr.de>);
-        Wed, 4 Aug 2021 20:56:05 -0400
-Received: from mga09.intel.com ([134.134.136.24]:27469 "EHLO mga09.intel.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S237465AbhHEAy6 (ORCPT <rfc822;linux-alpha@vger.kernel.org>);
-        Wed, 4 Aug 2021 20:54:58 -0400
-X-IronPort-AV: E=McAfee;i="6200,9189,10066"; a="214027500"
-X-IronPort-AV: E=Sophos;i="5.84,296,1620716400"; 
-   d="scan'208";a="214027500"
-Received: from orsmga002.jf.intel.com ([10.7.209.21])
-  by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Aug 2021 17:53:53 -0700
-X-IronPort-AV: E=Sophos;i="5.84,296,1620716400"; 
-   d="scan'208";a="437617307"
-Received: from mjkendri-mobl.amr.corp.intel.com (HELO skuppusw-desk1.amr.corp.intel.com) ([10.254.17.117])
-  by orsmga002-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Aug 2021 17:53:51 -0700
-From:   Kuppuswamy Sathyanarayanan 
-        <sathyanarayanan.kuppuswamy@linux.intel.com>
-To:     Thomas Gleixner <tglx@linutronix.de>,
-        Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
-        Peter Zijlstra <peterz@infradead.org>,
-        Andy Lutomirski <luto@kernel.org>,
-        Bjorn Helgaas <bhelgaas@google.com>,
-        Richard Henderson <rth@twiddle.net>,
-        Thomas Bogendoerfer <tsbogend@alpha.franken.de>,
-        James E J Bottomley <James.Bottomley@HansenPartnership.com>,
-        Helge Deller <deller@gmx.de>,
-        "David S . Miller" <davem@davemloft.net>,
-        Arnd Bergmann <arnd@arndb.de>,
-        Jonathan Corbet <corbet@lwn.net>,
-        "Michael S . Tsirkin" <mst@redhat.com>
-Cc:     Peter H Anvin <hpa@zytor.com>, Dave Hansen <dave.hansen@intel.com>,
-        Tony Luck <tony.luck@intel.com>,
-        Dan Williams <dan.j.williams@intel.com>,
-        Andi Kleen <ak@linux.intel.com>,
-        Kirill Shutemov <kirill.shutemov@linux.intel.com>,
-        Sean Christopherson <seanjc@google.com>,
-        Kuppuswamy Sathyanarayanan <knsathya@kernel.org>,
-        x86@kernel.org, linux-kernel@vger.kernel.org,
-        linux-pci@vger.kernel.org, linux-alpha@vger.kernel.org,
-        linux-mips@vger.kernel.org, linux-parisc@vger.kernel.org,
-        sparclinux@vger.kernel.org, linux-arch@vger.kernel.org,
-        linux-doc@vger.kernel.org,
-        virtualization@lists.linux-foundation.org
-Subject: [PATCH v4 15/15] x86/tdx: Add cmdline option to force use of ioremap_shared
-Date:   Wed,  4 Aug 2021 17:52:18 -0700
-Message-Id: <20210805005218.2912076-16-sathyanarayanan.kuppuswamy@linux.intel.com>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20210805005218.2912076-1-sathyanarayanan.kuppuswamy@linux.intel.com>
-References: <20210805005218.2912076-1-sathyanarayanan.kuppuswamy@linux.intel.com>
+        id S240073AbhHEKFo (ORCPT <rfc822;lists+linux-alpha@lfdr.de>);
+        Thu, 5 Aug 2021 06:05:44 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37202 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S240247AbhHEKEi (ORCPT
+        <rfc822;linux-alpha@vger.kernel.org>); Thu, 5 Aug 2021 06:04:38 -0400
+Received: from mail-lf1-x12c.google.com (mail-lf1-x12c.google.com [IPv6:2a00:1450:4864:20::12c])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D9906C0613C1
+        for <linux-alpha@vger.kernel.org>; Thu,  5 Aug 2021 03:04:17 -0700 (PDT)
+Received: by mail-lf1-x12c.google.com with SMTP id f42so9950066lfv.7
+        for <linux-alpha@vger.kernel.org>; Thu, 05 Aug 2021 03:04:17 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=mime-version:reply-to:from:date:message-id:subject:to;
+        bh=77BwqRII9XCweQU8IJul6unijI/BEL+vUJmVmCRLxH4=;
+        b=sHl6qW1zmiT8ZvqB2OUPVOQgQQANFddZ2tN6fvahaP2/2BqtqBrOxGJ/0BmnPqjGlW
+         bqzDgJ3d3ZoJx/Ez5/NPDJuCzwwtHmJtAy6EXzaLcPDeSeF9zMJSyVpGYqaNBBWvuH8P
+         CmHeHW/lC768PhyvOdm07pe7cVF9GOwY83X8xH9CR5VIpl6m7EOJLN3bYxrUD6eqWrwI
+         v7lT9isjyGdOyQO1ZxHckY58fJIKq0ynI5WKk/T/EFclYGVLVg5O0PVH6eO1eZ466K2i
+         9C1Btc4HzF93o/omsTHeq+TiYdZGYwQcClDvkt1B0xUnW5GjDFO6KlGCTmAz/DuVoUiu
+         oOLg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:reply-to:from:date:message-id
+         :subject:to;
+        bh=77BwqRII9XCweQU8IJul6unijI/BEL+vUJmVmCRLxH4=;
+        b=S8i8rHOLpBzW410dx9owhNxHZs1VLXhNNgXoILr6w66OX309OwPr4CdtbLo6MMSiAg
+         EjIusbpsbz7zNd9DUOQ2snVCiyiBusqiIWnlYQrHy3Lk8kRWXa3QSW1I05D93fgE3xml
+         09jF8onDXi9Kiv5PM3uST5J4gKVtHNrzgcQaO8kDJkEKgvfqk30oFaLpITt9TRv03QKd
+         tps8N4FK0yZ5MiwPcOT/hrWtNISxRmCqDnKFKhlM+Zvn5H06aHVgGmmo6Pj/Kc4baB2d
+         vWqKmhOiWRNvKz/x/NBTJfeqclfwJQSut2O023E4II1/Jp+CSmtfLLZ72pZHHnIbs0G4
+         69+Q==
+X-Gm-Message-State: AOAM531n0E2VPnmhWb3tTeNEwzy9ETreeKVa//dqnT7YJkuOp4w2wYGX
+        WZby9K1lMfHtLB5mS0l66QfR1O8ws00W7NjZ+6w=
+X-Google-Smtp-Source: ABdhPJxNlaRnSfWBGDnpdedL3F47v17VHAcFuZKRtDwI5cI01H3nzifYXNhlZsRPDijsKPmQqGk7nRAEIKBC9ALj4Kw=
+X-Received: by 2002:a05:6512:3d04:: with SMTP id d4mr2999714lfv.578.1628157856190;
+ Thu, 05 Aug 2021 03:04:16 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Received: by 2002:a9a:70d1:0:b029:11f:2586:8b8e with HTTP; Thu, 5 Aug 2021
+ 03:04:15 -0700 (PDT)
+Reply-To: rihabmanyang07@yahoo.com
+From:   Rihab Manyang <seldom.doumbouya18@gmail.com>
+Date:   Thu, 5 Aug 2021 11:04:15 +0100
+Message-ID: <CAG0hwA=5=k1hueW+jQdXkKN-G2Sii0rU-0Cy4k2ig4VvqaaEsQ@mail.gmail.com>
+Subject: Hello
+To:     undisclosed-recipients:;
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-alpha.vger.kernel.org>
 X-Mailing-List: linux-alpha@vger.kernel.org
 
-Add a command line option to force all the enabled drivers to use
-shared memory mappings. This will be useful when enabling new drivers
-in the protected guest without making all the required changes to use
-shared mappings in it.
-
-Note that this might also allow other non explicitly enabled drivers
-to interact with the host, which could cause other security risks.
-
-Signed-off-by: Kuppuswamy Sathyanarayanan <sathyanarayanan.kuppuswamy@linux.intel.com>
----
- .../admin-guide/kernel-parameters.rst         |  1 +
- .../admin-guide/kernel-parameters.txt         | 12 ++++++++++++
- arch/x86/include/asm/io.h                     |  2 ++
- arch/x86/mm/ioremap.c                         | 19 ++++++++++++++++++-
- 4 files changed, 33 insertions(+), 1 deletion(-)
-
-diff --git a/Documentation/admin-guide/kernel-parameters.rst b/Documentation/admin-guide/kernel-parameters.rst
-index 01ba293a2d70..bdf3896a100c 100644
---- a/Documentation/admin-guide/kernel-parameters.rst
-+++ b/Documentation/admin-guide/kernel-parameters.rst
-@@ -147,6 +147,7 @@ parameter is applicable::
- 	PCI	PCI bus support is enabled.
- 	PCIE	PCI Express support is enabled.
- 	PCMCIA	The PCMCIA subsystem is enabled.
-+	PG	Protected guest is enabled.
- 	PNP	Plug & Play support is enabled.
- 	PPC	PowerPC architecture is enabled.
- 	PPT	Parallel port support is enabled.
-diff --git a/Documentation/admin-guide/kernel-parameters.txt b/Documentation/admin-guide/kernel-parameters.txt
-index bdb22006f713..ba390be62f89 100644
---- a/Documentation/admin-guide/kernel-parameters.txt
-+++ b/Documentation/admin-guide/kernel-parameters.txt
-@@ -2062,6 +2062,18 @@
- 			1 - Bypass the IOMMU for DMA.
- 			unset - Use value of CONFIG_IOMMU_DEFAULT_PASSTHROUGH.
- 
-+	ioremap_force_shared= [X86_64, PG]
-+			Force the kernel to use shared memory mappings which do
-+			not use ioremap_shared/pcimap_shared to opt-in to shared
-+			mappings with the host. This feature is mainly used by
-+			a protected guest when enabling new drivers without
-+			proper shared memory related changes. Please note that
-+			this option might also allow other non explicitly enabled
-+			drivers to interact with the host in protected guest,
-+			which could cause other security risks. This option will
-+			also cause BIOS data structures to be shared with the host,
-+			which might open security holes.
-+
- 	io7=		[HW] IO7 for Marvel-based Alpha systems
- 			See comment before marvel_specify_io7 in
- 			arch/alpha/kernel/core_marvel.c.
-diff --git a/arch/x86/include/asm/io.h b/arch/x86/include/asm/io.h
-index 51c2c45456bf..744f72835a30 100644
---- a/arch/x86/include/asm/io.h
-+++ b/arch/x86/include/asm/io.h
-@@ -413,6 +413,8 @@ extern bool arch_memremap_can_ram_remap(resource_size_t offset,
- extern bool phys_mem_access_encrypted(unsigned long phys_addr,
- 				      unsigned long size);
- 
-+extern bool ioremap_force_shared;
-+
- /**
-  * iosubmit_cmds512 - copy data to single MMIO location, in 512-bit units
-  * @dst: destination, in MMIO space (must be 512-bit aligned)
-diff --git a/arch/x86/mm/ioremap.c b/arch/x86/mm/ioremap.c
-index 74260aaa494b..7576e886fad8 100644
---- a/arch/x86/mm/ioremap.c
-+++ b/arch/x86/mm/ioremap.c
-@@ -28,6 +28,7 @@
- #include <asm/memtype.h>
- #include <asm/setup.h>
- #include <asm/tdx.h>
-+#include <asm/cmdline.h>
- 
- #include "physaddr.h"
- 
-@@ -162,6 +163,17 @@ static void __ioremap_check_mem(resource_size_t addr, unsigned long size,
- 	__ioremap_check_other(addr, desc);
- }
- 
-+/*
-+ * Normally only drivers that are hardened for use in confidential guests
-+ * force shared mappings. But if device filtering is disabled other
-+ * devices can be loaded, and these need shared mappings too. This
-+ * variable is set to true if these filters are disabled.
-+ *
-+ * Note this has some side effects, e.g. various BIOS tables
-+ * get shared too which is risky.
-+ */
-+bool ioremap_force_shared;
-+
- /*
-  * Remap an arbitrary physical address space into the kernel virtual
-  * address space. It transparently creates kernel huge I/O mapping when
-@@ -249,7 +261,7 @@ __ioremap_caller(resource_size_t phys_addr, unsigned long size,
- 	prot = PAGE_KERNEL_IO;
- 	if ((io_desc.flags & IORES_MAP_ENCRYPTED) || encrypted)
- 		prot = pgprot_encrypted(prot);
--	else if (shared)
-+	else if (shared || ioremap_force_shared)
- 		prot = pgprot_protected_guest(prot);
- 
- 	switch (pcm) {
-@@ -847,6 +859,11 @@ void __init early_ioremap_init(void)
- 	WARN_ON((fix_to_virt(0) + PAGE_SIZE) & ((1 << PMD_SHIFT) - 1));
- #endif
- 
-+	/* Parse cmdline params for ioremap_force_shared */
-+	if (cmdline_find_option_bool(boot_command_line,
-+				     "ioremap_force_shared"))
-+		ioremap_force_shared = 1;
-+
- 	early_ioremap_setup();
- 
- 	pmd = early_ioremap_pmd(fix_to_virt(FIX_BTMAP_BEGIN));
 -- 
-2.25.1
-
+How are you?I am miss.Rihab Manyang i will like to be your friend
+please write me back on my email for more details, Thanks.
