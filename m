@@ -2,150 +2,70 @@ Return-Path: <linux-alpha-owner@vger.kernel.org>
 X-Original-To: lists+linux-alpha@lfdr.de
 Delivered-To: lists+linux-alpha@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 63E8F3E1E3F
-	for <lists+linux-alpha@lfdr.de>; Fri,  6 Aug 2021 00:02:03 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id EF61D3E2C2B
+	for <lists+linux-alpha@lfdr.de>; Fri,  6 Aug 2021 16:11:08 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231754AbhHEWCQ (ORCPT <rfc822;lists+linux-alpha@lfdr.de>);
-        Thu, 5 Aug 2021 18:02:16 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33240 "EHLO
+        id S236968AbhHFOLI (ORCPT <rfc822;lists+linux-alpha@lfdr.de>);
+        Fri, 6 Aug 2021 10:11:08 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54824 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231337AbhHEWCO (ORCPT
-        <rfc822;linux-alpha@vger.kernel.org>); Thu, 5 Aug 2021 18:02:14 -0400
-Received: from mail-ed1-x52c.google.com (mail-ed1-x52c.google.com [IPv6:2a00:1450:4864:20::52c])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id F24B2C061799
-        for <linux-alpha@vger.kernel.org>; Thu,  5 Aug 2021 15:01:59 -0700 (PDT)
-Received: by mail-ed1-x52c.google.com with SMTP id d6so10438305edt.7
-        for <linux-alpha@vger.kernel.org>; Thu, 05 Aug 2021 15:01:59 -0700 (PDT)
+        with ESMTP id S236797AbhHFOKw (ORCPT
+        <rfc822;linux-alpha@vger.kernel.org>); Fri, 6 Aug 2021 10:10:52 -0400
+Received: from mail-ed1-x536.google.com (mail-ed1-x536.google.com [IPv6:2a00:1450:4864:20::536])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0D4E1C0617B1
+        for <linux-alpha@vger.kernel.org>; Fri,  6 Aug 2021 07:10:33 -0700 (PDT)
+Received: by mail-ed1-x536.google.com with SMTP id f13so13161328edq.13
+        for <linux-alpha@vger.kernel.org>; Fri, 06 Aug 2021 07:10:32 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=paul-moore-com.20150623.gappssmtp.com; s=20150623;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=c3urkHLQm5QwJdZ9O5/+QqeYs/qIDb1LdTwMX8UuIJo=;
-        b=Y9dxhU40Cp8veCcp+fcPVCm4ifcChrN1zCWT6snRwiYjugw4bnQknql6Al6HruhkGh
-         hRr2EK3dfowDwcLy/91ol0zhq75r4GYw/0FGGfHCvI9pwgM/NBpebJBtEgcpxjZPzh7X
-         6Qb4mLJ2AkRFR7FJQcLLLzFC1VGLUVsRMVl3aLy6lBeo2Y7pxZfomIrU+VomHL3c87QG
-         q3wIiaH3OeaFpPWo49uBcSya0/hSPyR98ZBBjPRupyhM1wN8h8eCnG23kWHKYe5oxTOx
-         ekDzNhD/GOj4/cx6e4T7C6fCiv+h+myJcrv4/jTtK0HBwN5TieASVgvaRp9YnmbuiQXC
-         4KhA==
+        d=gmail.com; s=20161025;
+        h=mime-version:reply-to:from:date:message-id:subject:to;
+        bh=/oMubRmlLM5EZ/UdY6Fj3wsfS2kyoMzN9ASXgZ3xneY=;
+        b=q3xyYt1HrVQnyL1KZndhIFKim0Z6RZXWCajZa6+jKaUt/xPBmWrU2b2TpwIqgxHoY3
+         6sUeXJPoUC3zz+xqx5Y/7bh16ON7BcCcP2liy5jl/yv+hyxVGmxIcBCDJXoapuOO0RIl
+         REN9Zv+ClhtVVEMybVDTEUTnyt+YraWqvgNO4CiPEvSNbjJp0ymaQzc4FwPALfOqM4La
+         f+KzIMXFoGuca5XlZdCXXnnqi+xUiOGsem/cV9JUjNFonSZWOzEGazowyEr2eG3dp5DR
+         pLBa7cN2FmOkeXw/dSFAaB7k29Eu0Yivashc8iQbXHlro4ZoI7aiyRP21+G8wGDlMmu6
+         HPDQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=c3urkHLQm5QwJdZ9O5/+QqeYs/qIDb1LdTwMX8UuIJo=;
-        b=dGHD/12QPqRQ0L/EMbXtbIoEDsL1mvPNP6O+bKofJYHZcEfvMIbtYML1rMfmcCWAhU
-         EIB7owPnFnDNOaHYTzkr7+CB5UlH3irDITxGoJRjcRcai8dQbeWZd1wcOlWqR5uAxsCs
-         fL6aEoZE1HDOp1MtEkpqqL/VE4Q4J0ls4SZqk5xBildt/Yv4NOSafvJhNM2EpBqvAoUz
-         ue03jlQ8QCLeR0lZX7DA1EVERmlMwoGidFlixeRVIuJKJGOPC9Vct23tvva5WOCY9NTK
-         1WOU5BM6QfC3U8bmFjp8C3Vhy71uX2Ny13HjqWG76yMIx0x7beXEPMfg18m3y1+zxldA
-         m57A==
-X-Gm-Message-State: AOAM532RkQ+CJ8l8DNJZQweFkk13NDu4PchFYI+2kXIvuHKg5t3TxC4E
-        xa0zEA8cqySTVniyKt/Aj+RZdVVlF/NSmHr51pVl
-X-Google-Smtp-Source: ABdhPJyUIiWYAz6aUFc6MPvieEo2GUkchlv7WYU/OChfOMJj/dkrDY3GEEK87ConDlVxbwRyeX2EW3ZWABWXQS8VcSk=
-X-Received: by 2002:a05:6402:b83:: with SMTP id cf3mr9240826edb.12.1628200918472;
- Thu, 05 Aug 2021 15:01:58 -0700 (PDT)
+        h=x-gm-message-state:mime-version:reply-to:from:date:message-id
+         :subject:to;
+        bh=/oMubRmlLM5EZ/UdY6Fj3wsfS2kyoMzN9ASXgZ3xneY=;
+        b=BSZrhdgFUQ+iuAWMKj0hAt1+x+czgyUqYD+0t3mVNXp6UnjKM+q70cXvF3cYKJe9zr
+         OgdiyBn3I68uXtt42Wv4kAR9mDQ5JVP6UFQMXR+8s+hyjtyI3v8wpT6qjmK7tpWp3dkb
+         NeVaFGGx4LCF6yo6JTtT+bip+C0w2zD3ltZ1Bt3psjnrpnJmvX+fTJGWZY1+oeX6IWci
+         4KzyH0VnaRaZ/qGSL/shwfsPRUrPPA291yFRz3svnY+74yKzXbHtGZ1qiAD2w++GCyDh
+         KnOtmAYDL3aOliPwDjP5IjZeh7opQ/sFKcmH88QgHXOL2hYsc68JKRpyqXpVr9xJtI3v
+         7uaw==
+X-Gm-Message-State: AOAM531828UUUsbvRSKe6136wjL9WFoi+tTc920vQ14ataJ9hMDwV533
+        hUb8zbMc1mRid7XeevCYnTOmK5X3nhG+Pexsaw==
+X-Google-Smtp-Source: ABdhPJx229jhz+o+nQwdgIkoqR5HwLh3S4+JGHt0eG+5fB4X3WTmNmInTj1ZpuXDIVm9CYEhhFZzLyuZYbLrplGdX6A=
+X-Received: by 2002:a05:6402:3094:: with SMTP id de20mr13526197edb.272.1628259031175;
+ Fri, 06 Aug 2021 07:10:31 -0700 (PDT)
 MIME-Version: 1.0
-References: <cover.1621363275.git.rgb@redhat.com> <2300b1083a32aade7ae7efb95826e8f3f260b1df.1621363275.git.rgb@redhat.com>
-In-Reply-To: <2300b1083a32aade7ae7efb95826e8f3f260b1df.1621363275.git.rgb@redhat.com>
-From:   Paul Moore <paul@paul-moore.com>
-Date:   Thu, 5 Aug 2021 18:01:47 -0400
-Message-ID: <CAHC9VhRDYYOpUvCkcWw=2a_P0AJxtA5N5y_Kj5PAG-0BQ02COQ@mail.gmail.com>
-Subject: Re: [PATCH v4 1/3] audit: replace magic audit syscall class numbers
- with macros
-To:     Richard Guy Briggs <rgb@redhat.com>
-Cc:     Linux-Audit Mailing List <linux-audit@redhat.com>,
-        LKML <linux-kernel@vger.kernel.org>,
-        linux-fsdevel@vger.kernel.org, Eric Paris <eparis@parisplace.org>,
-        Steve Grubb <sgrubb@redhat.com>,
-        Alexander Viro <viro@zeniv.linux.org.uk>,
-        Eric Paris <eparis@redhat.com>, x86@kernel.org,
-        linux-alpha@vger.kernel.org, linux-ia64@vger.kernel.org,
-        linux-parisc@vger.kernel.org, linuxppc-dev@lists.ozlabs.org,
-        linux-s390@vger.kernel.org, sparclinux@vger.kernel.org,
-        Aleksa Sarai <cyphar@cyphar.com>,
-        Arnd Bergmann <arnd@kernel.org>
+Received: by 2002:a54:26cf:0:0:0:0:0 with HTTP; Fri, 6 Aug 2021 07:10:30 -0700 (PDT)
+Reply-To: mrmaxwellwatford@gmail.com
+From:   Maxwell Watford <orchowskiruthi@gmail.com>
+Date:   Fri, 6 Aug 2021 14:10:30 +0000
+Message-ID: <CA+q9Q6OJB6Z0+y=5_3MBDNGkAUG9rVxg7bZVma38uDOvJ+sOGw@mail.gmail.com>
+Subject: i need your reply
+To:     orchowskiruthi@gmail.com
 Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-alpha.vger.kernel.org>
 X-Mailing-List: linux-alpha@vger.kernel.org
 
-On Wed, May 19, 2021 at 4:01 PM Richard Guy Briggs <rgb@redhat.com> wrote:
->
-> Replace audit syscall class magic numbers with macros.
->
-> This required putting the macros into new header file
-> include/linux/auditsc_classmacros.h since the syscall macros were
-> included for both 64 bit and 32 bit in any compat code, causing
-> redefinition warnings.
->
-> Signed-off-by: Richard Guy Briggs <rgb@redhat.com>
-> Link: https://lore.kernel.org/r/2300b1083a32aade7ae7efb95826e8f3f260b1df.1621363275.git.rgb@redhat.com
-> ---
->  MAINTAINERS                         |  1 +
->  arch/alpha/kernel/audit.c           |  8 ++++----
->  arch/ia64/kernel/audit.c            |  8 ++++----
->  arch/parisc/kernel/audit.c          |  8 ++++----
->  arch/parisc/kernel/compat_audit.c   |  9 +++++----
->  arch/powerpc/kernel/audit.c         | 10 +++++-----
->  arch/powerpc/kernel/compat_audit.c  | 11 ++++++-----
->  arch/s390/kernel/audit.c            | 10 +++++-----
->  arch/s390/kernel/compat_audit.c     | 11 ++++++-----
->  arch/sparc/kernel/audit.c           | 10 +++++-----
->  arch/sparc/kernel/compat_audit.c    | 11 ++++++-----
->  arch/x86/ia32/audit.c               | 11 ++++++-----
->  arch/x86/kernel/audit_64.c          |  8 ++++----
->  include/linux/audit.h               |  1 +
->  include/linux/auditsc_classmacros.h | 23 +++++++++++++++++++++++
->  kernel/auditsc.c                    | 12 ++++++------
->  lib/audit.c                         | 10 +++++-----
->  lib/compat_audit.c                  | 11 ++++++-----
->  18 files changed, 102 insertions(+), 71 deletions(-)
->  create mode 100644 include/linux/auditsc_classmacros.h
+Greetings,
 
-...
+We are writing to you from Ecowas Finance Controller Office Lome Togo,
+because we have received a file from the Ministry of Finance Lome-
+Togo, concerning an Inherited Fund bearing your name on it, And after
+our verifications, we found out that the funds belong to you.
 
-> diff --git a/include/linux/auditsc_classmacros.h b/include/linux/auditsc_classmacros.h
-> new file mode 100644
-> index 000000000000..18757d270961
-> --- /dev/null
-> +++ b/include/linux/auditsc_classmacros.h
-> @@ -0,0 +1,23 @@
-> +/* SPDX-License-Identifier: GPL-2.0-or-later */
-> +/* auditsc_classmacros.h -- Auditing support syscall macros
-> + *
-> + * Copyright 2021 Red Hat Inc., Durham, North Carolina.
-> + * All Rights Reserved.
-> + *
-> + * Author: Richard Guy Briggs <rgb@redhat.com>
-> + */
-> +#ifndef _LINUX_AUDITSCM_H_
-> +#define _LINUX_AUDITSCM_H_
-> +
-> +enum auditsc_class_t {
-> +       AUDITSC_NATIVE = 0,
-> +       AUDITSC_COMPAT,
-> +       AUDITSC_OPEN,
-> +       AUDITSC_OPENAT,
-> +       AUDITSC_SOCKETCALL,
-> +       AUDITSC_EXECVE,
-> +
-> +       AUDITSC_NVALS /* count */
-> +};
-> +
-> +#endif
+It has been awarded and I will like to guide you to claim the funds.
+Please contact me at my private email address
+(mrmaxwellwatford@gmail.com) for more information and directive
 
-My apologies Richard, for some reason I had it in my mind that this
-series was waiting on you to answer a question and/or respin; however,
-now that I'm clearing my patch queues looking for any stragglers I see
-that isn't the case.  Looking over the patchset I think it looks okay
-to me, my only concern is that "auditsc_classmacros.h" is an awfully
-specific header file name and could prove to be annoying if we want to
-add to it in the future.  What do you think about something like
-"audit_arch.h" instead?
-
-If that change is okay with you I can go ahead and do the rename while
-I'm merging the patches, I'll consider it penance for letting this
-patchset sit for so long :/
-
--- 
-paul moore
-www.paul-moore.com
+I am looking forward to your urgent reply,
+Best regards
+Mr Maxwell Watford
