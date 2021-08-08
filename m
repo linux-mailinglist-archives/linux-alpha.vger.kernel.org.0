@@ -2,70 +2,110 @@ Return-Path: <linux-alpha-owner@vger.kernel.org>
 X-Original-To: lists+linux-alpha@lfdr.de
 Delivered-To: lists+linux-alpha@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id EF61D3E2C2B
-	for <lists+linux-alpha@lfdr.de>; Fri,  6 Aug 2021 16:11:08 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 705543E3C46
+	for <lists+linux-alpha@lfdr.de>; Sun,  8 Aug 2021 20:52:57 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S236968AbhHFOLI (ORCPT <rfc822;lists+linux-alpha@lfdr.de>);
-        Fri, 6 Aug 2021 10:11:08 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54824 "EHLO
+        id S230381AbhHHSxP (ORCPT <rfc822;lists+linux-alpha@lfdr.de>);
+        Sun, 8 Aug 2021 14:53:15 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36928 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S236797AbhHFOKw (ORCPT
-        <rfc822;linux-alpha@vger.kernel.org>); Fri, 6 Aug 2021 10:10:52 -0400
-Received: from mail-ed1-x536.google.com (mail-ed1-x536.google.com [IPv6:2a00:1450:4864:20::536])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0D4E1C0617B1
-        for <linux-alpha@vger.kernel.org>; Fri,  6 Aug 2021 07:10:33 -0700 (PDT)
-Received: by mail-ed1-x536.google.com with SMTP id f13so13161328edq.13
-        for <linux-alpha@vger.kernel.org>; Fri, 06 Aug 2021 07:10:32 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=mime-version:reply-to:from:date:message-id:subject:to;
-        bh=/oMubRmlLM5EZ/UdY6Fj3wsfS2kyoMzN9ASXgZ3xneY=;
-        b=q3xyYt1HrVQnyL1KZndhIFKim0Z6RZXWCajZa6+jKaUt/xPBmWrU2b2TpwIqgxHoY3
-         6sUeXJPoUC3zz+xqx5Y/7bh16ON7BcCcP2liy5jl/yv+hyxVGmxIcBCDJXoapuOO0RIl
-         REN9Zv+ClhtVVEMybVDTEUTnyt+YraWqvgNO4CiPEvSNbjJp0ymaQzc4FwPALfOqM4La
-         f+KzIMXFoGuca5XlZdCXXnnqi+xUiOGsem/cV9JUjNFonSZWOzEGazowyEr2eG3dp5DR
-         pLBa7cN2FmOkeXw/dSFAaB7k29Eu0Yivashc8iQbXHlro4ZoI7aiyRP21+G8wGDlMmu6
-         HPDQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:reply-to:from:date:message-id
-         :subject:to;
-        bh=/oMubRmlLM5EZ/UdY6Fj3wsfS2kyoMzN9ASXgZ3xneY=;
-        b=BSZrhdgFUQ+iuAWMKj0hAt1+x+czgyUqYD+0t3mVNXp6UnjKM+q70cXvF3cYKJe9zr
-         OgdiyBn3I68uXtt42Wv4kAR9mDQ5JVP6UFQMXR+8s+hyjtyI3v8wpT6qjmK7tpWp3dkb
-         NeVaFGGx4LCF6yo6JTtT+bip+C0w2zD3ltZ1Bt3psjnrpnJmvX+fTJGWZY1+oeX6IWci
-         4KzyH0VnaRaZ/qGSL/shwfsPRUrPPA291yFRz3svnY+74yKzXbHtGZ1qiAD2w++GCyDh
-         KnOtmAYDL3aOliPwDjP5IjZeh7opQ/sFKcmH88QgHXOL2hYsc68JKRpyqXpVr9xJtI3v
-         7uaw==
-X-Gm-Message-State: AOAM531828UUUsbvRSKe6136wjL9WFoi+tTc920vQ14ataJ9hMDwV533
-        hUb8zbMc1mRid7XeevCYnTOmK5X3nhG+Pexsaw==
-X-Google-Smtp-Source: ABdhPJx229jhz+o+nQwdgIkoqR5HwLh3S4+JGHt0eG+5fB4X3WTmNmInTj1ZpuXDIVm9CYEhhFZzLyuZYbLrplGdX6A=
-X-Received: by 2002:a05:6402:3094:: with SMTP id de20mr13526197edb.272.1628259031175;
- Fri, 06 Aug 2021 07:10:31 -0700 (PDT)
+        with ESMTP id S229977AbhHHSxO (ORCPT
+        <rfc822;linux-alpha@vger.kernel.org>); Sun, 8 Aug 2021 14:53:14 -0400
+Received: from bombadil.infradead.org (bombadil.infradead.org [IPv6:2607:7c80:54:e::133])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C40E4C061760;
+        Sun,  8 Aug 2021 11:52:55 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+        d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
+        MIME-Version:Message-Id:Date:Subject:Cc:To:From:Sender:Reply-To:Content-Type:
+        Content-ID:Content-Description:In-Reply-To:References;
+        bh=7xHe0IsDz2E3Hhb6jeb89h6VK3JMpAzRGyDvDgecJCU=; b=iuT8vzKYUjX2u/kiPCEn3zxUn3
+        TXQ/XjzmnfLmxPsAokw5XzoMJ5mtpUdjlgvRK9KfhCyYUPVV1RlueLLbsuVXTthaHuN2NHrxOvpzt
+        XrB1hyapzBVbi7Pga5abqs+xO+Mc/mINHj0HkzuTosrlroda/eYFi18r7vG8xq+FklbZQ6XDX9Suo
+        Qk//BRq4N3p5+UwZ9DMjDdC2aFPzNAGQnIsbLSDNNZmj+tzvEzbUccA1xz7hTEHTExBgbc40OsSQn
+        euqAj0UudVQBbHDfPmGE87Xy/QBg029GvRApi9Srf6bGsuAR8RW+l5sGR+D80AT8ar3/fGGDdeCFt
+        IWix9Wvw==;
+Received: from [2601:1c0:6280:3f0:e65e:37ff:febd:ee53] (helo=bombadil.infradead.org)
+        by bombadil.infradead.org with esmtpsa (Exim 4.94.2 #2 (Red Hat Linux))
+        id 1mCnum-00GFQT-GA; Sun, 08 Aug 2021 18:52:52 +0000
+From:   Randy Dunlap <rdunlap@infradead.org>
+To:     linux-kernel@vger.kernel.org
+Cc:     Randy Dunlap <rdunlap@infradead.org>,
+        Richard Henderson <rth@twiddle.net>,
+        Ivan Kokshaysky <ink@jurassic.park.msu.ru>,
+        Matt Turner <mattst88@gmail.com>, linux-alpha@vger.kernel.org,
+        Andrew Morton <akpm@linux-foundation.org>
+Subject: [PATCH] alpha: pci-sysfs: fix all kernel-doc warnings
+Date:   Sun,  8 Aug 2021 11:52:49 -0700
+Message-Id: <20210808185249.31442-1-rdunlap@infradead.org>
+X-Mailer: git-send-email 2.31.1
 MIME-Version: 1.0
-Received: by 2002:a54:26cf:0:0:0:0:0 with HTTP; Fri, 6 Aug 2021 07:10:30 -0700 (PDT)
-Reply-To: mrmaxwellwatford@gmail.com
-From:   Maxwell Watford <orchowskiruthi@gmail.com>
-Date:   Fri, 6 Aug 2021 14:10:30 +0000
-Message-ID: <CA+q9Q6OJB6Z0+y=5_3MBDNGkAUG9rVxg7bZVma38uDOvJ+sOGw@mail.gmail.com>
-Subject: i need your reply
-To:     orchowskiruthi@gmail.com
-Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-alpha.vger.kernel.org>
 X-Mailing-List: linux-alpha@vger.kernel.org
 
-Greetings,
+Fix all kernel-doc warnings in arch/alpha/kernel/pci-sysfs.c:
 
-We are writing to you from Ecowas Finance Controller Office Lome Togo,
-because we have received a file from the Ministry of Finance Lome-
-Togo, concerning an Inherited Fund bearing your name on it, And after
-our verifications, we found out that the funds belong to you.
+../arch/alpha/kernel/pci-sysfs.c:67: warning: No description found for return value of 'pci_mmap_resource'
+../arch/alpha/kernel/pci-sysfs.c:115: warning: Function parameter or member 'pdev' not described in 'pci_remove_resource_files'
+../arch/alpha/kernel/pci-sysfs.c:115: warning: Excess function parameter 'dev' description in 'pci_remove_resource_files'
+../arch/alpha/kernel/pci-sysfs.c:230: warning: Function parameter or member 'pdev' not described in 'pci_create_resource_files'
+../arch/alpha/kernel/pci-sysfs.c:230: warning: Excess function parameter 'dev' description in 'pci_create_resource_files'
+../arch/alpha/kernel/pci-sysfs.c:232: warning: No description found for return value of 'pci_create_resource_files'
+../arch/alpha/kernel/pci-sysfs.c:305: warning: Function parameter or member 'bus' not described in 'pci_adjust_legacy_attr'
+../arch/alpha/kernel/pci-sysfs.c:305: warning: Excess function parameter 'b' description in 'pci_adjust_legacy_attr'
 
-It has been awarded and I will like to guide you to claim the funds.
-Please contact me at my private email address
-(mrmaxwellwatford@gmail.com) for more information and directive
+Signed-off-by: Randy Dunlap <rdunlap@infradead.org>
+Cc: Richard Henderson <rth@twiddle.net>
+Cc: Ivan Kokshaysky <ink@jurassic.park.msu.ru>
+Cc: Matt Turner <mattst88@gmail.com>
+Cc: linux-alpha@vger.kernel.org
+Cc: Andrew Morton <akpm@linux-foundation.org>
+---
+ arch/alpha/kernel/pci-sysfs.c |   12 ++++++++----
+ 1 file changed, 8 insertions(+), 4 deletions(-)
 
-I am looking forward to your urgent reply,
-Best regards
-Mr Maxwell Watford
+--- linux-next-20210806.orig/arch/alpha/kernel/pci-sysfs.c
++++ linux-next-20210806/arch/alpha/kernel/pci-sysfs.c
+@@ -60,6 +60,8 @@ static int __pci_mmap_fits(struct pci_de
+  * @sparse: address space type
+  *
+  * Use the bus mapping routines to map a PCI resource into userspace.
++ *
++ * Return: %0 on success, negative error code otherwise
+  */
+ static int pci_mmap_resource(struct kobject *kobj,
+ 			     struct bin_attribute *attr,
+@@ -106,7 +108,7 @@ static int pci_mmap_resource_dense(struc
+ 
+ /**
+  * pci_remove_resource_files - cleanup resource files
+- * @dev: dev to cleanup
++ * @pdev: pci_dev to cleanup
+  *
+  * If we created resource files for @dev, remove them from sysfs and
+  * free their resources.
+@@ -221,10 +223,12 @@ static int pci_create_attr(struct pci_de
+ }
+ 
+ /**
+- * pci_create_resource_files - create resource files in sysfs for @dev
+- * @dev: dev in question
++ * pci_create_resource_files - create resource files in sysfs for @pdev
++ * @pdev: pci_dev in question
+  *
+  * Walk the resources in @dev creating files for each resource available.
++ *
++ * Return: %0 on success, or negative error code
+  */
+ int pci_create_resource_files(struct pci_dev *pdev)
+ {
+@@ -296,7 +300,7 @@ int pci_mmap_legacy_page_range(struct pc
+ 
+ /**
+  * pci_adjust_legacy_attr - adjustment of legacy file attributes
+- * @b: bus to create files under
++ * @bus: bus to create files under
+  * @mmap_type: I/O port or memory
+  *
+  * Adjust file name and size for sparse mappings.
