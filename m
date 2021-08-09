@@ -2,77 +2,43 @@ Return-Path: <linux-alpha-owner@vger.kernel.org>
 X-Original-To: lists+linux-alpha@lfdr.de
 Delivered-To: lists+linux-alpha@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 8E1143E3E1B
-	for <lists+linux-alpha@lfdr.de>; Mon,  9 Aug 2021 05:08:26 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id EBAB63E4870
+	for <lists+linux-alpha@lfdr.de>; Mon,  9 Aug 2021 17:16:28 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229977AbhHIDIp (ORCPT <rfc822;lists+linux-alpha@lfdr.de>);
-        Sun, 8 Aug 2021 23:08:45 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59708 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229942AbhHIDIo (ORCPT
-        <rfc822;linux-alpha@vger.kernel.org>); Sun, 8 Aug 2021 23:08:44 -0400
-Received: from bombadil.infradead.org (bombadil.infradead.org [IPv6:2607:7c80:54:e::133])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 30740C061757;
-        Sun,  8 Aug 2021 20:08:25 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-        d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
-        MIME-Version:Message-Id:Date:Subject:Cc:To:From:Sender:Reply-To:Content-Type:
-        Content-ID:Content-Description:In-Reply-To:References;
-        bh=horbXQOjZIRZ8FBSbpv2mepupGhB9Lf75u+uewvzT7E=; b=pN4ZQh9wtiZxDIDzmK+R3OZ5F/
-        eeZMoe7hIh2BRlKUexii6Eom7jOGOxa1MbCX+B8wS88BXdZOHMd4lzs7/npXFVbHyH4JLUCT9t5NO
-        wbsle8wghUocp5bSnskvw5ErHxzAw3HVtoFXlSxRgdgJRIuoKq4DZpXhR35dSOC4iafTGz3ogcusM
-        AgMj0F7WL9WbTToxQcnYxXDLjtqY/0M6ZYwIFPV5T6DXm6SK4VOGazamJhqJ6RAI2i1mlAMQgePqg
-        ZFyMv8bDEqH45vyPNeEblm7kJHdQU+ULOhfUR5lNprUoni14ld212WMiOyM29ZiD3q65kR2Xa+cY1
-        8N+R62Eg==;
-Received: from [2601:1c0:6280:3f0::aa0b] (helo=bombadil.infradead.org)
-        by bombadil.infradead.org with esmtpsa (Exim 4.94.2 #2 (Red Hat Linux))
-        id 1mCveJ-00Gy3u-Jh; Mon, 09 Aug 2021 03:08:23 +0000
-From:   Randy Dunlap <rdunlap@infradead.org>
-To:     linux-kernel@vger.kernel.org
-Cc:     Randy Dunlap <rdunlap@infradead.org>,
-        Richard Henderson <rth@twiddle.net>,
-        Ivan Kokshaysky <ink@jurassic.park.msu.ru>,
-        Matt Turner <mattst88@gmail.com>, linux-alpha@vger.kernel.org,
-        Andrew Morton <akpm@linux-foundation.org>,
-        David Airlie <airlied@linux.ie>
-Subject: [PATCH] alpha: agp: make empty macros use do-while-0 style
-Date:   Sun,  8 Aug 2021 20:08:22 -0700
-Message-Id: <20210809030822.20658-1-rdunlap@infradead.org>
-X-Mailer: git-send-email 2.31.1
+        id S235455AbhHIPQs (ORCPT <rfc822;lists+linux-alpha@lfdr.de>);
+        Mon, 9 Aug 2021 11:16:48 -0400
+Received: from verein.lst.de ([213.95.11.211]:60961 "EHLO verein.lst.de"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S233058AbhHIPQr (ORCPT <rfc822;linux-alpha@vger.kernel.org>);
+        Mon, 9 Aug 2021 11:16:47 -0400
+Received: by verein.lst.de (Postfix, from userid 2407)
+        id 6D60467357; Mon,  9 Aug 2021 17:16:22 +0200 (CEST)
+Date:   Mon, 9 Aug 2021 17:16:22 +0200
+From:   Christoph Hellwig <hch@lst.de>
+To:     Logan Gunthorpe <logang@deltatee.com>
+Cc:     linux-kernel@vger.kernel.org, linux-alpha@vger.kernel.org,
+        linux-arm-kernel@lists.infradead.org, linux-ia64@vger.kernel.org,
+        linux-mips@vger.kernel.org, linuxppc-dev@lists.ozlabs.org,
+        linux-s390@vger.kernel.org, sparclinux@vger.kernel.org,
+        iommu@lists.linux-foundation.org, linux-parisc@vger.kernel.org,
+        xen-devel@lists.xenproject.org, Christoph Hellwig <hch@lst.de>,
+        Marek Szyprowski <m.szyprowski@samsung.com>,
+        Robin Murphy <robin.murphy@arm.com>,
+        Stephen Bates <sbates@raithlin.com>,
+        Martin Oliveira <martin.oliveira@eideticom.com>
+Subject: Re: [PATCH v3 00/21] .map_sg() error cleanup
+Message-ID: <20210809151622.GB22445@lst.de>
+References: <20210729201539.5602-1-logang@deltatee.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20210729201539.5602-1-logang@deltatee.com>
+User-Agent: Mutt/1.5.17 (2007-11-01)
 Precedence: bulk
 List-ID: <linux-alpha.vger.kernel.org>
 X-Mailing-List: linux-alpha@vger.kernel.org
 
-Copy these macros from ia64/include/asm/agp.h to avoid the
-"empty-body" in 'if' statment warning.
+Thanks,
 
-drivers/char/agp/generic.c: In function 'agp_generic_destroy_page':
-../drivers/char/agp/generic.c:1265:42: warning: suggest braces around empty body in an 'if' statement [-Wempty-body]
- 1265 |                 unmap_page_from_agp(page);
-
-Signed-off-by: Randy Dunlap <rdunlap@infradead.org>
-Cc: Richard Henderson <rth@twiddle.net>
-Cc: Ivan Kokshaysky <ink@jurassic.park.msu.ru>
-Cc: Matt Turner <mattst88@gmail.com>
-Cc: linux-alpha@vger.kernel.org
-Cc: Andrew Morton <akpm@linux-foundation.org>
-Cc: David Airlie <airlied@linux.ie>
----
- arch/alpha/include/asm/agp.h |    4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
-
---- linux-next-20210806.orig/arch/alpha/include/asm/agp.h
-+++ linux-next-20210806/arch/alpha/include/asm/agp.h
-@@ -6,8 +6,8 @@
- 
- /* dummy for now */
- 
--#define map_page_into_agp(page) 
--#define unmap_page_from_agp(page) 
-+#define map_page_into_agp(page)		do { } while (0)
-+#define unmap_page_from_agp(page)	do { } while (0)
- #define flush_agp_cache() mb()
- 
- /* GATT allocation. Returns/accepts GATT kernel virtual address. */
+I've applied this to the dma-mapping tree with a few minor cosmetic
+tweaks.
