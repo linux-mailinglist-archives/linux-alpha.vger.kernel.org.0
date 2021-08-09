@@ -2,41 +2,42 @@ Return-Path: <linux-alpha-owner@vger.kernel.org>
 X-Original-To: lists+linux-alpha@lfdr.de
 Delivered-To: lists+linux-alpha@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 705543E3C46
-	for <lists+linux-alpha@lfdr.de>; Sun,  8 Aug 2021 20:52:57 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 8E1143E3E1B
+	for <lists+linux-alpha@lfdr.de>; Mon,  9 Aug 2021 05:08:26 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230381AbhHHSxP (ORCPT <rfc822;lists+linux-alpha@lfdr.de>);
-        Sun, 8 Aug 2021 14:53:15 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36928 "EHLO
+        id S229977AbhHIDIp (ORCPT <rfc822;lists+linux-alpha@lfdr.de>);
+        Sun, 8 Aug 2021 23:08:45 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59708 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229977AbhHHSxO (ORCPT
-        <rfc822;linux-alpha@vger.kernel.org>); Sun, 8 Aug 2021 14:53:14 -0400
+        with ESMTP id S229942AbhHIDIo (ORCPT
+        <rfc822;linux-alpha@vger.kernel.org>); Sun, 8 Aug 2021 23:08:44 -0400
 Received: from bombadil.infradead.org (bombadil.infradead.org [IPv6:2607:7c80:54:e::133])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C40E4C061760;
-        Sun,  8 Aug 2021 11:52:55 -0700 (PDT)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 30740C061757;
+        Sun,  8 Aug 2021 20:08:25 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
         d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
         MIME-Version:Message-Id:Date:Subject:Cc:To:From:Sender:Reply-To:Content-Type:
         Content-ID:Content-Description:In-Reply-To:References;
-        bh=7xHe0IsDz2E3Hhb6jeb89h6VK3JMpAzRGyDvDgecJCU=; b=iuT8vzKYUjX2u/kiPCEn3zxUn3
-        TXQ/XjzmnfLmxPsAokw5XzoMJ5mtpUdjlgvRK9KfhCyYUPVV1RlueLLbsuVXTthaHuN2NHrxOvpzt
-        XrB1hyapzBVbi7Pga5abqs+xO+Mc/mINHj0HkzuTosrlroda/eYFi18r7vG8xq+FklbZQ6XDX9Suo
-        Qk//BRq4N3p5+UwZ9DMjDdC2aFPzNAGQnIsbLSDNNZmj+tzvEzbUccA1xz7hTEHTExBgbc40OsSQn
-        euqAj0UudVQBbHDfPmGE87Xy/QBg029GvRApi9Srf6bGsuAR8RW+l5sGR+D80AT8ar3/fGGDdeCFt
-        IWix9Wvw==;
-Received: from [2601:1c0:6280:3f0:e65e:37ff:febd:ee53] (helo=bombadil.infradead.org)
+        bh=horbXQOjZIRZ8FBSbpv2mepupGhB9Lf75u+uewvzT7E=; b=pN4ZQh9wtiZxDIDzmK+R3OZ5F/
+        eeZMoe7hIh2BRlKUexii6Eom7jOGOxa1MbCX+B8wS88BXdZOHMd4lzs7/npXFVbHyH4JLUCT9t5NO
+        wbsle8wghUocp5bSnskvw5ErHxzAw3HVtoFXlSxRgdgJRIuoKq4DZpXhR35dSOC4iafTGz3ogcusM
+        AgMj0F7WL9WbTToxQcnYxXDLjtqY/0M6ZYwIFPV5T6DXm6SK4VOGazamJhqJ6RAI2i1mlAMQgePqg
+        ZFyMv8bDEqH45vyPNeEblm7kJHdQU+ULOhfUR5lNprUoni14ld212WMiOyM29ZiD3q65kR2Xa+cY1
+        8N+R62Eg==;
+Received: from [2601:1c0:6280:3f0::aa0b] (helo=bombadil.infradead.org)
         by bombadil.infradead.org with esmtpsa (Exim 4.94.2 #2 (Red Hat Linux))
-        id 1mCnum-00GFQT-GA; Sun, 08 Aug 2021 18:52:52 +0000
+        id 1mCveJ-00Gy3u-Jh; Mon, 09 Aug 2021 03:08:23 +0000
 From:   Randy Dunlap <rdunlap@infradead.org>
 To:     linux-kernel@vger.kernel.org
 Cc:     Randy Dunlap <rdunlap@infradead.org>,
         Richard Henderson <rth@twiddle.net>,
         Ivan Kokshaysky <ink@jurassic.park.msu.ru>,
         Matt Turner <mattst88@gmail.com>, linux-alpha@vger.kernel.org,
-        Andrew Morton <akpm@linux-foundation.org>
-Subject: [PATCH] alpha: pci-sysfs: fix all kernel-doc warnings
-Date:   Sun,  8 Aug 2021 11:52:49 -0700
-Message-Id: <20210808185249.31442-1-rdunlap@infradead.org>
+        Andrew Morton <akpm@linux-foundation.org>,
+        David Airlie <airlied@linux.ie>
+Subject: [PATCH] alpha: agp: make empty macros use do-while-0 style
+Date:   Sun,  8 Aug 2021 20:08:22 -0700
+Message-Id: <20210809030822.20658-1-rdunlap@infradead.org>
 X-Mailer: git-send-email 2.31.1
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
@@ -44,16 +45,12 @@ Precedence: bulk
 List-ID: <linux-alpha.vger.kernel.org>
 X-Mailing-List: linux-alpha@vger.kernel.org
 
-Fix all kernel-doc warnings in arch/alpha/kernel/pci-sysfs.c:
+Copy these macros from ia64/include/asm/agp.h to avoid the
+"empty-body" in 'if' statment warning.
 
-../arch/alpha/kernel/pci-sysfs.c:67: warning: No description found for return value of 'pci_mmap_resource'
-../arch/alpha/kernel/pci-sysfs.c:115: warning: Function parameter or member 'pdev' not described in 'pci_remove_resource_files'
-../arch/alpha/kernel/pci-sysfs.c:115: warning: Excess function parameter 'dev' description in 'pci_remove_resource_files'
-../arch/alpha/kernel/pci-sysfs.c:230: warning: Function parameter or member 'pdev' not described in 'pci_create_resource_files'
-../arch/alpha/kernel/pci-sysfs.c:230: warning: Excess function parameter 'dev' description in 'pci_create_resource_files'
-../arch/alpha/kernel/pci-sysfs.c:232: warning: No description found for return value of 'pci_create_resource_files'
-../arch/alpha/kernel/pci-sysfs.c:305: warning: Function parameter or member 'bus' not described in 'pci_adjust_legacy_attr'
-../arch/alpha/kernel/pci-sysfs.c:305: warning: Excess function parameter 'b' description in 'pci_adjust_legacy_attr'
+drivers/char/agp/generic.c: In function 'agp_generic_destroy_page':
+../drivers/char/agp/generic.c:1265:42: warning: suggest braces around empty body in an 'if' statement [-Wempty-body]
+ 1265 |                 unmap_page_from_agp(page);
 
 Signed-off-by: Randy Dunlap <rdunlap@infradead.org>
 Cc: Richard Henderson <rth@twiddle.net>
@@ -61,51 +58,21 @@ Cc: Ivan Kokshaysky <ink@jurassic.park.msu.ru>
 Cc: Matt Turner <mattst88@gmail.com>
 Cc: linux-alpha@vger.kernel.org
 Cc: Andrew Morton <akpm@linux-foundation.org>
+Cc: David Airlie <airlied@linux.ie>
 ---
- arch/alpha/kernel/pci-sysfs.c |   12 ++++++++----
- 1 file changed, 8 insertions(+), 4 deletions(-)
+ arch/alpha/include/asm/agp.h |    4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
---- linux-next-20210806.orig/arch/alpha/kernel/pci-sysfs.c
-+++ linux-next-20210806/arch/alpha/kernel/pci-sysfs.c
-@@ -60,6 +60,8 @@ static int __pci_mmap_fits(struct pci_de
-  * @sparse: address space type
-  *
-  * Use the bus mapping routines to map a PCI resource into userspace.
-+ *
-+ * Return: %0 on success, negative error code otherwise
-  */
- static int pci_mmap_resource(struct kobject *kobj,
- 			     struct bin_attribute *attr,
-@@ -106,7 +108,7 @@ static int pci_mmap_resource_dense(struc
+--- linux-next-20210806.orig/arch/alpha/include/asm/agp.h
++++ linux-next-20210806/arch/alpha/include/asm/agp.h
+@@ -6,8 +6,8 @@
  
- /**
-  * pci_remove_resource_files - cleanup resource files
-- * @dev: dev to cleanup
-+ * @pdev: pci_dev to cleanup
-  *
-  * If we created resource files for @dev, remove them from sysfs and
-  * free their resources.
-@@ -221,10 +223,12 @@ static int pci_create_attr(struct pci_de
- }
+ /* dummy for now */
  
- /**
-- * pci_create_resource_files - create resource files in sysfs for @dev
-- * @dev: dev in question
-+ * pci_create_resource_files - create resource files in sysfs for @pdev
-+ * @pdev: pci_dev in question
-  *
-  * Walk the resources in @dev creating files for each resource available.
-+ *
-+ * Return: %0 on success, or negative error code
-  */
- int pci_create_resource_files(struct pci_dev *pdev)
- {
-@@ -296,7 +300,7 @@ int pci_mmap_legacy_page_range(struct pc
+-#define map_page_into_agp(page) 
+-#define unmap_page_from_agp(page) 
++#define map_page_into_agp(page)		do { } while (0)
++#define unmap_page_from_agp(page)	do { } while (0)
+ #define flush_agp_cache() mb()
  
- /**
-  * pci_adjust_legacy_attr - adjustment of legacy file attributes
-- * @b: bus to create files under
-+ * @bus: bus to create files under
-  * @mmap_type: I/O port or memory
-  *
-  * Adjust file name and size for sparse mappings.
+ /* GATT allocation. Returns/accepts GATT kernel virtual address. */
