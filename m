@@ -2,82 +2,89 @@ Return-Path: <linux-alpha-owner@vger.kernel.org>
 X-Original-To: lists+linux-alpha@lfdr.de
 Delivered-To: lists+linux-alpha@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 9FD283EB255
-	for <lists+linux-alpha@lfdr.de>; Fri, 13 Aug 2021 10:11:56 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id D4BCD3EBF25
+	for <lists+linux-alpha@lfdr.de>; Sat, 14 Aug 2021 03:01:15 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S239705AbhHMIMV (ORCPT <rfc822;lists+linux-alpha@lfdr.de>);
-        Fri, 13 Aug 2021 04:12:21 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35062 "EHLO
+        id S236097AbhHNBBm (ORCPT <rfc822;lists+linux-alpha@lfdr.de>);
+        Fri, 13 Aug 2021 21:01:42 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40128 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S239668AbhHMIMV (ORCPT
+        with ESMTP id S235870AbhHNBBl (ORCPT
         <rfc822;linux-alpha@vger.kernel.org>);
-        Fri, 13 Aug 2021 04:12:21 -0400
-Received: from casper.infradead.org (casper.infradead.org [IPv6:2001:8b0:10b:1236::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1C161C061756;
-        Fri, 13 Aug 2021 01:11:55 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-        d=infradead.org; s=casper.20170209; h=In-Reply-To:Content-Type:MIME-Version:
-        References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
-        Content-Transfer-Encoding:Content-ID:Content-Description;
-        bh=J5iMSjwPMvkOFpq0TMlTZtl3sxje2OPtaEgmn6rI3kw=; b=tLoy64zP56BA6COvXf26VAiBG9
-        oKjbIjnNL8arRxo50od3oQ9WiLXRnnIQhwWpPCi11t8FmIOTy5frodVYORATqo1cnyknkdAttACMh
-        IuMWI23bPAIcxV2I4FQ55yZj75VZCoja9nk9jCbJl2kLpcbtCS6bW+/E3OtXurRenuXwnHahWGhHg
-        VmR8RasuVRLggxW1RHCjYBVYq+of6asU83tj5SwmMaoQZlZNE/hmhjV94fEjEqMYdxvBoRzvKKJgC
-        EoAexDTExue7OUZO7UKAGrfL514yBqR5kWkuh5KUCOhD+Khwegyzwh0IZDHIBx/Bt0akrVQgr2x1g
-        9A5BlXNA==;
-Received: from hch by casper.infradead.org with local (Exim 4.94.2 #2 (Red Hat Linux))
-        id 1mESEG-00FTaW-Kf; Fri, 13 Aug 2021 08:07:59 +0000
-Date:   Fri, 13 Aug 2021 09:07:48 +0100
-From:   Christoph Hellwig <hch@infradead.org>
-To:     Kuppuswamy Sathyanarayanan 
-        <sathyanarayanan.kuppuswamy@linux.intel.com>
-Cc:     Thomas Gleixner <tglx@linutronix.de>,
-        Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
-        Peter Zijlstra <peterz@infradead.org>,
-        Andy Lutomirski <luto@kernel.org>,
-        Bjorn Helgaas <bhelgaas@google.com>,
-        Richard Henderson <rth@twiddle.net>,
-        Thomas Bogendoerfer <tsbogend@alpha.franken.de>,
-        James E J Bottomley <James.Bottomley@hansenpartnership.com>,
-        Helge Deller <deller@gmx.de>,
-        "David S . Miller" <davem@davemloft.net>,
-        Arnd Bergmann <arnd@arndb.de>,
-        Jonathan Corbet <corbet@lwn.net>,
-        "Michael S . Tsirkin" <mst@redhat.com>,
-        Peter H Anvin <hpa@zytor.com>,
-        Dave Hansen <dave.hansen@intel.com>,
-        Tony Luck <tony.luck@intel.com>,
-        Dan Williams <dan.j.williams@intel.com>,
-        Andi Kleen <ak@linux.intel.com>,
-        Kirill Shutemov <kirill.shutemov@linux.intel.com>,
-        Sean Christopherson <seanjc@google.com>,
-        Kuppuswamy Sathyanarayanan <knsathya@kernel.org>,
-        x86@kernel.org, linux-kernel@vger.kernel.org,
-        linux-pci@vger.kernel.org, linux-alpha@vger.kernel.org,
-        linux-mips@vger.kernel.org, linux-parisc@vger.kernel.org,
-        sparclinux@vger.kernel.org, linux-arch@vger.kernel.org,
-        linux-doc@vger.kernel.org,
-        virtualization@lists.linux-foundation.org
-Subject: Re: [PATCH v4 12/15] pci: Mark MSI data shared
-Message-ID: <YRYoVBIXZ/910eaq@infradead.org>
-References: <20210805005218.2912076-1-sathyanarayanan.kuppuswamy@linux.intel.com>
- <20210805005218.2912076-13-sathyanarayanan.kuppuswamy@linux.intel.com>
+        Fri, 13 Aug 2021 21:01:41 -0400
+Received: from mail-pj1-x102d.google.com (mail-pj1-x102d.google.com [IPv6:2607:f8b0:4864:20::102d])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 94DE6C061756;
+        Fri, 13 Aug 2021 18:01:14 -0700 (PDT)
+Received: by mail-pj1-x102d.google.com with SMTP id w13-20020a17090aea0db029017897a5f7bcso18413049pjy.5;
+        Fri, 13 Aug 2021 18:01:14 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=o8WfKmwINea2dak8eWcmeq5nymhBz5xQuf8CqG8OJr4=;
+        b=sme3zgAmzQduFkzUo7E7f5eQZMJa3fnQrOektKNNlG3qHZyjx+gugUTEvhxDweudgc
+         Xrn1f/qVwH1SZ6EHgp5YzIM/GA4q1A/Xh8MTzcyQqO3k/kTHeIHGgLMEZn0rWPP3r1ZS
+         S0X02Og4zzGF62aWtQGVrS9J/VHGBVYyRIyeNHbwrFVO1NhuDge1QU4aYsAlT2xf/Pln
+         qV218p69LURe2muWVW3NuOYDZnA3MB8i8Qp1fMFiRmfh/yXdhDkeRYJg/bdS/vAEkwV9
+         k7wYRHRnOo9gnRAUDlY2GIF8PWhbfLZm7UJ56YFC/QPSwRzmjNAaeerPAIQlWCcivAy1
+         JwRA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=o8WfKmwINea2dak8eWcmeq5nymhBz5xQuf8CqG8OJr4=;
+        b=g0cvQ95zXFPts9GpGyhpI/8HqF17KRzoOjDyXYs7pk3XqH8vAXgvaNSsBcB1LlrI7b
+         t99vjzYG6ckP8yB01rEJgBTmU7xaLXZ3Dru1rbFJJiL1Ichw3Z+/mtuq1xy7Bxt+MAA2
+         MhoLnsVUJlWoZovZEm5aNkLV6mR/TqrOidVQwgru/zDjpJRQJ94THkNf1/RQ689+wpoT
+         4ZrM6heHC8Y+mR0Avyg4bzdIhpX+J8AVUTPw9nXQAv+8//rW/Yz5YrPcDlJzW19C9vh+
+         X0w0x6G4FUOA5uDPALXAAuqebijcFvjI50pwvU2CaYC7UEQOiKiIBo6gn69xgYh155rA
+         D0GQ==
+X-Gm-Message-State: AOAM531V6QI4njh0idaBESKlg0dPUcWp1TUM7ZANVpUQ3nUDm1aY+pTE
+        9M6EIiIvmmVc6z4BxfpIntJSWi6pUAQ=
+X-Google-Smtp-Source: ABdhPJyvqIYq99aYHZZ4QxkLEnzM+vZyY2LJsYVQru7UAbCFTMMITPvHy9591bOseWCwgr4vXYUr3A==
+X-Received: by 2002:a65:63d7:: with SMTP id n23mr4788455pgv.46.1628902874156;
+        Fri, 13 Aug 2021 18:01:14 -0700 (PDT)
+Received: from WRT-WX9.. ([141.164.41.4])
+        by smtp.gmail.com with ESMTPSA id p17sm2905008pjg.54.2021.08.13.18.01.09
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 13 Aug 2021 18:01:13 -0700 (PDT)
+From:   Changbin Du <changbin.du@gmail.com>
+To:     Richard Henderson <rth@twiddle.net>,
+        Ivan Kokshaysky <ink@jurassic.park.msu.ru>,
+        Matt Turner <mattst88@gmail.com>
+Cc:     linux-alpha@vger.kernel.org, linux-kernel@vger.kernel.org,
+        Changbin Du <changbin.du@gmail.com>
+Subject: [PATCH] alpha: in_irq() cleanup
+Date:   Sat, 14 Aug 2021 09:01:03 +0800
+Message-Id: <20210814010103.3929-1-changbin.du@gmail.com>
+X-Mailer: git-send-email 2.30.2
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20210805005218.2912076-13-sathyanarayanan.kuppuswamy@linux.intel.com>
-X-SRS-Rewrite: SMTP reverse-path rewritten from <hch@infradead.org> by casper.infradead.org. See http://www.infradead.org/rpr.html
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-alpha.vger.kernel.org>
 X-Mailing-List: linux-alpha@vger.kernel.org
 
-On Wed, Aug 04, 2021 at 05:52:15PM -0700, Kuppuswamy Sathyanarayanan wrote:
->  
-> -	return ioremap(phys_addr, nr_entries * PCI_MSIX_ENTRY_SIZE);
-> +	return ioremap_shared(phys_addr, nr_entries * PCI_MSIX_ENTRY_SIZE);
+Replace the obsolete and ambiguos macro in_irq() with new
+macro in_hardirq().
 
-Please add a comment here.  I also find the amount of ioremap_* variants
-rather frustrating.  Maybe it it is time for a ioremap_flags which
-replaces the too-lowlevel pgprot_t of the ioremap_prot provided by some
-architectures with a more highlevel flags arguments that could also
-provide an accessible to the hypervisor flag.
+Signed-off-by: Changbin Du <changbin.du@gmail.com>
+---
+ arch/alpha/kernel/process.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/arch/alpha/kernel/process.c b/arch/alpha/kernel/process.c
+index a5123ea426ce..a524de9f1c98 100644
+--- a/arch/alpha/kernel/process.c
++++ b/arch/alpha/kernel/process.c
+@@ -134,7 +134,7 @@ common_shutdown_1(void *generic_ptr)
+ #ifdef CONFIG_DUMMY_CONSOLE
+ 		/* If we've gotten here after SysRq-b, leave interrupt
+ 		   context before taking over the console. */
+-		if (in_irq())
++		if (in_hardirq())
+ 			irq_exit();
+ 		/* This has the effect of resetting the VGA video origin.  */
+ 		console_lock();
+-- 
+2.30.2
+
