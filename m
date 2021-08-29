@@ -2,27 +2,58 @@ Return-Path: <linux-alpha-owner@vger.kernel.org>
 X-Original-To: lists+linux-alpha@lfdr.de
 Delivered-To: lists+linux-alpha@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 8C5D13FAD33
-	for <lists+linux-alpha@lfdr.de>; Sun, 29 Aug 2021 18:59:28 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 5ACD03FAEF1
+	for <lists+linux-alpha@lfdr.de>; Mon, 30 Aug 2021 00:26:37 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230235AbhH2QoK (ORCPT <rfc822;lists+linux-alpha@lfdr.de>);
-        Sun, 29 Aug 2021 12:44:10 -0400
-Received: from mga03.intel.com ([134.134.136.65]:32683 "EHLO mga03.intel.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S229687AbhH2QoJ (ORCPT <rfc822;linux-alpha@vger.kernel.org>);
-        Sun, 29 Aug 2021 12:44:09 -0400
-X-IronPort-AV: E=McAfee;i="6200,9189,10091"; a="218207569"
-X-IronPort-AV: E=Sophos;i="5.84,361,1620716400"; 
-   d="scan'208";a="218207569"
-Received: from orsmga001.jf.intel.com ([10.7.209.18])
-  by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Aug 2021 09:43:16 -0700
-X-IronPort-AV: E=Sophos;i="5.84,361,1620716400"; 
-   d="scan'208";a="509322544"
-Received: from akleen-mobl1.amr.corp.intel.com (HELO [10.212.238.58]) ([10.212.238.58])
-  by orsmga001-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Aug 2021 09:43:15 -0700
-Subject: Re: [PATCH v4 11/15] pci: Add pci_iomap_shared{,_range}
-To:     "Michael S. Tsirkin" <mst@redhat.com>
-Cc:     Christoph Hellwig <hch@infradead.org>,
+        id S235498AbhH2W1Y (ORCPT <rfc822;lists+linux-alpha@lfdr.de>);
+        Sun, 29 Aug 2021 18:27:24 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:43122 "EHLO
+        us-smtp-delivery-124.mimecast.com" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S235556AbhH2W1X (ORCPT
+        <rfc822;linux-alpha@vger.kernel.org>);
+        Sun, 29 Aug 2021 18:27:23 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+        s=mimecast20190719; t=1630275990;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         in-reply-to:in-reply-to:references:references;
+        bh=w+MBpgO+PBJKHqx0Y7eErLZSvPvNS8U9WRpzvSbhkVw=;
+        b=gAmBZHwpZem49MSfu5U/CZ/a5gr5V2xPAiE8x7s7qTrcmyfHUZMhvXgnbBO48QN3T2mExC
+        dO1u1BknmTb7tV0FmR+iQOV+BEZ7G638rsmFUPAERL53ZoCG+bUOEYbJE+c6RSOTkl8b/o
+        ajJCJ6lUbgZfEZWmQfT67AkAmqdybSI=
+Received: from mail-wm1-f71.google.com (mail-wm1-f71.google.com
+ [209.85.128.71]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-287-S4K-MRYnNGCoAV5okzToJg-1; Sun, 29 Aug 2021 18:26:28 -0400
+X-MC-Unique: S4K-MRYnNGCoAV5okzToJg-1
+Received: by mail-wm1-f71.google.com with SMTP id v2-20020a7bcb420000b02902e6b108fcf1so9194165wmj.8
+        for <linux-alpha@vger.kernel.org>; Sun, 29 Aug 2021 15:26:28 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to;
+        bh=w+MBpgO+PBJKHqx0Y7eErLZSvPvNS8U9WRpzvSbhkVw=;
+        b=V1Yy41atPZFS7Tb9q+U1jmZbAb8vnawGDVzMezh7ZYhuXPewLXU7rYrqN1P8LPa7E5
+         f6BXfo8fdJy5/TQ731D3m7YdxlfVpYi6ZEN7JzhxbU2eMA5U4s2NrBAVSLeqrr/bU02g
+         QDXB689L0wZjGr5685C2EN5M+B4MdO0bRfItNCHIw1oUT6u1V3hUyF7dFaCEGoDj5Hi6
+         Er5mqx1QVBX0Ow4DrxyKiDZu1vnds1C/Dro0FUCVa455s4+NsQa2Won6bp34sPNIjpWv
+         RdDYVedi4MXyGP2ZqDfAMdslEfFR/fidPwm2NfjmceXS3cuZmMNam1R7HtVuc4NTl7X9
+         B3/w==
+X-Gm-Message-State: AOAM531LC0SZSmi0t4UA1OP7dDRCysoYjOnfZ2SsHWyRLmGjM+bog2/y
+        Rpy13q4SLfKEhoXn63EXXLeq8hRm6fxRPKiMybFqmEMOP79Ww3CxMIyigptAEQZo4oepypuDXss
+        08mwoVXOoQeJIxFP37PkcNP0=
+X-Received: by 2002:adf:d191:: with SMTP id v17mr9646955wrc.345.1630275987858;
+        Sun, 29 Aug 2021 15:26:27 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJwrWdV4UWjmsxWXnznxAyF40RS7x+qTXWNuG7vw+rYxDj6nRO9NmovukIvxjT80bQD6fn6smQ==
+X-Received: by 2002:adf:d191:: with SMTP id v17mr9646917wrc.345.1630275987667;
+        Sun, 29 Aug 2021 15:26:27 -0700 (PDT)
+Received: from redhat.com ([2.55.28.138])
+        by smtp.gmail.com with ESMTPSA id c190sm12208101wma.21.2021.08.29.15.26.22
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sun, 29 Aug 2021 15:26:26 -0700 (PDT)
+Date:   Sun, 29 Aug 2021 18:26:20 -0400
+From:   "Michael S. Tsirkin" <mst@redhat.com>
+To:     Andi Kleen <ak@linux.intel.com>
+Cc:     Dan Williams <dan.j.williams@intel.com>,
         "Kuppuswamy, Sathyanarayanan" 
         <sathyanarayanan.kuppuswamy@linux.intel.com>,
         Thomas Gleixner <tglx@linutronix.de>,
@@ -40,89 +71,87 @@ Cc:     Christoph Hellwig <hch@infradead.org>,
         Peter H Anvin <hpa@zytor.com>,
         Dave Hansen <dave.hansen@intel.com>,
         Tony Luck <tony.luck@intel.com>,
-        Dan Williams <dan.j.williams@intel.com>,
         Kirill Shutemov <kirill.shutemov@linux.intel.com>,
         Sean Christopherson <seanjc@google.com>,
         Kuppuswamy Sathyanarayanan <knsathya@kernel.org>,
-        x86@kernel.org, linux-kernel@vger.kernel.org,
-        linux-pci@vger.kernel.org, linux-alpha@vger.kernel.org,
-        linux-mips@vger.kernel.org, linux-parisc@vger.kernel.org,
-        sparclinux@vger.kernel.org, linux-arch@vger.kernel.org,
-        linux-doc@vger.kernel.org,
+        X86 ML <x86@kernel.org>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        Linux PCI <linux-pci@vger.kernel.org>,
+        linux-alpha@vger.kernel.org, linux-mips@vger.kernel.org,
+        linux-parisc@vger.kernel.org, sparclinux@vger.kernel.org,
+        linux-arch <linux-arch@vger.kernel.org>,
+        Linux Doc Mailing List <linux-doc@vger.kernel.org>,
         virtualization@lists.linux-foundation.org
+Subject: Re: [PATCH v4 11/15] pci: Add pci_iomap_shared{,_range}
+Message-ID: <20210829181635-mutt-send-email-mst@kernel.org>
 References: <20210805005218.2912076-1-sathyanarayanan.kuppuswamy@linux.intel.com>
  <20210805005218.2912076-12-sathyanarayanan.kuppuswamy@linux.intel.com>
  <20210823195409-mutt-send-email-mst@kernel.org>
  <26a3cce5-ddf7-cbe6-a41e-58a2aea48f78@linux.intel.com>
- <YSSay4zGjLaNMOh1@infradead.org>
- <2747d96f-5063-7c63-5a47-16ea299fa195@linux.intel.com>
- <20210829113023-mutt-send-email-mst@kernel.org>
-From:   Andi Kleen <ak@linux.intel.com>
-Message-ID: <82e133af-6ad4-6910-8b1a-3f9e1a42a0fa@linux.intel.com>
-Date:   Sun, 29 Aug 2021 09:43:14 -0700
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:78.0) Gecko/20100101
- Thunderbird/78.13.0
+ <CAPcyv4iJVQKJ3bVwZhD08c8GNEP0jW2gx=H504NXcYK5o2t01A@mail.gmail.com>
+ <d992b5af-8d57-6aa6-bd49-8e2b8d832b19@linux.intel.com>
+ <20210824053830-mutt-send-email-mst@kernel.org>
+ <d21a2a2d-4670-ba85-ce9a-fc8ea80ef1be@linux.intel.com>
+ <20210829112105-mutt-send-email-mst@kernel.org>
+ <09b340dd-c8a8-689c-4dad-4fe0e36d39ae@linux.intel.com>
 MIME-Version: 1.0
-In-Reply-To: <20210829113023-mutt-send-email-mst@kernel.org>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Transfer-Encoding: 7bit
-Content-Language: en-US
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <09b340dd-c8a8-689c-4dad-4fe0e36d39ae@linux.intel.com>
 Precedence: bulk
 List-ID: <linux-alpha.vger.kernel.org>
 X-Mailing-List: linux-alpha@vger.kernel.org
 
-> All this makes sense but ioremap is such a random place to declare
-> driver has been audited, and it's baked into the binary with no way for
-> userspace to set policy.
->
-> Again all we will end up with is gradual replacement of all ioremap
-> calls with ioremap_shared as people discover a given driver does not
-> work in a VM.
+On Sun, Aug 29, 2021 at 09:17:53AM -0700, Andi Kleen wrote:
+> Also I changing this single call really that bad? It's not that we changing
+> anything drastic here, just give the low level subsystem a better hint about
+> the intention. If you don't like the function name, could make it an
+> argument instead?
 
-No the device filter will prevent that. They would need to submit 
-patches to the central list.
+My point however is that the API should say that the
+driver has been audited, not that the mapping has been
+done in some special way. For example the mapping can be
+in some kind of wrapper, not directly in the driver.
+However you want the driver validated, not the wrapper.
 
-Or they can override it at the command line, but there is already an 
-option to force all ioremaps to be shared. So if you just want some 
-driver to run without caring about security you can already do that 
-without modifying it.
-
-Besides the shared concept only makes sense for virtual devices, so if 
-you don't have a device model for a device this will never happen either.
-
-So I don't think your scenario of all ioremaps becoming shared will ever 
-happen.
+Here's an idea:
 
 
-> How are you going to know driver has actually been
-> audited? what the quality of the audit was? did the people doing the
-> auditing understand what they are auditing for?  No way, right?
 
-First the primary purpose of the ioremap policy is to avoid messing with 
-all the legacy drivers (which is 99+% of the code base)
+diff --git a/include/linux/audited.h b/include/linux/audited.h
+new file mode 100644
+index 000000000000..e23fd6ad50db
+--- /dev/null
++++ b/include/linux/audited.h
+@@ -0,0 +1,3 @@
++#ifndef AUDITED_MODULE
++#define AUDITED_MODULE
++#endif
 
-How to handle someone maliciously submitting a driver to the kernel is a 
-completely different problem. To some degree there is trust of course. 
-If someone says they audited and a maintainer trusts them with their 
-statement, but they actually didn't there is a problem, but it's larger 
-than just TDX. But in such a case the community code audit will also 
-focus on such areas, and people interested in confidential computing 
-security will also start taking a look.
+Now any audited driver must do
+#include <linux/audited.h>
+first of all.
+Implementation-wise it can do any number of things,
+e.g. if you like then sure you can do:
 
-And we're also working on fuzzing, so these drivers will be fuzzed at 
-some point, so mistakes will be eventually found.
+#ifdef AUDITED_MODULE
+#define pci_ioremap pci_ioremap_shared
+#else
+#define pci_ioremap pci_ioremap
+#endif
 
-But in any case the ioremap policy is mainly to prevent having to handle 
-this for all legacy drivers.
+but you can also thinkably do something like (won't work,
+but just to give you the idea):
 
-I would rather change the few drivers that are actually needed, than all 
-the other drivers.
+#ifdef AUDITED_MODULE
+#define __init __init
+#else
+#define __init
+#endif
 
-That's really the fundamental problem this is addressing: how to get 
-reasonable security with all the legacy drivers out of the box without 
-touching them.
+or any number of hacks like this.
 
 
--Andi
-
+-- 
+MST
 
