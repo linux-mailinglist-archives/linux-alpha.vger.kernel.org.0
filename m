@@ -2,116 +2,73 @@ Return-Path: <linux-alpha-owner@vger.kernel.org>
 X-Original-To: lists+linux-alpha@lfdr.de
 Delivered-To: lists+linux-alpha@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 864063FBFEB
-	for <lists+linux-alpha@lfdr.de>; Tue, 31 Aug 2021 02:28:21 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id C89FC3FFE57
+	for <lists+linux-alpha@lfdr.de>; Fri,  3 Sep 2021 12:44:33 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232047AbhHaAYP (ORCPT <rfc822;lists+linux-alpha@lfdr.de>);
-        Mon, 30 Aug 2021 20:24:15 -0400
-Received: from mga18.intel.com ([134.134.136.126]:4596 "EHLO mga18.intel.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S230523AbhHaAYO (ORCPT <rfc822;linux-alpha@vger.kernel.org>);
-        Mon, 30 Aug 2021 20:24:14 -0400
-X-IronPort-AV: E=McAfee;i="6200,9189,10092"; a="205506671"
-X-IronPort-AV: E=Sophos;i="5.84,364,1620716400"; 
-   d="scan'208";a="205506671"
-Received: from fmsmga002.fm.intel.com ([10.253.24.26])
-  by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 Aug 2021 17:23:19 -0700
-X-IronPort-AV: E=Sophos;i="5.84,364,1620716400"; 
-   d="scan'208";a="540780855"
-Received: from akleen-mobl1.amr.corp.intel.com (HELO [10.212.223.22]) ([10.212.223.22])
-  by fmsmga002-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 Aug 2021 17:23:18 -0700
-Subject: Re: [PATCH v4 11/15] pci: Add pci_iomap_shared{,_range}
-To:     "Michael S. Tsirkin" <mst@redhat.com>
-Cc:     Dan Williams <dan.j.williams@intel.com>,
-        "Kuppuswamy, Sathyanarayanan" 
-        <sathyanarayanan.kuppuswamy@linux.intel.com>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
-        Peter Zijlstra <peterz@infradead.org>,
-        Andy Lutomirski <luto@kernel.org>,
-        Bjorn Helgaas <bhelgaas@google.com>,
-        Richard Henderson <rth@twiddle.net>,
-        Thomas Bogendoerfer <tsbogend@alpha.franken.de>,
-        James E J Bottomley <James.Bottomley@hansenpartnership.com>,
-        Helge Deller <deller@gmx.de>,
-        "David S . Miller" <davem@davemloft.net>,
-        Arnd Bergmann <arnd@arndb.de>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Peter H Anvin <hpa@zytor.com>,
-        Dave Hansen <dave.hansen@intel.com>,
-        Tony Luck <tony.luck@intel.com>,
-        Kirill Shutemov <kirill.shutemov@linux.intel.com>,
-        Sean Christopherson <seanjc@google.com>,
-        Kuppuswamy Sathyanarayanan <knsathya@kernel.org>,
-        X86 ML <x86@kernel.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        Linux PCI <linux-pci@vger.kernel.org>,
-        linux-alpha@vger.kernel.org, linux-mips@vger.kernel.org,
-        linux-parisc@vger.kernel.org, sparclinux@vger.kernel.org,
-        linux-arch <linux-arch@vger.kernel.org>,
-        Linux Doc Mailing List <linux-doc@vger.kernel.org>,
-        virtualization@lists.linux-foundation.org
-References: <20210823195409-mutt-send-email-mst@kernel.org>
- <26a3cce5-ddf7-cbe6-a41e-58a2aea48f78@linux.intel.com>
- <CAPcyv4iJVQKJ3bVwZhD08c8GNEP0jW2gx=H504NXcYK5o2t01A@mail.gmail.com>
- <d992b5af-8d57-6aa6-bd49-8e2b8d832b19@linux.intel.com>
- <20210824053830-mutt-send-email-mst@kernel.org>
- <d21a2a2d-4670-ba85-ce9a-fc8ea80ef1be@linux.intel.com>
- <20210829112105-mutt-send-email-mst@kernel.org>
- <09b340dd-c8a8-689c-4dad-4fe0e36d39ae@linux.intel.com>
- <20210829181635-mutt-send-email-mst@kernel.org>
- <3a88a255-a528-b00a-912b-e71198d5f58f@linux.intel.com>
- <20210830163723-mutt-send-email-mst@kernel.org>
-From:   Andi Kleen <ak@linux.intel.com>
-Message-ID: <69fc30f4-e3e2-add7-ec13-4db3b9cc0cbd@linux.intel.com>
-Date:   Mon, 30 Aug 2021 17:23:17 -0700
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:78.0) Gecko/20100101
- Thunderbird/78.13.0
+        id S1347999AbhICKpc (ORCPT <rfc822;lists+linux-alpha@lfdr.de>);
+        Fri, 3 Sep 2021 06:45:32 -0400
+Received: from mail.repatriados.gov.py ([168.90.176.63]:27223 "EHLO
+        mail.repatriados.gov.py" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S235269AbhICKpb (ORCPT
+        <rfc822;linux-alpha@vger.kernel.org>); Fri, 3 Sep 2021 06:45:31 -0400
+Received: from localhost (localhost [127.0.0.1])
+        by mail.repatriados.gov.py (Postfix) with ESMTP id 2AF3864E25;
+        Wed,  1 Sep 2021 01:01:23 -0400 (-04)
+Received: from mail.repatriados.gov.py ([127.0.0.1])
+        by localhost (mail.repatriados.gov.py [127.0.0.1]) (amavisd-new, port 10032)
+        with ESMTP id c7xO90ZOcOQt; Wed,  1 Sep 2021 01:01:22 -0400 (-04)
+Received: from localhost (localhost [127.0.0.1])
+        by mail.repatriados.gov.py (Postfix) with ESMTP id 4642467496;
+        Tue, 31 Aug 2021 23:37:03 -0400 (-04)
+DKIM-Filter: OpenDKIM Filter v2.10.3 mail.repatriados.gov.py 4642467496
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=repatriados.gov.py;
+        s=66AB3A4C-4957-11E8-AF15-073A956E488A; t=1630467424;
+        bh=re+Bi7IjhFEavKutGVOnSLzHkgr9hnVuewhYSbG4AUw=;
+        h=MIME-Version:To:From:Date:Message-Id;
+        b=tzwrgjCYSvRUwRc5tNBtK8P5Zc9ZVE9xARQdiDRNnqJPwlNZ1ywH3O9DalPK77uxK
+         6rPVPxKMfb6uXWs0XVXiyXOuMrCqoPvtysLpQoUTkVaqaj/0T6ok+2xDm3gvPnw8KS
+         hhcKc2uUZtIwOwAX4WkGHiLtqIEXptyMkvsswCxKY+FRpX5OwBSRNp2+FP+LgK1QJT
+         0rxxM3YEeHGDJq4u7nQrD/tEUfYobhnPUesKME3wr2flrHG8kN/KzqJADs75TGUoyk
+         j0/2QTOFVi1wRfNjge7MP1k7e6/jxTS1XAjjFcyjOoQaPmSiH2IEU7IKxHHhwl3iAc
+         AqwyD4LUVBCvg==
+X-Virus-Scanned: amavisd-new at repatriados.gov.py
+Received: from mail.repatriados.gov.py ([127.0.0.1])
+        by localhost (mail.repatriados.gov.py [127.0.0.1]) (amavisd-new, port 10026)
+        with ESMTP id aAFJvGP94G_W; Tue, 31 Aug 2021 23:37:02 -0400 (-04)
+Received: from cris-PC.www.huaweimobilewifi.com (unknown [105.4.4.195])
+        by mail.repatriados.gov.py (Postfix) with ESMTPSA id 56E2A679DA;
+        Tue, 31 Aug 2021 21:50:53 -0400 (-04)
+Content-Type: text/plain; charset="iso-8859-1"
 MIME-Version: 1.0
-In-Reply-To: <20210830163723-mutt-send-email-mst@kernel.org>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Transfer-Encoding: 7bit
-Content-Language: en-US
+Content-Transfer-Encoding: quoted-printable
+Content-Description: Mail message body
+Subject: =?utf-8?q?Wohlt=C3=A4tigkeitsspende_von_2=2E000=2E000_Euro?=
+To:     Recipients <mdominguez@repatriados.gov.py>
+From:   ''Charles jackon'' <mdominguez@repatriados.gov.py>
+Date:   Wed, 01 Sep 2021 03:51:22 +0200
+Reply-To: charlesjacksonjr001@gmail.com
+Message-Id: <20210901015055.56E2A679DA@mail.repatriados.gov.py>
 Precedence: bulk
 List-ID: <linux-alpha.vger.kernel.org>
 X-Mailing-List: linux-alpha@vger.kernel.org
 
+Hallo
 
-On 8/30/2021 1:59 PM, Michael S. Tsirkin wrote:
->
->> Or we can add _audited to the name. ioremap_shared_audited?
-> But it's not the mapping that has to be done in handled special way.
-> It's any data we get from device, not all of it coming from IO, e.g.
-> there's DMA and interrupts that all have to be validated.
-> Wouldn't you say that what is really wanted is just not running
-> unaudited drivers in the first place?
+Ich bin Charles W. Jackson aus North Carolina, Vereinigte Staaten von Ameri=
+ka, und ich bin der Gewinner des Mega-Millionen-Jackpots von 344 Millionen =
+US-Dollar. Ich spende die Summe von 2.000.000 Millionen Euro als Teil der H=
+ilfsgelder f=FCr das Corona-Virus.
 
+Dies ist Ihr Spendencode: [CJ530342019]
 
-Yes.
+www.youtube.com/watch?v=3DBSr8myiLPMQ
 
 
->
->> And we've been avoiding that drivers can self declare auditing, we've been
->> trying to have a separate centralized list so that it's easier to enforce
->> and avoids any cut'n'paste mistakes.
->>
->> -Andi
-> Now I'm confused. What is proposed here seems to be basically that,
-> drivers need to declare auditing by replacing ioremap with
-> ioremap_shared.
+Bitte antworten Sie auf diese E-Mail mit dem SPENDERCODE:
 
-Auditing is declared on the device model level using a central allow list.
+charlesjacksonjr001@gmail.com
 
-But this cannot do anything to initcalls that run before probe, that's 
-why an extra level of defense of ioremap opt-in is useful. But it's not 
-the primary mechanism to declare a driver audited, that's the allow 
-list. The ioremap is just another mechanism to avoid having to touch a 
-lot of legacy drivers.
-
-If we agree on that then the original proposed semantics of 
-"ioremap_shared" may be acceptable?
-
--Andi
+Ich hoffe, dass Sie und Ihre Familie dies durchkommen
 
 
-
+Herr Charles Jackson
