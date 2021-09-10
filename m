@@ -2,128 +2,167 @@ Return-Path: <linux-alpha-owner@vger.kernel.org>
 X-Original-To: lists+linux-alpha@lfdr.de
 Delivered-To: lists+linux-alpha@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 3FED14046D0
-	for <lists+linux-alpha@lfdr.de>; Thu,  9 Sep 2021 10:13:50 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id DA72B406953
+	for <lists+linux-alpha@lfdr.de>; Fri, 10 Sep 2021 11:54:41 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230072AbhIIIPA (ORCPT <rfc822;lists+linux-alpha@lfdr.de>);
-        Thu, 9 Sep 2021 04:15:00 -0400
-Received: from mail.kernel.org ([198.145.29.99]:47390 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S229876AbhIIIO7 (ORCPT <rfc822;linux-alpha@vger.kernel.org>);
-        Thu, 9 Sep 2021 04:14:59 -0400
-Received: by mail.kernel.org (Postfix) with ESMTPSA id 5B5E160FE3;
-        Thu,  9 Sep 2021 08:13:50 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1631175230;
-        bh=MCd05u9z+cr1cwZljpMuCHpDxLmMpn+MkW/t1mn9uUw=;
-        h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-        b=pSneemarx+jHsqihej06zoNGFQUu2/DLRsEFYfL4J7F9nL1bm2jPKq8uouPpgMONf
-         O+0JdkiTZTq8+MecD22iU5FDzkHpzFgyrL/hTl0gSTiw2UWvLRzTZxMrHulZmJDIHN
-         Xuo0Q862T/nDsBb/9bWFiBa6bzi++zpzjS27BNP6tneoonEQMkxK2SUJkFkJ4Vlv6j
-         5YBJZJ2n9i60jMYg7UiXJfFjFshW+qrZGt6baSFvh1w3SgkQtedP1/Kt7S7g10DxiT
-         ahC4jA5gqibmdr3FzeNtb+6/n1IOk+go8niO0bayrk9E2mRLmoeynFUFy9hl7BXBOK
-         59Hm7rLYX26Ag==
-Received: by mail-wr1-f46.google.com with SMTP id i28so1255461wrb.2;
-        Thu, 09 Sep 2021 01:13:50 -0700 (PDT)
-X-Gm-Message-State: AOAM532PGD03ysRpL+8DO8b49o/E0/WgK9zOgrUuC8rwFPrjgX9jVdML
-        ali9w2UFixSrQdcrW4lgboB2zXXNqAubj0+UJpM=
-X-Google-Smtp-Source: ABdhPJxnLFlz+6nfZoHaQmZ1rMYPvah3+NPU0f+In9tfRpa8CeOCxjy0WwAF3wEuFaiYO1xg5YjG8ObVFnH+GMacA1U=
-X-Received: by 2002:adf:914e:: with SMTP id j72mr1987620wrj.428.1631175229042;
- Thu, 09 Sep 2021 01:13:49 -0700 (PDT)
+        id S232133AbhIJJzv (ORCPT <rfc822;lists+linux-alpha@lfdr.de>);
+        Fri, 10 Sep 2021 05:55:51 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:25605 "EHLO
+        us-smtp-delivery-124.mimecast.com" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S231991AbhIJJzu (ORCPT
+        <rfc822;linux-alpha@vger.kernel.org>);
+        Fri, 10 Sep 2021 05:55:50 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+        s=mimecast20190719; t=1631267679;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         in-reply-to:in-reply-to:references:references;
+        bh=G3LlEYSRHK/bW1nfGLOGdZcifmv3HCR8Ukwhz+/9614=;
+        b=ikADgu7dsxj3oA0dObSy86XbT460Cqls7uMImgqDa3NDIq4PhSGyFOqkgfoyWMaH3FpotA
+        e5DP9lldq3+b5A+WADy70CoFl9nGd0tdMbr1SQ3fyWk9Wog8/7nL++nTqsQsw5I+EGCxcV
+        MCDiTpyK3gCb14WVuLu6Mtbq70stHa8=
+Received: from mail-wr1-f71.google.com (mail-wr1-f71.google.com
+ [209.85.221.71]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-150-ULV3r3w8PVyI4rw1Iumk-w-1; Fri, 10 Sep 2021 05:54:37 -0400
+X-MC-Unique: ULV3r3w8PVyI4rw1Iumk-w-1
+Received: by mail-wr1-f71.google.com with SMTP id p10-20020adfce0a000000b001572d05c970so298593wrn.21
+        for <linux-alpha@vger.kernel.org>; Fri, 10 Sep 2021 02:54:37 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to;
+        bh=G3LlEYSRHK/bW1nfGLOGdZcifmv3HCR8Ukwhz+/9614=;
+        b=lXPsRelpgxFISEXwWJ9zxXDlOsWrGRpyjHFJUdvLv7V5TQP8qFClgZRLbkAwECH4gP
+         Wveem9y8uu9hgGgJoQKJqzJ1EzoFrEspz+bgJ2TPdkJ9YWgKs8zMTFeQpzU/bnyT4fXx
+         ReMxtiDl+3LbiPXykLKqNFOBh6wPxfPqcTq9Qd/irI7PFugr9ZCDSMg/sZaqNtwXZTXB
+         xaTbntvMd9j6Sk0LgJ0jsVb5kTCIgJ4RYek0G2OirtwpJyD9ogL6WdBOqx9F1pZB7lHN
+         qKwHUnqeBHrK7tW7XUUvDDo1uXI1wzo+fWuAzK+lCjACkxNDO5fS9dTcNRI6kkwfaGhf
+         L1Vg==
+X-Gm-Message-State: AOAM530PtzH1+gt1y21rW2yvJdJt/tpxn5UNxwqXXSNNHAcetuuj9rgp
+        zbDUQsKz7UAy2cJfICU7SQ5tut+KbggT6peUwKrBRWC4q61EF9fC+c8EizYgZuhMhZwDrwodeTC
+        2iMc408FdYW5atG/OGLdfUVY=
+X-Received: by 2002:adf:eb81:: with SMTP id t1mr8840982wrn.245.1631267676746;
+        Fri, 10 Sep 2021 02:54:36 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJzO0Y/+7P/8niNtl+CoPrjCVE7HuwDhOVv5eL0lpW28+D5kEKFv5EWjYMYsYF1r6EhbMvRO7w==
+X-Received: by 2002:adf:eb81:: with SMTP id t1mr8840971wrn.245.1631267676591;
+        Fri, 10 Sep 2021 02:54:36 -0700 (PDT)
+Received: from redhat.com ([2.55.145.189])
+        by smtp.gmail.com with ESMTPSA id o7sm3686409wmc.46.2021.09.10.02.54.30
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 10 Sep 2021 02:54:34 -0700 (PDT)
+Date:   Fri, 10 Sep 2021 05:54:28 -0400
+From:   "Michael S. Tsirkin" <mst@redhat.com>
+To:     Andi Kleen <ak@linux.intel.com>
+Cc:     Dan Williams <dan.j.williams@intel.com>,
+        "Kuppuswamy, Sathyanarayanan" 
+        <sathyanarayanan.kuppuswamy@linux.intel.com>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
+        Peter Zijlstra <peterz@infradead.org>,
+        Andy Lutomirski <luto@kernel.org>,
+        Bjorn Helgaas <bhelgaas@google.com>,
+        Richard Henderson <rth@twiddle.net>,
+        Thomas Bogendoerfer <tsbogend@alpha.franken.de>,
+        James E J Bottomley <James.Bottomley@hansenpartnership.com>,
+        Helge Deller <deller@gmx.de>,
+        "David S . Miller" <davem@davemloft.net>,
+        Arnd Bergmann <arnd@arndb.de>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Peter H Anvin <hpa@zytor.com>,
+        Dave Hansen <dave.hansen@intel.com>,
+        Tony Luck <tony.luck@intel.com>,
+        Kirill Shutemov <kirill.shutemov@linux.intel.com>,
+        Sean Christopherson <seanjc@google.com>,
+        Kuppuswamy Sathyanarayanan <knsathya@kernel.org>,
+        X86 ML <x86@kernel.org>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        Linux PCI <linux-pci@vger.kernel.org>,
+        linux-alpha@vger.kernel.org, linux-mips@vger.kernel.org,
+        linux-parisc@vger.kernel.org, sparclinux@vger.kernel.org,
+        linux-arch <linux-arch@vger.kernel.org>,
+        Linux Doc Mailing List <linux-doc@vger.kernel.org>,
+        virtualization@lists.linux-foundation.org
+Subject: Re: [PATCH v4 11/15] pci: Add pci_iomap_shared{,_range}
+Message-ID: <20210910054044-mutt-send-email-mst@kernel.org>
+References: <CAPcyv4iJVQKJ3bVwZhD08c8GNEP0jW2gx=H504NXcYK5o2t01A@mail.gmail.com>
+ <d992b5af-8d57-6aa6-bd49-8e2b8d832b19@linux.intel.com>
+ <20210824053830-mutt-send-email-mst@kernel.org>
+ <d21a2a2d-4670-ba85-ce9a-fc8ea80ef1be@linux.intel.com>
+ <20210829112105-mutt-send-email-mst@kernel.org>
+ <09b340dd-c8a8-689c-4dad-4fe0e36d39ae@linux.intel.com>
+ <20210829181635-mutt-send-email-mst@kernel.org>
+ <3a88a255-a528-b00a-912b-e71198d5f58f@linux.intel.com>
+ <20210830163723-mutt-send-email-mst@kernel.org>
+ <69fc30f4-e3e2-add7-ec13-4db3b9cc0cbd@linux.intel.com>
 MIME-Version: 1.0
-References: <20210909050033.1564459-1-linux@roeck-us.net>
-In-Reply-To: <20210909050033.1564459-1-linux@roeck-us.net>
-From:   Arnd Bergmann <arnd@kernel.org>
-Date:   Thu, 9 Sep 2021 10:13:32 +0200
-X-Gmail-Original-Message-ID: <CAK8P3a0U-BxUfdTiwDRNHvGHetenF0zVObNVj0z67SqzzEeFyg@mail.gmail.com>
-Message-ID: <CAK8P3a0U-BxUfdTiwDRNHvGHetenF0zVObNVj0z67SqzzEeFyg@mail.gmail.com>
-Subject: Re: [PATCH] alpha: Declare virt_to_phys and virt_to_bus parameter as
- pointer to volatile
-To:     Guenter Roeck <linux@roeck-us.net>
-Cc:     Richard Henderson <rth@twiddle.net>,
-        Ivan Kokshaysky <ink@jurassic.park.msu.ru>,
-        Matt Turner <mattst88@gmail.com>,
-        alpha <linux-alpha@vger.kernel.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <69fc30f4-e3e2-add7-ec13-4db3b9cc0cbd@linux.intel.com>
 Precedence: bulk
 List-ID: <linux-alpha.vger.kernel.org>
 X-Mailing-List: linux-alpha@vger.kernel.org
 
-On Thu, Sep 9, 2021 at 7:00 AM Guenter Roeck <linux@roeck-us.net> wrote:
->
-> Some drivers pass a pointer to volatile data to virt_to_bus() and
-> virt_to_phys(). One exception is alpha. This results in a number
-> of compile errors such as
->
-> drivers/net/wan/lmc/lmc_main.c: In function 'lmc_softreset':
-> drivers/net/wan/lmc/lmc_main.c:1782:50: error:
->         passing argument 1 of 'virt_to_bus' discards 'volatile'
->         qualifier from pointer target type
->
-> drivers/atm/ambassador.c: In function 'do_loader_command':
-> drivers/atm/ambassador.c:1747:58: error:
->         passing argument 1 of 'virt_to_bus' discards 'volatile'
->         qualifier from pointer target type
->
-> Declare the parameter of virt_to_phys and virt_to_bus as pointer to volatile
-> to fix the problem.
->
-> Cc: Arnd Bergmann <arnd@kernel.org>
-> Signed-off-by: Guenter Roeck <linux@roeck-us.net>
+On Mon, Aug 30, 2021 at 05:23:17PM -0700, Andi Kleen wrote:
+> 
+> On 8/30/2021 1:59 PM, Michael S. Tsirkin wrote:
+> > 
+> > > Or we can add _audited to the name. ioremap_shared_audited?
+> > But it's not the mapping that has to be done in handled special way.
+> > It's any data we get from device, not all of it coming from IO, e.g.
+> > there's DMA and interrupts that all have to be validated.
+> > Wouldn't you say that what is really wanted is just not running
+> > unaudited drivers in the first place?
+> 
+> 
+> Yes.
 
-Acked-by: Arnd Bergmann <arnd@arndb.de>
+Then ... let's do just that?
 
-> ---
-> We could instead try to modify the affected drivers, but both drivers
-> use the buffer to communicate with the chip, so that would require lots
-> of typecasts there. Another option would be to disable affected drivers
-> for alpha, but that seems undesirable.
-> Other ideas welcome.
+> 
+> > 
+> > > And we've been avoiding that drivers can self declare auditing, we've been
+> > > trying to have a separate centralized list so that it's easier to enforce
+> > > and avoids any cut'n'paste mistakes.
+> > > 
+> > > -Andi
+> > Now I'm confused. What is proposed here seems to be basically that,
+> > drivers need to declare auditing by replacing ioremap with
+> > ioremap_shared.
+> 
+> Auditing is declared on the device model level using a central allow list.
 
-Your patch is the obvious workaround, as this makes alpha behave the
-same way as all the other architectures.
+Can we not have an init call allow list instead of, or in addition to, a
+device allow list?
 
-Drivers using virt_to_bus() are already nonportable, so we could also
-decide to go through all users to see which ones are ready to be
-retired, and go through the architectures to see which ones actually
-still require drivers that use virt_to_bus(), removing the interface from
-the others. The ones I see are
+> But this cannot do anything to initcalls that run before probe,
 
-arch/alpha/Kconfig:     select VIRT_TO_BUS
-arch/h8300/Kconfig:     select VIRT_TO_BUS
-arch/ia64/Kconfig:      select VIRT_TO_BUS
-arch/m68k/Kconfig:      select VIRT_TO_BUS
-arch/microblaze/Kconfig:        select VIRT_TO_BUS
-arch/mips/Kconfig:      select VIRT_TO_BUS
-arch/parisc/Kconfig:    select VIRT_TO_BUS
-arch/powerpc/Kconfig:   select VIRT_TO_BUS                      if !PPC64
-arch/x86/Kconfig:       select VIRT_TO_BUS
-arch/xtensa/Kconfig:    select VIRT_TO_BUS
+Can't we extend module_init so init calls are validated against the
+allow list?
 
-drivers/atm/Kconfig:    depends on PCI && VIRT_TO_BUS
-drivers/atm/Kconfig:    depends on PCI && VIRT_TO_BUS
-drivers/atm/Kconfig:    depends on PCI && VIRT_TO_BUS
-drivers/atm/Kconfig:    depends on PCI && VIRT_TO_BUS
-drivers/media/pci/sta2x11/Kconfig:      depends on PCI && VIDEO_V4L2
-&& VIRT_TO_BUS && I2C
-drivers/net/appletalk/Kconfig:  depends on DEV_APPLETALK && (ISA ||
-EISA) && ISA_DMA_API && VIRT_TO_BUS
-drivers/net/ethernet/dec/tulip/Kconfig: depends on VIRT_TO_BUS ||
-ALPHA || PPC || SPARC
-drivers/net/wan/Kconfig:        depends on ISA && m && ISA_DMA_API &&
-INET && HDLC && VIRT_TO_BUS
-drivers/net/wan/Kconfig:        depends on ISA && m && ISA_DMA_API &&
-HDLC && VIRT_TO_BUS
-drivers/net/wan/Kconfig:        depends on PCI && VIRT_TO_BUS && HDLC
-drivers/net/wan/Kconfig:        depends on ISA && m && ISA_DMA_API &&
-INET && HDLC && VIRT_TO_BUS
-drivers/scsi/Kconfig:   depends on SCSI && PCI && VIRT_TO_BUS
-drivers/scsi/Kconfig:   depends on PCI && SCSI && VIRT_TO_BUS
-drivers/vme/bridges/Kconfig:    depends on VIRT_TO_BUS
+> that's why
+> an extra level of defense of ioremap opt-in is useful.
 
-I think we can drop VIRT_TO_BUS from everything other
-than x86-32, m68k and ppc32, and fix the tulip and xlr_net
-drivers to not use it.
+OK even assuming this, why is pci_iomap opt-in useful?
+That never happens before probe - there's simply no pci_device then.
 
-        Arnd
+> But it's not the
+> primary mechanism to declare a driver audited, that's the allow list. The
+> ioremap is just another mechanism to avoid having to touch a lot of legacy
+> drivers.
+> 
+> If we agree on that then the original proposed semantics of "ioremap_shared"
+> may be acceptable?
+> 
+> -Andi
+> 
+
+It looks suspiciously like drivers self-declaring auditing to me which
+we both seem to agree is undesirable. What exactly is the difference?
+
+Or are you just trying to disable anything that runs before probe?
+In that case I don't see a reason to touch pci drivers though.
+These should be fine with just the device model list.
+
+-- 
+MST
+
