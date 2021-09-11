@@ -2,26 +2,57 @@ Return-Path: <linux-alpha-owner@vger.kernel.org>
 X-Original-To: lists+linux-alpha@lfdr.de
 Delivered-To: lists+linux-alpha@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id E1F6A406FB7
-	for <lists+linux-alpha@lfdr.de>; Fri, 10 Sep 2021 18:34:49 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 93825407AF8
+	for <lists+linux-alpha@lfdr.de>; Sun, 12 Sep 2021 01:54:50 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229573AbhIJQf7 (ORCPT <rfc822;lists+linux-alpha@lfdr.de>);
-        Fri, 10 Sep 2021 12:35:59 -0400
-Received: from mga18.intel.com ([134.134.136.126]:41169 "EHLO mga18.intel.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S229448AbhIJQf7 (ORCPT <rfc822;linux-alpha@vger.kernel.org>);
-        Fri, 10 Sep 2021 12:35:59 -0400
-X-IronPort-AV: E=McAfee;i="6200,9189,10103"; a="208226577"
-X-IronPort-AV: E=Sophos;i="5.85,283,1624345200"; 
-   d="scan'208";a="208226577"
-Received: from orsmga004.jf.intel.com ([10.7.209.38])
-  by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Sep 2021 09:34:47 -0700
-X-IronPort-AV: E=Sophos;i="5.85,283,1624345200"; 
-   d="scan'208";a="581420171"
-Received: from akleen-mobl1.amr.corp.intel.com (HELO [10.212.255.212]) ([10.212.255.212])
-  by orsmga004-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Sep 2021 09:34:46 -0700
-Subject: Re: [PATCH v4 11/15] pci: Add pci_iomap_shared{,_range}
-To:     "Michael S. Tsirkin" <mst@redhat.com>
+        id S234716AbhIKX4A (ORCPT <rfc822;lists+linux-alpha@lfdr.de>);
+        Sat, 11 Sep 2021 19:56:00 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:27397 "EHLO
+        us-smtp-delivery-124.mimecast.com" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S234573AbhIKXz7 (ORCPT
+        <rfc822;linux-alpha@vger.kernel.org>);
+        Sat, 11 Sep 2021 19:55:59 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+        s=mimecast20190719; t=1631404485;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         in-reply-to:in-reply-to:references:references;
+        bh=XhzTiX0DZYV1X5ckSDoJZp4U7aZCZRTdTtc5atz14SI=;
+        b=HIYOtFgY4HxMNyU0nzLti5A8vG2pVu6p4v3N2hqr9VCqnSjvaEgH03c0xLylchB2XX6JhZ
+        MZja69E6+/mBnkFFoaH07qfH2BNOXewJXF/fF6FcQeepTpcoGIs0L1KGN//6havxYew7HX
+        7hUkBeY6or6zno1I58JXf2KSUB2lf60=
+Received: from mail-ej1-f72.google.com (mail-ej1-f72.google.com
+ [209.85.218.72]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-393-JxdHjhAEOGOL7Dq_4StPZw-1; Sat, 11 Sep 2021 19:54:44 -0400
+X-MC-Unique: JxdHjhAEOGOL7Dq_4StPZw-1
+Received: by mail-ej1-f72.google.com with SMTP id r21-20020a1709067055b02904be5f536463so2301656ejj.0
+        for <linux-alpha@vger.kernel.org>; Sat, 11 Sep 2021 16:54:43 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to;
+        bh=XhzTiX0DZYV1X5ckSDoJZp4U7aZCZRTdTtc5atz14SI=;
+        b=hmrFRUyAHIZM/SwaCNiur/0NyNyXNEYb+QJAoklUqBZxUmWyJkwYcLwJUu7AajTMHg
+         REZ8Gmj7zohzjhG9NGP1Ocnuwd1wILvKScYWvjfehAEI4A0CxmLza/CgyGxgSzfc5HRt
+         QQ80dmFlrmW90aaLUEwEORXFN5ZN3fSlCW5x7H4ayFsdr+TuiBUy7NriMxHgEzfWfTyI
+         8DheOGvi4jMQD8XZm64mbth9x73irJl4nDS+2eAKSUZgIo2X/cM2rL+V3cMYJrBb0KW3
+         SNSklaSAuekTAebcaGYhhZszpba/sPqyw9mJH/5kMxSqMSIj9mwdKM35jaIZ7aAScyky
+         x4lg==
+X-Gm-Message-State: AOAM532sQ2G8BJvPc+VI7H8Ri6SSZH33p7mx5J2aDDtuEOyFS4p0QiVp
+        TIW7J7X/J7tOGJzwyXnAlBN+pqwDjPQIkzKxl7Wx+u8+F2Gz/zXNnxuxCklwFEknq+RO0kNUBU0
+        LIqf5KT1Xo7j9X9rRIov2Obs=
+X-Received: by 2002:a17:906:5855:: with SMTP id h21mr4944799ejs.230.1631404482985;
+        Sat, 11 Sep 2021 16:54:42 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJzUJ/Dz7qpoDYQNg7a7mY8Cl7pe7fwOabdq++HQzqfzjVSc2KbxoH+7byBLBBXMvIdUmNqg2Q==
+X-Received: by 2002:a17:906:5855:: with SMTP id h21mr4944788ejs.230.1631404482774;
+        Sat, 11 Sep 2021 16:54:42 -0700 (PDT)
+Received: from redhat.com ([2.55.27.174])
+        by smtp.gmail.com with ESMTPSA id n13sm1309780ejk.97.2021.09.11.16.54.38
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sat, 11 Sep 2021 16:54:41 -0700 (PDT)
+Date:   Sat, 11 Sep 2021 19:54:36 -0400
+From:   "Michael S. Tsirkin" <mst@redhat.com>
+To:     Andi Kleen <ak@linux.intel.com>
 Cc:     Dan Williams <dan.j.williams@intel.com>,
         "Kuppuswamy, Sathyanarayanan" 
         <sathyanarayanan.kuppuswamy@linux.intel.com>,
@@ -51,9 +82,9 @@ Cc:     Dan Williams <dan.j.williams@intel.com>,
         linux-arch <linux-arch@vger.kernel.org>,
         Linux Doc Mailing List <linux-doc@vger.kernel.org>,
         virtualization@lists.linux-foundation.org
-References: <CAPcyv4iJVQKJ3bVwZhD08c8GNEP0jW2gx=H504NXcYK5o2t01A@mail.gmail.com>
- <d992b5af-8d57-6aa6-bd49-8e2b8d832b19@linux.intel.com>
- <20210824053830-mutt-send-email-mst@kernel.org>
+Subject: Re: [PATCH v4 11/15] pci: Add pci_iomap_shared{,_range}
+Message-ID: <20210911195006-mutt-send-email-mst@kernel.org>
+References: <20210824053830-mutt-send-email-mst@kernel.org>
  <d21a2a2d-4670-ba85-ce9a-fc8ea80ef1be@linux.intel.com>
  <20210829112105-mutt-send-email-mst@kernel.org>
  <09b340dd-c8a8-689c-4dad-4fe0e36d39ae@linux.intel.com>
@@ -62,98 +93,32 @@ References: <CAPcyv4iJVQKJ3bVwZhD08c8GNEP0jW2gx=H504NXcYK5o2t01A@mail.gmail.com>
  <20210830163723-mutt-send-email-mst@kernel.org>
  <69fc30f4-e3e2-add7-ec13-4db3b9cc0cbd@linux.intel.com>
  <20210910054044-mutt-send-email-mst@kernel.org>
-From:   Andi Kleen <ak@linux.intel.com>
-Message-ID: <f672dc1c-5280-7bbc-7a56-7c7aab31725c@linux.intel.com>
-Date:   Fri, 10 Sep 2021 09:34:45 -0700
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:78.0) Gecko/20100101
- Thunderbird/78.14.0
+ <f672dc1c-5280-7bbc-7a56-7c7aab31725c@linux.intel.com>
 MIME-Version: 1.0
-In-Reply-To: <20210910054044-mutt-send-email-mst@kernel.org>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Transfer-Encoding: 7bit
-Content-Language: en-US
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <f672dc1c-5280-7bbc-7a56-7c7aab31725c@linux.intel.com>
 Precedence: bulk
 List-ID: <linux-alpha.vger.kernel.org>
 X-Mailing-List: linux-alpha@vger.kernel.org
 
+On Fri, Sep 10, 2021 at 09:34:45AM -0700, Andi Kleen wrote:
+> > > that's why
+> > > an extra level of defense of ioremap opt-in is useful.
+> > OK even assuming this, why is pci_iomap opt-in useful?
+> > That never happens before probe - there's simply no pci_device then.
+> 
+> 
+> Hmm, yes that's true. I guess we can make it default to opt-in for
+> pci_iomap.
+> 
+> It only really matters for device less ioremaps.
 
->>>> And we've been avoiding that drivers can self declare auditing, we've been
->>>> trying to have a separate centralized list so that it's easier to enforce
->>>> and avoids any cut'n'paste mistakes.
->>>>
->>>> -Andi
->>> Now I'm confused. What is proposed here seems to be basically that,
->>> drivers need to declare auditing by replacing ioremap with
->>> ioremap_shared.
->> Auditing is declared on the device model level using a central allow list.
-> Can we not have an init call allow list instead of, or in addition to, a
-> device allow list?
+OK. And same thing for other things with device, such as
+devm_platform_ioremap_resource.
+If we agree on all that, this will basically remove virtio
+changes from the picture ;)
 
+-- 
+MST
 
-That would be quite complicated and intrusive. In fact I'm not even sure 
-how to do maintain something like this. There are a lot of needed 
-initcalls, they would all need to be marked. How can we distinguish 
-them? It would be a giant auditing project. And of course how would you 
-prevent it from bitrotting?
-
-
-Basically it would be hundreds of changes all over the tree, just to 
-avoid two changes in virtio and MSI. Approach of just stopping the 
-initcalls from doing bad things is much less intrusive.
-
->
->> But this cannot do anything to initcalls that run before probe,
-> Can't we extend module_init so init calls are validated against the
-> allow list?
-
-See above.
-
-
-Also the problem isn't really with modules (we rely on udev not loading 
-them), but with builtin initcalls
-
-
->
->> that's why
->> an extra level of defense of ioremap opt-in is useful.
-> OK even assuming this, why is pci_iomap opt-in useful?
-> That never happens before probe - there's simply no pci_device then.
-
-
-Hmm, yes that's true. I guess we can make it default to opt-in for 
-pci_iomap.
-
-It only really matters for device less ioremaps.
-
->
-> It looks suspiciously like drivers self-declaring auditing to me which
-> we both seem to agree is undesirable. What exactly is the difference?
-
-
-Just allow listing the ioremaps is not self declaration because the 
-device will still not initialize due to the central device filter. If 
-you want to use it that has to be changed.
-
-It's just an additional safety net to contain code running before probe.
-
-
->
-> Or are you just trying to disable anything that runs before probe?
-
-
-Well anything that could do dangerous host interactions (like processing 
-ioremap data) A lot of things are harmless and can be allowed, or 
-already blocked elsewhere (e.g. we have a IO port filter). This just 
-handles the ioremap/MMIO case.
-
-> In that case I don't see a reason to touch pci drivers though.
-> These should be fine with just the device model list.
-
-
-That won't stop initcalls.
-
-
--Andi
-
-
->
