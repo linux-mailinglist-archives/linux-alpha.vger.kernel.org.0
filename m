@@ -2,55 +2,65 @@ Return-Path: <linux-alpha-owner@vger.kernel.org>
 X-Original-To: lists+linux-alpha@lfdr.de
 Delivered-To: lists+linux-alpha@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id E462A40818F
-	for <lists+linux-alpha@lfdr.de>; Sun, 12 Sep 2021 22:37:40 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 9DBFE408222
+	for <lists+linux-alpha@lfdr.de>; Mon, 13 Sep 2021 00:58:59 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S236059AbhILUiu (ORCPT <rfc822;lists+linux-alpha@lfdr.de>);
-        Sun, 12 Sep 2021 16:38:50 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60096 "EHLO
+        id S236633AbhILXAN (ORCPT <rfc822;lists+linux-alpha@lfdr.de>);
+        Sun, 12 Sep 2021 19:00:13 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34522 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S235269AbhILUio (ORCPT
+        with ESMTP id S236596AbhILXAM (ORCPT
         <rfc822;linux-alpha@vger.kernel.org>);
-        Sun, 12 Sep 2021 16:38:44 -0400
-Received: from mail-ot1-x32c.google.com (mail-ot1-x32c.google.com [IPv6:2607:f8b0:4864:20::32c])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 42342C061574;
-        Sun, 12 Sep 2021 13:37:30 -0700 (PDT)
-Received: by mail-ot1-x32c.google.com with SMTP id k12-20020a056830150c00b0051abe7f680bso10510968otp.1;
-        Sun, 12 Sep 2021 13:37:30 -0700 (PDT)
+        Sun, 12 Sep 2021 19:00:12 -0400
+Received: from mail-lj1-x234.google.com (mail-lj1-x234.google.com [IPv6:2a00:1450:4864:20::234])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CB524C06175F
+        for <linux-alpha@vger.kernel.org>; Sun, 12 Sep 2021 15:58:57 -0700 (PDT)
+Received: by mail-lj1-x234.google.com with SMTP id h1so13755569ljl.9
+        for <linux-alpha@vger.kernel.org>; Sun, 12 Sep 2021 15:58:57 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=sender:to:cc:references:from:subject:message-id:date:user-agent
-         :mime-version:in-reply-to:content-language:content-transfer-encoding;
-        bh=sGO52QCbtTKYdjcgj2GabgzNcLXhaoNx+6K218Q6YKM=;
-        b=BoFoBk6YCh+SHOSsUgl2enC7/u2I2Bj4b7E3MP/cJEMdjyirzvoalq82dA+5XeNWwl
-         /4MX3K/6+Xlj40bcX+GF4RP8Np3PeD5WLjyuCNRAh/yUxFLrsFfGqZHVTX+4voCDXThQ
-         NtCPmvzn6p+zmvtMjAf39/fOY68oVD2yl1mYDt0TXnPjWiPfwLnBaXyNVrTevhQVK5pD
-         aw64A7C41B/zB54y/F7R6iae8wdcyUP5mhh/68BIQ4hchpPoT6t+dOxtutYlJ8dqp3XS
-         yjBSGiq5nQNB+jK0YfSdbGNqMPP3srkCCqL2YC3AJg3enTDIsnt4wkcbYUuMIGJkyi31
-         IwEQ==
+        d=linux-foundation.org; s=google;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=X35Fq5OT81Nr4I6Qbip78STPxqD/PDV+RfIaRcMXDmA=;
+        b=M7RyeS9xLb3mVaGM35ZObppxdx3xXQJgghifuu8UVsRcqA3tbQu/b3NBc4q9G58Skc
+         TooyKBQ11SGfPWSLHHrBcpkzM1JhOK+0oM7hKbEmTR97BKf+c74T2tMKjBtHYbQLqmvW
+         URtAxnOjLh0lc9MI1zr/I99Zl6xDfwYZhCri4=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:sender:to:cc:references:from:subject:message-id
-         :date:user-agent:mime-version:in-reply-to:content-language
-         :content-transfer-encoding;
-        bh=sGO52QCbtTKYdjcgj2GabgzNcLXhaoNx+6K218Q6YKM=;
-        b=paT/axvKVvZ3RLeKhVFOKy2Flcfawc0EuHWAvAdtGgR/elc3hz2YZuYrhNlS4udQ6W
-         i8ZLtqD8jEX6jJpi2yLrqnrPLhb41hWUGXdJFoRyf/CAcOA28sYRlOeNwtVI377ypWCz
-         8JSI2Tgu+wgFKtxukBNYctYeSiCFaNjRTY7WelXfTLay/TGocCH2u7122z3KholPr+j6
-         2S8htr585OzXCRi/1hnV8y64LdzeIWnrixFs5sTA6KIfn5Q0OBtg4NOg6WC1ER/f1ODE
-         yVOUCeGbhhh29sMrM7Kp9uerxvPDgErF5GdtBuODmLqcjBUZ66aePkFNWcyc5Bhqiogj
-         2CcQ==
-X-Gm-Message-State: AOAM532DXDGfpcA5nCnvHEAmXKMBS/zvXsp9+iCcC5707lPf25ejh+Vn
-        2OnCLKfi77SdvwKNgI8f6BAVzP+iQxw=
-X-Google-Smtp-Source: ABdhPJyr/+V+h4oQD6vwcSYgo9ReR96NTjTaNALCXrvxkaPwBpC+OfD7ikcSEXFhco1iPgTbl+o8QA==
-X-Received: by 2002:a05:6830:10:: with SMTP id c16mr6943996otp.63.1631479049479;
-        Sun, 12 Sep 2021 13:37:29 -0700 (PDT)
-Received: from server.roeck-us.net ([2600:1700:e321:62f0:329c:23ff:fee3:9d7c])
-        by smtp.gmail.com with ESMTPSA id 33sm1333791otx.19.2021.09.12.13.37.27
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=X35Fq5OT81Nr4I6Qbip78STPxqD/PDV+RfIaRcMXDmA=;
+        b=rVc+P8zpWpoYcxQyhAYVxYW4RBQZJz+0t5axPitfQPfxNHMIDCKk/YnB5HAui5+zgK
+         VBpAPOlWv93Exrdk/nDi1XdqLZchi69wRWz2TcqTxCl+TAZJQ+uz/bol1kH8Zwzng/HC
+         3NlJBpSomtFywnCHD4+De/a8GIf1NwMA4r9wPZbEi5pNV9WC+VwxvFVwCtfUXOpEuvQE
+         xYqh3PlBajTXc9qyAinX/aaiO8ae7qTUchxTY/m3oMElBxMfSdah4PDavx1dAHmCACiw
+         rTs9KAjukLvDrn1GNP+Ev75qF9pkeKyQ4hWUdKMAyW/APq/wfZR7Z/H9SJBIOYw14hy4
+         NCtA==
+X-Gm-Message-State: AOAM533fazOOQ/65sQpXFoWBnhJEcFeJpDXspu9CCbNeSZ5thvV4IZJP
+        KfRliFEU/kX4Z6QSJmj0Jv2oASCxH+klSxKTraM=
+X-Google-Smtp-Source: ABdhPJxpLMgfzeH4nqL+RpEMzuKsWKiLd64lKLdX8P8qLjW9tbejWxh2GiXi77FBYFbooQZUu9q2qg==
+X-Received: by 2002:a2e:b5dc:: with SMTP id g28mr7806076ljn.96.1631487535589;
+        Sun, 12 Sep 2021 15:58:55 -0700 (PDT)
+Received: from mail-lj1-f172.google.com (mail-lj1-f172.google.com. [209.85.208.172])
+        by smtp.gmail.com with ESMTPSA id q21sm635651lfu.226.2021.09.12.15.58.53
+        for <linux-alpha@vger.kernel.org>
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Sun, 12 Sep 2021 13:37:28 -0700 (PDT)
-Sender: Guenter Roeck <groeck7@gmail.com>
-To:     Linus Torvalds <torvalds@linux-foundation.org>
+        Sun, 12 Sep 2021 15:58:54 -0700 (PDT)
+Received: by mail-lj1-f172.google.com with SMTP id p15so13795960ljn.3
+        for <linux-alpha@vger.kernel.org>; Sun, 12 Sep 2021 15:58:53 -0700 (PDT)
+X-Received: by 2002:a2e:8107:: with SMTP id d7mr8107686ljg.68.1631487533580;
+ Sun, 12 Sep 2021 15:58:53 -0700 (PDT)
+MIME-Version: 1.0
+References: <20210912160149.2227137-1-linux@roeck-us.net> <20210912160149.2227137-5-linux@roeck-us.net>
+ <CAHk-=wi1=8shingNuo1CtfJ7eDByDsmwsz750Nbxq=7q0Gs+zg@mail.gmail.com> <0f36c218-d79c-145f-3368-7456dd39a3f2@roeck-us.net>
+In-Reply-To: <0f36c218-d79c-145f-3368-7456dd39a3f2@roeck-us.net>
+From:   Linus Torvalds <torvalds@linux-foundation.org>
+Date:   Sun, 12 Sep 2021 15:58:37 -0700
+X-Gmail-Original-Message-ID: <CAHk-=wi11WAHpJi8KDbbp7FGcqnfkB3r6TZqnZeOKvfYGCOsaQ@mail.gmail.com>
+Message-ID: <CAHk-=wi11WAHpJi8KDbbp7FGcqnfkB3r6TZqnZeOKvfYGCOsaQ@mail.gmail.com>
+Subject: Re: [PATCH 4/4] alpha: Use absolute_pointer for strcmp on fixed
+ memory location
+To:     Guenter Roeck <linux@roeck-us.net>
 Cc:     Richard Henderson <rth@twiddle.net>,
         Ivan Kokshaysky <ink@jurassic.park.msu.ru>,
         Matt Turner <mattst88@gmail.com>,
@@ -63,44 +73,33 @@ Cc:     Richard Henderson <rth@twiddle.net>,
         Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
         linux-parisc@vger.kernel.org, Netdev <netdev@vger.kernel.org>,
         Sparse Mailing-list <linux-sparse@vger.kernel.org>
-References: <20210912160149.2227137-1-linux@roeck-us.net>
- <20210912160149.2227137-5-linux@roeck-us.net>
- <CAHk-=wi1=8shingNuo1CtfJ7eDByDsmwsz750Nbxq=7q0Gs+zg@mail.gmail.com>
-From:   Guenter Roeck <linux@roeck-us.net>
-Subject: Re: [PATCH 4/4] alpha: Use absolute_pointer for strcmp on fixed
- memory location
-Message-ID: <0f36c218-d79c-145f-3368-7456dd39a3f2@roeck-us.net>
-Date:   Sun, 12 Sep 2021 13:37:26 -0700
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.13.0
-MIME-Version: 1.0
-In-Reply-To: <CAHk-=wi1=8shingNuo1CtfJ7eDByDsmwsz750Nbxq=7q0Gs+zg@mail.gmail.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-alpha.vger.kernel.org>
 X-Mailing-List: linux-alpha@vger.kernel.org
 
-On 9/12/21 12:13 PM, Linus Torvalds wrote:
-> On Sun, Sep 12, 2021 at 9:02 AM Guenter Roeck <linux@roeck-us.net> wrote:
->>
->> -       if (strcmp(COMMAND_LINE, "INSTALL") == 0) {
->> +       if (strcmp(absolute_pointer(COMMAND_LINE), "INSTALL") == 0) {
-> 
-> Again, this feels very much like treating the symptoms, not actually
-> fixing the real issue.
-> 
-> It's COMMAND_LINE itself that should have been fixed up, not that one use of it.
-> 
-> Because the only reason you didn't get a warning from later uses is
-> that 'strcmp()' is doing compiler-specific magic. You're just delaying
-> the inevitable warnings about the other uses of that thing.
-> 
+On Sun, Sep 12, 2021 at 1:37 PM Guenter Roeck <linux@roeck-us.net> wrote:
+>
+> COMMAND_LINE is, for whatever reason, defined in
+> arch/alpha/include/uapi/asm/setup.h, ie in the uapi.
+>
+> Can I even touch that ?
 
-COMMAND_LINE is, for whatever reason, defined in
-arch/alpha/include/uapi/asm/setup.h, ie in the uapi.
+I think that's entirely a historical accident.
 
-Can I even touch that ?
+Note how most of those #define's don't even work for user space
+because they use PAGE_OFFSET, which is defined in <asm/page.h>. And
+others depend on the kernel config system.
 
-Guenter
+There's a couple that do seem to be potentially for user space (MILO
+bootloader), and who knows just what hacks that code might have with
+internal knowledge of this header file. But anything I can find on the
+net seems to predate our move to 'uapi' headers, so I wouldn't really
+worry about it.
+
+So I'd suggest just moving that whole file back to <asm/setup.h>,
+changing it as necessary, and then seeing if anybody notices.
+
+Because I suspect the answer to that is just crickets chirping..
+
+              Linus
