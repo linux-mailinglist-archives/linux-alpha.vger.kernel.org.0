@@ -2,137 +2,108 @@ Return-Path: <linux-alpha-owner@vger.kernel.org>
 X-Original-To: lists+linux-alpha@lfdr.de
 Delivered-To: lists+linux-alpha@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id D572140841F
-	for <lists+linux-alpha@lfdr.de>; Mon, 13 Sep 2021 07:53:40 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 3D3A740BE83
+	for <lists+linux-alpha@lfdr.de>; Wed, 15 Sep 2021 05:52:35 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S237171AbhIMFyy (ORCPT <rfc822;lists+linux-alpha@lfdr.de>);
-        Mon, 13 Sep 2021 01:54:54 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:34305 "EHLO
-        us-smtp-delivery-124.mimecast.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S237157AbhIMFyx (ORCPT
+        id S236250AbhIODxv (ORCPT <rfc822;lists+linux-alpha@lfdr.de>);
+        Tue, 14 Sep 2021 23:53:51 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55534 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S236143AbhIODxu (ORCPT
         <rfc822;linux-alpha@vger.kernel.org>);
-        Mon, 13 Sep 2021 01:54:53 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1631512417;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         in-reply-to:in-reply-to:references:references;
-        bh=lmIEdzAE8KtfMvdI7Vd3u1eV+5W/XqJ3cF9Jvl0CpQM=;
-        b=hba9LN/K8sGgLov/lZRQ6l3oSQ+7L+pv5G+v2J8/Z0HMbT3DYz02f4jX5DU7by81SqSv1U
-        eDyW2pgFe0A3K52vJB8EBdW5sR3IskS8SyW57BuFogt3KmtOeA9Tcb7AMcYJFmk9kG1yZF
-        Z7hLO+6Vc2vi5HLduNMSzDXAvW8+cpw=
-Received: from mail-wm1-f70.google.com (mail-wm1-f70.google.com
- [209.85.128.70]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-195--FnTnXE_OUO8oLfdJrSGQQ-1; Mon, 13 Sep 2021 01:53:36 -0400
-X-MC-Unique: -FnTnXE_OUO8oLfdJrSGQQ-1
-Received: by mail-wm1-f70.google.com with SMTP id n17-20020a7bc5d1000000b002f8ca8bacdeso1420049wmk.3
-        for <linux-alpha@vger.kernel.org>; Sun, 12 Sep 2021 22:53:36 -0700 (PDT)
+        Tue, 14 Sep 2021 23:53:50 -0400
+Received: from mail-ot1-x332.google.com (mail-ot1-x332.google.com [IPv6:2607:f8b0:4864:20::332])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 40C53C061574;
+        Tue, 14 Sep 2021 20:52:32 -0700 (PDT)
+Received: by mail-ot1-x332.google.com with SMTP id o16-20020a9d2210000000b0051b1e56c98fso1736657ota.8;
+        Tue, 14 Sep 2021 20:52:32 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=sender:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=EWlyAfIJ6LK6KpxwIys48q3PWxQlxyDohB67wcgCd/M=;
+        b=nUrn/Lw/ozglO0/A9wBQBB3xPkoAzmKdrQprI3+VccXyvcgJsFFh6Bxae1HWUezXd4
+         AQmb9ebsH9GIgQE1wl9KXWoc7PiSvaIXe9WbY/IYmDO2508scavL+H0oJX9G/cISxyrs
+         l7dPZq/Rzp/uC/iEYMQydnJlrkX84nLnxe5tih2wDXRTX+TvBe2oCSsAxdYX1HhGNItO
+         ZbYGuPbTSYb0At2GGZVSlG9XTXaXKO2wfMUzpjKvNqfo/sD0H9uxRzfXaUWlNF9avXLB
+         uvmw7xVrRzDHurwjcA9UUGVm8zBBI/SskOAh6S7tIPd1LrwGhQjamQId6BvHpdzk92Fe
+         Aq/w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to;
-        bh=lmIEdzAE8KtfMvdI7Vd3u1eV+5W/XqJ3cF9Jvl0CpQM=;
-        b=B0jyP1Es+RSLQQZYIrUvK2N0rgnbjfbUYfsi0DgF03Qp7zUHOrc+byeWKz6gLYVHrK
-         2GgJ4jFwANxWC+WzkttGhGslHIfnGTR0cr7VxesIviWg27O1zdQj6QTVLVajW5f8qxXU
-         G4LI8Tzzd7gaEi/TdXGnE6CufoeRMGBLhovXJnOoAunQrTqARRo+XSCj/zsJ1qWLS/Js
-         G9vDiEpjDfeHQ5X5K/xNLeIYD20/7xz9d0dyDUXu3vFYdD6RSp+N2IJB9DOfKgmWU1Ux
-         H9rR2Wavj8Vj+0T62gikNepT8fbtS0vlVhDplbilL7zaoW5mq6J1wIO2BOetYMVPiHWb
-         xUJg==
-X-Gm-Message-State: AOAM530GoRzZWoU/bTDcZI/ttcmrCbkT9xkEecvPRsVnMhFiF1tIjfnO
-        +SLk5icI/AvuGwk2qKAr0lJ769ckWZlzSmlw2UlG5InmdaKS+/pSQTzLadxJvLf2vI26BcT2DVG
-        a7+ZYwNctCLOHCXNyHGF9ePQ=
-X-Received: by 2002:a7b:c4d2:: with SMTP id g18mr9470554wmk.135.1631512415167;
-        Sun, 12 Sep 2021 22:53:35 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJxTQJ4DZD+V1695amUyGJ/+8H3ZLTdwwSERHH6LaZYj9FQdGTZerMCI+h0RgKu+afW5N87HtQ==
-X-Received: by 2002:a7b:c4d2:: with SMTP id g18mr9470536wmk.135.1631512414954;
-        Sun, 12 Sep 2021 22:53:34 -0700 (PDT)
-Received: from redhat.com ([2.55.27.174])
-        by smtp.gmail.com with ESMTPSA id k29sm5687574wms.24.2021.09.12.22.53.29
+        h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
+         :mime-version:content-transfer-encoding;
+        bh=EWlyAfIJ6LK6KpxwIys48q3PWxQlxyDohB67wcgCd/M=;
+        b=LjwCgFED5njp+u/j+TJYe7dYhwrrI687AyWsiQmkAQvI+Y4BSxaFr84MGmD6CQ2CqI
+         wA20udHUY16ZX8D6Pk7+cNi3xgZksyaWXVhEL9ZKU8JaaXvpQpqcOimkEkUfPeP1tk+N
+         vHstZUJLJJGc9UK/KlP/bHiEtcjGKRaOmdKaMSCwFB54EhM9bZBhsKSiWEa0pT0FVwrY
+         FyTZfZhp2gc7+xd0fI+efpBCOd0uN7PylgIn2PyhvM+DAajFX/CFvdg5IpqlbSYf7oB8
+         OZTdw4g9dZlfQhhwV1OSYBa15msZM+VHjVQw17ofnycRGvd+CLWlkrCb1dCmhSBb8m27
+         KQQg==
+X-Gm-Message-State: AOAM530k0XA2LhbRRUKFy6kZXelNdGlSkbXM+McVf0nPUm8o0Y3sLy/3
+        e2iUTyoyoXOfScRZf/JyJFJExQ+RbtM=
+X-Google-Smtp-Source: ABdhPJzoMC19sXj6sgU0ESAUjmLqYY7d90Vdr5m68MaI4eRv2IeMsJvMNWYhojvqU0D2qXE51sqMMQ==
+X-Received: by 2002:a05:6830:1f0a:: with SMTP id u10mr17832026otg.53.1631677951631;
+        Tue, 14 Sep 2021 20:52:31 -0700 (PDT)
+Received: from server.roeck-us.net ([2600:1700:e321:62f0:329c:23ff:fee3:9d7c])
+        by smtp.gmail.com with ESMTPSA id x1sm3017780otu.8.2021.09.14.20.52.29
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 12 Sep 2021 22:53:33 -0700 (PDT)
-Date:   Mon, 13 Sep 2021 01:53:27 -0400
-From:   "Michael S. Tsirkin" <mst@redhat.com>
-To:     Andi Kleen <ak@linux.intel.com>
-Cc:     Dan Williams <dan.j.williams@intel.com>,
-        "Kuppuswamy, Sathyanarayanan" 
-        <sathyanarayanan.kuppuswamy@linux.intel.com>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
-        Peter Zijlstra <peterz@infradead.org>,
-        Andy Lutomirski <luto@kernel.org>,
-        Bjorn Helgaas <bhelgaas@google.com>,
-        Richard Henderson <rth@twiddle.net>,
-        Thomas Bogendoerfer <tsbogend@alpha.franken.de>,
-        James E J Bottomley <James.Bottomley@hansenpartnership.com>,
+        Tue, 14 Sep 2021 20:52:30 -0700 (PDT)
+Sender: Guenter Roeck <groeck7@gmail.com>
+From:   Guenter Roeck <linux@roeck-us.net>
+To:     Linus Torvalds <torvalds@linux-foundation.org>
+Cc:     Richard Henderson <rth@twiddle.net>,
+        Ivan Kokshaysky <ink@jurassic.park.msu.ru>,
+        Matt Turner <mattst88@gmail.com>,
+        "James E . J . Bottomley" <James.Bottomley@HansenPartnership.com>,
         Helge Deller <deller@gmx.de>,
         "David S . Miller" <davem@davemloft.net>,
-        Arnd Bergmann <arnd@arndb.de>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Peter H Anvin <hpa@zytor.com>,
-        Dave Hansen <dave.hansen@intel.com>,
-        Tony Luck <tony.luck@intel.com>,
-        Kirill Shutemov <kirill.shutemov@linux.intel.com>,
-        Sean Christopherson <seanjc@google.com>,
-        Kuppuswamy Sathyanarayanan <knsathya@kernel.org>,
-        X86 ML <x86@kernel.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        Linux PCI <linux-pci@vger.kernel.org>,
-        linux-alpha@vger.kernel.org, linux-mips@vger.kernel.org,
-        linux-parisc@vger.kernel.org, sparclinux@vger.kernel.org,
-        linux-arch <linux-arch@vger.kernel.org>,
-        Linux Doc Mailing List <linux-doc@vger.kernel.org>,
-        virtualization@lists.linux-foundation.org
-Subject: Re: [PATCH v4 11/15] pci: Add pci_iomap_shared{,_range}
-Message-ID: <20210913013815-mutt-send-email-mst@kernel.org>
-References: <d21a2a2d-4670-ba85-ce9a-fc8ea80ef1be@linux.intel.com>
- <20210829112105-mutt-send-email-mst@kernel.org>
- <09b340dd-c8a8-689c-4dad-4fe0e36d39ae@linux.intel.com>
- <20210829181635-mutt-send-email-mst@kernel.org>
- <3a88a255-a528-b00a-912b-e71198d5f58f@linux.intel.com>
- <20210830163723-mutt-send-email-mst@kernel.org>
- <69fc30f4-e3e2-add7-ec13-4db3b9cc0cbd@linux.intel.com>
- <20210910054044-mutt-send-email-mst@kernel.org>
- <f672dc1c-5280-7bbc-7a56-7c7aab31725c@linux.intel.com>
- <20210911195006-mutt-send-email-mst@kernel.org>
+        Jakub Kicinski <kuba@kernel.org>, linux-alpha@vger.kernel.org,
+        Geert Uytterhoeven <geert@linux-m68k.org>,
+        linux-kernel@vger.kernel.org, linux-parisc@vger.kernel.org,
+        netdev@vger.kernel.org, linux-sparse@vger.kernel.org,
+        Guenter Roeck <linux@roeck-us.net>
+Subject: [PATCH v2 0/4] Introduce and use absolute_pointer macro
+Date:   Tue, 14 Sep 2021 20:52:23 -0700
+Message-Id: <20210915035227.630204-1-linux@roeck-us.net>
+X-Mailer: git-send-email 2.33.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20210911195006-mutt-send-email-mst@kernel.org>
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-alpha.vger.kernel.org>
 X-Mailing-List: linux-alpha@vger.kernel.org
 
-On Sat, Sep 11, 2021 at 07:54:43PM -0400, Michael S. Tsirkin wrote:
-> On Fri, Sep 10, 2021 at 09:34:45AM -0700, Andi Kleen wrote:
-> > > > that's why
-> > > > an extra level of defense of ioremap opt-in is useful.
-> > > OK even assuming this, why is pci_iomap opt-in useful?
-> > > That never happens before probe - there's simply no pci_device then.
-> > 
-> > 
-> > Hmm, yes that's true. I guess we can make it default to opt-in for
-> > pci_iomap.
-> > 
-> > It only really matters for device less ioremaps.
-> 
-> OK. And same thing for other things with device, such as
-> devm_platform_ioremap_resource.
-> If we agree on all that, this will basically remove virtio
-> changes from the picture ;)
+Kernel test builds currently fail for several architectures with error
+messages such as the following.
 
+drivers/net/ethernet/i825xx/82596.c: In function 'i82596_probe':
+./arch/m68k/include/asm/string.h:72:25: error:
+	'__builtin_memcpy' reading 6 bytes from a region of size 0
+		[-Werror=stringop-overread]
 
-Something else that was pointed out to me:
+Such warnings may be reported by gcc 11.x for string and memory operations
+on fixed addresses if gcc's builtin functions are used for those
+operations.
 
-         fs->window_kaddr = devm_memremap_pages(&vdev->dev, pgmap);
-         if (IS_ERR(fs->window_kaddr))
-                 return PTR_ERR(fs->window_kaddr);
+This patch series introduces absolute_pointer() to fix the problem.
+absolute_pointer() disassociates a pointer from its originating symbol
+type and context, and thus prevents gcc from making assumptions about
+pointers passed to memory operations.
 
+v2: Drop parisc patch (the problem will be solved differently)
+    alpha: Move setup.h out of uapi
+    Define COMMAND_LINE for alpha as absolute_pointer instead of using
+    absolute_pointer on the define.
 
-looks like if we forget to set the shared flag then it will
-corrupt the DAX data?
+----------------------------------------------------------------
+Guenter Roeck (4):
+      compiler.h: Introduce absolute_pointer macro
+      net: i825xx: Use absolute_pointer for memcpy from fixed memory location
+      alpha: Move setup.h out of uapi
+      alpha: Use absolute_pointer to define COMMAND_LINE
 
-
-> -- 
-> MST
-> 
-
+ arch/alpha/include/asm/setup.h      | 43 +++++++++++++++++++++++++++++++++++++
+ arch/alpha/include/uapi/asm/setup.h | 42 +++---------------------------------
+ drivers/net/ethernet/i825xx/82596.c |  2 +-
+ include/linux/compiler.h            |  2 ++
+ 4 files changed, 49 insertions(+), 40 deletions(-)
+ create mode 100644 arch/alpha/include/asm/setup.h
