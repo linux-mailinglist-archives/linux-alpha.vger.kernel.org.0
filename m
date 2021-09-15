@@ -2,72 +2,83 @@ Return-Path: <linux-alpha-owner@vger.kernel.org>
 X-Original-To: lists+linux-alpha@lfdr.de
 Delivered-To: lists+linux-alpha@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id DC9C240BF66
-	for <lists+linux-alpha@lfdr.de>; Wed, 15 Sep 2021 07:50:17 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 4204740C025
+	for <lists+linux-alpha@lfdr.de>; Wed, 15 Sep 2021 09:08:01 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235107AbhIOFve (ORCPT <rfc822;lists+linux-alpha@lfdr.de>);
-        Wed, 15 Sep 2021 01:51:34 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53258 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230381AbhIOFvd (ORCPT
+        id S236564AbhIOHJS (ORCPT <rfc822;lists+linux-alpha@lfdr.de>);
+        Wed, 15 Sep 2021 03:09:18 -0400
+Received: from mail-vs1-f53.google.com ([209.85.217.53]:37849 "EHLO
+        mail-vs1-f53.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S231305AbhIOHJS (ORCPT
         <rfc822;linux-alpha@vger.kernel.org>);
-        Wed, 15 Sep 2021 01:51:33 -0400
-Received: from mail-qk1-x733.google.com (mail-qk1-x733.google.com [IPv6:2607:f8b0:4864:20::733])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 98E67C061764
-        for <linux-alpha@vger.kernel.org>; Tue, 14 Sep 2021 22:50:15 -0700 (PDT)
-Received: by mail-qk1-x733.google.com with SMTP id a10so2226617qka.12
-        for <linux-alpha@vger.kernel.org>; Tue, 14 Sep 2021 22:50:15 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=mime-version:reply-to:sender:from:date:message-id:subject:to;
-        bh=Aauu7gYvMaBruI9Zt1CgTlkxSZ8evQwPBhKOMH6jf8s=;
-        b=hs+xPyMq1cZQbpgaODJXDABwjtt6ZhNqQCYmPD+fzIbEoY3B7poo2JM0fYS4plovWc
-         Xu6O9cJGSuJ7NsYW+LZTNwI0WcO3FjykhWpGz8Hez14+Gr5/I+DhNVEmbB1o+tJ8J5G7
-         ancfORt/e02GI2lKxgl7RpCDF2XvXvJ8Hm4QecNpgmcpe9RpkcRQOzvir0zHQmVAiKH3
-         ZjHCnpttGrcL6fqM1w4ycQ9ZaYTZheMaQzkFofUXpleinFwCUwfqlCmsbWtmTJ57TH9G
-         /0UGdxsOVp1O69LvRXtpluAHdjZlmGI7h3rjD7mTakio2byX/vc0i+MoJ+gbaGRpxs5m
-         4fFA==
+        Wed, 15 Sep 2021 03:09:18 -0400
+Received: by mail-vs1-f53.google.com with SMTP id i23so1789473vsj.4;
+        Wed, 15 Sep 2021 00:07:59 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:reply-to:sender:from:date
-         :message-id:subject:to;
-        bh=Aauu7gYvMaBruI9Zt1CgTlkxSZ8evQwPBhKOMH6jf8s=;
-        b=oAIbGC41tQ+HsQ9aV2kYsc3Vnx6K76qVf8WOY2iGk/cgKi48JCUaPAepK7SKHL+UhX
-         LAQUPC3zFyTe3+tY0Dsm+XKKK9D3D13uj4eV0VHkPUyvYCVYs9i7G43VHgP9zVl8omVk
-         M5xt3RUfVakjMINh/JAE4q6ypVE6QjLG0mLaHMt8fe04BC8A+OVl03upfLPQ1LDpfDiN
-         cGW3uWiThBoyVZp0EYWZBNBQ/rh3wNzRd2oZFLdYc4vHj2QKFVLmmPiVzLIgjYXVV+Y0
-         3s5Ap5976Nrg7Be/epxAIT8lXaVWbAAlEZnsxbr1lSjy5fnq8PMEagRECzsAXRCrnFOF
-         2gIA==
-X-Gm-Message-State: AOAM531USRBKCShx19/YvYvUIAJRu0Zh/49J4uaAatDnzoEaWBMUbOYv
-        Z0xG7GY5iGjQC8QZCsacMKSZMCAZqm6Ezdv7M7I=
-X-Google-Smtp-Source: ABdhPJzG4bxBjN+zMQnaZCOKTqJD1j+cSg+k/BDMovnPfc356uNpZnF4cWfuM84DaTt02uLpUURDy8Bng3SyGYnDmYQ=
-X-Received: by 2002:a05:620a:4541:: with SMTP id u1mr8601126qkp.106.1631685014512;
- Tue, 14 Sep 2021 22:50:14 -0700 (PDT)
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=a1ubzPqneCoCRWymQt/DPxsQuqKvhkE5Z8aHIVy6Log=;
+        b=mHCJCar4Xon2OJ1uoHuNQ+lpwpABdoMskKqM/zLCiaKEMJ4fnVzMbNPkLzunMtw4Lz
+         QDMQXHroqpqhYqC78up5JyhROyfZRNV6uJPxcN6hLm8+Cr0/Z57X26Hm1fBkJd3oPuZG
+         bQbG+ZS3zM4CCQQZixicK3rmQFp7x3tbWga54SRYkFvQUwt5jEr58m+P9fpbMFeLK+3t
+         H+wzmD92gHTE+cA8tt2ZMlDCUFtzukHB3rOkHwzS+PC3tSVixc3ir1eS6HdJDGMPCdJG
+         s0XnY65AmbV00QA7KBLyscTRBkxjn8ei813AZv3EW4gP2FKo0lLJL6Z4CNugfsNczmdP
+         uSKg==
+X-Gm-Message-State: AOAM530h6oAMhnA8zSz0bmU0UfDfeNqMCl0cp7C72X7O2yaWFSCB64xV
+        d5JyvYFOAeF+PbEPtKPKGclfHbgve67A/zXdUIWmXNWD
+X-Google-Smtp-Source: ABdhPJxHnxoszY0sDj+hYWU0BjE3kyyw/RQ3D4awXIHnhLApfgsvuSgs5P41V6o+hh5KfRrFWq/4//5doBTkeuIdizM=
+X-Received: by 2002:a05:6102:b10:: with SMTP id b16mr2224836vst.41.1631689678872;
+ Wed, 15 Sep 2021 00:07:58 -0700 (PDT)
 MIME-Version: 1.0
-Reply-To: godwinppter@gmail.com
-Sender: zedenail156@gmail.com
-Received: by 2002:ad4:58a8:0:0:0:0:0 with HTTP; Tue, 14 Sep 2021 22:50:13
- -0700 (PDT)
-From:   Godwin Pete <godwinnpeter@gmail.com>
-Date:   Wed, 15 Sep 2021 07:50:13 +0200
-X-Google-Sender-Auth: aXoYXtSMhanwUVPyPbvY638BaI4
-Message-ID: <CAONS4ecNVyiQRNDQSXV5rLvv2Se53kjfqAg0MqZBfgwGnD-CZQ@mail.gmail.com>
-Subject: Reply urgently
-To:     undisclosed-recipients:;
+References: <20210915035227.630204-1-linux@roeck-us.net> <20210915035227.630204-2-linux@roeck-us.net>
+In-Reply-To: <20210915035227.630204-2-linux@roeck-us.net>
+From:   Geert Uytterhoeven <geert@linux-m68k.org>
+Date:   Wed, 15 Sep 2021 09:07:47 +0200
+Message-ID: <CAMuHMdWiAc_8Z5wK07c5Fi3Zf72RpPzqv32QHC=iYtBQpi=3dg@mail.gmail.com>
+Subject: Re: [PATCH v2 1/4] compiler.h: Introduce absolute_pointer macro
+To:     Guenter Roeck <linux@roeck-us.net>
+Cc:     Linus Torvalds <torvalds@linux-foundation.org>,
+        Richard Henderson <rth@twiddle.net>,
+        Ivan Kokshaysky <ink@jurassic.park.msu.ru>,
+        Matt Turner <mattst88@gmail.com>,
+        "James E . J . Bottomley" <James.Bottomley@hansenpartnership.com>,
+        Helge Deller <deller@gmx.de>,
+        "David S . Miller" <davem@davemloft.net>,
+        Jakub Kicinski <kuba@kernel.org>,
+        alpha <linux-alpha@vger.kernel.org>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        Parisc List <linux-parisc@vger.kernel.org>,
+        netdev <netdev@vger.kernel.org>, linux-sparse@vger.kernel.org
 Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-alpha.vger.kernel.org>
 X-Mailing-List: linux-alpha@vger.kernel.org
 
-My good friend,
+On Wed, Sep 15, 2021 at 5:52 AM Guenter Roeck <linux@roeck-us.net> wrote:
+> absolute_pointer() disassociates a pointer from its originating symbol
+> type and context. Use it to prevent compiler warnings/errors such as
+>
+> drivers/net/ethernet/i825xx/82596.c: In function 'i82596_probe':
+> ./arch/m68k/include/asm/string.h:72:25: error:
+>         '__builtin_memcpy' reading 6 bytes from a region of size 0
+>                 [-Werror=stringop-overread]
+>
+> Such warnings may be reported by gcc 11.x for string and memory operations
+> on fixed addresses.
+>
+> Suggested-by: Linus Torvalds <torvalds@linux-foundation.org>
+> Signed-off-by: Guenter Roeck <linux@roeck-us.net>
 
-I just want to know if you, can help me to transfer the amount of
-($6Million). After the transfer we have to share it, 50% for me, and
-50% for you. Please let me know if you can help me for more
-information in regards with the transfer. I hope you can work with me
-honestly?
+Reviewed-by: Geert Uytterhoeven <geert@linux-m68k.org>
 
+Gr{oetje,eeting}s,
 
-Thanks.
+                        Geert
 
-Godwin Peter,
+-- 
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
+
+In personal conversations with technical people, I call myself a hacker. But
+when I'm talking to journalists I just say "programmer" or something like that.
+                                -- Linus Torvalds
