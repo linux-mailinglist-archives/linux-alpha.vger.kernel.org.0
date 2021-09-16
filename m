@@ -2,66 +2,67 @@ Return-Path: <linux-alpha-owner@vger.kernel.org>
 X-Original-To: lists+linux-alpha@lfdr.de
 Delivered-To: lists+linux-alpha@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 6C47640E967
-	for <lists+linux-alpha@lfdr.de>; Thu, 16 Sep 2021 20:02:15 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id A3EB840EA88
+	for <lists+linux-alpha@lfdr.de>; Thu, 16 Sep 2021 21:02:31 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S243949AbhIPRx4 (ORCPT <rfc822;lists+linux-alpha@lfdr.de>);
-        Thu, 16 Sep 2021 13:53:56 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37790 "EHLO
+        id S233162AbhIPTDv (ORCPT <rfc822;lists+linux-alpha@lfdr.de>);
+        Thu, 16 Sep 2021 15:03:51 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52824 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1357113AbhIPRvZ (ORCPT
+        with ESMTP id S240119AbhIPTDd (ORCPT
         <rfc822;linux-alpha@vger.kernel.org>);
-        Thu, 16 Sep 2021 13:51:25 -0400
-Received: from mail-lf1-x12b.google.com (mail-lf1-x12b.google.com [IPv6:2a00:1450:4864:20::12b])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9E100C09B11B
-        for <linux-alpha@vger.kernel.org>; Thu, 16 Sep 2021 09:25:58 -0700 (PDT)
-Received: by mail-lf1-x12b.google.com with SMTP id i4so20724870lfv.4
-        for <linux-alpha@vger.kernel.org>; Thu, 16 Sep 2021 09:25:58 -0700 (PDT)
+        Thu, 16 Sep 2021 15:03:33 -0400
+Received: from mail-lf1-x12a.google.com (mail-lf1-x12a.google.com [IPv6:2a00:1450:4864:20::12a])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C7778C051777
+        for <linux-alpha@vger.kernel.org>; Thu, 16 Sep 2021 11:35:57 -0700 (PDT)
+Received: by mail-lf1-x12a.google.com with SMTP id t10so16515702lfd.8
+        for <linux-alpha@vger.kernel.org>; Thu, 16 Sep 2021 11:35:57 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=linux-foundation.org; s=google;
         h=mime-version:references:in-reply-to:from:date:message-id:subject:to
          :cc;
-        bh=+MrqPwjGprB21xOrKUeLYED8somKhoDI07GyEYlbbo4=;
-        b=giK/CoBDhVKoZODX7QaMWenK7M0Ef7/VMrMC+JpDOGq7hzKKMIt4+9kYx+W6zhvGu1
-         ySoWjCQyGMBQPbPsmJ+MdLSpu5kCyHc8//rajgrLTwILPMxsnm4mLr03RxEorH1wc86u
-         czJJF+ua9fGukgNanz1FEl1kMG76Vh0A/SWxI=
+        bh=t51QwKIKWkGOiuP6SJMrhP/dJST+bSD7Qp/ejqOgA0s=;
+        b=PYrRSLFVlXcDD2+pFS2QiDv72x9PP+CSDGgHHxrtNHys/SFAhFt/K9Dl2YKY3s46v4
+         n1V6egkmODP63nyS2heOSJmRcvJd8e+uQG22Bg5vVGD2JMQ2HAT6BYtwWfythdLKnTmE
+         1gprbKiTFCMpaERdEBSQKexI+QYMoZlOHeBbU=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
          :message-id:subject:to:cc;
-        bh=+MrqPwjGprB21xOrKUeLYED8somKhoDI07GyEYlbbo4=;
-        b=ZFVaV2V1qrwrFBFhF2C1ajIAHJi3fkHCfi9g7KveAQk0u9UX3gAn0E6NDlotK0Qs3I
-         n3kKhvf3sqE+hQH4MJhAAHXazLAY4AkaCm/yGN8y2MK62LmrHfvjJ+24HlA8lxWmLZGk
-         GnwgfGZH+EIfHuEgf7KkLAissuCuFowol+JJYVVLpnbVL0aXA0esO+o3JayuPKhoCeH2
-         Y0iTZmI4x5G7T7UG8C9o+TO0M5wtdqwfpowBmf2UE/ZbXeKmzMjSs/tdadU8+kZruH/p
-         8JPloY0JfAD1UdQNV58unNueelWoylHeCgaJ2Q5Oa64rumRP0vGgUmhgnSjNSnVnSsjc
-         laXw==
-X-Gm-Message-State: AOAM530LymEk9VtUYbDR5Q8wXy3e1vEGtxnDQCEedTMEvj2Yi6eQ1jnP
-        S8F04WfvZqsIGu+6xrf3hHbfDX4b/CwzBsc5
-X-Google-Smtp-Source: ABdhPJwyifIdpqOlAGel5gaRIPn9g08Bw2Pm7TK3Y73FfSYouV8wT62fCEE1ISQrr2vJ9peU+wS43A==
-X-Received: by 2002:ac2:5681:: with SMTP id 1mr4612351lfr.471.1631809556163;
-        Thu, 16 Sep 2021 09:25:56 -0700 (PDT)
-Received: from mail-lf1-f48.google.com (mail-lf1-f48.google.com. [209.85.167.48])
-        by smtp.gmail.com with ESMTPSA id r3sm299237lfc.131.2021.09.16.09.25.54
+        bh=t51QwKIKWkGOiuP6SJMrhP/dJST+bSD7Qp/ejqOgA0s=;
+        b=yMnDygrFtJmINK6a+LyY8Phjnu/wIb0q5s2cpW5ytRL+Eo+mtBRidSkbwP9t+u4aPV
+         flt14LJti0C2yOfKpNyEPDbTYUrRCNWbuZaUjIb2tjHpwOuZDpUG2g6+5f8/283q8TyQ
+         9LaWbPpi9kNoGhwtnUJI5gSJLkXDYaw9PP8/vKdJtSXas6JndS4T5luVuOcJkiBTpey9
+         21WcxfsMerYFqWyldcOn4ehJfg9DHKDroUCeSWNtwHRwRK7FhGtOZzGQxtGK5LZncwWc
+         QyA1X9EeUkvViS73ehbkAFw8yRhK8vinXZ9ouitUbo9mWYPnczbs+GX7iCGrNx2jOYAf
+         z98Q==
+X-Gm-Message-State: AOAM530D8tztnsLNT+3jmbggEZ0nrwtqU955W005pnoj/P3vvQa9v5sJ
+        Tbw5DRG/FmtwPBo1MD9G8miLJ4FJHtE/f2cG
+X-Google-Smtp-Source: ABdhPJx6yhufPRWsPeQvBicphFkCCYXED5Cew3uF0SJ94wEyYLECecm4Ol7FM3syWHWKU/vEZ/chbw==
+X-Received: by 2002:a2e:a30f:: with SMTP id l15mr6110575lje.153.1631817355902;
+        Thu, 16 Sep 2021 11:35:55 -0700 (PDT)
+Received: from mail-lf1-f41.google.com (mail-lf1-f41.google.com. [209.85.167.41])
+        by smtp.gmail.com with ESMTPSA id u12sm352187lff.280.2021.09.16.11.35.53
         for <linux-alpha@vger.kernel.org>
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 16 Sep 2021 09:25:55 -0700 (PDT)
-Received: by mail-lf1-f48.google.com with SMTP id c8so20956867lfi.3
-        for <linux-alpha@vger.kernel.org>; Thu, 16 Sep 2021 09:25:54 -0700 (PDT)
-X-Received: by 2002:a2e:8185:: with SMTP id e5mr5452535ljg.31.1631809554490;
- Thu, 16 Sep 2021 09:25:54 -0700 (PDT)
+        Thu, 16 Sep 2021 11:35:54 -0700 (PDT)
+Received: by mail-lf1-f41.google.com with SMTP id y28so22237743lfb.0
+        for <linux-alpha@vger.kernel.org>; Thu, 16 Sep 2021 11:35:53 -0700 (PDT)
+X-Received: by 2002:a2e:b53a:: with SMTP id z26mr5708746ljm.95.1631817352669;
+ Thu, 16 Sep 2021 11:35:52 -0700 (PDT)
 MIME-Version: 1.0
-References: <20210915035227.630204-1-linux@roeck-us.net> <CAHk-=whSkMh9mc7+OSBZZvpoEEJmS6qY7kX3qixEXTLKGc=wgw@mail.gmail.com>
- <CAHk-=wjynK7SSgTOvW7tfpFZZ0pzo67BsOsqtVHYtvju8F_bng@mail.gmail.com> <5497691.DvuYhMxLoT@alarsen.net>
-In-Reply-To: <5497691.DvuYhMxLoT@alarsen.net>
+References: <20210915035227.630204-1-linux@roeck-us.net> <CAHk-=wjXr+NnNPTorhaW81eAbdF90foVo-5pQqRmXZi-ZGaX6Q@mail.gmail.com>
+ <47fcc9cc-7d2e-bc79-122b-8eccfe00d8f3@roeck-us.net> <CAHk-=wgdEHPm6vGcJ_Zr-Q_p=Muv1Oby5H2+6QyPGxiZ7_Wv+w@mail.gmail.com>
+ <20210915223342.GA1556394@roeck-us.net>
+In-Reply-To: <20210915223342.GA1556394@roeck-us.net>
 From:   Linus Torvalds <torvalds@linux-foundation.org>
-Date:   Thu, 16 Sep 2021 09:25:38 -0700
-X-Gmail-Original-Message-ID: <CAHk-=wh84ks6FN2fBWrGZNKNhOmTZL-r5xZG7gYZ==jESG2GgA@mail.gmail.com>
-Message-ID: <CAHk-=wh84ks6FN2fBWrGZNKNhOmTZL-r5xZG7gYZ==jESG2GgA@mail.gmail.com>
+Date:   Thu, 16 Sep 2021 11:35:36 -0700
+X-Gmail-Original-Message-ID: <CAHk-=wgQ4jsPadbo4kr4=UKn0nR+UvWUZF9Q-xv0QUXb33SVRA@mail.gmail.com>
+Message-ID: <CAHk-=wgQ4jsPadbo4kr4=UKn0nR+UvWUZF9Q-xv0QUXb33SVRA@mail.gmail.com>
 Subject: Re: [PATCH v2 0/4] Introduce and use absolute_pointer macro
-To:     Anders Larsen <al@alarsen.net>
-Cc:     Guenter Roeck <linux@roeck-us.net>,
-        Richard Henderson <rth@twiddle.net>,
+To:     Guenter Roeck <linux@roeck-us.net>,
+        Michael Cree <mcree@orcon.net.nz>
+Cc:     Richard Henderson <rth@twiddle.net>,
         Ivan Kokshaysky <ink@jurassic.park.msu.ru>,
         Matt Turner <mattst88@gmail.com>,
         "James E . J . Bottomley" <James.Bottomley@hansenpartnership.com>,
@@ -78,71 +79,73 @@ Precedence: bulk
 List-ID: <linux-alpha.vger.kernel.org>
 X-Mailing-List: linux-alpha@vger.kernel.org
 
-On Thu, Sep 16, 2021 at 12:02 AM Anders Larsen <al@alarsen.net> wrote:
+On Wed, Sep 15, 2021 at 3:33 PM Guenter Roeck <linux@roeck-us.net> wrote:
 >
-> On Wednesday, 2021-09-15 23:19 Linus Torvalds wrote:
-> >
-> > But hey, maybe it just works so well for the very specialized user base ...
+> drivers/net/ethernet/3com/3c515.c: In function 'corkscrew_start_xmit':
+> drivers/net/ethernet/3com/3c515.c:1053:22: error:
+>         cast from pointer to integer of different size
 >
-> it's actually the latter (although I guess the user base is shrinking)
+> That is a typecast from a pointer to an int, which is then sent to an
+> i/o port. That driver should probably be disabled for 64-bit builds.
 
-Hey, so if it's actively used, maybe you can answer a question or two
-that I have just because I looked at the code..
+Naah. I think the Jensen actually had an ISA slot. Came with a
+whopping 8MB too, so the ISA DMA should work just fine.
 
-In particular, the inode number calculation is odd. Is there a reason
-for the "-1"? Because iboth the link case and the direct inode case
-have it, but t's a _different_ "-1":
+Or maybe it was EISA only? I really don't remember.
 
-For the "inode_entry", it does
+It's possible that alpha should get rid of the ISA config option, and
+use ISA_BUS instead. That would be the proper config if there aren't
+actually any ISA _slots_, and it would disable the 3c515 driver.
 
-                ino = blknum * QNX4_INODES_PER_BLOCK + ix - 1;
+But it turns out that the compile error is easy to fix. Just make it
+use isa_virt_to_bus(), which that driver does elsewhere anyway.
 
-but it's worth noting that "ix" is zero-based (index within the
-block), so this kind of oddly removes one from a zero-based thing, and
-the 'ino' for the very first entry ends up being -1.
+I have no way - or interest - to test that on real hardware, but I did
+check that if I relax the config I can at least build it cleanly on
+x86-64 with that change.
 
-Of course, it's possible that the first entry is always empty, but it
-does seem a bit odd.
+It can't make matters worse, and it's the RightThing(tm).
 
-For the "link_info" case, it does
+Since Micheal replied about that other alpha issue, maybe he knows
+about the ISA slot situation too?
 
-            ino = ( le32_to_cpu(de->link.dl_inode_blk) - 1 ) *
-                    QNX4_INODES_PER_BLOCK +
-                    de->link.dl_inode_ndx;
+But anyway, 3c515 should compile cleanly again.
 
-so now it takes the _block_ index, and does that "-1" on it, and then
-multiplies it by the "entries per block" number, and adds the index.
+> drivers/net/wan/lmc/lmc_main.c: In function 'lmc_softreset':
+> drivers/net/wan/lmc/lmc_main.c:1782:50: error:
+>         passing argument 1 of 'virt_to_bus' discards 'volatile' qualifier from pointer target type
+>
+> and several other similar errors.
+>
+> patch:
+>         https://lore.kernel.org/lkml/20210909050033.1564459-1-linux@roeck-us.net/
+> Arnd sent an Ack, but it doesn't look like it was picked up.
 
-So now if both are zero, the inode number is -8, not -1.
+I picked it up manually now along with the arm vexpress cpufreq one.
 
-But all of this matches what the *lookup* code does. It's very odd, though.
+> m68k:
 
-But to make it stranger, then in "qnx4_iget()", the calculations all
-makes sense. There it just does "take the inode number, and look up
-block and index into the block using it".
+I think these should be fixed as of the pull request this morning.
 
-Very strange and confusing. Because it means that iget() seems to look
-up a *different* inode entry than "lookup" and "readdir" actually look
-at.
+> mips:
+>
+> In file included from arch/mips/include/asm/sibyte/sb1250.h:28,
+>                  from drivers/watchdog/sb_wdog.c:58:
+> arch/mips/include/asm/sibyte/bcm1480_scd.h:261: error: "M_SPC_CFG_CLEAR" redefined
+>
+> and similar. Patch:
+>
+> https://patchwork.kernel.org/project/linux-watchdog/patch/20210913073220.1159520-1-liu.yun@linux.dev/
+>
+> I'll need to get Wim to push it.
 
-I must be missing something. I obviously didn't touch any of this
-logic, I was just doing the "make the type system clearer for the
-compiler".
+Ok, that hasn't hit my tree yet.
 
-Also, I have to say, since I was looking at compiler output, the
-calculations in readdir() are made much worse by the fact that the
-dir->pos is a "loff_t". That's signed. And then you use "%" to get the
-index within a block. Using '%' instead of bitops is fairly
-equivalent, but only for
+> parisc:
 
- (a) unsigned types
+This one should be fixed as of the parisc pull this morning.
 
- (b) when the divisor is a compile-time power-of-2
+So a few more remaining (mainly the suspend/resume ones), but slowly
+making progress.
 
-In the qnx4 case, (b) is true, but (a) is not.
-
-Not a big deal. But usually, I tell people to avoid '% ENTRIES',
-because it really has very different behavior from '& MASK' for signed
-numbers.
-
-                  Linus
+             Linus
