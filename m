@@ -2,40 +2,41 @@ Return-Path: <linux-alpha-owner@vger.kernel.org>
 X-Original-To: lists+linux-alpha@lfdr.de
 Delivered-To: lists+linux-alpha@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 19289415700
-	for <lists+linux-alpha@lfdr.de>; Thu, 23 Sep 2021 05:45:13 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 6745141571C
+	for <lists+linux-alpha@lfdr.de>; Thu, 23 Sep 2021 05:45:23 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S239394AbhIWDpY (ORCPT <rfc822;lists+linux-alpha@lfdr.de>);
-        Wed, 22 Sep 2021 23:45:24 -0400
-Received: from mail.kernel.org ([198.145.29.99]:42104 "EHLO mail.kernel.org"
+        id S239078AbhIWDqX (ORCPT <rfc822;lists+linux-alpha@lfdr.de>);
+        Wed, 22 Sep 2021 23:46:23 -0400
+Received: from mail.kernel.org ([198.145.29.99]:42692 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S239567AbhIWDnf (ORCPT <rfc822;linux-alpha@vger.kernel.org>);
-        Wed, 22 Sep 2021 23:43:35 -0400
-Received: by mail.kernel.org (Postfix) with ESMTPSA id DC53261131;
-        Thu, 23 Sep 2021 03:40:48 +0000 (UTC)
+        id S239687AbhIWDoW (ORCPT <rfc822;linux-alpha@vger.kernel.org>);
+        Wed, 22 Sep 2021 23:44:22 -0400
+Received: by mail.kernel.org (Postfix) with ESMTPSA id B8D1C61361;
+        Thu, 23 Sep 2021 03:41:10 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1632368450;
+        s=k20201202; t=1632368472;
         bh=t/erUJWZIbkUm0d3B7DgXzNLqzRKp/ba8B0aIr6qg5M=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=OHOl1Tu5AlcQ7Y9RA1tfHE8Flogfl6NztGXpaqG6enpHMHNMPR8GR4OsFL/d0gWVo
-         PavbqK1Aj82rqrFidBCAxgiy44FrrDGFy9X07JK+jTCNopYxsXNZlNAEJTWArP85ld
-         yqYuBfzpeCXOUM9Pd4m+klrS+HTiI2vrD+iKcQnuz8F9/VbqtTFpHvhRa6DlNy/7l6
-         R+CnL1EE2hb2qwJqKZrL8BniozfGDBgEdnDnz+7CsAzEWnInWMiJ7QQ0ODWcRdkMfr
-         RMw0522AXWzsK1tsnP+RifydDZyAhSqP8pljpCXK4DFb/FuorZ065f2XSNLcozCHmy
-         NOLg8HnOpwNfA==
+        b=aqOu841jv3bhmOdksFqsic8ipNhMolxHh6W82Id4SvakKS1YF/tQ7mgApAc0yiYY1
+         yOgA0wv6d/yd12JIAXGvOhGspkWYqLDbQ3iCCtPAhCWUCc0e/oz8LSuJ29YPnUzoPW
+         Ea8qLIMnMMdyHUi70oeXhqOpE83HGpn4x8GWrbjO9L2K4xmF7GfgnGaom9+RIEK8sj
+         kWaiNc+2Yg5ZBaQDdGSUyFxn1oFyzQn4KEO/HO/o2+zcAdIPnSoEgccFc9xSsiwMGH
+         2Us0vJ8M5s4hY4ptW3DuYKZyBMFGIws6nEiTVEi/wOf8plvUzZ8xf1SDv1NrsVlV5p
+         1MlkcKyN8xNHg==
 From:   Sasha Levin <sashal@kernel.org>
 To:     linux-kernel@vger.kernel.org, stable@vger.kernel.org
 Cc:     Guenter Roeck <linux@roeck-us.net>, Arnd Bergmann <arnd@arndb.de>,
         Linus Torvalds <torvalds@linux-foundation.org>,
         Sasha Levin <sashal@kernel.org>, rth@twiddle.net,
-        ink@jurassic.park.msu.ru, mattst88@gmail.com, david@redhat.com,
-        geert@linux-m68k.org, mhocko@suse.com, linux-alpha@vger.kernel.org
-Subject: [PATCH AUTOSEL 4.9 09/11] alpha: Declare virt_to_phys and virt_to_bus parameter as pointer to volatile
-Date:   Wed, 22 Sep 2021 23:40:25 -0400
-Message-Id: <20210923034028.1421876-9-sashal@kernel.org>
+        ink@jurassic.park.msu.ru, mattst88@gmail.com, geert@linux-m68k.org,
+        akpm@linux-foundation.org, mhocko@suse.com, david@redhat.com,
+        linux-alpha@vger.kernel.org
+Subject: [PATCH AUTOSEL 4.4 08/10] alpha: Declare virt_to_phys and virt_to_bus parameter as pointer to volatile
+Date:   Wed, 22 Sep 2021 23:40:51 -0400
+Message-Id: <20210923034055.1422059-8-sashal@kernel.org>
 X-Mailer: git-send-email 2.30.2
-In-Reply-To: <20210923034028.1421876-1-sashal@kernel.org>
-References: <20210923034028.1421876-1-sashal@kernel.org>
+In-Reply-To: <20210923034055.1422059-1-sashal@kernel.org>
+References: <20210923034055.1422059-1-sashal@kernel.org>
 MIME-Version: 1.0
 X-stable: review
 X-Patchwork-Hint: Ignore
