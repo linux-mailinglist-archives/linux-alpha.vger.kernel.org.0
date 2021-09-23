@@ -2,72 +2,109 @@ Return-Path: <linux-alpha-owner@vger.kernel.org>
 X-Original-To: lists+linux-alpha@lfdr.de
 Delivered-To: lists+linux-alpha@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id D49394151BA
-	for <lists+linux-alpha@lfdr.de>; Wed, 22 Sep 2021 22:54:58 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 207A541568C
+	for <lists+linux-alpha@lfdr.de>; Thu, 23 Sep 2021 05:40:45 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S237807AbhIVU42 (ORCPT <rfc822;lists+linux-alpha@lfdr.de>);
-        Wed, 22 Sep 2021 16:56:28 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33876 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S237793AbhIVU41 (ORCPT
-        <rfc822;linux-alpha@vger.kernel.org>);
-        Wed, 22 Sep 2021 16:56:27 -0400
-Received: from mail-lf1-x12c.google.com (mail-lf1-x12c.google.com [IPv6:2a00:1450:4864:20::12c])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A6CAAC061757
-        for <linux-alpha@vger.kernel.org>; Wed, 22 Sep 2021 13:54:56 -0700 (PDT)
-Received: by mail-lf1-x12c.google.com with SMTP id e15so17112671lfr.10
-        for <linux-alpha@vger.kernel.org>; Wed, 22 Sep 2021 13:54:56 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=mime-version:sender:from:date:message-id:subject:to;
-        bh=ijKrByR1/KtEp2Ut8Wj0vMi00kBZm/A/r1gPwOEYZIg=;
-        b=fr8lNb1tzuroNDnbJJtYWeXOCGZbssrkZvaRy8HVdYCeSSxS96vSwd3R2+r1vg3M6/
-         ex66FoD7Oi9BZ+eroN2ctcLno3UxJhL89X1t6yEsFayGc2q4Pz0zZQBaUGqcHr3s/S1+
-         lgIwwHuJ4O8SDnA5oR3zC/CFwa9fWO84703n6I2aQyNKP1VzeqgyNRTdZaVTG81gy6Vx
-         t6u58+esbUQxWBZY5IFD1w784RDrV2U7d72/V+RQAoF8LyHU+KHsqwJTuZK+RI9xoYHQ
-         hU/k+XKo5P60J+yjbN5r0LQMnBzU5qvJitpMdoh7dt6f9DChJ/lZbweVN/xESakomSrI
-         Tc/A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:sender:from:date:message-id:subject
-         :to;
-        bh=ijKrByR1/KtEp2Ut8Wj0vMi00kBZm/A/r1gPwOEYZIg=;
-        b=bdnacPvJy0EKlSbeE2vY54Ki0tyH26Lv09zswKjHNzPVC1PmkYYT86kPxMr4scu2ea
-         9G3bFLbTc8PPfRG1j0XPAj7qRWM4Gi3x30wcLZJZk6oKFjq+bMUFjMhx9gpjw9aOkjhG
-         JA4Lpn232ClQ0iKTITac5H1q6UBy9VCfKfmGu/47g7/wSrswJdFEVTbeRdDxmxGf2de6
-         JzxJ7eTzqJka1skR/CrJBbo3hB7DoIQyBR7rMY+l29QKwCfEn00x8sHPjl3V87tJJLw/
-         drH/bt9sFe5HQiAfU9UVrRwYMAjvJn0Gp2/HWRl5WpaJa0WTur6N81GtT92mc6u0+SfQ
-         BFpw==
-X-Gm-Message-State: AOAM530tAOsDdZVpT16fJnygoKhuQ5SDGCQIEQLr3TE+z/YRKx918Zl8
-        QKKS4s2gw/i17MUVeg6efO4PhD49Qdd2GOKTu5E=
-X-Google-Smtp-Source: ABdhPJwYYn7ZwazUxB30/XTxKCOf4dlZaC6TfP1ljKsU4ZNb40cpLRsdAvw7sAb51nYQkeG7S6W5vU7Cgq+lC3FYxgE=
-X-Received: by 2002:a05:651c:1546:: with SMTP id y6mr1383813ljp.53.1632344095088;
- Wed, 22 Sep 2021 13:54:55 -0700 (PDT)
+        id S239433AbhIWDmB (ORCPT <rfc822;lists+linux-alpha@lfdr.de>);
+        Wed, 22 Sep 2021 23:42:01 -0400
+Received: from mail.kernel.org ([198.145.29.99]:42160 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S239323AbhIWDk5 (ORCPT <rfc822;linux-alpha@vger.kernel.org>);
+        Wed, 22 Sep 2021 23:40:57 -0400
+Received: by mail.kernel.org (Postfix) with ESMTPSA id D678161019;
+        Thu, 23 Sep 2021 03:39:24 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1632368366;
+        bh=NEAgUUSzlJUqdeFK87dMG3tLB0BpfhYItVhUx82VOp8=;
+        h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+        b=FQy5qRbXlOXly2GpDoiI0qlAuGdtt0nWAncGeQ0kxzyIm13JwwDUwUTvxuiyReuYm
+         NA1h/4VQluwezadQZb1JP+Y/NSig+K4oebDgIKsyQGKPxjv8tsyOiYzgglu3ShIZMK
+         yCQVh0EGCCabgZvH/TQ2MTENANAcH+Fm2jRCrY64dcOsgb3mo4pPM/R2QRYwx5gSpc
+         pIzSfaeg9uB6S3/Hk5VgvTLFQkHiiE6Eirf34yPjnWGgDLJ8nDnDtI7kjZpfhUhhFA
+         WLQemv6XzaEnjSYXPbk1ZNFkcq2qP1g0pYaqaDPjoznwoFugofY+ggtLA1dupYRGLK
+         0SV+8nJnMKRTg==
+From:   Sasha Levin <sashal@kernel.org>
+To:     linux-kernel@vger.kernel.org, stable@vger.kernel.org
+Cc:     Guenter Roeck <linux@roeck-us.net>, Arnd Bergmann <arnd@arndb.de>,
+        Linus Torvalds <torvalds@linux-foundation.org>,
+        Sasha Levin <sashal@kernel.org>, rth@twiddle.net,
+        ink@jurassic.park.msu.ru, mattst88@gmail.com,
+        akpm@linux-foundation.org, geert@linux-m68k.org, david@redhat.com,
+        linux-alpha@vger.kernel.org
+Subject: [PATCH AUTOSEL 5.4 17/19] alpha: Declare virt_to_phys and virt_to_bus parameter as pointer to volatile
+Date:   Wed, 22 Sep 2021 23:38:51 -0400
+Message-Id: <20210923033853.1421193-17-sashal@kernel.org>
+X-Mailer: git-send-email 2.30.2
+In-Reply-To: <20210923033853.1421193-1-sashal@kernel.org>
+References: <20210923033853.1421193-1-sashal@kernel.org>
 MIME-Version: 1.0
-Sender: ratcliffijames58@gmail.com
-Received: by 2002:a05:6504:5067:0:0:0:0 with HTTP; Wed, 22 Sep 2021 13:54:54
- -0700 (PDT)
-From:   Aisha Al-Qaddafi <aisha.gdaffi24@gmail.com>
-Date:   Wed, 22 Sep 2021 21:54:54 +0100
-X-Google-Sender-Auth: B3PIuwFz7UcaHNCffYC8akvbLEk
-Message-ID: <CAKVTYWSPSMf085dB7FkhkLr9XtoZHkjbvunoMard5qsSPn4ZOg@mail.gmail.com>
-Subject: My Dear Friend
-To:     undisclosed-recipients:;
-Content-Type: text/plain; charset="UTF-8"
+X-stable: review
+X-Patchwork-Hint: Ignore
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-alpha.vger.kernel.org>
 X-Mailing-List: linux-alpha@vger.kernel.org
 
-Assalamu alaikum,
-I came across your e-mail contact prior to a private search while in
-need of your assistance. I am Aisha Al-Qaddafi, the only biological,
-Daughter of Former President of Libya Col. Muammar Al-Qaddafi. Am a
-single Mother and a Widow with three Children. I have investment funds
-worth Twenty Seven Million Five Hundred Thousand United State Dollar
-($27.500.000.00 ) and i need a trusted  investment Manager/Partner
-because of my current refugee status, however, I am interested in you
-for investment project assistance in your country. If you are willing
-to handle this project on my behalf kindly reply urgently to enable me
-to provide you more information about the investment
-funds.
-Best Regards
+From: Guenter Roeck <linux@roeck-us.net>
+
+[ Upstream commit 35a3f4ef0ab543daa1725b0c963eb8c05e3376f8 ]
+
+Some drivers pass a pointer to volatile data to virt_to_bus() and
+virt_to_phys(), and that works fine.  One exception is alpha.  This
+results in a number of compile errors such as
+
+  drivers/net/wan/lmc/lmc_main.c: In function 'lmc_softreset':
+  drivers/net/wan/lmc/lmc_main.c:1782:50: error:
+	passing argument 1 of 'virt_to_bus' discards 'volatile'
+	qualifier from pointer target type
+
+  drivers/atm/ambassador.c: In function 'do_loader_command':
+  drivers/atm/ambassador.c:1747:58: error:
+	passing argument 1 of 'virt_to_bus' discards 'volatile'
+	qualifier from pointer target type
+
+Declare the parameter of virt_to_phys and virt_to_bus as pointer to
+volatile to fix the problem.
+
+Signed-off-by: Guenter Roeck <linux@roeck-us.net>
+Acked-by: Arnd Bergmann <arnd@arndb.de>
+Signed-off-by: Linus Torvalds <torvalds@linux-foundation.org>
+Signed-off-by: Sasha Levin <sashal@kernel.org>
+---
+ arch/alpha/include/asm/io.h | 6 +++---
+ 1 file changed, 3 insertions(+), 3 deletions(-)
+
+diff --git a/arch/alpha/include/asm/io.h b/arch/alpha/include/asm/io.h
+index 103270d5a9fc..66a384a4ddba 100644
+--- a/arch/alpha/include/asm/io.h
++++ b/arch/alpha/include/asm/io.h
+@@ -61,7 +61,7 @@ extern inline void set_hae(unsigned long new_hae)
+  * Change virtual addresses to physical addresses and vv.
+  */
+ #ifdef USE_48_BIT_KSEG
+-static inline unsigned long virt_to_phys(void *address)
++static inline unsigned long virt_to_phys(volatile void *address)
+ {
+ 	return (unsigned long)address - IDENT_ADDR;
+ }
+@@ -71,7 +71,7 @@ static inline void * phys_to_virt(unsigned long address)
+ 	return (void *) (address + IDENT_ADDR);
+ }
+ #else
+-static inline unsigned long virt_to_phys(void *address)
++static inline unsigned long virt_to_phys(volatile void *address)
+ {
+         unsigned long phys = (unsigned long)address;
+ 
+@@ -107,7 +107,7 @@ static inline void * phys_to_virt(unsigned long address)
+ extern unsigned long __direct_map_base;
+ extern unsigned long __direct_map_size;
+ 
+-static inline unsigned long __deprecated virt_to_bus(void *address)
++static inline unsigned long __deprecated virt_to_bus(volatile void *address)
+ {
+ 	unsigned long phys = virt_to_phys(address);
+ 	unsigned long bus = phys + __direct_map_base;
+-- 
+2.30.2
+
