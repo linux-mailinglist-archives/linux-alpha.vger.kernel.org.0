@@ -2,71 +2,67 @@ Return-Path: <linux-alpha-owner@vger.kernel.org>
 X-Original-To: lists+linux-alpha@lfdr.de
 Delivered-To: lists+linux-alpha@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id B143341847A
-	for <lists+linux-alpha@lfdr.de>; Sat, 25 Sep 2021 22:43:04 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 4B850418490
+	for <lists+linux-alpha@lfdr.de>; Sat, 25 Sep 2021 23:01:27 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229854AbhIYUoj (ORCPT <rfc822;lists+linux-alpha@lfdr.de>);
-        Sat, 25 Sep 2021 16:44:39 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43038 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229842AbhIYUoi (ORCPT
+        id S229934AbhIYVDB (ORCPT <rfc822;lists+linux-alpha@lfdr.de>);
+        Sat, 25 Sep 2021 17:03:01 -0400
+Received: from outpost1.zedat.fu-berlin.de ([130.133.4.66]:44849 "EHLO
+        outpost1.zedat.fu-berlin.de" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S229842AbhIYVDA (ORCPT
         <rfc822;linux-alpha@vger.kernel.org>);
-        Sat, 25 Sep 2021 16:44:38 -0400
-Received: from zeniv-ca.linux.org.uk (zeniv-ca.linux.org.uk [IPv6:2607:5300:60:148a::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B7535C061570
-        for <linux-alpha@vger.kernel.org>; Sat, 25 Sep 2021 13:43:03 -0700 (PDT)
-Received: from viro by zeniv-ca.linux.org.uk with local (Exim 4.94.2 #2 (Red Hat Linux))
-        id 1mUEVh-007KRZ-SC; Sat, 25 Sep 2021 20:43:01 +0000
-Date:   Sat, 25 Sep 2021 20:43:01 +0000
-From:   Al Viro <viro@zeniv.linux.org.uk>
-To:     Linus Torvalds <torvalds@linux-foundation.org>
-Cc:     alpha <linux-alpha@vger.kernel.org>
-Subject: Re: [PATCH 7/7] alpha: lazy FPU switching
-Message-ID: <YU+J1b2jA8ZZZpv/@zeniv-ca.linux.org.uk>
-References: <YU6PVepETVUJF28v@zeniv-ca.linux.org.uk>
- <20210925025548.1694143-1-viro@zeniv.linux.org.uk>
- <20210925025548.1694143-7-viro@zeniv.linux.org.uk>
- <CAHk-=wjPNM9puKEvteLnY4EDMPE3rKJcODzABHSO-7gKFkOwoA@mail.gmail.com>
+        Sat, 25 Sep 2021 17:03:00 -0400
+Received: from inpost2.zedat.fu-berlin.de ([130.133.4.69])
+          by outpost.zedat.fu-berlin.de (Exim 4.94)
+          with esmtps (TLS1.2)
+          tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
+          (envelope-from <glaubitz@zedat.fu-berlin.de>)
+          id 1mUEnU-0048ax-HE; Sat, 25 Sep 2021 23:01:24 +0200
+Received: from p57bd97e9.dip0.t-ipconnect.de ([87.189.151.233] helo=[192.168.178.81])
+          by inpost2.zedat.fu-berlin.de (Exim 4.94)
+          with esmtpsa (TLS1.2)
+          tls TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256
+          (envelope-from <glaubitz@physik.fu-berlin.de>)
+          id 1mUEnS-002jkd-QL; Sat, 25 Sep 2021 23:01:24 +0200
+Message-ID: <fb334b31-9b06-615d-189b-bf7909906752@physik.fu-berlin.de>
+Date:   Sat, 25 Sep 2021 23:01:20 +0200
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <CAHk-=wjPNM9puKEvteLnY4EDMPE3rKJcODzABHSO-7gKFkOwoA@mail.gmail.com>
-Sender: Al Viro <viro@ftp.linux.org.uk>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.1.0
+Subject: Re: Newer kernels on the Jensen (was: [PATCH v2 0/4] Introduce and
+ use absolute_pointer macro)
+Content-Language: en-US
+To:     Ulrich Teichert <krypton@ulrich-teichert.org>,
+        Linux Alpha <linux-alpha@vger.kernel.org>
+Cc:     mattst88@gmail.com
+References: <202109231957.18NJv4ar004671@valdese.nms.ulrich-teichert.org>
+From:   John Paul Adrian Glaubitz <glaubitz@physik.fu-berlin.de>
+In-Reply-To: <202109231957.18NJv4ar004671@valdese.nms.ulrich-teichert.org>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+X-Original-Sender: glaubitz@physik.fu-berlin.de
+X-Originating-IP: 87.189.151.233
 Precedence: bulk
 List-ID: <linux-alpha.vger.kernel.org>
 X-Mailing-List: linux-alpha@vger.kernel.org
 
-On Sat, Sep 25, 2021 at 12:07:17PM -0700, Linus Torvalds wrote:
-> On Fri, Sep 24, 2021 at 7:55 PM Al Viro <viro@zeniv.linux.org.uk> wrote:
-> >
-> >         On each context switch we save the FPU registers on stack
-> > of old process and restore FPU registers from the stack of new one.
-> > That allows us to avoid doing that each time we enter/leave the
-> > kernel mode; however, that can get suboptimal in some cases.
-> 
-> Do you actually have a system or virtual image to test this all out on?
-> 
-> I'm not saying this doesn't look like an improvement, I'm more
-> questioning whether it's worth it...
+Hi Ulrich!
 
-Umm...  Bootable AS200 (EV45), bootable DS10 (EV6), theoretically
-resurrectable UP1000 (EV67, fans on CPU module are in horrible state
-and southbridge is unreliable, so the life is more interesting than
-it's worth), working qemu-system-alpha (EV67).  No SMP boxen and
-I've no idea if qemu can do SMP alpha these days...
+On 9/23/21 21:57, Ulrich Teichert wrote:
+> and putting the four SIMMs into bank 0 only, I was able to boot my ancient
+> kernel with 128 MB of ram. So far so good, but I failed to boot the
+> 5.15-rc2 kernel over aboot or from the CDROM, with exactly the same
+> behavior as before (uncompressing.... forever or machine check with HALT).
 
-Whether it's worth it... beginning of the series or this one?  If it's about
-the former, the stuff in the series is pretty straightforward bug fixes and
-equally straightforward cleanups.  If it's the latter... hell knows;
-it would be tempting to see if we could
-	* make FPU saves/restores lazy, evicting that stuff from switch_stack
-	* add r9..r15 to pt_regs, saving on each kernel entry and restoring
-if we have a flag set (note that entMM() and entUnaUser() already save/restore
-those - unconditionally).  That would've killed the need to play with
-switch_stack in straced syscalls/do_signal/etc.  switch_stack (trimmed down
-to r9..r15,r26 - the callee-saved registers) would be used by switch_to(),
-but that would be it.
-	* take the entire ret_from_syscall et.al. out into C side of things.
+Out of curiosity, have you tried a recent Debian ISO for Alpha?
 
-This patch is basically "let's see how awful FPU-related part would be"
-experiment.
+> https://cdimage.debian.org/cdimage/ports/current/
+
+Adrian
+
+-- 
+ .''`.  John Paul Adrian Glaubitz
+: :' :  Debian Developer - glaubitz@debian.org
+`. `'   Freie Universitaet Berlin - glaubitz@physik.fu-berlin.de
+  `-    GPG: 62FF 8A75 84E0 2956 9546  0006 7426 3B37 F5B5 F913
+
