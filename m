@@ -2,79 +2,80 @@ Return-Path: <linux-alpha-owner@vger.kernel.org>
 X-Original-To: lists+linux-alpha@lfdr.de
 Delivered-To: lists+linux-alpha@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 0A4FC4183FD
-	for <lists+linux-alpha@lfdr.de>; Sat, 25 Sep 2021 20:31:22 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id AEFDF418412
+	for <lists+linux-alpha@lfdr.de>; Sat, 25 Sep 2021 21:07:37 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229731AbhIYScx (ORCPT <rfc822;lists+linux-alpha@lfdr.de>);
-        Sat, 25 Sep 2021 14:32:53 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42546 "EHLO
+        id S229809AbhIYTJL (ORCPT <rfc822;lists+linux-alpha@lfdr.de>);
+        Sat, 25 Sep 2021 15:09:11 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50402 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229711AbhIYScw (ORCPT
+        with ESMTP id S229804AbhIYTJL (ORCPT
         <rfc822;linux-alpha@vger.kernel.org>);
-        Sat, 25 Sep 2021 14:32:52 -0400
-Received: from wp441.webpack.hosteurope.de (wp441.webpack.hosteurope.de [IPv6:2a01:488:42:1000:50ed:85d2::])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 92EA4C061570
-        for <linux-alpha@vger.kernel.org>; Sat, 25 Sep 2021 11:31:17 -0700 (PDT)
-Received: from [2a03:7846:b79f:101:21c:c4ff:fe1f:fd93] (helo=valdese.nms.ulrich-teichert.org); authenticated
-        by wp441.webpack.hosteurope.de running ExIM with esmtpsa (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
-        id 1mUCSA-0002et-3e; Sat, 25 Sep 2021 20:31:14 +0200
-Received: from valdese.nms.ulrich-teichert.org (localhost [127.0.0.1])
-        by valdese.nms.ulrich-teichert.org (8.15.2/8.15.2/Debian-8+deb9u1) with ESMTPS id 18PIVDn8004392
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-        Sat, 25 Sep 2021 20:31:13 +0200
-Received: (from ut@localhost)
-        by valdese.nms.ulrich-teichert.org (8.15.2/8.15.2/Submit) id 18PIVAD8004391;
-        Sat, 25 Sep 2021 20:31:11 +0200
-Message-Id: <202109251831.18PIVAD8004391@valdese.nms.ulrich-teichert.org>
-Subject: Re: Newer kernels on the Jensen (was: [PATCH v2 0/4] Introduce and use absolute_pointer macro)
-To:     linux-alpha@vger.kernel.org (Linux Alpha)
-Date:   Sat, 25 Sep 2021 20:31:10 +0200 (CEST)
-Cc:     torvalds@linux-foundation.org (Linus Torvalds), mattst88@gmail.com,
-        rth@twiddle.net, ink@jurassic.park.msu.ru
-In-Reply-To: <no.id>
-From:   Ulrich Teichert <krypton@ulrich-teichert.org>
-X-Mailer: ELM [version 2.5 PL8]
+        Sat, 25 Sep 2021 15:09:11 -0400
+Received: from mail-lf1-x12e.google.com (mail-lf1-x12e.google.com [IPv6:2a00:1450:4864:20::12e])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1D527C061570
+        for <linux-alpha@vger.kernel.org>; Sat, 25 Sep 2021 12:07:36 -0700 (PDT)
+Received: by mail-lf1-x12e.google.com with SMTP id t10so55786291lfd.8
+        for <linux-alpha@vger.kernel.org>; Sat, 25 Sep 2021 12:07:36 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linux-foundation.org; s=google;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=XsW8W77uk1stibLZy1i0WuwqlVgYv+eU53F9QoWyYCo=;
+        b=bC5ZIfglTQX/fqeYMrs58FzUn1tSkdAcfdliUN+zIbY5oh0F8hJ8N/i+pH58mVeabF
+         m0qLCzUCuKBE3dwyd4ZEe4Rrq3GLOvS5/PaNhP3szisu/eBsBZWZ7KapWZHEgz8RVRDt
+         cmaOzvngk/O7/hWG6lE7p20exnYGHn/GUJXcw=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=XsW8W77uk1stibLZy1i0WuwqlVgYv+eU53F9QoWyYCo=;
+        b=7hyTy2FbKMhi7GWPx2unoT1SNvBJBKl0fEfD1jZ6EDvixSAdt3hRfQUJRIw0MrpT7A
+         CZKf7lZmgIVbr2lD7IMvCnrpA+0M9j4xTnzP+Oiv+l3QvwAY/aoc+I+t18aoOCVI8wDo
+         NMFWY+K0CWRWiCTuCcnzdKc3rP8voKBAhXKhULjI0JPMWdAWevZSyOdCBhm6sNYde40G
+         HHQBiQXaR2y9/dUbUNZIyOkV9NBN+4FhM0hasQJUj4wJ9505uOeax6h35cMS/kRrtqFx
+         NUkY5eU1mKkqZ/7u4gBCPV7U12RBgxu49lYzd0vrZnBh62mq5t9xMhaPE6Di4Wts301a
+         wUsw==
+X-Gm-Message-State: AOAM530amQ6+ReHwQDFqoIkEZAEBEtbJlrDvOFRJgmT4FWBstmNPtYoD
+        dneNwF4vi2vbMOkzj5g31DftVF969CQZv1Bn
+X-Google-Smtp-Source: ABdhPJyZQcm1ojuTis1hwoSIbO+bB1oj8Tj8S75fJWZPyD93rXZoHrHhGIqDWaVX0KatIT05R7Tidw==
+X-Received: by 2002:a05:6512:224b:: with SMTP id i11mr15479315lfu.281.1632596854235;
+        Sat, 25 Sep 2021 12:07:34 -0700 (PDT)
+Received: from mail-lf1-f49.google.com (mail-lf1-f49.google.com. [209.85.167.49])
+        by smtp.gmail.com with ESMTPSA id q2sm1100702lfo.174.2021.09.25.12.07.33
+        for <linux-alpha@vger.kernel.org>
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Sat, 25 Sep 2021 12:07:33 -0700 (PDT)
+Received: by mail-lf1-f49.google.com with SMTP id u18so54394963lfd.12
+        for <linux-alpha@vger.kernel.org>; Sat, 25 Sep 2021 12:07:33 -0700 (PDT)
+X-Received: by 2002:a05:6512:984:: with SMTP id w4mr14773734lft.141.1632596853515;
+ Sat, 25 Sep 2021 12:07:33 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Transfer-Encoding: 7bit
-X-bounce-key: webpack.hosteurope.de;ut@ulrich-teichert.org;1632594677;7c53a866;
-X-HE-SMSGID: 1mUCSA-0002et-3e
+References: <YU6PVepETVUJF28v@zeniv-ca.linux.org.uk> <20210925025548.1694143-1-viro@zeniv.linux.org.uk>
+ <20210925025548.1694143-7-viro@zeniv.linux.org.uk>
+In-Reply-To: <20210925025548.1694143-7-viro@zeniv.linux.org.uk>
+From:   Linus Torvalds <torvalds@linux-foundation.org>
+Date:   Sat, 25 Sep 2021 12:07:17 -0700
+X-Gmail-Original-Message-ID: <CAHk-=wjPNM9puKEvteLnY4EDMPE3rKJcODzABHSO-7gKFkOwoA@mail.gmail.com>
+Message-ID: <CAHk-=wjPNM9puKEvteLnY4EDMPE3rKJcODzABHSO-7gKFkOwoA@mail.gmail.com>
+Subject: Re: [PATCH 7/7] alpha: lazy FPU switching
+To:     Al Viro <viro@zeniv.linux.org.uk>
+Cc:     alpha <linux-alpha@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-alpha.vger.kernel.org>
 X-Mailing-List: linux-alpha@vger.kernel.org
 
-Hi,
+On Fri, Sep 24, 2021 at 7:55 PM Al Viro <viro@zeniv.linux.org.uk> wrote:
+>
+>         On each context switch we save the FPU registers on stack
+> of old process and restore FPU registers from the stack of new one.
+> That allows us to avoid doing that each time we enter/leave the
+> kernel mode; however, that can get suboptimal in some cases.
 
-> I'll try booting from CDROM with a serial line attached at the weekend,
-> perhaps that will give us a hint.
+Do you actually have a system or virtual image to test this all out on?
 
-[You can call the Alpha a dead architecture and the Jensen and antiquated
-machine, but there are features which modern PCs *still* don't have,
-like the automatic switch over to the serial line console when no keyboard
-is connected. I'm still impressed how well that works.]
+I'm not saying this doesn't look like an improvement, I'm more
+questioning whether it's worth it...
 
-Well...whatever that means, but you can call it a hint. Booting from
-CD-ROM stopps with:
-
->>> boot dka500 -fl i
-INIT-S-CPU...
-AUDIT_BOOT_STARTS ... 
-AUDIT_CHECKSUM_GOOD
-AUDIT_LOAD_BEGINS
-AUDIT_LOAD_DONE
-
-Linux/AXP bootloader for Linux 5.15.0-rc2-00045-gcf1d2c3e7e2f-dirty
-Switching to OSF PAL-code .. Ok (rev 20123)
-Loading vmlinux ...Failed (200000000067a000)
-
-?05 HLT INSTR
-  PC= 00000000.20000014 PSL= 00000000.00000007
-
-Anyone an idea what 200000000067a000 may mean in this context?
-
-TIA,
-Uli
--- 
-Dipl. Inf. Ulrich Teichert|e-mail: Ulrich.Teichert@gmx.de | Listening to:
-Stormweg 24               |Eat Lipstick: Dirty Little Secret, The Baboon Show:
-24539 Neumuenster, Germany|Work Work Work, The Bellrays: Bad Reaction
+          Linus
