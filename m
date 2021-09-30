@@ -2,121 +2,122 @@ Return-Path: <linux-alpha-owner@vger.kernel.org>
 X-Original-To: lists+linux-alpha@lfdr.de
 Delivered-To: lists+linux-alpha@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 568D441D767
-	for <lists+linux-alpha@lfdr.de>; Thu, 30 Sep 2021 12:13:16 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 943CC41DDE5
+	for <lists+linux-alpha@lfdr.de>; Thu, 30 Sep 2021 17:46:13 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1349809AbhI3KO4 (ORCPT <rfc822;lists+linux-alpha@lfdr.de>);
-        Thu, 30 Sep 2021 06:14:56 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59846 "EHLO
+        id S1346003AbhI3Prz (ORCPT <rfc822;lists+linux-alpha@lfdr.de>);
+        Thu, 30 Sep 2021 11:47:55 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54250 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1349844AbhI3KOz (ORCPT
+        with ESMTP id S1345184AbhI3Prz (ORCPT
         <rfc822;linux-alpha@vger.kernel.org>);
-        Thu, 30 Sep 2021 06:14:55 -0400
-Received: from mail-ed1-x532.google.com (mail-ed1-x532.google.com [IPv6:2a00:1450:4864:20::532])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5CDD1C06176E
-        for <linux-alpha@vger.kernel.org>; Thu, 30 Sep 2021 03:13:12 -0700 (PDT)
-Received: by mail-ed1-x532.google.com with SMTP id x7so19648185edd.6
-        for <linux-alpha@vger.kernel.org>; Thu, 30 Sep 2021 03:13:12 -0700 (PDT)
+        Thu, 30 Sep 2021 11:47:55 -0400
+Received: from mail-qt1-x834.google.com (mail-qt1-x834.google.com [IPv6:2607:f8b0:4864:20::834])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5E7C5C06176A
+        for <linux-alpha@vger.kernel.org>; Thu, 30 Sep 2021 08:46:12 -0700 (PDT)
+Received: by mail-qt1-x834.google.com with SMTP id a13so6078077qtw.10
+        for <linux-alpha@vger.kernel.org>; Thu, 30 Sep 2021 08:46:12 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=monstr-eu.20210112.gappssmtp.com; s=20210112;
-        h=subject:to:cc:references:from:message-id:date:user-agent
-         :mime-version:in-reply-to:content-language:content-transfer-encoding;
-        bh=di22f+1qtT1rJlDsDU5gv52bfkIzi99/0/f5YELZTOw=;
-        b=ppyHc1xu2ZjQ/kTBT2c/n07AkMuYUtXvdy0s7QXVTxECAFMjweuXUCK7xVE+xwaX0C
-         6o8ZrsH3/9Aynnbf9fMbiY9C8vrkZKxMS2dYyF99LaMNbMDmo+1MshkoCVBu64oPE6ga
-         zFJAQfJwiWTcCZsmLrqej5kKbY2vHfu7puIu4/K01CNJFBuzzGgBrIqsTKFJtWl1D8WY
-         Zs33o3bUzbg+B6tae1aWxdGoSxVf8Jp54BcOj5rIAhOIm93rKhQ0OmZemre71DGprt/y
-         YIumJdsINVkRuayzKbrt7Bx5i0AKwik6J4Ki1n3eaMHv8bBS9zWjaa6znfhzuZJX3poI
-         GbLg==
+        d=google.com; s=20210112;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc:content-transfer-encoding;
+        bh=8d6xo5L9QevHc/0Sduv9NQkae1fLgboqRLN/cOlHL94=;
+        b=iR/rfVgiWHq5rw4NLK5OT9v5lYhcLGBGwNqvqBTHa8uM0K3LSI6Qds40sZdhqy343D
+         nKF1AalapkTkhy/ypRBVypdug7o8/xaqtmHaWv9UPFEGjb1UhHpm/4rTjAiBbtASwfKx
+         3JH/kVbQPqPEjk5/0bNv7k1/Y2BIonRHJ0vWOSQM3zvPY70Uxrv2rSgTrqGgUv6GDu7E
+         chrKKhinXiSRYk/xsds2GtV3wz6HxpGI4jq2FDoKpBIlG6t+6bi34LoQK0m5uh10NjJQ
+         5mDPrpUbvxQNLMegc4nJJFYKUu1kf5g3ZYgnxHtFO6ahoMuizo6fqj2+osS40oUSZmZK
+         mhMw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
-         :user-agent:mime-version:in-reply-to:content-language
-         :content-transfer-encoding;
-        bh=di22f+1qtT1rJlDsDU5gv52bfkIzi99/0/f5YELZTOw=;
-        b=cD2APAX02ZlOdPt1cKvylPnHReuI+M28q8C2hfI+CJJ1Ae9OB462rYeXgYEv0ag0oU
-         kMUdIwAtsB9gSa8spL79CmZE3+qeQXVdUVIVrxqcsc2pARFDdS4bejK/QJJEBuBDBKAv
-         YDVqAgPSf9Kmd/S59mpPUzDx8A5Rlfl3TDXSswUcKekxr4683Dg6R3zEvH9Ui2fYi6gT
-         2phq/pPIsnK2E9P2rnbs9IhHP9k5bJ58XsFuSAEDdbNl87bb1qzkNyuNrFR+cX0pqCnv
-         jEhGATfcRJfT30KFJQAHQRiS0lL26R4GsZosFfrejH1s40UmqCvf8JmJPbyKCT4D4lXD
-         H1PA==
-X-Gm-Message-State: AOAM532hHQu8Ejelgoa6AFI7Hu4VimCSyiUm7L1WNuiFr+fPdVia0Jk8
-        ZOYoUEk3LlnGJ1ai8j+ik2cUoXzKTWSYew==
-X-Google-Smtp-Source: ABdhPJzUmXdUqIGI8syP1K7qbkNoLgpokgx7oGftLZ5Q5kO7Xtw6c5x1cXA4qfoDB4xaMGW2mjnWyg==
-X-Received: by 2002:a17:906:4d99:: with SMTP id s25mr5632392eju.175.1632996789937;
-        Thu, 30 Sep 2021 03:13:09 -0700 (PDT)
-Received: from ?IPv6:2a02:768:2307:40d6::45a? ([2a02:768:2307:40d6::45a])
-        by smtp.gmail.com with ESMTPSA id j14sm1265961edl.21.2021.09.30.03.13.08
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 30 Sep 2021 03:13:09 -0700 (PDT)
-Subject: Re: [PATCH v4 10/11] microblaze: Use is_kernel_text() helper
-To:     Kefeng Wang <wangkefeng.wang@huawei.com>, arnd@arndb.de,
-        linux-arch@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linuxppc-dev@lists.ozlabs.org, rostedt@goodmis.org,
-        mingo@redhat.com, davem@davemloft.net, ast@kernel.org,
-        ryabinin.a.a@gmail.com, akpm@linux-foundation.org
-Cc:     mpe@ellerman.id.au, benh@kernel.crashing.org, paulus@samba.org,
-        bpf@vger.kernel.org, linux-alpha@vger.kernel.org,
-        Christophe Leroy <christophe.leroy@csgroup.eu>
-References: <20210930071143.63410-1-wangkefeng.wang@huawei.com>
- <20210930071143.63410-11-wangkefeng.wang@huawei.com>
-From:   Michal Simek <monstr@monstr.eu>
-Message-ID: <2a23c06c-62e5-d4f8-4c7c-4e5c055a9e69@monstr.eu>
-Date:   Thu, 30 Sep 2021 12:13:08 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.14.0
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc:content-transfer-encoding;
+        bh=8d6xo5L9QevHc/0Sduv9NQkae1fLgboqRLN/cOlHL94=;
+        b=69Obs29H5mxFtg1M2z5+xnrCcNOLiuS3qtyZ0G/lcwOXQbvsXoUiVejfZY0wSpzDJE
+         mWIb4kZFfVneu4qM7jt7Y/vOMs8ErHiQA/AH1QRzlcn30rc7/mtm5ghcbF5hIR1fSwX6
+         Qnat9katImiXfdz9kROBJEURLsVkF+8X6Pgk9lfJxuAGVjVC6DkJpjga5ol8g3XYZ0Y7
+         6jISJt5zqMXT+aIlh1hxb/B9EQT0qrNBMGzVMF2pKsStYPHUWZ+HGyvtud6OSo+6Tam3
+         556xWsBYnl6nrTI2NxFUe5GwDTRMyqxbsV1XIhX2Ck6SXuNih5OsA3PUDEAftHD2L3YN
+         dkeg==
+X-Gm-Message-State: AOAM532Oqnb4gU9TREuOvPFq38uYo8t8zletAYd6NmZN26sW7/2okSNp
+        mA1/FkCFjDclDPztKJ6vrMgNzafGK73WuiYnGSMq4w==
+X-Google-Smtp-Source: ABdhPJwZ3uxL8AigS1SCTssbBbBxtSyTYvRLlSFXF7X1iRF0BIcI7ZsH6TQi0ZjmX4wm1iehH5EIvAVb3aaD1X5z2aM=
+X-Received: by 2002:ac8:5ed1:: with SMTP id s17mr7389237qtx.196.1633016771378;
+ Thu, 30 Sep 2021 08:46:11 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <20210930071143.63410-11-wangkefeng.wang@huawei.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+References: <20210930071143.63410-1-wangkefeng.wang@huawei.com> <20210930071143.63410-8-wangkefeng.wang@huawei.com>
+In-Reply-To: <20210930071143.63410-8-wangkefeng.wang@huawei.com>
+From:   Alexander Potapenko <glider@google.com>
+Date:   Thu, 30 Sep 2021 17:45:35 +0200
+Message-ID: <CAG_fn=XD+nVgVRgj7KFsPWSuia+gZzpA3KAdqucjKodOvxSF6w@mail.gmail.com>
+Subject: Re: [PATCH v4 07/11] mm: kasan: Use is_kernel() helper
+To:     Kefeng Wang <wangkefeng.wang@huawei.com>
+Cc:     Arnd Bergmann <arnd@arndb.de>,
+        Linux-Arch <linux-arch@vger.kernel.org>,
+        LKML <linux-kernel@vger.kernel.org>,
+        linuxppc-dev@lists.ozlabs.org,
+        Steven Rostedt <rostedt@goodmis.org>,
+        Ingo Molnar <mingo@redhat.com>,
+        David Miller <davem@davemloft.net>,
+        Alexei Starovoitov <ast@kernel.org>,
+        Andrey Ryabinin <ryabinin.a.a@gmail.com>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Michael Ellerman <mpe@ellerman.id.au>,
+        Benjamin Herrenschmidt <benh@kernel.crashing.org>,
+        Paul Mackerras <paulus@samba.org>, bpf@vger.kernel.org,
+        linux-alpha@vger.kernel.org,
+        Christophe Leroy <christophe.leroy@csgroup.eu>,
+        Andrey Konovalov <andreyknvl@gmail.com>,
+        Dmitry Vyukov <dvyukov@google.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 Precedence: bulk
 List-ID: <linux-alpha.vger.kernel.org>
 X-Mailing-List: linux-alpha@vger.kernel.org
 
-
-
-On 9/30/21 9:11 AM, Kefeng Wang wrote:
-> Use is_kernel_text() helper to simplify code.
-> 
-> Cc: Michal Simek <monstr@monstr.eu>
+On Thu, Sep 30, 2021 at 9:09 AM Kefeng Wang <wangkefeng.wang@huawei.com> wr=
+ote:
+>
+> Directly use is_kernel() helper in kernel_or_module_addr().
+>
+> Cc: Andrey Ryabinin <ryabinin.a.a@gmail.com>
+> Cc: Alexander Potapenko <glider@google.com>
+> Cc: Andrey Konovalov <andreyknvl@gmail.com>
+> Cc: Dmitry Vyukov <dvyukov@google.com>
 > Signed-off-by: Kefeng Wang <wangkefeng.wang@huawei.com>
+Reviewed-by: Alexander Potapenko <glider@google.com>
+
 > ---
->  arch/microblaze/mm/pgtable.c | 3 ++-
->  1 file changed, 2 insertions(+), 1 deletion(-)
-> 
-> diff --git a/arch/microblaze/mm/pgtable.c b/arch/microblaze/mm/pgtable.c
-> index c1833b159d3b..9f73265aad4e 100644
-> --- a/arch/microblaze/mm/pgtable.c
-> +++ b/arch/microblaze/mm/pgtable.c
-> @@ -34,6 +34,7 @@
->  #include <linux/mm_types.h>
->  #include <linux/pgtable.h>
->  #include <linux/memblock.h>
-> +#include <linux/kallsyms.h>
->  
->  #include <asm/pgalloc.h>
->  #include <linux/io.h>
-> @@ -171,7 +172,7 @@ void __init mapin_ram(void)
->  	for (s = 0; s < lowmem_size; s += PAGE_SIZE) {
->  		f = _PAGE_PRESENT | _PAGE_ACCESSED |
->  				_PAGE_SHARED | _PAGE_HWEXEC;
-> -		if ((char *) v < _stext || (char *) v >= _etext)
-> +		if (!is_kernel_text(v))
->  			f |= _PAGE_WRENABLE;
->  		else
->  			/* On the MicroBlaze, no user access
-> 
+>  mm/kasan/report.c | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+>
+> diff --git a/mm/kasan/report.c b/mm/kasan/report.c
+> index 3239fd8f8747..1c955e1c98d5 100644
+> --- a/mm/kasan/report.c
+> +++ b/mm/kasan/report.c
+> @@ -226,7 +226,7 @@ static void describe_object(struct kmem_cache *cache,=
+ void *object,
+>
+>  static inline bool kernel_or_module_addr(const void *addr)
+>  {
+> -       if (addr >=3D (void *)_stext && addr < (void *)_end)
+> +       if (is_kernel((unsigned long)addr))
+>                 return true;
+>         if (is_module_address((unsigned long)addr))
+>                 return true;
+> --
+> 2.26.2
+>
 
-Acked-by: Michal Simek <michal.simek@xilinx.com>
 
-Thanks,
-Michal
+--=20
+Alexander Potapenko
+Software Engineer
 
--- 
-Michal Simek, Ing. (M.Eng), OpenPGP -> KeyID: FE3D1F91
-w: www.monstr.eu p: +42-0-721842854
-Maintainer of Linux kernel - Xilinx Microblaze
-Maintainer of Linux kernel - Xilinx Zynq ARM and ZynqMP ARM64 SoCs
-U-Boot custodian - Xilinx Microblaze/Zynq/ZynqMP/Versal SoCs
+Google Germany GmbH
+Erika-Mann-Stra=C3=9Fe, 33
+80636 M=C3=BCnchen
 
+Gesch=C3=A4ftsf=C3=BChrer: Paul Manicle, Halimah DeLaine Prado
+Registergericht und -nummer: Hamburg, HRB 86891
+Sitz der Gesellschaft: Hamburg
