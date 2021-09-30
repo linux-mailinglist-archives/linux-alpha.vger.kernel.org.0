@@ -2,100 +2,77 @@ Return-Path: <linux-alpha-owner@vger.kernel.org>
 X-Original-To: lists+linux-alpha@lfdr.de
 Delivered-To: lists+linux-alpha@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 3E5B441E3AD
-	for <lists+linux-alpha@lfdr.de>; Fri,  1 Oct 2021 00:10:50 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 828A641E47A
+	for <lists+linux-alpha@lfdr.de>; Fri,  1 Oct 2021 00:59:04 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1346188AbhI3WMb (ORCPT <rfc822;lists+linux-alpha@lfdr.de>);
-        Thu, 30 Sep 2021 18:12:31 -0400
-Received: from mail.kernel.org ([198.145.29.99]:33016 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S230093AbhI3WMb (ORCPT <rfc822;linux-alpha@vger.kernel.org>);
-        Thu, 30 Sep 2021 18:12:31 -0400
-Received: by mail.kernel.org (Postfix) with ESMTPSA id 965D361390;
-        Thu, 30 Sep 2021 22:10:47 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1633039847;
-        bh=IwzBemW+hy1M1ewr7atFO0cSMjKx7nF1iOUj3EQWXE8=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=VMFkm4a+fgdg4zYaCkaWnSOTeOZ8uAbKkitUxM0+m4BBfXT2b5oLMM7rDTLawyLAE
-         NhhBOznSRQz5yRbiTNsvbV6E0IU3T5qz407KpFRCdUtW5hyDqK4d2pDAOMg4JRadt6
-         KWrjYIXEm0KrNBVtP+JPzhB2VrG3+5vrqbM5hiSfUBy+07gwCIoejO0uW/sH7DYI6V
-         pgwC0QydyQR/hM9nqnvQyR6gIiVBVoszYMQd2xY8yoPecdNAhtt2AC8GtVh+C0O4VI
-         bPLArmwwdAbQbiLreQFVTZM6xuVy7lVHSRkS66W+8O7Twsm9hTlzsCUC2ioP79rEse
-         MlAOzYU2R7N3A==
-Date:   Thu, 30 Sep 2021 15:10:46 -0700
-From:   Mike Rapoport <rppt@kernel.org>
-To:     Linus Torvalds <torvalds@linux-foundation.org>
-Cc:     Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Christophe Leroy <christophe.leroy@csgroup.eu>,
-        Juergen Gross <jgross@suse.com>,
-        Mike Rapoport <rppt@linux.ibm.com>,
-        Shahab Vahedi <Shahab.Vahedi@synopsys.com>,
-        devicetree <devicetree@vger.kernel.org>,
-        iommu <iommu@lists.linux-foundation.org>,
-        kasan-dev <kasan-dev@googlegroups.com>,
-        KVM list <kvm@vger.kernel.org>,
-        alpha <linux-alpha@vger.kernel.org>,
-        Linux ARM <linux-arm-kernel@lists.infradead.org>,
-        linux-efi <linux-efi@vger.kernel.org>,
-        "open list:BROADCOM NVRAM DRIVER" <linux-mips@vger.kernel.org>,
-        Linux-MM <linux-mm@kvack.org>,
-        linux-riscv <linux-riscv@lists.infradead.org>,
-        linux-s390 <linux-s390@vger.kernel.org>,
-        Linux-sh list <linux-sh@vger.kernel.org>,
-        "open list:SYNOPSYS ARC ARCHITECTURE" 
-        <linux-snps-arc@lists.infradead.org>,
-        linux-um <linux-um@lists.infradead.org>,
-        linux-usb@vger.kernel.org,
-        linuxppc-dev <linuxppc-dev@lists.ozlabs.org>,
-        linux-sparc <sparclinux@vger.kernel.org>,
-        xen-devel@lists.xenproject.org
-Subject: Re: [PATCH v2 0/6] memblock: cleanup memblock_free interface
-Message-ID: <YVY15nd56j8x8udh@kernel.org>
-References: <20210930185031.18648-1-rppt@kernel.org>
- <CAHk-=wjS76My8aJLWJAHd-5GnMEVC1D+kV7DgtV9GjcbtqZdig@mail.gmail.com>
+        id S1349473AbhI3XAr (ORCPT <rfc822;lists+linux-alpha@lfdr.de>);
+        Thu, 30 Sep 2021 19:00:47 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41050 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S245132AbhI3XAq (ORCPT
+        <rfc822;linux-alpha@vger.kernel.org>);
+        Thu, 30 Sep 2021 19:00:46 -0400
+Received: from mail-lf1-x136.google.com (mail-lf1-x136.google.com [IPv6:2a00:1450:4864:20::136])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id F336EC06176D
+        for <linux-alpha@vger.kernel.org>; Thu, 30 Sep 2021 15:59:02 -0700 (PDT)
+Received: by mail-lf1-x136.google.com with SMTP id i4so31958208lfv.4
+        for <linux-alpha@vger.kernel.org>; Thu, 30 Sep 2021 15:59:02 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=mime-version:reply-to:from:date:message-id:subject:to;
+        bh=AnIUtRQtDgk3YDJAatwz+LXUKRWPbctJNdAprjwvZ5o=;
+        b=FNbkl0bLjYpdykyqjlAE/YIKgfLjK/9naLKNeyJPQxWYeknu/Vef3WmTG20XVBOkkT
+         4NWyiNKDAHo81kjWWGrKkUCYWsQcigyGewd7zugPnOU/ndyIXGaq3UtdPwihPavDyPjE
+         vynClMdZ38W65OQjwvdyhc0Ip9v2B+fclTonLPWKB8SN+YlfO9GQEJUAAfYCjuqr+g5J
+         Ga+vPKBUZFoKQ587K7F/VAFYerYrQxaTkDwUTHIFdmFOMJASDFKuaK7BWMFoU/vZXWUE
+         G4Zsnhaus3ev94rrkYy78Ylwc7Y/nn4tdaANj3E8uIDmwaZSVVBZVgcGDdwNsUEVofvC
+         Qzdg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:mime-version:reply-to:from:date:message-id
+         :subject:to;
+        bh=AnIUtRQtDgk3YDJAatwz+LXUKRWPbctJNdAprjwvZ5o=;
+        b=CDuNCyof8JcG2HdFFixuEEv87HS4HWFlZwZPv+xeLOrDZXEer3qyV/neaKUFs7aF6l
+         8AXikxtNQujG/zmf8dOWxnNtQ80c/YvSuNqxhstIs7PJaZezafTYlrvsfmv7DGFdDWVR
+         U6ber9It+5yot9+tOo7QXklTq5rG3/Y1fiBqemKCxmnxLaUbqp5ePaaatRfzF1WI8LRA
+         Rec5XOqVGofLh1rc/o1letX8Y9sOAxkknPlh3LlEcG+WlUQvLOoAx72oH7s/1Z5pXPIy
+         MNSjvIKjy7pkbSyg7Og2F0WwAOBVC840JlE0mR5aDkgSs75Yr61bCtli5LyJTZaas0C2
+         Q9zQ==
+X-Gm-Message-State: AOAM5305W2e+tbAFMnt/8VB1cnBHm+ycTxXeZkPRdBC3cm3rvjEdj1QW
+        PZa7LeFq1ROWiLQP4pu3abVUIiJAxJ5zSGM3IxQ=
+X-Google-Smtp-Source: ABdhPJzadxoIKjLfvvZm4FKgi8Y0YtZAfA9awwHrp7yq9dJOC2oAE4PdXAMTFIssO0RsKOlfo0VaaDM7w7AWku6MKd4=
+X-Received: by 2002:a05:6512:705:: with SMTP id b5mr1868259lfs.82.1633042741247;
+ Thu, 30 Sep 2021 15:59:01 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <CAHk-=wjS76My8aJLWJAHd-5GnMEVC1D+kV7DgtV9GjcbtqZdig@mail.gmail.com>
+Received: by 2002:a05:6512:5d8:0:0:0:0 with HTTP; Thu, 30 Sep 2021 15:59:00
+ -0700 (PDT)
+Reply-To: southwestloanco59@gmail.com
+From:   SOUTHWESTLOANCO <saniabdullahinng2020@gmail.com>
+Date:   Thu, 30 Sep 2021 15:59:00 -0700
+Message-ID: <CA+3X9TwK-FMYOyx2piAdkb+da69-0cQtf6FJPOdAOZdawwJ8Ww@mail.gmail.com>
+Subject: Dear owner,
+To:     undisclosed-recipients:;
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-alpha.vger.kernel.org>
 X-Mailing-List: linux-alpha@vger.kernel.org
 
-On Thu, Sep 30, 2021 at 02:20:33PM -0700, Linus Torvalds wrote:
-> On Thu, Sep 30, 2021 at 11:50 AM Mike Rapoport <rppt@kernel.org> wrote:
-> >
-> > The first patch is a cleanup of numa_distance allocation in arch_numa I've
-> > spotted during the conversion.
-> > The second patch is a fix for Xen memory freeing on some of the error
-> > paths.
-> 
-> Well, at least patch 2 looks like something that should go into 5.15
-> and be marked for stable.
-> 
-> Patch 1 looks like a trivial local cleanup, and could go in
-> immediately. Patch 4 might be in that same category.
-> 
-> The rest look like "next merge window" to me, since they are spread
-> out and neither bugfixes nor tiny localized cleanups (iow renaming
-> functions, global resulting search-and-replace things).
-> 
-> So my gut feel is that two (maybe three) of these patches should go in
-> asap, with three (maybe four) be left for 5.16.
-> 
-> IOW, not trat this as a single series.
-> 
-> Hmm?
-
-Yes, why not :)
-I'd keep patch 4 for the next merge window, does not look urgent to me.
-
-Andrew, can you please take care of this or you'd prefer me resending
-everything separately?
- 
->              Linus
-
 -- 
-Sincerely yours,
-Mike.
+Good day,
+          Do you need a loan ? We offer any kind of loan to repay in
+6months with just 2% interest
+
+Kindly Reply with below information
+
+NAME...............
+ADDRESS..........
+OCCUPATION....
+AGE...................
+PHONE..............
+AMOUNT NEEDED......
+
+Regards
+
+Contact  Mr Gary Edward +13182955380
+
+Remittance Department southwestloanco59@gmail.com
