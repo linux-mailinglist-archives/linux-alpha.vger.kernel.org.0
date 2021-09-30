@@ -2,122 +2,151 @@ Return-Path: <linux-alpha-owner@vger.kernel.org>
 X-Original-To: lists+linux-alpha@lfdr.de
 Delivered-To: lists+linux-alpha@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 943CC41DDE5
-	for <lists+linux-alpha@lfdr.de>; Thu, 30 Sep 2021 17:46:13 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id A055341DF86
+	for <lists+linux-alpha@lfdr.de>; Thu, 30 Sep 2021 18:46:08 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1346003AbhI3Prz (ORCPT <rfc822;lists+linux-alpha@lfdr.de>);
-        Thu, 30 Sep 2021 11:47:55 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54250 "EHLO
+        id S1352229AbhI3Qru (ORCPT <rfc822;lists+linux-alpha@lfdr.de>);
+        Thu, 30 Sep 2021 12:47:50 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40656 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1345184AbhI3Prz (ORCPT
+        with ESMTP id S1352296AbhI3Qrt (ORCPT
         <rfc822;linux-alpha@vger.kernel.org>);
-        Thu, 30 Sep 2021 11:47:55 -0400
-Received: from mail-qt1-x834.google.com (mail-qt1-x834.google.com [IPv6:2607:f8b0:4864:20::834])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5E7C5C06176A
-        for <linux-alpha@vger.kernel.org>; Thu, 30 Sep 2021 08:46:12 -0700 (PDT)
-Received: by mail-qt1-x834.google.com with SMTP id a13so6078077qtw.10
-        for <linux-alpha@vger.kernel.org>; Thu, 30 Sep 2021 08:46:12 -0700 (PDT)
+        Thu, 30 Sep 2021 12:47:49 -0400
+Received: from mail-ua1-x941.google.com (mail-ua1-x941.google.com [IPv6:2607:f8b0:4864:20::941])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 022E6C06176C
+        for <linux-alpha@vger.kernel.org>; Thu, 30 Sep 2021 09:46:07 -0700 (PDT)
+Received: by mail-ua1-x941.google.com with SMTP id r8so4755401uap.0
+        for <linux-alpha@vger.kernel.org>; Thu, 30 Sep 2021 09:46:06 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20210112;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc:content-transfer-encoding;
-        bh=8d6xo5L9QevHc/0Sduv9NQkae1fLgboqRLN/cOlHL94=;
-        b=iR/rfVgiWHq5rw4NLK5OT9v5lYhcLGBGwNqvqBTHa8uM0K3LSI6Qds40sZdhqy343D
-         nKF1AalapkTkhy/ypRBVypdug7o8/xaqtmHaWv9UPFEGjb1UhHpm/4rTjAiBbtASwfKx
-         3JH/kVbQPqPEjk5/0bNv7k1/Y2BIonRHJ0vWOSQM3zvPY70Uxrv2rSgTrqGgUv6GDu7E
-         chrKKhinXiSRYk/xsds2GtV3wz6HxpGI4jq2FDoKpBIlG6t+6bi34LoQK0m5uh10NjJQ
-         5mDPrpUbvxQNLMegc4nJJFYKUu1kf5g3ZYgnxHtFO6ahoMuizo6fqj2+osS40oUSZmZK
-         mhMw==
+        d=gmail.com; s=20210112;
+        h=mime-version:reply-to:from:date:message-id:subject:to;
+        bh=/T9drlD1s9vO6lHEMs4LJzmDo2MKXEHBXvFYaWoQWpk=;
+        b=RfBgDeL12BnBsd6jy6Pe/6L406b7cOqMi3nB8u0nvgkXc5Cyo3PpfCfJnR4FCzo3E4
+         BiRqG+bUmr0PVLW+pRAmHRv0vQgUXGEaPErdUMpcKUsVLs9uTbpN5hGomTP6RyRO/CW2
+         9A4uveoe9Vb79Wrbp8YtAK8N9G622JVvGhCR31atfD1kO6qMOWbUTFO/Q92kFMg3eRL2
+         /Rt8Gp1ykm4sBIq17s37TeMayOyMMb2rygE+Nwf7BQ0xLTk2hUvXjFDhmQMlImH8weYv
+         6tQ8L/JAVnE64rT9AWuMDXT2jK3KLty8U2Gqh2IOQtLeYFYH4PfVUoU0rGEFgSQWNxO4
+         79Hg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc:content-transfer-encoding;
-        bh=8d6xo5L9QevHc/0Sduv9NQkae1fLgboqRLN/cOlHL94=;
-        b=69Obs29H5mxFtg1M2z5+xnrCcNOLiuS3qtyZ0G/lcwOXQbvsXoUiVejfZY0wSpzDJE
-         mWIb4kZFfVneu4qM7jt7Y/vOMs8ErHiQA/AH1QRzlcn30rc7/mtm5ghcbF5hIR1fSwX6
-         Qnat9katImiXfdz9kROBJEURLsVkF+8X6Pgk9lfJxuAGVjVC6DkJpjga5ol8g3XYZ0Y7
-         6jISJt5zqMXT+aIlh1hxb/B9EQT0qrNBMGzVMF2pKsStYPHUWZ+HGyvtud6OSo+6Tam3
-         556xWsBYnl6nrTI2NxFUe5GwDTRMyqxbsV1XIhX2Ck6SXuNih5OsA3PUDEAftHD2L3YN
-         dkeg==
-X-Gm-Message-State: AOAM532Oqnb4gU9TREuOvPFq38uYo8t8zletAYd6NmZN26sW7/2okSNp
-        mA1/FkCFjDclDPztKJ6vrMgNzafGK73WuiYnGSMq4w==
-X-Google-Smtp-Source: ABdhPJwZ3uxL8AigS1SCTssbBbBxtSyTYvRLlSFXF7X1iRF0BIcI7ZsH6TQi0ZjmX4wm1iehH5EIvAVb3aaD1X5z2aM=
-X-Received: by 2002:ac8:5ed1:: with SMTP id s17mr7389237qtx.196.1633016771378;
- Thu, 30 Sep 2021 08:46:11 -0700 (PDT)
+        h=x-gm-message-state:mime-version:reply-to:from:date:message-id
+         :subject:to;
+        bh=/T9drlD1s9vO6lHEMs4LJzmDo2MKXEHBXvFYaWoQWpk=;
+        b=ezmd7d5cf7UL97Ui8fVxLKbKSdkldy4JNsgGNNSzGDI8EoTOShKWVglPBQM0MyFOSC
+         rscUIGpWV79PkN9xYZu8ags3BQgmIjb4hWPUefd2kJIztaeW8zSgA1bQNyohHjMStClw
+         QfcaTDgtLSUtt4MoAuDvSh8O/dUjdzIlDeT4wStax22Pbt+yf1H6ZjFqyTl1owEtSt8C
+         byBcqPv4aV8qV4txr9wwr+1p4nvMEmAEUYLEZ/JL9SpK9wU4NZ6kxjQ1hozzI5Uut1Ms
+         8AltkrQlqUBqMtT4ur0+YDp8y6Oo7W1pGr3ZtlWMagYfqNDhSBMS5DF8SJoIyLekbJzn
+         Vi5Q==
+X-Gm-Message-State: AOAM533HpD1YrStwVd1Ci764Dr6owFFNPpOD5BpEKRye/Ky5bhsTdM23
+        f13nRNa/1hU0etu5LM1mGrx1TTaHzg//dFEHFkw=
+X-Google-Smtp-Source: ABdhPJwXr/IolmK5NWapyi8YewXluu6v8vbHqdPkLrgGfSHFceez3QwExlHCAOivdFPv8+48ovLgqU8xUqxLi1RQ9HM=
+X-Received: by 2002:ab0:3ca9:: with SMTP id a41mr7024786uax.93.1633020366035;
+ Thu, 30 Sep 2021 09:46:06 -0700 (PDT)
 MIME-Version: 1.0
-References: <20210930071143.63410-1-wangkefeng.wang@huawei.com> <20210930071143.63410-8-wangkefeng.wang@huawei.com>
-In-Reply-To: <20210930071143.63410-8-wangkefeng.wang@huawei.com>
-From:   Alexander Potapenko <glider@google.com>
-Date:   Thu, 30 Sep 2021 17:45:35 +0200
-Message-ID: <CAG_fn=XD+nVgVRgj7KFsPWSuia+gZzpA3KAdqucjKodOvxSF6w@mail.gmail.com>
-Subject: Re: [PATCH v4 07/11] mm: kasan: Use is_kernel() helper
-To:     Kefeng Wang <wangkefeng.wang@huawei.com>
-Cc:     Arnd Bergmann <arnd@arndb.de>,
-        Linux-Arch <linux-arch@vger.kernel.org>,
-        LKML <linux-kernel@vger.kernel.org>,
-        linuxppc-dev@lists.ozlabs.org,
-        Steven Rostedt <rostedt@goodmis.org>,
-        Ingo Molnar <mingo@redhat.com>,
-        David Miller <davem@davemloft.net>,
-        Alexei Starovoitov <ast@kernel.org>,
-        Andrey Ryabinin <ryabinin.a.a@gmail.com>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Michael Ellerman <mpe@ellerman.id.au>,
-        Benjamin Herrenschmidt <benh@kernel.crashing.org>,
-        Paul Mackerras <paulus@samba.org>, bpf@vger.kernel.org,
-        linux-alpha@vger.kernel.org,
-        Christophe Leroy <christophe.leroy@csgroup.eu>,
-        Andrey Konovalov <andreyknvl@gmail.com>,
-        Dmitry Vyukov <dvyukov@google.com>
+Received: by 2002:a59:ab2e:0:b0:22d:7f44:603a with HTTP; Thu, 30 Sep 2021
+ 09:46:05 -0700 (PDT)
+Reply-To: irenezakari24@gmail.com
+From:   Irene zakari <irenezakari88@gmail.com>
+Date:   Thu, 30 Sep 2021 09:46:05 -0700
+Message-ID: <CAFT8PFH-kbyq3wt6O-Tqs0fCTXMtOpjxTFzR_hOU_WYS8X0dSw@mail.gmail.com>
+Subject: PLEASE I NEED YOUR HELP
+To:     undisclosed-recipients:;
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
 Precedence: bulk
 List-ID: <linux-alpha.vger.kernel.org>
 X-Mailing-List: linux-alpha@vger.kernel.org
 
-On Thu, Sep 30, 2021 at 9:09 AM Kefeng Wang <wangkefeng.wang@huawei.com> wr=
-ote:
->
-> Directly use is_kernel() helper in kernel_or_module_addr().
->
-> Cc: Andrey Ryabinin <ryabinin.a.a@gmail.com>
-> Cc: Alexander Potapenko <glider@google.com>
-> Cc: Andrey Konovalov <andreyknvl@gmail.com>
-> Cc: Dmitry Vyukov <dvyukov@google.com>
-> Signed-off-by: Kefeng Wang <wangkefeng.wang@huawei.com>
-Reviewed-by: Alexander Potapenko <glider@google.com>
+Hello   ..
 
-> ---
->  mm/kasan/report.c | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
->
-> diff --git a/mm/kasan/report.c b/mm/kasan/report.c
-> index 3239fd8f8747..1c955e1c98d5 100644
-> --- a/mm/kasan/report.c
-> +++ b/mm/kasan/report.c
-> @@ -226,7 +226,7 @@ static void describe_object(struct kmem_cache *cache,=
- void *object,
->
->  static inline bool kernel_or_module_addr(const void *addr)
->  {
-> -       if (addr >=3D (void *)_stext && addr < (void *)_end)
-> +       if (is_kernel((unsigned long)addr))
->                 return true;
->         if (is_module_address((unsigned long)addr))
->                 return true;
-> --
-> 2.26.2
->
+How do you do over there? I hope you are doing well?
 
+My name is Irene. (24 years), i am single, from Gambia, the only child
+of late Eng. Bernard Bakary Zakaria. the Director of Bajam Enterprise
+(Building Construction Company in The Gambia) also the CEO of Bernard
+Import and Export (GAMBIA).
 
---=20
-Alexander Potapenko
-Software Engineer
+As a matter of fact my mother died when i was barely 4 years old
+according to my late father and because of the type of love he had for
+my mother made him to remain UN-married till he left the ghost..
 
-Google Germany GmbH
-Erika-Mann-Stra=C3=9Fe, 33
-80636 M=C3=BCnchen
+So after the death of my father as a result of assassinate, his brother (My
+Uncle) who is the purchasing and marketing sale manager of my late
+fathers company named (Mr. James Tokunbo Oriade Zakaria) wanted to
+convert all the properties and resources of my late father into his
+which i quarreled with him and it made him to lay his anger on me to
+the extent of hiring an assassins to kill me but to God be the glory i
+succeeded by making a way to Burkina faso for my dear life.
+Honestly i do live a fearful life even here in Burkina faso because of
+those Assassins coming after me .
 
-Gesch=C3=A4ftsf=C3=BChrer: Paul Manicle, Halimah DeLaine Prado
-Registergericht und -nummer: Hamburg, HRB 86891
-Sitz der Gesellschaft: Hamburg
+I would want to live and study in your country for my better future.
+because my father same blood brother wanted to force me into undecided
+marriage, just for me to leave my father home and went and live with
+another man I never know as he want to occupied all my father home
+and maybe to sold it as my father no longer alive, I'm the only child
+daughter my father born, '' but he don't know that i am not
+interesting in any of my father properties or early marriage for now,
+because i still have future to think about and to focus on my studies
+first as i was doing my first year in the University before the death
+of my father.
+
+Actually what I want to discuss with you is about my personal issue
+concern funds my late father deposited in a bank outside my country,
+worth $4.5 million united state dollars. i need your assistance to
+receive and invest this funds in your country.
+
+Please help me, I am sincere to you and I want to be member of your
+family as well if you wouldn't mind to accept me and lead me to better
+future in your country.
+
+All the documents the bank issue to my father during time of deposit
+is with me now.
+I already notify the bank on phone about the death of my father and
+they are surprise for the news and accept that my father is their good
+customer.
+I will be happy if this money can be invested in any business of your
+choice and it will be under your control till i finished my education,
+also I'm assuring you good relationship and I am ready to discuss the
+amount of money to give you from this money for your help.
+
+Therefore, I shall give you the bank contact and other necessary
+information in my next email if you will only promise me that you will
+not/never betray and disclosed this matter to anybody, because, this
+money is the only hope i have for survival on earth since I have lost
+my parents.
+
+Moreover I have the FUND PLACEMENT CERTIFICATE and the DEATH
+CERTIFICATE here with me, but before I give you further information, i
+will like to know your full data
+
+1. Full Name: ........................
+2. Address: ..................
+3. Nationality: ........... Sex................
+4. Age:........... Date of Birth:................
+5. Occupation:...................
+.....
+6. Phone: ........... Fax:.........................
+7. State of Origin: .......Country:..............
+8. Occupation:...................
+................
+9. Marital status........... E-mail address's: ............
+10. Scan copy of your ID card or Driving License/Photo:............
+DECLARATION:
+
+so that i will be fully sure that i am not trusting the wrong person.
+and it will also give me the mind to send you the bank contact for you
+to communicate with them for more verification about this money. and
+to know you more better.
+
+Meanwhile, you can reach me through my pastor,his name is Pastor Paul
+any time you call, tell him that you want to speak with me because
+right now i am living in the church here in Burkina faso and i don't
+want to stay here any longer,
+send for me to speak with you his phone number is this(+226 75213646)
+
+I will stop here and i will be waiting for your reply and feel free
+ask any thing you want to know about me.
+Please help me, I would be highly appreciated
+Have nice day.
+From Irene
