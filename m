@@ -2,83 +2,71 @@ Return-Path: <linux-alpha-owner@vger.kernel.org>
 X-Original-To: lists+linux-alpha@lfdr.de
 Delivered-To: lists+linux-alpha@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 3CCA441FB87
-	for <lists+linux-alpha@lfdr.de>; Sat,  2 Oct 2021 14:04:43 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 09D7641FCBE
+	for <lists+linux-alpha@lfdr.de>; Sat,  2 Oct 2021 17:30:57 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232992AbhJBMG1 (ORCPT <rfc822;lists+linux-alpha@lfdr.de>);
-        Sat, 2 Oct 2021 08:06:27 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:32932 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232993AbhJBMG1 (ORCPT
-        <rfc822;linux-alpha@vger.kernel.org>); Sat, 2 Oct 2021 08:06:27 -0400
-Received: from mail-il1-x134.google.com (mail-il1-x134.google.com [IPv6:2607:f8b0:4864:20::134])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 865E0C0613EE
-        for <linux-alpha@vger.kernel.org>; Sat,  2 Oct 2021 05:04:41 -0700 (PDT)
-Received: by mail-il1-x134.google.com with SMTP id d11so13324468ilc.8
-        for <linux-alpha@vger.kernel.org>; Sat, 02 Oct 2021 05:04:41 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=mime-version:reply-to:from:date:message-id:subject:to
-         :content-transfer-encoding;
-        bh=nsZbpm1YBoHMpWTnzHLuE/zYZ0yg4jBiKD5Q7oCTPBE=;
-        b=GO449BvICk84WKuK9ahN2vOhrB9fSfFegRBBA3PeYDaKyqLDbslN1qFNjsW7CKw39I
-         0jq7idCubodBd+xVuDeJmS1weMNp491HwUUQbggwvBAqhPqamksRdWmx2Qg5R5PWzyTy
-         iZwcp8Ne2GmvNa2aPBTwapIREPTerkL+v5MrkDJ4kyRnK1xpaEvt5n2Q0z24/jGLg2yV
-         ZJNh/i2fXeKyZndMnpPNVpM/99YTO3Ixm9yidlO8cd39EGMmrPO8wakEWsTR/sRjuk0n
-         DcvaxvflUJPYk1dd93uNhmeP3vjSFs8KrhmekM1dmA3XOEbjXW054k63WVwH8Bnht2/P
-         qXBg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:reply-to:from:date:message-id
-         :subject:to:content-transfer-encoding;
-        bh=nsZbpm1YBoHMpWTnzHLuE/zYZ0yg4jBiKD5Q7oCTPBE=;
-        b=dJRr7RNhnh+FUi+Q70UnG6zN6INgrDmc1jxwA0kokvqLgJPKbGoAhPlDXxp1XGjWFp
-         +Qp3W/msEz7WaYVbIR/ICM3X7pa/xku4/N1wUhpZtznShX1yOzN4fsv6jflfeCrLo27c
-         PpKNHHzBeZFD/v8XmhNjdQD+huxrcYeW34QPGaG3Jp1WuOmCN9XQsQXDmHeeY13RMTxA
-         LGBm38N6V1X2gqUmlVwiSLmS00SBaIpAmuClOCK/ZisEvRiAeCtyLOJPyB3KdBdWtS2T
-         0+B1gOX5Iy+JTQ9BB1+CQWiggb+yjIPTggdcB1D06Siyr8V6nw3+eIcuorjErIbxMfbs
-         +rNA==
-X-Gm-Message-State: AOAM530r4uF+uyLpFYQDWpmlMqvITjCHeMo71s4qIdOEUQFyNx2eTW/z
-        3c4RkWsHsEPFLtp6ckNy8HgsdoR1goVR+Eh3CsWJlkSMpfY=
-X-Google-Smtp-Source: ABdhPJyFw4/xScA/wadBSzxxwcdZFOtH13tNMTjVwbpuHJg8yoHeEB0+E26D1nYyzAG/RTzzg6xFhqb2SLoZJztG4Y8=
-X-Received: by 2002:a05:6e02:154f:: with SMTP id j15mr2408326ilu.236.1633176281027;
- Sat, 02 Oct 2021 05:04:41 -0700 (PDT)
+        id S233274AbhJBPcl (ORCPT <rfc822;lists+linux-alpha@lfdr.de>);
+        Sat, 2 Oct 2021 11:32:41 -0400
+Received: from outpost1.zedat.fu-berlin.de ([130.133.4.66]:42201 "EHLO
+        outpost1.zedat.fu-berlin.de" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S232575AbhJBPcl (ORCPT
+        <rfc822;linux-alpha@vger.kernel.org>);
+        Sat, 2 Oct 2021 11:32:41 -0400
+Received: from inpost2.zedat.fu-berlin.de ([130.133.4.69])
+          by outpost.zedat.fu-berlin.de (Exim 4.94)
+          with esmtps (TLS1.2)
+          tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
+          (envelope-from <glaubitz@zedat.fu-berlin.de>)
+          id 1mWgyU-001cEN-El; Sat, 02 Oct 2021 17:30:54 +0200
+Received: from p57bd97e9.dip0.t-ipconnect.de ([87.189.151.233] helo=[192.168.178.81])
+          by inpost2.zedat.fu-berlin.de (Exim 4.94)
+          with esmtpsa (TLS1.2)
+          tls TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256
+          (envelope-from <glaubitz@physik.fu-berlin.de>)
+          id 1mWgyU-003wpe-8D; Sat, 02 Oct 2021 17:30:54 +0200
+Message-ID: <2b9935f1-da3a-e858-77e5-c88e8b578e0d@physik.fu-berlin.de>
+Date:   Sat, 2 Oct 2021 17:30:53 +0200
 MIME-Version: 1.0
-Received: by 2002:a4f:f90d:0:0:0:0:0 with HTTP; Sat, 2 Oct 2021 05:04:40 -0700 (PDT)
-Reply-To: unitednnation0@gmail.com
-From:   "U.n" <wadebaye33@gmail.com>
-Date:   Sat, 2 Oct 2021 00:04:40 -1200
-Message-ID: <CACE0T5U=DDANP2nGZRu0qMbKTKm1wp-yC+vjAjWhtxvwt5jz1w@mail.gmail.com>
-Subject: Attention
-To:     unitednnation0@gmail.com
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.1.1
+Subject: Re: Newer kernels on the Jensen (was: [PATCH v2 0/4] Introduce and
+Content-Language: en-US
+From:   John Paul Adrian Glaubitz <glaubitz@physik.fu-berlin.de>
+To:     Ulrich Teichert <krypton@ulrich-teichert.org>
+Cc:     Linux Alpha <linux-alpha@vger.kernel.org>, mattst88@gmail.com,
+        "debian-alpha@lists.debian.org" <debian-alpha@lists.debian.org>
+References: <202109261712.18QHCj8L023400@valdese.nms.ulrich-teichert.org>
+ <75c41301-8467-0e44-c5b0-fcc47a113e31@physik.fu-berlin.de>
+In-Reply-To: <75c41301-8467-0e44-c5b0-fcc47a113e31@physik.fu-berlin.de>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+X-Original-Sender: glaubitz@physik.fu-berlin.de
+X-Originating-IP: 87.189.151.233
 Precedence: bulk
 List-ID: <linux-alpha.vger.kernel.org>
 X-Mailing-List: linux-alpha@vger.kernel.org
 
---=20
+Hi Ulrich!
 
+On 9/26/21 19:16, John Paul Adrian Glaubitz wrote:
+> That might be possible but I'm not sure whether there are any limitations with
+> a-boot in this regard. Either way, you helped me find another kernel configuration
+> issue in Debian that I am going to fix, so thanks for that.
 
-Attention Sir/Madam
-This is the United Nation (UN). We the United Nations (UN) Globally
-has approved (US$2.500,000)( two Million Five hundred thousand
-dollars) compensation as part of our responsibilities for humanitarian
-Aid for fighting against CoronaVirus and you are among the lucky ones.
+I have opened a merge request for the Debian kernel configuration now to enable
+EISA support in the Debian kernel package on alpha [1].
 
+Thus, the installer images should fully work on your machine once this change
+has been merged.
 
-This compensation is for the most affected countries, communities and
-families across the global. Your funds were deposited with Bank in USA
-to transfer your funds to you via Internet Banking. You have to send
-your full details as state below:with this email Address
-  ( unitednnation0@gmail.com )
-Your full names:
-Address:
-Telephone:
-Occupation:
+Thanks,
+Adrian
 
+> [1] https://salsa.debian.org/kernel-team/linux/-/merge_requests/401
 
+-- 
+ .''`.  John Paul Adrian Glaubitz
+: :' :  Debian Developer - glaubitz@debian.org
+`. `'   Freie Universitaet Berlin - glaubitz@physik.fu-berlin.de
+  `-    GPG: 62FF 8A75 84E0 2956 9546  0006 7426 3B37 F5B5 F913
 
-Yours Sincerely
-Mr. Ant=C3=B3nio Guterres
-United Nations (UN).
