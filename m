@@ -2,86 +2,101 @@ Return-Path: <linux-alpha-owner@vger.kernel.org>
 X-Original-To: lists+linux-alpha@lfdr.de
 Delivered-To: lists+linux-alpha@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 71AA2420042
-	for <lists+linux-alpha@lfdr.de>; Sun,  3 Oct 2021 07:52:49 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 4EAA0420314
+	for <lists+linux-alpha@lfdr.de>; Sun,  3 Oct 2021 19:19:25 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229786AbhJCFyf (ORCPT <rfc822;lists+linux-alpha@lfdr.de>);
-        Sun, 3 Oct 2021 01:54:35 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40114 "EHLO
+        id S231132AbhJCRVL (ORCPT <rfc822;lists+linux-alpha@lfdr.de>);
+        Sun, 3 Oct 2021 13:21:11 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48228 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229785AbhJCFye (ORCPT
-        <rfc822;linux-alpha@vger.kernel.org>); Sun, 3 Oct 2021 01:54:34 -0400
-Received: from mail-lf1-x135.google.com (mail-lf1-x135.google.com [IPv6:2a00:1450:4864:20::135])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8F8EDC0613EC
-        for <linux-alpha@vger.kernel.org>; Sat,  2 Oct 2021 22:52:47 -0700 (PDT)
-Received: by mail-lf1-x135.google.com with SMTP id g41so56454961lfv.1
-        for <linux-alpha@vger.kernel.org>; Sat, 02 Oct 2021 22:52:47 -0700 (PDT)
+        with ESMTP id S230504AbhJCRVL (ORCPT
+        <rfc822;linux-alpha@vger.kernel.org>); Sun, 3 Oct 2021 13:21:11 -0400
+Received: from mail-io1-xd34.google.com (mail-io1-xd34.google.com [IPv6:2607:f8b0:4864:20::d34])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C3AECC0613EC;
+        Sun,  3 Oct 2021 10:19:23 -0700 (PDT)
+Received: by mail-io1-xd34.google.com with SMTP id p80so17603158iod.10;
+        Sun, 03 Oct 2021 10:19:23 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
-        h=mime-version:reply-to:sender:from:date:message-id:subject:to;
-        bh=xRc3IHUizmviQEjT/aA/BX2eK4NRIQ6MOKbVgrtXYgk=;
-        b=qHPCUU9scGPhkvEZsOQURZd5UFSXqJ3ZPoM9jbAfYl1KNM4NWgOKBNNtu0Pa1lCWhG
-         VIFcANLNeEQ5JKFE+cWmnnmc0ex3R+7IHqd8PzXh+4MkQz7RPnum8m26HwAiK5l0eeTE
-         CDObo0ljW9oHyINJ/74ScV+4hqAGx/8zPs3yaPpuyal+/BJUsS39YnyzvsCxuqGRb0N1
-         Azm+F+tYr1/Sm05zYadllq+of25l3zG4O0tkkInOAT43SVPiI++wqlEdx5SMJ0LE9dIx
-         ah3zf2iPPELUKXKQMf2y7W4DLNPIGKqawXMsToTPIjNkqQaO8O45enLxwOGQo6K6KyFN
-         25GA==
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=LtNAm7zzl2qrgZZh/QTIxNxuRAfc7I+2wFFQB9vnTF0=;
+        b=HPajL2gRll5UGOWQudiLfEhv04bZJLEY04ZU7ZSRAIC019LPw99IB3jcVbN4EN+uaa
+         xyKMFFwUWxMYSoP4ZBJywqtND/RYthdauADK8DHtR06cFEMk7vPzapNi8yp+/BQqu9DS
+         XOr3DnKVtkoe0wPl/79bKfHiDibk91+zdv0sLCel9UFYLCb9bmD47OsCKSwE0mGDtw8/
+         6gdgpENhRKndxirmzsgGPXX1upChcdibaOTNC3bq+DmwPpNVd9cFYYXmPAmiOvESIXbo
+         CSbSXebOc4mMaPqb0Px805lEkzhdOgcnojNc1+KreKV66iyssiTwe6WqQz88OHS1mJw/
+         GXiw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:reply-to:sender:from:date
-         :message-id:subject:to;
-        bh=xRc3IHUizmviQEjT/aA/BX2eK4NRIQ6MOKbVgrtXYgk=;
-        b=wb199bzHUIhFtvEyADV9etmtBnnmZ7HyOpQAuEcYvfJIblgnCUjhz2bsnQJw4fh9IQ
-         BXxf5VOkHaDJyyHgyM/8KtvsCVmbPo/OGszlrx5IFPiKuqIA8roHPQr1Z7bgHHmiB2cR
-         /nlRD0UD8o6i3XkPOE/odye3eQNNM9IcDIXn/6lUfOwWE3rV1FonndcGe2o1cm04KwVt
-         3SF3pP7EDg+9KmqQwjCQHGHARnpCnwBkI3SlJipuTPQ/LPqG6hf1squGBWquO3qEu0X3
-         GJ6kue6MddIuyeNfHdhE95coGqOKGxbUPVdxqJdiH2bPkyVDsPj9UtjbjMv7GgwQ00DB
-         7gOA==
-X-Gm-Message-State: AOAM5328jAG3ni4juJIValyJooJBzwKBQyFeunEtvyXGrGaJhg0Fj9Dj
-        FkT0rc+MZ4IueQxJAgPmvO5E2D5+mW1oXUclx8w=
-X-Google-Smtp-Source: ABdhPJwYjvuFGscYVwC/EPOh/iJ9ppPDT7tfOsJaAwAIXsvijO6RIyF9WT2LFePNFFS2ZdDARLuN6zTuWjs4GUczSQc=
-X-Received: by 2002:a05:6512:31e:: with SMTP id t30mr7444485lfp.620.1633240365629;
- Sat, 02 Oct 2021 22:52:45 -0700 (PDT)
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=LtNAm7zzl2qrgZZh/QTIxNxuRAfc7I+2wFFQB9vnTF0=;
+        b=OlJvNQS4Y84OZTjs29lxUhu7NVJXGBUBlDEKWR77L5beT9+YJbW6ZE6vsZhKSORaNu
+         Zjk7+snQ7f8+yIOuq594x7JkqAbRLCLUvMSZoxYfjtT6Fy3mM7PRGEZXBLn9E31o5Ii4
+         pZJU3bUZ1KkQ1xCg9PnW0Yz0Mt8k9mPFRKQlMGiZw9Z8KxNum2RFQAJzx8kvd6+MITby
+         +LUKlCmGPfmvWe6fp6px09cLOLoT9HjL8jLm6H/nYmOROprlbIWMhuskijP2ZHQTpipr
+         8uIRvN1pmjqdFjwYVwVnFYR4R36YDceS+dptD32PcjJnyG1dhEK5kvB4nNLLvqOvUSni
+         IGrA==
+X-Gm-Message-State: AOAM530kCN3EUHHI7U5xQ2AzGAH6ur52saDb7ZLGzN6gc14eVZaeiig/
+        E97KBM4k6Ot70DKFQGYBmN4GxfWf4Cov0KNNNBM=
+X-Google-Smtp-Source: ABdhPJzE8E4NG+zryoNkkGJT+VnCZOOENDmogYIeJjU1ZUgffAvfm3SvEG54YtnyET4C9tYQXAL12Yepc0ZqQhXt644=
+X-Received: by 2002:a05:6602:214f:: with SMTP id y15mr6480548ioy.127.1633281563293;
+ Sun, 03 Oct 2021 10:19:23 -0700 (PDT)
 MIME-Version: 1.0
-Reply-To: godwinppter@gmail.com
-Sender: info.bfinfo3@gmail.com
-Received: by 2002:a05:6520:47c4:b0:139:1b10:ad9d with HTTP; Sat, 2 Oct 2021
- 22:52:44 -0700 (PDT)
-From:   Godwin Pete <godwinnpeter@gmail.com>
-Date:   Sun, 3 Oct 2021 07:52:44 +0200
-X-Google-Sender-Auth: DItR-kSaRQ40MIQibU6FYQiDs2c
-Message-ID: <CABCrZePbcXC=L9dnmXUFUuExPpb5qB_2Ex6xrTKr+WGYii0xtA@mail.gmail.com>
-Subject: This is to inform you
-To:     undisclosed-recipients:;
+References: <20210930071143.63410-1-wangkefeng.wang@huawei.com> <20210930071143.63410-8-wangkefeng.wang@huawei.com>
+In-Reply-To: <20210930071143.63410-8-wangkefeng.wang@huawei.com>
+From:   Andrey Konovalov <andreyknvl@gmail.com>
+Date:   Sun, 3 Oct 2021 19:19:12 +0200
+Message-ID: <CA+fCnZd6=sXgb-782KkijqJ7zgBj38oXLeLbi4HoUhm3MY4J8g@mail.gmail.com>
+Subject: Re: [PATCH v4 07/11] mm: kasan: Use is_kernel() helper
+To:     Kefeng Wang <wangkefeng.wang@huawei.com>
+Cc:     Arnd Bergmann <arnd@arndb.de>, linux-arch@vger.kernel.org,
+        LKML <linux-kernel@vger.kernel.org>,
+        linuxppc-dev@lists.ozlabs.org,
+        Steven Rostedt <rostedt@goodmis.org>, mingo@redhat.com,
+        David Miller <davem@davemloft.net>,
+        Alexei Starovoitov <ast@kernel.org>,
+        Andrey Ryabinin <ryabinin.a.a@gmail.com>,
+        Andrew Morton <akpm@linux-foundation.org>, mpe@ellerman.id.au,
+        benh@kernel.crashing.org, paulus@samba.org,
+        bpf <bpf@vger.kernel.org>, linux-alpha@vger.kernel.org,
+        Christophe Leroy <christophe.leroy@csgroup.eu>,
+        Alexander Potapenko <glider@google.com>,
+        Dmitry Vyukov <dvyukov@google.com>
 Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-alpha.vger.kernel.org>
 X-Mailing-List: linux-alpha@vger.kernel.org
 
-Hi,
+On Thu, Sep 30, 2021 at 9:09 AM Kefeng Wang <wangkefeng.wang@huawei.com> wrote:
+>
+> Directly use is_kernel() helper in kernel_or_module_addr().
+>
+> Cc: Andrey Ryabinin <ryabinin.a.a@gmail.com>
+> Cc: Alexander Potapenko <glider@google.com>
+> Cc: Andrey Konovalov <andreyknvl@gmail.com>
+> Cc: Dmitry Vyukov <dvyukov@google.com>
+> Signed-off-by: Kefeng Wang <wangkefeng.wang@huawei.com>
+> ---
+>  mm/kasan/report.c | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+>
+> diff --git a/mm/kasan/report.c b/mm/kasan/report.c
+> index 3239fd8f8747..1c955e1c98d5 100644
+> --- a/mm/kasan/report.c
+> +++ b/mm/kasan/report.c
+> @@ -226,7 +226,7 @@ static void describe_object(struct kmem_cache *cache, void *object,
+>
+>  static inline bool kernel_or_module_addr(const void *addr)
+>  {
+> -       if (addr >= (void *)_stext && addr < (void *)_end)
+> +       if (is_kernel((unsigned long)addr))
+>                 return true;
+>         if (is_module_address((unsigned long)addr))
+>                 return true;
+> --
+> 2.26.2
+>
 
-How are you doing? I am very happy to inform you about my success. I'm
-currently out of the country for an investment with part of my share,
-after completing the transfer with an Indian business man. But i will
-visit your country, next year, after the completion of my project.
-Please, contact my secretary to send you the (ATM) card which I've
-already credited with the sum of ($500,000.00). Just contact her to
-help you in receiving the (ATM) card. I've explained everything to her
-before my trip. This is what I can do for you because, you couldn't
-help in the transfer, but for the fact that you're the person whom
-I've contacted initially, for the transfer. I decided to give this
-($500,000.00) as a compensation for being contacted initially for the
-transfer. I always try to make the difference, in dealing with people
-any time I come in contact with them. I'm also trying to show that I'm
-quite a different person from others whose may have a different
-purpose within them. I believe that you will render some help to me
-when I, will visit your country, for another investment there. So
-contact my secretary for the card, Her contact are as follows,
-
-Full name: Mrs, Jovita Dumuije,
-Country: Burkina Faso
-Email: jovitadumuije@gmail.com
-
-Thanks, and hope for a good corporation with you in future.
-
-Godwin Peter,
+Reviewed-by: Andrey Konovalov <andreyknvl@gmail.com>
