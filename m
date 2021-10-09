@@ -2,55 +2,55 @@ Return-Path: <linux-alpha-owner@vger.kernel.org>
 X-Original-To: lists+linux-alpha@lfdr.de
 Delivered-To: lists+linux-alpha@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 3CFA3427894
-	for <lists+linux-alpha@lfdr.de>; Sat,  9 Oct 2021 11:53:46 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id E5853427958
+	for <lists+linux-alpha@lfdr.de>; Sat,  9 Oct 2021 13:04:29 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232146AbhJIJzl (ORCPT <rfc822;lists+linux-alpha@lfdr.de>);
-        Sat, 9 Oct 2021 05:55:41 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:55637 "EHLO
+        id S232517AbhJILGZ (ORCPT <rfc822;lists+linux-alpha@lfdr.de>);
+        Sat, 9 Oct 2021 07:06:25 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:40688 "EHLO
         us-smtp-delivery-124.mimecast.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S230022AbhJIJzk (ORCPT
+        by vger.kernel.org with ESMTP id S232583AbhJILGY (ORCPT
         <rfc822;linux-alpha@vger.kernel.org>);
-        Sat, 9 Oct 2021 05:55:40 -0400
+        Sat, 9 Oct 2021 07:06:24 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1633773223;
+        s=mimecast20190719; t=1633777466;
         h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
          to:to:cc:cc:mime-version:mime-version:content-type:content-type:
          in-reply-to:in-reply-to:references:references;
-        bh=TC+ficJjTyhwmBtLURsKztDpUSSEvDlSazI7HDdGRfI=;
-        b=U2n8+Vl5kdt+lvMjdR5yYihA62CM8vwyO0Pdi9O75Dm60hILNJVXTYJ5SYNf7Y3foxZ5TJ
-        cG1KoQBKCJtzBpqTBrnh7hrLbsRUkLYkeHelSWS2+oYdcdIog1YqgPa8PpMwHVO9AA8vc4
-        KHJjjwrVbMo4TBsk1LMReJJJr2EQzNo=
-Received: from mail-ed1-f69.google.com (mail-ed1-f69.google.com
- [209.85.208.69]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-439-xDrAsYpCNVmffqcfn5o9iw-1; Sat, 09 Oct 2021 05:53:42 -0400
-X-MC-Unique: xDrAsYpCNVmffqcfn5o9iw-1
-Received: by mail-ed1-f69.google.com with SMTP id d11-20020a50cd4b000000b003da63711a8aso11356632edj.20
-        for <linux-alpha@vger.kernel.org>; Sat, 09 Oct 2021 02:53:41 -0700 (PDT)
+        bh=lJ/2iCuZIJi8M6YSq3TSpepZV4prmg5N+D8TG37hfos=;
+        b=AaxYMxWO/BxUn2MZXFoc35vCI1KV/4CUz8y8p85dSztjOa0jHIixCxO6RGnznkOiLHXPN7
+        MG0m5wU+2AxYtXxgK0xS3+g6vwV6+CPFP/huMjMwvP1CzbKNNwHiI33KTu9lMzum0tsYdu
+        aJUfkc2diMHEqi6grWIVPcouKMuHSR0=
+Received: from mail-ed1-f72.google.com (mail-ed1-f72.google.com
+ [209.85.208.72]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-566-otF0mhyoPVuUY3F-zOqGdw-1; Sat, 09 Oct 2021 07:04:22 -0400
+X-MC-Unique: otF0mhyoPVuUY3F-zOqGdw-1
+Received: by mail-ed1-f72.google.com with SMTP id z23-20020aa7cf97000000b003db7be405e1so579896edx.13
+        for <linux-alpha@vger.kernel.org>; Sat, 09 Oct 2021 04:04:22 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:date:from:to:cc:subject:message-id:references
          :mime-version:content-disposition:in-reply-to;
-        bh=TC+ficJjTyhwmBtLURsKztDpUSSEvDlSazI7HDdGRfI=;
-        b=VLg2G6urBfn4zx1MIQgCzA1G2lXsQZy763E1yy6O5vIyX9VbBGzfxjlwQ90RMWDEnW
-         c9aICh74W3g66V7DLdB0GYBNWrfXgcKzP2nO4FPqhUiJkbl6EUYb6axPrKw5chzUZExL
-         vAMiYZgbcDLWzGsx9V/7UO3YLfMJ5xJqxz7TL4w2MV3lYAC+K5i1MYbFMTxWhNo6EDfb
-         hpDBGqvj+8wuoEj4dotEbNjWoFbCvFjAhJ1eJf/Ba7MKhX9qOz6cy+9Y42O7DaOd9emL
-         OGZi7yTGl/Trs5iQ6Ut2SHzGSKJpLX3ummHlDCGGSQJLDOCllzvmMq9bHQq2BVZfuzOX
-         WWqg==
-X-Gm-Message-State: AOAM531UYH39OdjhgJSYt1F1dCW0ci9cbZhn4JcsL9iT3UI05ZpLopCo
-        /6Ue1IT/cg/By8qkj600fVjQStX+THvU0c0HbtU0NTRnHzPB2kwMG4kW+f54Xzq0FkN8p/7G5db
-        hmleZjEjR4/HBRA20n5Yr+VI=
-X-Received: by 2002:a17:906:2bc7:: with SMTP id n7mr10404154ejg.238.1633773220396;
-        Sat, 09 Oct 2021 02:53:40 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJxePZTE9MitFRdc70X+sthkRGYJjDyzEeDJjYhWOTmTvwwLiK4AL4UvsV8FtvbX7jf0fHnSpA==
-X-Received: by 2002:a17:906:2bc7:: with SMTP id n7mr10404118ejg.238.1633773220163;
-        Sat, 09 Oct 2021 02:53:40 -0700 (PDT)
+        bh=lJ/2iCuZIJi8M6YSq3TSpepZV4prmg5N+D8TG37hfos=;
+        b=nU3oyo0714f0E6JqYI1rYHkDolelxgxB9Lmre+hU94IgDHwV1XhJT/Gg/XIVrV5ohO
+         i+aHZbIJlo4/0EYBbJQDAgLNEFvT5vja8cJr3gb0lfJUa8QrJ1krfCbYoaU/MUBECHpt
+         6CH92uwlBJgBxJpubuOGsgMR1r+hqoHXqMPfHhPIXvCQL8G3V1Qjc8yuafO5DGYttsDz
+         yA8PotgrHzZo9GRy35i2lMf38orWXgW8ElbtplTNSywDT/1n9cGhturSA2t6bnb+f8s3
+         tWqFdB2Xv7Uleg61ybNNL6L8RajYxOG9S2jq5rTrC5rx0QAUKdm4wlCr3InSiW6xbCUf
+         +L+A==
+X-Gm-Message-State: AOAM531YmylSn9/kN+ThdhV/1/uSGQAKgfcy/tLS1zSabtxLRg0HKgyP
+        hvaIQwCyBb8lVDV7/RF1mfI6e8rkPDhBCh+wUEIAvul/i4I1eiMCZU+kADwSkPjRMkB87Z0jnHU
+        go0auGekf7gb15ETBpEJrPoI=
+X-Received: by 2002:a17:906:585a:: with SMTP id h26mr10966049ejs.31.1633777461692;
+        Sat, 09 Oct 2021 04:04:21 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJwobA8ZxtLfM+i96qTUZJc2D6zqI9p4pA768qS/bvwYQXY5otl6Kxnqg/w4gwu0W8PjfTgg/g==
+X-Received: by 2002:a17:906:585a:: with SMTP id h26mr10965985ejs.31.1633777461334;
+        Sat, 09 Oct 2021 04:04:21 -0700 (PDT)
 Received: from redhat.com ([2.55.132.170])
-        by smtp.gmail.com with ESMTPSA id rv25sm776493ejb.21.2021.10.09.02.53.34
+        by smtp.gmail.com with ESMTPSA id n22sm831106eja.120.2021.10.09.04.04.12
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 09 Oct 2021 02:53:39 -0700 (PDT)
-Date:   Sat, 9 Oct 2021 05:53:32 -0400
+        Sat, 09 Oct 2021 04:04:20 -0700 (PDT)
+Date:   Sat, 9 Oct 2021 07:04:10 -0400
 From:   "Michael S. Tsirkin" <mst@redhat.com>
 To:     Kuppuswamy Sathyanarayanan 
         <sathyanarayanan.kuppuswamy@linux.intel.com>
@@ -84,157 +84,41 @@ Cc:     Thomas Gleixner <tglx@linutronix.de>,
         sparclinux@vger.kernel.org, linux-arch@vger.kernel.org,
         linux-doc@vger.kernel.org,
         virtualization@lists.linux-foundation.org
-Subject: Re: [PATCH v5 12/16] PCI: Add pci_iomap_host_shared(),
- pci_iomap_host_shared_range()
-Message-ID: <20211009053103-mutt-send-email-mst@kernel.org>
+Subject: Re: [PATCH v5 16/16] x86/tdx: Add cmdline option to force use of
+ ioremap_host_shared
+Message-ID: <20211009070132-mutt-send-email-mst@kernel.org>
 References: <20211009003711.1390019-1-sathyanarayanan.kuppuswamy@linux.intel.com>
- <20211009003711.1390019-13-sathyanarayanan.kuppuswamy@linux.intel.com>
+ <20211009003711.1390019-17-sathyanarayanan.kuppuswamy@linux.intel.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20211009003711.1390019-13-sathyanarayanan.kuppuswamy@linux.intel.com>
+In-Reply-To: <20211009003711.1390019-17-sathyanarayanan.kuppuswamy@linux.intel.com>
 Precedence: bulk
 List-ID: <linux-alpha.vger.kernel.org>
 X-Mailing-List: linux-alpha@vger.kernel.org
 
-On Fri, Oct 08, 2021 at 05:37:07PM -0700, Kuppuswamy Sathyanarayanan wrote:
-> From: Andi Kleen <ak@linux.intel.com>
-> 
-> For Confidential VM guests like TDX, the host is untrusted and hence
-> the devices emulated by the host or any data coming from the host
-> cannot be trusted. So the drivers that interact with the outside world
-> have to be hardened by sharing memory with host on need basis
-> with proper hardening fixes.
-> 
-> For the PCI driver case, to share the memory with the host add
-> pci_iomap_host_shared() and pci_iomap_host_shared_range() APIs.
-> 
-> Signed-off-by: Andi Kleen <ak@linux.intel.com>
-> Signed-off-by: Kuppuswamy Sathyanarayanan <sathyanarayanan.kuppuswamy@linux.intel.com>
-
-So I proposed to make all pci mappings shared, eliminating the need
-to patch drivers.
-
-To which Andi replied
-	One problem with removing the ioremap opt-in is that
-	it's still possible for drivers to get at devices without going through probe.
-
-To which Greg replied:
-https://lore.kernel.org/all/YVXBNJ431YIWwZdQ@kroah.com/
-	If there are in-kernel PCI drivers that do not do this, they need to be
-	fixed today.
-
-Can you guys resolve the differences here?
-
-And once they are resolved, mention this in the commit log so
-I don't get to re-read the series just to find out nothing
-changed in this respect?
-
-I frankly do not believe we are anywhere near being able to harden
-an arbitrary kernel config against attack.
-How about creating a defconfig that makes sense for TDX then?
-Anyone deviating from that better know what they are doing,
-this API tweaking is just putting policy into the kernel  ...
-
-> ---
->  Changes since v4:
->  * Replaced "_shared" with "_host_shared" in pci_iomap* APIs
->  * Fixed commit log as per review comments.
-> 
->  include/asm-generic/pci_iomap.h |  6 +++++
->  lib/pci_iomap.c                 | 47 +++++++++++++++++++++++++++++++++
->  2 files changed, 53 insertions(+)
-> 
-> diff --git a/include/asm-generic/pci_iomap.h b/include/asm-generic/pci_iomap.h
-> index df636c6d8e6c..a4a83c8ab3cf 100644
-> --- a/include/asm-generic/pci_iomap.h
-> +++ b/include/asm-generic/pci_iomap.h
-> @@ -18,6 +18,12 @@ extern void __iomem *pci_iomap_range(struct pci_dev *dev, int bar,
->  extern void __iomem *pci_iomap_wc_range(struct pci_dev *dev, int bar,
->  					unsigned long offset,
->  					unsigned long maxlen);
-> +extern void __iomem *pci_iomap_host_shared(struct pci_dev *dev, int bar,
-> +					   unsigned long max);
-> +extern void __iomem *pci_iomap_host_shared_range(struct pci_dev *dev, int bar,
-> +						 unsigned long offset,
-> +						 unsigned long maxlen);
+On Fri, Oct 08, 2021 at 05:37:11PM -0700, Kuppuswamy Sathyanarayanan wrote:
+> +	ioremap_force_shared= [X86_64, CCG]
+> +			Force the kernel to use shared memory mappings which do
+> +			not use ioremap_host_shared/pcimap_host_shared to opt-in
+> +			to shared mappings with the host. This feature is mainly
+> +			used by a confidential guest when enabling new drivers
+> +			without proper shared memory related changes. Please note
+> +			that this option might also allow other non explicitly
+> +			enabled drivers to interact with the host in confidential
+> +			guest, which could cause other security risks. This option
+> +			will also cause BIOS data structures to be shared with the
+> +			host, which might open security holes.
 > +
->  /* Create a virtual mapping cookie for a port on a given PCI device.
->   * Do not call this directly, it exists to make it easier for architectures
->   * to override */
-> diff --git a/lib/pci_iomap.c b/lib/pci_iomap.c
-> index 57bd92f599ee..2816dc8715da 100644
-> --- a/lib/pci_iomap.c
-> +++ b/lib/pci_iomap.c
-> @@ -25,6 +25,11 @@ static void __iomem *map_ioremap_wc(phys_addr_t addr, size_t size)
->  	return ioremap_wc(addr, size);
->  }
->  
-> +static void __iomem *map_ioremap_host_shared(phys_addr_t addr, size_t size)
-> +{
-> +	return ioremap_host_shared(addr, size);
-> +}
-> +
->  static void __iomem *pci_iomap_range_map(struct pci_dev *dev,
->  					 int bar,
->  					 unsigned long offset,
-> @@ -106,6 +111,48 @@ void __iomem *pci_iomap_wc_range(struct pci_dev *dev,
->  }
->  EXPORT_SYMBOL_GPL(pci_iomap_wc_range);
->  
-> +/**
-> + * pci_iomap_host_shared_range - create a virtual shared mapping cookie
-> + *				 for a PCI BAR
-> + * @dev: PCI device that owns the BAR
-> + * @bar: BAR number
-> + * @offset: map memory at the given offset in BAR
-> + * @maxlen: max length of the memory to map
-> + *
-> + * Remap a pci device's resources shared in a confidential guest.
-> + * For more details see pci_iomap_range's documentation.
+>  	io7=		[HW] IO7 for Marvel-based Alpha systems
+>  			See comment before marvel_specify_io7 in
+>  			arch/alpha/kernel/core_marvel.c.
 
-So how does a driver author know when to use this function, and when to
-use the regular pci_iomap_range?  Drivers have no idea whether they are
-used in a confidential guest, and which ranges are shared, it's a TDX
-thing ...
+The connection is quite unfortunate IMHO.
+Can't there be an option
+that unbreaks drivers *without* opening up security holes by
+making BIOS shared?
 
-This documentation should really address it.
-
-> + *
-> + * @maxlen specifies the maximum length to map. To get access to
-> + * the complete BAR from offset to the end, pass %0 here.
-> + */
-> +void __iomem *pci_iomap_host_shared_range(struct pci_dev *dev, int bar,
-> +					  unsigned long offset,
-> +					  unsigned long maxlen)
-> +{
-> +	return pci_iomap_range_map(dev, bar, offset, maxlen,
-> +				   map_ioremap_host_shared, true);
-> +}
-> +EXPORT_SYMBOL_GPL(pci_iomap_host_shared_range);
-> +
-> +/**
-> + * pci_iomap_host_shared - create a virtual shared mapping cookie for a PCI BAR
-> + * @dev: PCI device that owns the BAR
-> + * @bar: BAR number
-> + * @maxlen: length of the memory to map
-> + *
-> + * See pci_iomap for details. This function creates a shared mapping
-> + * with the host for confidential hosts.
-> + *
-> + * @maxlen specifies the maximum length to map. To get access to the
-> + * complete BAR without checking for its length first, pass %0 here.
-> + */
-> +void __iomem *pci_iomap_host_shared(struct pci_dev *dev, int bar,
-> +			       unsigned long maxlen)
-> +{
-> +	return pci_iomap_host_shared_range(dev, bar, 0, maxlen);
-> +}
-> +EXPORT_SYMBOL_GPL(pci_iomap_host_shared);
-> +
->  /**
->   * pci_iomap - create a virtual mapping cookie for a PCI BAR
->   * @dev: PCI device that owns the BAR
-> -- 
-> 2.25.1
+-- 
+MST
 
