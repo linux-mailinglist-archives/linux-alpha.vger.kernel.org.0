@@ -2,59 +2,59 @@ Return-Path: <linux-alpha-owner@vger.kernel.org>
 X-Original-To: lists+linux-alpha@lfdr.de
 Delivered-To: lists+linux-alpha@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id E5853427958
-	for <lists+linux-alpha@lfdr.de>; Sat,  9 Oct 2021 13:04:29 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 2C872427D66
+	for <lists+linux-alpha@lfdr.de>; Sat,  9 Oct 2021 22:40:12 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232517AbhJILGZ (ORCPT <rfc822;lists+linux-alpha@lfdr.de>);
-        Sat, 9 Oct 2021 07:06:25 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:40688 "EHLO
-        us-smtp-delivery-124.mimecast.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S232583AbhJILGY (ORCPT
-        <rfc822;linux-alpha@vger.kernel.org>);
-        Sat, 9 Oct 2021 07:06:24 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1633777466;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         in-reply-to:in-reply-to:references:references;
-        bh=lJ/2iCuZIJi8M6YSq3TSpepZV4prmg5N+D8TG37hfos=;
-        b=AaxYMxWO/BxUn2MZXFoc35vCI1KV/4CUz8y8p85dSztjOa0jHIixCxO6RGnznkOiLHXPN7
-        MG0m5wU+2AxYtXxgK0xS3+g6vwV6+CPFP/huMjMwvP1CzbKNNwHiI33KTu9lMzum0tsYdu
-        aJUfkc2diMHEqi6grWIVPcouKMuHSR0=
-Received: from mail-ed1-f72.google.com (mail-ed1-f72.google.com
- [209.85.208.72]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-566-otF0mhyoPVuUY3F-zOqGdw-1; Sat, 09 Oct 2021 07:04:22 -0400
-X-MC-Unique: otF0mhyoPVuUY3F-zOqGdw-1
-Received: by mail-ed1-f72.google.com with SMTP id z23-20020aa7cf97000000b003db7be405e1so579896edx.13
-        for <linux-alpha@vger.kernel.org>; Sat, 09 Oct 2021 04:04:22 -0700 (PDT)
+        id S229806AbhJIUmH (ORCPT <rfc822;lists+linux-alpha@lfdr.de>);
+        Sat, 9 Oct 2021 16:42:07 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56482 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S230194AbhJIUmG (ORCPT
+        <rfc822;linux-alpha@vger.kernel.org>); Sat, 9 Oct 2021 16:42:06 -0400
+Received: from mail-pj1-x102c.google.com (mail-pj1-x102c.google.com [IPv6:2607:f8b0:4864:20::102c])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 711A8C061766
+        for <linux-alpha@vger.kernel.org>; Sat,  9 Oct 2021 13:40:09 -0700 (PDT)
+Received: by mail-pj1-x102c.google.com with SMTP id oa4so9444073pjb.2
+        for <linux-alpha@vger.kernel.org>; Sat, 09 Oct 2021 13:40:09 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=intel-com.20210112.gappssmtp.com; s=20210112;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=PNkbI6CC4MPwch06xoRoPuOpZuZRykTcMawJcvuLIGc=;
+        b=Muu3r0eHUqB/dNHg2SbcMZBR59fyebiqEBsvk6PezrQlxQGwEI1ZicQJ1XHU8yb+jR
+         kHSIW8u2KEJn+hh/8bqD+oSUoLGTMzHi2MKjMWxijaluyFQ9X/HFL9QP8jG3kJvP1+yC
+         MFrvKW7dOAqDY1UzAuwqQRxVpGtbg2xoYhxoIQminXJgv3DKYb4mwO0GqHZDYiNWBRPr
+         zX9FmLpjC1P17blRe4cxwK4BawnSAcTVigJTMtvWGUVR4Krw0LhW/yHMyjDs7LwJths0
+         zTeiN6ZgCa7R3RDBLb9WPt7ZUqU0TGXpSpq1OOroQI9pRt1DcheHTMwoozKzKGHc51Jc
+         ai5Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to;
-        bh=lJ/2iCuZIJi8M6YSq3TSpepZV4prmg5N+D8TG37hfos=;
-        b=nU3oyo0714f0E6JqYI1rYHkDolelxgxB9Lmre+hU94IgDHwV1XhJT/Gg/XIVrV5ohO
-         i+aHZbIJlo4/0EYBbJQDAgLNEFvT5vja8cJr3gb0lfJUa8QrJ1krfCbYoaU/MUBECHpt
-         6CH92uwlBJgBxJpubuOGsgMR1r+hqoHXqMPfHhPIXvCQL8G3V1Qjc8yuafO5DGYttsDz
-         yA8PotgrHzZo9GRy35i2lMf38orWXgW8ElbtplTNSywDT/1n9cGhturSA2t6bnb+f8s3
-         tWqFdB2Xv7Uleg61ybNNL6L8RajYxOG9S2jq5rTrC5rx0QAUKdm4wlCr3InSiW6xbCUf
-         +L+A==
-X-Gm-Message-State: AOAM531YmylSn9/kN+ThdhV/1/uSGQAKgfcy/tLS1zSabtxLRg0HKgyP
-        hvaIQwCyBb8lVDV7/RF1mfI6e8rkPDhBCh+wUEIAvul/i4I1eiMCZU+kADwSkPjRMkB87Z0jnHU
-        go0auGekf7gb15ETBpEJrPoI=
-X-Received: by 2002:a17:906:585a:: with SMTP id h26mr10966049ejs.31.1633777461692;
-        Sat, 09 Oct 2021 04:04:21 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJwobA8ZxtLfM+i96qTUZJc2D6zqI9p4pA768qS/bvwYQXY5otl6Kxnqg/w4gwu0W8PjfTgg/g==
-X-Received: by 2002:a17:906:585a:: with SMTP id h26mr10965985ejs.31.1633777461334;
-        Sat, 09 Oct 2021 04:04:21 -0700 (PDT)
-Received: from redhat.com ([2.55.132.170])
-        by smtp.gmail.com with ESMTPSA id n22sm831106eja.120.2021.10.09.04.04.12
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 09 Oct 2021 04:04:20 -0700 (PDT)
-Date:   Sat, 9 Oct 2021 07:04:10 -0400
-From:   "Michael S. Tsirkin" <mst@redhat.com>
-To:     Kuppuswamy Sathyanarayanan 
-        <sathyanarayanan.kuppuswamy@linux.intel.com>
-Cc:     Thomas Gleixner <tglx@linutronix.de>,
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=PNkbI6CC4MPwch06xoRoPuOpZuZRykTcMawJcvuLIGc=;
+        b=TkiOlGvKcJ19ebI7ttWIXUvVooEhP88rdvrVgajiUNAVE7xv7p3Mi+k7AHn1pUyimk
+         EILXtP1bINL/XdaLUZoKI8IseKEI3L4pRHnGUuAOSw7/899EI2MIwS61FJ7HpGuO6PIT
+         v5l7YLzJWKtbX9A8uaUKnaZ0KQSIKrstAtvARkSNObVTNlqNUZIlMUcPYx+FdEHsuEQx
+         ukpq9QXGLJsXs8a0mYfGDirjeOTQw4sZ4f0PgKF5C4cuNXZcjIOpQsB1sBNjKiqsJTLI
+         viJ15iWAF2n35TkKBlus/4otRZ36IllMjBCpocnLCR5DHdTlbcG+SeSOKcIFCeze+sP0
+         MIHw==
+X-Gm-Message-State: AOAM532FvUpAYOm3ywcN0igcQ2qP8v5N5TVJSnZTM+woHp2Io8PiUuOk
+        1xXXowuy5TqXZ/ZjhJNplpWaphfQJcdG/EipDAARkQ==
+X-Google-Smtp-Source: ABdhPJySd5zqNERLKr8S37E5WA9IMnevPxuJEZ9BVS6uY8X2FGjPzRDwsaOEKoQH/I5/2YcevgWJ2BJGpdsvJiUJb30=
+X-Received: by 2002:a17:90a:d686:: with SMTP id x6mr20678375pju.8.1633812008773;
+ Sat, 09 Oct 2021 13:40:08 -0700 (PDT)
+MIME-Version: 1.0
+References: <20211009003711.1390019-1-sathyanarayanan.kuppuswamy@linux.intel.com>
+ <20211009003711.1390019-13-sathyanarayanan.kuppuswamy@linux.intel.com> <20211009053103-mutt-send-email-mst@kernel.org>
+In-Reply-To: <20211009053103-mutt-send-email-mst@kernel.org>
+From:   Dan Williams <dan.j.williams@intel.com>
+Date:   Sat, 9 Oct 2021 13:39:57 -0700
+Message-ID: <CAPcyv4hDhjRXYCX_aiOboLF0eaTo6VySbZDa5NQu2ed9Ty2Ekw@mail.gmail.com>
+Subject: Re: [PATCH v5 12/16] PCI: Add pci_iomap_host_shared(), pci_iomap_host_shared_range()
+To:     "Michael S. Tsirkin" <mst@redhat.com>
+Cc:     Kuppuswamy Sathyanarayanan 
+        <sathyanarayanan.kuppuswamy@linux.intel.com>,
+        Thomas Gleixner <tglx@linutronix.de>,
         Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
         Peter Zijlstra <peterz@infradead.org>,
         Andy Lutomirski <luto@kernel.org>,
@@ -73,52 +73,73 @@ Cc:     Thomas Gleixner <tglx@linutronix.de>,
         Peter H Anvin <hpa@zytor.com>,
         Dave Hansen <dave.hansen@intel.com>,
         Tony Luck <tony.luck@intel.com>,
-        Dan Williams <dan.j.williams@intel.com>,
         Andi Kleen <ak@linux.intel.com>,
         Kirill Shutemov <kirill.shutemov@linux.intel.com>,
         Sean Christopherson <seanjc@google.com>,
         Kuppuswamy Sathyanarayanan <knsathya@kernel.org>,
-        x86@kernel.org, linux-kernel@vger.kernel.org,
-        linux-pci@vger.kernel.org, linux-alpha@vger.kernel.org,
-        linux-mips@vger.kernel.org, linux-parisc@vger.kernel.org,
-        sparclinux@vger.kernel.org, linux-arch@vger.kernel.org,
-        linux-doc@vger.kernel.org,
+        X86 ML <x86@kernel.org>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        Linux PCI <linux-pci@vger.kernel.org>,
+        linux-alpha@vger.kernel.org, linux-mips@vger.kernel.org,
+        linux-parisc@vger.kernel.org, sparclinux@vger.kernel.org,
+        linux-arch <linux-arch@vger.kernel.org>,
+        Linux Doc Mailing List <linux-doc@vger.kernel.org>,
         virtualization@lists.linux-foundation.org
-Subject: Re: [PATCH v5 16/16] x86/tdx: Add cmdline option to force use of
- ioremap_host_shared
-Message-ID: <20211009070132-mutt-send-email-mst@kernel.org>
-References: <20211009003711.1390019-1-sathyanarayanan.kuppuswamy@linux.intel.com>
- <20211009003711.1390019-17-sathyanarayanan.kuppuswamy@linux.intel.com>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20211009003711.1390019-17-sathyanarayanan.kuppuswamy@linux.intel.com>
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-alpha.vger.kernel.org>
 X-Mailing-List: linux-alpha@vger.kernel.org
 
-On Fri, Oct 08, 2021 at 05:37:11PM -0700, Kuppuswamy Sathyanarayanan wrote:
-> +	ioremap_force_shared= [X86_64, CCG]
-> +			Force the kernel to use shared memory mappings which do
-> +			not use ioremap_host_shared/pcimap_host_shared to opt-in
-> +			to shared mappings with the host. This feature is mainly
-> +			used by a confidential guest when enabling new drivers
-> +			without proper shared memory related changes. Please note
-> +			that this option might also allow other non explicitly
-> +			enabled drivers to interact with the host in confidential
-> +			guest, which could cause other security risks. This option
-> +			will also cause BIOS data structures to be shared with the
-> +			host, which might open security holes.
-> +
->  	io7=		[HW] IO7 for Marvel-based Alpha systems
->  			See comment before marvel_specify_io7 in
->  			arch/alpha/kernel/core_marvel.c.
+On Sat, Oct 9, 2021 at 2:53 AM Michael S. Tsirkin <mst@redhat.com> wrote:
+>
+> On Fri, Oct 08, 2021 at 05:37:07PM -0700, Kuppuswamy Sathyanarayanan wrote:
+> > From: Andi Kleen <ak@linux.intel.com>
+> >
+> > For Confidential VM guests like TDX, the host is untrusted and hence
+> > the devices emulated by the host or any data coming from the host
+> > cannot be trusted. So the drivers that interact with the outside world
+> > have to be hardened by sharing memory with host on need basis
+> > with proper hardening fixes.
+> >
+> > For the PCI driver case, to share the memory with the host add
+> > pci_iomap_host_shared() and pci_iomap_host_shared_range() APIs.
+> >
+> > Signed-off-by: Andi Kleen <ak@linux.intel.com>
+> > Signed-off-by: Kuppuswamy Sathyanarayanan <sathyanarayanan.kuppuswamy@linux.intel.com>
+>
+> So I proposed to make all pci mappings shared, eliminating the need
+> to patch drivers.
+>
+> To which Andi replied
+>         One problem with removing the ioremap opt-in is that
+>         it's still possible for drivers to get at devices without going through probe.
+>
+> To which Greg replied:
+> https://lore.kernel.org/all/YVXBNJ431YIWwZdQ@kroah.com/
+>         If there are in-kernel PCI drivers that do not do this, they need to be
+>         fixed today.
+>
+> Can you guys resolve the differences here?
 
-The connection is quite unfortunate IMHO.
-Can't there be an option
-that unbreaks drivers *without* opening up security holes by
-making BIOS shared?
+I agree with you and Greg here. If a driver is accessing hardware
+resources outside of the bind lifetime of one of the devices it
+supports, and in a way that neither modrobe-policy nor
+device-authorization -policy infrastructure can block, that sounds
+like a bug report. Fix those drivers instead of sprinkling
+ioremap_shared in select places and with unclear rules about when a
+driver is allowed to do "shared" mappings. Let the new
+device-authorization mechanism (with policy in userspace) be the
+central place where all of these driver "trust" issues are managed.
 
--- 
-MST
+> And once they are resolved, mention this in the commit log so
+> I don't get to re-read the series just to find out nothing
+> changed in this respect?
+>
+> I frankly do not believe we are anywhere near being able to harden
+> an arbitrary kernel config against attack.
+> How about creating a defconfig that makes sense for TDX then?
+> Anyone deviating from that better know what they are doing,
+> this API tweaking is just putting policy into the kernel  ...
 
+Right, userspace authorization policy and select driver fixups seems
+to be the answer to the raised concerns.
