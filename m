@@ -2,58 +2,59 @@ Return-Path: <linux-alpha-owner@vger.kernel.org>
 X-Original-To: lists+linux-alpha@lfdr.de
 Delivered-To: lists+linux-alpha@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id F35F14296E8
-	for <lists+linux-alpha@lfdr.de>; Mon, 11 Oct 2021 20:29:03 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 93A0742974D
+	for <lists+linux-alpha@lfdr.de>; Mon, 11 Oct 2021 21:09:21 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234570AbhJKSbC (ORCPT <rfc822;lists+linux-alpha@lfdr.de>);
-        Mon, 11 Oct 2021 14:31:02 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:47051 "EHLO
+        id S234551AbhJKTLU (ORCPT <rfc822;lists+linux-alpha@lfdr.de>);
+        Mon, 11 Oct 2021 15:11:20 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:42149 "EHLO
         us-smtp-delivery-124.mimecast.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S234541AbhJKSbB (ORCPT
+        by vger.kernel.org with ESMTP id S233481AbhJKTLT (ORCPT
         <rfc822;linux-alpha@vger.kernel.org>);
-        Mon, 11 Oct 2021 14:31:01 -0400
+        Mon, 11 Oct 2021 15:11:19 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1633976940;
+        s=mimecast20190719; t=1633979359;
         h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
          to:to:cc:cc:mime-version:mime-version:content-type:content-type:
          in-reply-to:in-reply-to:references:references;
-        bh=G16gwMe6+CYnKg8tN/Sjy4s4dxSh+B0vWdkeXZ6WaCc=;
-        b=Zl6EWmCQoR9O8W46q+A4dRrfHiQTShQFOTcz0tY7PrUuWMyL44KiH19MEOzhf5AxCgzXXQ
-        SjoZZuDstLs8pcIf19wDm7AJ7RkABwi6eCGPySFC8DSvEZ0PkUoHx0WxvmuSY1rVjOlvZt
-        mpSnNvhZtphISW5C+2iehx2nqi4Iztw=
-Received: from mail-ed1-f71.google.com (mail-ed1-f71.google.com
- [209.85.208.71]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-462-gmB8fMHbPjybrKbZOmJXqg-1; Mon, 11 Oct 2021 14:28:59 -0400
-X-MC-Unique: gmB8fMHbPjybrKbZOmJXqg-1
-Received: by mail-ed1-f71.google.com with SMTP id u17-20020a50d511000000b003daa3828c13so16624639edi.12
-        for <linux-alpha@vger.kernel.org>; Mon, 11 Oct 2021 11:28:59 -0700 (PDT)
+        bh=oZEQAOmKk6R+KRX2BzvVHC2H3CodKlCG/yzYUUC2zJA=;
+        b=KwudnqNUzol5PC2894sI4uG23yAdPLAGs9D71BmLU2f1sO67SCq5ezRs0ddtPX9/roDXEF
+        vt9nC3FQ5vwzV7E6nGWRVu2CNYq4TnGDtZMJE4zgfTsYOl7q+k/xB7cgf8kFOLjHHqYvk1
+        g2bK/LrvgBfhbsZqn5BVXa5zWqitjnA=
+Received: from mail-ed1-f70.google.com (mail-ed1-f70.google.com
+ [209.85.208.70]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-310-q4EtZD15PPGPB-eQC7ZqsQ-1; Mon, 11 Oct 2021 15:09:17 -0400
+X-MC-Unique: q4EtZD15PPGPB-eQC7ZqsQ-1
+Received: by mail-ed1-f70.google.com with SMTP id 14-20020a508e4e000000b003d84544f33eso16746483edx.2
+        for <linux-alpha@vger.kernel.org>; Mon, 11 Oct 2021 12:09:17 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:date:from:to:cc:subject:message-id:references
          :mime-version:content-disposition:in-reply-to;
-        bh=G16gwMe6+CYnKg8tN/Sjy4s4dxSh+B0vWdkeXZ6WaCc=;
-        b=nkGsgvHpOzD+OG1YOcKw4zquHlSQ4pcb/bRRbKutYOi4z0eTDbZoZjdiBH57I7MrSt
-         LBFm8kVKa11+c8WqYs4eanTdmsygF8nvRfcBkyn+UYhNFWhh4BhndF2PSNr2Gd5xK2ZK
-         P2KDOWXbf1DEnOhCg1l5A5AEojrv9cya62s0js9CcLSxDKHxHRBLzjnMSeQ/H6xNrWxT
-         w9Zn6BhxP0a3VHIgHwaQSTMrTQTcby2Et6RK3SuqCx1cVhMJC6JLEcxMzYLrqHSdv0mm
-         k+dp7czIbbwWm7hIHIXjlGbumu+hzpQMOruTG1IiGk/zF2UYkRuFE45ioT48VyFmIIk6
-         jyxg==
-X-Gm-Message-State: AOAM533LqjzQL7T+aDOHi3hAr9zwgSTTNhLQOy01u/RwG5el6x0KHOZz
-        +AGzl/TbfW2dV0hHOMqxMv0ms/mixLx7mf1LmNOn5VQFJZL+ocOsZbLY97qEN1mxlTDDLy04T5k
-        MXsO0m/L7fOpBqgAORoOTg2o=
-X-Received: by 2002:a17:906:64a:: with SMTP id t10mr29341702ejb.5.1633976938258;
-        Mon, 11 Oct 2021 11:28:58 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJwJs31ZBNnkMDy6Y3/bA4NkSUevwMmxI5GLaEsaPOhFcbZtCu9lTE6tYoeFaMp5H2duksbEGQ==
-X-Received: by 2002:a17:906:64a:: with SMTP id t10mr29341674ejb.5.1633976938096;
-        Mon, 11 Oct 2021 11:28:58 -0700 (PDT)
+        bh=oZEQAOmKk6R+KRX2BzvVHC2H3CodKlCG/yzYUUC2zJA=;
+        b=qGKdrsGKKfa1mhovHrHXbYBn/i00+N+q2VQk0VHH5SBKuS1jX6S2+6rGRfb1NQaT7M
+         Os3du/Gem538s4TklxFOEWsv4pzfzTkDb0/WgDt1PaCO6mjhvdXOxZzfQx+3r5qZAuCe
+         z38S6Bo3UuGepzRRM9yjViXoWUJI4bo8qZmE7bIBTNnRRnfeVD55E8kkM7mAwwnO+VBJ
+         XYSG1N42J2x7mEQ73wdoM01t4McGi5Q4fsGDoh5L7TV4Dk5kd5ffjpc3czD+YVBu0+eV
+         Zv4Z+NulbUH9XnSAOFkedThl+H5W0Xzr28/awaxX+KtR2h3T/e0QCMZlPVo7pqlEeQxt
+         gchA==
+X-Gm-Message-State: AOAM5319EpjtrueSSgrw6a7gvsb6Ye+ixtlVHORMPN/DV/wwn6PB4nFZ
+        brFyNA52/WZ6c9+xg0isCfNvc50L1P49VcDRL6Q+uZUjanAswLeTtgCy4wUA/yUVTmeoPwUy12O
+        lhbeAN43nvvGrd8MHwq7dEjs=
+X-Received: by 2002:aa7:c38b:: with SMTP id k11mr4113139edq.79.1633979356727;
+        Mon, 11 Oct 2021 12:09:16 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJwGboOz6J9azwkeciPdL9sKClCOiUS/XGJc/PjIe5OTL3dASYPSk/hflbIEKyA9zwBTklJK0A==
+X-Received: by 2002:aa7:c38b:: with SMTP id k11mr4113103edq.79.1633979356541;
+        Mon, 11 Oct 2021 12:09:16 -0700 (PDT)
 Received: from redhat.com ([2.55.159.57])
-        by smtp.gmail.com with ESMTPSA id w11sm4722003edl.87.2021.10.11.11.28.53
+        by smtp.gmail.com with ESMTPSA id z4sm5250327edd.46.2021.10.11.12.09.11
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 11 Oct 2021 11:28:57 -0700 (PDT)
-Date:   Mon, 11 Oct 2021 14:28:51 -0400
+        Mon, 11 Oct 2021 12:09:15 -0700 (PDT)
+Date:   Mon, 11 Oct 2021 15:09:09 -0400
 From:   "Michael S. Tsirkin" <mst@redhat.com>
 To:     Andi Kleen <ak@linux.intel.com>
-Cc:     Kuppuswamy Sathyanarayanan 
+Cc:     Christoph Hellwig <hch@infradead.org>,
+        Kuppuswamy Sathyanarayanan 
         <sathyanarayanan.kuppuswamy@linux.intel.com>,
         Thomas Gleixner <tglx@linutronix.de>,
         Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
@@ -84,47 +85,45 @@ Cc:     Kuppuswamy Sathyanarayanan
         sparclinux@vger.kernel.org, linux-arch@vger.kernel.org,
         linux-doc@vger.kernel.org,
         virtualization@lists.linux-foundation.org
-Subject: Re: [PATCH v5 16/16] x86/tdx: Add cmdline option to force use of
- ioremap_host_shared
-Message-ID: <20211011142330-mutt-send-email-mst@kernel.org>
+Subject: Re: [PATCH v5 12/16] PCI: Add pci_iomap_host_shared(),
+ pci_iomap_host_shared_range()
+Message-ID: <20211011142956-mutt-send-email-mst@kernel.org>
 References: <20211009003711.1390019-1-sathyanarayanan.kuppuswamy@linux.intel.com>
- <20211009003711.1390019-17-sathyanarayanan.kuppuswamy@linux.intel.com>
- <20211009070132-mutt-send-email-mst@kernel.org>
- <8c906de6-5efa-b87a-c800-6f07b98339d0@linux.intel.com>
- <20211011075945-mutt-send-email-mst@kernel.org>
- <9d0ac556-6a06-0f2e-c4ff-0c3ce742a382@linux.intel.com>
+ <20211009003711.1390019-13-sathyanarayanan.kuppuswamy@linux.intel.com>
+ <YWPunfa+WK86Cgnv@infradead.org>
+ <a070274e-6a3a-fb0a-68ff-d320d0729377@linux.intel.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <9d0ac556-6a06-0f2e-c4ff-0c3ce742a382@linux.intel.com>
+In-Reply-To: <a070274e-6a3a-fb0a-68ff-d320d0729377@linux.intel.com>
 Precedence: bulk
 List-ID: <linux-alpha.vger.kernel.org>
 X-Mailing-List: linux-alpha@vger.kernel.org
 
-On Mon, Oct 11, 2021 at 10:35:18AM -0700, Andi Kleen wrote:
+On Mon, Oct 11, 2021 at 10:23:00AM -0700, Andi Kleen wrote:
 > 
-> > Presumably bios code is in arch/x86 and drivers/acpi, right?
-> > Up to 200 calls the majority of which is likely private ...
+> On 10/11/2021 12:58 AM, Christoph Hellwig wrote:
+> > Just as last time:  This does not make any sense.  ioremap is shared
+> > by definition.
 > 
-> Yes.
-> 
-> > I don't have better ideas but the current setup will just
-> > result in people making their guests vulnerable whenever they
-> > want to allow device pass-through.
-> 
-> 
-> Yes that's true. For current TDX our target is virtual devices only. But if
-> pass through usage will be really wide spread we may need to revisit.
+> It's not necessarily shared with the host for confidential computing: for
+> example BIOS mappings definitely should not be shared, but they're using
+> ioremap today.
+
+That just needs to be fixed.
+
+> But if you have a better term please propose something. I tried to clarify
+> it with "shared_host", but I don't know a better term.
 > 
 > 
 > -Andi
+> 
 
-I mean ... it's already wide spread. If we support it with TDX
-it will be used with TDX. If we don't then I guess it won't,
-exposing this kind of limitation in a userspace visible way isn't great
-though. I guess it boils down to the fact that
-ioremap_host_shared is just not a great interface, users simply
-have no idea whether a given driver uses ioremap.
+
+The reason we have trouble is that it's not clear what does the API mean
+outside the realm of TDX.
+If we really, truly want an API that says "ioremap and it's a hardened
+driver" then I guess ioremap_hardened_driver is what you want.
 
 -- 
 MST
