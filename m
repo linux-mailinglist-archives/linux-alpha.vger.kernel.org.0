@@ -2,58 +2,36 @@ Return-Path: <linux-alpha-owner@vger.kernel.org>
 X-Original-To: lists+linux-alpha@lfdr.de
 Delivered-To: lists+linux-alpha@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 93A0742974D
-	for <lists+linux-alpha@lfdr.de>; Mon, 11 Oct 2021 21:09:21 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id BCBCA429D2C
+	for <lists+linux-alpha@lfdr.de>; Tue, 12 Oct 2021 07:35:30 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234551AbhJKTLU (ORCPT <rfc822;lists+linux-alpha@lfdr.de>);
-        Mon, 11 Oct 2021 15:11:20 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:42149 "EHLO
-        us-smtp-delivery-124.mimecast.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S233481AbhJKTLT (ORCPT
+        id S232473AbhJLFh3 (ORCPT <rfc822;lists+linux-alpha@lfdr.de>);
+        Tue, 12 Oct 2021 01:37:29 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50124 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S229739AbhJLFh2 (ORCPT
         <rfc822;linux-alpha@vger.kernel.org>);
-        Mon, 11 Oct 2021 15:11:19 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1633979359;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         in-reply-to:in-reply-to:references:references;
-        bh=oZEQAOmKk6R+KRX2BzvVHC2H3CodKlCG/yzYUUC2zJA=;
-        b=KwudnqNUzol5PC2894sI4uG23yAdPLAGs9D71BmLU2f1sO67SCq5ezRs0ddtPX9/roDXEF
-        vt9nC3FQ5vwzV7E6nGWRVu2CNYq4TnGDtZMJE4zgfTsYOl7q+k/xB7cgf8kFOLjHHqYvk1
-        g2bK/LrvgBfhbsZqn5BVXa5zWqitjnA=
-Received: from mail-ed1-f70.google.com (mail-ed1-f70.google.com
- [209.85.208.70]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-310-q4EtZD15PPGPB-eQC7ZqsQ-1; Mon, 11 Oct 2021 15:09:17 -0400
-X-MC-Unique: q4EtZD15PPGPB-eQC7ZqsQ-1
-Received: by mail-ed1-f70.google.com with SMTP id 14-20020a508e4e000000b003d84544f33eso16746483edx.2
-        for <linux-alpha@vger.kernel.org>; Mon, 11 Oct 2021 12:09:17 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to;
-        bh=oZEQAOmKk6R+KRX2BzvVHC2H3CodKlCG/yzYUUC2zJA=;
-        b=qGKdrsGKKfa1mhovHrHXbYBn/i00+N+q2VQk0VHH5SBKuS1jX6S2+6rGRfb1NQaT7M
-         Os3du/Gem538s4TklxFOEWsv4pzfzTkDb0/WgDt1PaCO6mjhvdXOxZzfQx+3r5qZAuCe
-         z38S6Bo3UuGepzRRM9yjViXoWUJI4bo8qZmE7bIBTNnRRnfeVD55E8kkM7mAwwnO+VBJ
-         XYSG1N42J2x7mEQ73wdoM01t4McGi5Q4fsGDoh5L7TV4Dk5kd5ffjpc3czD+YVBu0+eV
-         Zv4Z+NulbUH9XnSAOFkedThl+H5W0Xzr28/awaxX+KtR2h3T/e0QCMZlPVo7pqlEeQxt
-         gchA==
-X-Gm-Message-State: AOAM5319EpjtrueSSgrw6a7gvsb6Ye+ixtlVHORMPN/DV/wwn6PB4nFZ
-        brFyNA52/WZ6c9+xg0isCfNvc50L1P49VcDRL6Q+uZUjanAswLeTtgCy4wUA/yUVTmeoPwUy12O
-        lhbeAN43nvvGrd8MHwq7dEjs=
-X-Received: by 2002:aa7:c38b:: with SMTP id k11mr4113139edq.79.1633979356727;
-        Mon, 11 Oct 2021 12:09:16 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJwGboOz6J9azwkeciPdL9sKClCOiUS/XGJc/PjIe5OTL3dASYPSk/hflbIEKyA9zwBTklJK0A==
-X-Received: by 2002:aa7:c38b:: with SMTP id k11mr4113103edq.79.1633979356541;
-        Mon, 11 Oct 2021 12:09:16 -0700 (PDT)
-Received: from redhat.com ([2.55.159.57])
-        by smtp.gmail.com with ESMTPSA id z4sm5250327edd.46.2021.10.11.12.09.11
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 11 Oct 2021 12:09:15 -0700 (PDT)
-Date:   Mon, 11 Oct 2021 15:09:09 -0400
-From:   "Michael S. Tsirkin" <mst@redhat.com>
-To:     Andi Kleen <ak@linux.intel.com>
-Cc:     Christoph Hellwig <hch@infradead.org>,
+        Tue, 12 Oct 2021 01:37:28 -0400
+Received: from casper.infradead.org (casper.infradead.org [IPv6:2001:8b0:10b:1236::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D8E8DC061570;
+        Mon, 11 Oct 2021 22:35:26 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+        d=infradead.org; s=casper.20170209; h=In-Reply-To:Content-Type:MIME-Version:
+        References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
+        Content-Transfer-Encoding:Content-ID:Content-Description;
+        bh=BSSAC90BiE8gg+UZzsBqoP8nG2ttujvFSkUF5owSkxY=; b=MzXQA4NAznHV2pOmBegGNgm87K
+        oVvwG/zN+yRPIuuYShlDqNtJYhMRNhkmqMZWNbAGWU49/Nv/2aW0znA9f/78BPDOtCjiwwQ83WulP
+        TkiMflpjzdtJOgE6ux0vY80O5LkHY9rVp+YfZ6ERYdw9pl5b/phfUwwQuVO1nW524yrgR9bXDK52v
+        iQtcN1C4SwI2Vszu9JjLlNiMm+aYLX8nchJCdIvnJjMHdYZXD6DxxaeOfocpJDQv2kd3vaGZaz7xA
+        GdpMpGjxJoO6YOsVq7aZSRDvbAsE3E77p4d3rWhsorSBG3Ni1XElTYbf6rNlFf7ZzoRSfhDeAHUYF
+        e3s2gKcw==;
+Received: from hch by casper.infradead.org with local (Exim 4.94.2 #2 (Red Hat Linux))
+        id 1maANi-006Ezp-GU; Tue, 12 Oct 2021 05:31:43 +0000
+Date:   Tue, 12 Oct 2021 06:31:18 +0100
+From:   Christoph Hellwig <hch@infradead.org>
+To:     "Michael S. Tsirkin" <mst@redhat.com>
+Cc:     Andi Kleen <ak@linux.intel.com>,
+        Christoph Hellwig <hch@infradead.org>,
         Kuppuswamy Sathyanarayanan 
         <sathyanarayanan.kuppuswamy@linux.intel.com>,
         Thomas Gleixner <tglx@linutronix.de>,
@@ -87,44 +65,26 @@ Cc:     Christoph Hellwig <hch@infradead.org>,
         virtualization@lists.linux-foundation.org
 Subject: Re: [PATCH v5 12/16] PCI: Add pci_iomap_host_shared(),
  pci_iomap_host_shared_range()
-Message-ID: <20211011142956-mutt-send-email-mst@kernel.org>
+Message-ID: <YWUdpik4SP/7QlbN@infradead.org>
 References: <20211009003711.1390019-1-sathyanarayanan.kuppuswamy@linux.intel.com>
  <20211009003711.1390019-13-sathyanarayanan.kuppuswamy@linux.intel.com>
  <YWPunfa+WK86Cgnv@infradead.org>
  <a070274e-6a3a-fb0a-68ff-d320d0729377@linux.intel.com>
+ <20211011142956-mutt-send-email-mst@kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <a070274e-6a3a-fb0a-68ff-d320d0729377@linux.intel.com>
+In-Reply-To: <20211011142956-mutt-send-email-mst@kernel.org>
+X-SRS-Rewrite: SMTP reverse-path rewritten from <hch@infradead.org> by casper.infradead.org. See http://www.infradead.org/rpr.html
 Precedence: bulk
 List-ID: <linux-alpha.vger.kernel.org>
 X-Mailing-List: linux-alpha@vger.kernel.org
 
-On Mon, Oct 11, 2021 at 10:23:00AM -0700, Andi Kleen wrote:
-> 
-> On 10/11/2021 12:58 AM, Christoph Hellwig wrote:
-> > Just as last time:  This does not make any sense.  ioremap is shared
-> > by definition.
-> 
-> It's not necessarily shared with the host for confidential computing: for
-> example BIOS mappings definitely should not be shared, but they're using
-> ioremap today.
+On Mon, Oct 11, 2021 at 03:09:09PM -0400, Michael S. Tsirkin wrote:
+> The reason we have trouble is that it's not clear what does the API mean
+> outside the realm of TDX.
+> If we really, truly want an API that says "ioremap and it's a hardened
+> driver" then I guess ioremap_hardened_driver is what you want.
 
-That just needs to be fixed.
-
-> But if you have a better term please propose something. I tried to clarify
-> it with "shared_host", but I don't know a better term.
-> 
-> 
-> -Andi
-> 
-
-
-The reason we have trouble is that it's not clear what does the API mean
-outside the realm of TDX.
-If we really, truly want an API that says "ioremap and it's a hardened
-driver" then I guess ioremap_hardened_driver is what you want.
-
--- 
-MST
-
+Yes.  And why would be we ioremap the BIOS anyway?  It is not I/O memory
+in any of the senses we generally use ioremap for.
