@@ -2,133 +2,70 @@ Return-Path: <linux-alpha-owner@vger.kernel.org>
 X-Original-To: lists+linux-alpha@lfdr.de
 Delivered-To: lists+linux-alpha@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 896D9431A95
-	for <lists+linux-alpha@lfdr.de>; Mon, 18 Oct 2021 15:17:58 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id ABBCD43230E
+	for <lists+linux-alpha@lfdr.de>; Mon, 18 Oct 2021 17:37:27 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231565AbhJRNUI (ORCPT <rfc822;lists+linux-alpha@lfdr.de>);
-        Mon, 18 Oct 2021 09:20:08 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:28629 "EHLO
-        us-smtp-delivery-124.mimecast.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S231787AbhJRNUE (ORCPT
+        id S232933AbhJRPjg (ORCPT <rfc822;lists+linux-alpha@lfdr.de>);
+        Mon, 18 Oct 2021 11:39:36 -0400
+Received: from outpost1.zedat.fu-berlin.de ([130.133.4.66]:52455 "EHLO
+        outpost1.zedat.fu-berlin.de" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S229696AbhJRPje (ORCPT
         <rfc822;linux-alpha@vger.kernel.org>);
-        Mon, 18 Oct 2021 09:20:04 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1634563073;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         in-reply-to:in-reply-to:references:references;
-        bh=MzTAOtwulDEmvfrOMqdp9kU77zBPM/IRO9XOnd+cufc=;
-        b=Zzog55VI2G2Ibuy6CANigG/Q77iyfOtp8pVcRGZiUYhusYfqwNrowcR2msszISgJ6fF757
-        nXG8C9ziKGNU2HQVFOLp5FOevznG+Iy5kB5MKNG61hgVXn2zmAS/YyC3QY1X2N4/pvKu6i
-        BSEtNVghbgPHO0e9Tx40Y+jJGxT0eBQ=
-Received: from mail-wm1-f72.google.com (mail-wm1-f72.google.com
- [209.85.128.72]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-518-2REURr_4MUKXLxGI9t2liA-1; Mon, 18 Oct 2021 09:17:51 -0400
-X-MC-Unique: 2REURr_4MUKXLxGI9t2liA-1
-Received: by mail-wm1-f72.google.com with SMTP id s10-20020a1cf20a000000b0030d66991388so3179441wmc.7
-        for <linux-alpha@vger.kernel.org>; Mon, 18 Oct 2021 06:17:51 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to;
-        bh=MzTAOtwulDEmvfrOMqdp9kU77zBPM/IRO9XOnd+cufc=;
-        b=45pf1A7hVLC9HiNtvgVgB71IG57ggiPPek2Ov6LAzYEaRyqW4G42jVSRcR5ItWh8mF
-         MY612ZC1teLUA7dq9lfUgPp6hzu8PQIs+qx9TwbQEaIAXqJvdw7ttP+roEzOgVk1xNFb
-         RVWBh2RbHbY3S9vrbyYVLuJcW9oDA8IQM8h5C1BuDFcFtLDiL5RZEqwbSJiVQa61k0Qp
-         1hMc/3Li5lVarSHRBB2eQ2AAagoZKbjTz2WzCppRAYB0PJ8eQ+s+T3z9tR/KdfWH5fJM
-         QQEumIzIef/FSnnNq9zJC3b/NGUj4iHTFmdAKknzGiYYdrmytT+TRaJB4tRzWB1czxFn
-         vbIw==
-X-Gm-Message-State: AOAM531l+Hk+dImCCSxfCFqQO4S2hCGpDDOrL8M7it1kFHPJO/zzxvna
-        P5JhB3slmbpS7CM6SgKVVLxSl1O8csCNjtBPBVv36EbvqZF5uDYtS5oJWE+bBKAi1zfu7jn8viw
-        xGv3SBrOmxfWPD66hfvW3kWA=
-X-Received: by 2002:a7b:c258:: with SMTP id b24mr43163313wmj.160.1634563070237;
-        Mon, 18 Oct 2021 06:17:50 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJzSuIZ1TUObsaltct5kZLxF5NiX0EAwqlesEoWuwEt55OWxSiqTjrt15fn3c5YHGk3doStYbg==
-X-Received: by 2002:a7b:c258:: with SMTP id b24mr43163243wmj.160.1634563069879;
-        Mon, 18 Oct 2021 06:17:49 -0700 (PDT)
-Received: from redhat.com ([2.55.19.190])
-        by smtp.gmail.com with ESMTPSA id n66sm12531808wmn.2.2021.10.18.06.17.43
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 18 Oct 2021 06:17:48 -0700 (PDT)
-Date:   Mon, 18 Oct 2021 09:17:41 -0400
-From:   "Michael S. Tsirkin" <mst@redhat.com>
-To:     Greg KH <gregkh@linuxfoundation.org>
-Cc:     Andi Kleen <ak@linux.intel.com>,
-        Kuppuswamy Sathyanarayanan 
-        <sathyanarayanan.kuppuswamy@linux.intel.com>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
-        Peter Zijlstra <peterz@infradead.org>,
-        Andy Lutomirski <luto@kernel.org>,
-        Bjorn Helgaas <bhelgaas@google.com>,
-        Richard Henderson <rth@twiddle.net>,
-        Thomas Bogendoerfer <tsbogend@alpha.franken.de>,
-        James E J Bottomley <James.Bottomley@hansenpartnership.com>,
-        Helge Deller <deller@gmx.de>,
-        "David S . Miller" <davem@davemloft.net>,
-        Arnd Bergmann <arnd@arndb.de>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Paolo Bonzini <pbonzini@redhat.com>,
-        David Hildenbrand <david@redhat.com>,
-        Andrea Arcangeli <aarcange@redhat.com>,
-        Josh Poimboeuf <jpoimboe@redhat.com>,
-        Peter H Anvin <hpa@zytor.com>,
-        Dave Hansen <dave.hansen@intel.com>,
-        Tony Luck <tony.luck@intel.com>,
-        Dan Williams <dan.j.williams@intel.com>,
-        Kirill Shutemov <kirill.shutemov@linux.intel.com>,
-        Sean Christopherson <seanjc@google.com>,
-        Kuppuswamy Sathyanarayanan <knsathya@kernel.org>,
-        x86@kernel.org, linux-kernel@vger.kernel.org,
-        linux-pci@vger.kernel.org, linux-alpha@vger.kernel.org,
-        linux-mips@vger.kernel.org, linux-parisc@vger.kernel.org,
-        sparclinux@vger.kernel.org, linux-arch@vger.kernel.org,
-        linux-doc@vger.kernel.org,
-        virtualization@lists.linux-foundation.org
-Subject: Re: [PATCH v5 12/16] PCI: Add pci_iomap_host_shared(),
- pci_iomap_host_shared_range()
-Message-ID: <20211018091627-mutt-send-email-mst@kernel.org>
-References: <20211009003711.1390019-1-sathyanarayanan.kuppuswamy@linux.intel.com>
- <20211009003711.1390019-13-sathyanarayanan.kuppuswamy@linux.intel.com>
- <20211009053103-mutt-send-email-mst@kernel.org>
- <cec62ebb-87d7-d725-1096-2c97c5eedbc3@linux.intel.com>
- <20211011073614-mutt-send-email-mst@kernel.org>
- <YW1lc5Y2P1zRc2kp@kroah.com>
+        Mon, 18 Oct 2021 11:39:34 -0400
+Received: from inpost2.zedat.fu-berlin.de ([130.133.4.69])
+          by outpost.zedat.fu-berlin.de (Exim 4.94)
+          with esmtps (TLS1.2)
+          tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
+          (envelope-from <glaubitz@zedat.fu-berlin.de>)
+          id 1mcUhW-003v5s-3W; Mon, 18 Oct 2021 17:37:22 +0200
+Received: from p57bd9797.dip0.t-ipconnect.de ([87.189.151.151] helo=[192.168.178.81])
+          by inpost2.zedat.fu-berlin.de (Exim 4.94)
+          with esmtpsa (TLS1.2)
+          tls TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256
+          (envelope-from <glaubitz@physik.fu-berlin.de>)
+          id 1mcUhV-0012sV-T9; Mon, 18 Oct 2021 17:37:22 +0200
+Message-ID: <232a0956-fe78-5169-4637-25679baa887f@physik.fu-berlin.de>
+Date:   Mon, 18 Oct 2021 17:37:21 +0200
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <YW1lc5Y2P1zRc2kp@kroah.com>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.2.0
+Subject: Re: Newer kernels on the Jensen (was: [PATCH v2 0/4] Introduce and
+Content-Language: en-US
+To:     Ulrich Teichert <krypton@ulrich-teichert.org>
+Cc:     Linux Alpha <linux-alpha@vger.kernel.org>, mattst88@gmail.com,
+        torvalds@linux-foundation.org
+References: <202109261126.18QBQQWp003766@valdese.nms.ulrich-teichert.org>
+From:   John Paul Adrian Glaubitz <glaubitz@physik.fu-berlin.de>
+In-Reply-To: <202109261126.18QBQQWp003766@valdese.nms.ulrich-teichert.org>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+X-Original-Sender: glaubitz@physik.fu-berlin.de
+X-Originating-IP: 87.189.151.151
 Precedence: bulk
 List-ID: <linux-alpha.vger.kernel.org>
 X-Mailing-List: linux-alpha@vger.kernel.org
 
-On Mon, Oct 18, 2021 at 02:15:47PM +0200, Greg KH wrote:
-> On Mon, Oct 11, 2021 at 07:59:17AM -0400, Michael S. Tsirkin wrote:
-> > On Sun, Oct 10, 2021 at 03:22:39PM -0700, Andi Kleen wrote:
-> > > 
-> > > > To which Andi replied
-> > > > 	One problem with removing the ioremap opt-in is that
-> > > > 	it's still possible for drivers to get at devices without going through probe.
-> > > > 
-> > > > To which Greg replied:
-> > > > https://lore.kernel.org/all/YVXBNJ431YIWwZdQ@kroah.com/
-> > > > 	If there are in-kernel PCI drivers that do not do this, they need to be
-> > > > 	fixed today.
-> > > > 
-> > > > Can you guys resolve the differences here?
-> > > 
-> > > 
-> > > I addressed this in my other mail, but we may need more discussion.
-> > 
-> > Hopefully Greg will reply to that one.
-> 
-> Note, when wanting Greg to reply, someone should at the very least cc:
-> him.
+Hi Ulrich!
 
-"that one" being "Andi's other mail". Which I don't remember what it was,
-by now. Sorry.
+On 9/26/21 13:26, Ulrich Teichert wrote:
+> Awesome! This boots right away, here's the full boot log from the serial
+> console until init starts:
+> (...)
+> After that the installer starts, but does not find the CD-ROM, most
+> probably because the AHA174x SCSI driver wasn't loaded or included in
+> the initrd image, but this is definitely more than I ever expected!
 
-> {sigh}
-> 
-> greg k-h
+Could you try the installation image for Alpha that I built today and see if that
+fixes the CD-ROM detection issue for you?
+
+> https://cdimage.debian.org/cdimage/ports/snapshots/2021-10-18/
+
+Thanks,
+Adrian
+
+-- 
+ .''`.  John Paul Adrian Glaubitz
+: :' :  Debian Developer - glaubitz@debian.org
+`. `'   Freie Universitaet Berlin - glaubitz@physik.fu-berlin.de
+  `-    GPG: 62FF 8A75 84E0 2956 9546  0006 7426 3B37 F5B5 F913
 
