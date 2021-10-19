@@ -2,70 +2,98 @@ Return-Path: <linux-alpha-owner@vger.kernel.org>
 X-Original-To: lists+linux-alpha@lfdr.de
 Delivered-To: lists+linux-alpha@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id ABBCD43230E
-	for <lists+linux-alpha@lfdr.de>; Mon, 18 Oct 2021 17:37:27 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 1E40643327A
+	for <lists+linux-alpha@lfdr.de>; Tue, 19 Oct 2021 11:38:47 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232933AbhJRPjg (ORCPT <rfc822;lists+linux-alpha@lfdr.de>);
-        Mon, 18 Oct 2021 11:39:36 -0400
-Received: from outpost1.zedat.fu-berlin.de ([130.133.4.66]:52455 "EHLO
-        outpost1.zedat.fu-berlin.de" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S229696AbhJRPje (ORCPT
+        id S234764AbhJSJk6 (ORCPT <rfc822;lists+linux-alpha@lfdr.de>);
+        Tue, 19 Oct 2021 05:40:58 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54064 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S234953AbhJSJk5 (ORCPT
         <rfc822;linux-alpha@vger.kernel.org>);
-        Mon, 18 Oct 2021 11:39:34 -0400
-Received: from inpost2.zedat.fu-berlin.de ([130.133.4.69])
-          by outpost.zedat.fu-berlin.de (Exim 4.94)
-          with esmtps (TLS1.2)
-          tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
-          (envelope-from <glaubitz@zedat.fu-berlin.de>)
-          id 1mcUhW-003v5s-3W; Mon, 18 Oct 2021 17:37:22 +0200
-Received: from p57bd9797.dip0.t-ipconnect.de ([87.189.151.151] helo=[192.168.178.81])
-          by inpost2.zedat.fu-berlin.de (Exim 4.94)
-          with esmtpsa (TLS1.2)
-          tls TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256
-          (envelope-from <glaubitz@physik.fu-berlin.de>)
-          id 1mcUhV-0012sV-T9; Mon, 18 Oct 2021 17:37:22 +0200
-Message-ID: <232a0956-fe78-5169-4637-25679baa887f@physik.fu-berlin.de>
-Date:   Mon, 18 Oct 2021 17:37:21 +0200
+        Tue, 19 Oct 2021 05:40:57 -0400
+Received: from mail-io1-xd31.google.com (mail-io1-xd31.google.com [IPv6:2607:f8b0:4864:20::d31])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 21C6AC061768
+        for <linux-alpha@vger.kernel.org>; Tue, 19 Oct 2021 02:38:45 -0700 (PDT)
+Received: by mail-io1-xd31.google.com with SMTP id e144so19595501iof.3
+        for <linux-alpha@vger.kernel.org>; Tue, 19 Oct 2021 02:38:45 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=mime-version:reply-to:from:date:message-id:subject:to
+         :content-transfer-encoding;
+        bh=h7Ka/8DlpkXEXF23rPgOfJJ3SyquA2FhD5HYDsybiG4=;
+        b=jWGdxhkuccTcC1muuPdpj1gX8OCRYIiX2GQA0b9omt4DJP/luGrRCy0oRkLx8f6r38
+         B1zoaF7U0u0Bx+sxfmfoUHolQYMCop9ow/J9YUfO062sUVyofYmYFWHoG9CZpHSxh8OG
+         2fFC1Ld3AGpahWqser0n3W1kaWA1x416D8A2xZhbB21Rm7+0Frsbh+T1dNcNakbp2pKb
+         YYuhk8M5OTHOIrj+okeo6C/Pk3c7foliojrKJWBD/vE4g192GK0lywsPgTyIue51nF09
+         AYJOzN20DkEA3s73DesGD089GKHSL9/AAMankprdsGu2yIjJom3adnFqimgUfBc1yjR1
+         8Muw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:mime-version:reply-to:from:date:message-id
+         :subject:to:content-transfer-encoding;
+        bh=h7Ka/8DlpkXEXF23rPgOfJJ3SyquA2FhD5HYDsybiG4=;
+        b=TqHDUyD5NLg34Hqw9MBxYTMPOqh7ufyANinlKmA8jiyyJnxtsSchhuCrqz2T1hDCM7
+         46/2tS5B7cB1eUlYcbhh5OAQEKhrmpXXvBnQ2Ccgu65foCjiQLK0KlSAvAFTMrnEd5ZF
+         tLkie2VrdIDRF+g7lxxO1Ynb7awU/HRbnPFXbrMop8ppWdl4WPXf1UvglStrH3ms+FIB
+         leVxcUMd2LdeTdYAZQoYuKO6rcYYTJDiedMSQa9p4hVsLeO4rDcqp34hQBgYWvwRzaId
+         F8qhOpw3P0ynn15VP1g0nrJwUX63JxBw09Zs4BjJFRiiTcqlg/iovKN1+2fJXiDHXn7w
+         xUOQ==
+X-Gm-Message-State: AOAM530KtKTLI85LeLdqqDMLCwqmFbZKZI97Dnfba4kRhmRISspgPmtu
+        XKnlK9obMQT6J47SLJUMJPzEpTimkaL4F2d4p6o=
+X-Google-Smtp-Source: ABdhPJyj2qBIFG8uBL9qIK+rOUk/2RB6WUsgp/ThYm5W1BD8GCjIVmo8VzyTEimWHjfaQPynQ/sl7MHne69PmFI0i1g=
+X-Received: by 2002:a05:6638:16d6:: with SMTP id g22mr3382285jat.19.1634636324472;
+ Tue, 19 Oct 2021 02:38:44 -0700 (PDT)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.2.0
-Subject: Re: Newer kernels on the Jensen (was: [PATCH v2 0/4] Introduce and
-Content-Language: en-US
-To:     Ulrich Teichert <krypton@ulrich-teichert.org>
-Cc:     Linux Alpha <linux-alpha@vger.kernel.org>, mattst88@gmail.com,
-        torvalds@linux-foundation.org
-References: <202109261126.18QBQQWp003766@valdese.nms.ulrich-teichert.org>
-From:   John Paul Adrian Glaubitz <glaubitz@physik.fu-berlin.de>
-In-Reply-To: <202109261126.18QBQQWp003766@valdese.nms.ulrich-teichert.org>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-Original-Sender: glaubitz@physik.fu-berlin.de
-X-Originating-IP: 87.189.151.151
+Received: by 2002:a92:c7c6:0:0:0:0:0 with HTTP; Tue, 19 Oct 2021 02:38:44
+ -0700 (PDT)
+Reply-To: megaritalouisdrayfu199@yahoo.com
+From:   "Mrs. Margarita Louis-Dreyfus." <anniewei112@gmail.com>
+Date:   Mon, 18 Oct 2021 21:38:44 -1200
+Message-ID: <CAGT4pMmQfyrL63T=QLmazR0tD3r=ppcopeuGJWKteA57TF4K1Q@mail.gmail.com>
+Subject: Charitable funds to help the less privilege!
+To:     undisclosed-recipients:;
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 Precedence: bulk
 List-ID: <linux-alpha.vger.kernel.org>
 X-Mailing-List: linux-alpha@vger.kernel.org
 
-Hi Ulrich!
+--=20
+Hello,
 
-On 9/26/21 13:26, Ulrich Teichert wrote:
-> Awesome! This boots right away, here's the full boot log from the serial
-> console until init starts:
-> (...)
-> After that the installer starts, but does not find the CD-ROM, most
-> probably because the AHA174x SCSI driver wasn't loaded or included in
-> the initrd image, but this is definitely more than I ever expected!
+I am sorry to encroach into your privacy in this manner, my name
+Margarita Louis-Dreyfus , I find it pleasurable to offer you my
+partnership in business, i only pray at this time that your email
+address is still valid. I want to solicit your attention to receive
+money on my behalf for humanitarian project to help the less
+priviledge.
 
-Could you try the installation image for Alpha that I built today and see if that
-fixes the CD-ROM detection issue for you?
+The purpose of my contacting you is because my status would not permit
+me to do this alone. Given my current state of health, I have decided
+to donate Ninety -Eight Million United State Dollars to establish a
+foundation with your help to reach out to the less privilege, orphans,
+sick and homeless people in your country who will receive their
+blessings as i promised my God before i leave this earth.
 
-> https://cdimage.debian.org/cdimage/ports/snapshots/2021-10-18/
+I got your contact through my personal search, you were revealed as
+being quite astute in private entrepreneurship, and i have no doubt
+that you can handle this huge financial transaction. Please contact my
+executor for more information:
 
-Thanks,
-Adrian
+Mr. Ford Spencer(Attorney at Law).
+For: Mrs. Margarita Louis-Dreyfus
+LEGAL DEPARTMENT LAWSON & ASSOCIATES
+(JUSTICE, FAIRPLAY & EQUITY)
+Email: fordspencer828@yahoo.com, fordspencereqs828@gmail.com
+Office: +1-970-414-1400
++1-702-714-3422
+Mobile: +1 916 269 2733
+Fax: +1-970-414-1433
+=C2=AE Property of Steven C Spence PA.
 
--- 
- .''`.  John Paul Adrian Glaubitz
-: :' :  Debian Developer - glaubitz@debian.org
-`. `'   Freie Universitaet Berlin - glaubitz@physik.fu-berlin.de
-  `-    GPG: 62FF 8A75 84E0 2956 9546  0006 7426 3B37 F5B5 F913
+Your earliest response to this letter will be appreciated.
 
+Kind Regards,
+
+Mrs. Margarita Louis-Dreyfus.
