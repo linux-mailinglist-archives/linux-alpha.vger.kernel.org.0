@@ -2,76 +2,79 @@ Return-Path: <linux-alpha-owner@vger.kernel.org>
 X-Original-To: lists+linux-alpha@lfdr.de
 Delivered-To: lists+linux-alpha@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 2C217438674
-	for <lists+linux-alpha@lfdr.de>; Sun, 24 Oct 2021 05:42:06 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id A70D843BF59
+	for <lists+linux-alpha@lfdr.de>; Wed, 27 Oct 2021 04:13:22 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229868AbhJXDoZ (ORCPT <rfc822;lists+linux-alpha@lfdr.de>);
-        Sat, 23 Oct 2021 23:44:25 -0400
-Received: from angie.orcam.me.uk ([78.133.224.34]:34368 "EHLO
-        angie.orcam.me.uk" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229794AbhJXDoY (ORCPT
+        id S235523AbhJ0CPp (ORCPT <rfc822;lists+linux-alpha@lfdr.de>);
+        Tue, 26 Oct 2021 22:15:45 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46240 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S236431AbhJ0CPo (ORCPT
         <rfc822;linux-alpha@vger.kernel.org>);
-        Sat, 23 Oct 2021 23:44:24 -0400
-Received: by angie.orcam.me.uk (Postfix, from userid 500)
-        id 2CAC392009C; Sun, 24 Oct 2021 05:41:59 +0200 (CEST)
-Received: from localhost (localhost [127.0.0.1])
-        by angie.orcam.me.uk (Postfix) with ESMTP id 1FD5592009B;
-        Sun, 24 Oct 2021 05:41:59 +0200 (CEST)
-Date:   Sun, 24 Oct 2021 05:41:59 +0200 (CEST)
-From:   "Maciej W. Rozycki" <macro@orcam.me.uk>
-To:     John Paul Adrian Glaubitz <glaubitz@physik.fu-berlin.de>
-cc:     Ulrich Teichert <krypton@ulrich-teichert.org>,
-        Linux Alpha <linux-alpha@vger.kernel.org>
-Subject: Re: Newer kernels on the Jensen (was: [PATCH v2 0/4] Introduce and
-In-Reply-To: <5a774482-5a0e-a06d-2ef0-d1727bb41be5@physik.fu-berlin.de>
-Message-ID: <alpine.DEB.2.21.2110240528130.45807@angie.orcam.me.uk>
-References: <202110191946.19JJkeut004465@valdese.nms.ulrich-teichert.org> <5a774482-5a0e-a06d-2ef0-d1727bb41be5@physik.fu-berlin.de>
-User-Agent: Alpine 2.21 (DEB 202 2017-01-01)
+        Tue, 26 Oct 2021 22:15:44 -0400
+Received: from mail-pl1-x643.google.com (mail-pl1-x643.google.com [IPv6:2607:f8b0:4864:20::643])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 011B0C0613B9
+        for <linux-alpha@vger.kernel.org>; Tue, 26 Oct 2021 19:13:19 -0700 (PDT)
+Received: by mail-pl1-x643.google.com with SMTP id n11so915422plf.4
+        for <linux-alpha@vger.kernel.org>; Tue, 26 Oct 2021 19:13:19 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=mime-version:sender:from:date:message-id:subject:to;
+        bh=+OhYyTKGmAf5Y61RBhMkXMlQv+hOjswu4u5NSWPSjMI=;
+        b=EG9Nsjl+Eip141PWF+gaBUl1KOWYkVWkt1OXOEZnqtckn0jrX24eTk8UDRzdanWsjC
+         9yBSsvsQJotknvFKA9EQtwg6TYbjKuB2B6TeA9FpEjuXwfev4spJrb1stelnldSVU05K
+         9gDfyUx9hxjQgXAvSoidRv5/L36SOUZnVcgUrTM9tbDStJSMOyaTK7co10bTYaslWL6G
+         KEMVQ2/UtsJj5Uhe9sAzIbF0NlCUlFDN4b2Grw7CXZCthk66H6QQ7cfpSD7pU+Ay2+Nj
+         Q0QsrrBll0HvZsVEqt8NPrW+XN3K+0FC+b/X0b9b+fJud88cD9kdaePkDe4cxFsTTvDp
+         HYfQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:mime-version:sender:from:date:message-id:subject
+         :to;
+        bh=+OhYyTKGmAf5Y61RBhMkXMlQv+hOjswu4u5NSWPSjMI=;
+        b=vEUyVHIBXtyU0P6J5UAYE+s7PpWdH02v5+ARVRrioWQVes1jcLzPFXE/RKikEijub8
+         owgWKvD+5beeOxAGU7F+k+rnmLe470R3kPgIcQqlo27TKzNhXioBcn1xVrhLztBTQr7L
+         za18roHq639G532SBxs2aZz+mTfJbFvP8eDxVV60QE/WIx4YkEIOJRl+j9LJmX2MG9e0
+         TSfdxAzuMLl1yUUJ6zksJ0TvSgR6jJ/nDjKsPpkl6DpP4UiOqKp/Ig1rK3gcbfNze3XZ
+         zvV/nyP4bc3LlnzcfQrnp3nhycTiy/5mb8L7KoxkANFOQtZjE9woQCO0PYmh0dbuQefI
+         TocQ==
+X-Gm-Message-State: AOAM530imtitxqpyw8GkqlSK2d9UmAArGV2OM7fmkl7DtYzU6oDFh7j6
+        LvUSz8e5+1owfz9H3QtJJtvnbrp9uv8QQjzHcYQ=
+X-Google-Smtp-Source: ABdhPJzwOfSEFC+ZhBFJFbO7cJJvi3wx28mFQEmwNZmSp0wIuhE8auS2ZQZdxDxGrsxbdq14UKAhXuffjqSVAtd5Ev8=
+X-Received: by 2002:a17:90b:1c02:: with SMTP id oc2mr2782635pjb.52.1635300799308;
+ Tue, 26 Oct 2021 19:13:19 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
+Sender: officedeskofgeneral0@gmail.com
+Received: by 2002:a17:90b:4c11:0:0:0:0 with HTTP; Tue, 26 Oct 2021 19:13:18
+ -0700 (PDT)
+From:   "Mr. Mustafa Ali." <muafalia@gmail.com>
+Date:   Wed, 27 Oct 2021 03:13:18 +0100
+X-Google-Sender-Auth: -ap4vRnh22PsKG1mBvTJWKrUl0o
+Message-ID: <CAL=mczUC43H-jvBwTepLgLaj-FOUBZcvw1kdD=RpB4-U2MPw0g@mail.gmail.com>
+Subject: Greetings Dear Friend.
+To:     undisclosed-recipients:;
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-alpha.vger.kernel.org>
 X-Mailing-List: linux-alpha@vger.kernel.org
 
-On Fri, 22 Oct 2021, John Paul Adrian Glaubitz wrote:
+Hello Friend,
 
-> > I've modprobe'd the AHA174x kernel module by hand, as it was not inserted
-> > automatically, but all I got was this line in the syslog:
-> > ...
-> > Oct 19 17:07:28 main-menu[245]: INFO: Menu item 'di-utils-shell' selected
-> > Oct 19 17:11:43 kernel: [  535.043671] SCSI subsystem initialized
-> > ...
-> > Nothing more. According to the documentation the module needs no arguments
-> > and should auto-probe, but it did not detect any devices.
-> 
-> I'm currently out of ideas what could be the reason for the device detection not
-> working, so I'll have to rely on your own debugging work. Either the driver is
-> missing the hardware IDs for your particular card (maybe it was patched out?!)
-> or there is an additional module that needs to enabled in the Debian kernel.
+This message might meet you in utmost surprise. However, It's just my
+urgent need for a foreign partner that made me contact you for this
+transaction. I assured you of honesty and reliability to champion this
+business opportunity. I am a banker by profession in Turkey, and
+currently holding the post of Auditor in Standard Chartered Bank.
 
- Device IDs are supposed to be reported for any EISA devices present as 
-the bus is probed, regardless of whether there is a driver available for 
-the particular piece of hardware or not, so it should be possible to see 
-if the expected device is recognised.
+I have the opportunity of transferring the leftover funds ($15 Million
+Dollars) of one of my clients who died along with his entire family in
+a crisis in Myanmar Asia. I am inviting you for a business deal where
+this money can be shared between us if you agree to my business
+proposal.
 
- For example with my EISA box (albeit an x86 one, but this part should be
-generic, and like the Jensen this is a pure-EISA system, no PCI) I get the 
-following devices listed (and some, but not all claimed by Linux drivers) 
-as the system boots:
+Further details of the transfer will be forwarded to you immediately
+after I receive your return letter.
 
-platform eisa.0: Probing EISA bus 0
-eisa 00:00: EISA: Mainboard AEI0401 detected
-eisa 00:05: EISA: slot 5: DEC3002 detected
-defxx: v1.12 2021/03/10  Lawrence V. Stefani and others
-00:05: DEFEA at I/O addr = 0x5000, IRQ = 10, Hardware addr = 00-00-f8-c8-b3-b6
-00:05: registered as fddi0
-eisa 00:06: EISA: slot 6: NPI0303 detected
-eisa 00:08: EISA: slot 8: TCM5094 detected
-eth0: 3c5x9 found at 0x8000, 10baseT port, address 00:a0:24:b6:8b:db, IRQ 12.
-platform eisa.0: EISA: Detected 3 cards
-
-I can see for AHA174x devices the following IDs have been defined: 
-ADP0000, ADP0001, ADP0002, ADP0400, so check if any are listed in the 
-kernel log.
-
-  Maciej
+Best Regards,
+Mr. Mustafa Ali.
+mustafa.ali@rahroco.com
