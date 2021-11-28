@@ -2,104 +2,65 @@ Return-Path: <linux-alpha-owner@vger.kernel.org>
 X-Original-To: lists+linux-alpha@lfdr.de
 Delivered-To: lists+linux-alpha@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 355FB45DB3E
-	for <lists+linux-alpha@lfdr.de>; Thu, 25 Nov 2021 14:38:48 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 2370C4603D3
+	for <lists+linux-alpha@lfdr.de>; Sun, 28 Nov 2021 05:10:21 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1347471AbhKYNl4 (ORCPT <rfc822;lists+linux-alpha@lfdr.de>);
-        Thu, 25 Nov 2021 08:41:56 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48576 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1355013AbhKYNjz (ORCPT
-        <rfc822;linux-alpha@vger.kernel.org>);
-        Thu, 25 Nov 2021 08:39:55 -0500
-Received: from mail-wm1-x32f.google.com (mail-wm1-x32f.google.com [IPv6:2a00:1450:4864:20::32f])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0F79FC061757
-        for <linux-alpha@vger.kernel.org>; Thu, 25 Nov 2021 05:28:20 -0800 (PST)
-Received: by mail-wm1-x32f.google.com with SMTP id i12so5570155wmq.4
-        for <linux-alpha@vger.kernel.org>; Thu, 25 Nov 2021 05:28:19 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linux-powerpc-org.20210112.gappssmtp.com; s=20210112;
-        h=from:to:subject:date:message-id;
-        bh=aSUF9oXETjDoDDLltfRKWNT8EucdXZILjenFDT8AYDA=;
-        b=gWAmT6cCMkmGGaC4S+d292wYYIftHaMXJMyMoJQ3WVYusc8GfA8iID3axlalSlaGuC
-         7MNbIltYsqGh3k2f+gRXYR20keJkwTcSEtHzziTKKEABcH8ugGUYUIwq0z7A8YeEo6Gw
-         aCxqTCjJWZBOImibTgcX34q6zd/9ow7LNj9pongrpUF1QjvaXSZqginEbPJDCDNA8Enz
-         96A03KVuCT2ZmHyh2vrvgL5N3ix3mQOpo3UR3G1szhoXZ6gAR9SM16GsjSnVRH5McASu
-         2LYbU5mLWYmd3tMbQAGJ1TzPrC7mwNFf9TfzE4GGnJHJIIOUzXAEL2+cA+la/M4Nqgk1
-         Tq6A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:from:to:subject:date:message-id;
-        bh=aSUF9oXETjDoDDLltfRKWNT8EucdXZILjenFDT8AYDA=;
-        b=0QbaM3HPOnNf2tftmSfE0ySANMuVkNsj05s1IXy5QJV6wTtosf5opdhZyHNlIGyKLe
-         AvFxBxXm9a+/8a9aoH5TB1Qjxi9xe7UjBafDu7VQaAmP39a8Ibq88OZiM/AuhYT7OK4f
-         ZgPSQOQA0uBRmnuuSAKXDr+YKKmIwQ1glF54vrc0ADIo6wBXUAsdXLlIcOnBy6M4J+JX
-         0dhuUjAPz6oTPXJ+LqYU9M80y+1SUsJ7WO0TdkhBMhU5YdZcKjK1EkkJpQPS8MHLynGb
-         ebJkyfhhvkkfTpw6LhmTtRQ3dsSla3XN84x5r2najPI0lgtzp1sc7jpdPVEhDO7v4uIR
-         UqqA==
-X-Gm-Message-State: AOAM532GP0JVQkiinOH6vgce2H0rWVFQL7nUfEalW8INLZ/NzaEZ3Lfc
-        Hl3g2pLCF4dmEwGmmL5bvFEx25Z4+K1qw5a8
-X-Google-Smtp-Source: ABdhPJw7AMs9Lho0vN0879hze/fEPfqO1Hectw0NdJD5eiAV+5zKVxS0RmTfYgdm4IGHU0lDSd8hKg==
-X-Received: by 2002:a1c:4c19:: with SMTP id z25mr7045639wmf.177.1637846898495;
-        Thu, 25 Nov 2021 05:28:18 -0800 (PST)
-Received: from localhost.localdomain ([5.35.23.193])
-        by smtp.gmail.com with ESMTPSA id c4sm2845350wrr.37.2021.11.25.05.28.17
-        for <linux-alpha@vger.kernel.org>
-        (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
-        Thu, 25 Nov 2021 05:28:18 -0800 (PST)
-From:   Denis Kirjanov <kda@linux-powerpc.org>
-To:     linux-alpha@vger.kernel.org
-Subject: [PATCH] alpha: signal: drop DEBUG_SIG print statements
-Date:   Thu, 25 Nov 2021 16:27:59 +0300
-Message-Id: <20211125132759.16212-1-kda@linux-powerpc.org>
-X-Mailer: git-send-email 2.16.4
+        id S243937AbhK1ENf (ORCPT <rfc822;lists+linux-alpha@lfdr.de>);
+        Sat, 27 Nov 2021 23:13:35 -0500
+Received: from smtpbg506.qq.com ([203.205.250.33]:42221 "EHLO smtpbg510.qq.com"
+        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
+        id S1343971AbhK1ELd (ORCPT <rfc822;linux-alpha@vger.kernel.org>);
+        Sat, 27 Nov 2021 23:11:33 -0500
+X-QQ-mid: bizesmtp50t1638071067tq8fm8q1
+Received: from kali.lan (unknown [182.148.14.187])
+        by esmtp6.qq.com (ESMTP) with 
+        id ; Sun, 28 Nov 2021 11:44:26 +0800 (CST)
+X-QQ-SSF: 01000000002000C0G000B00A0000000
+X-QQ-FEAT: 2anfE2eVO982IXslQaS4kYVkTvbi7PfCYwEz5naq+ufJKYczgAgi4GIIvvpIB
+        p6UXQghuOCm8sCUAe6zsdT2ZY/PozPzz+gw15CnzBNj5G1VIXD+TA+sbBHtMShq6lB5vAXK
+        mb/XvMtODhocoIY5i2a3JHWaPsObktv2rKP0KS/VvNDKeh1P6bvLv8OUw8R3a0jootC/wQ4
+        8TVAT6pXFx2XDk9p4v/sXPeqYoeODTjipj5sJJW3Bh4Lia9LW94Ws0dOudu4eiCj08wR3US
+        l6qLWiPvYpvBFfy+CVh9OPJkmcweK3CeAwT5tIFXSR/omUhweM0Y8iUAcPS8rL4opCX06iS
+        fZvvl6OEAg6Loxtn2c=
+X-QQ-GoodBg: 0
+From:   Jason Wang <wangborong@cdjrlc.com>
+To:     rth@twiddle.net
+Cc:     ink@jurassic.park.msu.ru, mattst88@gmail.com,
+        linux-alpha@vger.kernel.org, linux-kernel@vger.kernel.org,
+        Jason Wang <wangborong@cdjrlc.com>
+Subject: [PATCH] alpha: fix typo in a comment
+Date:   Sun, 28 Nov 2021 11:43:48 +0800
+Message-Id: <20211128034348.5900-1-wangborong@cdjrlc.com>
+X-Mailer: git-send-email 2.33.0
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
+X-QQ-SENDSIZE: 520
+Feedback-ID: bizesmtp:cdjrlc.com:qybgspam:qybgspam4
 Precedence: bulk
 List-ID: <linux-alpha.vger.kernel.org>
 X-Mailing-List: linux-alpha@vger.kernel.org
 
-Drop compile-based legacy debug print statements
+The double `and' in a comment is repeated. Consequently, remove one
+`and' from the comment.
 
-Signed-off-by: Denis Kirjanov <kda@linux-powerpc.org>
+Signed-off-by: Jason Wang <wangborong@cdjrlc.com>
 ---
- arch/alpha/kernel/signal.c | 11 -----------
- 1 file changed, 11 deletions(-)
+ arch/alpha/kernel/irq_i8259.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/arch/alpha/kernel/signal.c b/arch/alpha/kernel/signal.c
-index bc077babafab..d5849d6181b6 100644
---- a/arch/alpha/kernel/signal.c
-+++ b/arch/alpha/kernel/signal.c
-@@ -31,8 +31,6 @@
- #include "proto.h"
- 
- 
--#define DEBUG_SIG 0
--
- #define _BLOCKABLE (~(sigmask(SIGKILL) | sigmask(SIGSTOP)))
- 
- asmlinkage void ret_from_sys_call(void);
-@@ -362,10 +360,6 @@ setup_frame(struct ksignal *ksig, sigset_t *set, struct pt_regs *regs)
- 	regs->r18 = (unsigned long) &frame->sc;	/* a2: sigcontext pointer */
- 	wrusp((unsigned long) frame);
- 	
--#if DEBUG_SIG
--	printk("SIG deliver (%s:%d): sp=%p pc=%p ra=%p\n",
--		current->comm, current->pid, frame, regs->pc, regs->r26);
--#endif
- 	return 0;
- }
- 
-@@ -416,11 +410,6 @@ setup_rt_frame(struct ksignal *ksig, sigset_t *set, struct pt_regs *regs)
- 	regs->r18 = (unsigned long) &frame->uc;	  /* a2: ucontext pointer */
- 	wrusp((unsigned long) frame);
- 
--#if DEBUG_SIG
--	printk("SIG deliver (%s:%d): sp=%p pc=%p ra=%p\n",
--		current->comm, current->pid, frame, regs->pc, regs->r26);
--#endif
--
- 	return 0;
- }
- 
+diff --git a/arch/alpha/kernel/irq_i8259.c b/arch/alpha/kernel/irq_i8259.c
+index 1dcf0d9038fd..db574dcd6675 100644
+--- a/arch/alpha/kernel/irq_i8259.c
++++ b/arch/alpha/kernel/irq_i8259.c
+@@ -147,7 +147,7 @@ isa_no_iack_sc_device_interrupt(unsigned long vector)
+ 	 */
+ 	/* 
+ 	 *  The first read of gives you *all* interrupting lines.
+-	 *  Therefore, read the mask register and and out those lines
++	 *  Therefore, read the mask register and out those lines
+ 	 *  not enabled.  Note that some documentation has 21 and a1 
+ 	 *  write only.  This is not true.
+ 	 */
 -- 
-2.16.4
+2.33.0
 
