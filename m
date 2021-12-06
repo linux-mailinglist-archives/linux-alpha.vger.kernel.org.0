@@ -2,245 +2,159 @@ Return-Path: <linux-alpha-owner@vger.kernel.org>
 X-Original-To: lists+linux-alpha@lfdr.de
 Delivered-To: lists+linux-alpha@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id E190B465AE1
-	for <lists+linux-alpha@lfdr.de>; Thu,  2 Dec 2021 01:31:56 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 5A72546A4A1
+	for <lists+linux-alpha@lfdr.de>; Mon,  6 Dec 2021 19:30:50 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1354525AbhLBAfM (ORCPT <rfc822;lists+linux-alpha@lfdr.de>);
-        Wed, 1 Dec 2021 19:35:12 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44596 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1354555AbhLBAfF (ORCPT
-        <rfc822;linux-alpha@vger.kernel.org>); Wed, 1 Dec 2021 19:35:05 -0500
-Received: from mail-qv1-xf32.google.com (mail-qv1-xf32.google.com [IPv6:2607:f8b0:4864:20::f32])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 95CCCC061748;
-        Wed,  1 Dec 2021 16:31:43 -0800 (PST)
-Received: by mail-qv1-xf32.google.com with SMTP id g9so21510077qvd.2;
-        Wed, 01 Dec 2021 16:31:43 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:content-transfer-encoding:in-reply-to;
-        bh=UYmHlVbMSQbQAn62a50WlYWlw5WYikEw/HKO8MU8o20=;
-        b=d9ufFBZIjBeCnfJhxkhOJHR4U6gA3sYY5/+OartHrmtyqhNuwpEH+tfc93YA7tEDao
-         yOKDodcNFRle3eMMLCg2FH/Tcgr7cW593yntXLl1utZLUJtVShRNQEOc9NvEo4hEL1rm
-         L2l6bxTExKPSRmbnMRKqIcZhoOpd63W1ZKagDrFCRbYIcYvSgN+CxBxrwTxGRSsHeVKf
-         UXZK5TS9EbCKBOwmJzZ51FgzKmkah4fU/bnP1hNtNTskTK6qjluwzPEk7uWUTAkKCdZ1
-         XxzA5TtEBQPg9PU9R4bStLW9Ne4zdJoIM+RpRwYI7AmQcqEYlTEIoOnEsCuvtTzXmNFj
-         00eA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:content-transfer-encoding
-         :in-reply-to;
-        bh=UYmHlVbMSQbQAn62a50WlYWlw5WYikEw/HKO8MU8o20=;
-        b=DqgKolkPKqrXWQ9HL31Gh9PdPZs17c/UeEKZhGq60VRHXQ6uTNba6E/gNEUxut08dv
-         BHOQn9E98Ihcvm1zXUgxhpbpnnEjF0jlav6odkYf/Joq6Rr7OvVz5ikG1n3dScMllSfV
-         bbib4a7agBzI+XqmGmgPWRjrmrEbqzKgWOQs9W9OXoh95Jeb73VIC5Ybs0Cf8BEJN7zO
-         dw6xVat2T54fpTuZzynPwMSsduLVyroCpi+LqLusdQDuUXsk3/Lfup4/2g+Aik850tNm
-         vsC1vU3KSAOFl9M0aptStnfAVXSUAL9aj52YcX/gpW68+Od52EgD/S5I7nmCouZhGygC
-         KWlA==
-X-Gm-Message-State: AOAM531xs/j1H7toXiM+CsSCkZxtlJtD5205OnDQr9ckExVG1T5rtFcu
-        djcGDJZSzKqo5WWxMOuislJkR1zSj3cXaQ==
-X-Google-Smtp-Source: ABdhPJwpuPpSi7n83vlL+jLX5fyPRTIJyAHbiKfUe+xvjm76YV/xzPPNg/iMW1GhI6PSi3iKc0YBEA==
-X-Received: by 2002:a05:6214:ccc:: with SMTP id 12mr9930154qvx.8.1638405102640;
-        Wed, 01 Dec 2021 16:31:42 -0800 (PST)
-Received: from localhost ([66.216.211.25])
-        by smtp.gmail.com with ESMTPSA id l1sm690890qkp.125.2021.12.01.16.31.41
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 01 Dec 2021 16:31:42 -0800 (PST)
-Date:   Wed, 1 Dec 2021 16:31:40 -0800
-From:   Yury Norov <yury.norov@gmail.com>
-To:     =?utf-8?B?TWljaGHFgiBNaXJvc8WCYXc=?= <mirq-linux@rere.qmqm.pl>
-Cc:     linux-kernel@vger.kernel.org,
-        "James E.J. Bottomley" <jejb@linux.ibm.com>,
-        "Paul E. McKenney" <paulmck@kernel.org>,
-        "Martin K. Petersen" <martin.petersen@oracle.com>,
-        "Rafael J. Wysocki" <rafael@kernel.org>,
-        Russell King <linux@armlinux.org.uk>,
-        Amitkumar Karwar <amitkarwar@gmail.com>,
-        Alexey Klimov <aklimov@redhat.com>,
-        linux-alpha@vger.kernel.org,
-        Alexander Shishkin <alexander.shishkin@linux.intel.com>,
-        Andy Gross <agross@kernel.org>,
-        Mike Marciniszyn <mike.marciniszyn@cornelisnetworks.com>,
-        Petr Mladek <pmladek@suse.com>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Andrew Lunn <andrew@lunn.ch>, Andi Kleen <ak@linux.intel.com>,
-        Tejun Heo <tj@kernel.org>, Ard Biesheuvel <ardb@kernel.org>,
-        Vlastimil Babka <vbabka@suse.cz>,
-        Anup Patel <anup.patel@wdc.com>, linux-ia64@vger.kernel.org,
-        Andy Shevchenko <andy@infradead.org>,
-        Andy Lutomirski <luto@kernel.org>,
-        Matti Vaittinen <mazziesaccount@gmail.com>,
-        Mel Gorman <mgorman@suse.de>, Christoph Hellwig <hch@lst.de>,
-        Palmer Dabbelt <palmer@dabbelt.com>,
-        Catalin Marinas <catalin.marinas@arm.com>,
-        Rasmus Villemoes <linux@rasmusvillemoes.dk>,
-        Borislav Petkov <bp@alien8.de>, Arnd Bergmann <arnd@arndb.de>,
-        Arnaldo Carvalho de Melo <acme@kernel.org>,
-        Stephen Rothwell <sfr@canb.auug.org.au>,
-        David Laight <David.Laight@aculab.com>,
-        Sunil Goutham <sgoutham@marvell.com>,
-        David Airlie <airlied@linux.ie>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Dave Hansen <dave.hansen@linux.intel.com>,
-        Viresh Kumar <viresh.kumar@linaro.org>,
-        Daniel Vetter <daniel@ffwll.ch>,
-        bcm-kernel-feedback-list@broadcom.com,
-        Christoph Lameter <cl@linux.com>, linux-crypto@vger.kernel.org,
-        Hans de Goede <hdegoede@redhat.com>, linux-mm@kvack.org,
-        Guo Ren <guoren@kernel.org>,
-        linux-snps-arc@lists.infradead.org,
-        Geetha sowjanya <gakula@marvell.com>,
-        Mark Rutland <mark.rutland@arm.com>,
-        Dinh Nguyen <dinguyen@kernel.org>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Dennis Zhou <dennis@kernel.org>,
-        Michael Ellerman <mpe@ellerman.id.au>,
-        Heiko Carstens <hca@linux.ibm.com>,
-        Nicholas Piggin <npiggin@gmail.com>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Peter Zijlstra <peterz@infradead.org>,
-        Geert Uytterhoeven <geert@linux-m68k.org>,
-        Randy Dunlap <rdunlap@infradead.org>,
-        Roy Pledge <Roy.Pledge@nxp.com>,
-        Saeed Mahameed <saeedm@nvidia.com>, Jens Axboe <axboe@fb.com>,
-        Jason Wessel <jason.wessel@windriver.com>,
-        Jakub Kicinski <kuba@kernel.org>,
-        Sergey Senozhatsky <senozhatsky@chromium.org>,
-        Ingo Molnar <mingo@redhat.com>,
-        Stephen Boyd <sboyd@kernel.org>,
-        Ian Rogers <irogers@google.com>,
-        Steven Rostedt <rostedt@goodmis.org>,
-        Sagi Grimberg <sagi@grimberg.me>,
-        Sudeep Holla <sudeep.holla@arm.com>,
-        Kalle Valo <kvalo@codeaurora.org>,
-        Tariq Toukan <tariqt@nvidia.com>,
-        Juri Lelli <juri.lelli@redhat.com>,
-        Thomas Bogendoerfer <tsbogend@alpha.franken.de>,
-        Jonathan Cameron <jic23@kernel.org>,
-        Ulf Hansson <ulf.hansson@linaro.org>,
-        Jiri Olsa <jolsa@redhat.com>, Vineet Gupta <vgupta@kernel.org>,
-        Solomon Peachy <pizza@shaftnet.org>,
-        Vivien Didelot <vivien.didelot@gmail.com>,
-        Lee Jones <lee.jones@linaro.org>,
-        Will Deacon <will@kernel.org>,
-        Krzysztof Kozlowski <krzysztof.kozlowski@canonical.com>,
-        kvm@vger.kernel.org, Kees Cook <keescook@chromium.org>,
-        linux-arm-kernel@lists.infradead.org,
-        Subbaraya Sundeep <sbhatta@marvell.com>,
-        linux-csky@vger.kernel.org, Marcin Wojtas <mw@semihalf.com>,
-        linux-mips@vger.kernel.org, Marc Zyngier <maz@kernel.org>,
-        linux-perf-users@vger.kernel.org,
-        Vincent Guittot <vincent.guittot@linaro.org>,
-        linux-s390@vger.kernel.org, Mark Gross <markgross@kernel.org>,
-        linux-riscv@lists.infradead.org, linuxppc-dev@lists.ozlabs.org
-Subject: Re: [PATCH 0/9] lib/bitmap: optimize bitmap_weight() usage
-Message-ID: <20211202003140.GA430494@lapt>
-References: <20211128035704.270739-1-yury.norov@gmail.com>
- <YaPEfZ0t9UFGwpml@qmqm.qmqm.pl>
- <20211129063839.GA338729@lapt>
- <3CD9ECD8-901E-497B-9AE1-0DDB02346892@rere.qmqm.pl>
+        id S230448AbhLFSeS (ORCPT <rfc822;lists+linux-alpha@lfdr.de>);
+        Mon, 6 Dec 2021 13:34:18 -0500
+Received: from mail-mw2nam10hn2242.outbound.protection.outlook.com ([52.100.157.242]:39381
+        "EHLO NAM10-MW2-obe.outbound.protection.outlook.com"
+        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
+        id S233338AbhLFSeS (ORCPT <rfc822;linux-alpha@vger.kernel.org>);
+        Mon, 6 Dec 2021 13:34:18 -0500
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=kTBWMEpqGGXm2vVGCo0WZgJo8cj7YGHwurxskvYrXAjiIKmoTAYPaSuiacXoyDofv7U8t1wcvPqP2KdmLh7Vs7LUtTlKuckc01VMPR1+aJ40D50hEAT1lvKGpTd9ux/QoO53MsEGxawJQlEPZWI64dewvh44i3dyps31KAt6nLk0Yf0Nm4PfqjOwPIQ1uzSJh1uRtHVt23zDZzSZxnhEOf7iVs6IExXxwtH/EFFSobKMkF6iP0ENxwzIVbVuPZD8Kg0/bsK7NkbooPuwlujhUQdvIVgjqjx25bn6lp29gFEitSgGM/SmdijXRamiYT/HPZ6OUr3fwdUq68CnCgFoVA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=NTkULZ5UHExQp4+lt+mjKcEqTWLs4cv4821EJcQtSYE=;
+ b=LRnqrMAE3qIjok/Cs2Smj6kFBZDaNzfJ/igu7eLZwHJrWhVqjtfBg0/CIAYqohtUDl71AKa8T7a7PRWm6F6M1xnEMVYGGc88vorgnGrCsgG8DCZ+by+1ptnIzqV9A4WJqVFUFiYHqen4hRfQvjXNp655v2/Z5KBrGbvPid2Q7nyc1s07qA7sbVdB/U+gfG3ytztOjWacwAQ1jWFAy3HEUJB2tH7P3fQe7F7gTsU8orFTMTLpkenfxOlatR35dvLDZ56FkVG4ALuwpmxPH1PHrr3xkD5m3kaIqSiY20wqKFr4vS+neUHpxWfYsjxhjBKJxqlb1GsDjEH6iD1BTWGI1w==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=softfail (sender ip
+ is 146.201.107.145) smtp.rcpttodomain=sdf2.com smtp.mailfrom=msn.com;
+ dmarc=fail (p=none sp=quarantine pct=100) action=none header.from=msn.com;
+ dkim=none (message not signed); arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=fsu.onmicrosoft.com;
+ s=selector2-fsu-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=NTkULZ5UHExQp4+lt+mjKcEqTWLs4cv4821EJcQtSYE=;
+ b=itkaz7VmwzoXeohG8aZf2bZmvYls3m+K1HPXC5fOimDMUTWb8pcMGaK60RQh4zzWHEFIxsTnbHM6zBGWfbnA7mWuItk/4MwoKtS67bCZwgmj05HCmwK7MxMD1y7xPZxF1tL5Ir/I/C3ZRIsx4O71odVSa/efrHrJggdUTPY39Q8=
+Received: from CO2PR05CA0062.namprd05.prod.outlook.com (2603:10b6:102:2::30)
+ by CO6P220MB0450.NAMP220.PROD.OUTLOOK.COM (2603:10b6:303:13e::15) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4755.11; Mon, 6 Dec
+ 2021 18:30:43 +0000
+Received: from MW2NAM04FT009.eop-NAM04.prod.protection.outlook.com
+ (2603:10b6:102:2:cafe::10) by CO2PR05CA0062.outlook.office365.com
+ (2603:10b6:102:2::30) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4778.10 via Frontend
+ Transport; Mon, 6 Dec 2021 18:30:43 +0000
+X-MS-Exchange-Authentication-Results: spf=softfail (sender IP is
+ 146.201.107.145) smtp.mailfrom=msn.com; dkim=none (message not signed)
+ header.d=none;dmarc=fail action=none header.from=msn.com;
+Received-SPF: SoftFail (protection.outlook.com: domain of transitioning
+ msn.com discourages use of 146.201.107.145 as permitted sender)
+Received: from mailrelay03.its.fsu.edu (146.201.107.145) by
+ MW2NAM04FT009.mail.protection.outlook.com (10.13.30.206) with Microsoft SMTP
+ Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.4755.13 via Frontend Transport; Mon, 6 Dec 2021 18:30:42 +0000
+Received: from [10.0.0.200] (ani.stat.fsu.edu [128.186.4.119])
+        by mailrelay03.its.fsu.edu (Postfix) with ESMTP id 5C21F9518B;
+        Mon,  6 Dec 2021 13:30:05 -0500 (EST)
+Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <3CD9ECD8-901E-497B-9AE1-0DDB02346892@rere.qmqm.pl>
+Content-Transfer-Encoding: quoted-printable
+Content-Description: Mail message body
+Subject: Re: From Fred!
+To:     Recipients <fred128@msn.com>
+From:   "Fred Gamba." <fred128@msn.com>
+Date:   Mon, 06 Dec 2021 19:29:22 +0100
+Reply-To: fred_gamba@yahoo.co.jp
+Message-ID: <62ab5b24-94d9-423e-add5-4726ec3c9032@MW2NAM04FT009.eop-NAM04.prod.protection.outlook.com>
+X-EOPAttributedMessage: 0
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id: 452ac581-68e8-4e9c-45bb-08d9b8e68304
+X-MS-TrafficTypeDiagnostic: CO6P220MB0450:EE_
+X-Microsoft-Antispam-PRVS: <CO6P220MB045033073EBDF994CE1D48BCEB6D9@CO6P220MB0450.NAMP220.PROD.OUTLOOK.COM>
+X-MS-Oob-TLC-OOBClassifiers: OLM:10000;
+X-MS-Exchange-SenderADCheck: 2
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Forefront-Antispam-Report: CIP:146.201.107.145;CTRY:US;LANG:en;SCL:5;SRV:;IPV:CAL;SFV:SPM;H:mailrelay03.its.fsu.edu;PTR:mailrelay03.its.fsu.edu;CAT:OSPM;SFS:(4636009)(84050400002)(46966006)(40470700001)(26005)(40460700001)(82310400004)(31686004)(3480700007)(316002)(8936002)(786003)(7366002)(2860700004)(7406005)(956004)(7416002)(8676002)(70206006)(31696002)(2906002)(7116003)(508600001)(82202003)(86362001)(70586007)(6666004)(336012)(9686003)(5660300002)(83380400001)(356005)(7596003)(47076005)(35950700001)(6200100001)(6266002)(6862004)(480584002);DIR:OUT;SFP:1501;
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: =?utf-8?B?UkJadHRWTlVtWlVCWE13a0ZHNWhaRnBjQXJiOFp2Wm5GMTRhVElaZkFMWERJ?=
+ =?utf-8?B?UGRKSFk4R1FoSVp3WnZYdHhtdUlMSW41SlF4SGs0YkNNNEpZL3Jmb3BBZXdO?=
+ =?utf-8?B?Z3FWWUlpLzc2alNJWnMxekxWZExYRHlNdGZPd2x2dWNPZ1JzRHNGSWxmRVRL?=
+ =?utf-8?B?R25BejNySHJvV3FKOEs3ZWRKWnlibURmZ01CZG9mR2ErdEQzaG1Eb2dZa3Bk?=
+ =?utf-8?B?K3pJNHM1ZFJ6eTJiT1hGUFVSMnpQUGtVZGU1MnNlQTE1azhIVm1vekdmdHFq?=
+ =?utf-8?B?VGM1SGllMVFMKzlkRXovRXVOS2lYL2ZHZ0hTVklUa2ZiWUd3dlpCU0VUVXY1?=
+ =?utf-8?B?aG9FeEpEQWtYU3QycjhFY1FWaUlnZk02b256R05TWkJlN2FWK1h3ZGY5d2Z3?=
+ =?utf-8?B?U0pBb0d3WVRjSTdVa0VDYlRpSXB1RFAxOWU4WSs5cjZ0dW9WVUpQcFZYMnJm?=
+ =?utf-8?B?SHUrcWw0NmVRZW94NUVhY3ZJUzVuZi9sT3VzNHo4LzAxV0VZYzd0ejhjRTlK?=
+ =?utf-8?B?clJ1MFhnNTZMOG9CelU4WTlKbGxmUXdnQXF0ZkZEaHB5L21aYnBBUm1rVC81?=
+ =?utf-8?B?c2lMUHl6NThUeVdVSUtlYnRBdG1NUXY1aVd4b1BmbGhEb2pZWU1rMkpvbFcw?=
+ =?utf-8?B?UURnT21kWmM3dnUzWm1MV3dYU0Rjdm1ZM2REb2RwQWtmcmxyY3VSa0ZadkpL?=
+ =?utf-8?B?ODVUZG1lU1hZOEVxeE1KNm9SSTUvcHg5bFI3MUp5SFlLZmI1RUY5OERUL0h2?=
+ =?utf-8?B?N1Z6enRUeG5JK3hWcmZwWEVEWnlVbHFabzBBMFY0eEZURkpoYlFkdnl5NzVk?=
+ =?utf-8?B?cjV0K3hTQm9xY2dyZEl6NHhuS2F6TXlBMHJjQlNtZUxYVWdmV0IxNXRSSzkv?=
+ =?utf-8?B?NjhGa1RSak40UWJjeVpKMTVhMGJwU0NubU5ETk9jbHZjTVlYYnpWdWg4R2Ny?=
+ =?utf-8?B?Q3FlWjlLZjJKZVRmSUZYdE9uRCtyVVc4V2lXYTgxckt6Q0xBR2xiem9nQzhJ?=
+ =?utf-8?B?U0x6b2hORVhGSUQxdTRFQnppb2QwcC9JV1o2dlFDbERkMzNGdm1zdFM0TDEv?=
+ =?utf-8?B?Ym5EMjJIdGR3cHJ5ZFhFRlVxRnYzaXY3dlVzNkdUdERYdTNqcktPZW9hbnds?=
+ =?utf-8?B?K2txSE1IcWtpbjBnaUNtVzdYdnJ1K1pCYkVSZE0wUURlNUFVS0xSaWVOMUky?=
+ =?utf-8?B?SWFGeHhHYnZ4UTY1Q1F3ZFh6bUpYOS9xb2czR3dOR0IyN3k1TjBPUHNndHJs?=
+ =?utf-8?B?cEdWMjVyTlRYVndiaTl1TktmK2trS3dZSm9PYitqM21INHl4MXVDeDVxcEZJ?=
+ =?utf-8?B?M0g0d1lwRWNLSy83ZXlQdUpUZnkvZFB2RXZQVStZbE1IL3ZKYUpBQlYzdkp6?=
+ =?utf-8?B?RjVnNlAxa0pReFZUVVZTUkpsMHg4azUxRDFiNmh4SmhCLzNIMXF3QTJTVGxn?=
+ =?utf-8?Q?rt/1unrR?=
+X-OriginatorOrg: fsu.edu
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 06 Dec 2021 18:30:42.7845
+ (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: 452ac581-68e8-4e9c-45bb-08d9b8e68304
+X-MS-Exchange-CrossTenant-Id: a36450eb-db06-42a7-8d1b-026719f701e3
+X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=a36450eb-db06-42a7-8d1b-026719f701e3;Ip=[146.201.107.145];Helo=[mailrelay03.its.fsu.edu]
+X-MS-Exchange-CrossTenant-AuthSource: MW2NAM04FT009.eop-NAM04.prod.protection.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Anonymous
+X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: CO6P220MB0450
 Precedence: bulk
 List-ID: <linux-alpha.vger.kernel.org>
 X-Mailing-List: linux-alpha@vger.kernel.org
 
-On Mon, Nov 29, 2021 at 04:34:07PM +0000, Michał Mirosław wrote:
-> Dnia 29 listopada 2021 06:38:39 UTC, Yury Norov <yury.norov@gmail.com> napisał/a:
-> >On Sun, Nov 28, 2021 at 07:03:41PM +0100, mirq-test@rere.qmqm.pl wrote:
-> >> On Sat, Nov 27, 2021 at 07:56:55PM -0800, Yury Norov wrote:
-> >> > In many cases people use bitmap_weight()-based functions like this:
-> >> > 
-> >> > 	if (num_present_cpus() > 1)
-> >> > 		do_something();
-> >> > 
-> >> > This may take considerable amount of time on many-cpus machines because
-> >> > num_present_cpus() will traverse every word of underlying cpumask
-> >> > unconditionally.
-> >> > 
-> >> > We can significantly improve on it for many real cases if stop traversing
-> >> > the mask as soon as we count present cpus to any number greater than 1:
-> >> > 
-> >> > 	if (num_present_cpus_gt(1))
-> >> > 		do_something();
-> >> > 
-> >> > To implement this idea, the series adds bitmap_weight_{eq,gt,le}
-> >> > functions together with corresponding wrappers in cpumask and nodemask.
-> >> 
-> >> Having slept on it I have more structured thoughts:
-> >> 
-> >> First, I like substituting bitmap_empty/full where possible - I think
-> >> the change stands on its own, so could be split and sent as is.
-> >
-> >Ok, I can do it.
-> >
-> >> I don't like the proposed API very much. One problem is that it hides
-> >> the comparison operator and makes call sites less readable:
-> >> 
-> >> 	bitmap_weight(...) > N
-> >> 
-> >> becomes:
-> >> 
-> >> 	bitmap_weight_gt(..., N)
-> >> 
-> >> and:
-> >> 	bitmap_weight(...) <= N
-> >> 
-> >> becomes:
-> >> 
-> >> 	bitmap_weight_lt(..., N+1)
-> >> or:
-> >> 	!bitmap_weight_gt(..., N)
-> >> 
-> >> I'd rather see something resembling memcmp() API that's known enough
-> >> to be easier to grasp. For above examples:
-> >> 
-> >> 	bitmap_weight_cmp(..., N) > 0
-> >> 	bitmap_weight_cmp(..., N) <= 0
-> >> 	...
-> >
-> >bitmap_weight_cmp() cannot be efficient. Consider this example:
-> >
-> >bitmap_weight_lt(1000 0000 0000 0000, 1) == false
-> >                 ^
-> >                 stop here
-> >
-> >bitmap_weight_cmp(1000 0000 0000 0000, 1) == 0
-> >                                 ^
-> >                                 stop here
-> >
-> >I agree that '_gt' is less verbose than '>', but the advantage of 
-> >'_gt' over '>' is proportional to length of bitmap, and it means
-> >that this API should exist.
-> 
-> Thank you for the example. Indeed, for less-than to be efficient here you would need to replace
->  bitmap_weight_cmp(..., N) < 0
-> with
->  bitmap_weight_cmp(..., N-1) <= 0
+Hello,
 
-Indeed, thanks for pointing to it.
- 
-> It would still be more readable, I think.
+I decided to write you this proposal in good faith, believing that you will=
+ not betray me. I have been in search of someone with the same last name of=
+ our late customer and close friend of mine (Mr. Richard), heence I contact=
+ed you Because both of you bear the same surname and coincidentally from th=
+e same country, and I was pushed to contact you and see how best we can ass=
+ist each other. Meanwhile I am Mr. Fred Gamba, a reputable banker here in A=
+ccra Ghana.
 
-To be honest, I'm not sure that
-        bitmap_weight_cmp(..., N-1) <= 0
-would be an obvious replacement for the original
-        bitmap_weight(...) < N
-comparing to 
-        bitmap_weight_lt(..., N)
+On the 15 January 2009, the young millionaire (Mr. Richard) a citizen of yo=
+ur country and Crude Oil dealer made a fixed deposit with my bank for 60 ca=
+lendar months, valued at US $ 6,500,000.00 (Six Million, Five Hundred Thous=
+and US Dollars) and The mature date for this deposit contract was on 15th o=
+f January, 2015. But sadly he was among the death victims in the 03 March 2=
+011, Earthquake disaster in Japan that killed over 20,000 people including =
+him. Because he was in Japan on a business trip and that was how he met his=
+ end.
 
-I think the best thing I can do is to add bitmap_weight_cmp() as
-you suggested, and turn lt and others to be wrappers on it. This
-will let people choose a better function in each case.
+My bank management is yet to know about his death, but I knew about it beca=
+use he was my friend and I am his Account Relationship Officer, and he did =
+not mention any Next of Kin / Heir when the account was opened, because he =
+was not married and no children. Last week my Bank Management reminded me a=
+gain requested that Mr. Richard should give instructions on what to do abou=
+t his funds, if to renew the contract or not.
 
-I also think that for v2 it would be better to drop the conversion
-for short bitmaps, except for switching to bitmap_empty(), because
-in that case readability wins over performance; if no objections. 
+I know this will happen and that is why I have been looking for a means to =
+handle the situation, because if my Bank Directors happens to know that he =
+is dead and do not have any Heir, they will take the funds for their person=
+al use, That is why I am seeking your co-operation to present you as the Ne=
+xt of Kin / Heir to the account, since you bear same last name with the dec=
+eased customer.
 
-Thanks,
-Yury
+There is no risk involved; the transaction will be executed under a legitim=
+ate arrangement that will protect you from any breach of law okay. So It's =
+better that we claim the money, than allowing the Bank Directors to take it=
+, they are rich already. I am not a greedy person, so I am suggesting we sh=
+are the funds in this ratio, 50% 50, ie equal.
+
+Let me know your mind on this and please do treat this information highly c=
+onfidential.
+
+I will review further information to you as soon as I receive your
+positive response.
+
+Have a nice day and I anticipating your communication.
+
+With Regards,
+Fred Gamba.
