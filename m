@@ -2,202 +2,79 @@ Return-Path: <linux-alpha-owner@vger.kernel.org>
 X-Original-To: lists+linux-alpha@lfdr.de
 Delivered-To: lists+linux-alpha@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 1F666470B80
-	for <lists+linux-alpha@lfdr.de>; Fri, 10 Dec 2021 21:09:06 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 153884716EF
+	for <lists+linux-alpha@lfdr.de>; Sat, 11 Dec 2021 22:58:22 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S242152AbhLJUMk (ORCPT <rfc822;lists+linux-alpha@lfdr.de>);
-        Fri, 10 Dec 2021 15:12:40 -0500
-Received: from mx-out.tlen.pl ([193.222.135.142]:18860 "EHLO mx-out.tlen.pl"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1344039AbhLJUMj (ORCPT <rfc822;linux-alpha@vger.kernel.org>);
-        Fri, 10 Dec 2021 15:12:39 -0500
-X-Greylist: delayed 400 seconds by postgrey-1.27 at vger.kernel.org; Fri, 10 Dec 2021 15:12:39 EST
-Received: (wp-smtpd smtp.tlen.pl 9881 invoked from network); 10 Dec 2021 21:02:19 +0100
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=o2.pl; s=1024a;
-          t=1639166540; bh=g6F0PuH16odzLZ9wgJYTYAj2t0sK8w2j7QPAd9umlsc=;
-          h=From:To:Cc:Subject;
-          b=pQXnTTcQAivhhfd4DJ1OwLwbQEhA9VBZtrG+8RVMNrH2CJOqG2wmJaib2u8G9h6SD
-           qVyNp/EGigBLXcYO1qk0ivSgBiE9uoJ6zZ4D36Q9PqZ+27XSCHpSEA+G2PZL28/yEx
-           TdBNmHerm8MlyimqKLKVZkcQ5eIZPheS1YhN5eBo=
-Received: from aaff136.neoplus.adsl.tpnet.pl (HELO localhost.localdomain) (mat.jonczyk@o2.pl@[83.4.135.136])
-          (envelope-sender <mat.jonczyk@o2.pl>)
-          by smtp.tlen.pl (WP-SMTPD) with SMTP
-          for <linux-rtc@vger.kernel.org>; 10 Dec 2021 21:02:19 +0100
-From:   =?UTF-8?q?Mateusz=20Jo=C5=84czyk?= <mat.jonczyk@o2.pl>
-To:     linux-rtc@vger.kernel.org, linux-kernel@vger.kernel.org
-Cc:     =?UTF-8?q?Mateusz=20Jo=C5=84czyk?= <mat.jonczyk@o2.pl>,
-        Richard Henderson <rth@twiddle.net>,
-        Ivan Kokshaysky <ink@jurassic.park.msu.ru>,
-        Matt Turner <mattst88@gmail.com>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
-        Dave Hansen <dave.hansen@linux.intel.com>,
-        Alessandro Zummo <a.zummo@towertech.it>,
-        Alexandre Belloni <alexandre.belloni@bootlin.com>,
-        linux-alpha@vger.kernel.org, x86@kernel.org
-Subject: [PATCH v4 3/9] Check return value from mc146818_get_time()
-Date:   Fri, 10 Dec 2021 21:01:25 +0100
-Message-Id: <20211210200131.153887-4-mat.jonczyk@o2.pl>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20211210200131.153887-1-mat.jonczyk@o2.pl>
-References: <20211210200131.153887-1-mat.jonczyk@o2.pl>
+        id S231623AbhLKV6U (ORCPT <rfc822;lists+linux-alpha@lfdr.de>);
+        Sat, 11 Dec 2021 16:58:20 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54046 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S231592AbhLKV6T (ORCPT
+        <rfc822;linux-alpha@vger.kernel.org>);
+        Sat, 11 Dec 2021 16:58:19 -0500
+Received: from mail-ed1-x52d.google.com (mail-ed1-x52d.google.com [IPv6:2a00:1450:4864:20::52d])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 48D43C061751
+        for <linux-alpha@vger.kernel.org>; Sat, 11 Dec 2021 13:58:19 -0800 (PST)
+Received: by mail-ed1-x52d.google.com with SMTP id w1so40362411edc.6
+        for <linux-alpha@vger.kernel.org>; Sat, 11 Dec 2021 13:58:19 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=mime-version:reply-to:sender:from:date:message-id:subject:to
+         :content-transfer-encoding;
+        bh=hD0jfu1MWy/UXBkBYsVvOAZPApZLyir6gKavdc4BceI=;
+        b=SOBkDHN1upt351fJGA10IENq8Lskn6OtfiA/mtFXWwbxNo6rK0VqMIikUbNdR10QL9
+         NEz57nH7+DwD4ui2QjR5G0PDUg/x30DeYlpAViKmfLpj6c8owgTXHIRe2HlXrWJIYspc
+         p1qexb7VgQzyxOs2U317jKWC2PVt5FsJQNP/qzuU8HlodfKZxoIrg2Y5u0+UlgiuF7n+
+         KF6xHlFhNhhV0WZH+n1XpQNFkro1//sIniT/eC7+Qq7omDixZHJ42uWefxucVRQsgqoP
+         MP9jAyQEdDJw2KiXunMshfyB4wcDGfWvxehuLHSr6op0i/Er4qRI4zT2OKxsbV2QjSnP
+         PYpQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:mime-version:reply-to:sender:from:date
+         :message-id:subject:to:content-transfer-encoding;
+        bh=hD0jfu1MWy/UXBkBYsVvOAZPApZLyir6gKavdc4BceI=;
+        b=iOx0ZSogOnx4KLpjLhv2Wt/yHjcHK2NRcxGcmAqvKFS8pH9gklj3BYFOUO2b/1juQY
+         hXZ98v6f98vm2wmnqakdRCFOBwxrtbu6Y8BfhT9nhgOfYun4QZvrgHGYWOTMpJK+L3ag
+         4XQNnAgNCX/RlbZVvqswH8dDc6QhE2ydh5BGdp2C8Bv0ZUqt/F2sbmRDKw3LfuuQDVu4
+         ADcS6BosRCVymemny5Aze8JWUzMGSVptvOJE4UiMP/qWYmn3HkQI4fsQI1pRI0JzR7pg
+         +f7FubV8SKn1DCqYwr3xLllGNEm0vZwYsyLJ2J91rIcDnErLX/7gVa3KVGsrFWwaXKcW
+         tbnA==
+X-Gm-Message-State: AOAM530BZb0zFfCVHAN1T3sH7+qx6VwtOrQzSKW4+kXBQBRw2WcSAcBa
+        OQDksHwBmsgddUZtEOBPaZEdgU5hf+W+BGDR7Qg=
+X-Google-Smtp-Source: ABdhPJxTVLquc00JfCv8xmVg6F+Df36Ax6F8m8eI1vWHtjjPBaUzu2dvtxl/29t2QJINStCFpJhLct20UqzajIEroTA=
+X-Received: by 2002:a17:907:6da2:: with SMTP id sb34mr33325880ejc.509.1639259897490;
+ Sat, 11 Dec 2021 13:58:17 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-X-WP-MailID: 746c4dba93d60ac62f20f4b28fbbafa8
-X-WP-AV: skaner antywirusowy Poczty o2
-X-WP-SPAM: NO 0000000 [ceMk]                               
+Reply-To: martinafrancis022@gmail.com
+Sender: rebeccaalhajidangombe@gmail.com
+Received: by 2002:a17:907:94d3:0:0:0:0 with HTTP; Sat, 11 Dec 2021 13:58:16
+ -0800 (PST)
+From:   Martina Francis <martinafrancis61@gmail.com>
+Date:   Sat, 11 Dec 2021 13:58:16 -0800
+X-Google-Sender-Auth: QI6h_ccu4Os7HpLN5lf7FmNkMqQ
+Message-ID: <CANadOMYJBdKak2aObykULF4gdU88=OTR03g+XDqpCofMfFracg@mail.gmail.com>
+Subject: Bom Dia meu querido
+To:     undisclosed-recipients:;
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 Precedence: bulk
 List-ID: <linux-alpha.vger.kernel.org>
 X-Mailing-List: linux-alpha@vger.kernel.org
 
-There are 4 users of mc146818_get_time() and none of them was checking
-the return value from this function. Change this.
+--=20
+Bom Dia meu querido,
+Como vai voc=C3=AA hoje, meu nome =C3=A9 Dona Martina Francis, uma vi=C3=BA=
+va doente.
+Eu tenho um fundo de doa=C3=A7=C3=A3o de ($ 2.700.000,00 USD) MILH=C3=95ES =
+que quero
+doar atrav=C3=A9s de voc=C3=AA para ajudar os =C3=B3rf=C3=A3os, vi=C3=BAvas=
+, deficientes
+f=C3=ADsicos e casas de caridade.
 
-Print the appropriate warnings in callers of mc146818_get_time() instead
-of in the function mc146818_get_time() itself, in order not to add
-strings to rtc-mc146818-lib.c, which is kind of a library.
+Por favor, volte para mim imediatamente ap=C3=B3s ler esta mensagem para
+obter mais detalhes sobre esta agenda humanit=C3=A1ria.
 
-The callers of alpha_rtc_read_time() and cmos_read_time() may use the
-contents of (struct rtc_time *) even when the functions return a failure
-code. Therefore, set the contents of (struct rtc_time *) to 0x00,
-which looks more sensible then 0xff and aligns with the (possibly
-stale?) comment in cmos_read_time:
+Deus te aben=C3=A7oe enquanto espero sua resposta.
+Sua irm=C3=A3.
 
-	/*
-	 * If pm_trace abused the RTC for storage, set the timespec to 0,
-	 * which tells the caller that this RTC value is unusable.
-	 */
-
-For consistency, do this in mc146818_get_time().
-
-Note: hpet_rtc_interrupt() may call mc146818_get_time() many times a
-second. It is very unlikely, though, that the RTC suddenly stops
-working and mc146818_get_time() would consistently fail.
-
-Only compile-tested on alpha.
-
-Signed-off-by: Mateusz Jończyk <mat.jonczyk@o2.pl>
-Cc: Richard Henderson <rth@twiddle.net>
-Cc: Ivan Kokshaysky <ink@jurassic.park.msu.ru>
-Cc: Matt Turner <mattst88@gmail.com>
-Cc: Thomas Gleixner <tglx@linutronix.de>
-Cc: Ingo Molnar <mingo@redhat.com>
-Cc: Borislav Petkov <bp@alien8.de>
-Cc: Dave Hansen <dave.hansen@linux.intel.com>
-Cc: Alessandro Zummo <a.zummo@towertech.it>
-Cc: Alexandre Belloni <alexandre.belloni@bootlin.com>
-Cc: linux-alpha@vger.kernel.org
-Cc: x86@kernel.org
-
----
-
-TODO: would it be appropriate to add attribute __must_check to
-      mc146818_get_time()?
-
-v4: Added this patch
-
- arch/alpha/kernel/rtc.c        | 7 ++++++-
- arch/x86/kernel/hpet.c         | 8 ++++++--
- drivers/base/power/trace.c     | 6 +++++-
- drivers/rtc/rtc-cmos.c         | 9 ++++++++-
- drivers/rtc/rtc-mc146818-lib.c | 2 +-
- 5 files changed, 26 insertions(+), 6 deletions(-)
-
-diff --git a/arch/alpha/kernel/rtc.c b/arch/alpha/kernel/rtc.c
-index ce3077946e1d..fb3025396ac9 100644
---- a/arch/alpha/kernel/rtc.c
-+++ b/arch/alpha/kernel/rtc.c
-@@ -80,7 +80,12 @@ init_rtc_epoch(void)
- static int
- alpha_rtc_read_time(struct device *dev, struct rtc_time *tm)
- {
--	mc146818_get_time(tm);
-+	int ret = mc146818_get_time(tm);
-+
-+	if (ret < 0) {
-+		dev_err_ratelimited(dev, "unable to read current time\n");
-+		return ret;
-+	}
- 
- 	/* Adjust for non-default epochs.  It's easier to depend on the
- 	   generic __get_rtc_time and adjust the epoch here than create
-diff --git a/arch/x86/kernel/hpet.c b/arch/x86/kernel/hpet.c
-index 882213df3713..71f336425e58 100644
---- a/arch/x86/kernel/hpet.c
-+++ b/arch/x86/kernel/hpet.c
-@@ -1435,8 +1435,12 @@ irqreturn_t hpet_rtc_interrupt(int irq, void *dev_id)
- 	hpet_rtc_timer_reinit();
- 	memset(&curr_time, 0, sizeof(struct rtc_time));
- 
--	if (hpet_rtc_flags & (RTC_UIE | RTC_AIE))
--		mc146818_get_time(&curr_time);
-+	if (hpet_rtc_flags & (RTC_UIE | RTC_AIE)) {
-+		if (unlikely(mc146818_get_time(&curr_time) < 0)) {
-+			pr_err_ratelimited("unable to read current time from RTC\n");
-+			return IRQ_HANDLED;
-+		}
-+	}
- 
- 	if (hpet_rtc_flags & RTC_UIE &&
- 	    curr_time.tm_sec != hpet_prev_update_sec) {
-diff --git a/drivers/base/power/trace.c b/drivers/base/power/trace.c
-index 94665037f4a3..72b7a92337b1 100644
---- a/drivers/base/power/trace.c
-+++ b/drivers/base/power/trace.c
-@@ -120,7 +120,11 @@ static unsigned int read_magic_time(void)
- 	struct rtc_time time;
- 	unsigned int val;
- 
--	mc146818_get_time(&time);
-+	if (mc146818_get_time(&time) < 0) {
-+		pr_err("Unable to read current time from RTC\n");
-+		return 0;
-+	}
-+
- 	pr_info("RTC time: %ptRt, date: %ptRd\n", &time, &time);
- 	val = time.tm_year;				/* 100 years */
- 	if (val > 100)
-diff --git a/drivers/rtc/rtc-cmos.c b/drivers/rtc/rtc-cmos.c
-index dc3f8b0dde98..d0f58cca5c20 100644
---- a/drivers/rtc/rtc-cmos.c
-+++ b/drivers/rtc/rtc-cmos.c
-@@ -222,6 +222,8 @@ static inline void cmos_write_bank2(unsigned char val, unsigned char addr)
- 
- static int cmos_read_time(struct device *dev, struct rtc_time *t)
- {
-+	int ret;
-+
- 	/*
- 	 * If pm_trace abused the RTC for storage, set the timespec to 0,
- 	 * which tells the caller that this RTC value is unusable.
-@@ -229,7 +231,12 @@ static int cmos_read_time(struct device *dev, struct rtc_time *t)
- 	if (!pm_trace_rtc_valid())
- 		return -EIO;
- 
--	mc146818_get_time(t);
-+	ret = mc146818_get_time(t);
-+	if (ret < 0) {
-+		dev_err_ratelimited(dev, "unable to read current time\n");
-+		return ret;
-+	}
-+
- 	return 0;
- }
- 
-diff --git a/drivers/rtc/rtc-mc146818-lib.c b/drivers/rtc/rtc-mc146818-lib.c
-index c186c8c4982b..ccd974b8a75a 100644
---- a/drivers/rtc/rtc-mc146818-lib.c
-+++ b/drivers/rtc/rtc-mc146818-lib.c
-@@ -24,7 +24,7 @@ unsigned int mc146818_get_time(struct rtc_time *time)
- 	/* Ensure that the RTC is accessible. Bit 6 must be 0! */
- 	if (WARN_ON_ONCE((CMOS_READ(RTC_VALID) & 0x40) != 0)) {
- 		spin_unlock_irqrestore(&rtc_lock, flags);
--		memset(time, 0xff, sizeof(*time));
-+		memset(time, 0, sizeof(*time));
- 		return -EIO;
- 	}
- 
--- 
-2.25.1
-
+Sra. Martina Francis.
