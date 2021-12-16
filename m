@@ -2,177 +2,185 @@ Return-Path: <linux-alpha-owner@vger.kernel.org>
 X-Original-To: lists+linux-alpha@lfdr.de
 Delivered-To: lists+linux-alpha@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 131FA475F9A
-	for <lists+linux-alpha@lfdr.de>; Wed, 15 Dec 2021 18:45:45 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 351A0477B27
+	for <lists+linux-alpha@lfdr.de>; Thu, 16 Dec 2021 18:58:06 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235588AbhLORpo (ORCPT <rfc822;lists+linux-alpha@lfdr.de>);
-        Wed, 15 Dec 2021 12:45:44 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40878 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S235513AbhLORpn (ORCPT
+        id S240329AbhLPR6F (ORCPT <rfc822;lists+linux-alpha@lfdr.de>);
+        Thu, 16 Dec 2021 12:58:05 -0500
+Received: from mailout1.hostsharing.net ([83.223.95.204]:54179 "EHLO
+        mailout1.hostsharing.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S233248AbhLPR6D (ORCPT
         <rfc822;linux-alpha@vger.kernel.org>);
-        Wed, 15 Dec 2021 12:45:43 -0500
-Received: from mail-pj1-x102a.google.com (mail-pj1-x102a.google.com [IPv6:2607:f8b0:4864:20::102a])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id EA136C061574;
-        Wed, 15 Dec 2021 09:45:42 -0800 (PST)
-Received: by mail-pj1-x102a.google.com with SMTP id n15-20020a17090a160f00b001a75089daa3so21092777pja.1;
-        Wed, 15 Dec 2021 09:45:42 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=RLdWdHoT6O3wLXgWsRx2m2m62hSjV0BcJXlTjn5JUFY=;
-        b=fVGVY8wqrxR8Y9FDXFtr4SE6iyR8BVVbZ5vgJ4y8dkqTnryOyAM1f7oIOnezuj4A6J
-         xZUPr4yWMlNLYsHQ1fallxSJg8aU00+SwAnq0ijeJb6rpCasKd3VYye0HMu7Rz4Fmzli
-         VTY7ooY+g0kHA+TAUoyyLgzX0mSn9ha1KmFllLdg51BzQBC+Mgmo9+XdPBjphX6Y4e34
-         aHA3UHFWRC7Btex9u1tZiEFoYFee/G/WGm4rYd3nNUPqV0MpixQGc6Vx0PruHv6wejmQ
-         Ow0n2j4fyu9ba9vCZKTh9cTJvx1bERx0Yn7rh5DuRA2QxMZuAeUzJXU06wIQ9Mevfcss
-         WI7w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=RLdWdHoT6O3wLXgWsRx2m2m62hSjV0BcJXlTjn5JUFY=;
-        b=sXa4PcQUXBKlR2VROcfOlrvxsOIi4XVb+mljr5YNYnVds/2Me+M5DI44i8rGe9Rcnk
-         UY8yugizTuUUUgzZfMVuh3URcNtM660AB1Gkd67ZcxQTgY24kDF9abv/x9fBJqAeEReX
-         7Zhgo7ET0YVC0GzDKs17CDVjYYvF160fhZSSG+SILcsHJRVm1vPoqWcO6rSfwCUaY+lV
-         PlbbsWM06gUdehVGBC4896CjSbgZKstoR0VClDQoo6UyaLnWd9E9cshdwORHG/jN/RdJ
-         xaV+ctip9qT+NOtVFAFVnv0azE6qDGv3C/xyePJvckwSI/ZKrDcygb4xLSWyNvJ6P6b4
-         7aPQ==
-X-Gm-Message-State: AOAM531bZh5ia5V0qOR9CYeeK4bH6cqyS2+9ClJCKIRMj41tZ4/JaYmR
-        GzI4SXUAq703SpgzI+2TkhJHRYocxravu9zYHsQ=
-X-Google-Smtp-Source: ABdhPJxIcVzS1V95pBlMUcYP2k7Lrcyzl/rBNhnf3pbvrkTovj6aQvXpyQPCUffP2FcbLTl6T7AIgJQIhLFRrE2qAuQ=
-X-Received: by 2002:a17:90a:4a06:: with SMTP id e6mr968675pjh.228.1639590342342;
- Wed, 15 Dec 2021 09:45:42 -0800 (PST)
-MIME-Version: 1.0
-References: <20211128035704.270739-1-yury.norov@gmail.com> <20211128035704.270739-3-yury.norov@gmail.com>
- <YaPGDOvBzhiRFcOP@qmqm.qmqm.pl> <CAAH8bW9-dbENFUrwPUQ-uJVVX_s=PWb2zpAJ8BqkV3vJE696mA@mail.gmail.com>
- <0ccb827de1164b2989d652bfb6f1bbab@AcuMS.aculab.com>
-In-Reply-To: <0ccb827de1164b2989d652bfb6f1bbab@AcuMS.aculab.com>
-From:   Yury Norov <yury.norov@gmail.com>
-Date:   Wed, 15 Dec 2021 09:45:30 -0800
-Message-ID: <CAAH8bW-u5AsFTXUOJPRkF-6dk1LcL7PE0Tm+dUc9Ctb6JMy=tg@mail.gmail.com>
-Subject: Re: [PATCH 2/9] lib/bitmap: implement bitmap_{empty,full} with bitmap_weight_eq()
-To:     David Laight <David.Laight@aculab.com>
-Cc:     =?UTF-8?B?TWljaGHFgiBNaXJvc8WCYXc=?= <mirq-linux@rere.qmqm.pl>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-        "James E.J. Bottomley" <jejb@linux.ibm.com>,
-        "Martin K. Petersen" <martin.petersen@oracle.com>,
-        "Paul E. McKenney" <paulmck@kernel.org>,
-        "Rafael J. Wysocki" <rafael@kernel.org>,
-        Alexander Shishkin <alexander.shishkin@linux.intel.com>,
-        Alexey Klimov <aklimov@redhat.com>,
-        Amitkumar Karwar <amitkarwar@gmail.com>,
-        Andi Kleen <ak@linux.intel.com>, Andrew Lunn <andrew@lunn.ch>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Andy Gross <agross@kernel.org>,
-        Andy Lutomirski <luto@kernel.org>,
-        Andy Shevchenko <andy@infradead.org>,
-        Anup Patel <anup.patel@wdc.com>,
-        Ard Biesheuvel <ardb@kernel.org>,
-        Arnaldo Carvalho de Melo <acme@kernel.org>,
-        Arnd Bergmann <arnd@arndb.de>, Borislav Petkov <bp@alien8.de>,
-        Catalin Marinas <catalin.marinas@arm.com>,
-        Christoph Hellwig <hch@lst.de>,
-        Christoph Lameter <cl@linux.com>,
-        Daniel Vetter <daniel@ffwll.ch>,
-        Dave Hansen <dave.hansen@linux.intel.com>,
-        David Airlie <airlied@linux.ie>,
-        Dennis Zhou <dennis@kernel.org>,
-        Dinh Nguyen <dinguyen@kernel.org>,
-        Geetha sowjanya <gakula@marvell.com>,
-        Geert Uytterhoeven <geert@linux-m68k.org>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Guo Ren <guoren@kernel.org>,
-        Hans de Goede <hdegoede@redhat.com>,
-        Heiko Carstens <hca@linux.ibm.com>,
-        Ian Rogers <irogers@google.com>,
-        Ingo Molnar <mingo@redhat.com>,
-        Jakub Kicinski <kuba@kernel.org>,
-        Jason Wessel <jason.wessel@windriver.com>,
-        Jens Axboe <axboe@fb.com>, Jiri Olsa <jolsa@redhat.com>,
-        Jonathan Cameron <jic23@kernel.org>,
-        Juri Lelli <juri.lelli@redhat.com>,
-        Kalle Valo <kvalo@codeaurora.org>,
-        Kees Cook <keescook@chromium.org>,
-        Krzysztof Kozlowski <krzysztof.kozlowski@canonical.com>,
-        Lee Jones <lee.jones@linaro.org>,
-        Marc Zyngier <maz@kernel.org>, Marcin Wojtas <mw@semihalf.com>,
-        Mark Gross <markgross@kernel.org>,
-        Mark Rutland <mark.rutland@arm.com>,
-        Matti Vaittinen <mazziesaccount@gmail.com>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Mel Gorman <mgorman@suse.de>,
-        Michael Ellerman <mpe@ellerman.id.au>,
-        Mike Marciniszyn <mike.marciniszyn@cornelisnetworks.com>,
-        Nicholas Piggin <npiggin@gmail.com>,
-        Palmer Dabbelt <palmer@dabbelt.com>,
-        Peter Zijlstra <peterz@infradead.org>,
-        Petr Mladek <pmladek@suse.com>,
-        Randy Dunlap <rdunlap@infradead.org>,
-        Rasmus Villemoes <linux@rasmusvillemoes.dk>,
-        Roy Pledge <Roy.Pledge@nxp.com>,
-        Russell King <linux@armlinux.org.uk>,
-        Saeed Mahameed <saeedm@nvidia.com>,
-        Sagi Grimberg <sagi@grimberg.me>,
-        Sergey Senozhatsky <senozhatsky@chromium.org>,
-        Solomon Peachy <pizza@shaftnet.org>,
-        Stephen Boyd <sboyd@kernel.org>,
-        Stephen Rothwell <sfr@canb.auug.org.au>,
-        Steven Rostedt <rostedt@goodmis.org>,
-        Subbaraya Sundeep <sbhatta@marvell.com>,
-        Sudeep Holla <sudeep.holla@arm.com>,
-        Sunil Goutham <sgoutham@marvell.com>,
-        Tariq Toukan <tariqt@nvidia.com>, Tejun Heo <tj@kernel.org>,
-        Thomas Bogendoerfer <tsbogend@alpha.franken.de>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Ulf Hansson <ulf.hansson@linaro.org>,
-        Vincent Guittot <vincent.guittot@linaro.org>,
-        Vineet Gupta <vgupta@kernel.org>,
-        Viresh Kumar <viresh.kumar@linaro.org>,
-        Vivien Didelot <vivien.didelot@gmail.com>,
-        Vlastimil Babka <vbabka@suse.cz>,
-        Will Deacon <will@kernel.org>,
-        "bcm-kernel-feedback-list@broadcom.com" 
-        <bcm-kernel-feedback-list@broadcom.com>,
-        "kvm@vger.kernel.org" <kvm@vger.kernel.org>,
-        "linux-alpha@vger.kernel.org" <linux-alpha@vger.kernel.org>,
-        "linux-arm-kernel@lists.infradead.org" 
-        <linux-arm-kernel@lists.infradead.org>,
-        "linux-crypto@vger.kernel.org" <linux-crypto@vger.kernel.org>,
-        "linux-csky@vger.kernel.org" <linux-csky@vger.kernel.org>,
-        "linux-ia64@vger.kernel.org" <linux-ia64@vger.kernel.org>,
-        "linux-mips@vger.kernel.org" <linux-mips@vger.kernel.org>,
-        "linux-mm@kvack.org" <linux-mm@kvack.org>,
-        "linux-perf-users@vger.kernel.org" <linux-perf-users@vger.kernel.org>,
-        "linux-riscv@lists.infradead.org" <linux-riscv@lists.infradead.org>,
-        "linux-s390@vger.kernel.org" <linux-s390@vger.kernel.org>,
-        "linux-snps-arc@lists.infradead.org" 
-        <linux-snps-arc@lists.infradead.org>,
-        "linuxppc-dev@lists.ozlabs.org" <linuxppc-dev@lists.ozlabs.org>
-Content-Type: text/plain; charset="UTF-8"
+        Thu, 16 Dec 2021 12:58:03 -0500
+X-Greylist: delayed 343 seconds by postgrey-1.27 at vger.kernel.org; Thu, 16 Dec 2021 12:58:02 EST
+Received: from h08.hostsharing.net (h08.hostsharing.net [IPv6:2a01:37:1000::53df:5f1c:0])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (Client CN "*.hostsharing.net", Issuer "RapidSSL TLS DV RSA Mixed SHA256 2020 CA-1" (verified OK))
+        by mailout1.hostsharing.net (Postfix) with ESMTPS id EF87810193E7B;
+        Thu, 16 Dec 2021 18:52:17 +0100 (CET)
+Received: from localhost (unknown [89.246.108.87])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+         key-exchange ECDHE (P-256) server-signature RSA-PSS (4096 bits) server-digest SHA256)
+        (No client certificate requested)
+        by h08.hostsharing.net (Postfix) with ESMTPSA id C501F606FAEC;
+        Thu, 16 Dec 2021 18:52:17 +0100 (CET)
+X-Mailbox-Line: From af967f273724aff4cff3c49470110a48f790794e Mon Sep 17 00:00:00 2001
+Message-Id: <af967f273724aff4cff3c49470110a48f790794e.1639676574.git.lukas@wunner.de>
+From:   Lukas Wunner <lukas@wunner.de>
+Date:   Thu, 16 Dec 2021 18:52:00 +0100
+Subject: [PATCH] serial: 8250: Move alpha-specific quirk out of the core
+To:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Jiri Slaby <jirislaby@kernel.org>
+Cc:     linux-serial@vger.kernel.org,
+        Russell King <rmk+kernel@armlinux.org.uk>,
+        Ulrich Teichert <krypton@ulrich-teichert.org>,
+        Linus Torvalds <torvalds@linux-foundation.org>,
+        Richard Henderson <rth@twiddle.net>,
+        Ivan Kokshaysky <ink@jurassic.park.msu.ru>,
+        Matt Turner <mattst88@gmail.com>, linux-alpha@vger.kernel.org,
+        Lino Sanfilippo <LinoSanfilippo@gmx.de>,
+        Philipp Rosenberger <p.rosenberger@kunbus.com>
 Precedence: bulk
 List-ID: <linux-alpha.vger.kernel.org>
 X-Mailing-List: linux-alpha@vger.kernel.org
 
-On Wed, Dec 15, 2021 at 12:41 AM David Laight <David.Laight@aculab.com> wrote:
->
-> From: Yury Norov
-> > Sent: 14 December 2021 19:43
-> ...
-> >
-> > I think that for long bitmaps the most time consuming operation is moving
-> > data to L1, and for short bitmaps the difference between approaches is
-> > barely measurable.
-> >
-> > But hweght_long on each iteration can't be more effective than the current
-> > version. So, I'll drop this patch for v2 and keep things unchanged.
->
-> Actually do bitmap_full/empty() calls make any sense at all?
-> The result is stale since bitmaps are designed to do locked operations.
-> If you have a lock covering the bitmap then you should be using
-> something that uses non-locked accesses.
-> Rightly or wrongly that isn't the bitmap api.
+struct uart_8250_port contains mcr_mask and mcr_force members whose
+sole purpose is to work around an alpha-specific quirk.  This code
+doesn't belong in the core where it is executed by everyone else,
+so move it to a proper ->set_mctrl callback which is used on alpha only.
 
-Are you talking about __{set,clear}_bit()?
-include/asm-generic/bitops/non-atomic.h
+The alpha-specific quirk was introduced in January 1995:
+https://git.kernel.org/pub/scm/linux/kernel/git/history/history.git/diff/drivers/char/serial.c?h=1.1.83
+
+The members in struct uart_8250_port were added in 2002:
+https://git.kernel.org/history/history/c/4524aad27854
+
+The quirk applies to non-PCI alphas and arch/alpha/Kconfig specifies
+"select FORCE_PCI if !ALPHA_JENSEN".  So apparently the only affected
+machine is the EISA-based Jensen that Linus was working on back then:
+https://lore.kernel.org/all/CAHk-=wj1JWZ3sCrGz16nxEj7=0O+srMg6Ah3iPTDXSPKEws_SA@mail.gmail.com/
+
+Up until now the quirk is not applied unless CONFIG_PCI is disabled.
+If users forget to do that, the serial ports aren't usable on Jensen
+and the machine may not boot in the first place.  Avoid by confining
+the quirk to CONFIG_ALPHA_JENSEN instead.
+
+Signed-off-by: Lukas Wunner <lukas@wunner.de>
+Cc: Russell King <rmk+kernel@armlinux.org.uk>
+Cc: Ulrich Teichert <krypton@ulrich-teichert.org>
+Cc: Linus Torvalds <torvalds@linux-foundation.org>
+---
+Compile-tested only.
+
+ drivers/tty/serial/8250/8250.h       | 11 +----------
+ drivers/tty/serial/8250/8250_alpha.c | 15 +++++++++++++++
+ drivers/tty/serial/8250/8250_core.c  |  8 +++-----
+ drivers/tty/serial/8250/8250_port.c  |  2 +-
+ drivers/tty/serial/8250/Makefile     |  1 +
+ include/linux/serial_8250.h          |  2 --
+ 6 files changed, 21 insertions(+), 18 deletions(-)
+ create mode 100644 drivers/tty/serial/8250/8250_alpha.c
+
+diff --git a/drivers/tty/serial/8250/8250.h b/drivers/tty/serial/8250/8250.h
+index 6473361525d1..ec5f9f4da6d3 100644
+--- a/drivers/tty/serial/8250/8250.h
++++ b/drivers/tty/serial/8250/8250.h
+@@ -241,16 +241,7 @@ static inline int serial8250_in_MCR(struct uart_8250_port *up)
+ 	return mctrl;
+ }
+ 
+-#if defined(__alpha__) && !defined(CONFIG_PCI)
+-/*
+- * Digital did something really horribly wrong with the OUT1 and OUT2
+- * lines on at least some ALPHA's.  The failure mode is that if either
+- * is cleared, the machine locks up with endless interrupts.
+- */
+-#define ALPHA_KLUDGE_MCR  (UART_MCR_OUT2 | UART_MCR_OUT1)
+-#else
+-#define ALPHA_KLUDGE_MCR 0
+-#endif
++void alpha_8250_set_mctrl(struct uart_port *port, unsigned int mctrl);
+ 
+ #ifdef CONFIG_SERIAL_8250_PNP
+ int serial8250_pnp_init(void);
+diff --git a/drivers/tty/serial/8250/8250_alpha.c b/drivers/tty/serial/8250/8250_alpha.c
+new file mode 100644
+index 000000000000..c87a5a6e0ee1
+--- /dev/null
++++ b/drivers/tty/serial/8250/8250_alpha.c
+@@ -0,0 +1,15 @@
++// SPDX-License-Identifier: GPL-2.0+
++
++#include <linux/serial_8250.h>
++
++void alpha_8250_set_mctrl(struct uart_port *port, unsigned int mctrl)
++{
++	/*
++	 * Digital did something really horribly wrong with the OUT1 and OUT2
++	 * lines on Alpha Jensen.  The failure mode is that if either is
++	 * cleared, the machine locks up with endless interrupts.
++	 */
++	mctrl |= TIOCM_OUT1 | TIOCM_OUT2;
++
++	serial8250_do_set_mctrl(port, mctrl);
++}
+diff --git a/drivers/tty/serial/8250/8250_core.c b/drivers/tty/serial/8250/8250_core.c
+index 1ce193daea7f..92f92ac7c2be 100644
+--- a/drivers/tty/serial/8250/8250_core.c
++++ b/drivers/tty/serial/8250/8250_core.c
+@@ -509,11 +509,9 @@ static void __init serial8250_isa_init_ports(void)
+ 
+ 		up->ops = &univ8250_driver_ops;
+ 
+-		/*
+-		 * ALPHA_KLUDGE_MCR needs to be killed.
+-		 */
+-		up->mcr_mask = ~ALPHA_KLUDGE_MCR;
+-		up->mcr_force = ALPHA_KLUDGE_MCR;
++		if (IS_ENABLED(CONFIG_ALPHA_JENSEN))
++			port->set_mctrl = alpha_8250_set_mctrl;
++
+ 		serial8250_set_defaults(up);
+ 	}
+ 
+diff --git a/drivers/tty/serial/8250/8250_port.c b/drivers/tty/serial/8250/8250_port.c
+index 5d9a0e9f75d4..3b12bfc1ed67 100644
+--- a/drivers/tty/serial/8250/8250_port.c
++++ b/drivers/tty/serial/8250/8250_port.c
+@@ -2026,7 +2026,7 @@ void serial8250_do_set_mctrl(struct uart_port *port, unsigned int mctrl)
+ 
+ 	mcr = serial8250_TIOCM_to_MCR(mctrl);
+ 
+-	mcr = (mcr & up->mcr_mask) | up->mcr_force | up->mcr;
++	mcr |= up->mcr;
+ 
+ 	serial8250_out_MCR(up, mcr);
+ }
+diff --git a/drivers/tty/serial/8250/Makefile b/drivers/tty/serial/8250/Makefile
+index b9bcd73c8997..043beae6f71b 100644
+--- a/drivers/tty/serial/8250/Makefile
++++ b/drivers/tty/serial/8250/Makefile
+@@ -5,6 +5,7 @@
+ 
+ obj-$(CONFIG_SERIAL_8250)		+= 8250.o 8250_base.o
+ 8250-y					:= 8250_core.o
++8250-$(CONFIG_ALPHA_JENSEN)		+= 8250_alpha.o
+ 8250-$(CONFIG_SERIAL_8250_PNP)		+= 8250_pnp.o
+ 8250_base-y				:= 8250_port.o
+ 8250_base-$(CONFIG_SERIAL_8250_DMA)	+= 8250_dma.o
+diff --git a/include/linux/serial_8250.h b/include/linux/serial_8250.h
+index 5db211f43b29..ff84a3ed10ea 100644
+--- a/include/linux/serial_8250.h
++++ b/include/linux/serial_8250.h
+@@ -104,8 +104,6 @@ struct uart_8250_port {
+ 	unsigned char		ier;
+ 	unsigned char		lcr;
+ 	unsigned char		mcr;
+-	unsigned char		mcr_mask;	/* mask of user bits */
+-	unsigned char		mcr_force;	/* mask of forced bits */
+ 	unsigned char		cur_iotype;	/* Running I/O type */
+ 	unsigned int		rpm_tx_active;
+ 	unsigned char		canary;		/* non-zero during system sleep
+-- 
+2.33.0
+
