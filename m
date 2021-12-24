@@ -2,121 +2,115 @@ Return-Path: <linux-alpha-owner@vger.kernel.org>
 X-Original-To: lists+linux-alpha@lfdr.de
 Delivered-To: lists+linux-alpha@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 1FB0747D3CC
-	for <lists+linux-alpha@lfdr.de>; Wed, 22 Dec 2021 15:36:19 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 8C25247EE27
+	for <lists+linux-alpha@lfdr.de>; Fri, 24 Dec 2021 11:04:13 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S241411AbhLVOgS (ORCPT <rfc822;lists+linux-alpha@lfdr.de>);
-        Wed, 22 Dec 2021 09:36:18 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35676 "EHLO
+        id S1343862AbhLXKEM (ORCPT <rfc822;lists+linux-alpha@lfdr.de>);
+        Fri, 24 Dec 2021 05:04:12 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50858 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S238818AbhLVOgQ (ORCPT
+        with ESMTP id S1344173AbhLXKEM (ORCPT
         <rfc822;linux-alpha@vger.kernel.org>);
-        Wed, 22 Dec 2021 09:36:16 -0500
-Received: from mail-wr1-x42b.google.com (mail-wr1-x42b.google.com [IPv6:2a00:1450:4864:20::42b])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C4B42C061574;
-        Wed, 22 Dec 2021 06:36:15 -0800 (PST)
-Received: by mail-wr1-x42b.google.com with SMTP id q16so5333254wrg.7;
-        Wed, 22 Dec 2021 06:36:15 -0800 (PST)
+        Fri, 24 Dec 2021 05:04:12 -0500
+Received: from mail-qv1-xf41.google.com (mail-qv1-xf41.google.com [IPv6:2607:f8b0:4864:20::f41])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C7153C061401
+        for <linux-alpha@vger.kernel.org>; Fri, 24 Dec 2021 02:04:11 -0800 (PST)
+Received: by mail-qv1-xf41.google.com with SMTP id kd9so7405522qvb.11
+        for <linux-alpha@vger.kernel.org>; Fri, 24 Dec 2021 02:04:11 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
-        h=message-id:date:mime-version:user-agent:to:content-language:cc:from
-         :subject:content-transfer-encoding;
-        bh=+3GdlkNFtphXM9+jbZr28VK+BqW1pmexR4dHqpidTUM=;
-        b=m70JsyAC9ag04xzSZntp0nBHg3911N/bjISqCtGKsT444xZcRQ4lbpqPu8ZytwS9YW
-         SXgb0qpl/Lqm5dFHbzAgkXJA7a1EbPmAYcurBp99MDMYnn2m2Z2PcIjQ3ZCas+UUMvKW
-         bNi00Hcx24w1/03P482Y8np9mI8vR/k6YOvdVB7H/vKkpg8ebDN7PTFW95fq6TVGEYQm
-         qb2eRBxdlRl+oxcnhRdYjxJoLIBFQMFtI32sHF4rb9nlikFTJAAZN6iX2uF3IiFbY4p+
-         ftUIY6UiBT3HMkaX0EiWFjGzEUQD/5rjPbw7FVPjZTOK0Bjc5zbLz3oxHGE1vk+hyq72
-         mbLA==
+        h=mime-version:reply-to:from:date:message-id:subject:to;
+        bh=DA2RfWm5BfTc8dY4tRUxJejPvziWb2AgHmDwtjqgqi8=;
+        b=gScxtfqH6c78Q4N5aim4SGVPndARoBnRgtaMh1uQa8doG/LojmWK7PCzxFu9pzPW6G
+         3VTrQHF8s1W6DrX8qtNa5H3Ttw45rIiV42BSYLtMOjUDF7Tu9Biv4VS7pfNwBvIBVQD/
+         j3nnMREO/3N6Wled3zZ+flL3ceT7yX0BxNZcOj0VDYJycHRL2loL69Q97DnNnYDk/cdX
+         EuFotz42xDOrmAQZLMmumlr2mTfKEqLoPMr9m2NI7wUPmcLBhGsFKqGYE5pmUrineAxQ
+         ffnrfCFJ0ok+auc8puZKHtAh1UhbReMW/45jNtV46JNfYBU2aXTVHLg4/E1IYsJ5vgaT
+         x9Ag==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:message-id:date:mime-version:user-agent:to
-         :content-language:cc:from:subject:content-transfer-encoding;
-        bh=+3GdlkNFtphXM9+jbZr28VK+BqW1pmexR4dHqpidTUM=;
-        b=iU626B1iOaX0XUs232pPwn/8IlMTw6T5/R6J6DRlyxqFA6+ldSXdiI4DnxFV9U4dmL
-         QQyEHFkhYYePb/X1fqR1Naqe8BUIUHD5N6B/LbtGnveNcTMmU2wG3/22GFxJRrhIDeZ9
-         4ES17P4MUucFf6Dd4Fb+HUG0ykAmoRcK6xsWdcOZ/6K2+I7VPLiBSdOE4ubz5cOoUXCh
-         I3VUhCXkMzHDNRdrMc//uCI3NzJMns/RilTVc6yhqlDjn1lVr2FI7KWxiVTlk9BSoVQ+
-         aZswh2hDGGdJYs0HSobRyWcdJr54Qk4S+xz9CrVuM7hBQ6d8N5YaxhX72TmEoheymqBM
-         aLjA==
-X-Gm-Message-State: AOAM533xgpkqwwNk//QoQcNkHMw5tb+8SFDeib7bdTXBFhBlx0zS60wx
-        vINBd87f1sRtIpUvWNcxo0+RsYbZ9W8odUbWtkSlnA==
-X-Google-Smtp-Source: ABdhPJxACWzuou6187/C4WEJ5RESpXHpUy8LrxX+RXk3w/0SvBTHoVE46hocSH6yPsgYW1k61x+0Yw==
-X-Received: by 2002:a5d:6d41:: with SMTP id k1mr2308112wri.134.1640183774131;
-        Wed, 22 Dec 2021 06:36:14 -0800 (PST)
-Received: from [192.168.0.210] (cpc154979-craw9-2-0-cust193.16-3.cable.virginm.net. [80.193.200.194])
-        by smtp.googlemail.com with ESMTPSA id n7sm2080941wms.45.2021.12.22.06.36.12
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 22 Dec 2021 06:36:13 -0800 (PST)
-Message-ID: <f26b1e6f-f3fc-191b-e613-c0b5748e26ef@gmail.com>
-Date:   Wed, 22 Dec 2021 14:36:12 +0000
+        h=x-gm-message-state:mime-version:reply-to:from:date:message-id
+         :subject:to;
+        bh=DA2RfWm5BfTc8dY4tRUxJejPvziWb2AgHmDwtjqgqi8=;
+        b=Ghoi+km3NrVonWxkT5Siu9lg7qohLFrszvocJ3xk0EpPcFAFUPvplz2so8EiZcaNyR
+         24/q3E1Nh9Y2H+f13eXzJRGWilWduwAqKxU+OQrSLbmiF+UiVZqCkJ/eHjJx5ikJXpHT
+         XJ//w4PvEodiTR4b+ey2Gtu0ZqPxD9ca8f5K/AFUpTgFCOJFH9SpZlYaUOgfTZ8kFibg
+         KSxPwRMzqyoKPxr4vE2fDFavrWru6WUzY/UxbaPDt+37keW00T11efgvuSP0ihjevhQq
+         +TsU33rEMd4IEgtyZWA6HkizgtG8PB7Vbgu1ZdvFyro/v3u5emR6LjC8nD0OiKTD71eg
+         jxEw==
+X-Gm-Message-State: AOAM532mijIdHvf8HT5l7UvIp06EJRJXyyFWe5uUJPLiRDu67Sq9jBFf
+        PkTQ1zu4jHBISy90v/GVbgtIw5QHJJgdZVpJAKk=
+X-Google-Smtp-Source: ABdhPJyGmQcwiD2+lu0RDGdzvVqTgJZL/8LLyLR8G2vxO7jt0hMEMBfTiDfBqtWjygy1P5wk52+MvkZY4rTwJYeTzIA=
+X-Received: by 2002:a05:6214:410c:: with SMTP id kc12mr5058370qvb.53.1640340250990;
+ Fri, 24 Dec 2021 02:04:10 -0800 (PST)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.3.0
-To:     linux-alpha@vger.kernel.org
-Content-Language: en-US
-Cc:     Richard Henderson <rth@twiddle.net>,
-        Ivan Kokshaysky <ink@jurassic.park.msu.ru>,
-        Matt Turner <mattst88@gmail.com>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>
-From:   "Colin King (gmail)" <colin.i.king@gmail.com>
-Subject: kernel oops when reading /proc/bus/pci/00/01.00 with odd size and odd
- alignment
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Received: by 2002:ad4:5c62:0:0:0:0:0 with HTTP; Fri, 24 Dec 2021 02:04:09
+ -0800 (PST)
+Reply-To: williamsreneta2019@gmail.com
+From:   MISS WILLIAMS <info.turvateealfastar@gmail.com>
+Date:   Fri, 24 Dec 2021 02:04:09 -0800
+Message-ID: <CAM-qQYbQHiYdieNOZ=QO7-13usR6e6ADGni4noFLTKN1oh-dDQ@mail.gmail.com>
+Subject: Greetings Dearest One,
+To:     undisclosed-recipients:;
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-alpha.vger.kernel.org>
 X-Mailing-List: linux-alpha@vger.kernel.org
 
-Hi,
+Greetings Dearest One,
 
-While testing the Alpha kernel with stress-ng procfs test I found that 
-misaligned odd reads cause an oops. I was able to figure out a simple 
-reproducer as follows:
+How are you today, together with your family?Hope fine.I would like to
+use this opportunity to introduce myself to you. I am Miss Reneta
+Williams, From Benin Republic, West Africa. And my late parents are
+Mr. and Mrs. Dikko Williams; my father was a highly reputable business
+magnet who operated in Benin Republic during his days.
 
-dd seek=1 if=/proc/bus/pci/00/01.0 of=/dev/zero bs=5
+I am writing this mail to you with tears and sorrow from my heart.
+With due respect trust and humanity, I know this mail will come to you
+as a surprise since we haven't known or come across each other before,
+considering the fact that I sourced your email contact through the
+Internet in search of trusted person who can be trusted and will
+assist me.
 
+It is sad to say that he passed away mysteriously in France during one
+of his business trips abroad. Though his sudden death was linked or
+rather suspected to have been masterminded by an uncle of his who
+traveled with him at that time. But God knows the truth! My mother
+died when I was just 6yrs old, and since then my father took me so
+special.
 
-[ 2013.722601] Unable to handle kernel paging request at virtual address 
-0000000000000004
-[ 2013.722601] dd(1195): Oops -1
-[ 2013.722601] pc = [<0000000000000004>]  ra = [<fffffc00014fd634>]  ps 
-= 0000    Tainted: G      D     E
-[ 2013.722601] pc is at 0x4
-[ 2013.722601] ra is at proc_bus_pci_read+0x244/0x3d0
-[ 2013.722601] v0 = 0000000000000000  t0 = 0000000009080000  t1 = 
-0000000000000000
-[ 2013.722601] t2 = 0000000009080000  t3 = 0000000000000000  t4 = 
-fffffc0006c43f08
-[ 2013.722601] t5 = 0000000000000011  t6 = 0000000000000012  t7 = 
-fffffc0006c40000
-[ 2013.722601] s0 = fffffc0000967000  s1 = 0000000000000005  s2 = 
-000000012002a005
-[ 2013.722601] s3 = 000000012002a001  s4 = 0000000000000010  s5 = 
-0000000000000000
-[ 2013.722601] s6 = ffffffffdffd600f
-[ 2013.722601] a0 = 0000000000000000  a1 = fffffd01fe000810  a2 = 
-0000000000000010
-[ 2013.722601] a3 = 0000000000000004  a4 = fffffc0006c43dd8  a5 = 
-fffffc0003c05dd8
-[ 2013.722601] t8 = 0000000000000001  t9 = 0000000000000001  t10= 
-000000012002e058
-[ 2013.722601] t11= 000000012002e058  pv = fffffc0001023650  at = 
-0000000010a8b186
-[ 2013.726508] gp = fffffc00025197f8  sp = 00000000d1f90b3a
-[ 2013.726508] Trace:
-[ 2013.726508] [<fffffc00012d39e8>] proc_reg_read+0xc8/0x140
-[ 2013.727484] [<fffffc000120ed58>] vfs_read+0xd8/0x220
-[ 2013.727484] [<fffffc000120ed14>] vfs_read+0x94/0x220
-[ 2013.727484] [<fffffc00010110ec>] entMM+0x9c/0xc0
-[ 2013.727484] [<fffffc000120f274>] ksys_read+0x84/0x130
-[ 2013.728461] [<fffffc000101149c>] entSys+0xac/0xc0
+Before his death, he called me and informed me that he has the sum of
+Eighteen Million Five Hundred , United State Dollar
+(USD$18.500,000.00) left in fixed deposit account in one of the
+leading banks in Africa. He further told me that he deposited the
+money in my name, and also gave me all the necessary but legal
+documents to this fund with the bank.
 
-[ 2013.728461] Code:
-[ 2013.728461]  00000000
-[ 2013.728461]  00063301
-[ 2013.728461]  000012c8
-[ 2013.729437]  00001111
-[ 2013.729437]  0003fac6
+I am 21 years old and a university undergraduate and really don't know
+what to do. Now I want an account overseas where I can transfer this
+funds and after the transaction I will come and reside permanently in
+your country till such a time that it will be convenient for me to
+return back home if I so desire.
 
-Colin
+The death of my father actually brought sorrow to my life. I also want
+to invest the fund under your care because I am ignorant of business
+world. I am in a sincere desire of your humble assistance in this
+regards. Your suggestions and ideas will be highly regarded.
+
+Now permit me to ask these few questions:
+
+1. Can you honestly help me from your heart?
+
+2. Can I completely trust you?
+
+3. What percentage of the total amount in question will be good for
+you after the money is in your account?
+
+Please, consider this and get back to me as soon as
+possible.Immediately and confirm your willingness on this my
+email(williamsreneta2019@gmail.com), here is one of my Picture and
+also i will inform you more details involved in this matter.
+
+Regards,
+
+Miss Reneta Williams.
