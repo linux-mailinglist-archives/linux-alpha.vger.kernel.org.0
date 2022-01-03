@@ -2,123 +2,91 @@ Return-Path: <linux-alpha-owner@vger.kernel.org>
 X-Original-To: lists+linux-alpha@lfdr.de
 Delivered-To: lists+linux-alpha@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 098CC482C9B
-	for <lists+linux-alpha@lfdr.de>; Sun,  2 Jan 2022 20:48:20 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id A6F86482D7D
+	for <lists+linux-alpha@lfdr.de>; Mon,  3 Jan 2022 02:52:01 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229457AbiABTsS (ORCPT <rfc822;lists+linux-alpha@lfdr.de>);
-        Sun, 2 Jan 2022 14:48:18 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50240 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229450AbiABTsS (ORCPT
-        <rfc822;linux-alpha@vger.kernel.org>); Sun, 2 Jan 2022 14:48:18 -0500
-Received: from wp441.webpack.hosteurope.de (wp441.webpack.hosteurope.de [IPv6:2a01:488:42:1000:50ed:85d2::])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 266B5C061761
-        for <linux-alpha@vger.kernel.org>; Sun,  2 Jan 2022 11:48:18 -0800 (PST)
-Received: from [2a03:7846:b79f:101:21c:c4ff:fe1f:fd93] (helo=valdese.nms.ulrich-teichert.org); authenticated
-        by wp441.webpack.hosteurope.de running ExIM with esmtpsa (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
-        id 1n46px-0005tR-8d; Sun, 02 Jan 2022 20:48:13 +0100
-Received: from valdese.nms.ulrich-teichert.org (localhost [127.0.0.1])
-        by valdese.nms.ulrich-teichert.org (8.15.2/8.15.2/Debian-8+deb9u1) with ESMTPS id 202JmCXI015741
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-        Sun, 2 Jan 2022 20:48:12 +0100
-Received: (from ut@localhost)
-        by valdese.nms.ulrich-teichert.org (8.15.2/8.15.2/Submit) id 202JmC7h015740;
-        Sun, 2 Jan 2022 20:48:12 +0100
-Message-Id: <202201021948.202JmC7h015740@valdese.nms.ulrich-teichert.org>
-Subject: Booting newer kernels on the Jensen...update
-To:     linux-alpha@vger.kernel.org (Linux Alpha)
-Date:   Sun, 2 Jan 2022 20:48:12 +0100 (CET)
-Cc:     lukas@wunner.de (Lukas Wunner),
-        glaubitz@debian.org (John Paul Adrian Glaubitz)
-From:   Ulrich Teichert <krypton@ulrich-teichert.org>
-X-Mailer: ELM [version 2.5 PL8]
+        id S231354AbiACBwA (ORCPT <rfc822;lists+linux-alpha@lfdr.de>);
+        Sun, 2 Jan 2022 20:52:00 -0500
+Received: from mout.kundenserver.de ([212.227.17.10]:57703 "EHLO
+        mout.kundenserver.de" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S230258AbiACBwA (ORCPT
+        <rfc822;linux-alpha@vger.kernel.org>); Sun, 2 Jan 2022 20:52:00 -0500
+Received: from mail-wr1-f50.google.com ([209.85.221.50]) by
+ mrelayeu.kundenserver.de (mreue107 [213.165.67.113]) with ESMTPSA (Nemesis)
+ id 1N2mWA-1mPbuM05mu-0135z1; Mon, 03 Jan 2022 02:51:58 +0100
+Received: by mail-wr1-f50.google.com with SMTP id i22so67102549wrb.13;
+        Sun, 02 Jan 2022 17:51:57 -0800 (PST)
+X-Gm-Message-State: AOAM532nrw7djO3ZVRRYV1wQ1b7GxSKXKb1qxAxyakxjH51WP7AHcbFm
+        +38EarQP/lFRiNDq8esMWmjRhfIKsCZNohTH3G0=
+X-Google-Smtp-Source: ABdhPJy/OLvkrfa3uca/8PNV9jtXkxIYVTA+Y3dckiQQVX+/vieDW+A7SrD0ghnDxY5JGEBk7gaoBrxcct8LDuzNqYM=
+X-Received: by 2002:adf:a352:: with SMTP id d18mr36633279wrb.317.1641174717604;
+ Sun, 02 Jan 2022 17:51:57 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Transfer-Encoding: 7bit
-X-bounce-key: webpack.hosteurope.de;ut@ulrich-teichert.org;1641152898;dece652e;
-X-HE-SMSGID: 1n46px-0005tR-8d
+References: <0b8bacb36e111d2621c2c0459b20b1da9f4375c0.1641137463.git.christophe.jaillet@wanadoo.fr>
+In-Reply-To: <0b8bacb36e111d2621c2c0459b20b1da9f4375c0.1641137463.git.christophe.jaillet@wanadoo.fr>
+From:   Arnd Bergmann <arnd@arndb.de>
+Date:   Sun, 2 Jan 2022 20:51:58 -0500
+X-Gmail-Original-Message-ID: <CAK8P3a2XwFveAd8nSCexZG3_UZga2PQ+EXHxQLGaWkLjCwrBxQ@mail.gmail.com>
+Message-ID: <CAK8P3a2XwFveAd8nSCexZG3_UZga2PQ+EXHxQLGaWkLjCwrBxQ@mail.gmail.com>
+Subject: Re: [PATCH] alpha: Remove usage of the deprecated "pci-dma-compat.h" API
+To:     Christophe JAILLET <christophe.jaillet@wanadoo.fr>
+Cc:     Richard Henderson <rth@twiddle.net>,
+        Ivan Kokshaysky <ink@jurassic.park.msu.ru>,
+        Matt Turner <mattst88@gmail.com>,
+        Logan Gunthorpe <logang@deltatee.com>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Mike Rapoport <rppt@kernel.org>,
+        David Hildenbrand <david@redhat.com>,
+        Arnd Bergmann <arnd@arndb.de>, martin.oliveira@eideticom.com,
+        alpha <linux-alpha@vger.kernel.org>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        kernel-janitors <kernel-janitors@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
+X-Provags-ID: V03:K1:7beYpQjZxJvqVmrlRuG56y5UE/scO4Q13N8XviTEF31wr11Boka
+ cBensjlgCN8p6gJO7tfJQCGANEQ5OeBqRInxkmKLTrFP5DlbODUK7oTQUPcS+8xqt8fewc4
+ 60nN0LfhddQmemkaenXKPhRPrXjoAo4BMMyqdr4QEuJN8dV8b5wUeTpPtKppn0gAKBVuenD
+ 03gLZ5Q/VdAXj5cILkWZQ==
+X-Spam-Flag: NO
+X-UI-Out-Filterresults: notjunk:1;V03:K0:sXdiEJACyZI=:Mr52v0kT3eskIKkZmKQ44V
+ i/A8sDDVa1akWuT5fkYTJjE4xmatJsVB0DvLkQbEkX+vIaCoV6pNDRwkL7EF8srTNyoE4P0La
+ Mn/bOLyDKBfsQ0gqfQeQXPtam8W/n9tW/EigJhMY53c8j9MY8e8ic/gEgZ46ml8tRxYq6+pb+
+ ufdHUlk9qRKWQaKFOZ2dV2m9ndHLRFSi9y4MZYkBPUwDQNAL+UvKfU1wU2Ur5cysXqx6rCI8K
+ StT5tj6nndZKtpY/pcoJM1ObTVl2uJUPDF1K56l3dh/2pamZq6P/J/XqmUHLlYDKr1nL/CY1v
+ V2eMGEQ+W7Tvue7onhdZO49bUsZNtaDM6mmIPLpEApiNHJl2AUwzaTNxHajOC/mheWcN/r2x9
+ zL0Qc3FPx6InJg37rwwqMhLjYyn1Xr6NeDJD56N/3r+NDqO8RClzKO47H0YRoFdi8wpHiMDb5
+ uR05j0eWrKKUPcv9almo+/DcmFEVFpXsZV9Y0yw26wTmNLwfeTxheUzH630DlDHL1Z/oL2k10
+ 7zIJFsLSC3losYz86tZvaQCPoXcu7y6srtXwmx63nfWOM3eE/WBW+2qS2foWLuzlP7en4fvIw
+ sIMl23GowJ7dKtKnYiq2BEqw09bIZYkk1ugdN8yZuxp3hBCQRhUD2usmAQNN1JY7MqO8UFyZQ
+ fuSVjdWoIFM4IUbV9r8gSba+28WIVvndHM6+nF4fc0tOnrFN6aorIYF/99Hru45jJ4xk=
 Precedence: bulk
 List-ID: <linux-alpha.vger.kernel.org>
 X-Mailing-List: linux-alpha@vger.kernel.org
 
-Hi,
+On Sun, Jan 2, 2022 at 10:32 AM Christophe JAILLET
+<christophe.jaillet@wanadoo.fr> wrote:
+>
+> In [1], Christoph Hellwig has proposed to remove the wrappers in
+> include/linux/pci-dma-compat.h.
+>
+> Some reasons why this API should be removed have been given by Julia
+> Lawall in [2].
+>
+> A coccinelle script has been used to perform the needed transformation.
+> Only relevant parts are given below.
+>
+>
+> [1]: https://lore.kernel.org/kernel-janitors/20200421081257.GA131897@infradead.org/
+> [2]: https://lore.kernel.org/kernel-janitors/alpine.DEB.2.22.394.2007120902170.2424@hadrien/
+>
+> Signed-off-by: Christophe JAILLET <christophe.jaillet@wanadoo.fr>
 
-I've made some progress to get modern kernels booting on the Jensen, but
-not in a positive way. I got aboot compiled with a gcc cross compiler
-after a lot of hackery, installed it on a second disk, attached that to
-my Jensen and booted it:
+Reviewed-by: Arnd Bergmann <arnd@arndb.de>
 
->>> boot dka300 -fl i
-INIT-S-CPU...
-AUDIT_BOOT_STARTS ... 
-AUDIT_CHECKSUM_GOOD
-AUDIT_LOAD_BEGINS
-AUDIT_LOAD_DONE
+It looks like the number of remaining files that use the old
+interfaces has gone down
+a lot more since you last sent these patches. I would suggest you send them as a
+series that includes the patch to remove the header as the last change, and
+ask Andrew to pick up the ones that remain after this resend into the -mm tree,
+possibly after the next -rc1. How many patches do you have left?
 
-aboot: Linux/Alpha SRM bootloader version 1.0_pre20040408
-aboot: switching to OSF/1 PALcode version 1.35
-aboot: booting from device 'SCSI 1 6 0 0 300 0 JENS-IO'
-aboot: valid disklabel found: 4 partitions.
-aboot: loading uncompressed ...
-aboot: loading compressed ...
-
-unzip: unknown compression method
-Welcome to aboot 1.0_pre20040408
-Commands:
- h, ?                   Display this message
- q                      Halt the system and return to SRM
- p 1-8                  Look in partition <num> for configuration/kernel
- l                      List preconfigured kernels
- d <dir>                List directory <dir> in current filesystem
- b <file> <args>        Boot kernel in <file> (- for raw boot)
- i <file>               Use <file> as initial ramdisk
-                        with arguments <args>
- 0-9                    Boot preconfiguration 0-9 (list with 'l')
-aboot> l
-#
-# aboot default configurations
-#
-0:2/vmlinux.gz ro root=/dev/sdb1 console=ttyS0
-1:2/vmlinux.gz ro root=/dev/sdb1 console=ttyS0
-3:2/vmlinux.gz ro root=/dev/sdb1 console=ttyS1
-#1:2/vmlinux.old.gz ro root=/dev/sda2
-#2:2/vmlinux.new.gz ro root=/dev/sda2
-#3:2/vmlinux ro root=/dev/sda2
-#8:- ro root=/dev/sda2          # fs less boot of raw kernel
-#9:0/- ro root=/dev/sda2                # fs less boot of (compressed) ECOFF kernel
--
-aboot> 0
-aboot: loading compressed vmlinux.gz...
-ext2_bread: read error
-
-unzip: attempted to read past eof
-ext2_bread: read error
-vmlinux.gz: file not found
-aboot>
-
-I suppose something went awfully wrong during the cross compile of aboot,
-but I simply fail to understand why it tries to unzip a gzipped kernel.
-I tried an uncompressed kernel as well, that one failed with:
-
-"ext2_bread: read error"
-
-as well. As ext2_bread of aboot uses the SRM console API in the end,
-I assume this is prone to break when cross compiling...
-
-Has anyone tried to cross compile aboot before and got it working?
-There certainly is no support for cross compiling built in, maybe for
-a reason.
-
-Anyway, I have not given up, but now I have to go for a full native build,
-which means I have to build a newer gcc, as all my existing Alpha installs
-are too old to carry a usable gcc for modern kernel builds and all my attempts
-on a fresh install have failed. My fastest machine is a PWS 600au, so this
-will take a while.
-
-I hope I'm not too annoying,
-CU,
-Uli
--- 
-Dipl. Inf. Ulrich Teichert|e-mail: Ulrich.Teichert@gmx.de | Listening to:
-Stormweg 24               |Eat Lipstick: Dirty Little Secret, The Baboon Show:
-24539 Neumuenster, Germany|Work Work Work, Nightwatchers: On a Mission
+         Arnd
