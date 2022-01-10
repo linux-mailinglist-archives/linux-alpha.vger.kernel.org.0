@@ -2,107 +2,52 @@ Return-Path: <linux-alpha-owner@vger.kernel.org>
 X-Original-To: lists+linux-alpha@lfdr.de
 Delivered-To: lists+linux-alpha@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 07DAB488E10
-	for <lists+linux-alpha@lfdr.de>; Mon, 10 Jan 2022 02:30:08 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id E33E34893EE
+	for <lists+linux-alpha@lfdr.de>; Mon, 10 Jan 2022 09:46:09 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230296AbiAJBaG (ORCPT <rfc822;lists+linux-alpha@lfdr.de>);
-        Sun, 9 Jan 2022 20:30:06 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54908 "EHLO
+        id S242583AbiAJIps (ORCPT <rfc822;lists+linux-alpha@lfdr.de>);
+        Mon, 10 Jan 2022 03:45:48 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38606 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230083AbiAJBaG (ORCPT
-        <rfc822;linux-alpha@vger.kernel.org>); Sun, 9 Jan 2022 20:30:06 -0500
-Received: from mail-pj1-x102a.google.com (mail-pj1-x102a.google.com [IPv6:2607:f8b0:4864:20::102a])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2BE82C06173F;
-        Sun,  9 Jan 2022 17:30:06 -0800 (PST)
-Received: by mail-pj1-x102a.google.com with SMTP id b1-20020a17090a990100b001b14bd47532so14323191pjp.0;
-        Sun, 09 Jan 2022 17:30:06 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=8ahpX94c8GUmfMJh8inkb4fyYhi5rbgrtZUmtlm080A=;
-        b=AMdHRjEu3M3oKR3yjUIESyRG3UvvqvBAJ7DvqBXZDISAN0v+P/+JTHBh6oNPYoqDGt
-         HQ+eFIS19fCTk6gQiCa7FrVjv6UwrVyVF5tv1Esab7KoIDf2GE7feL7vHTmIzrnKpzGZ
-         +E786/7Y3PCTejwLnubmdfyeYc6+LhdRFAfDJf4dO7nQMIF1EbDlOjcgVOKpTbNcjz3z
-         JM1W7awIiV3V4SCE16ibbmQHilc+RozkLTUGS2BXe1xIujiCHYsR82q2TA4XjBKzMo8z
-         eEdYhiWSVV9kbtg4BpTwvPB56mifFozQ/LAgXMk/07gAZNn6JgYePMw8Sf4h+UK2eXyT
-         oU2Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=8ahpX94c8GUmfMJh8inkb4fyYhi5rbgrtZUmtlm080A=;
-        b=YeV6N56Sk0Xld1yzT7B7AEVLXSGKYpOmBTsx0rVCOuzIpyJmiRlVjsqXPzmJ60m0LC
-         NzURoMgz3YupPtGVo3vwPV80kDZTrwGxsjV2aoRNVH7i6E3//T2Himq4K6LeurunTmEc
-         GsGQe7I3HZlWelG2FQ2zDcLNDQlqcCyHYBRQkI88Oufl2+bSJhpXUzWiv0ZUFiL3BZXM
-         TuIrm+1vXywxb0nBfPDyoyhTaLOVxHZyS6shP3i6ceZ58zaN3TKaUihrH2yZ9zJW19kK
-         1Ta651gNDxIOpbGgo7/Ax/oLjkR9CHt9cGddW1y9EiP0fDWNm4JalTyY5H56SQdQK/jv
-         8afQ==
-X-Gm-Message-State: AOAM533OKnjCc1wccVkYsuRUmPjIu2rlbWIY/5BxzRPSwzLTqKBoyZ+w
-        RthkvIGGuNwflIH1O70Lnq4=
-X-Google-Smtp-Source: ABdhPJy3Mlq1d/NTsid1Ukt/xM9HSX6ibBd7vEZvSdfVDq5PEaWwUiBkPsNGpy4IFQZevQSeNoshZQ==
-X-Received: by 2002:a17:90b:1c86:: with SMTP id oo6mr27430393pjb.165.1641778204509;
-        Sun, 09 Jan 2022 17:30:04 -0800 (PST)
-Received: from localhost.localdomain ([193.203.214.57])
-        by smtp.gmail.com with ESMTPSA id n26sm3731057pgb.91.2022.01.09.17.30.01
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 09 Jan 2022 17:30:04 -0800 (PST)
-From:   cgel.zte@gmail.com
-X-Google-Original-From: chi.minghao@zte.com.cn
-To:     peterz@infradead.org
-Cc:     mingo@redhat.com, acme@kernel.org, mark.rutland@arm.com,
-        alexander.shishkin@linux.intel.com, jolsa@redhat.com,
-        namhyung@kernel.org, rth@twiddle.net, ink@jurassic.park.msu.ru,
-        mattst88@gmail.com, linux-perf-users@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-alpha@vger.kernel.org,
-        Minghao Chi <chi.minghao@zte.com.cn>,
-        Zeal Robot <zealci@zte.com.cn>, CGEL ZTE <cgel.zte@gmail.com>
-Subject: [PATCH] arch/alpha/kernel: remove redundant err variable
-Date:   Mon, 10 Jan 2022 01:29:54 +0000
-Message-Id: <20220110012954.644059-1-chi.minghao@zte.com.cn>
-X-Mailer: git-send-email 2.25.1
+        with ESMTP id S241802AbiAJInc (ORCPT
+        <rfc822;linux-alpha@vger.kernel.org>);
+        Mon, 10 Jan 2022 03:43:32 -0500
+Received: from bombadil.infradead.org (bombadil.infradead.org [IPv6:2607:7c80:54:e::133])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A3503C034000;
+        Mon, 10 Jan 2022 00:43:32 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+        d=infradead.org; s=bombadil.20210309; h=In-Reply-To:Content-Type:MIME-Version
+        :References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
+        Content-Transfer-Encoding:Content-ID:Content-Description;
+        bh=l2WBiCb5duYJRA9nKpihqrJOH1Qjg6utSrFiu8qAdtc=; b=tUjT04nSy9SYd253XcwattFKK6
+        LbHcaTX9/6RgvFW+kkmzWE0fJ2rFf4mbeWooRYrF32UOm2tI8sbO+wXxKVy5p5kNTlzDfysqo19tO
+        dWLRiNESmpJzm15YW/U5w8/EbDIw97cTWEjEpkoxwwtfRJp/grdCgr6X7TvFW+ll3zcNu8eNZ1UvE
+        SJ0yoswdtd28HIZogmU6hjphd7YV/WVNp/klpYluvx6pniI2+LJN5ZleWQOzv3QibeCN550YFFeYz
+        SupGmpdKT/kTotBic3Fw/ptm4xp+lKtHCdDNng+Ygu84r+wW4v+t6uXdbJwCoOErDfRtDahyObNtC
+        JnUeVabQ==;
+Received: from hch by bombadil.infradead.org with local (Exim 4.94.2 #2 (Red Hat Linux))
+        id 1n6qGv-009z63-0I; Mon, 10 Jan 2022 08:43:21 +0000
+Date:   Mon, 10 Jan 2022 00:43:20 -0800
+From:   Christoph Hellwig <hch@infradead.org>
+To:     Christophe JAILLET <christophe.jaillet@wanadoo.fr>
+Cc:     arnd@arndb.de, hch@infradead.org, akpm@linux-foundation.org,
+        rth@twiddle.net, ink@jurassic.park.msu.ru, mattst88@gmail.com,
+        linux-alpha@vger.kernel.org, linux-kernel@vger.kernel.org,
+        kernel-janitors@vger.kernel.org
+Subject: Re: [PATCH 01/16] alpha: Remove usage of the deprecated
+ "pci-dma-compat.h" API
+Message-ID: <YdvxqFMBTpHlvd12@infradead.org>
+References: <cover.1641500561.git.christophe.jaillet@wanadoo.fr>
+ <30686538ee42aaa4c2dd0788c42edbc6df07f250.1641500561.git.christophe.jaillet@wanadoo.fr>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <30686538ee42aaa4c2dd0788c42edbc6df07f250.1641500561.git.christophe.jaillet@wanadoo.fr>
+X-SRS-Rewrite: SMTP reverse-path rewritten from <hch@infradead.org> by bombadil.infradead.org. See http://www.infradead.org/rpr.html
 Precedence: bulk
 List-ID: <linux-alpha.vger.kernel.org>
 X-Mailing-List: linux-alpha@vger.kernel.org
 
-From: Minghao Chi <chi.minghao@zte.com.cn>
+Looks good,
 
-Return value from __hw_perf_event_init() directly instead
-of taking this in another redundant variable.
-
-Reported-by: Zeal Robot <zealci@zte.com.cn>
-Signed-off-by: Minghao Chi <chi.minghao@zte.com.cn>
-Signed-off-by: CGEL ZTE <cgel.zte@gmail.com>
----
- arch/alpha/kernel/perf_event.c | 6 +-----
- 1 file changed, 1 insertion(+), 5 deletions(-)
-
-diff --git a/arch/alpha/kernel/perf_event.c b/arch/alpha/kernel/perf_event.c
-index efcf7321701b..ccdb508c1516 100644
---- a/arch/alpha/kernel/perf_event.c
-+++ b/arch/alpha/kernel/perf_event.c
-@@ -689,8 +689,6 @@ static int __hw_perf_event_init(struct perf_event *event)
-  */
- static int alpha_pmu_event_init(struct perf_event *event)
- {
--	int err;
--
- 	/* does not support taken branch sampling */
- 	if (has_branch_stack(event))
- 		return -EOPNOTSUPP;
-@@ -709,9 +707,7 @@ static int alpha_pmu_event_init(struct perf_event *event)
- 		return -ENODEV;
- 
- 	/* Do the real initialisation work. */
--	err = __hw_perf_event_init(event);
--
--	return err;
-+	return __hw_perf_event_init(event);
- }
- 
- /*
--- 
-2.25.1
-
+Reviewed-by: Christoph Hellwig <hch@lst.de>
