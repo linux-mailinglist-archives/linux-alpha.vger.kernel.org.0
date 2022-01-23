@@ -2,105 +2,110 @@ Return-Path: <linux-alpha-owner@vger.kernel.org>
 X-Original-To: lists+linux-alpha@lfdr.de
 Delivered-To: lists+linux-alpha@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 5F74B4933F2
-	for <lists+linux-alpha@lfdr.de>; Wed, 19 Jan 2022 05:08:54 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id CFCE049747B
+	for <lists+linux-alpha@lfdr.de>; Sun, 23 Jan 2022 19:41:06 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1351469AbiASEH4 (ORCPT <rfc822;lists+linux-alpha@lfdr.de>);
-        Tue, 18 Jan 2022 23:07:56 -0500
-Received: from mx0b-00069f02.pphosted.com ([205.220.177.32]:41312 "EHLO
-        mx0b-00069f02.pphosted.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1351481AbiASEHh (ORCPT
+        id S239785AbiAWSku (ORCPT <rfc822;lists+linux-alpha@lfdr.de>);
+        Sun, 23 Jan 2022 13:40:50 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53590 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S239780AbiAWSkg (ORCPT
         <rfc822;linux-alpha@vger.kernel.org>);
-        Tue, 18 Jan 2022 23:07:37 -0500
-Received: from pps.filterd (m0246631.ppops.net [127.0.0.1])
-        by mx0b-00069f02.pphosted.com (8.16.1.2/8.16.1.2) with SMTP id 20INx5iq012817;
-        Wed, 19 Jan 2022 04:06:19 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com; h=from : to : cc :
- subject : date : message-id : in-reply-to : references : mime-version :
- content-type : content-transfer-encoding; s=corp-2021-07-09;
- bh=bGCfCt6vCAi9RXyrfJqfylamdOtbNoBkaaat0IE/Mnw=;
- b=lJnCGbChCBWiNCJ81/oD1H2AgQZqUQa5nCeYEKv3GgIDNnniyAqdpYR6Amtq5UVy85+S
- bSf1F6fc782Zb3Hp+C/dNgfwXSix7WwLstwfNiw/46TSej1TijDQQYxcpVwee5QgPbXs
- 7qRvvqYwp1E1ZgJdwTidvqkrmMa2mDn9jRoaeO55cbOsT0QqUIBAR9kF8p5ggelQCa3G
- c12qT81DvBC9DrU2d50H1hksN5JKryq7e54/MdXUueGoXHOe0qsRXmf5/407TnolSx/k
- mH6KSOS3qms9+4ReTKr2kzH+nGTE/NnAmFSQ7vRhRr/fL6whaOCHGPK4AnnXhPGdKH9a 5A== 
-Received: from userp3020.oracle.com (userp3020.oracle.com [156.151.31.79])
-        by mx0b-00069f02.pphosted.com with ESMTP id 3dnc4q3wwt-1
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-        Wed, 19 Jan 2022 04:06:19 +0000
-Received: from pps.filterd (userp3020.oracle.com [127.0.0.1])
-        by userp3020.oracle.com (8.16.1.2/8.16.1.2) with SMTP id 20J42AEu091613;
-        Wed, 19 Jan 2022 04:06:18 GMT
-Received: from pps.reinject (localhost [127.0.0.1])
-        by userp3020.oracle.com with ESMTP id 3dkqqpnr7j-1
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-        Wed, 19 Jan 2022 04:06:18 +0000
-Received: from userp3020.oracle.com (userp3020.oracle.com [127.0.0.1])
-        by pps.reinject (8.16.0.36/8.16.0.36) with SMTP id 20J46HPx110383;
-        Wed, 19 Jan 2022 04:06:17 GMT
-Received: from ca-mkp.mkp.ca.oracle.com (ca-mkp.ca.oracle.com [10.156.108.201])
-        by userp3020.oracle.com with ESMTP id 3dkqqpnr68-1;
-        Wed, 19 Jan 2022 04:06:17 +0000
-From:   "Martin K. Petersen" <martin.petersen@oracle.com>
-To:     sreekanth.reddy@broadcom.com, mchehab@kernel.org, mdf@kernel.org,
-        mpe@ellerman.id.au, mporter@kernel.crashing.org, hch@infradead.org,
-        bhelgaas@google.com, airlied@linux.ie,
-        Christophe JAILLET <christophe.jaillet@wanadoo.fr>,
-        benh@kernel.crashing.org, ink@jurassic.park.msu.ru,
-        davem@davemloft.net, akpm@linux-foundation.org, hao.wu@intel.com,
-        vkoul@kernel.org, sathya.prakash@broadcom.com, paulus@samba.org,
-        trix@redhat.com, arnd@arndb.de, yilun.xu@intel.com,
-        suganath-prabu.subramani@broadcom.com, alex.bou9@gmail.com,
-        awalls@md.metrocast.net, rth@twiddle.net, mattst88@gmail.com
-Cc:     "Martin K . Petersen" <martin.petersen@oracle.com>,
-        linux-kernel@vger.kernel.org, linuxppc-dev@lists.ozlabs.org,
-        linux-alpha@vger.kernel.org, linux-fpga@vger.kernel.org,
-        MPT-FusionLinux.pdl@broadcom.com, linux-media@vger.kernel.org,
-        sparclinux@vger.kernel.org, linux-pci@vger.kernel.org,
-        linux-scsi@vger.kernel.org, dmaengine@vger.kernel.org,
-        kernel-janitors@vger.kernel.org
-Subject: Re: [PATCH 00/16] Remove usage of the deprecated "pci-dma-compat.h" API
-Date:   Tue, 18 Jan 2022 23:06:09 -0500
-Message-Id: <164256513502.31841.5177778968152773786.b4-ty@oracle.com>
-X-Mailer: git-send-email 2.32.0
-In-Reply-To: <cover.1641500561.git.christophe.jaillet@wanadoo.fr>
-References: <cover.1641500561.git.christophe.jaillet@wanadoo.fr>
+        Sun, 23 Jan 2022 13:40:36 -0500
+Received: from mail-pg1-x534.google.com (mail-pg1-x534.google.com [IPv6:2607:f8b0:4864:20::534])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id BBFEEC06173B;
+        Sun, 23 Jan 2022 10:40:29 -0800 (PST)
+Received: by mail-pg1-x534.google.com with SMTP id f8so13142887pgf.8;
+        Sun, 23 Jan 2022 10:40:29 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=from:to:subject:date:message-id:in-reply-to:references:mime-version
+         :content-transfer-encoding;
+        bh=EaZo6YWz+PE4Amu8QukF1Cw8oSIakZDIQiKoGR/62wY=;
+        b=V2jPEDWq3IwIGuJgkDE35gcjcxe2X2oRT+W5/8zZD364JRtYsD/NetC+jPipdlP248
+         VCZINxrgU8tohaAr/uOO2w7qtXxaF4tnonr9b/tMDnGy8/JWEsbHewV6ABBhs9UVYadY
+         ZRHqPkouoaRfLkfknvSgvJd3V0Cre7vIvYAmqjqhx7RQhsyXW3ho+RqXj9q9WBKZaFnw
+         0zGgSRnEyOR8m11UhivzNB8lHiu2vzn+ZubLLiEtRJUlCjBZqg4O7WmF/YhdMkw1DmSN
+         owVHE4zq1o6nHuVmcX62AylgLcK1BDygi77X2PO2ga9uCd6LKSXnMX8BIaj6I1/fkfLo
+         NAtQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
+         :references:mime-version:content-transfer-encoding;
+        bh=EaZo6YWz+PE4Amu8QukF1Cw8oSIakZDIQiKoGR/62wY=;
+        b=uBCUNFEZwWUKpj/628Wq+7kN8o08g5iVLv9Kd737PSnl4SsN7tbNasARBXl+usdZnE
+         8Jo3et3ffhU1GlAyWejJ5VUG4RT4e3EblfLPTZNLYjPSAqrQswAw1A/eHOWgUSGehUEZ
+         AzjkPYflubawOk8p35zyzZ1lRULyoDc7fXQkqCE1tUrK51qMpwj7vMKzKbOHMF9RQ67J
+         7i+eclm8WWL1MuvY6VUG5AU9K8vckAq38B2pa7O8A9z7/pgF3wAHxKJN2PLCcLsNXTqa
+         30bO1sdRfP2Z2LWvuTOt1uWWu9C9+v3vLg2xs9xbXRgvQ5aNBYypNJPeMoGrcufV+oWE
+         q7Tg==
+X-Gm-Message-State: AOAM532WQs9YN6rKVqNAEMWx9rUZMPOV8qZgrEH6zFSflRd61buWe0Yt
+        WlGr3Thb8dhwqDR2m0dfTiE=
+X-Google-Smtp-Source: ABdhPJzeWapOdx/1eEYuO99kEzZ9xJia7gM6ZniR9//pywure5qlypDffs4P/Vm6jWZrQqOitmIbkg==
+X-Received: by 2002:a63:fe10:: with SMTP id p16mr9366634pgh.546.1642963229253;
+        Sun, 23 Jan 2022 10:40:29 -0800 (PST)
+Received: from localhost (searspoint.nvidia.com. [216.228.112.21])
+        by smtp.gmail.com with ESMTPSA id c8sm14350494pfl.122.2022.01.23.10.40.28
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sun, 23 Jan 2022 10:40:28 -0800 (PST)
+From:   Yury Norov <yury.norov@gmail.com>
+To:     Yury Norov <yury.norov@gmail.com>,
+        Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+        Rasmus Villemoes <linux@rasmusvillemoes.dk>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        =?UTF-8?q?Micha=C5=82=20Miros=C5=82aw?= <mirq-linux@rere.qmqm.pl>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Peter Zijlstra <peterz@infradead.org>,
+        David Laight <David.Laight@aculab.com>,
+        Joe Perches <joe@perches.com>, Dennis Zhou <dennis@kernel.org>,
+        Emil Renner Berthing <kernel@esmil.dk>,
+        Nicholas Piggin <npiggin@gmail.com>,
+        Matti Vaittinen <matti.vaittinen@fi.rohmeurope.com>,
+        Alexey Klimov <aklimov@redhat.com>,
+        linux-kernel@vger.kernel.org, Richard Henderson <rth@twiddle.net>,
+        Ivan Kokshaysky <ink@jurassic.park.msu.ru>,
+        Matt Turner <mattst88@gmail.com>,
+        Geert Uytterhoeven <geert@linux-m68k.org>,
+        Davidlohr Bueso <dave@stgolabs.net>,
+        "Russell King (Oracle)" <rmk+kernel@armlinux.org.uk>,
+        Kees Cook <keescook@chromium.org>,
+        Zheng Yongjun <zhengyongjun3@huawei.com>,
+        Jens Axboe <axboe@kernel.dk>, linux-alpha@vger.kernel.org
+Subject: [PATCH 13/54] arch/alpha: replace cpumask_weight with cpumask_empty where appropriate
+Date:   Sun, 23 Jan 2022 10:38:44 -0800
+Message-Id: <20220123183925.1052919-14-yury.norov@gmail.com>
+X-Mailer: git-send-email 2.30.2
+In-Reply-To: <20220123183925.1052919-1-yury.norov@gmail.com>
+References: <20220123183925.1052919-1-yury.norov@gmail.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
-X-Proofpoint-GUID: kv-6XMqJc6gHKjMkAhgWOkvxgVt6FLHh
-X-Proofpoint-ORIG-GUID: kv-6XMqJc6gHKjMkAhgWOkvxgVt6FLHh
 Precedence: bulk
 List-ID: <linux-alpha.vger.kernel.org>
 X-Mailing-List: linux-alpha@vger.kernel.org
 
-On Thu, 6 Jan 2022 22:45:13 +0100, Christophe JAILLET wrote:
+common_shutdown_1() calls cpumask_weight() to check if any bit of a
+given cpumask is set. We can do it more efficiently with cpumask_empty()
+because cpumask_empty() stops traversing the cpumask as soon as it finds
+first set bit, while cpumask_weight() counts all bits unconditionally.
 
-> This serie axes all the remaining usages of the deprecated "pci-dma-compat.h"
-> API.
-> 
-> All these patches have already been posted.
-> 
-> They have been generated with a coccinelle script.
-> The tricky parts are patches that use dma_alloc_coherent() because the correct
-> GFP flag has to be used in place of the previous embedded GFP_ATOMIC.
-> 
-> [...]
+Signed-off-by: Yury Norov <yury.norov@gmail.com>
+---
+ arch/alpha/kernel/process.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-Applied to 5.17/scsi-queue, thanks!
-
-[10/16] scsi: message: fusion: Remove usage of the deprecated "pci-dma-compat.h" API
-        https://git.kernel.org/mkp/scsi/c/b114dda6f2f1
-[11/16] scsi: mptbase: Use dma_alloc_coherent() in 'mpt_alloc_fw_memory()'
-        https://git.kernel.org/mkp/scsi/c/2d50607260a6
-[12/16] scsi: mptbase: Use dma_alloc_coherent()
-        https://git.kernel.org/mkp/scsi/c/5c5e6b6f61e0
-[13/16] scsi: mptsas: Use dma_alloc_coherent() in mptsas_exp_repmanufacture_info()
-        https://git.kernel.org/mkp/scsi/c/7a960b3a5e37
-[14/16] scsi: mptsas: Use dma_alloc_coherent()
-        https://git.kernel.org/mkp/scsi/c/76a334d756c5
-[15/16] scsi: mptctl: Use dma_alloc_coherent()
-        https://git.kernel.org/mkp/scsi/c/706dc3b91989
-
+diff --git a/arch/alpha/kernel/process.c b/arch/alpha/kernel/process.c
+index 5f8527081da9..0d4bc60828bf 100644
+--- a/arch/alpha/kernel/process.c
++++ b/arch/alpha/kernel/process.c
+@@ -125,7 +125,7 @@ common_shutdown_1(void *generic_ptr)
+ 	/* Wait for the secondaries to halt. */
+ 	set_cpu_present(boot_cpuid, false);
+ 	set_cpu_possible(boot_cpuid, false);
+-	while (cpumask_weight(cpu_present_mask))
++	while (!cpumask_empty(cpu_present_mask))
+ 		barrier();
+ #endif
+ 
 -- 
-Martin K. Petersen	Oracle Linux Engineering
+2.30.2
+
