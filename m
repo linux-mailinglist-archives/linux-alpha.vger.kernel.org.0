@@ -2,138 +2,109 @@ Return-Path: <linux-alpha-owner@vger.kernel.org>
 X-Original-To: lists+linux-alpha@lfdr.de
 Delivered-To: lists+linux-alpha@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 017664C3D51
-	for <lists+linux-alpha@lfdr.de>; Fri, 25 Feb 2022 05:35:03 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id E37744C3EC8
+	for <lists+linux-alpha@lfdr.de>; Fri, 25 Feb 2022 08:10:17 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S237421AbiBYEe1 (ORCPT <rfc822;lists+linux-alpha@lfdr.de>);
-        Thu, 24 Feb 2022 23:34:27 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43652 "EHLO
+        id S237993AbiBYHK3 (ORCPT <rfc822;lists+linux-alpha@lfdr.de>);
+        Fri, 25 Feb 2022 02:10:29 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53218 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S235373AbiBYEe1 (ORCPT
+        with ESMTP id S238015AbiBYHK1 (ORCPT
         <rfc822;linux-alpha@vger.kernel.org>);
-        Thu, 24 Feb 2022 23:34:27 -0500
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E08511AAA51;
-        Thu, 24 Feb 2022 20:33:55 -0800 (PST)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id 7D34F61893;
-        Fri, 25 Feb 2022 04:33:55 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id EF2F6C340E7;
-        Fri, 25 Feb 2022 04:33:48 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1645763634;
-        bh=uh4UnFdDR53Ujc6m18f6ctjt+AIyhJXv2xufWpNaVhA=;
-        h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-        b=Uvtrsu50Hf9ISgTqjw2cZIY/fdalMvrStTdfqoQM3mdhWwRTlcM+di3Mlxj2LfRYC
-         sL2lOFI5CCKzGB0MNHSMJUWPqE4dtIOpz2JXIrS4+Xkvjw7ulJEnCWAELTi2BsI79T
-         +YcmqfASppeT6+G8sHwqPvTdqA+0hk873k0laznUkKMLOPw4ZEEscH10+2t1L5fKp+
-         8BfsQshsS4Im5IcgpwMXaxmFYPmHS4QO6tZE5Cu6VT+1C4lCHB7iNpJZvNEdHwtoNJ
-         zTpbMfhiIoucAZFTRmPZuLhWqy/lBlhaelfx8iUJ+lK7d4LQiirbG9AaOIPIgpnmXG
-         aNgH1u0nAoM1w==
-Message-ID: <3927b6f5-c8d0-1421-407d-850ede02dd0f@kernel.org>
-Date:   Thu, 24 Feb 2022 22:33:46 -0600
+        Fri, 25 Feb 2022 02:10:27 -0500
+Received: from mail-yb1-xb41.google.com (mail-yb1-xb41.google.com [IPv6:2607:f8b0:4864:20::b41])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9933E1E5018
+        for <linux-alpha@vger.kernel.org>; Thu, 24 Feb 2022 23:09:55 -0800 (PST)
+Received: by mail-yb1-xb41.google.com with SMTP id j2so4216391ybu.0
+        for <linux-alpha@vger.kernel.org>; Thu, 24 Feb 2022 23:09:55 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=mime-version:reply-to:from:date:message-id:subject:to;
+        bh=Y7X8uyaFI8LljuLAxhyM48+yTSBDN9zANH/IhPwl+SQ=;
+        b=YxomcVhOZ/D49FW5qhwHTKoVVib0raMx5yC3Cya4g5ngOi0w1jl8BZoM4/clKni9Pb
+         yqoJGrMCYLdk/a/fBmkEj5mgtBGwevKi6DWOOV0i0q7qvExwaF9CzGOrqPOYG/1lG9zD
+         ZwlOgzI2BA+6PahiABm3nQLGehJn3VM6QwcvY/6neMPcrXkzQ9Tl7TGKGYzlEQJljtlD
+         zbhL1ayhMorW5QmGKTl51KHBUSHxXl8QHxXV/adaBlMgVTOPldniBdDjFZpOD9Clltms
+         ZjeouqtAZnm9o9GLdHn3NNZg9HBE79mH3Hh0s/2fuDMGHH/3d5dX93GnySGwNtbU1hfT
+         FGfg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:mime-version:reply-to:from:date:message-id
+         :subject:to;
+        bh=Y7X8uyaFI8LljuLAxhyM48+yTSBDN9zANH/IhPwl+SQ=;
+        b=0EoVqgyHy+YZAd1bekPYhE1CsOabmKXVJnh16z0lxvGvxC7Pb6flZQDzkeEQMwQjml
+         zulfRzOQ6wC9FGiU4Y1NWJNeN8c/lPAmQiroupqLY0cNXQZvEqSx8fP3deNchl7tws7K
+         4OJLY6sd8AQIwmrxiEjrrWTduygp1HvNeW9pd0OF6Pga3pkodq8ifuwqJhXy2SiDX7BW
+         epVOTqrmxTNeai9gXZqkozwU0B7cKJmFWETQcxCEsHFrICBtaUlHMMrHJpWq1UzmkLDr
+         tN6/JoDerO2QPYJxcWa2feSBLvvT1QTQEtxU1VkFEG7zdJozVzlk7Xa0uCRqZSjpQuTX
+         eR6g==
+X-Gm-Message-State: AOAM531hjPsTTgk39vNOMKVIJPgBknsHstuZ1iRbxv+8AmZzBOnbejpH
+        z5S6LEHXmEt28te9HauNzo9ribzNPyxRRcQ7J0c=
+X-Google-Smtp-Source: ABdhPJzqP1eVeGmxq/Knm0kECMjsxmNWnoVdI9YWwZX0WuM0dRU/22lNt/XNJwSwuYOkYZicPx9TtPhvmt88a1BmNmE=
+X-Received: by 2002:a25:8149:0:b0:623:bc3c:be06 with SMTP id
+ j9-20020a258149000000b00623bc3cbe06mr6240911ybm.223.1645772994878; Thu, 24
+ Feb 2022 23:09:54 -0800 (PST)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.5.0
-Subject: Re: [PATCH v2 18/18] uaccess: drop maining CONFIG_SET_FS users
-Content-Language: en-US
-To:     Arnd Bergmann <arnd@kernel.org>,
-        Linus Torvalds <torvalds@linux-foundation.org>,
-        Christoph Hellwig <hch@lst.de>, linux-arch@vger.kernel.org,
-        linux-mm@kvack.org, linux-api@vger.kernel.org, arnd@arndb.de,
-        linux-kernel@vger.kernel.org, viro@zeniv.linux.org.uk
-Cc:     linux@armlinux.org.uk, will@kernel.org, guoren@kernel.org,
-        bcain@codeaurora.org, geert@linux-m68k.org, monstr@monstr.eu,
-        tsbogend@alpha.franken.de, nickhu@andestech.com,
-        green.hu@gmail.com, shorne@gmail.com, deller@gmx.de,
-        mpe@ellerman.id.au, peterz@infradead.org, mingo@redhat.com,
-        mark.rutland@arm.com, hca@linux.ibm.com, dalias@libc.org,
-        davem@davemloft.net, richard@nod.at, x86@kernel.org,
-        jcmvbkbc@gmail.com, ebiederm@xmission.com,
-        akpm@linux-foundation.org, ardb@kernel.org,
-        linux-alpha@vger.kernel.org, linux-snps-arc@lists.infradead.org,
-        linux-csky@vger.kernel.org, linux-hexagon@vger.kernel.org,
-        linux-ia64@vger.kernel.org, linux-m68k@lists.linux-m68k.org,
-        linux-mips@vger.kernel.org, openrisc@lists.librecores.org,
-        linux-parisc@vger.kernel.org, linuxppc-dev@lists.ozlabs.org,
-        linux-riscv@lists.infradead.org, linux-s390@vger.kernel.org,
-        linux-sh@vger.kernel.org, sparclinux@vger.kernel.org,
-        linux-um@lists.infradead.org, linux-xtensa@linux-xtensa.org
-References: <20220216131332.1489939-1-arnd@kernel.org>
- <20220216131332.1489939-19-arnd@kernel.org>
-From:   Dinh Nguyen <dinguyen@kernel.org>
-In-Reply-To: <20220216131332.1489939-19-arnd@kernel.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-Spam-Status: No, score=-7.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,
-        RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE
-        autolearn=ham autolearn_force=no version=3.4.6
+Received: by 2002:a81:a389:0:0:0:0:0 with HTTP; Thu, 24 Feb 2022 23:09:54
+ -0800 (PST)
+Reply-To: markwillima00@gmail.com
+From:   Mark <nnannacolins@gmail.com>
+Date:   Thu, 24 Feb 2022 23:09:54 -0800
+Message-ID: <CAJAQTionfYc5m6BnPT_TCmsEnQvktMLHod+ArwPjJ_2yQ_V0RQ@mail.gmail.com>
+Subject: Re: Greetings!
+To:     undisclosed-recipients:;
+Content-Type: text/plain; charset="UTF-8"
+X-Spam-Status: Yes, score=5.3 required=5.0 tests=BAYES_50,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,FREEMAIL_REPLYTO,
+        FREEMAIL_REPLYTO_END_DIGIT,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,
+        T_SCC_BODY_TEXT_LINE,UNDISC_FREEM autolearn=no autolearn_force=no
+        version=3.4.6
+X-Spam-Report: * -0.0 RCVD_IN_DNSWL_NONE RBL: Sender listed at
+        *      https://www.dnswl.org/, no trust
+        *      [2607:f8b0:4864:20:0:0:0:b41 listed in]
+        [list.dnswl.org]
+        *  0.8 BAYES_50 BODY: Bayes spam probability is 40 to 60%
+        *      [score: 0.5000]
+        * -0.0 SPF_PASS SPF: sender matches SPF record
+        *  0.0 FREEMAIL_FROM Sender email is commonly abused enduser mail
+        *      provider
+        *      [nnannacolins[at]gmail.com]
+        *  0.2 FREEMAIL_REPLYTO_END_DIGIT Reply-To freemail username ends in
+        *      digit
+        *      [markwillima00[at]gmail.com]
+        *  0.0 SPF_HELO_NONE SPF: HELO does not publish an SPF Record
+        * -0.1 DKIM_VALID_EF Message has a valid DKIM or DK signature from
+        *      envelope-from domain
+        * -0.1 DKIM_VALID_AU Message has a valid DKIM or DK signature from
+        *      author's domain
+        * -0.1 DKIM_VALID Message has at least one valid DKIM or DK signature
+        *  0.1 DKIM_SIGNED Message has a DKIM or DK signature, not necessarily
+        *       valid
+        * -0.0 T_SCC_BODY_TEXT_LINE No description available.
+        *  3.5 UNDISC_FREEM Undisclosed recipients + freemail reply-to
+        *  1.0 FREEMAIL_REPLYTO Reply-To/From or Reply-To/body contain
+        *      different freemails
+X-Spam-Level: *****
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-alpha.vger.kernel.org>
 X-Mailing-List: linux-alpha@vger.kernel.org
 
+Hello,
 
+The HSBC Bank is a financial institution in United Kingdom. We
+promotes long-term,sustainable and broad-based economic growth in
+developing and emerging countries by providing financial support like
+loans and investment to large, small and
+medium-sized companies (SMEs) as well as fast-growing enterprises
+which in turn helps to create secure and permanent jobs and reduce
+poverty.
 
-On 2/16/22 07:13, Arnd Bergmann wrote:
-> From: Arnd Bergmann <arnd@arndb.de>
-> 
-> There are no remaining callers of set_fs(), so CONFIG_SET_FS
-> can be removed globally, along with the thread_info field and
-> any references to it.
-> 
-> This turns access_ok() into a cheaper check against TASK_SIZE_MAX.
-> 
-> With CONFIG_SET_FS gone, so drop all remaining references to
-> set_fs()/get_fs(), mm_segment_t and uaccess_kernel().
-> 
-> Signed-off-by: Arnd Bergmann <arnd@arndb.de>
-> ---
->   arch/Kconfig                              |  3 -
->   arch/alpha/Kconfig                        |  1 -
->   arch/alpha/include/asm/processor.h        |  4 --
->   arch/alpha/include/asm/thread_info.h      |  2 -
->   arch/alpha/include/asm/uaccess.h          | 19 ------
->   arch/arc/Kconfig                          |  1 -
->   arch/arc/include/asm/segment.h            | 20 -------
->   arch/arc/include/asm/thread_info.h        |  3 -
->   arch/arc/include/asm/uaccess.h            |  1 -
->   arch/arm/lib/uaccess_with_memcpy.c        | 10 ----
->   arch/csky/Kconfig                         |  1 -
->   arch/csky/include/asm/processor.h         |  2 -
->   arch/csky/include/asm/segment.h           | 10 ----
->   arch/csky/include/asm/thread_info.h       |  2 -
->   arch/csky/include/asm/uaccess.h           |  3 -
->   arch/csky/kernel/asm-offsets.c            |  1 -
->   arch/h8300/Kconfig                        |  1 -
->   arch/h8300/include/asm/processor.h        |  1 -
->   arch/h8300/include/asm/segment.h          | 40 -------------
->   arch/h8300/include/asm/thread_info.h      |  3 -
->   arch/h8300/kernel/entry.S                 |  1 -
->   arch/h8300/kernel/head_ram.S              |  1 -
->   arch/h8300/mm/init.c                      |  6 --
->   arch/h8300/mm/memory.c                    |  1 -
->   arch/hexagon/Kconfig                      |  1 -
->   arch/hexagon/include/asm/thread_info.h    |  6 --
->   arch/hexagon/kernel/process.c             |  1 -
->   arch/microblaze/Kconfig                   |  1 -
->   arch/microblaze/include/asm/thread_info.h |  6 --
->   arch/microblaze/include/asm/uaccess.h     | 24 --------
->   arch/microblaze/kernel/asm-offsets.c      |  1 -
->   arch/microblaze/kernel/process.c          |  1 -
->   arch/nds32/Kconfig                        |  1 -
->   arch/nds32/include/asm/thread_info.h      |  4 --
->   arch/nds32/include/asm/uaccess.h          | 15 +----
->   arch/nds32/kernel/process.c               |  5 +-
->   arch/nds32/mm/alignment.c                 |  3 -
->   arch/nios2/Kconfig                        |  1 -
->   arch/nios2/include/asm/thread_info.h      |  9 ---
->   arch/nios2/include/asm/uaccess.h          | 12 ----
+If you need fund to promotes your business, project(Project Funding),
+Loan, planning, budgeting and expansion of your business(s) , do not
+hesitate to indicate your interest as we are here to serve you better
+by granting your request.
 
-For NIOS2:
-
-Acked-by: Dinh Nguyen <dinguyen@kernel.org>
+Thank you
+Mr:Mark
