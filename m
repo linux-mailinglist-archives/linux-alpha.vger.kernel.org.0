@@ -2,126 +2,71 @@ Return-Path: <linux-alpha-owner@vger.kernel.org>
 X-Original-To: lists+linux-alpha@lfdr.de
 Delivered-To: lists+linux-alpha@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 7E66D4DD843
-	for <lists+linux-alpha@lfdr.de>; Fri, 18 Mar 2022 11:39:54 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 9835A4DD8CE
+	for <lists+linux-alpha@lfdr.de>; Fri, 18 Mar 2022 12:15:30 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235211AbiCRKjU (ORCPT <rfc822;lists+linux-alpha@lfdr.de>);
-        Fri, 18 Mar 2022 06:39:20 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37288 "EHLO
+        id S235706AbiCRLQl (ORCPT <rfc822;lists+linux-alpha@lfdr.de>);
+        Fri, 18 Mar 2022 07:16:41 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36402 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S235132AbiCRKjK (ORCPT
+        with ESMTP id S235663AbiCRLQl (ORCPT
         <rfc822;linux-alpha@vger.kernel.org>);
-        Fri, 18 Mar 2022 06:39:10 -0400
-Received: from mail3-relais-sop.national.inria.fr (mail3-relais-sop.national.inria.fr [192.134.164.104])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 996612DB598;
-        Fri, 18 Mar 2022 03:37:45 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-  d=inria.fr; s=dc;
-  h=from:to:cc:subject:date:message-id:mime-version:
-   content-transfer-encoding;
-  bh=LYiItQFFi/MXAk4t3Ibiix6hi+OGC0+kYKcBgk0Rleg=;
-  b=KLY5jrKXS08FFNloxFLI+7XyopFyir1SGqJwu+wlLMJFDWsXrd485eIx
-   Ahng7NA7SvQtY+K/V0n46gVmPtDfp6vB7AnqJWkG8/7Yn21MNjptnegpB
-   WYCOSNcErpF12ra0QLo+24usZkmEwc3UxCppsVpSsb0i8jJnK/SmjdFLd
-   g=;
-Authentication-Results: mail3-relais-sop.national.inria.fr; dkim=none (message not signed) header.i=none; spf=SoftFail smtp.mailfrom=Julia.Lawall@inria.fr; dmarc=fail (p=none dis=none) d=inria.fr
-X-IronPort-AV: E=Sophos;i="5.90,192,1643670000"; 
-   d="scan'208";a="8935652"
-Received: from i80.paris.inria.fr (HELO i80.paris.inria.fr.) ([128.93.90.48])
-  by mail3-relais-sop.national.inria.fr with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Mar 2022 11:37:38 +0100
-From:   Julia Lawall <Julia.Lawall@inria.fr>
-To:     Richard Henderson <rth@twiddle.net>
+        Fri, 18 Mar 2022 07:16:41 -0400
+X-Greylist: delayed 445 seconds by postgrey-1.37 at lindbergh.monkeyblade.net; Fri, 18 Mar 2022 04:15:22 PDT
+Received: from relay.hostedemail.com (relay.hostedemail.com [64.99.140.26])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id DB15F1AD1F1
+        for <linux-alpha@vger.kernel.org>; Fri, 18 Mar 2022 04:15:21 -0700 (PDT)
+Received: from omf13.hostedemail.com (a10.router.float.18 [10.200.18.1])
+        by unirelay12.hostedemail.com (Postfix) with ESMTP id D99401208D5;
+        Fri, 18 Mar 2022 11:07:54 +0000 (UTC)
+Received: from [HIDDEN] (Authenticated sender: joe@perches.com) by omf13.hostedemail.com (Postfix) with ESMTPA id 7DE6A2000D;
+        Fri, 18 Mar 2022 11:07:53 +0000 (UTC)
+Message-ID: <176f485c00e3c6c03ff794dc47f23702fc592a4f.camel@perches.com>
+Subject: Re: [PATCH] mm: fix typos in comments
+From:   Joe Perches <joe@perches.com>
+To:     Julia Lawall <Julia.Lawall@inria.fr>,
+        Richard Henderson <rth@twiddle.net>
 Cc:     kernel-janitors@vger.kernel.org,
         Ivan Kokshaysky <ink@jurassic.park.msu.ru>,
         Matt Turner <mattst88@gmail.com>, linux-alpha@vger.kernel.org,
         linux-kernel@vger.kernel.org
-Subject: [PATCH] mm: fix typos in comments
-Date:   Fri, 18 Mar 2022 11:37:14 +0100
-Message-Id: <20220318103729.157574-19-Julia.Lawall@inria.fr>
-X-Mailer: git-send-email 2.20.1
+Date:   Fri, 18 Mar 2022 04:07:52 -0700
+In-Reply-To: <20220318103729.157574-19-Julia.Lawall@inria.fr>
+References: <20220318103729.157574-19-Julia.Lawall@inria.fr>
+Content-Type: text/plain; charset="ISO-8859-1"
+User-Agent: Evolution 3.40.4-1ubuntu2 
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=-4.4 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,
-        RCVD_IN_MSPIKE_H3,RCVD_IN_MSPIKE_WL,SPF_HELO_NONE,SPF_PASS,
-        T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no version=3.4.6
+Content-Transfer-Encoding: 7bit
+X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,RCVD_IN_DNSWL_NONE,
+        RCVD_IN_MSPIKE_H5,RCVD_IN_MSPIKE_WL,SPF_HELO_PASS,SPF_NONE,
+        T_SCC_BODY_TEXT_LINE,UNPARSEABLE_RELAY autolearn=unavailable
+        autolearn_force=no version=3.4.6
+X-Stat-Signature: x7ke1aw8edz91no8i5thucyw4zq3zu8b
+X-Rspamd-Server: rspamout03
+X-Rspamd-Queue-Id: 7DE6A2000D
+X-Session-Marker: 6A6F6540706572636865732E636F6D
+X-Session-ID: U2FsdGVkX19c3Gj+9w+SnUdOlsv8MpJuj/ml9126C9w=
+X-HE-Tag: 1647601673-641712
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-alpha.vger.kernel.org>
 X-Mailing-List: linux-alpha@vger.kernel.org
 
-Various spelling mistakes in comments.
-Detected with the help of Coccinelle.
+On Fri, 2022-03-18 at 11:37 +0100, Julia Lawall wrote:
+> Various spelling mistakes in comments.
+[]
+> diff --git a/arch/alpha/kernel/sys_eiger.c b/arch/alpha/kernel/sys_eiger.c
+[]
+> @@ -148,7 +148,7 @@ eiger_map_irq(const struct pci_dev *dev, u8 slot, u8 pin)
+>  
+>  	/* The SRM console has already calculated out the IRQ value's for
+>  	   option cards. As this works lets just read in the value already
+> -	   set and change it to a useable value by Linux.
+> +	   set and change it to a usable value by Linux.
 
-Signed-off-by: Julia Lawall <Julia.Lawall@inria.fr>
+generally accepted alternative spelling.
 
----
- arch/alpha/boot/bootpz.c       |    2 +-
- arch/alpha/kernel/osf_sys.c    |    2 +-
- arch/alpha/kernel/sys_eiger.c  |    4 ++--
- arch/alpha/kernel/sys_takara.c |    2 +-
- 4 files changed, 5 insertions(+), 5 deletions(-)
+https://www.dictionary.com/browse/useable
 
-diff --git a/arch/alpha/boot/bootpz.c b/arch/alpha/boot/bootpz.c
-index 90a2b341e9c0..f7657507d2a5 100644
---- a/arch/alpha/boot/bootpz.c
-+++ b/arch/alpha/boot/bootpz.c
-@@ -456,7 +456,7 @@ start_kernel(void)
- #ifdef DEBUG_LAST_STEPS
- 	srm_printk("Preparing INITRD info...\n");
- #endif
--	/* Finally, set the INITRD paramenters for the kernel. */
-+	/* Finally, set the INITRD parameters for the kernel. */
- 	((long *)(ZERO_PGE+256))[0] = initrd_image_start;
- 	((long *)(ZERO_PGE+256))[1] = INITRD_IMAGE_SIZE;
- 
-diff --git a/arch/alpha/kernel/osf_sys.c b/arch/alpha/kernel/osf_sys.c
-index 8bbeebb73cf0..e46f76b79826 100644
---- a/arch/alpha/kernel/osf_sys.c
-+++ b/arch/alpha/kernel/osf_sys.c
-@@ -825,7 +825,7 @@ SYSCALL_DEFINE5(osf_setsysinfo, unsigned long, op, void __user *, buffer,
- 
- 		/* 
- 		 * Alpha Architecture Handbook 4.7.7.3:
--		 * To be fully IEEE compiant, we must track the current IEEE
-+		 * To be fully IEEE compliant, we must track the current IEEE
- 		 * exception state in software, because spurious bits can be
- 		 * set in the trap shadow of a software-complete insn.
- 		 */
-diff --git a/arch/alpha/kernel/sys_eiger.c b/arch/alpha/kernel/sys_eiger.c
-index aea8a54da4bc..fbe264a30a66 100644
---- a/arch/alpha/kernel/sys_eiger.c
-+++ b/arch/alpha/kernel/sys_eiger.c
-@@ -98,7 +98,7 @@ eiger_device_interrupt(unsigned long vector)
- 	if (intstatus) {
- 		/*
- 		 * This is a PCI interrupt. Check each bit and
--		 * despatch an interrupt if it's set.
-+		 * dispatch an interrupt if it's set.
- 		 */
- 
- 		if (intstatus & 8) handle_irq(16+3);
-@@ -148,7 +148,7 @@ eiger_map_irq(const struct pci_dev *dev, u8 slot, u8 pin)
- 
- 	/* The SRM console has already calculated out the IRQ value's for
- 	   option cards. As this works lets just read in the value already
--	   set and change it to a useable value by Linux.
-+	   set and change it to a usable value by Linux.
- 
- 	   All the IRQ values generated by the console are greater than 90,
- 	   so we subtract 80 because it is (90 - allocated ISA IRQ's).  */
-diff --git a/arch/alpha/kernel/sys_takara.c b/arch/alpha/kernel/sys_takara.c
-index 9e2adb69bc74..aa65a7fb8fc6 100644
---- a/arch/alpha/kernel/sys_takara.c
-+++ b/arch/alpha/kernel/sys_takara.c
-@@ -93,7 +93,7 @@ takara_device_interrupt(unsigned long vector)
- 	if (intstatus) {
- 		/*
- 		 * This is a PCI interrupt. Check each bit and
--		 * despatch an interrupt if it's set.
-+		 * dispatch an interrupt if it's set.
- 		 */
- 
- 		if (intstatus & 8) handle_irq(16+3);
 
