@@ -2,71 +2,80 @@ Return-Path: <linux-alpha-owner@vger.kernel.org>
 X-Original-To: lists+linux-alpha@lfdr.de
 Delivered-To: lists+linux-alpha@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 9835A4DD8CE
-	for <lists+linux-alpha@lfdr.de>; Fri, 18 Mar 2022 12:15:30 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 63BCC4DD8CB
+	for <lists+linux-alpha@lfdr.de>; Fri, 18 Mar 2022 12:15:19 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235706AbiCRLQl (ORCPT <rfc822;lists+linux-alpha@lfdr.de>);
-        Fri, 18 Mar 2022 07:16:41 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36402 "EHLO
+        id S235694AbiCRLQf (ORCPT <rfc822;lists+linux-alpha@lfdr.de>);
+        Fri, 18 Mar 2022 07:16:35 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36004 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S235663AbiCRLQl (ORCPT
+        with ESMTP id S235663AbiCRLQf (ORCPT
         <rfc822;linux-alpha@vger.kernel.org>);
-        Fri, 18 Mar 2022 07:16:41 -0400
-X-Greylist: delayed 445 seconds by postgrey-1.37 at lindbergh.monkeyblade.net; Fri, 18 Mar 2022 04:15:22 PDT
-Received: from relay.hostedemail.com (relay.hostedemail.com [64.99.140.26])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id DB15F1AD1F1
-        for <linux-alpha@vger.kernel.org>; Fri, 18 Mar 2022 04:15:21 -0700 (PDT)
-Received: from omf13.hostedemail.com (a10.router.float.18 [10.200.18.1])
-        by unirelay12.hostedemail.com (Postfix) with ESMTP id D99401208D5;
-        Fri, 18 Mar 2022 11:07:54 +0000 (UTC)
-Received: from [HIDDEN] (Authenticated sender: joe@perches.com) by omf13.hostedemail.com (Postfix) with ESMTPA id 7DE6A2000D;
-        Fri, 18 Mar 2022 11:07:53 +0000 (UTC)
-Message-ID: <176f485c00e3c6c03ff794dc47f23702fc592a4f.camel@perches.com>
-Subject: Re: [PATCH] mm: fix typos in comments
-From:   Joe Perches <joe@perches.com>
-To:     Julia Lawall <Julia.Lawall@inria.fr>,
-        Richard Henderson <rth@twiddle.net>
-Cc:     kernel-janitors@vger.kernel.org,
+        Fri, 18 Mar 2022 07:16:35 -0400
+Received: from mail2-relais-roc.national.inria.fr (mail2-relais-roc.national.inria.fr [192.134.164.83])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 782C51AA072;
+        Fri, 18 Mar 2022 04:15:15 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+  d=inria.fr; s=dc;
+  h=date:from:to:cc:subject:in-reply-to:message-id:
+   references:mime-version;
+  bh=gTrHSaows6P5rC0BqhyXnWLtvk2vll7NYVs5JyeogtQ=;
+  b=AY7tGrinlq3iYyC0wIS7teWB69QYqXAZfuCQXbHqrL5FSEQe2HFFCCV7
+   AbI7/YmIN3Utb3MR/Ylryb1zqwNja2ZtfwbsUHO25d2M5pnZvgZYHg2Fz
+   5rzMvl4Q7Ci77KfuyRoJtsZM1ukbhVp5zVFR2yH4O0/ggF0ddErfHmivT
+   0=;
+Authentication-Results: mail2-relais-roc.national.inria.fr; dkim=none (message not signed) header.i=none; spf=SoftFail smtp.mailfrom=julia.lawall@inria.fr; dmarc=fail (p=none dis=none) d=inria.fr
+X-IronPort-AV: E=Sophos;i="5.90,192,1643670000"; 
+   d="scan'208";a="26861438"
+Received: from dt-lawall.paris.inria.fr ([128.93.67.65])
+  by mail2-relais-roc.national.inria.fr with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Mar 2022 12:15:14 +0100
+Date:   Fri, 18 Mar 2022 12:15:14 +0100 (CET)
+From:   Julia Lawall <julia.lawall@inria.fr>
+X-X-Sender: julia@hadrien
+To:     Joe Perches <joe@perches.com>
+cc:     Julia Lawall <Julia.Lawall@inria.fr>,
+        Richard Henderson <rth@twiddle.net>,
+        kernel-janitors@vger.kernel.org,
         Ivan Kokshaysky <ink@jurassic.park.msu.ru>,
         Matt Turner <mattst88@gmail.com>, linux-alpha@vger.kernel.org,
         linux-kernel@vger.kernel.org
-Date:   Fri, 18 Mar 2022 04:07:52 -0700
-In-Reply-To: <20220318103729.157574-19-Julia.Lawall@inria.fr>
-References: <20220318103729.157574-19-Julia.Lawall@inria.fr>
-Content-Type: text/plain; charset="ISO-8859-1"
-User-Agent: Evolution 3.40.4-1ubuntu2 
+Subject: Re: [PATCH] mm: fix typos in comments
+In-Reply-To: <176f485c00e3c6c03ff794dc47f23702fc592a4f.camel@perches.com>
+Message-ID: <alpine.DEB.2.22.394.2203181215040.2686@hadrien>
+References: <20220318103729.157574-19-Julia.Lawall@inria.fr> <176f485c00e3c6c03ff794dc47f23702fc592a4f.camel@perches.com>
+User-Agent: Alpine 2.22 (DEB 394 2020-01-19)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
-X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,RCVD_IN_DNSWL_NONE,
-        RCVD_IN_MSPIKE_H5,RCVD_IN_MSPIKE_WL,SPF_HELO_PASS,SPF_NONE,
-        T_SCC_BODY_TEXT_LINE,UNPARSEABLE_RELAY autolearn=unavailable
-        autolearn_force=no version=3.4.6
-X-Stat-Signature: x7ke1aw8edz91no8i5thucyw4zq3zu8b
-X-Rspamd-Server: rspamout03
-X-Rspamd-Queue-Id: 7DE6A2000D
-X-Session-Marker: 6A6F6540706572636865732E636F6D
-X-Session-ID: U2FsdGVkX19c3Gj+9w+SnUdOlsv8MpJuj/ml9126C9w=
-X-HE-Tag: 1647601673-641712
+Content-Type: text/plain; charset=US-ASCII
+X-Spam-Status: No, score=-4.4 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,
+        RCVD_IN_MSPIKE_H4,RCVD_IN_MSPIKE_WL,SPF_HELO_NONE,SPF_PASS,
+        T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-alpha.vger.kernel.org>
 X-Mailing-List: linux-alpha@vger.kernel.org
 
-On Fri, 2022-03-18 at 11:37 +0100, Julia Lawall wrote:
-> Various spelling mistakes in comments.
-[]
-> diff --git a/arch/alpha/kernel/sys_eiger.c b/arch/alpha/kernel/sys_eiger.c
-[]
-> @@ -148,7 +148,7 @@ eiger_map_irq(const struct pci_dev *dev, u8 slot, u8 pin)
->  
->  	/* The SRM console has already calculated out the IRQ value's for
->  	   option cards. As this works lets just read in the value already
-> -	   set and change it to a useable value by Linux.
-> +	   set and change it to a usable value by Linux.
-
-generally accepted alternative spelling.
-
-https://www.dictionary.com/browse/useable
 
 
+On Fri, 18 Mar 2022, Joe Perches wrote:
+
+> On Fri, 2022-03-18 at 11:37 +0100, Julia Lawall wrote:
+> > Various spelling mistakes in comments.
+> []
+> > diff --git a/arch/alpha/kernel/sys_eiger.c b/arch/alpha/kernel/sys_eiger.c
+> []
+> > @@ -148,7 +148,7 @@ eiger_map_irq(const struct pci_dev *dev, u8 slot, u8 pin)
+> >
+> >  	/* The SRM console has already calculated out the IRQ value's for
+> >  	   option cards. As this works lets just read in the value already
+> > -	   set and change it to a useable value by Linux.
+> > +	   set and change it to a usable value by Linux.
+>
+> generally accepted alternative spelling.
+>
+> https://www.dictionary.com/browse/useable
+
+OK, thanks.
+
+julia
