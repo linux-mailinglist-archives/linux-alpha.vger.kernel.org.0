@@ -2,62 +2,75 @@ Return-Path: <linux-alpha-owner@vger.kernel.org>
 X-Original-To: lists+linux-alpha@lfdr.de
 Delivered-To: lists+linux-alpha@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 8420D4E6CD3
-	for <lists+linux-alpha@lfdr.de>; Fri, 25 Mar 2022 04:22:41 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 5DA274E849B
+	for <lists+linux-alpha@lfdr.de>; Sat, 26 Mar 2022 23:57:15 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1343898AbiCYDYL (ORCPT <rfc822;lists+linux-alpha@lfdr.de>);
-        Thu, 24 Mar 2022 23:24:11 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38250 "EHLO
+        id S229726AbiCZW6t (ORCPT <rfc822;lists+linux-alpha@lfdr.de>);
+        Sat, 26 Mar 2022 18:58:49 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35380 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231800AbiCYDYJ (ORCPT
+        with ESMTP id S229502AbiCZW6s (ORCPT
         <rfc822;linux-alpha@vger.kernel.org>);
-        Thu, 24 Mar 2022 23:24:09 -0400
-X-Greylist: delayed 1698 seconds by postgrey-1.37 at lindbergh.monkeyblade.net; Thu, 24 Mar 2022 20:22:36 PDT
-Received: from gherkin.frus.com (cpe-67-11-228-40.satx.res.rr.com [67.11.228.40])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTP id 8B5B919C09
-        for <linux-alpha@vger.kernel.org>; Thu, 24 Mar 2022 20:22:36 -0700 (PDT)
-Received: by gherkin.frus.com (Postfix, from userid 500)
-        id 9608B61CD3; Thu, 24 Mar 2022 21:54:15 -0500 (CDT)
-Date:   Thu, 24 Mar 2022 21:54:15 -0500
-From:   Bob Tracy <rct@frus.com>
-To:     debian-alpha@lists.debian.org
-Cc:     mcree@orcon.net.nz, linux-alpha@vger.kernel.org
-Subject: 5.17.0 boot issue on Miata
-Message-ID: <Yj0u150JJpsb9nj4@gherkin.frus.com>
+        Sat, 26 Mar 2022 18:58:48 -0400
+X-Greylist: delayed 2099 seconds by postgrey-1.37 at lindbergh.monkeyblade.net; Sat, 26 Mar 2022 15:57:10 PDT
+Received: from smtp-4.orcon.net.nz (smtp-4.orcon.net.nz [60.234.4.59])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D27443BBE8
+        for <linux-alpha@vger.kernel.org>; Sat, 26 Mar 2022 15:57:10 -0700 (PDT)
+Received: from [121.99.247.178] (port=59312 helo=tower)
+        by smtp-4.orcon.net.nz with esmtpa (Exim 4.90_1)
+        (envelope-from <mcree@orcon.net.nz>)
+        id 1nYEnM-0000QM-9i; Sun, 27 Mar 2022 11:22:04 +1300
+Date:   Sun, 27 Mar 2022 11:21:57 +1300
+From:   Michael Cree <mcree@orcon.net.nz>
+To:     Bob Tracy <rct@frus.com>
+Cc:     debian-alpha@lists.debian.org, linux-alpha@vger.kernel.org
+Subject: Re: 5.17.0 boot issue on Miata
+Message-ID: <20220326222157.GA13650@tower>
+Mail-Followup-To: Michael Cree <mcree@orcon.net.nz>,
+        Bob Tracy <rct@frus.com>, debian-alpha@lists.debian.org,
+        linux-alpha@vger.kernel.org
+References: <Yj0u150JJpsb9nj4@gherkin.frus.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-X-Spam-Status: No, score=4.3 required=5.0 tests=BAYES_20,RCVD_IN_PBL,
-        RCVD_IN_SORBS_DUL,RDNS_DYNAMIC,SPF_HELO_NONE,SPF_PASS,
-        T_SCC_BODY_TEXT_LINE autolearn=no autolearn_force=no version=3.4.6
-X-Spam-Level: ****
+In-Reply-To: <Yj0u150JJpsb9nj4@gherkin.frus.com>
+User-Agent: Mutt/1.10.1 (2018-07-13)
+X-GeoIP: NZ
+X-Spam_score: -2.9
+X-Spam_score_int: -28
+X-Spam_bar: --
+X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,FREEMAIL_FROM,
+        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE
+        autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-alpha.vger.kernel.org>
 X-Mailing-List: linux-alpha@vger.kernel.org
 
-When I attempt to boot a 5.17.0 kernel built from the kernel.org
-sources, I see disk sector errors on my "sda" device, and the boot
-process hangs at the point where "systemd-udevd.service" starts.
+On Thu, Mar 24, 2022 at 09:54:15PM -0500, Bob Tracy wrote:
+> When I attempt to boot a 5.17.0 kernel built from the kernel.org
+> sources, I see disk sector errors on my "sda" device, and the boot
+> process hangs at the point where "systemd-udevd.service" starts.
+> 
+> Rebooting on 5.16.0 works with no disk I/O errors of any kind.
 
-Rebooting on 5.16.0 works with no disk I/O errors of any kind.
+Oh, you can run a 5.16.y kernel on Alpha?  I have had problems
+with everything since 5.9.y with rare, random, corruptions in
+memory in user space (exhibiting as glibc detected memory
+corruptions or segfaults).
 
-Assuming the 5.17.0 kernel or its associated initrd had bad sectors, I
-rebuilt both and saw no I/O errors during the build nor afterward when
-copying the new kernel into place under "/boot".
+This is why I am still running a 5.8.y kernel on the Debian
+Ports buildd.
 
-Even tried a cross-compile build of a 5.17.0 alpha kernel on my x86_64
-platform to save build time (34 hours for a native build on a PWS 433au
-vs. 2 hours on the x86_64 platform).  That build produced identical
-results when I tried booting on it.
+I just compiled up a 5.16.y kernel and the problem is still there.
+It did take a bit to trigger the bug (about 10 hours of testing
+before it happened).
 
-If anyone else is seeing this and can get a head-start on bisecting,
-that would be very much appreciated.  I won't be able to get to it for
-about a week and a half :-(.  5.16.0 works.  5.17.0 doesn't.  Might get
-lucky and find that the offending changes happened in the first 5.17.0
-release candidate.
+I had done a bisection between 5.8.0 and 5.9.0 last year but I
+think it went astray (as testing is difficult and not fool proof).
+You email has prompted me to go back to it and see if I can nail
+down the offending commit.  We really want to get it fixed.
 
-As always, sincere thanks in advance.
-
---Bob
+Cheers,
+Michael.
