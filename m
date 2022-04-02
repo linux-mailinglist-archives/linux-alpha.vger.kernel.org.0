@@ -2,60 +2,60 @@ Return-Path: <linux-alpha-owner@vger.kernel.org>
 X-Original-To: lists+linux-alpha@lfdr.de
 Delivered-To: lists+linux-alpha@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id B89624EFFA7
-	for <lists+linux-alpha@lfdr.de>; Sat,  2 Apr 2022 10:22:02 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 56CC94EFFB1
+	for <lists+linux-alpha@lfdr.de>; Sat,  2 Apr 2022 10:34:48 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S236068AbiDBIXv (ORCPT <rfc822;lists+linux-alpha@lfdr.de>);
-        Sat, 2 Apr 2022 04:23:51 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41246 "EHLO
+        id S234468AbiDBIgh (ORCPT <rfc822;lists+linux-alpha@lfdr.de>);
+        Sat, 2 Apr 2022 04:36:37 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49804 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233776AbiDBIXv (ORCPT
-        <rfc822;linux-alpha@vger.kernel.org>); Sat, 2 Apr 2022 04:23:51 -0400
-Received: from mail-qk1-x733.google.com (mail-qk1-x733.google.com [IPv6:2607:f8b0:4864:20::733])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4ED682228C;
-        Sat,  2 Apr 2022 01:22:00 -0700 (PDT)
-Received: by mail-qk1-x733.google.com with SMTP id 85so3847141qkm.9;
-        Sat, 02 Apr 2022 01:22:00 -0700 (PDT)
+        with ESMTP id S230062AbiDBIgh (ORCPT
+        <rfc822;linux-alpha@vger.kernel.org>); Sat, 2 Apr 2022 04:36:37 -0400
+Received: from mail-qt1-x82c.google.com (mail-qt1-x82c.google.com [IPv6:2607:f8b0:4864:20::82c])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 072B8158558;
+        Sat,  2 Apr 2022 01:34:46 -0700 (PDT)
+Received: by mail-qt1-x82c.google.com with SMTP id bp39so3984003qtb.6;
+        Sat, 02 Apr 2022 01:34:45 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
         h=from:to:cc:subject:date:message-id:mime-version
          :content-transfer-encoding;
-        bh=2doMNH7ifB03QblJV2sV07sq+r0A6Mdk0Jlzv/ArvaY=;
-        b=VYxrlKcmGbTkEwUnHLtwCXXpdE5IDbdZvAYkotfFzWNxkJhSun2epO3gjmkx6giYv8
-         mNzcTkHe9iLzOBy2WYpd2+KmWpydubR3yi7pwYxBS39yUrR5HZRJhBUhUOaSW2r2+P1D
-         cJPzupk0ygyM8IgmK1mxbjjrT0lD1Q7vTipeJUSEJR9ZTqo3ajTj8Y2h0fTaFNFIws5d
-         NETWJb5ept2dh27vEId5jCg5o3bmg58eHk6NUCVbiF+4eApZ11A2eQo+NsdvvF7xF59G
-         0JywIlxOsBvz3Ymb5QG0cigbXh2x3aJlUyMtwh89sJjVmQbLox2jQxd2p6sCMZwf5W7e
-         y9Sg==
+        bh=Tfha1nXEQp5tnH0OT7lYvNtXkp0/rCs/1BLKkrtZnbc=;
+        b=Okfx0/e4xNIm4mKw8WX9qJApxey2071CaaKEMbniVf5ghLGtCCW+JTr3NaZVhnghOe
+         96iwVtE/kpNO0QyNa62PqceYRwvr4amAsOqmAFMzO92vcC5PI4eTjGV9xi+ILjZxwU6K
+         iQETuQmcDrGV1EQNq+uBZNHHAMqCXTkSLieoJpqzZtq6Eu5ecUzppmdiHl6W/u184Mxp
+         Cgx4Tq83A39LIC9xcfl3uFRthf4hCIxRXnMt/ZWh9R4unIYPzRh2pVkzfbX0jpgkXS49
+         RSUV+808bVOA8RJOlrE9cIDF4WG2eyrMuZURXdoIfuYIS1C8RwL+vsUzn/DkmWG5FtqU
+         x66g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
          :content-transfer-encoding;
-        bh=2doMNH7ifB03QblJV2sV07sq+r0A6Mdk0Jlzv/ArvaY=;
-        b=aeWco5zRepXIzbjGY4oZYazWJAMhp1m8VGsg7kuazaeG8mABXCeCmbxFRPUi8fgtl6
-         LHosAchs9IkdIQqON/CmzojJdfJ8H2aI2qvN9RFnP300+B7BjzzgY/2G9oJnoY9h+C/i
-         n+Q1+elCw2WLd/N5zZUrNutt+zTo8K4cecZ9oX/YRb3zAZaGkgDF0pBO5WxvVAfXN//z
-         +TibR+EtCAdmpRFQs7Tab7j2O54JR0phWRRr5Hgt8sPsYS5nmyUBo6YySPIs9HnfKRcZ
-         HeFxtf6S5gdZs2xZR7PF05kZav0oTNpggxs8g2rOw7wwJHsM8Cc1/kLED+v8WwhHdAAY
-         /2zA==
-X-Gm-Message-State: AOAM531/WXvEpNWjwUV/GQYtZORaEDJJ83bCPyzJqTM2GFTpW2WPpYcd
-        2ypsWPOEZQ2qLrwyEQbEz5d0vgxiKsc=
-X-Google-Smtp-Source: ABdhPJw8uQonUkmYuQ1OnU2jT+kjlBm6GiA0ePZAhHb50b+9u8cemwQFvTzQsUr5NUrlY1sBm8+3KQ==
-X-Received: by 2002:ae9:f00c:0:b0:67f:329e:9700 with SMTP id l12-20020ae9f00c000000b0067f329e9700mr8748032qkg.421.1648887719464;
-        Sat, 02 Apr 2022 01:21:59 -0700 (PDT)
+        bh=Tfha1nXEQp5tnH0OT7lYvNtXkp0/rCs/1BLKkrtZnbc=;
+        b=fMMbu/P1xwjBlkBWs74uqVXAO0lbHh6hesk3Nkx5yIVHN6MoQdII91aWv7uw+RJ4bY
+         dRZ5PCGChMGoJQHVPbglPbgATWivArjX0dlwwZdRxXksoAk+2+HivVM5F7hs657jR4U0
+         WLwoGZzii9PRza3e1NATL51FvP3ryYXvNcf1YUNs0vv+creRvv20oT5Zxyler7mnBTEk
+         BsIEIGYwAGypxHLM0uVGpdfguHoeYufvunVsBzSNJKIiizn4E7aZ9glRLsJoD583OokJ
+         WhNNDJC5JsDShDNtk9Uk0yoUs264QP6OzcQZti61UmPBwfZ3HEgPkZ8o0M5cvrwcoiuQ
+         /6bA==
+X-Gm-Message-State: AOAM532sPyWb+h1vffWfJmSdBRZ8UwCk8y39voBEqgGDJf0l/ytvro9W
+        m0vvuNCNybhu+uJHGeVKcho=
+X-Google-Smtp-Source: ABdhPJwfq+enwXW1WKkocNgin+7CGJQUN/e2R5dCD7uiQb4eIWzcOf+5brTtSbj2SynoMohIY6RE3Q==
+X-Received: by 2002:a05:622a:1315:b0:2e2:2952:11b8 with SMTP id v21-20020a05622a131500b002e2295211b8mr11269954qtk.244.1648888485207;
+        Sat, 02 Apr 2022 01:34:45 -0700 (PDT)
 Received: from localhost.localdomain ([193.203.214.57])
-        by smtp.gmail.com with ESMTPSA id 186-20020a370cc3000000b0067d36e3481dsm2552823qkm.17.2022.04.02.01.21.55
+        by smtp.gmail.com with ESMTPSA id de8-20020a05620a370800b0067ec34c9f27sm2569212qkb.129.2022.04.02.01.34.42
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 02 Apr 2022 01:21:58 -0700 (PDT)
+        Sat, 02 Apr 2022 01:34:44 -0700 (PDT)
 From:   cgel.zte@gmail.com
-X-Google-Original-From: yang.yang29@zte.com.cn
-To:     mattst88@gmail.com, masahiroy@kernel.org, hch@lst.de,
-        keescook@chromium.org, tglx@linutronix.de, mark.rutland@arm.com
-Cc:     rostedt@goodmis.org, mingo@redhat.com, yang.yang29@zte.com.cn,
-        linux-alpha@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: [PATCH RESEND] alpha: replace NR_SYSCALLS by NR_syscalls
-Date:   Sat,  2 Apr 2022 08:21:42 +0000
-Message-Id: <20220402082142.2413088-1-yang.yang29@zte.com.cn>
+X-Google-Original-From: lv.ruyi@zte.com.cn
+To:     rth@twiddle.net
+Cc:     ink@jurassic.park.msu.ru, mattst88@gmail.com, lv.ruyi@zte.com.cn,
+        linux-alpha@vger.kernel.org, linux-kernel@vger.kernel.org,
+        Zeal Robot <zealci@zte.com.cn>
+Subject: [PATCH] alpha: add null pointer check
+Date:   Sat,  2 Apr 2022 08:34:36 +0000
+Message-Id: <20220402083436.2413189-1-lv.ruyi@zte.com.cn>
 X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
@@ -69,68 +69,32 @@ Precedence: bulk
 List-ID: <linux-alpha.vger.kernel.org>
 X-Mailing-List: linux-alpha@vger.kernel.org
 
-From: Yang Yang <yang.yang29@zte.com.cn>
+From: Lv Ruyi <lv.ruyi@zte.com.cn>
 
-Reference to other arch likes x86_64 or arm64 to do this replacement.
-To solve compile error when using NR_syscalls in kernel[1].
+kmalloc is a memory allocation function which can return NULL when some
+internal memory errors happen. Add null pointer check to avoid
+dereferencing null pointer.
 
-[1] https://lore.kernel.org/all/202203270449.WBYQF9X3-lkp@intel.com/
-
-Signed-off-by: Yang Yang <yang.yang29@zte.com.cn>
+Reported-by: Zeal Robot <zealci@zte.com.cn>
+Signed-off-by: Lv Ruyi <lv.ruyi@zte.com.cn>
 ---
- arch/alpha/include/asm/unistd.h | 2 +-
- arch/alpha/kernel/entry.S       | 4 ++--
- kernel/trace/trace.h            | 2 +-
- 3 files changed, 4 insertions(+), 4 deletions(-)
+ arch/alpha/kernel/module.c | 2 ++
+ 1 file changed, 2 insertions(+)
 
-diff --git a/arch/alpha/include/asm/unistd.h b/arch/alpha/include/asm/unistd.h
-index 986f5da9b7d8..caabd92ea709 100644
---- a/arch/alpha/include/asm/unistd.h
-+++ b/arch/alpha/include/asm/unistd.h
-@@ -4,7 +4,7 @@
+diff --git a/arch/alpha/kernel/module.c b/arch/alpha/kernel/module.c
+index 5b60c248de9e..5442b75a98c2 100644
+--- a/arch/alpha/kernel/module.c
++++ b/arch/alpha/kernel/module.c
+@@ -47,6 +47,8 @@ process_reloc_for_got(Elf64_Rela *rela,
+ 		}
  
- #include <uapi/asm/unistd.h>
- 
--#define NR_SYSCALLS	__NR_syscalls
-+#define NR_syscalls	__NR_syscalls
- 
- #define __ARCH_WANT_NEW_STAT
- #define __ARCH_WANT_OLD_READDIR
-diff --git a/arch/alpha/kernel/entry.S b/arch/alpha/kernel/entry.S
-index e227f3a29a43..966400b925a5 100644
---- a/arch/alpha/kernel/entry.S
-+++ b/arch/alpha/kernel/entry.S
-@@ -454,7 +454,7 @@ entSys:
- 	SAVE_ALL
- 	lda	$8, 0x3fff
- 	bic	$sp, $8, $8
--	lda	$4, NR_SYSCALLS($31)
-+	lda	$4, NR_syscalls($31)
- 	stq	$16, SP_OFF+24($sp)
- 	lda	$5, sys_call_table
- 	lda	$27, sys_ni_syscall
-@@ -585,7 +585,7 @@ strace:
- 	ldq	$21, 88($sp)
- 
- 	/* get the system call pointer.. */
--	lda	$1, NR_SYSCALLS($31)
-+	lda	$1, NR_syscalls($31)
- 	lda	$2, sys_call_table
- 	lda	$27, sys_ni_syscall
- 	cmpult	$0, $1, $1
-diff --git a/kernel/trace/trace.h b/kernel/trace/trace.h
-index 07d990270e2a..7ad8324db192 100644
---- a/kernel/trace/trace.h
-+++ b/kernel/trace/trace.h
-@@ -25,7 +25,7 @@
- #include "pid_list.h"
- 
- #ifdef CONFIG_FTRACE_SYSCALLS
--#include <asm/unistd.h>		/* For NR_SYSCALLS	     */
-+#include <asm/unistd.h>		/* For NR_syscalls	     */
- #include <asm/syscall.h>	/* some archs define it here */
- #endif
- 
+ 	g = kmalloc (sizeof (*g), GFP_KERNEL);
++	if (!g)
++		return;
+ 	g->next = chains[r_sym].next;
+ 	g->r_addend = r_addend;
+ 	g->got_offset = *poffset;
 -- 
 2.25.1
+
 
