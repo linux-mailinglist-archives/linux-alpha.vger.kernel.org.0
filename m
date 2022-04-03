@@ -2,60 +2,70 @@ Return-Path: <linux-alpha-owner@vger.kernel.org>
 X-Original-To: lists+linux-alpha@lfdr.de
 Delivered-To: lists+linux-alpha@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 80F394F0494
-	for <lists+linux-alpha@lfdr.de>; Sat,  2 Apr 2022 17:47:24 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 618DB4F0705
+	for <lists+linux-alpha@lfdr.de>; Sun,  3 Apr 2022 05:06:36 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234718AbiDBPri (ORCPT <rfc822;lists+linux-alpha@lfdr.de>);
-        Sat, 2 Apr 2022 11:47:38 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53868 "EHLO
+        id S233972AbiDCDIZ (ORCPT <rfc822;lists+linux-alpha@lfdr.de>);
+        Sat, 2 Apr 2022 23:08:25 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53200 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1357387AbiDBPrf (ORCPT
-        <rfc822;linux-alpha@vger.kernel.org>); Sat, 2 Apr 2022 11:47:35 -0400
-Received: from zeniv-ca.linux.org.uk (zeniv-ca.linux.org.uk [IPv6:2607:5300:60:148a::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id EAF3B164D22;
-        Sat,  2 Apr 2022 08:45:43 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-        d=linux.org.uk; s=zeniv-20220401; h=Sender:In-Reply-To:Content-Type:
-        MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
-        Content-Transfer-Encoding:Content-ID:Content-Description;
-        bh=qrD3dLInNfleLqlGuKhkZmbWrdw03gFeC7x6uS63Upw=; b=fgT1s3C0m31iB+jxF8elaB2Ur1
-        KV8NTuktgsQyRbCUN1IhPGKFP4jqRt2oYZReQr5NgEyzb3bxttifzIXyv/jqIUxDbN3eBvRyPc2Qq
-        7360sHDlk9/k+xfzMUGKTUXq5fx//O8pvJmRA4dpwamuln78K+WBCTBaelhk5WFsYL9cICIMt2bVz
-        PH7wr5YRIii8EPyI+/sD+0s0LyDJnlssn1tFVEkS2e0l+/steVQCDS6QzhO3pcNxq1ZZ8qJHGv69I
-        L+xyI73E1TF7toXK+lRVsRKx/GjLccZtEsxr0iiC+qwUCTUmdy7DVF0h2DrHVIn8QXNKnqUHFia7C
-        B2Ce7yig==;
-Received: from viro by zeniv-ca.linux.org.uk with local (Exim 4.94.2 #2 (Red Hat Linux))
-        id 1nafwO-001rxq-I0; Sat, 02 Apr 2022 15:45:28 +0000
-Date:   Sat, 2 Apr 2022 15:45:28 +0000
-From:   Al Viro <viro@zeniv.linux.org.uk>
-To:     cgel.zte@gmail.com
-Cc:     rth@twiddle.net, ink@jurassic.park.msu.ru, mattst88@gmail.com,
-        lv.ruyi@zte.com.cn, linux-alpha@vger.kernel.org,
-        linux-kernel@vger.kernel.org, Zeal Robot <zealci@zte.com.cn>
-Subject: Re: [PATCH] alpha: add null pointer check
-Message-ID: <YkhvmH/eonkrT1M1@zeniv-ca.linux.org.uk>
-References: <20220402083436.2413189-1-lv.ruyi@zte.com.cn>
+        with ESMTP id S233222AbiDCDIT (ORCPT
+        <rfc822;linux-alpha@vger.kernel.org>); Sat, 2 Apr 2022 23:08:19 -0400
+X-Greylist: delayed 363 seconds by postgrey-1.37 at lindbergh.monkeyblade.net; Sat, 02 Apr 2022 20:06:24 PDT
+Received: from mta-out-01.alice.it (mta-out-01.alice.it [217.169.118.7])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTP id 69D6938DB2
+        for <linux-alpha@vger.kernel.org>; Sat,  2 Apr 2022 20:06:23 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=alice.it; s=20211207; t=1648955184; 
+        bh=47DEQpj8HBSa+/TImW+5JCeuQeRkm5NMpJWZG3hSuFU=;
+        h=Reply-To:From:To:Date:Message-ID:MIME-Version;
+        b=xYgcGRn/FRwQeLkCgn+I16/ISgcALCdvaOGa9yvIZKGYVFxdRsXdFivZAP2DOOiM9tY2iqGPgILSyfpOGDEG0UmwLy6/KEAngaFYUWr4YW4t2uN1YUtxg14N2CJf/RsADP8iGPFiTiHdESlLZeBYsb/IJ9EsvkscHD/T7/+a/ZL+rVcE4f42OxvtIidWXnKoPTYVC00uaDDpsADLb7z/iFqx0fnVmaHEpzJjlpSjGFkhBisB6+Su9JzHbCpx925ng2QrYFsGZngTSEzyTXehOU0t78mri6VgRg2HiF8XcUWYF8I8CaLVJsRJuivAmH58NbIZR6X/POzgF6BNAasTcQ==
+X-RazorGate-Vade: gggruggvucftvghtrhhoucdtuddrgedvvddrudeiledgiedvucetufdoteggodetrfdotffvucfrrhhofhhilhgvmecuvffgnffgvefqoffkvfetnffktedpqfgfvfenuceurghilhhouhhtmecufedtudenucfgmhhpthihuchsuhgsjhgvtghtucdluddtmdengfhmphhthicusghougihucdlhedtmdenucfjughrpehrhffvfffkggestddtfedttddttdenucfhrhhomhephggvuchhrghvvgcurghnuchofhhfvghruchtohcuihhnvhgvshhtuchinhcuhihouhhrucgtohhunhhtrhihuchunhguvghrucgruchjohhinhhtuchvvghnthhurhgvuchprghrthhnvghrshhhihhpuchplhgvrghsvgcurhgvphhlhicufhhorhcumhhorhgvucguvghtrghilhhsuceofhgpphgvnhhnrgesrghlihgtvgdrihhtqeenucggtffrrghtthgvrhhnpeehjeetgefhleetiedtkeelfffgjeeugeegleekueffgfegtdekkeeifedvvdffteenucfkphepudejiedrvddvjedrvdegvddrudeltdenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhephhgvlhhopegrlhhitggvrdhithdpihhnvghtpedujeeirddvvdejrddvgedvrdduledtpdhmrghilhhfrhhomhepfhgpphgvnhhnrgesrghlihgtvgdrihhtpdhnsggprhgtphhtthhopedupdhrtghpthhtoheplhhinhhugidqrghlphhhrgesvhhgvghrrdhkvghrnhgvlhdrohhrgh
+X-RazorGate-Vade-Verdict: clean 60
+X-RazorGate-Vade-Classification: clean
+Received: from alice.it (176.227.242.190) by mta-out-01.alice.it (5.8.807.04) (authenticated as f_penna@alice.it)
+        id 6244775000E19C4B for linux-alpha@vger.kernel.org; Sun, 3 Apr 2022 05:00:19 +0200
+Reply-To: dougfield20@inbox.lv
+From:   We have an offer to invest in your country under a
+         joint venture partnership please reply for more
+         details <f_penna@alice.it>
+To:     linux-alpha@vger.kernel.org
+Date:   02 Apr 2022 20:00:18 -0700
+Message-ID: <20220402200018.5A9CCF0A5F70CA7A@alice.it>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20220402083436.2413189-1-lv.ruyi@zte.com.cn>
-Sender: Al Viro <viro@ftp.linux.org.uk>
-X-Spam-Status: No, score=-4.3 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,SPF_HELO_NONE,SPF_NONE,
-        T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no version=3.4.6
+X-Spam-Status: Yes, score=5.7 required=5.0 tests=BAYES_50,BODY_EMPTY,
+        DKIM_INVALID,DKIM_SIGNED,EMPTY_MESSAGE,FREEMAIL_FROM,FREEMAIL_REPLYTO,
+        FREEMAIL_REPLYTO_END_DIGIT,MISSING_SUBJECT,RCVD_IN_DNSWL_LOW,
+        RCVD_IN_MSPIKE_BL,RCVD_IN_MSPIKE_L3,SPF_HELO_NONE,SPF_PASS
+        autolearn=no autolearn_force=no version=3.4.6
+X-Spam-Report: * -0.7 RCVD_IN_DNSWL_LOW RBL: Sender listed at https://www.dnswl.org/,
+        *       low trust
+        *      [217.169.118.7 listed in list.dnswl.org]
+        *  0.0 RCVD_IN_MSPIKE_L3 RBL: Low reputation (-3)
+        *      [217.169.118.7 listed in bl.mailspike.net]
+        *  0.8 BAYES_50 BODY: Bayes spam probability is 40 to 60%
+        *      [score: 0.5225]
+        *  0.0 FREEMAIL_FROM Sender email is commonly abused enduser mail
+        *      provider
+        *      [f_penna[at]alice.it]
+        * -0.0 SPF_PASS SPF: sender matches SPF record
+        *  0.2 FREEMAIL_REPLYTO_END_DIGIT Reply-To freemail username ends in
+        *      digit
+        *      [dougfield20[at]inbox.lv]
+        *  0.0 SPF_HELO_NONE SPF: HELO does not publish an SPF Record
+        *  0.1 DKIM_SIGNED Message has a DKIM or DK signature, not necessarily
+        *       valid
+        *  2.3 EMPTY_MESSAGE Message appears to have no textual parts and no
+        *      Subject: text
+        *  1.8 MISSING_SUBJECT Missing Subject: header
+        *  0.1 DKIM_INVALID DKIM or DK signature exists, but is not valid
+        *  0.0 RCVD_IN_MSPIKE_BL Mailspike blacklisted
+        *  0.0 BODY_EMPTY No body text in message
+        *  1.0 FREEMAIL_REPLYTO Reply-To/From or Reply-To/body contain
+        *      different freemails
+X-Spam-Level: *****
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-alpha.vger.kernel.org>
 X-Mailing-List: linux-alpha@vger.kernel.org
 
-On Sat, Apr 02, 2022 at 08:34:36AM +0000, cgel.zte@gmail.com wrote:
-> From: Lv Ruyi <lv.ruyi@zte.com.cn>
-> 
-> kmalloc is a memory allocation function which can return NULL when some
-> internal memory errors happen. Add null pointer check to avoid
-> dereferencing null pointer.
-
-Why is that fix correct?  The only caller (module_frob_arch_sections())
-has no way to tell we'd failed.  _IF_ ignoring the failure is the right
-thing to do, the analysis needs to be covered in commit message.
