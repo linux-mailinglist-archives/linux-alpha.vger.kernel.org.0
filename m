@@ -2,67 +2,74 @@ Return-Path: <linux-alpha-owner@vger.kernel.org>
 X-Original-To: lists+linux-alpha@lfdr.de
 Delivered-To: lists+linux-alpha@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 5EC3A4FA735
-	for <lists+linux-alpha@lfdr.de>; Sat,  9 Apr 2022 13:21:05 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id D896A4FADE9
+	for <lists+linux-alpha@lfdr.de>; Sun, 10 Apr 2022 14:40:49 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S238453AbiDILXK (ORCPT <rfc822;lists+linux-alpha@lfdr.de>);
-        Sat, 9 Apr 2022 07:23:10 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58818 "EHLO
+        id S242659AbiDJMms (ORCPT <rfc822;lists+linux-alpha@lfdr.de>);
+        Sun, 10 Apr 2022 08:42:48 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:32832 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S240347AbiDILXJ (ORCPT
-        <rfc822;linux-alpha@vger.kernel.org>); Sat, 9 Apr 2022 07:23:09 -0400
-Received: from mail-lf1-x129.google.com (mail-lf1-x129.google.com [IPv6:2a00:1450:4864:20::129])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 43653165A4
-        for <linux-alpha@vger.kernel.org>; Sat,  9 Apr 2022 04:21:02 -0700 (PDT)
-Received: by mail-lf1-x129.google.com with SMTP id x17so9861275lfa.10
-        for <linux-alpha@vger.kernel.org>; Sat, 09 Apr 2022 04:21:02 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=mime-version:reply-to:from:date:message-id:subject:to;
-        bh=9VEvPWPJ6/pRsRbOBzBgeRvW8C/j5reINh4zVhfcd7g=;
-        b=CLP+qi2LNJIL3DFGnK4/WwqrMGS3HOo6zKo0Om6LLBob1Sx35klgPrXkWGSjCLCjgd
-         opoy7Kh13/meiXKleS7u9JQ0DpMrJTGDukG2763g2NgstWczBzEuHUw8x2myOVz/3sU1
-         hZKUcUAAwyn4acwcpKMa9FJRw1QJC/MptHnlfWga+kk65Baj5RUsu3woP+HkvNSpd8fJ
-         UCjhj4eqkFnvPIWB1l8teLxUI11g4FT30lW7pOA0D0c4iV80Bw4Pc0/v780iOmjZ4r8v
-         MVE/WC/JmI96ws0dMP89wSsgUaYBQn7IyY2zxF4Xf+nqa4YsB8z1kaTjqLoARDhDww+B
-         jNhg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:reply-to:from:date:message-id
-         :subject:to;
-        bh=9VEvPWPJ6/pRsRbOBzBgeRvW8C/j5reINh4zVhfcd7g=;
-        b=5sp9BSCLoFe280mUgLXNXfIT2K5vfyrhHhz7d5Kuh5JcWX2ztaCplT20lBhPG6PCeA
-         g+GvCfy8E7hoOpNyt/sk9i7dFsnjq6xGxEtCQGP0WWTucI6MY3bJ7HOxkibyTydTuW18
-         /KooBljKVYK71SzyHFkbVLftmkCZKfDGLPwCZzjOeNxIIzW/8KnfCR8pMFz391cTBDvs
-         5nXdO9LDymrA+ir1qCRNhCNdqY6oB27rG0Q7S7KDbB+r/ep6r+6tNHOvQQU1xirS7VfL
-         3C3rzaceFKKi6cGSrzx9YVsTy6RG4epeKPPx6TjdgP2mtciMiAIl7pvk4iXmmaDJwzHz
-         wPww==
-X-Gm-Message-State: AOAM533FFjhjz1ODXSHQMTMr5Kdtf4RaExAZHXC12F0gJVdGUNZx2PQ9
-        7Fv1iuwCk+4bL5Pi5j6sgak9mCwdMPeqZsAANCA=
-X-Google-Smtp-Source: ABdhPJyiqPs9k7RXtLYch9fpxgvYKmQWqTiLFBFoQXjL+I48zwYXgrI9p6qLjhqmP9DUccaNcOS4eP+jcT6zMxfvmLI=
-X-Received: by 2002:a05:6512:3fa2:b0:44a:f3f0:47b6 with SMTP id
- x34-20020a0565123fa200b0044af3f047b6mr15889081lfa.610.1649503259933; Sat, 09
- Apr 2022 04:20:59 -0700 (PDT)
+        with ESMTP id S239199AbiDJMmr (ORCPT
+        <rfc822;linux-alpha@vger.kernel.org>);
+        Sun, 10 Apr 2022 08:42:47 -0400
+Received: from mta-out-01.tin.it (mta-out-01.tin.it [217.169.118.4])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTP id E44224B411
+        for <linux-alpha@vger.kernel.org>; Sun, 10 Apr 2022 05:40:35 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=alice.it; s=20211207; t=1649594436; 
+        bh=aYnN2M2/J7LiDks3GtVfK/dknBgrlIPDu1xhTIZ5SQ0=;
+        h=Message-ID:Content-Type:MIME-Version:Content-Transfer-Encoding:Content-Description:Subject:To:From:Date:Reply-To;
+        b=StPz0lZW8+NweWLqqAii9iZrUbPmXpaQnMLm5V9n3ZNiIktIfztXVlZr50WA+k/nlDuyxutx5ZdIGPBhRod4FwSvtQi1KQICdc7BYKUgpzAVfE6Hl4o49uZi5b+QlicwCzg54yzGW4fHXz7Adw6Mlsq0F8epz7/ib62vFHU5n4VrQY2uBP+/rvYQnCK3zmHRBZq+pFy3rqJjdNNxlgDiljbxWRykcHUNdqGKGrchQPK5zMrEdHyD6J4B/Mb8vsf+WzauyiatnOXvu3flLbg+dpqjMXu0Oh5tmjZ/7A6Xma7ihTYZw1sXF91PQXkLBuOseiXzgZD5/uAlgBP4v+BuSA==
+X-RazorGate-Vade: gggruggvucftvghtrhhoucdtuddrgedvvddrudekgedgheduucetufdoteggodetrfdotffvucfrrhhofhhilhgvmecuvffgnffgvefqoffkvfetnffktedpqfgfvfenuceurghilhhouhhtmecufedtudenucenucfjughrpegtggfguffvhfffrhesthhqtddttddtudenucfhrhhomhepfdforghtthhhrghishcuofhitghhrggvlhdfoehfihhlihhpphhordeffeelkeekvddugeehudesrghlihgtvgdrihhtqeenucggtffrrghtthgvrhhnpeelieekgeevleeigffhgeefueelkedtjedtteekvefhieelieegtdejgeekhfdugeenucfkphepkeejrddutddurdelgedrfeegnecuvehluhhsthgvrhfuihiivgepheeigeenucfrrghrrghmpehhvghloheplgdutddtrdduvdejrddvheehrddvheefngdpihhnvghtpeekjedruddtuddrleegrdefgedpmhgrihhlfhhrohhmpehfihhlihhpphhordeffeelkeekvddugeehudesrghlihgtvgdrihhtpdhnsggprhgtphhtthhopedupdhrtghpthhtoheplhhinhhugidqrghlphhhrgesvhhgvghrrdhkvghrnhgvlhdrohhrgh
+X-RazorGate-Vade-Verdict: clean 0
+X-RazorGate-Vade-Classification: clean
+Received: from [100.127.255.253] (87.101.94.34) by mta-out-01.tin.it (5.8.807.04) (authenticated as giorgioborrelli3@tin.it)
+        id 624F381A0060B3B3 for linux-alpha@vger.kernel.org; Sun, 10 Apr 2022 14:37:33 +0200
+Message-ID: <624F381A0060B3B3@mta-out-01.tin.it> (added by postmaster@tin.it)
+Content-Type: text/plain; charset="iso-8859-1"
 MIME-Version: 1.0
-Received: by 2002:a2e:a78f:0:0:0:0:0 with HTTP; Sat, 9 Apr 2022 04:20:59 -0700 (PDT)
-Reply-To: gr576366@gmail.com
-From:   Margaret Ko May-Yee Leung <moruri999.m@gmail.com>
-Date:   Sat, 9 Apr 2022 14:20:59 +0300
-Message-ID: <CAGFXwJfLk9MknVx4gBg_maV0gZ5HadwBXLjEgvfwPvZb_iSjPA@mail.gmail.com>
-Subject: Re;
-To:     undisclosed-recipients:;
-Content-Type: text/plain; charset="UTF-8"
-X-Spam-Status: No, score=4.8 required=5.0 tests=BAYES_20,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,FREEMAIL_REPLYTO,
-        FREEMAIL_REPLYTO_END_DIGIT,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,
-        T_SCC_BODY_TEXT_LINE,UNDISC_FREEM autolearn=no autolearn_force=no
+Content-Transfer-Encoding: quoted-printable
+Content-Description: Mail message body
+Subject: reconfirm 
+To:     linux-alpha@vger.kernel.org
+From:   "Matthais Michael" <filippo.3398821451@alice.it>
+Date:   Sun, 10 Apr 2022 13:37:00 +0100
+Reply-To: matthais.michael@cheapnet.it
+Sensitivity: Personal
+X-Spam-Status: No, score=3.9 required=5.0 tests=BAYES_50,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_ENVFROM_END_DIGIT,
+        FREEMAIL_FROM,FROM_MISSP_FREEMAIL,LOTS_OF_MONEY,MONEY_FROM_MISSP,
+        RCVD_IN_DNSWL_LOW,RCVD_IN_MSPIKE_BL,RCVD_IN_MSPIKE_L4,SPF_HELO_NONE,
+        SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=no autolearn_force=no
         version=3.4.6
-X-Spam-Level: ****
+X-Spam-Level: ***
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-alpha.vger.kernel.org>
 X-Mailing-List: linux-alpha@vger.kernel.org
 
--- 
-I have a profitable deal for you
+My n a m e is Matthais Michael, the Director of Financial Security and Trus=
+t F u n d Builders, our company was contracted to release your Covid-19 Com=
+pensation p a y m e n t to you on behalf of the UNITED NATION (UN). Your pa=
+yment R e l e a s e Code is: CNG/3480/04/00. The Total amount payable to yo=
+u is US$7.5 Million.
+
+You are to reconfirm the following information to enable us determine that =
+we are dealing with the right b e n e f i c i a r y, also the receipt of yo=
+ur information  will facilitate the processing of your payment:
+
+1 F u l l Name:
+2 Residential address:
+3 A g e:
+4 Occupation:
+5 D i r e c t telephone n u m b e r s:
+
+After verification of your Information, you will be contacted with detailed=
+ i n f o r m a t i o n of procedures for the immediate release of your paym=
+ent to y o u without any hitch whatsoever.
+
+Send the requested information so we can proceed accordingly.
+
+Regards
+
+Mr. Matthais Michael
