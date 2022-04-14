@@ -2,80 +2,94 @@ Return-Path: <linux-alpha-owner@vger.kernel.org>
 X-Original-To: lists+linux-alpha@lfdr.de
 Delivered-To: lists+linux-alpha@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 450DC5006E5
-	for <lists+linux-alpha@lfdr.de>; Thu, 14 Apr 2022 09:30:52 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 183D7501EE0
+	for <lists+linux-alpha@lfdr.de>; Fri, 15 Apr 2022 01:07:22 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S240332AbiDNHdN (ORCPT <rfc822;lists+linux-alpha@lfdr.de>);
-        Thu, 14 Apr 2022 03:33:13 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50154 "EHLO
+        id S1347502AbiDNXJD (ORCPT <rfc822;lists+linux-alpha@lfdr.de>);
+        Thu, 14 Apr 2022 19:09:03 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46838 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S240330AbiDNHdE (ORCPT
+        with ESMTP id S1347505AbiDNXI7 (ORCPT
         <rfc822;linux-alpha@vger.kernel.org>);
-        Thu, 14 Apr 2022 03:33:04 -0400
-Received: from outpost1.zedat.fu-berlin.de (outpost1.zedat.fu-berlin.de [130.133.4.66])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1AD6F5418B;
-        Thu, 14 Apr 2022 00:30:38 -0700 (PDT)
-Received: from inpost2.zedat.fu-berlin.de ([130.133.4.69])
-          by outpost.zedat.fu-berlin.de (Exim 4.95)
-          with esmtps (TLS1.3)
-          tls TLS_AES_256_GCM_SHA384
-          (envelope-from <glaubitz@zedat.fu-berlin.de>)
-          id 1netw2-001Q8x-MV; Thu, 14 Apr 2022 09:30:34 +0200
-Received: from p57bd9a34.dip0.t-ipconnect.de ([87.189.154.52] helo=[192.168.178.81])
-          by inpost2.zedat.fu-berlin.de (Exim 4.95)
-          with esmtpsa (TLS1.3)
-          tls TLS_AES_128_GCM_SHA256
-          (envelope-from <glaubitz@physik.fu-berlin.de>)
-          id 1netw2-002qc5-7P; Thu, 14 Apr 2022 09:30:34 +0200
-Message-ID: <aa1e5107-22b6-3225-bad0-a2036782ce61@physik.fu-berlin.de>
-Date:   Thu, 14 Apr 2022 09:30:30 +0200
+        Thu, 14 Apr 2022 19:08:59 -0400
+Received: from mail-ej1-x629.google.com (mail-ej1-x629.google.com [IPv6:2a00:1450:4864:20::629])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A26C0C4E06;
+        Thu, 14 Apr 2022 16:06:30 -0700 (PDT)
+Received: by mail-ej1-x629.google.com with SMTP id s18so12803568ejr.0;
+        Thu, 14 Apr 2022 16:06:30 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=FWv6HfHgguUI/DkyUK/M7ub8F2Hnwf3DDEuvQm5kh6I=;
+        b=jVw4GOcH3RcqMdY546tIfnHKAzKSFVrfdcuyiuXhRJIGn3nRu3J2PWpR+iHQpxNCTY
+         jQ+0GaJtldFjCISeshgIIbBqo4oIUDlIb2qyJuoM95LzxDapZG3cPvzVonUy6xEh/i/W
+         HT3l3O5uRTjYEK74yI6QMkszUHbK7FxncW1YiS4MXVD82YEfd+o7h7CYbke3vwYkAEXp
+         8iCVEpE2NEUhRNGFRzsTDyxZikHEbFp3EcSb61jiQ+HnVFLDMMMVA5lV5M88Ym/c/Y2Q
+         jTJREQhCH+nOyy+EB2bqJ7wdOuEGmLUZAr809Jwb1ijz5rROe9L/UeH3noCgbUKxb6+f
+         O3Vw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=FWv6HfHgguUI/DkyUK/M7ub8F2Hnwf3DDEuvQm5kh6I=;
+        b=tEwyhzj2bkkFoFkgq4EjhdvP/2tYY59HtNS9ZNDe/Gv5XCKLCOQfSNU5c11EXg3lnb
+         vRMm8Q3PaIKxeR8HbhtGiyhM/OBdzloHd102Wl0LvagS7GIDX+6TL+fdVdSrQHs87U5s
+         +tEBhXA2QnJ6MVwTSz306mJXCWGVBJVC0CKjWeiUezBEOSZCJd9icMHy/NatexvV73w7
+         AWQEeuwg5aLEXXRujvU7zK47y/6P6DkvCHFQU/dLAQ2MS6Qn+TpMHl3UEeo23P/uw/U2
+         XMlFeWGlTWVdnwsa55wwAFA2VcKaEe69m7h6zxoiK2KXqAiNrPMgP6Y6RUfj31lDU6jh
+         LzhQ==
+X-Gm-Message-State: AOAM533gwFmk7g0fvWNEryemFWh7vQVxtt5oL83wXgJpVMjlqS87hv68
+        uwNYSMYGX2aOVRRR2Z0RfzgtooLtyoM5U2nbT6FXIDPEGLptPQ==
+X-Google-Smtp-Source: ABdhPJzFYecPFk5iqrvSN42xj2qiqfmHlA6CP+95l1Euk0rl59I2XblLMR2RCz1MPbEqv0sdHhhEn4ZtX1SD4NDGOuI=
+X-Received: by 2002:a17:907:c05:b0:6db:f118:8834 with SMTP id
+ ga5-20020a1709070c0500b006dbf1188834mr4220431ejc.536.1649977589007; Thu, 14
+ Apr 2022 16:06:29 -0700 (PDT)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.7.0
-Subject: Re: [PING^3][PATCH] Alpha: Remove redundant local asm header
- redirections
-Content-Language: en-US
-To:     "Maciej W. Rozycki" <macro@orcam.me.uk>,
-        Ivan Kokshaysky <ink@jurassic.park.msu.ru>,
-        Matt Turner <mattst88@gmail.com>
-Cc:     linux-alpha@vger.kernel.org, linux-kernel@vger.kernel.org
 References: <alpine.DEB.2.21.2202131944000.34636@angie.orcam.me.uk>
- <alpine.DEB.2.21.2204132104530.9383@angie.orcam.me.uk>
-From:   John Paul Adrian Glaubitz <glaubitz@physik.fu-berlin.de>
-In-Reply-To: <alpine.DEB.2.21.2204132104530.9383@angie.orcam.me.uk>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-Original-Sender: glaubitz@physik.fu-berlin.de
-X-Originating-IP: 87.189.154.52
-X-Spam-Status: No, score=-6.7 required=5.0 tests=BAYES_00,NICE_REPLY_A,
-        RCVD_IN_DNSWL_MED,RCVD_IN_MSPIKE_H3,RCVD_IN_MSPIKE_WL,SPF_HELO_NONE,
-        SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no
-        version=3.4.6
+In-Reply-To: <alpine.DEB.2.21.2202131944000.34636@angie.orcam.me.uk>
+From:   Matt Turner <mattst88@gmail.com>
+Date:   Thu, 14 Apr 2022 16:06:17 -0700
+Message-ID: <CAEdQ38EpBMnkP-PNZnwaoO4poFJQO5YSFJeZgiQ-obJmjogBFQ@mail.gmail.com>
+Subject: Re: [PATCH] Alpha: Remove redundant local asm header redirections
+To:     "Maciej W. Rozycki" <macro@orcam.me.uk>
+Cc:     Richard Henderson <rth@twiddle.net>,
+        Ivan Kokshaysky <ink@jurassic.park.msu.ru>,
+        linux-alpha <linux-alpha@vger.kernel.org>,
+        LKML <linux-kernel@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
+X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_ENVFROM_END_DIGIT,
+        FREEMAIL_FROM,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,
+        T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-alpha.vger.kernel.org>
 X-Mailing-List: linux-alpha@vger.kernel.org
 
-Hi Maciej!
+On Sun, Feb 13, 2022 at 12:01 PM Maciej W. Rozycki <macro@orcam.me.uk> wrote:
+>
+> Remove a number of asm headers locally redirected to the respective
+> generic or generated versions.
+>
+> For asm-offsets.h all that is needed is a Kbuild entry for the generic
+> version, and for div64.h, irq_regs.h and kdebug.h nothing is needed as
+> in their absence they will be redirected automatically according to
+> include/asm-generic/Kbuild.
+>
+> Signed-off-by: Maciej W. Rozycki <macro@orcam.me.uk>
+> ---
+> Hi,
+>
+>  Noticed while fiddling with Kbuild for PARPORT_PC.  Please apply.
+>
+>   Maciej
 
-On 4/14/22 00:53, Maciej W. Rozycki wrote:
-> On Sun, 13 Feb 2022, Maciej W. Rozycki wrote:
-> 
->> Remove a number of asm headers locally redirected to the respective 
->> generic or generated versions.
-> 
->  Ping for:
-> <https://lore.kernel.org/lkml/alpine.DEB.2.21.2202131944000.34636@angie.orcam.me.uk/>
 
-Maybe Andrew Morton could pick the fix up if the original maintainer is currently
-not responding?
+Sorry for the delay. I'll apply this. I just haven't had much time for
+alphas lately.
 
-Adrian
-
--- 
- .''`.  John Paul Adrian Glaubitz
-: :' :  Debian Developer - glaubitz@debian.org
-`. `'   Freie Universitaet Berlin - glaubitz@physik.fu-berlin.de
-  `-    GPG: 62FF 8A75 84E0 2956 9546  0006 7426 3B37 F5B5 F913
-
+Maybe now's a good time to remind you that I'm still waiting on you to
+upstream the m41t80/SWARM/i2c/smbus patches? It's been more than 11
+years now, so it seems long enough for a ping :)
