@@ -2,97 +2,73 @@ Return-Path: <linux-alpha-owner@vger.kernel.org>
 X-Original-To: lists+linux-alpha@lfdr.de
 Delivered-To: lists+linux-alpha@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 3E7BC51E0AE
-	for <lists+linux-alpha@lfdr.de>; Fri,  6 May 2022 23:06:19 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 9DDDF51E177
+	for <lists+linux-alpha@lfdr.de>; Fri,  6 May 2022 23:57:39 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1444370AbiEFVJk (ORCPT <rfc822;lists+linux-alpha@lfdr.de>);
-        Fri, 6 May 2022 17:09:40 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33908 "EHLO
+        id S244572AbiEFWBV (ORCPT <rfc822;lists+linux-alpha@lfdr.de>);
+        Fri, 6 May 2022 18:01:21 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48900 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1444422AbiEFVJW (ORCPT
-        <rfc822;linux-alpha@vger.kernel.org>); Fri, 6 May 2022 17:09:22 -0400
-Received: from mail-pj1-x1043.google.com (mail-pj1-x1043.google.com [IPv6:2607:f8b0:4864:20::1043])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E51271CFCF
-        for <linux-alpha@vger.kernel.org>; Fri,  6 May 2022 14:05:35 -0700 (PDT)
-Received: by mail-pj1-x1043.google.com with SMTP id e24so8057351pjt.2
-        for <linux-alpha@vger.kernel.org>; Fri, 06 May 2022 14:05:35 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=mime-version:reply-to:in-reply-to:references:from:date:message-id
-         :subject:to;
-        bh=VSSUIwdzgxQxnEkB7+u7pnweyPajIQMP3nQqWYs8VX0=;
-        b=gmmgqd2enKSblS7bCmnm2ivMD5ZTgpfnW/j/MNizwci6pH3rJEQXq3L9+ZdKL4HUTr
-         YB+Dhjpe2MkKztjhU+UDqenquKjwj+pPKOCMhVrtxmSec4u8GzSTlKnYmXQROsqwJ7YF
-         fpyt4ZWxoGKOIdNHSzn6X8527WsL9seFFIUc417Aceaz0HyqyfLzhrTyiK1hfEoe7bgf
-         O66BH+VPp/USBREXReLf48zIB9vdsgcsn+kPDpodP7afE/7TIv51GGMLWkNAhK51uLVF
-         lGR5deZqynPeLivFeL+j4lPiytJOppTfXKPKuEkvtzBoRNP5faKFInL0FLuVz9LTzW90
-         0CuA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:reply-to:in-reply-to:references
-         :from:date:message-id:subject:to;
-        bh=VSSUIwdzgxQxnEkB7+u7pnweyPajIQMP3nQqWYs8VX0=;
-        b=nAW+fQPHaapZSTEJdC+zYNRqw2Ajtz09jBmoX+0qe6ojOZpv60JfFKh0ap0tVMSXag
-         y+RHGLQ8YKCX4/yT6R9CkZjWFik7gvqQdjY42BlevxSD6INdnwS5e7Bq3b6t2wCo1LlM
-         KpCJWoEMsuI2LmzV/gRFZHDQbl2EpVcGV++ZgN3EAAuF2/JLYb59QqO0v46kArs2te5B
-         uuBaTuiQ1s/YfZ0qURtGe9aGQwIpqBJA2YqaRqNPGgnqDhTM65LhM9UkqzsgYdEFPBo8
-         CRhbS/sFE4lmvklrDq2eg2uR/JaOjc3ykMEbaApIztOAW7EMboaC/NeieSa4XfdEd8jv
-         m8Ww==
-X-Gm-Message-State: AOAM5333YejNGffJHnhdoSEYC27dMunRjgmuoQoO/k48uogFX2zSFzxE
-        DOW+BFWfS7ECGWelp7ylSh3G9SY40AJ+eFurZA==
-X-Google-Smtp-Source: ABdhPJyqTkc39jIaJ9/Rbqdi6sONfGmoHQRCW6ADRHNTA3OhSOJwlsoTVRnEtva6v71BUuTBbiWSrg7BAnP42QBwIqU=
-X-Received: by 2002:a17:902:a501:b0:153:f956:29f0 with SMTP id
- s1-20020a170902a50100b00153f95629f0mr5598333plq.120.1651871135500; Fri, 06
- May 2022 14:05:35 -0700 (PDT)
+        with ESMTP id S233009AbiEFWBU (ORCPT
+        <rfc822;linux-alpha@vger.kernel.org>); Fri, 6 May 2022 18:01:20 -0400
+X-Greylist: delayed 2159 seconds by postgrey-1.37 at lindbergh.monkeyblade.net; Fri, 06 May 2022 14:57:35 PDT
+Received: from smtp-1.orcon.net.nz (smtp-1.orcon.net.nz [60.234.4.34])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A0B1F24BD8;
+        Fri,  6 May 2022 14:57:35 -0700 (PDT)
+Received: from [121.99.247.178] (port=6746 helo=creeky)
+        by smtp-1.orcon.net.nz with esmtpa (Exim 4.90_1)
+        (envelope-from <mcree@orcon.net.nz>)
+        id 1nn5OE-0004Rh-Me; Sat, 07 May 2022 09:21:31 +1200
+Date:   Sat, 7 May 2022 09:21:25 +1200
+From:   Michael Cree <mcree@orcon.net.nz>
+To:     linux-alpha@vger.kernel.org
+Cc:     linux-kernel@vger.kernel.org, Joonsoo Kim <iamjoonsoo.kim@lge.com>,
+        Andrew Morton <akpm@linux-foundation.org>
+Subject: Alpha: rare random memory corruption/segfault in user space bisected
+Message-ID: <YnWRVd5slCy5H0fC@creeky>
+Mail-Followup-To: Michael Cree <mcree@orcon.net.nz>,
+        linux-alpha@vger.kernel.org, linux-kernel@vger.kernel.org,
+        Joonsoo Kim <iamjoonsoo.kim@lge.com>,
+        Andrew Morton <akpm@linux-foundation.org>
 MIME-Version: 1.0
-Received: by 2002:ac4:9906:0:b0:4ba:807b:b8f3 with HTTP; Fri, 6 May 2022
- 14:05:33 -0700 (PDT)
-Reply-To: warren001buffett@gmail.com
-In-Reply-To: <CAD_xG_pvNZK6BFCW+28Xv4DE=_5rbDZXDok2BYNn9xw6Ma7iow@mail.gmail.com>
-References: <CAD_xG_pvNZK6BFCW+28Xv4DE=_5rbDZXDok2BYNn9xw6Ma7iow@mail.gmail.com>
-From:   Warren Buffett <guidayema@gmail.com>
-Date:   Fri, 6 May 2022 21:05:33 +0000
-Message-ID: <CAD_xG_o-NeOti3yu7R9R5-myJ=Pi4nnU5Tuumw-xPcT-nT8e=Q@mail.gmail.com>
-Subject: Fwd: My name is Warren Buffett, an American businessman.
-To:     undisclosed-recipients:;
-Content-Type: text/plain; charset="UTF-8"
-X-Spam-Status: Yes, score=5.1 required=5.0 tests=BAYES_50,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,FREEMAIL_REPLYTO,
-        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE,
-        UNDISC_FREEM autolearn=no autolearn_force=no version=3.4.6
-X-Spam-Report: * -0.0 RCVD_IN_DNSWL_NONE RBL: Sender listed at
-        *      https://www.dnswl.org/, no trust
-        *      [2607:f8b0:4864:20:0:0:0:1043 listed in]
-        [list.dnswl.org]
-        *  0.8 BAYES_50 BODY: Bayes spam probability is 40 to 60%
-        *      [score: 0.4969]
-        *  0.0 SPF_HELO_NONE SPF: HELO does not publish an SPF Record
-        *  0.0 FREEMAIL_FROM Sender email is commonly abused enduser mail
-        *      provider
-        *      [guidayema[at]gmail.com]
-        * -0.0 SPF_PASS SPF: sender matches SPF record
-        * -0.1 DKIM_VALID Message has at least one valid DKIM or DK signature
-        * -0.1 DKIM_VALID_EF Message has a valid DKIM or DK signature from
-        *      envelope-from domain
-        *  0.1 DKIM_SIGNED Message has a DKIM or DK signature, not necessarily
-        *       valid
-        * -0.1 DKIM_VALID_AU Message has a valid DKIM or DK signature from
-        *      author's domain
-        * -0.0 T_SCC_BODY_TEXT_LINE No description available.
-        *  3.5 UNDISC_FREEM Undisclosed recipients + freemail reply-to
-        *  1.0 FREEMAIL_REPLYTO Reply-To/From or Reply-To/body contain
-        *      different freemails
-X-Spam-Level: *****
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+X-GeoIP: NZ
+X-Spam_score: -2.9
+X-Spam_score_int: -28
+X-Spam_bar: --
+X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,FREEMAIL_FROM,
+        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE
+        autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-alpha.vger.kernel.org>
 X-Mailing-List: linux-alpha@vger.kernel.org
 
-My name is Warren Buffett, an American businessman and investor I have
-something important to discuss with you.
+Alpha kernel has been exhibiting rare and random memory
+corruptions/segaults in user space since the 5.9.y kernel.  First seen
+on the Debian Ports build daemon when running 5.10.y kernel resulting
+in the occasional (one or two a day) build failures with gcc ICEs either
+due to self detected corrupt memory structures or segfaults.  Have been
+running 5.8.y kernel without such problems for over six months.
 
-Mr. Warren Buffett
-warren001buffett@gmail.com
-Chief Executive Officer: Berkshire Hathaway
-aphy/Warren-Edward-Buffett
+Tried bisecting last year but went off track with incorrect good/bad
+determinations due to rare nature of bug.  After trying a 5.16.y kernel
+early this year and seen the bug is still present retried the bisection
+and have got to:
+
+aae466b0052e1888edd1d7f473d4310d64936196 is the first bad commit
+commit aae466b0052e1888edd1d7f473d4310d64936196
+Author: Joonsoo Kim <iamjoonsoo.kim@lge.com>
+Date:   Tue Aug 11 18:30:50 2020 -0700
+
+    mm/swap: implement workingset detection for anonymous LRU
+
+
+Pretty confident this is the bad commit as the kernel built to the parent
+commit (3852f6768ede54...) has not failed in four days running. Always have
+seen the failure within one day of running in past.
+
+Cheers,
+Michael.
