@@ -2,118 +2,93 @@ Return-Path: <linux-alpha-owner@vger.kernel.org>
 X-Original-To: lists+linux-alpha@lfdr.de
 Delivered-To: lists+linux-alpha@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 3EB4952C6AE
-	for <lists+linux-alpha@lfdr.de>; Thu, 19 May 2022 00:54:50 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 6485552C6E2
+	for <lists+linux-alpha@lfdr.de>; Thu, 19 May 2022 00:57:31 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230213AbiERWyi (ORCPT <rfc822;lists+linux-alpha@lfdr.de>);
-        Wed, 18 May 2022 18:54:38 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38260 "EHLO
+        id S231261AbiERW5C (ORCPT <rfc822;lists+linux-alpha@lfdr.de>);
+        Wed, 18 May 2022 18:57:02 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39974 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229960AbiERWyg (ORCPT
+        with ESMTP id S231725AbiERW4k (ORCPT
         <rfc822;linux-alpha@vger.kernel.org>);
-        Wed, 18 May 2022 18:54:36 -0400
-Received: from out03.mta.xmission.com (out03.mta.xmission.com [166.70.13.233])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id EBD232265D0;
-        Wed, 18 May 2022 15:54:35 -0700 (PDT)
-Received: from in01.mta.xmission.com ([166.70.13.51]:60712)
-        by out03.mta.xmission.com with esmtps  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
-        (Exim 4.93)
-        (envelope-from <ebiederm@xmission.com>)
-        id 1nrSYj-00CkVI-6u; Wed, 18 May 2022 16:54:25 -0600
-Received: from ip68-227-174-4.om.om.cox.net ([68.227.174.4]:38724 helo=localhost.localdomain)
-        by in01.mta.xmission.com with esmtpsa  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
-        (Exim 4.93)
-        (envelope-from <ebiederm@xmission.com>)
-        id 1nrSYf-002Z0O-Er; Wed, 18 May 2022 16:54:24 -0600
-From:   "Eric W. Biederman" <ebiederm@xmission.com>
-To:     linux-kernel@vger.kernel.org
-Cc:     rjw@rjwysocki.net, Oleg Nesterov <oleg@redhat.com>,
-        mingo@kernel.org, vincent.guittot@linaro.org,
-        dietmar.eggemann@arm.com, rostedt@goodmis.org, mgorman@suse.de,
-        bigeasy@linutronix.de, Will Deacon <will@kernel.org>,
-        tj@kernel.org, linux-pm@vger.kernel.org,
-        Peter Zijlstra <peterz@infradead.org>,
-        Richard Weinberger <richard@nod.at>,
-        Anton Ivanov <anton.ivanov@cambridgegreys.com>,
-        Johannes Berg <johannes@sipsolutions.net>,
-        linux-um@lists.infradead.org, Chris Zankel <chris@zankel.net>,
-        Max Filippov <jcmvbkbc@gmail.com>,
-        linux-xtensa@linux-xtensa.org, Kees Cook <keescook@chromium.org>,
-        Jann Horn <jannh@google.com>, linux-ia64@vger.kernel.org,
-        Robert OCallahan <roc@pernos.co>, Kyle Huey <khuey@pernos.co>,
-        Richard Henderson <rth@twiddle.net>,
-        Ivan Kokshaysky <ink@jurassic.park.msu.ru>,
-        Matt Turner <mattst88@gmail.com>,
-        Jason Wessel <jason.wessel@windriver.com>,
-        Daniel Thompson <daniel.thompson@linaro.org>,
-        Douglas Anderson <dianders@chromium.org>,
-        Douglas Miller <dougmill@linux.vnet.ibm.com>,
-        Michael Ellerman <mpe@ellerman.id.au>,
-        Benjamin Herrenschmidt <benh@kernel.crashing.org>,
-        Paul Mackerras <paulus@samba.org>,
-        "Eric W. Biederman" <ebiederm@xmission.com>,
-        linux-alpha@vger.kernel.org
-Date:   Wed, 18 May 2022 17:53:40 -0500
-Message-Id: <20220518225355.784371-1-ebiederm@xmission.com>
-X-Mailer: git-send-email 2.30.2
-In-Reply-To: <871qwq5ucx.fsf_-_@email.froward.int.ebiederm.org>
-References: <871qwq5ucx.fsf_-_@email.froward.int.ebiederm.org>
+        Wed, 18 May 2022 18:56:40 -0400
+Received: from mail-yb1-xb30.google.com (mail-yb1-xb30.google.com [IPv6:2607:f8b0:4864:20::b30])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0354DDF6
+        for <linux-alpha@vger.kernel.org>; Wed, 18 May 2022 15:56:39 -0700 (PDT)
+Received: by mail-yb1-xb30.google.com with SMTP id r1so6130839ybo.7
+        for <linux-alpha@vger.kernel.org>; Wed, 18 May 2022 15:56:38 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=mime-version:reply-to:from:date:message-id:subject:to;
+        bh=mZ3wqB4NmL7z6lpFr/h15h1rYqsZKafJnUpMVahbEPg=;
+        b=P7btzPR/Vle5l5s7elmWUZ9LbIEztS0Dc/XWoKmbneMBSsyDUMsuJq4Ylhmt8/MC5e
+         pJc+Ha/GSmxPyR+JdYHJoUFxOoYk9ieaAqtMS8Ad/Z8FFnk0SBrbeexgNWCx1mNra3gM
+         hGv2lOHT2ygyJecm9zs3u60rq/z5V46Mv149dQsnD7sOkOVJHrEcjIOxJdOJZzvp2cLC
+         b4vuntUJt9jllUw+dktv9HiMdX4t/0QcdotI8yofG7S/s1xzgxKTaTrGFOqfrHiuZaW8
+         DOvgPDu3PJm+EZZi2hyjzVQUQQjR4DzqQE3uk3PxTqI0Z4GbZin4x77hgi0oOTRWiqb1
+         GaRA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:mime-version:reply-to:from:date:message-id
+         :subject:to;
+        bh=mZ3wqB4NmL7z6lpFr/h15h1rYqsZKafJnUpMVahbEPg=;
+        b=vhLC2Wl7FNIOoNqLULwcS8LAvcvO/nVH5u2rT0sS3BHH8DlSdrjkBoagBGPEfetjCK
+         kNOK6TyxSbQLZ2HTqEMUATHCDCKik3QtWlx+t7P6FplgxS1vdHqNPSwBYGZkj7F2BJJS
+         JdOAR3Fo2RttiMlbhvDi0q3lPkGRcthtPcqiq496Y0uNeeYl1Xtfd+ZtR9xfb+nljOKd
+         Xuzfd7zpCfpdbN30LkfeCagIaMLZ/BGSBZ9WnZ/ZpVbHAoBRJNaX6SW8bqvtFqfW/aMK
+         zlcPdMYRBhQieVLteLW/tA6X3V1Cip0FrJ1dh+pD3tdcr/WiymzMGDFG+KyYQJwd0O4e
+         nRow==
+X-Gm-Message-State: AOAM533vjX0UMAtvy71w71RZ4CPzXSDEaTVY/EYrCZuPVLF/r8dw+pHc
+        aEVbAixEFpOAH7hsJzeeAxK0Yj2k8+TvJr0sQ0I=
+X-Google-Smtp-Source: ABdhPJwY8YOdHYUX96JiSxTq5wchI8FXYyVWKhCwVLyfcYrHLYm89em2SVFzx0M4tBmQDsZA/tugAFPK0TzA5I8AB4Y=
+X-Received: by 2002:a25:3746:0:b0:64c:4ab2:8277 with SMTP id
+ e67-20020a253746000000b0064c4ab28277mr1756177yba.631.1652914598250; Wed, 18
+ May 2022 15:56:38 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-XM-SPF: eid=1nrSYf-002Z0O-Er;;;mid=<20220518225355.784371-1-ebiederm@xmission.com>;;;hst=in01.mta.xmission.com;;;ip=68.227.174.4;;;frm=ebiederm@xmission.com;;;spf=softfail
-X-XM-AID: U2FsdGVkX1+VdHu+AQ1uu8lMLBODEbaBhkaz/j3E23I=
-X-SA-Exim-Connect-IP: 68.227.174.4
-X-SA-Exim-Mail-From: ebiederm@xmission.com
+Received: by 2002:a05:7000:7143:0:0:0:0 with HTTP; Wed, 18 May 2022 15:56:37
+ -0700 (PDT)
+Reply-To: tonywenn@asia.com
+From:   Tony Wen <weboutloock4@gmail.com>
+Date:   Thu, 19 May 2022 06:56:37 +0800
+Message-ID: <CAE2_YrBTNWLgT7Gwd_cY5oXmwwHz8Y2=Hv+EONJDgQpe8gV-5w@mail.gmail.com>
+Subject: engage
+To:     undisclosed-recipients:;
+Content-Type: text/plain; charset="UTF-8"
+X-Spam-Status: Yes, score=5.2 required=5.0 tests=BAYES_50,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_ENVFROM_END_DIGIT,
+        FREEMAIL_FROM,FREEMAIL_REPLYTO,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,
+        SPF_PASS,T_SCC_BODY_TEXT_LINE,UNDISC_FREEM autolearn=no
+        autolearn_force=no version=3.4.6
+X-Spam-Report: * -0.0 RCVD_IN_DNSWL_NONE RBL: Sender listed at
+        *      https://www.dnswl.org/, no trust
+        *      [2607:f8b0:4864:20:0:0:0:b30 listed in]
+        [list.dnswl.org]
+        *  0.8 BAYES_50 BODY: Bayes spam probability is 40 to 60%
+        *      [score: 0.4867]
+        *  0.0 FREEMAIL_FROM Sender email is commonly abused enduser mail
+        *      provider
+        *      [weboutloock4[at]gmail.com]
+        * -0.0 SPF_PASS SPF: sender matches SPF record
+        *  0.2 FREEMAIL_ENVFROM_END_DIGIT Envelope-from freemail username ends
+        *       in digit
+        *      [weboutloock4[at]gmail.com]
+        *  0.0 SPF_HELO_NONE SPF: HELO does not publish an SPF Record
+        * -0.1 DKIM_VALID_AU Message has a valid DKIM or DK signature from
+        *      author's domain
+        * -0.1 DKIM_VALID_EF Message has a valid DKIM or DK signature from
+        *      envelope-from domain
+        * -0.1 DKIM_VALID Message has at least one valid DKIM or DK signature
+        *  0.1 DKIM_SIGNED Message has a DKIM or DK signature, not necessarily
+        *       valid
+        * -0.0 T_SCC_BODY_TEXT_LINE No description available.
+        *  3.4 UNDISC_FREEM Undisclosed recipients + freemail reply-to
+        *  1.0 FREEMAIL_REPLYTO Reply-To/From or Reply-To/body contain
+        *      different freemails
+X-Spam-Level: *****
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
-X-Spam-Status: No, score=-2.6 required=5.0 tests=BAYES_00,RCVD_IN_DNSWL_LOW,
-        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham
-        autolearn_force=no version=3.4.6
-X-Spam-DCC: XMission; sa07 1397; Body=1 Fuz1=1 Fuz2=1 
-X-Spam-Combo: ****;linux-kernel@vger.kernel.org
-X-Spam-Relay-Country: 
-X-Spam-Timing: total 3085 ms - load_scoreonly_sql: 0.06 (0.0%),
-        signal_user_changed: 11 (0.4%), b_tie_ro: 9 (0.3%), parse: 1.24 (0.0%),
-         extract_message_metadata: 19 (0.6%), get_uri_detail_list: 1.63 (0.1%),
-         tests_pri_-1000: 22 (0.7%), tests_pri_-950: 1.20 (0.0%),
-        tests_pri_-900: 1.05 (0.0%), tests_pri_-90: 83 (2.7%), check_bayes: 82
-        (2.7%), b_tokenize: 9 (0.3%), b_tok_get_all: 9 (0.3%), b_comp_prob:
-        2.2 (0.1%), b_tok_touch_all: 58 (1.9%), b_finish: 0.86 (0.0%),
-        tests_pri_0: 211 (6.8%), check_dkim_signature: 0.49 (0.0%),
-        check_dkim_adsp: 3.1 (0.1%), poll_dns_idle: 2720 (88.2%),
-        tests_pri_10: 1.99 (0.1%), tests_pri_500: 2730 (88.5%), rewrite_mail:
-        0.00 (0.0%)
-Subject: [PATCH 01/16] signal/alpha: Remove unused definition of TASK_REAL_PARENT
-X-SA-Exim-Version: 4.2.1 (built Sat, 08 Feb 2020 21:53:50 +0000)
-X-SA-Exim-Scanned: Yes (on in01.mta.xmission.com)
 Precedence: bulk
 List-ID: <linux-alpha.vger.kernel.org>
 X-Mailing-List: linux-alpha@vger.kernel.org
 
-Rather than update this defition when I move tsk->real_parent into
-signal_struct remove it now.
-
-Cc: Richard Henderson <rth@twiddle.net>
-Cc: Ivan Kokshaysky <ink@jurassic.park.msu.ru>
-Cc: Matt Turner <mattst88@gmail.com>
-Cc: linux-alpha@vger.kernel.org
-Signed-off-by: "Eric W. Biederman" <ebiederm@xmission.com>
----
- arch/alpha/kernel/asm-offsets.c | 1 -
- 1 file changed, 1 deletion(-)
-
-diff --git a/arch/alpha/kernel/asm-offsets.c b/arch/alpha/kernel/asm-offsets.c
-index 2e125e5c1508..0fca99dc5757 100644
---- a/arch/alpha/kernel/asm-offsets.c
-+++ b/arch/alpha/kernel/asm-offsets.c
-@@ -21,7 +21,6 @@ void foo(void)
- 
-         DEFINE(TASK_BLOCKED, offsetof(struct task_struct, blocked));
-         DEFINE(TASK_CRED, offsetof(struct task_struct, cred));
--        DEFINE(TASK_REAL_PARENT, offsetof(struct task_struct, real_parent));
-         DEFINE(TASK_GROUP_LEADER, offsetof(struct task_struct, group_leader));
-         DEFINE(TASK_TGID, offsetof(struct task_struct, tgid));
-         BLANK();
--- 
-2.35.3
-
+Can I engage your services?
