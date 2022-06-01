@@ -2,35 +2,35 @@ Return-Path: <linux-alpha-owner@vger.kernel.org>
 X-Original-To: lists+linux-alpha@lfdr.de
 Delivered-To: lists+linux-alpha@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 3738C53A788
-	for <lists+linux-alpha@lfdr.de>; Wed,  1 Jun 2022 16:02:11 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 67AA153A7EA
+	for <lists+linux-alpha@lfdr.de>; Wed,  1 Jun 2022 16:04:25 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1354172AbiFAOCF (ORCPT <rfc822;lists+linux-alpha@lfdr.de>);
-        Wed, 1 Jun 2022 10:02:05 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54274 "EHLO
+        id S1351520AbiFAOES (ORCPT <rfc822;lists+linux-alpha@lfdr.de>);
+        Wed, 1 Jun 2022 10:04:18 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54840 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1354159AbiFAOAA (ORCPT
-        <rfc822;linux-alpha@vger.kernel.org>); Wed, 1 Jun 2022 10:00:00 -0400
-Received: from ams.source.kernel.org (ams.source.kernel.org [IPv6:2604:1380:4601:e00::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8D78FA26C5;
-        Wed,  1 Jun 2022 06:56:14 -0700 (PDT)
+        with ESMTP id S1354239AbiFAOCa (ORCPT
+        <rfc822;linux-alpha@vger.kernel.org>); Wed, 1 Jun 2022 10:02:30 -0400
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C8163A7E01;
+        Wed,  1 Jun 2022 06:58:29 -0700 (PDT)
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by ams.source.kernel.org (Postfix) with ESMTPS id 13987B81AE7;
-        Wed,  1 Jun 2022 13:55:40 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 5928EC34119;
-        Wed,  1 Jun 2022 13:55:37 +0000 (UTC)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id D5D4661632;
+        Wed,  1 Jun 2022 13:57:24 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id E5A74C385A5;
+        Wed,  1 Jun 2022 13:57:22 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1654091738;
+        s=k20201202; t=1654091844;
         bh=p/08dZfZ7CBeLXRE9nPAnm/+jHFflppoG/BYqplNPyk=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=oI+weow2Hxnk/ca6LkJimSB3MFXtgSAFdQP+VHnVeZNcv3YGMTe93wqGtBlOulhL5
-         KyLeHbTAE67fIFjNA+tSCDxjU3KMlrkJyFo7uiF8eHlmgtW178NKk+7m+L6Ub0/hfx
-         azVqByBKUthIpq48dSuBQRkoKyDJzT2VcsxqIehJ9XpIngEtscqxDWqt8YUMDpygxz
-         MY4Gg8cZKZEAJPr/XKseRy6Nv+rJp6THGHk5lt8xEPho9vTR37mHRtHjWAPkMfBBbL
-         7JstK1rs6p73NLMqhBQcUjdBtBsQFD2bbPrMUk6kyiOJLcsNpt5Tx2IOO6EsoN5QKa
-         AWkwFheT7zrYQ==
+        b=loq+PnEthqsN1piiqNYF18ozggWATd66m7AdJS3yVjqjiIcHcJcS/ULEVtOaiDne6
+         Q4628XJWiAm4QGMJ87DGz5ynqVw805eqbNLzviDPgzsXR2dmUt3WQAmO5t7MRRZ1Zw
+         ISjBrf9Wcv2D5UPwNv6sCLO1xdHkCIoN2pRMRf1BjTTzkpfbG8Z47+joervNDjhhnk
+         ZScYvfCKbbApTE5jVjaB5IeJWAon+r+DghxWaliRPkOq6A7zn1WGWMOUJ9s8ozvlbu
+         lrVKynxIRcVLurtW8AVnLGV5d30CbSPoZzjmv5u4CxQQL9FrhE/4gkDYf3xF/k9va2
+         Ta7RnGhgH0D/w==
 From:   Sasha Levin <sashal@kernel.org>
 To:     linux-kernel@vger.kernel.org, stable@vger.kernel.org
 Cc:     "Matthew Wilcox (Oracle)" <willy@infradead.org>,
@@ -38,15 +38,15 @@ Cc:     "Matthew Wilcox (Oracle)" <willy@infradead.org>,
         Christoph Hellwig <hch@lst.de>,
         Andrew Morton <akpm@linux-foundation.org>,
         Sasha Levin <sashal@kernel.org>, rth@twiddle.net,
-        ink@jurassic.park.msu.ru, mattst88@gmail.com, pcc@google.com,
-        will@kernel.org, catalin.marinas@arm.com,
+        ink@jurassic.park.msu.ru, mattst88@gmail.com,
+        catalin.marinas@arm.com, will@kernel.org, pcc@google.com,
         linux-alpha@vger.kernel.org
-Subject: [PATCH AUTOSEL 5.17 33/48] alpha: fix alloc_zeroed_user_highpage_movable()
-Date:   Wed,  1 Jun 2022 09:54:06 -0400
-Message-Id: <20220601135421.2003328-33-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 5.15 27/37] alpha: fix alloc_zeroed_user_highpage_movable()
+Date:   Wed,  1 Jun 2022 09:56:12 -0400
+Message-Id: <20220601135622.2003939-27-sashal@kernel.org>
 X-Mailer: git-send-email 2.35.1
-In-Reply-To: <20220601135421.2003328-1-sashal@kernel.org>
-References: <20220601135421.2003328-1-sashal@kernel.org>
+In-Reply-To: <20220601135622.2003939-1-sashal@kernel.org>
+References: <20220601135622.2003939-1-sashal@kernel.org>
 MIME-Version: 1.0
 X-stable: review
 X-Patchwork-Hint: Ignore
