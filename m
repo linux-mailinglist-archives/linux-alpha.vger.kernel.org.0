@@ -2,167 +2,156 @@ Return-Path: <linux-alpha-owner@vger.kernel.org>
 X-Original-To: lists+linux-alpha@lfdr.de
 Delivered-To: lists+linux-alpha@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 9D29954EC66
-	for <lists+linux-alpha@lfdr.de>; Thu, 16 Jun 2022 23:22:55 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 721AF54F7E9
+	for <lists+linux-alpha@lfdr.de>; Fri, 17 Jun 2022 14:58:08 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1378959AbiFPVWy (ORCPT <rfc822;lists+linux-alpha@lfdr.de>);
-        Thu, 16 Jun 2022 17:22:54 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42700 "EHLO
+        id S1382093AbiFQM6H (ORCPT <rfc822;lists+linux-alpha@lfdr.de>);
+        Fri, 17 Jun 2022 08:58:07 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46098 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1378999AbiFPVWx (ORCPT
+        with ESMTP id S232578AbiFQM6F (ORCPT
         <rfc822;linux-alpha@vger.kernel.org>);
-        Thu, 16 Jun 2022 17:22:53 -0400
-Received: from mga12.intel.com (mga12.intel.com [192.55.52.136])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 783DC1EC6A;
-        Thu, 16 Jun 2022 14:22:52 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1655414572; x=1686950572;
-  h=date:from:to:cc:subject:message-id:in-reply-to:
-   references:mime-version:content-transfer-encoding;
-  bh=eIVB2Wcg0d4KNkOlM5BOJs0iOIDhUm5jxxQVobMAAIM=;
-  b=RP2YCFWJTKa74eNpADc52RfwyjDAvZ8LbqtQ+29QXXL8TwRbvjSWS7Ba
-   pq99M69aIQ9JNjTvJTyVDW//G+jY7TSkumi1VWip/2CpHCCXM6c6TDOdt
-   ovkJ3Yi3iryHnvVyD2y26qw2tMuSleKA/emETgYWmPoT1kmV2lQAziBjw
-   O3q86x2LyuYnnhk+Vs+DKTvFCxrgF97TC4OmRtb6/SSLEM/JP4XfqNzIy
-   uBWpPFsIMbGc2UKu+E2AO9bfY2POAwfylNkeUEpgS6fQsCe6X4buSH60h
-   /gpL6lhB831yaHj1bisym9RyaHXfKLRndrfm290x2hFX1FL/TzwTh4/0s
-   A==;
-X-IronPort-AV: E=McAfee;i="6400,9594,10380"; a="259207705"
-X-IronPort-AV: E=Sophos;i="5.92,306,1650956400"; 
-   d="scan'208";a="259207705"
-Received: from orsmga006.jf.intel.com ([10.7.209.51])
-  by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Jun 2022 14:22:51 -0700
-X-IronPort-AV: E=Sophos;i="5.92,306,1650956400"; 
-   d="scan'208";a="560027674"
-Received: from jacob-builder.jf.intel.com (HELO jacob-builder) ([10.7.198.157])
-  by orsmga006-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Jun 2022 14:22:51 -0700
-Date:   Thu, 16 Jun 2022 14:26:56 -0700
-From:   Jacob Pan <jacob.jun.pan@linux.intel.com>
-To:     Peter Zijlstra <peterz@infradead.org>
-Cc:     rth@twiddle.net, ink@jurassic.park.msu.ru, mattst88@gmail.com,
-        vgupta@kernel.org, linux@armlinux.org.uk,
-        ulli.kroll@googlemail.com, linus.walleij@linaro.org,
-        shawnguo@kernel.org, Sascha Hauer <s.hauer@pengutronix.de>,
-        kernel@pengutronix.de, festevam@gmail.com, linux-imx@nxp.com,
-        tony@atomide.com, khilman@kernel.org, catalin.marinas@arm.com,
-        will@kernel.org, guoren@kernel.org, bcain@quicinc.com,
-        chenhuacai@kernel.org, kernel@xen0n.name, geert@linux-m68k.org,
-        sammy@sammy.net, monstr@monstr.eu, tsbogend@alpha.franken.de,
-        dinguyen@kernel.org, jonas@southpole.se,
-        stefan.kristiansson@saunalahti.fi, shorne@gmail.com,
-        James.Bottomley@hansenpartnership.com, deller@gmx.de,
-        mpe@ellerman.id.au, benh@kernel.crashing.org, paulus@samba.org,
-        paul.walmsley@sifive.com, palmer@dabbelt.com,
-        aou@eecs.berkeley.edu, hca@linux.ibm.com, gor@linux.ibm.com,
-        agordeev@linux.ibm.com, borntraeger@linux.ibm.com,
-        svens@linux.ibm.com, ysato@users.sourceforge.jp, dalias@libc.org,
-        davem@davemloft.net, richard@nod.at,
-        anton.ivanov@cambridgegreys.com, johannes@sipsolutions.net,
-        tglx@linutronix.de, mingo@redhat.com, bp@alien8.de,
-        dave.hansen@linux.intel.com, x86@kernel.org, hpa@zytor.com,
-        acme@kernel.org, mark.rutland@arm.com,
-        alexander.shishkin@linux.intel.com, jolsa@kernel.org,
-        namhyung@kernel.org, jgross@suse.com, srivatsa@csail.mit.edu,
-        amakhalov@vmware.com, pv-drivers@vmware.com,
-        boris.ostrovsky@oracle.com, chris@zankel.net, jcmvbkbc@gmail.com,
-        rafael@kernel.org, lenb@kernel.org, pavel@ucw.cz,
-        gregkh@linuxfoundation.org, mturquette@baylibre.com,
-        sboyd@kernel.org, daniel.lezcano@linaro.org, lpieralisi@kernel.org,
-        sudeep.holla@arm.com, agross@kernel.org,
-        bjorn.andersson@linaro.org, anup@brainfault.org,
-        thierry.reding@gmail.com, jonathanh@nvidia.com,
-        Arnd Bergmann <arnd@arndb.de>, yury.norov@gmail.com,
-        andriy.shevchenko@linux.intel.com, linux@rasmusvillemoes.dk,
-        rostedt@goodmis.org, pmladek@suse.com, senozhatsky@chromium.org,
-        john.ogness@linutronix.de, paulmck@kernel.org, frederic@kernel.org,
-        quic_neeraju@quicinc.com, josh@joshtriplett.org,
-        mathieu.desnoyers@efficios.com, jiangshanlai@gmail.com,
-        joel@joelfernandes.org, juri.lelli@redhat.com,
-        vincent.guittot@linaro.org, dietmar.eggemann@arm.com,
-        bsegall@google.com, mgorman@suse.de, bristot@redhat.com,
-        vschneid@redhat.com, jpoimboe@kernel.org,
-        linux-alpha@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-snps-arc@lists.infradead.org,
-        linux-arm-kernel@lists.infradead.org, linux-omap@vger.kernel.org,
-        linux-csky@vger.kernel.org, linux-hexagon@vger.kernel.org,
-        linux-ia64@vger.kernel.org, linux-m68k@lists.linux-m68k.org,
-        linux-mips@vger.kernel.org, openrisc@lists.librecores.org,
-        linux-parisc@vger.kernel.org, linuxppc-dev@lists.ozlabs.org,
-        linux-riscv@lists.infradead.org, linux-s390@vger.kernel.org,
-        linux-sh@vger.kernel.org, sparclinux@vger.kernel.org,
-        linux-um@lists.infradead.org, linux-perf-users@vger.kernel.org,
-        virtualization@lists.linux-foundation.org,
-        xen-devel@lists.xenproject.org, linux-xtensa@linux-xtensa.org,
-        linux-acpi@vger.kernel.org, linux-pm@vger.kernel.org,
-        linux-clk@vger.kernel.org, linux-arm-msm@vger.kernel.org,
-        linux-tegra@vger.kernel.org, linux-arch@vger.kernel.org,
-        rcu@vger.kernel.org, jacob.jun.pan@linux.intel.com
-Subject: Re: [PATCH 04/36] cpuidle,intel_idle: Fix CPUIDLE_FLAG_IRQ_ENABLE
-Message-ID: <20220616142656.4b1acc4a@jacob-builder>
-In-Reply-To: <Yqb45vclY2KVL0wZ@hirez.programming.kicks-ass.net>
-References: <20220608142723.103523089@infradead.org>
-        <20220608144516.172460444@infradead.org>
-        <20220609164921.5e61711d@jacob-builder>
-        <Yqb45vclY2KVL0wZ@hirez.programming.kicks-ass.net>
-Organization: OTC
-X-Mailer: Claws Mail 3.17.5 (GTK+ 2.24.32; x86_64-pc-linux-gnu)
+        Fri, 17 Jun 2022 08:58:05 -0400
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id DEB291A832;
+        Fri, 17 Jun 2022 05:58:03 -0700 (PDT)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id 781BF61FA8;
+        Fri, 17 Jun 2022 12:58:03 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id E3CBDC3411B;
+        Fri, 17 Jun 2022 12:57:58 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1655470682;
+        bh=cLraNpkEnCzF/4zKCRGjwHG57BoDqUlRiy0OHq9zjK0=;
+        h=From:To:Cc:Subject:Date:From;
+        b=oH4x2PycGtrhhz35364UaeAzZu23iN71evljdxuntEZ1VsVln0947L4kgXWuEzLrC
+         OLWEWoJhN8r14vT4yHg3QQ8tQZDKO4OIba+kSPV417/BH7s5oxSh7c9Yljg6Gr1afz
+         xj6FbXz6U/9X2aXj04KSLFiOeD9C/zZoF0JfQi5Xj9zHHyGlm4nv/8XJxqnfGaiKhC
+         xU+lb1e94omoeQ0C4aaO2uCUV9m066p1W0G5moNKShM55uVOSpn4kV7bLBshwrY4Rp
+         NgxDokayeZJhS/Gn+T5DZpIazOVqwZSNsiUx9537mSMzxTSIGDTQ6H1nn5bxhvpiW3
+         g1++SMPFn7Evg==
+From:   Arnd Bergmann <arnd@kernel.org>
+To:     linux-scsi@vger.kernel.org, linux-kernel@vger.kernel.org
+Cc:     Arnd Bergmann <arnd@arndb.de>, Jakub Kicinski <kuba@kernel.org>,
+        Christoph Hellwig <hch@infradead.org>,
+        Marek Szyprowski <m.szyprowski@samsung.com>,
+        Robin Murphy <robin.murphy@arm.com>,
+        iommu@lists.linux-foundation.org,
+        Khalid Aziz <khalid@gonehiking.org>,
+        "Maciej W . Rozycki" <macro@orcam.me.uk>,
+        Matt Wang <wwentao@vmware.com>,
+        Miquel van Smoorenburg <mikevs@xs4all.net>,
+        Mark Salyzyn <salyzyn@android.com>,
+        linuxppc-dev@lists.ozlabs.org, linux-arch@vger.kernel.org,
+        linux-alpha@vger.kernel.org, linux-m68k@lists.linux-m68k.org,
+        linux-parisc@vger.kernel.org, Denis Efremov <efremov@linux.com>
+Subject: [PATCH v2 0/3] phase out CONFIG_VIRT_TO_BUS
+Date:   Fri, 17 Jun 2022 14:57:47 +0200
+Message-Id: <20220617125750.728590-1-arnd@kernel.org>
+X-Mailer: git-send-email 2.29.2
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
-X-Spam-Status: No, score=-4.9 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,SPF_HELO_PASS,
-        SPF_NONE,T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no
-        version=3.4.6
+Content-Transfer-Encoding: 8bit
+X-Spam-Status: No, score=-7.7 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_HI,
+        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-alpha.vger.kernel.org>
 X-Mailing-List: linux-alpha@vger.kernel.org
 
-Hi Peter,
+From: Arnd Bergmann <arnd@arndb.de>
 
-On Mon, 13 Jun 2022 10:44:22 +0200, Peter Zijlstra <peterz@infradead.org>
-wrote:
+The virt_to_bus/bus_to_virt interface has been deprecated for
+decades. After Jakub Kicinski put a lot of work into cleaning out the
+network drivers using them, there are only a couple of other drivers
+left, which can all be removed or otherwise cleaned up, to remove the
+old interface for good.
 
-> On Thu, Jun 09, 2022 at 04:49:21PM -0700, Jacob Pan wrote:
-> > Hi Peter,
-> > 
-> > On Wed, 08 Jun 2022 16:27:27 +0200, Peter Zijlstra
-> > <peterz@infradead.org> wrote:
-> >   
-> > > Commit c227233ad64c ("intel_idle: enable interrupts before C1 on
-> > > Xeons") wrecked intel_idle in two ways:
-> > > 
-> > >  - must not have tracing in idle functions
-> > >  - must return with IRQs disabled
-> > > 
-> > > Additionally, it added a branch for no good reason.
-> > > 
-> > > Fixes: c227233ad64c ("intel_idle: enable interrupts before C1 on
-> > > Xeons") Signed-off-by: Peter Zijlstra (Intel) <peterz@infradead.org>
-> > > ---
-> > >  drivers/idle/intel_idle.c |   48
-> > > +++++++++++++++++++++++++++++++++++----------- 1 file changed, 37
-> > > insertions(+), 11 deletions(-)
-> > > 
-> > > --- a/drivers/idle/intel_idle.c
-> > > +++ b/drivers/idle/intel_idle.c
-> > > @@ -129,21 +137,37 @@ static unsigned int mwait_substates __in
-> > >   *
-> > >   * Must be called under local_irq_disable().
-> > >   */  
-> > nit: this comment is no long true, right?  
-> 
-> It still is, all the idle routines are called with interrupts disabled,
-> but must also exit with interrupts disabled.
-> 
-> If the idle method requires interrupts to be enabled, it must be sure to
-> disable them again before returning. Given all the RCU/tracing concerns
-> it must use raw_local_irq_*() for this though.
-Makes sense, it is just little confusing when the immediate caller does
-raw_local_irq_enable() which does not cancel out local_irq_disable().
+Any out of tree drivers using virt_to_bus() should be converted to
+using the dma-mapping interfaces, typically dma_alloc_coherent()
+or dma_map_single()).
 
-Thanks,
+There are a few m68k and ppc32 specific drivers that keep using the
+interfaces, but these are all guarded with architecture-specific
+Kconfig dependencies, and are not actually broken.
 
-Jacob
+There are still a number of drivers that are using virt_to_phys()
+and phys_to_virt() in place of dma-mapping operations, and these
+are often broken, but they are out of scope for this series.
+
+I would like the first two patches to either get merged through
+the SCSI tree, or get an Ack from the SCSI maintainers so I can
+merge them through the asm-generic tree
+
+      Arnd
+
+---
+Changes since v1:
+ - dropped VME patches that are already in staging-next
+ - dropped media patch that gets merged independently
+ - added a networking patch and dropped it again after it got merged
+ - replace BusLogic removal with a workaround
+
+Cc: Jakub Kicinski <kuba@kernel.org>
+Cc: Christoph Hellwig <hch@infradead.org> # dma-mapping
+Cc: Marek Szyprowski <m.szyprowski@samsung.com> # dma-mapping
+Cc: Robin Murphy <robin.murphy@arm.com> # dma-mapping
+Cc: iommu@lists.linux-foundation.org
+Cc: Khalid Aziz <khalid@gonehiking.org> # buslogic
+Cc: Maciej W. Rozycki <macro@orcam.me.uk> # buslogic
+Cc: Matt Wang <wwentao@vmware.com> # buslogic
+Cc: Miquel van Smoorenburg <mikevs@xs4all.net> # dpt_i2o
+Cc: Mark Salyzyn <salyzyn@android.com> # dpt_i2o
+Cc: linux-scsi@vger.kernel.org
+Cc: linuxppc-dev@lists.ozlabs.org
+Cc: linux-arch@vger.kernel.org
+Cc: linux-alpha@vger.kernel.org
+Cc: linux-m68k@lists.linux-m68k.org
+Cc: linux-parisc@vger.kernel.org
+Cc: Denis Efremov <efremov@linux.com> # floppy
+
+Arnd Bergmann (3):
+  scsi: dpt_i2o: drop stale VIRT_TO_BUS dependency
+  scsi: BusLogic remove bus_to_virt
+  arch/*/: remove CONFIG_VIRT_TO_BUS
+
+ .../core-api/bus-virt-phys-mapping.rst        | 220 ------------------
+ Documentation/core-api/dma-api-howto.rst      |  14 --
+ Documentation/core-api/index.rst              |   1 -
+ .../translations/zh_CN/core-api/index.rst     |   1 -
+ arch/alpha/Kconfig                            |   1 -
+ arch/alpha/include/asm/floppy.h               |   2 +-
+ arch/alpha/include/asm/io.h                   |   8 +-
+ arch/ia64/Kconfig                             |   1 -
+ arch/ia64/include/asm/io.h                    |   8 -
+ arch/m68k/Kconfig                             |   1 -
+ arch/m68k/include/asm/virtconvert.h           |   4 +-
+ arch/microblaze/Kconfig                       |   1 -
+ arch/microblaze/include/asm/io.h              |   2 -
+ arch/mips/Kconfig                             |   1 -
+ arch/mips/include/asm/io.h                    |   9 -
+ arch/parisc/Kconfig                           |   1 -
+ arch/parisc/include/asm/floppy.h              |   4 +-
+ arch/parisc/include/asm/io.h                  |   2 -
+ arch/powerpc/Kconfig                          |   1 -
+ arch/powerpc/include/asm/io.h                 |   2 -
+ arch/riscv/include/asm/page.h                 |   1 -
+ arch/x86/Kconfig                              |   1 -
+ arch/x86/include/asm/io.h                     |   9 -
+ arch/xtensa/Kconfig                           |   1 -
+ arch/xtensa/include/asm/io.h                  |   3 -
+ drivers/scsi/BusLogic.c                       |  27 ++-
+ drivers/scsi/Kconfig                          |   4 +-
+ drivers/scsi/dpt_i2o.c                        |   4 +-
+ include/asm-generic/io.h                      |  14 --
+ mm/Kconfig                                    |   8 -
+ 30 files changed, 30 insertions(+), 326 deletions(-)
+ delete mode 100644 Documentation/core-api/bus-virt-phys-mapping.rst
+
+-- 
+2.29.2
+
