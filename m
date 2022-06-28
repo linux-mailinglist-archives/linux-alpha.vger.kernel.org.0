@@ -2,134 +2,166 @@ Return-Path: <linux-alpha-owner@vger.kernel.org>
 X-Original-To: lists+linux-alpha@lfdr.de
 Delivered-To: lists+linux-alpha@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id DCC8055E6F7
-	for <lists+linux-alpha@lfdr.de>; Tue, 28 Jun 2022 18:31:15 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 86BB655F01F
+	for <lists+linux-alpha@lfdr.de>; Tue, 28 Jun 2022 23:04:21 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1346846AbiF1Nne (ORCPT <rfc822;lists+linux-alpha@lfdr.de>);
-        Tue, 28 Jun 2022 09:43:34 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47434 "EHLO
+        id S229871AbiF1VDy (ORCPT <rfc822;lists+linux-alpha@lfdr.de>);
+        Tue, 28 Jun 2022 17:03:54 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49254 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1346848AbiF1Nnd (ORCPT
+        with ESMTP id S229928AbiF1VDt (ORCPT
         <rfc822;linux-alpha@vger.kernel.org>);
-        Tue, 28 Jun 2022 09:43:33 -0400
-Received: from ams.source.kernel.org (ams.source.kernel.org [IPv6:2604:1380:4601:e00::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id BC1151CB09;
-        Tue, 28 Jun 2022 06:43:28 -0700 (PDT)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by ams.source.kernel.org (Postfix) with ESMTPS id 7B55DB81E16;
-        Tue, 28 Jun 2022 13:43:27 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 93634C3411D;
-        Tue, 28 Jun 2022 13:43:20 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1656423806;
-        bh=Mu07+NkAeIWQxqDrSfWHBkagAH3qiS5hRkhUS/KEB+8=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=J26wAUkMEANntFYIvZPSyjRIRDBcF+0CYhgasflX/sFmF3R2jSZgCYNFz3Ynufqqz
-         nzeG/jqshDGe3knqrMZ6LXcKAICeN8pbhTN0uX0rgz8dRC1YlEMk7ISAYbSEGNsozr
-         vMxbVtI/cVWlsFmtm6PBsVByLIwnivkOj1AJrkxj/wXQRhS/ln9VsFhQnbbn/n2PIn
-         QzAw/V4dQkJ41Sn1oOGwbBEr5dwHr6L6ETynGtdZIr8NvIdrA2IOpy2Ggx+LW85NkG
-         M7m209vEq9dxSuBiAncmEIgn4Mvu51957qmvXRBAQRo+OwPw3t5gNRgFO+Buf2FD6s
-         0aBj8RlvROlWA==
-Date:   Tue, 28 Jun 2022 15:43:17 +0200
-From:   Christian Brauner <brauner@kernel.org>
-To:     David Laight <David.Laight@ACULAB.COM>
-Cc:     Ralph Corderoy <ralph@inputplus.co.uk>,
-        Matthew Wilcox <willy@infradead.org>,
-        Nate Karstens <nate.karstens@garmin.com>,
-        Alexander Viro <viro@zeniv.linux.org.uk>,
-        Jeff Layton <jlayton@kernel.org>,
-        "J. Bruce Fields" <bfields@fieldses.org>,
-        Arnd Bergmann <arnd@arndb.de>,
-        Richard Henderson <rth@twiddle.net>,
-        Ivan Kokshaysky <ink@jurassic.park.msu.ru>,
-        Matt Turner <mattst88@gmail.com>,
-        "James E.J. Bottomley" <James.Bottomley@hansenpartnership.com>,
-        Helge Deller <deller@gmx.de>,
-        "David S. Miller" <davem@davemloft.net>,
-        Jakub Kicinski <kuba@kernel.org>,
-        Eric Dumazet <edumazet@google.com>,
-        "linux-fsdevel@vger.kernel.org" <linux-fsdevel@vger.kernel.org>,
-        "linux-arch@vger.kernel.org" <linux-arch@vger.kernel.org>,
-        "linux-alpha@vger.kernel.org" <linux-alpha@vger.kernel.org>,
-        "linux-parisc@vger.kernel.org" <linux-parisc@vger.kernel.org>,
-        "sparclinux@vger.kernel.org" <sparclinux@vger.kernel.org>,
-        "netdev@vger.kernel.org" <netdev@vger.kernel.org>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-        Changli Gao <xiaosuo@gmail.com>
-Subject: Re: [PATCH v2] Implement close-on-fork
-Message-ID: <20220628134317.heagqm6dplf5vk7u@wittgenstein>
-References: <20200515152321.9280-1-nate.karstens@garmin.com>
- <20220618114111.61EC71F981@orac.inputplus.co.uk>
- <Yq4qIxh5QnhQZ0SJ@casper.infradead.org>
- <20220619104228.A9789201F7@orac.inputplus.co.uk>
- <20220628131304.gbiqqxamg6pmvsxf@wittgenstein>
- <35d0facc934748f995c2e7ab695301f7@AcuMS.aculab.com>
+        Tue, 28 Jun 2022 17:03:49 -0400
+Received: from mail-pl1-x629.google.com (mail-pl1-x629.google.com [IPv6:2607:f8b0:4864:20::629])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7689637AA5;
+        Tue, 28 Jun 2022 14:03:48 -0700 (PDT)
+Received: by mail-pl1-x629.google.com with SMTP id jb13so12159069plb.9;
+        Tue, 28 Jun 2022 14:03:48 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=message-id:date:mime-version:user-agent:subject:content-language:to
+         :cc:references:from:in-reply-to:content-transfer-encoding;
+        bh=LLK2uhNNvPadjp2Oh/1lKQPTCLeKdmpKaTeJ3RDCHv0=;
+        b=Plf/V32RTHjAIcY0bkPGhJbIRr6v2P2QgRVB8+7eP0P4RsyHw26WFtNVMjh4450VSL
+         X8EowJeUAPv65bojUQi/l4q/mcLgIz1TUZop7B8mMf4UYeSMN97O5PhtCWd4P5KjohDY
+         ALLie3yLHIm0bsPU/TnBkkd6JuMbBayFBbZiLBvLd2yar7+HLEz7eMmp19DAOWF3IuTH
+         PHvtCurN4N9bl0vEQmQzWlMPAd2VaDMz3hbsjPHd4Xm7SbhJbAT/RBX6xYjOUAqBtWrm
+         FLKt/ZIKzNjI8UX/5SZnYKO15W+v0GW/s3+FFXv5IZLkJGau9LvwFj0fBmt76ie2MA/E
+         v/wQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
+         :content-language:to:cc:references:from:in-reply-to
+         :content-transfer-encoding;
+        bh=LLK2uhNNvPadjp2Oh/1lKQPTCLeKdmpKaTeJ3RDCHv0=;
+        b=2XuBkufW7ABofm0k0+5GHe6sz1vwTD+OqtBKfEromgYkgGSi8+LM7IehH7F7IPUgff
+         UUcFGjXVSEEG7KHFXa7dXtn9J1D7U3KrXksC5+J/cMAsKbU47b162WqESlA0yOjJTxFj
+         PU6MZ/aWHN69pSAFhyQdmvuOZZjAeYVJ5myvWUHkqx+EiclNMXj1QD5PZlq5n/1ss1xZ
+         S6J5KBbEivUt5MXuEvKOhXi3+0KmAkjopKy9laWz9ISJVe0fka3GepGqqkoVl+VaiYGV
+         sbptlbLhplAU1h/Kyx7J3rNAG/RdcJxMaiqKiXz/tMpYYaqvcirRcDwVxBubz5xqukvD
+         fZdA==
+X-Gm-Message-State: AJIora9Q18JI4dVlroX3gmRGQhyzHHHYWJNmOXhrMLdgVV7/3qxDDkAf
+        FPBno+2a+DeFScrpmU2TUMk=
+X-Google-Smtp-Source: AGRyM1s3Nd/my/4+QoWL+yZMzu+YZKCug56iAjfd8RAtHTbgADBf9oHlpjvJ/8KE0n/2rDkR0+nsiw==
+X-Received: by 2002:a17:90a:1485:b0:1ec:788e:a053 with SMTP id k5-20020a17090a148500b001ec788ea053mr1707919pja.16.1656450227992;
+        Tue, 28 Jun 2022 14:03:47 -0700 (PDT)
+Received: from ?IPV6:2001:df0:0:200c:75aa:d6ca:4354:6033? ([2001:df0:0:200c:75aa:d6ca:4354:6033])
+        by smtp.gmail.com with ESMTPSA id a14-20020aa795ae000000b005259d99ccffsm6254097pfk.8.2022.06.28.14.03.39
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Tue, 28 Jun 2022 14:03:47 -0700 (PDT)
+Message-ID: <c30bc9b6-6ccd-8856-dc6b-4e16450dad6f@gmail.com>
+Date:   Wed, 29 Jun 2022 09:03:37 +1200
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.9.1
+Subject: Re: [PATCH v2 3/3] arch/*/: remove CONFIG_VIRT_TO_BUS
+Content-Language: en-US
+To:     Geert Uytterhoeven <geert@linux-m68k.org>
+Cc:     Arnd Bergmann <arnd@kernel.org>, scsi <linux-scsi@vger.kernel.org>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        Arnd Bergmann <arnd@arndb.de>,
+        Jakub Kicinski <kuba@kernel.org>,
+        Christoph Hellwig <hch@infradead.org>,
+        Marek Szyprowski <m.szyprowski@samsung.com>,
+        Robin Murphy <robin.murphy@arm.com>,
+        Linux IOMMU <iommu@lists.linux-foundation.org>,
+        Khalid Aziz <khalid@gonehiking.org>,
+        "Maciej W . Rozycki" <macro@orcam.me.uk>,
+        Matt Wang <wwentao@vmware.com>,
+        Miquel van Smoorenburg <mikevs@xs4all.net>,
+        Mark Salyzyn <salyzyn@android.com>,
+        linuxppc-dev <linuxppc-dev@lists.ozlabs.org>,
+        Linux-Arch <linux-arch@vger.kernel.org>,
+        alpha <linux-alpha@vger.kernel.org>,
+        linux-m68k <linux-m68k@lists.linux-m68k.org>,
+        Parisc List <linux-parisc@vger.kernel.org>,
+        Denis Efremov <efremov@linux.com>,
+        Michael Ellerman <mpe@ellerman.id.au>,
+        John Paul Adrian Glaubitz <glaubitz@physik.fu-berlin.de>
+References: <20220617125750.728590-1-arnd@kernel.org>
+ <20220617125750.728590-4-arnd@kernel.org>
+ <6ba86afe-bf9f-1aca-7af1-d0d348d75ffc@gmail.com>
+ <CAMuHMdVewn0OYA9oJfStk0-+vCKAUou+4Mvd5H2kmrSks1p5jg@mail.gmail.com>
+ <b4e5a1c9-e375-63fb-ec7c-abb7384a6d59@gmail.com>
+ <9289fd82-285c-035f-5355-4d70ce4f87b0@gmail.com>
+ <CAMuHMdXUihTPD9A9hs__Xr2ErfOqkZ5KgCHqm+9HvRf39uS5kA@mail.gmail.com>
+From:   Michael Schmitz <schmitzmic@gmail.com>
+In-Reply-To: <CAMuHMdXUihTPD9A9hs__Xr2ErfOqkZ5KgCHqm+9HvRf39uS5kA@mail.gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <35d0facc934748f995c2e7ab695301f7@AcuMS.aculab.com>
-X-Spam-Status: No, score=-7.5 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_HI,
-        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham
-        autolearn_force=no version=3.4.6
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,NICE_REPLY_A,
+        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE
+        autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-alpha.vger.kernel.org>
 X-Mailing-List: linux-alpha@vger.kernel.org
 
-On Tue, Jun 28, 2022 at 01:38:07PM +0000, David Laight wrote:
-> From: Christian Brauner
-> > Sent: 28 June 2022 14:13
-> > 
-> > On Sun, Jun 19, 2022 at 11:42:28AM +0100, Ralph Corderoy wrote:
-> > > Hi Matthew, thanks for replying.
-> > >
-> > > > > The need for O_CLOFORK might be made more clear by looking at a
-> > > > > long-standing Go issue, i.e. unrelated to system(3), which was started
-> > > > > in 2017 by Russ Cox when he summed up the current race-condition
-> > > > > behaviour of trying to execve(2) a newly created file:
-> > > > > https://github.com/golang/go/issues/22315.
-> > > >
-> > > > The problem is that people advocating for O_CLOFORK understand its
-> > > > value, but not its cost.  Other google employees have a system which
-> > > > has literally millions of file descriptors in a single process.
-> > > > Having to maintain this extra state per-fd is a cost they don't want
-> > > > to pay (and have been quite vocal about earlier in this thread).
-> > >
-> > > So do you agree the userspace issue is best solved by *_CLOFORK and the
-> > > problem is how to implement *_CLOFORK at an acceptable cost?
-> > >
-> > > OTOH David Laight was making suggestions on moving the load to the
-> > > fork/exec path earlier in the thread, but OTOH Al Viro mentioned a
-> > > ‘portable solution’, though that could have been to a specific issue
-> > > rather than the more general case.
-> > >
-> > > How would you recommend approaching an acceptable cost is progressed?
-> > > Iterate on patch versions?  Open a bugzilla.kernel.org for central
-> > > tracking and linking from the other projects?  ..?
-> > 
-> > Quoting from that go thread
-> > 
-> > "If the OS had a "close all fds above x", we could use that. (I don't know of any that do, but it sure
-> > would help.)"
-> > 
-> > So why can't this be solved with:
-> > close_range(fd_first, fd_last, CLOSE_RANGE_CLOEXEC | CLOSE_RANGE_UNSHARE)?
-> > e.g.
-> > close_range(100, ~0U, CLOSE_RANGE_CLOEXEC | CLOSE_RANGE_UNSHARE)?
-> 
-> That is a relatively recent linux system call.
-> Although it can be (mostly) emulated by reading /proc/fd
-> - but that may not be mounted.
-> 
-> In any case another thread can open an fd between the close_range()
-> and fork() calls.
+Hi Geert,
 
-The CLOSE_RANGE_UNSHARE gives the calling thread a private file
-descriptor table before marking fs close-on-exec.
+On 28/06/22 19:03, Geert Uytterhoeven wrote:
+>
+>> Leaving the bounce buffer handling in place, and taking a few other
+>> liberties - this is what converting the easiest case (a3000 SCSI) might
+>> look like. Any obvious mistakes? The mvme147 driver would be very
+>> similar to handle (after conversion to a platform device).
+> Thanks, looks reasonable.
+Thanks, I'll take care of Arnd's comments and post a corrected version 
+later.
+>> The driver allocates bounce buffers using kmalloc if it hits an
+>> unaligned data buffer - can such buffers still even happen these days?
+> No idea.
+Hmmm - I think I'll stick a WARN_ONCE() in there so we know whether this 
+code path is still being used.
+>
+>> If I understand dma_map_single() correctly, the resulting dma handle
+>> would be equally misaligned?
+>>
+>> To allocate a bounce buffer, would it be OK to use dma_alloc_coherent()
+>> even though AFAIU memory used for DMA buffers generally isn't consistent
+>> on m68k?
+>>
+>> Thinking ahead to the other two Amiga drivers - I wonder whether
+>> allocating a static bounce buffer or a DMA pool at driver init is likely
+>> to succeed if the kernel runs from the low 16 MB RAM chunk? It certainly
+>> won't succeed if the kernel runs from a higher memory address, so the
+>> present bounce buffer logic around amiga_chip_alloc() might still need
+>> to be used here.
+>>
+>> Leaves the question whether converting the gvp11 and a2091 drivers is
+>> actually worth it, if bounce buffers still have to be handled explicitly.
+> A2091 should be straight-forward, as A3000 is basically A2091 on the
+> motherboard (comparing the two drivers, looks like someone's been
+> sprinkling mb()s over the A3000 driver).
 
-close_range(100, ~0U, CLOSE_RANGE_CLOEXEC | CLOSE_RANGE_UNSHARE)?
+Yep, and at least the ones in the dma_setup() function are there for no 
+reason (the compiler won't reorder stores around the cache flush calls, 
+I hope?).
+
+Just leaves the 24 bit DMA mask there (and likely need for bounce buffers).
+
+> I don't have any of these SCSI host adapters (not counting the A590
+> (~A2091) expansion of the old A500, which is not Linux-capable, and
+>   hasn't been powered on for 20 years).
+
+I wonder whether kullervo has survived - that one was an A3000. Should 
+have gone to Adrian a few years ago...
+
+Cheers,
+
+     Michael
+
+
+>
+> Gr{oetje,eeting}s,
+>
+>                          Geert
+>
+> --
+> Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
+>
+> In personal conversations with technical people, I call myself a hacker. But
+> when I'm talking to journalists I just say "programmer" or something like that.
+>                                  -- Linus Torvalds
