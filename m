@@ -2,57 +2,55 @@ Return-Path: <linux-alpha-owner@vger.kernel.org>
 X-Original-To: lists+linux-alpha@lfdr.de
 Delivered-To: lists+linux-alpha@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 7BEC2564856
-	for <lists+linux-alpha@lfdr.de>; Sun,  3 Jul 2022 17:22:15 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 0CBDD567042
+	for <lists+linux-alpha@lfdr.de>; Tue,  5 Jul 2022 16:07:42 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231226AbiGCPWO (ORCPT <rfc822;lists+linux-alpha@lfdr.de>);
-        Sun, 3 Jul 2022 11:22:14 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35676 "EHLO
+        id S232743AbiGEOFh (ORCPT <rfc822;lists+linux-alpha@lfdr.de>);
+        Tue, 5 Jul 2022 10:05:37 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55006 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230446AbiGCPWN (ORCPT
-        <rfc822;linux-alpha@vger.kernel.org>); Sun, 3 Jul 2022 11:22:13 -0400
-Received: from mail-lj1-x22b.google.com (mail-lj1-x22b.google.com [IPv6:2a00:1450:4864:20::22b])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7835C559D;
-        Sun,  3 Jul 2022 08:22:09 -0700 (PDT)
-Received: by mail-lj1-x22b.google.com with SMTP id a11so8194520ljb.5;
-        Sun, 03 Jul 2022 08:22:09 -0700 (PDT)
+        with ESMTP id S230432AbiGEOFP (ORCPT
+        <rfc822;linux-alpha@vger.kernel.org>); Tue, 5 Jul 2022 10:05:15 -0400
+Received: from mail-lf1-x12d.google.com (mail-lf1-x12d.google.com [IPv6:2a00:1450:4864:20::12d])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7B4ADC1C;
+        Tue,  5 Jul 2022 06:52:49 -0700 (PDT)
+Received: by mail-lf1-x12d.google.com with SMTP id e12so20667778lfr.6;
+        Tue, 05 Jul 2022 06:52:49 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
-        h=subject:to:cc:references:from:message-id:date:user-agent
-         :mime-version:in-reply-to:content-transfer-encoding:content-language;
-        bh=7h/oDkelqUvQhnXMEHsIGaLApBCL4bVp/zpTNjHKaa0=;
-        b=Ajde41bE2wU0CLXRYXxA4RUv0bp0nc6vv24Jkv3jO+pNmgV5SruaUwkgdZh2uTckb2
-         LjwBe+5chzPdn9GsqinhSMRPDH/BkAH/rWbDiCgv3b73DzTdIIwCuu7rSSyi6XgKQgam
-         QzYkv4hEeMuDSoYQBiHL7V7XX8PuwVWoX68+MhlsNYB1tpAW+qusPDMIKzVjewkktdka
-         B8RzQXojCPXGgXsFV0Py1qu3xQ+dQ+Ph5W2hTs/NfGpTe8YoyNytz8Jxlg3eba2Qpapr
-         0dHtsjY/VCs3nDTxh/rSpBzNfE0J7lWIPD0uFnZAO2fN8qfYU1kzNyc0DtqVW3j5bPa6
-         jQig==
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to;
+        bh=hnG3EXAGSYglCl/wRCeE6XoUd122X8s3VFjj/Cl4BDo=;
+        b=f0oPNRCtup46ssQPcrkajodUnXaa38S7aucBwdDILFTG2eeb4ezSSagYCCpSaPXn6q
+         pM88V+eJuR+2wDKnqOvmIn2UBQeLj4Dvk+jM/7QzsaH+djXUCf8dVdZrR3Rum0ZxA4Fx
+         1+V5jQK4WZ6A6r+Z7pGJ3DHRh/l/I+n6TS11toC5D+NwQqpCXjbGQMtOFJd9gZJEVfoN
+         8o6r4MmM6XpKVa4t/W7kzcEgwfUE3Y+OozwbzeYUm+9Cfc1rCiR8kyXeLGCPMRo+QW0N
+         dWcQwNP8U6XumHQBe98yfaBeLuhKipyLuPvGkvNRoq32ZtcDVOLho4L9W1jGhun/Kcvn
+         3uIA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
-         :user-agent:mime-version:in-reply-to:content-transfer-encoding
-         :content-language;
-        bh=7h/oDkelqUvQhnXMEHsIGaLApBCL4bVp/zpTNjHKaa0=;
-        b=SEh/L2/IwM+8X+EYW/d9V+NLQeHJljo3ZMCLaN/0nI9/mNNeYOseL/KSj+UdejcU5f
-         M6G4A0FBxvMjOzBNpOBxZvqHqUH1TxtaT6Rw3FmL3N/rGYkXf8Jdd2teyHohU898Zeu8
-         5YotdNeTrpXZJiYcb2bmrYOSpPUQq71vLW+VhJ5gHila11sfu0RI+URxoFmdKh1qMTpE
-         lujhwdQFcBtbt3pdowTBVclP+L2BW2YOo5yoREVbNIV5aufgg6gCEpEZ7mGCisAlg8yn
-         NIgPoe9QBwJ0vu0FxMJMqqI3iiTQa1v8WlZ3nUIeCJ3u/cjf+Bt2RAabzF/mzL519q/Q
-         5M7g==
-X-Gm-Message-State: AJIora+dXoR765ehfTIhs2GNiZMzADbqQbBjoOIh00GOV290PHu+DZNr
-        Zcr2YAN10bJXtG84jykjRmE=
-X-Google-Smtp-Source: AGRyM1trX48ruuzycgoteqtLbzXdO1QJTxFK4a9qaPKv/Ind+sZ8MDYf+3trOk+5IJ6FZryqObKQIg==
-X-Received: by 2002:a2e:9941:0:b0:25b:c885:3143 with SMTP id r1-20020a2e9941000000b0025bc8853143mr14475290ljj.477.1656861727485;
-        Sun, 03 Jul 2022 08:22:07 -0700 (PDT)
-Received: from [192.168.1.7] ([212.22.223.21])
-        by smtp.gmail.com with ESMTPSA id s10-20020a056512202a00b0047255d21132sm4758576lfs.97.2022.07.03.08.22.04
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Sun, 03 Jul 2022 08:22:06 -0700 (PDT)
-Subject: Re: [PATCH v3 6/8] genirq: Add and use an irq_data_update_affinity
- helper
-To:     Samuel Holland <samuel@sholland.org>
-Cc:     Marc Zyngier <maz@kernel.org>,
-        Thomas Gleixner <tglx@linutronix.de>,
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to;
+        bh=hnG3EXAGSYglCl/wRCeE6XoUd122X8s3VFjj/Cl4BDo=;
+        b=e9IxXw9yie4rAH2fcd/8xGU4uzcy6Yuw7ffUpPlALqtTj1Ip+P31oYLhqzKTHSnj3G
+         hrN2+/5NEgW0s0PoZDYptyxaJzs419tIOBtT+/QmJMFl4Fx1HL+u/1AiibdMwR6Q7fBJ
+         5QLcz/ciIeZ1hBXVcsylhl369WtMhIOlSCnu1VIqmBYt2iGenrcaNWY/YH0Ecr474UG/
+         YJvudaP0HdbPJHtD9piRhk0O/iUOHsqHeyCY5S43FkmMbzIgfEcuPKSc6Xd1IMGwpP1f
+         YUFdm9Y98nn3SC1v+vsnAumO0iU+Dqe30YarDXOsI5fRxLoEMslmPYSiASHm+87PVfca
+         NVAQ==
+X-Gm-Message-State: AJIora/+HwYkx1vvb34rItGUmI3TE0GEJeKBAXzB36wnyUg4Rkx6XuW5
+        SAfw0a2iMcOSoTUEv9XkIYM=
+X-Google-Smtp-Source: AGRyM1tzQQEVczY5NcmNDovprbd7u0K8INSqZ44DlUGhkZwwx9elVzmtIOyIVqDnGRJUYz9FEGSPyA==
+X-Received: by 2002:a05:6512:b1a:b0:47f:b574:9539 with SMTP id w26-20020a0565120b1a00b0047fb5749539mr21685925lfu.143.1657029167643;
+        Tue, 05 Jul 2022 06:52:47 -0700 (PDT)
+Received: from mobilestation ([95.79.140.178])
+        by smtp.gmail.com with ESMTPSA id v19-20020ac258f3000000b00483f8c40c14sm262435lfo.243.2022.07.05.06.52.44
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 05 Jul 2022 06:52:47 -0700 (PDT)
+Date:   Tue, 5 Jul 2022 16:52:43 +0300
+From:   Serge Semin <fancer.lancer@gmail.com>
+To:     Samuel Holland <samuel@sholland.org>, Marc Zyngier <maz@kernel.org>
+Cc:     Thomas Gleixner <tglx@linutronix.de>,
         Andy Shevchenko <andy.shevchenko@gmail.com>,
         Bartosz Golaszewski <brgl@bgdev.pl>,
         Bjorn Helgaas <bhelgaas@google.com>,
@@ -76,7 +74,7 @@ Cc:     Marc Zyngier <maz@kernel.org>,
         Julia Lawall <Julia.Lawall@inria.fr>,
         "K. Y. Srinivasan" <kys@microsoft.com>,
         Kees Cook <keescook@chromium.org>,
-        =?UTF-8?Q?Krzysztof_Wilczy=c5=84ski?= <kw@linux.com>,
+        Krzysztof =?utf-8?Q?Wilczy=C5=84ski?= <kw@linux.com>,
         Linus Walleij <linus.walleij@linaro.org>,
         Lorenzo Pieralisi <lpieralisi@kernel.org>,
         Mark Rutland <mark.rutland@arm.com>,
@@ -89,7 +87,6 @@ Cc:     Marc Zyngier <maz@kernel.org>,
         Rikard Falkeborn <rikard.falkeborn@gmail.com>,
         Rob Herring <robh@kernel.org>,
         Russell King <linux@armlinux.org.uk>,
-        Serge Semin <fancer.lancer@gmail.com>,
         Stefano Stabellini <sstabellini@kernel.org>,
         Stephen Hemminger <sthemmin@microsoft.com>,
         Sven Schnelle <svens@stackframe.org>,
@@ -103,21 +100,19 @@ Cc:     Marc Zyngier <maz@kernel.org>,
         linux-kernel@vger.kernel.org, linux-mips@vger.kernel.org,
         linux-parisc@vger.kernel.org, linux-pci@vger.kernel.org,
         linux-sh@vger.kernel.org, linux-xtensa@linux-xtensa.org,
-        x86@kernel.org, xen-devel@lists.xenproject.org
+        x86@kernel.org, xen-devel@lists.xenproject.org,
+        kernel test robot <lkp@intel.com>
+Subject: Re: [PATCH v3 1/8] irqchip/mips-gic: Only register IPI domain when
+ SMP is enabled
+Message-ID: <20220705135243.ydbwfo4kois64elr@mobilestation>
 References: <20220701200056.46555-1-samuel@sholland.org>
- <20220701200056.46555-7-samuel@sholland.org>
-From:   Oleksandr <olekstysh@gmail.com>
-Message-ID: <c7171195-796a-e61e-f270-864985adc5c3@gmail.com>
-Date:   Sun, 3 Jul 2022 18:22:03 +0300
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.10.0
+ <20220701200056.46555-2-samuel@sholland.org>
 MIME-Version: 1.0
-In-Reply-To: <20220701200056.46555-7-samuel@sholland.org>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Transfer-Encoding: 7bit
-Content-Language: en-US
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20220701200056.46555-2-samuel@sholland.org>
 X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,NICE_REPLY_A,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
         RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE
         autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
@@ -126,189 +121,214 @@ Precedence: bulk
 List-ID: <linux-alpha.vger.kernel.org>
 X-Mailing-List: linux-alpha@vger.kernel.org
 
+Hi Samuel
 
-On 01.07.22 23:00, Samuel Holland wrote:
+On Fri, Jul 01, 2022 at 03:00:49PM -0500, Samuel Holland wrote:
+> The MIPS GIC irqchip driver may be selected in a uniprocessor
+> configuration, but it unconditionally registers an IPI domain.
+> 
+> Limit the part of the driver dealing with IPIs to only be compiled when
+> GENERIC_IRQ_IPI is enabled, which corresponds to an SMP configuration.
 
+Thanks for the patch. Some comment is below.
 
-Hello Samuel
-
-> Some architectures and irqchip drivers modify the cpumask returned by
-> irq_data_get_affinity_mask, usually by copying in to it. This is
-> problematic for uniprocessor configurations, where the affinity mask
-> should be constant, as it is known at compile time.
->
-> Add and use a setter for the affinity mask, following the pattern of
-> irq_data_update_effective_affinity. This allows the getter function to
-> return a const cpumask pointer.
->
+> 
+> Reported-by: kernel test robot <lkp@intel.com>
 > Signed-off-by: Samuel Holland <samuel@sholland.org>
 > ---
->
+> 
 > Changes in v3:
->   - New patch to introduce irq_data_update_affinity
->
->   arch/alpha/kernel/irq.c          | 2 +-
->   arch/ia64/kernel/iosapic.c       | 2 +-
->   arch/ia64/kernel/irq.c           | 4 ++--
->   arch/ia64/kernel/msi_ia64.c      | 4 ++--
->   arch/parisc/kernel/irq.c         | 2 +-
->   drivers/irqchip/irq-bcm6345-l1.c | 4 ++--
->   drivers/parisc/iosapic.c         | 2 +-
->   drivers/sh/intc/chip.c           | 2 +-
->   drivers/xen/events/events_base.c | 7 ++++---
->   include/linux/irq.h              | 6 ++++++
->   10 files changed, 21 insertions(+), 14 deletions(-)
->
-> diff --git a/arch/alpha/kernel/irq.c b/arch/alpha/kernel/irq.c
-> index f6d2946edbd2..15f2effd6baf 100644
-> --- a/arch/alpha/kernel/irq.c
-> +++ b/arch/alpha/kernel/irq.c
-> @@ -60,7 +60,7 @@ int irq_select_affinity(unsigned int irq)
->   		cpu = (cpu < (NR_CPUS-1) ? cpu + 1 : 0);
->   	last_cpu = cpu;
->   
-> -	cpumask_copy(irq_data_get_affinity_mask(data), cpumask_of(cpu));
-> +	irq_data_update_affinity(data, cpumask_of(cpu));
->   	chip->irq_set_affinity(data, cpumask_of(cpu), false);
->   	return 0;
->   }
-> diff --git a/arch/ia64/kernel/iosapic.c b/arch/ia64/kernel/iosapic.c
-> index 35adcf89035a..99300850abc1 100644
-> --- a/arch/ia64/kernel/iosapic.c
-> +++ b/arch/ia64/kernel/iosapic.c
-> @@ -834,7 +834,7 @@ iosapic_unregister_intr (unsigned int gsi)
->   	if (iosapic_intr_info[irq].count == 0) {
->   #ifdef CONFIG_SMP
->   		/* Clear affinity */
-> -		cpumask_setall(irq_get_affinity_mask(irq));
-> +		irq_data_update_affinity(irq_get_irq_data(irq), cpu_all_mask);
->   #endif
->   		/* Clear the interrupt information */
->   		iosapic_intr_info[irq].dest = 0;
-> diff --git a/arch/ia64/kernel/irq.c b/arch/ia64/kernel/irq.c
-> index ecef17c7c35b..275b9ea58c64 100644
-> --- a/arch/ia64/kernel/irq.c
-> +++ b/arch/ia64/kernel/irq.c
-> @@ -57,8 +57,8 @@ static char irq_redir [NR_IRQS]; // = { [0 ... NR_IRQS-1] = 1 };
->   void set_irq_affinity_info (unsigned int irq, int hwid, int redir)
->   {
->   	if (irq < NR_IRQS) {
-> -		cpumask_copy(irq_get_affinity_mask(irq),
-> -			     cpumask_of(cpu_logical_id(hwid)));
-> +		irq_data_update_affinity(irq_get_irq_data(irq),
-> +					 cpumask_of(cpu_logical_id(hwid)));
->   		irq_redir[irq] = (char) (redir & 0xff);
->   	}
->   }
-> diff --git a/arch/ia64/kernel/msi_ia64.c b/arch/ia64/kernel/msi_ia64.c
-> index df5c28f252e3..025e5133c860 100644
-> --- a/arch/ia64/kernel/msi_ia64.c
-> +++ b/arch/ia64/kernel/msi_ia64.c
-> @@ -37,7 +37,7 @@ static int ia64_set_msi_irq_affinity(struct irq_data *idata,
->   	msg.data = data;
->   
->   	pci_write_msi_msg(irq, &msg);
-> -	cpumask_copy(irq_data_get_affinity_mask(idata), cpumask_of(cpu));
-> +	irq_data_update_affinity(idata, cpumask_of(cpu));
->   
->   	return 0;
->   }
-> @@ -132,7 +132,7 @@ static int dmar_msi_set_affinity(struct irq_data *data,
->   	msg.address_lo |= MSI_ADDR_DEST_ID_CPU(cpu_physical_id(cpu));
->   
->   	dmar_msi_write(irq, &msg);
-> -	cpumask_copy(irq_data_get_affinity_mask(data), mask);
-> +	irq_data_update_affinity(data, mask);
->   
->   	return 0;
->   }
-> diff --git a/arch/parisc/kernel/irq.c b/arch/parisc/kernel/irq.c
-> index 0fe2d79fb123..5ebb1771b4ab 100644
-> --- a/arch/parisc/kernel/irq.c
-> +++ b/arch/parisc/kernel/irq.c
-> @@ -315,7 +315,7 @@ unsigned long txn_affinity_addr(unsigned int irq, int cpu)
->   {
->   #ifdef CONFIG_SMP
->   	struct irq_data *d = irq_get_irq_data(irq);
-> -	cpumask_copy(irq_data_get_affinity_mask(d), cpumask_of(cpu));
-> +	irq_data_update_affinity(d, cpumask_of(cpu));
->   #endif
->   
->   	return per_cpu(cpu_data, cpu).txn_addr;
-> diff --git a/drivers/irqchip/irq-bcm6345-l1.c b/drivers/irqchip/irq-bcm6345-l1.c
-> index 142a7431745f..6899e37810a8 100644
-> --- a/drivers/irqchip/irq-bcm6345-l1.c
-> +++ b/drivers/irqchip/irq-bcm6345-l1.c
-> @@ -216,11 +216,11 @@ static int bcm6345_l1_set_affinity(struct irq_data *d,
->   		enabled = intc->cpus[old_cpu]->enable_cache[word] & mask;
->   		if (enabled)
->   			__bcm6345_l1_mask(d);
-> -		cpumask_copy(irq_data_get_affinity_mask(d), dest);
-> +		irq_data_update_affinity(d, dest);
->   		if (enabled)
->   			__bcm6345_l1_unmask(d);
->   	} else {
-> -		cpumask_copy(irq_data_get_affinity_mask(d), dest);
-> +		irq_data_update_affinity(d, dest);
->   	}
->   	raw_spin_unlock_irqrestore(&intc->lock, flags);
->   
-> diff --git a/drivers/parisc/iosapic.c b/drivers/parisc/iosapic.c
-> index 8a3b0c3a1e92..3a8c98615634 100644
-> --- a/drivers/parisc/iosapic.c
-> +++ b/drivers/parisc/iosapic.c
-> @@ -677,7 +677,7 @@ static int iosapic_set_affinity_irq(struct irq_data *d,
->   	if (dest_cpu < 0)
->   		return -1;
->   
-> -	cpumask_copy(irq_data_get_affinity_mask(d), cpumask_of(dest_cpu));
-> +	irq_data_update_affinity(d, cpumask_of(dest_cpu));
->   	vi->txn_addr = txn_affinity_addr(d->irq, dest_cpu);
->   
->   	spin_lock_irqsave(&iosapic_lock, flags);
-> diff --git a/drivers/sh/intc/chip.c b/drivers/sh/intc/chip.c
-> index 358df7510186..828d81e02b37 100644
-> --- a/drivers/sh/intc/chip.c
-> +++ b/drivers/sh/intc/chip.c
-> @@ -72,7 +72,7 @@ static int intc_set_affinity(struct irq_data *data,
->   	if (!cpumask_intersects(cpumask, cpu_online_mask))
->   		return -1;
->   
-> -	cpumask_copy(irq_data_get_affinity_mask(data), cpumask);
-> +	irq_data_update_affinity(data, cpumask);
->   
->   	return IRQ_SET_MASK_OK_NOCOPY;
->   }
-> diff --git a/drivers/xen/events/events_base.c b/drivers/xen/events/events_base.c
-> index 46d9295d9a6e..5e8321f43cbd 100644
-> --- a/drivers/xen/events/events_base.c
-> +++ b/drivers/xen/events/events_base.c
-> @@ -528,9 +528,10 @@ static void bind_evtchn_to_cpu(evtchn_port_t evtchn, unsigned int cpu,
->   	BUG_ON(irq == -1);
->   
->   	if (IS_ENABLED(CONFIG_SMP) && force_affinity) {
-> -		cpumask_copy(irq_get_affinity_mask(irq), cpumask_of(cpu));
-> -		cpumask_copy(irq_get_effective_affinity_mask(irq),
-> -			     cpumask_of(cpu));
-> +		struct irq_data *data = irq_get_irq_data(irq);
+>  - New patch to fix build errors in uniprocessor MIPS configs
+> 
+>  drivers/irqchip/Kconfig        |  3 +-
+>  drivers/irqchip/irq-mips-gic.c | 80 +++++++++++++++++++++++-----------
+>  2 files changed, 56 insertions(+), 27 deletions(-)
+> 
+> diff --git a/drivers/irqchip/Kconfig b/drivers/irqchip/Kconfig
+> index 1f23a6be7d88..d26a4ff7c99f 100644
+> --- a/drivers/irqchip/Kconfig
+> +++ b/drivers/irqchip/Kconfig
+> @@ -322,7 +322,8 @@ config KEYSTONE_IRQ
+>  
+>  config MIPS_GIC
+>  	bool
+> -	select GENERIC_IRQ_IPI
+> +	select GENERIC_IRQ_IPI if SMP
+
+> +	select IRQ_DOMAIN_HIERARCHY
+
+It seems to me that the IRQ domains hierarchy is supposed to be
+created only if IPI is required. At least that's what the MIPS GIC
+driver implies. Thus we can go further and CONFIG_IRQ_DOMAIN_HIERARCHY
+ifdef-out the gic_irq_domain_alloc() and gic_irq_domain_free()
+methods definition together with the initialization:
+
+ static const struct irq_domain_ops gic_irq_domain_ops = {
+ 	.xlate = gic_irq_domain_xlate,
++#ifdef CONFIG_IRQ_DOMAIN_HIERARCHY
+ 	.alloc = gic_irq_domain_alloc,
+ 	.free = gic_irq_domain_free,
++#endif
+ 	.map = gic_irq_domain_map,
+};
+
+If the GENERIC_IRQ_IPI config is enabled, CONFIG_IRQ_DOMAIN_HIERARCHY
+will be automatically selected (see the config definition in
+kernel/irq/Kconfig). If the IRQs hierarchy is needed for some another
+functionality like GENERIC_MSI_IRQ_DOMAIN or GPIOs then they will
+explicitly enable the IRQ_DOMAIN_HIERARCHY config thus activating the
+denoted .alloc and .free methods definitions.
+
+To sum up you can get rid of the IRQ_DOMAIN_HIERARCHY config
+force-select from this patch and make the MIPS GIC driver code a bit
+more coherent.
+
+@Marc, please correct me if were wrong.
+
+-Serget
+
+>  	select MIPS_CM
+>  
+>  config INGENIC_IRQ
+> diff --git a/drivers/irqchip/irq-mips-gic.c b/drivers/irqchip/irq-mips-gic.c
+> index ff89b36267dd..8a9efb6ae587 100644
+> --- a/drivers/irqchip/irq-mips-gic.c
+> +++ b/drivers/irqchip/irq-mips-gic.c
+> @@ -52,13 +52,15 @@ static DEFINE_PER_CPU_READ_MOSTLY(unsigned long[GIC_MAX_LONGS], pcpu_masks);
+>  
+>  static DEFINE_SPINLOCK(gic_lock);
+>  static struct irq_domain *gic_irq_domain;
+> -static struct irq_domain *gic_ipi_domain;
+>  static int gic_shared_intrs;
+>  static unsigned int gic_cpu_pin;
+>  static unsigned int timer_cpu_pin;
+>  static struct irq_chip gic_level_irq_controller, gic_edge_irq_controller;
 > +
-> +		irq_data_update_affinity(data, cpumask_of(cpu));
-> +		irq_data_update_effective_affinity(data, cpumask_of(cpu));
->   	}
-
-
-
-Nit: commit description says about reusing irq_data_update_affinity() 
-only, but here we also reuse irq_data_update_effective_affinity(), so I 
-would mention that in the description.
-
-Reviewed-by: Oleksandr Tyshchenko <oleksandr_tyshchenko@epam.com> # Xen bits
-
-
-[snip]
-
--- 
-Regards,
-
-Oleksandr Tyshchenko
-
+> +#ifdef CONFIG_GENERIC_IRQ_IPI
+>  static DECLARE_BITMAP(ipi_resrv, GIC_MAX_INTRS);
+>  static DECLARE_BITMAP(ipi_available, GIC_MAX_INTRS);
+> +#endif /* CONFIG_GENERIC_IRQ_IPI */
+>  
+>  static struct gic_all_vpes_chip_data {
+>  	u32	map;
+> @@ -472,9 +474,11 @@ static int gic_irq_domain_map(struct irq_domain *d, unsigned int virq,
+>  	u32 map;
+>  
+>  	if (hwirq >= GIC_SHARED_HWIRQ_BASE) {
+> +#ifdef CONFIG_GENERIC_IRQ_IPI
+>  		/* verify that shared irqs don't conflict with an IPI irq */
+>  		if (test_bit(GIC_HWIRQ_TO_SHARED(hwirq), ipi_resrv))
+>  			return -EBUSY;
+> +#endif /* CONFIG_GENERIC_IRQ_IPI */
+>  
+>  		err = irq_domain_set_hwirq_and_chip(d, virq, hwirq,
+>  						    &gic_level_irq_controller,
+> @@ -567,6 +571,8 @@ static const struct irq_domain_ops gic_irq_domain_ops = {
+>  	.map = gic_irq_domain_map,
+>  };
+>  
+> +#ifdef CONFIG_GENERIC_IRQ_IPI
+> +
+>  static int gic_ipi_domain_xlate(struct irq_domain *d, struct device_node *ctrlr,
+>  				const u32 *intspec, unsigned int intsize,
+>  				irq_hw_number_t *out_hwirq,
+> @@ -670,6 +676,48 @@ static const struct irq_domain_ops gic_ipi_domain_ops = {
+>  	.match = gic_ipi_domain_match,
+>  };
+>  
+> +static int gic_register_ipi_domain(struct device_node *node)
+> +{
+> +	struct irq_domain *gic_ipi_domain;
+> +	unsigned int v[2], num_ipis;
+> +
+> +	gic_ipi_domain = irq_domain_add_hierarchy(gic_irq_domain,
+> +						  IRQ_DOMAIN_FLAG_IPI_PER_CPU,
+> +						  GIC_NUM_LOCAL_INTRS + gic_shared_intrs,
+> +						  node, &gic_ipi_domain_ops, NULL);
+> +	if (!gic_ipi_domain) {
+> +		pr_err("Failed to add IPI domain");
+> +		return -ENXIO;
+> +	}
+> +
+> +	irq_domain_update_bus_token(gic_ipi_domain, DOMAIN_BUS_IPI);
+> +
+> +	if (node &&
+> +	    !of_property_read_u32_array(node, "mti,reserved-ipi-vectors", v, 2)) {
+> +		bitmap_set(ipi_resrv, v[0], v[1]);
+> +	} else {
+> +		/*
+> +		 * Reserve 2 interrupts per possible CPU/VP for use as IPIs,
+> +		 * meeting the requirements of arch/mips SMP.
+> +		 */
+> +		num_ipis = 2 * num_possible_cpus();
+> +		bitmap_set(ipi_resrv, gic_shared_intrs - num_ipis, num_ipis);
+> +	}
+> +
+> +	bitmap_copy(ipi_available, ipi_resrv, GIC_MAX_INTRS);
+> +
+> +	return 0;
+> +}
+> +
+> +#else /* !CONFIG_GENERIC_IRQ_IPI */
+> +
+> +static inline int gic_register_ipi_domain(struct device_node *node)
+> +{
+> +	return 0;
+> +}
+> +
+> +#endif /* !CONFIG_GENERIC_IRQ_IPI */
+> +
+>  static int gic_cpu_startup(unsigned int cpu)
+>  {
+>  	/* Enable or disable EIC */
+> @@ -688,11 +736,12 @@ static int gic_cpu_startup(unsigned int cpu)
+>  static int __init gic_of_init(struct device_node *node,
+>  			      struct device_node *parent)
+>  {
+> -	unsigned int cpu_vec, i, gicconfig, v[2], num_ipis;
+> +	unsigned int cpu_vec, i, gicconfig;
+>  	unsigned long reserved;
+>  	phys_addr_t gic_base;
+>  	struct resource res;
+>  	size_t gic_len;
+> +	int ret;
+>  
+>  	/* Find the first available CPU vector. */
+>  	i = 0;
+> @@ -780,30 +829,9 @@ static int __init gic_of_init(struct device_node *node,
+>  		return -ENXIO;
+>  	}
+>  
+> -	gic_ipi_domain = irq_domain_add_hierarchy(gic_irq_domain,
+> -						  IRQ_DOMAIN_FLAG_IPI_PER_CPU,
+> -						  GIC_NUM_LOCAL_INTRS + gic_shared_intrs,
+> -						  node, &gic_ipi_domain_ops, NULL);
+> -	if (!gic_ipi_domain) {
+> -		pr_err("Failed to add IPI domain");
+> -		return -ENXIO;
+> -	}
+> -
+> -	irq_domain_update_bus_token(gic_ipi_domain, DOMAIN_BUS_IPI);
+> -
+> -	if (node &&
+> -	    !of_property_read_u32_array(node, "mti,reserved-ipi-vectors", v, 2)) {
+> -		bitmap_set(ipi_resrv, v[0], v[1]);
+> -	} else {
+> -		/*
+> -		 * Reserve 2 interrupts per possible CPU/VP for use as IPIs,
+> -		 * meeting the requirements of arch/mips SMP.
+> -		 */
+> -		num_ipis = 2 * num_possible_cpus();
+> -		bitmap_set(ipi_resrv, gic_shared_intrs - num_ipis, num_ipis);
+> -	}
+> -
+> -	bitmap_copy(ipi_available, ipi_resrv, GIC_MAX_INTRS);
+> +	ret = gic_register_ipi_domain(node);
+> +	if (ret)
+> +		return ret;
+>  
+>  	board_bind_eic_interrupt = &gic_bind_eic_interrupt;
+>  
+> -- 
+> 2.35.1
+> 
