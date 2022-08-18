@@ -2,78 +2,67 @@ Return-Path: <linux-alpha-owner@vger.kernel.org>
 X-Original-To: lists+linux-alpha@lfdr.de
 Delivered-To: lists+linux-alpha@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id D0288598E62
-	for <lists+linux-alpha@lfdr.de>; Thu, 18 Aug 2022 22:59:44 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 5AD6259917C
+	for <lists+linux-alpha@lfdr.de>; Fri, 19 Aug 2022 01:50:54 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S242081AbiHRU7n (ORCPT <rfc822;lists+linux-alpha@lfdr.de>);
-        Thu, 18 Aug 2022 16:59:43 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34962 "EHLO
+        id S237711AbiHRXuw convert rfc822-to-8bit (ORCPT
+        <rfc822;lists+linux-alpha@lfdr.de>); Thu, 18 Aug 2022 19:50:52 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35362 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231771AbiHRU7m (ORCPT
+        with ESMTP id S232732AbiHRXuw (ORCPT
         <rfc822;linux-alpha@vger.kernel.org>);
-        Thu, 18 Aug 2022 16:59:42 -0400
-Received: from mail.zeus03.de (www.zeus03.de [194.117.254.33])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0DC7A9AF87
-        for <linux-alpha@vger.kernel.org>; Thu, 18 Aug 2022 13:59:39 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=simple; d=sang-engineering.com; h=
-        from:to:cc:subject:date:message-id:mime-version
-        :content-transfer-encoding; s=k1; bh=jRam8c+KwKGxNf9JW2BBvJUZ3ge
-        II3uu/dlIMlh5O9o=; b=PyufT2J23LIgJ5thNnkUGrx6nWoWyn3n8WqR5bw+KN5
-        laLELIsecA2juh6+ccxefIHH6E9eA17RGPYkmKyt+jodnCVaCsgpdu1j3rSVrLLi
-        WaVkABUyHdFHXS4JGcJx7CYhCB9PnHO82N1Bvbfyd4zAYkmpiffA4Uw31271n7T4
-        =
-Received: (qmail 3958859 invoked from network); 18 Aug 2022 22:59:36 +0200
-Received: by mail.zeus03.de with ESMTPSA (TLS_AES_256_GCM_SHA384 encrypted, authenticated); 18 Aug 2022 22:59:36 +0200
-X-UD-Smtp-Session: l3s3148p1@AvdXQormRKYucref
-From:   Wolfram Sang <wsa+renesas@sang-engineering.com>
-To:     linux-kernel@vger.kernel.org
-Cc:     Wolfram Sang <wsa+renesas@sang-engineering.com>,
-        Richard Henderson <richard.henderson@linaro.org>,
+        Thu, 18 Aug 2022 19:50:52 -0400
+Received: from relay.hostedemail.com (smtprelay0010.hostedemail.com [216.40.44.10])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6804ACE46E
+        for <linux-alpha@vger.kernel.org>; Thu, 18 Aug 2022 16:50:51 -0700 (PDT)
+Received: from omf05.hostedemail.com (a10.router.float.18 [10.200.18.1])
+        by unirelay03.hostedemail.com (Postfix) with ESMTP id E422CA09C9;
+        Thu, 18 Aug 2022 23:40:47 +0000 (UTC)
+Received: from [HIDDEN] (Authenticated sender: joe@perches.com) by omf05.hostedemail.com (Postfix) with ESMTPA id 8645E20018;
+        Thu, 18 Aug 2022 23:40:46 +0000 (UTC)
+Message-ID: <f2cef25c1e092fc3e9f7312b85762b487d67e3ff.camel@perches.com>
+Subject: Re: [PATCH] alpha: move from strlcpy with unused retval to strscpy
+From:   Joe Perches <joe@perches.com>
+To:     Wolfram Sang <wsa+renesas@sang-engineering.com>,
+        linux-kernel@vger.kernel.org
+Cc:     Richard Henderson <richard.henderson@linaro.org>,
         Ivan Kokshaysky <ink@jurassic.park.msu.ru>,
-        Matt Turner <mattst88@gmail.com>, linux-alpha@vger.kernel.org
-Subject: [PATCH] alpha: move from strlcpy with unused retval to strscpy
-Date:   Thu, 18 Aug 2022 22:59:36 +0200
-Message-Id: <20220818205936.6144-1-wsa+renesas@sang-engineering.com>
-X-Mailer: git-send-email 2.35.1
+        Matt Turner <mattst88@gmail.com>, linux-alpha@vger.kernel.org,
+        Julia Lawall <Julia.Lawall@inria.fr>
+Date:   Thu, 18 Aug 2022 19:40:36 -0400
+In-Reply-To: <20220818205936.6144-1-wsa+renesas@sang-engineering.com>
+References: <20220818205936.6144-1-wsa+renesas@sang-engineering.com>
+Content-Type: text/plain; charset="ISO-8859-1"
+Content-Transfer-Encoding: 8BIT
+User-Agent: Evolution 3.44.4 (3.44.4-1.fc36) 
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=-1.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FORGED_SPF_HELO,
-        RCVD_IN_MSPIKE_H3,RCVD_IN_MSPIKE_WL,SPF_HELO_PASS,SPF_NONE,
-        T_SCC_BODY_TEXT_LINE,URIBL_BLOCKED autolearn=no autolearn_force=no
-        version=3.4.6
+X-Stat-Signature: 63sffsbykz97x3rcana67aogb9xkpjgp
+X-Rspamd-Server: rspamout04
+X-Rspamd-Queue-Id: 8645E20018
+X-Spam-Status: No, score=-0.9 required=5.0 tests=BAYES_00,FORGED_SPF_HELO,
+        RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H3,RCVD_IN_MSPIKE_WL,SPF_HELO_PASS,
+        SPF_NONE,T_SCC_BODY_TEXT_LINE,UNPARSEABLE_RELAY autolearn=no
+        autolearn_force=no version=3.4.6
+X-Session-Marker: 6A6F6540706572636865732E636F6D
+X-Session-ID: U2FsdGVkX18Jb/X1VWGWoojIlIDf3j/NlOmdOXB8FaU=
+X-HE-Tag: 1660866046-515543
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-alpha.vger.kernel.org>
 X-Mailing-List: linux-alpha@vger.kernel.org
 
-Follow the advice of the below link and prefer 'strscpy' in this
-subsystem. Conversion is 1:1 because the return value is not used.
-Generated by a coccinelle script.
+On Thu, 2022-08-18 at 22:59 +0200, Wolfram Sang wrote:
+> Follow the advice of the below link and prefer 'strscpy' in this
+> subsystem. Conversion is 1:1 because the return value is not used.
+> Generated by a coccinelle script.
 
-Link: https://lore.kernel.org/r/CAHk-=wgfRnXz0W3D37d01q3JFkr_i_uTL=V6A6G1oUZcprmknw@mail.gmail.com/
-Signed-off-by: Wolfram Sang <wsa+renesas@sang-engineering.com>
----
- arch/alpha/kernel/setup.c | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+Nice.
 
-diff --git a/arch/alpha/kernel/setup.c b/arch/alpha/kernel/setup.c
-index b4fbbba30aa2..33bf3a627002 100644
---- a/arch/alpha/kernel/setup.c
-+++ b/arch/alpha/kernel/setup.c
-@@ -491,9 +491,9 @@ setup_arch(char **cmdline_p)
- 	   boot flags depending on the boot mode, we need some shorthand.
- 	   This should do for installation.  */
- 	if (strcmp(COMMAND_LINE, "INSTALL") == 0) {
--		strlcpy(command_line, "root=/dev/fd0 load_ramdisk=1", sizeof command_line);
-+		strscpy(command_line, "root=/dev/fd0 load_ramdisk=1", sizeof(command_line));
- 	} else {
--		strlcpy(command_line, COMMAND_LINE, sizeof command_line);
-+		strscpy(command_line, COMMAND_LINE, sizeof(command_line));
- 	}
- 	strcpy(boot_command_line, command_line);
- 	*cmdline_p = command_line;
--- 
-2.35.1
+Last time I posted a coccinelle script for strlcpy->strscpy conversions
+with unused returns, there were several variants that were not converted.
+
+https://lore.kernel.org/cocci/a3279a5772b2e49b57890cd75e97360b82890798.camel@perches.com/T/#m502108bfe0cc6a41d499a4c1b55d5f5db1423465
+
+Did you post the script you used?
 
