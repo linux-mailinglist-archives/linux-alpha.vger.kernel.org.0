@@ -2,64 +2,43 @@ Return-Path: <linux-alpha-owner@vger.kernel.org>
 X-Original-To: lists+linux-alpha@lfdr.de
 Delivered-To: lists+linux-alpha@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id AD2D25A3515
-	for <lists+linux-alpha@lfdr.de>; Sat, 27 Aug 2022 08:49:55 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id DAFDD5A38C3
+	for <lists+linux-alpha@lfdr.de>; Sat, 27 Aug 2022 18:31:05 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230063AbiH0Gtx (ORCPT <rfc822;lists+linux-alpha@lfdr.de>);
-        Sat, 27 Aug 2022 02:49:53 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34516 "EHLO
+        id S229544AbiH0QbD (ORCPT <rfc822;lists+linux-alpha@lfdr.de>);
+        Sat, 27 Aug 2022 12:31:03 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46124 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229668AbiH0Gtw (ORCPT
+        with ESMTP id S233333AbiH0QbC (ORCPT
         <rfc822;linux-alpha@vger.kernel.org>);
-        Sat, 27 Aug 2022 02:49:52 -0400
-Received: from mail-qk1-x730.google.com (mail-qk1-x730.google.com [IPv6:2607:f8b0:4864:20::730])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 60FB4FD0D
-        for <linux-alpha@vger.kernel.org>; Fri, 26 Aug 2022 23:49:51 -0700 (PDT)
-Received: by mail-qk1-x730.google.com with SMTP id s22so230300qkj.3
-        for <linux-alpha@vger.kernel.org>; Fri, 26 Aug 2022 23:49:51 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=lunos.org; s=google;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc;
-        bh=sgDOOatof3X2oIuMz8I1+gDbeFzYNyzibUS1dRt2DSc=;
-        b=bcsicaY8pXlNaayCCVnZslTWbAp22NSagtOxPIXIQf5rfZm/Qc+lzUaoy4cqQ6CPsz
-         fkNYNlPJjPXW87KHJreIHIvY3dAVtBUWK1m32GJHAWaPvjyzaNgET/k0DGKtQGIUYXFR
-         SlCmxhnOZic3n029LN0RxN1Y+/BlXE+AAHqx+FiaRHV32ov2Ol6mA12aT4Gnfb73ocR7
-         8WUYsIOhHOA9BHctmTL8HXo89yhvY74GfkgZgD7Deozhwcj/KpbnnVsIIH6qUBhg/HNe
-         JWF8CxcpZ01zwOMR0H5gf0ZEndGDc/IHwlOLOv+ba+uaLM1Pv/qHib39CuEVV1Jv4cVl
-         AYUg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc;
-        bh=sgDOOatof3X2oIuMz8I1+gDbeFzYNyzibUS1dRt2DSc=;
-        b=CFHeFsfBCXfjFAxQ20va6ZwQf1cZWuVdsaCsKE5AVPSm3/XivE6TJUXFwJA89MViF+
-         rbBq9eCr4ChHOVBgrLL+1j93w/W9fQrWmf2pVUHVIsu8yqyVSfayfKt2SbaIaz7uwvOv
-         8CvnEA5HzqQZDm2GKAU9/a4gKncMfupJYqNndWr5AK994UFRFJuAKF1jFIhjZx/eHGHK
-         xxA+gN1ZKl0Kx8/ntWxI13nqV/ZSz4GUMvfFolDdnbbjFPPjrUy6/VuByJSWO88EqbZH
-         6ORsL9y6AZDf//h96Joq+bfbZ+McoOVHfvpMwUc6fww1bn/wB+s4YSOfWPXv4WoB8m6F
-         RsYA==
-X-Gm-Message-State: ACgBeo1lo0mnECWAN/0YWKYcaB2/E3Rhtn/LqyUgGSJiCz1Kb7PwQ63V
-        0UoVmtl7LHY2jDOxOAgw1JoX7s/JkJtmqF71F6Xt5+b5KT2D9A==
-X-Google-Smtp-Source: AA6agR5jUiEgRsvzgOhVes40s0d7xMWOVXX3PC0bju6Fr9MOwzyPQmMW/cwePmKVgzGhwWEQ5psbzA==
-X-Received: by 2002:a37:952:0:b0:6ba:37c6:12ec with SMTP id 79-20020a370952000000b006ba37c612ecmr2165159qkj.331.1661582990381;
-        Fri, 26 Aug 2022 23:49:50 -0700 (PDT)
-Received: from andromeda.lan (c-73-135-167-67.hsd1.md.comcast.net. [73.135.167.67])
-        by smtp.gmail.com with ESMTPSA id c12-20020a37e10c000000b006b9576cd060sm1260589qkm.21.2022.08.26.23.49.49
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 26 Aug 2022 23:49:50 -0700 (PDT)
-From:   Edward Humes <aurxenon@lunos.org>
-To:     linux-alpha@vger.kernel.org
-Cc:     mattst88@gmail.com, ink@jurassic.park.msu.ru,
-        richard.henderson@linaro.org, Edward Humes <aurxenon@lunos.org>
-Subject: [PATCH] alpha: fix R_ALPHA_LITERAL reloc for large modules
-Date:   Sat, 27 Aug 2022 02:49:39 -0400
-Message-Id: <20220827064939.461790-1-aurxenon@lunos.org>
-X-Mailer: git-send-email 2.34.1
+        Sat, 27 Aug 2022 12:31:02 -0400
+Received: from bg5.exmail.qq.com (bg4.exmail.qq.com [43.154.221.58])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 260B4371AF;
+        Sat, 27 Aug 2022 09:30:56 -0700 (PDT)
+X-QQ-mid: bizesmtp74t1661617853tz05ch9f
+Received: from localhost.localdomain ( [182.148.13.26])
+        by bizesmtp.qq.com (ESMTP) with 
+        id ; Sun, 28 Aug 2022 00:30:47 +0800 (CST)
+X-QQ-SSF: 01000000002000B0C000B00A0000000
+X-QQ-FEAT: NCCf6GxSCju50Zjnv1G3SZWBMuaBiM2psi+N6v8lrG4tF04IR0aXJ38AsTUQP
+        wkzX9t9jKQ9nF1JUnzM+qIt15oti78F9k6g5wyswR/+polvyNw14+e/C5nh1NnmiFHoipop
+        SATzNdheYgU7E1ZS2VwFLqYEs+i7BFcVlopei9zwdhKwHOkAWgXC1tKwAZENxYfLwjsSKDm
+        OynNAaI1mJ46pP+MXbplOWvxmC7UefNcJjzxawn7L/AkPwivOLb7a53iUk9Q3JDbxN+ZL7m
+        9qBz6KkemYXRCxSzVdqiVZ8lX3xhPVV5Gj4RRbIydNkYTWCTqenTTSf68iVCiP4jFSa2ufo
+        Sr7MoDA00eVY1ey/CkK8w/ZGxV80gMmS7+hJ9F+rOdvU6Kmp5o=
+X-QQ-GoodBg: 0
+From:   Shaomin Deng <dengshaomin@cdjrlc.com>
+To:     linux-alpha@vger.kernel.org, linux-kernel@vger.kernel.org
+Cc:     Shaomin Deng <dengshaomin@cdjrlc.com>
+Subject: [PATCH] tty: Do not initialise statics to 0
+Date:   Sat, 27 Aug 2022 12:30:47 -0400
+Message-Id: <20220827163047.22095-1-dengshaomin@cdjrlc.com>
+X-Mailer: git-send-email 2.35.1
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
+X-QQ-SENDSIZE: 520
+Feedback-ID: bizesmtp:cdjrlc.com:qybglogicsvr:qybglogicsvr4
+X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,RCVD_IN_MSPIKE_H2,
         SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham
         autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
@@ -68,47 +47,26 @@ Precedence: bulk
 List-ID: <linux-alpha.vger.kernel.org>
 X-Mailing-List: linux-alpha@vger.kernel.org
 
-Previously, R_ALPHA_LITERAL relocations would overflow for large kernel
-modules.
+Compiler will initialise statics to 0, so there is no need to do that.
 
-This was because the Alpha's apply_relocate_add was relying on the kernel's
-module loader to have sorted the GOT towards the very end of the module as it
-was mapped into memory in order to correctly assign the global pointer. While
-this behavior would mostly work fine for small kernel modules, this approach
-would overflow on kernel modules with large GOT's since the global pointer
-would be very far away from the GOT, and thus, certain entries would be out of
-range.
-
-This patch fixes this by instead using the Tru64 behavior of assigning the
-global pointer to be 32KB away from the start of the GOT. The change made
-in this patch won't work for multi-GOT kernel modules as it makes the
-assumption the module only has one GOT located at the beginning of .got,
-although for the vast majority kernel modules, this should be fine. Of the
-kernel modules that would previously result in a relocation error, none of
-them, even modules like nouveau, have even come close to filling up a single
-GOT, and they've all worked fine under this patch.
-
-Signed-off-by: Edward Humes <aurxenon@lunos.org>
+Signed-off-by: Shaomin Deng <dengshaomin@cdjrlc.com>
 ---
- arch/alpha/kernel/module.c | 4 +---
- 1 file changed, 1 insertion(+), 3 deletions(-)
+ arch/alpha/kernel/srmcons.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/arch/alpha/kernel/module.c b/arch/alpha/kernel/module.c
-index 5b60c248de9e..cbefa5a77384 100644
---- a/arch/alpha/kernel/module.c
-+++ b/arch/alpha/kernel/module.c
-@@ -146,10 +146,8 @@ apply_relocate_add(Elf64_Shdr *sechdrs, const char *strtab,
- 	base = (void *)sechdrs[sechdrs[relsec].sh_info].sh_addr;
- 	symtab = (Elf64_Sym *)sechdrs[symindex].sh_addr;
+diff --git a/arch/alpha/kernel/srmcons.c b/arch/alpha/kernel/srmcons.c
+index 6dc952b0df4a..5024318b14a8 100644
+--- a/arch/alpha/kernel/srmcons.c
++++ b/arch/alpha/kernel/srmcons.c
+@@ -23,7 +23,7 @@
  
--	/* The small sections were sorted to the end of the segment.
--	   The following should definitely cover them.  */
--	gp = (u64)me->core_layout.base + me->core_layout.size - 0x8000;
- 	got = sechdrs[me->arch.gotsecindex].sh_addr;
-+	gp = got + 0x8000;
  
- 	for (i = 0; i < n; i++) {
- 		unsigned long r_sym = ELF64_R_SYM (rela[i].r_info);
+ static DEFINE_SPINLOCK(srmcons_callback_lock);
+-static int srm_is_registered_console = 0;
++static int srm_is_registered_console;
+ 
+ /* 
+  * The TTY driver
 -- 
-2.34.1
+2.35.1
 
