@@ -2,82 +2,103 @@ Return-Path: <linux-alpha-owner@vger.kernel.org>
 X-Original-To: lists+linux-alpha@lfdr.de
 Delivered-To: lists+linux-alpha@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id D3B535A5D28
-	for <lists+linux-alpha@lfdr.de>; Tue, 30 Aug 2022 09:42:27 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id A21C55A66B0
+	for <lists+linux-alpha@lfdr.de>; Tue, 30 Aug 2022 16:53:02 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229807AbiH3Hm0 (ORCPT <rfc822;lists+linux-alpha@lfdr.de>);
-        Tue, 30 Aug 2022 03:42:26 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37900 "EHLO
+        id S229831AbiH3OxB (ORCPT <rfc822;lists+linux-alpha@lfdr.de>);
+        Tue, 30 Aug 2022 10:53:01 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58494 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230225AbiH3HmZ (ORCPT
+        with ESMTP id S229469AbiH3Ow7 (ORCPT
         <rfc822;linux-alpha@vger.kernel.org>);
-        Tue, 30 Aug 2022 03:42:25 -0400
-Received: from bg4.exmail.qq.com (bg4.exmail.qq.com [43.155.67.158])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3B1AA9FA97
-        for <linux-alpha@vger.kernel.org>; Tue, 30 Aug 2022 00:42:22 -0700 (PDT)
-X-QQ-mid: bizesmtp88t1661845328tsqnodxd
-Received: from localhost.localdomain ( [182.148.13.26])
-        by bizesmtp.qq.com (ESMTP) with 
-        id ; Tue, 30 Aug 2022 15:42:03 +0800 (CST)
-X-QQ-SSF: 01000000000000B0C000000A0000000
-X-QQ-FEAT: k+kXOVJT+YxXS49HxL8plGBLGIEs0uUZJXqBNy+oBJh6iwYsxnOKfE36oxNtV
-        nZziYWB6VXv2cFw3zxp5JyRuoMs63jThCoFqQWyfD+eaXouvy0IHbn11VR2gGX6LTa6Le01
-        eu2SZh/GOythc94+y+WQl9/iT3sPqr7Ma5AKmvZi1m9ULOssXpZb3vkwIbHPwWM/dt3ItCE
-        p6NDDyo/4XNqGiOgOBvdYhSNinOsfqK9ZAyRRP7KNNDUKjBF/W/wqkrKyZ9uWBAK5Np/tlg
-        FDS+AZTd/PXPCpO4bqZMC8H/r2zGrtgkz0khUtJY2KMNZyyi7id+kGLCRPPfeIwIT+Wa9FW
-        2OgaQHBe0ytkaF4/lq7k1LBgGAardfeVqielr6jZTo4P5+Sb9q3Dro5ugm8ag==
-X-QQ-GoodBg: 0
-From:   Shaomin Deng <dengshaomin@cdjrlc.com>
-To:     richard.henderson@linaro.org, ink@jurassic.park.msu.ru,
-        mattst88@gmail.com, linux-alpha@vger.kernel.org
-Cc:     Shaomin Deng <dengshaomin@cdjrlc.com>
-Subject: [PATCH] alpha: Fix double word in comments
-Date:   Tue, 30 Aug 2022 03:42:02 -0400
-Message-Id: <20220830074202.11274-1-dengshaomin@cdjrlc.com>
-X-Mailer: git-send-email 2.35.1
+        Tue, 30 Aug 2022 10:52:59 -0400
+Received: from mail-pf1-x436.google.com (mail-pf1-x436.google.com [IPv6:2607:f8b0:4864:20::436])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C1BB21037C6
+        for <linux-alpha@vger.kernel.org>; Tue, 30 Aug 2022 07:52:58 -0700 (PDT)
+Received: by mail-pf1-x436.google.com with SMTP id y29so7517489pfq.0
+        for <linux-alpha@vger.kernel.org>; Tue, 30 Aug 2022 07:52:58 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google;
+        h=content-transfer-encoding:in-reply-to:from:references:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :from:to:cc;
+        bh=VF2yFiQXsHFg7elo8aq6tkA58KhGU6nq72XqcwehWe4=;
+        b=XZXsT8Id4sJb7OFK0gZZSv/2povrfct6wbmT+3Zzu4tjCBBi9ckJ2GoH4dcomkl1ID
+         +9UKEyIv1myh9gpvwWeVjE/KSd2NEmHd9Zdqv+rRfiQ7TbDBjiCBip5XUl0+A77bgVUL
+         HnGtz7C/ecJ5g2APqttxLpP6WrnRiofrIGUcUaZEZlt0qdVIBp7Wz8TzRO5mV6dAmnTY
+         3yuY8lYum69Gtnm6MnD0K/n3SvnGK+fp5H0yLm8L+2lQ1xh6oIbHCq/jQ/DKgajojTM/
+         Ew+QcBTP6t0wjN0ZRLTDpgGFo6o0JBxd5SAtL0v5WFVDIp7ffZiKA/wGHkZl3mVw2M8R
+         wV8A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=content-transfer-encoding:in-reply-to:from:references:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc;
+        bh=VF2yFiQXsHFg7elo8aq6tkA58KhGU6nq72XqcwehWe4=;
+        b=hAiqXtwvZuHQGNy0k6dyxuU70QU5Ro/fhirmiC33EfcuhSdFpPrBDTp/jmnzQ7lG7T
+         X4JAGKM7fz/oxD4F2d9nppsBCDxUyhTT60XQMTjY/CPibNYFBdRjUBYlHYuUxoja7J6W
+         2rijQWKfsvah/UrW4ouqJj+CgiyQ0tJthKUTWeI10NxgBXkrl5yWd0bwm2QNoF5IQ89J
+         hcRHGU3bI9bWjdhrkGBJ5ZweLpWPCiRUssOghOyFx+aOFu8UzpWDOofAo7xwgl4q6M2B
+         cYmSYxiCEnWnG8schs6NTKecgX/2jvtDt75VT3d23dl+abX5Fl7ZVRVXrYvlcCcw0C2R
+         GhqA==
+X-Gm-Message-State: ACgBeo23QMloHj1cQejXN/6rOW0xoa8F/Lbm0eJjji3zU9rDtLH+KzmH
+        pMwxECIwsTXuLo5ra472X57HTA==
+X-Google-Smtp-Source: AA6agR4QFwjwV2m/Y7BauKMj+1Nh3dfAv3u0+oa1Al9voYlvJzZip5BE2Xp40b38hMYBozxG+Lng9g==
+X-Received: by 2002:a63:c7:0:b0:42e:8690:960e with SMTP id 190-20020a6300c7000000b0042e8690960emr2756146pga.234.1661871178131;
+        Tue, 30 Aug 2022 07:52:58 -0700 (PDT)
+Received: from [192.168.0.4] ([71.212.157.236])
+        by smtp.gmail.com with ESMTPSA id f5-20020a170902684500b001635b86a790sm9695132pln.44.2022.08.30.07.52.57
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Tue, 30 Aug 2022 07:52:57 -0700 (PDT)
+Message-ID: <3ad149d0-916c-e80e-ef17-ca406a4d7f6d@linaro.org>
+Date:   Tue, 30 Aug 2022 07:52:56 -0700
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-QQ-SENDSIZE: 520
-Feedback-ID: bizesmtp:cdjrlc.com:qybglogicsvr:qybglogicsvr4
-X-Spam-Status: Yes, score=5.1 required=5.0 tests=BAYES_00,RCVD_IN_PBL,
-        RCVD_IN_SBL_CSS,RCVD_IN_XBL,SPF_HELO_NONE,SPF_PASS,
-        T_SCC_BODY_TEXT_LINE autolearn=no autolearn_force=no version=3.4.6
-X-Spam-Report: * -1.9 BAYES_00 BODY: Bayes spam probability is 0 to 1%
-        *      [score: 0.0000]
-        *  0.4 RCVD_IN_XBL RBL: Received via a relay in Spamhaus XBL
-        *      [43.155.67.158 listed in zen.spamhaus.org]
-        *  3.3 RCVD_IN_PBL RBL: Received via a relay in Spamhaus PBL
-        *  3.3 RCVD_IN_SBL_CSS RBL: Received via a relay in Spamhaus SBL-CSS
-        *  0.0 SPF_HELO_NONE SPF: HELO does not publish an SPF Record
-        * -0.0 SPF_PASS SPF: sender matches SPF record
-        * -0.0 T_SCC_BODY_TEXT_LINE No description available.
-X-Spam-Level: *****
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.11.0
+Subject: Re: [PATCH] alpha: Fix double word in comments
+Content-Language: en-US
+To:     Shaomin Deng <dengshaomin@cdjrlc.com>, ink@jurassic.park.msu.ru,
+        mattst88@gmail.com, linux-alpha@vger.kernel.org
+References: <20220830074202.11274-1-dengshaomin@cdjrlc.com>
+From:   Richard Henderson <richard.henderson@linaro.org>
+In-Reply-To: <20220830074202.11274-1-dengshaomin@cdjrlc.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,RCVD_IN_DNSWL_NONE,
+        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-alpha.vger.kernel.org>
 X-Mailing-List: linux-alpha@vger.kernel.org
 
-Delete the rebundant word "and" in comments.
+On 8/30/22 00:42, Shaomin Deng wrote:
+> Delete the rebundant word "and" in comments.
 
-Signed-off-by: Shaomin Deng <dengshaomin@cdjrlc.com>
----
- arch/alpha/kernel/irq_i8259.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+typo.
 
-diff --git a/arch/alpha/kernel/irq_i8259.c b/arch/alpha/kernel/irq_i8259.c
-index 1dcf0d9038fd..db574dcd6675 100644
---- a/arch/alpha/kernel/irq_i8259.c
-+++ b/arch/alpha/kernel/irq_i8259.c
-@@ -147,7 +147,7 @@ isa_no_iack_sc_device_interrupt(unsigned long vector)
- 	 */
- 	/* 
- 	 *  The first read of gives you *all* interrupting lines.
--	 *  Therefore, read the mask register and and out those lines
-+	 *  Therefore, read the mask register and out those lines
- 	 *  not enabled.  Note that some documentation has 21 and a1 
- 	 *  write only.  This is not true.
- 	 */
--- 
-2.35.1
+Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
+
+
+> 
+> Signed-off-by: Shaomin Deng <dengshaomin@cdjrlc.com>
+> ---
+>   arch/alpha/kernel/irq_i8259.c | 2 +-
+>   1 file changed, 1 insertion(+), 1 deletion(-)
+> 
+> diff --git a/arch/alpha/kernel/irq_i8259.c b/arch/alpha/kernel/irq_i8259.c
+> index 1dcf0d9038fd..db574dcd6675 100644
+> --- a/arch/alpha/kernel/irq_i8259.c
+> +++ b/arch/alpha/kernel/irq_i8259.c
+> @@ -147,7 +147,7 @@ isa_no_iack_sc_device_interrupt(unsigned long vector)
+>   	 */
+>   	/*
+>   	 *  The first read of gives you *all* interrupting lines.
+> -	 *  Therefore, read the mask register and and out those lines
+> +	 *  Therefore, read the mask register and out those lines
+>   	 *  not enabled.  Note that some documentation has 21 and a1
+>   	 *  write only.  This is not true.
+>   	 */
 
