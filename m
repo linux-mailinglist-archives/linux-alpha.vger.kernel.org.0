@@ -2,106 +2,192 @@ Return-Path: <linux-alpha-owner@vger.kernel.org>
 X-Original-To: lists+linux-alpha@lfdr.de
 Delivered-To: lists+linux-alpha@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 03D865A7E9F
-	for <lists+linux-alpha@lfdr.de>; Wed, 31 Aug 2022 15:22:26 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id B83F75A7F8D
+	for <lists+linux-alpha@lfdr.de>; Wed, 31 Aug 2022 16:07:45 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229697AbiHaNWZ (ORCPT <rfc822;lists+linux-alpha@lfdr.de>);
-        Wed, 31 Aug 2022 09:22:25 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55462 "EHLO
+        id S231724AbiHaOHo (ORCPT <rfc822;lists+linux-alpha@lfdr.de>);
+        Wed, 31 Aug 2022 10:07:44 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51444 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229570AbiHaNWX (ORCPT
+        with ESMTP id S230465AbiHaOHn (ORCPT
         <rfc822;linux-alpha@vger.kernel.org>);
-        Wed, 31 Aug 2022 09:22:23 -0400
-Received: from mail-yw1-x1142.google.com (mail-yw1-x1142.google.com [IPv6:2607:f8b0:4864:20::1142])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E9C05A2211
-        for <linux-alpha@vger.kernel.org>; Wed, 31 Aug 2022 06:22:22 -0700 (PDT)
-Received: by mail-yw1-x1142.google.com with SMTP id 00721157ae682-33dc31f25f9so306646977b3.11
-        for <linux-alpha@vger.kernel.org>; Wed, 31 Aug 2022 06:22:22 -0700 (PDT)
+        Wed, 31 Aug 2022 10:07:43 -0400
+Received: from mail-ej1-x62f.google.com (mail-ej1-x62f.google.com [IPv6:2a00:1450:4864:20::62f])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 65ECDD742B
+        for <linux-alpha@vger.kernel.org>; Wed, 31 Aug 2022 07:07:41 -0700 (PDT)
+Received: by mail-ej1-x62f.google.com with SMTP id p16so25480570ejb.9
+        for <linux-alpha@vger.kernel.org>; Wed, 31 Aug 2022 07:07:41 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=content-transfer-encoding:to:subject:message-id:date:from:reply-to
-         :mime-version:from:to:cc:subject:date;
-        bh=DnjnZSajfNgAzpK5ym8unXyyAyM+qS8cquz4gOGGtuU=;
-        b=notPEjO6RlvswNeZgjFA4JNi+kBi5Q8as91xA3OaU8zcnrhvEESUaaBLZUlI6kgQ6f
-         ZLjd/E0LN9sCG6Wo2b47bPARLDeXKUIvMxKc4mrgwjqB0usJZRvfAtuo6UFpyeq/9jcZ
-         6Z5VeiAV2QLbEMcILoXy1ajJga+gDprjXwRSLmVHV28bEyNRUuiEtUg2PIVuyBgomLjC
-         XAVt+olZdHhd0ODczIabEAA5GpKPaCSV/+DLcfiWaoL9DGv2JT+78c+sqhxOG7FvkvMz
-         YeZ6QPciiP9dD2xOQqoESTFl7M9Hg72lOI2pl0YdGTZ2SL0RtqRhuhV4R+TwWgZ04mob
-         Ai4A==
+        d=linaro.org; s=google;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc;
+        bh=SSE1HwMVcYk2UrtKirDe64NX+1tKMWo/CAq8zQgdjxY=;
+        b=gVt3VwChWCb8oP15iESWk4rihn+xtdYj1oXd5L8WISu2a1tF4jK3rEuTB7v9ySbeog
+         HgcdJ1f+K8DTlgJ45wz9Yo1+MlalUv+zlqhEy5mgfpIA6bMQqaPk2nRdWvCEbni6lIwt
+         nzN58amEGfpMhHYEiXwoP3RRtQilGWuNomP+6GnHaKnuU0iQLCWZoHrkM8X9M1DYXRke
+         /br92uXTzcm9iBSqpq68jxDQEuKBoyZYWx1crpHuRjl8j2TLqNE2MbVn3YJ+n4++T2O1
+         u4lRk4oN4pbjkDr/IyR2KbhhPxgEhDtKDnWX50xV8asGD2qN7rEel/E9C529YsVbIxN7
+         /RmA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=content-transfer-encoding:to:subject:message-id:date:from:reply-to
-         :mime-version:x-gm-message-state:from:to:cc:subject:date;
-        bh=DnjnZSajfNgAzpK5ym8unXyyAyM+qS8cquz4gOGGtuU=;
-        b=iesMc0HT4V9ZojLe50Q/0Z92Y6NP3y0vm6a16jLmm/tDOcFqCLD3pmNnKCHbyLW0Ip
-         z0d2nk2ujOO9I0hu7YZK8qMmPDVcNfQQjAOlogDkw9kFGIvN9JunwintYAocmWLbr1xV
-         c41v1lN2vJACg4b69XhobnAEtjgohuIQucqSA8hM8TK9IQmpgDZTMgf52P2Uyt20WsH/
-         Xi1hxrScARl8vMjVHGTIfWykYyoCnM+pNqWLpI3lMC4zo/edOaJw7d+KKAzSxMc2Uu6g
-         YC/h/+9kq1n1YtgmzA8+jczsAXFyZFkM2ZtFhgeeIJ1yt6M5oO2RaujjA0NxHXsBZSmQ
-         g5eQ==
-X-Gm-Message-State: ACgBeo27SaqOfH8yg2AAuhGERTrkFj9szTKzbKt+wHA26wxRtJn3s372
-        AHUkKBayOMvAtG/F8VdEvps6/VTNq/SyirTznTg=
-X-Google-Smtp-Source: AA6agR42d5b7j7t9B6hSq+yJ/rhpa/iVKuzByqrM+6txhOc/nOrMhIcSi1gkLQVVZ/IK9YmKipdgFXrSrMx41PDEebs=
-X-Received: by 2002:a81:638a:0:b0:33c:922b:683b with SMTP id
- x132-20020a81638a000000b0033c922b683bmr17986055ywb.207.1661952142045; Wed, 31
- Aug 2022 06:22:22 -0700 (PDT)
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc;
+        bh=SSE1HwMVcYk2UrtKirDe64NX+1tKMWo/CAq8zQgdjxY=;
+        b=drGj2+x3iA0EZ1P4BlJwKQtuRG4NONuw/jiT2CG+NIagzKn/Nc3813r4ue3gwKIbBF
+         KSyi8KuMl57VDQIdd2r5037b9FMBuXpK7WbfYQXlZIXVbMPRk4pqHfRFcaJA06+szdyb
+         OCc6rpsZXnXPcTOvw+T0YR2ScErKjQTaoSIqREXEHXwkeL1dL+Lq8Y6rNKaFIJH3OUQe
+         TpQtPoTU2muNd0Z/2eNc9U1Bpph30YL/XSe3wxnNawZjvqVtk7DLTPqxFvELtQ/sfoGn
+         CQr7h63N5dNx8S1NoHhOVCZwRQSXlkCZGDe/rjmpb0P1nBtF9BrK+sTfY+jkFnVG9DtJ
+         tCgg==
+X-Gm-Message-State: ACgBeo1eRNXRw51cVGcOPdS+f4LEd7EpqrG4I6yZZOBnFgx/mawX1Y4Z
+        rXwWPPzzhQKZXwhL11I8m6izlxpX3rVGahrJBCIafQ==
+X-Google-Smtp-Source: AA6agR77qGHGAM0Tri5sa68ELBEsXwHnhPb0QhcWvme1wvHcI9OJsbaQhozvVO/j6e9nLwt7s959oQAQgKEIslsw4As=
+X-Received: by 2002:a17:907:1c89:b0:741:4453:75be with SMTP id
+ nb9-20020a1709071c8900b00741445375bemr14554193ejc.208.1661954859828; Wed, 31
+ Aug 2022 07:07:39 -0700 (PDT)
 MIME-Version: 1.0
-Received: by 2002:a05:7108:74d3:0:0:0:0 with HTTP; Wed, 31 Aug 2022 06:22:21
- -0700 (PDT)
-Reply-To: golsonfinancial@gmail.com
-From:   OLSON FINANCIAL <khadijayusuf6876@gmail.com>
-Date:   Wed, 31 Aug 2022 06:22:21 -0700
-Message-ID: <CAEUDHmj0xQsKN-pEwdQyp11gnov+kQg7gjpZeCcR-w6xXbH5nw@mail.gmail.com>
-Subject: 
-To:     undisclosed-recipients:;
+References: <20220816204832.265837-1-linus.walleij@linaro.org>
+ <20220816204832.265837-2-linus.walleij@linaro.org> <Yw48R+EBmmZYl9x+@smile.fi.intel.com>
+In-Reply-To: <Yw48R+EBmmZYl9x+@smile.fi.intel.com>
+From:   Linus Walleij <linus.walleij@linaro.org>
+Date:   Wed, 31 Aug 2022 16:07:28 +0200
+Message-ID: <CACRpkdbn_v7g4=2+jGwxTr2z4ZLcFFfRF4F0oohn0VOf4uJ1SQ@mail.gmail.com>
+Subject: Re: [PATCH 2/2 v5] regmap: mmio: Support accelerared noinc operations
+To:     Andy Shevchenko <andriy.shevchenko@intel.com>,
+        Arnd Bergmann <arnd@arndb.de>,
+        linux-alpha <linux-alpha@vger.kernel.org>
+Cc:     Mark Brown <broonie@kernel.org>, linux-kernel@vger.kernel.org,
+        Brian Cain <bcain@quicinc.com>, linux-hexagon@vger.kernel.org
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Spam-Status: Yes, score=5.0 required=5.0 tests=BAYES_50,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_ENVFROM_END_DIGIT,
-        FREEMAIL_FROM,FREEMAIL_REPLYTO,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,
-        SPF_PASS,T_SCC_BODY_TEXT_LINE,UNDISC_FREEM autolearn=no
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
+        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=unavailable
         autolearn_force=no version=3.4.6
-X-Spam-Report: * -0.0 RCVD_IN_DNSWL_NONE RBL: Sender listed at
-        *      https://www.dnswl.org/, no trust
-        *      [2607:f8b0:4864:20:0:0:0:1142 listed in]
-        [list.dnswl.org]
-        *  0.8 BAYES_50 BODY: Bayes spam probability is 40 to 60%
-        *      [score: 0.5000]
-        *  0.0 SPF_HELO_NONE SPF: HELO does not publish an SPF Record
-        * -0.0 SPF_PASS SPF: sender matches SPF record
-        *  0.2 FREEMAIL_ENVFROM_END_DIGIT Envelope-from freemail username ends
-        *       in digit
-        *      [khadijayusuf6876[at]gmail.com]
-        *  0.0 FREEMAIL_FROM Sender email is commonly abused enduser mail
-        *      provider
-        *      [khadijayusuf6876[at]gmail.com]
-        * -0.1 DKIM_VALID_AU Message has a valid DKIM or DK signature from
-        *      author's domain
-        * -0.1 DKIM_VALID_EF Message has a valid DKIM or DK signature from
-        *      envelope-from domain
-        * -0.1 DKIM_VALID Message has at least one valid DKIM or DK signature
-        *  0.1 DKIM_SIGNED Message has a DKIM or DK signature, not necessarily
-        *       valid
-        * -0.0 T_SCC_BODY_TEXT_LINE No description available.
-        *  3.2 UNDISC_FREEM Undisclosed recipients + freemail reply-to
-        *  1.0 FREEMAIL_REPLYTO Reply-To/From or Reply-To/body contain
-        *      different freemails
-X-Spam-Level: *****
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-alpha.vger.kernel.org>
 X-Mailing-List: linux-alpha@vger.kernel.org
 
---=20
-Hallo Gr=C3=BC=C3=9Fe,
-Ben=C3=B6tigen Sie dringend einen Kredit, um ein Haus oder ein Auto zu
-kaufen? oder ben=C3=B6tigen Sie ein Gesch=C3=A4fts- oder Privatdarlehen, um=
- zu
-investieren? ein neues Gesch=C3=A4ft er=C3=B6ffnen, Rechnungen bezahlen? Un=
-d
-zahlen Sie uns Installationen zur=C3=BCck? Wir sind ein zertifiziertes
-Finanzunternehmen. Wir bieten Privatpersonen und Unternehmen Kredite
-an. Wir bieten zuverl=C3=A4ssige Kredite zu einem sehr niedrigen Zinssatz
-von 2 %. F=C3=BCr weitere Informationen
-mailen Sie uns an: golsonfinancial@gmail.com..
+On Tue, Aug 30, 2022 at 6:39 PM Andy Shevchenko
+<andriy.shevchenko@intel.com> wrote:
+> On Tue, Aug 16, 2022 at 10:48:32PM +0200, Linus Walleij wrote:
+> > Use the newly added callback for accelerated noinc MMIO
+> > to provide writesb, writesw, writesl, writesq, readsb, readsw,
+> > readsl and readsq.
+> >
+> > A special quirk is needed to deal with big endian regmaps: there
+> > are no accelerated operations defined for big endian, so fall
+> > back to calling the big endian operations itereatively for this
+> > case.
+> >
+> > The Hexagon architecture turns out to have an incomplete
+> > <asm/io.h>: writesb() is not implemented. Fix this by doing
+> > what other architectures do: include <asm-generic/io.h> into
+> > the <asm/io.h> file.
+>
+> Wonderful!
+>
+> So, I have seen a recent blow up by kernel bot due to Alpha issues on these
+> accessors.
+
+There is a patch for that:
+https://lore.kernel.org/linux-arch/20220818092059.103884-1-linus.walleij@linaro.org/
+
+Alpha maintainance is not very active.
+
+The problem is that some (fringe) architectures do not fulfil the contract
+to provide full accessors. I can fix them all, I am fixing powerpc right now,
+but the breakage is just random compile tests, they don't really use
+regmap-mmio, we're just enabling regmap-mmio to compile on archs
+that don't ever use it, so it's not urgent.
+
+> > +     if (!IS_ERR(ctx->clk)) {
+> > +             ret = clk_enable(ctx->clk);
+> > +             if (ret < 0)
+> > +                     return ret;
+> > +     }
+>
+> It's a new place of the duplicating check, can we have a helper for that?
+>
+> ...
+>
+> > +     /*
+> > +      * There are no native, assembly-optimized write single register
+> > +      * operations for big endian, so fall back to emulation if this
+> > +      * is needed. (Single bytes are fine, they are not affected by
+> > +      * endianness.)
+> > +      */
+>
+> Wouldn't be faster to memdup() / swap / use corresponding IO accessor?
+
+Hm I would like a real BE target to test on and profile that.
+If someone has a target I can make a patch.
+
+> > +     /*
+> > +      * There are no native, assembly-optimized write single register
+> > +      * operations for big endian, so fall back to emulation if this
+> > +      * is needed. (Single bytes are fine, they are not affected by
+> > +      * endianness.)
+> > +      */
+> > +     if (ctx->big_endian && (ctx->val_bytes > 1)) {
+> > +             switch (ctx->val_bytes) {
+> > +             case 2:
+> > +             {
+> > +                     u16 *valp = (u16 *)val;
+> > +                     for (i = 0; i < val_count; i++)
+> > +                             valp[i] = swab16(valp[i]);
+> > +                     break;
+> > +             }
+> > +             case 4:
+> > +             {
+> > +                     u32 *valp = (u32 *)val;
+> > +                     for (i = 0; i < val_count; i++)
+> > +                             valp[i] = swab32(valp[i]);
+> > +                     break;
+> > +             }
+> > +#ifdef CONFIG_64BIT
+> > +             case 8:
+> > +             {
+> > +                     u64 *valp = (u64 *)val;
+> > +                     for (i = 0; i < val_count; i++)
+> > +                             valp[i] = swab64(valp[i]);
+> > +                     break;
+> > +             }
+> > +#endif
+> > +             default:
+> > +                     ret = -EINVAL;
+> > +                     break;
+> > +             }
+> > +     }
+>
+> So, two questions here:
+>
+> 1) can we use helpers from include/linux/byteorder/generic.h, such as
+>    cpu_to_be32_array()/be32_to_cpu_array()?
+>
+> 2) have you considered using memcpy_toio() / memcpy_fromio() and why
+>    it's not okay to use them?
+
+I got scared of all of these accessors because of
+commit 7e7ba58c94127efa97c249e38cc2d1c0ed78b58f
+"regmap: mmio: Fix MMIO accessors to avoid talking to IO port"
+so I don't know if I dare to trust them. Therefore I opted for the
+simplest thing that I could write that fulfils the requirement.
+
+Again, if someone has a BE target to test on, I can write a patch!
+
+> > +out_clk:
+> > +     if (!IS_ERR(ctx->clk))
+> > +             clk_disable(ctx->clk);
+> > +
+> > +     return ret;
+> > +
+> > +     return 0;
+>
+> Seems like misrebase? I believe this has to be fixed.
+
+Ooops I fix. Also the double newline.
+
+Yours,
+Linus Walleij
