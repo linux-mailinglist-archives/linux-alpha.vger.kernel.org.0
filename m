@@ -2,102 +2,111 @@ Return-Path: <linux-alpha-owner@vger.kernel.org>
 X-Original-To: lists+linux-alpha@lfdr.de
 Delivered-To: lists+linux-alpha@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id D0A005AA6FF
-	for <lists+linux-alpha@lfdr.de>; Fri,  2 Sep 2022 06:25:17 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 61BAA5AA721
+	for <lists+linux-alpha@lfdr.de>; Fri,  2 Sep 2022 07:07:37 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229804AbiIBEZP (ORCPT <rfc822;lists+linux-alpha@lfdr.de>);
-        Fri, 2 Sep 2022 00:25:15 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38994 "EHLO
+        id S231752AbiIBFHf (ORCPT <rfc822;lists+linux-alpha@lfdr.de>);
+        Fri, 2 Sep 2022 01:07:35 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38472 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229602AbiIBEZO (ORCPT
-        <rfc822;linux-alpha@vger.kernel.org>); Fri, 2 Sep 2022 00:25:14 -0400
-Received: from mail-ed1-x52a.google.com (mail-ed1-x52a.google.com [IPv6:2a00:1450:4864:20::52a])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0C4172559A
-        for <linux-alpha@vger.kernel.org>; Thu,  1 Sep 2022 21:25:12 -0700 (PDT)
-Received: by mail-ed1-x52a.google.com with SMTP id m1so1124529edb.7
-        for <linux-alpha@vger.kernel.org>; Thu, 01 Sep 2022 21:25:11 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linux-foundation.org; s=google;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date;
-        bh=DNMV9IFQkgeSNCmDnVXBpUsVGpL/AV76Y6Bz/ERRPxE=;
-        b=M54WbbUJ66QWCtytfwr6nfi7weprv1gdbbFSx2j7OZD3CiQex/eJv4ff0haKCow2UH
-         aF1DblgbmhW0jJWnX1xu97zDyHEFx2OjD+mmnwg0z5oTWKF5CT1fdc2sin2KW3akYWsE
-         wuYXpd4MnnNIpuAUUsisbKyWENR+MyXnCiGCU=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date;
-        bh=DNMV9IFQkgeSNCmDnVXBpUsVGpL/AV76Y6Bz/ERRPxE=;
-        b=YDXXoMPg/Amu7lulwRdXaQAfmYPWoYq8QWgMXG0o+eUFlgX1IvYvDP7bXlfE74syLS
-         1vISoZbMdRFBo+5gM36c1rgr8gEz3GMzQHwsuGnoqwqisQoVQpykyRkH9c1f1/uvbboj
-         CE/N5L3BrhdGGUpLRqlgSUOwyJ3evk5hZmbyUjaLhZk8euCNIOUgXT57E0azgtBtzMnb
-         RO4k+n5e+gLlR/0nptftQ3Bzb2ZXZl2LBN0daEOk4RoedGQm0Fe3sbYtMbibB6GJD/Vr
-         t/C40ecWBV9zUO1OFIGbd5dizAvvcunVO0eS7I7BbPvwJJ/qRJSBK8w6WICAmJq5axVJ
-         mWZQ==
-X-Gm-Message-State: ACgBeo0cz8htvRhv+2LDfyjnV1oPKRqLSHGAORwCaNJq5uut8V/fuZZv
-        Xr+ijJHy5Xt6CZhUKVZRkygrQ8wA7B7hvEq9
-X-Google-Smtp-Source: AA6agR5ZbCrjHd1iwdOiJ+dQxizmuvAOdXlTAxS0LV1+/WaEvpw6YcTpmOTnS7K+N+nUGO3YAXrT9w==
-X-Received: by 2002:aa7:ca46:0:b0:447:af0a:be68 with SMTP id j6-20020aa7ca46000000b00447af0abe68mr30961148edt.327.1662092710349;
-        Thu, 01 Sep 2022 21:25:10 -0700 (PDT)
-Received: from mail-wr1-f43.google.com (mail-wr1-f43.google.com. [209.85.221.43])
-        by smtp.gmail.com with ESMTPSA id e13-20020a170906314d00b0073d71792c8dsm606334eje.180.2022.09.01.21.25.09
-        for <linux-alpha@vger.kernel.org>
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 01 Sep 2022 21:25:09 -0700 (PDT)
-Received: by mail-wr1-f43.google.com with SMTP id k9so825279wri.0
-        for <linux-alpha@vger.kernel.org>; Thu, 01 Sep 2022 21:25:09 -0700 (PDT)
-X-Received: by 2002:a5d:6045:0:b0:226:d21d:947b with SMTP id
- j5-20020a5d6045000000b00226d21d947bmr15460363wrt.274.1662092709334; Thu, 01
- Sep 2022 21:25:09 -0700 (PDT)
-MIME-Version: 1.0
-References: <YxFhB4/cEXX5aHbn@ZenIV> <20220902015012.2664521-1-viro@zeniv.linux.org.uk>
- <20220902015012.2664521-7-viro@zeniv.linux.org.uk>
-In-Reply-To: <20220902015012.2664521-7-viro@zeniv.linux.org.uk>
-From:   Linus Torvalds <torvalds@linux-foundation.org>
-Date:   Thu, 1 Sep 2022 21:24:52 -0700
-X-Gmail-Original-Message-ID: <CAHk-=wjfCBF_xYtKacU920YFMKNDnesTUy-gYq8qHucLDTWNHQ@mail.gmail.com>
-Message-ID: <CAHk-=wjfCBF_xYtKacU920YFMKNDnesTUy-gYq8qHucLDTWNHQ@mail.gmail.com>
-Subject: Re: [PATCH v2 7/7] alpha: lazy FPU switching
-To:     Al Viro <viro@zeniv.linux.org.uk>
+        with ESMTP id S232787AbiIBFHe (ORCPT
+        <rfc822;linux-alpha@vger.kernel.org>); Fri, 2 Sep 2022 01:07:34 -0400
+Received: from zeniv.linux.org.uk (zeniv.linux.org.uk [IPv6:2a03:a000:7:0:5054:ff:fe1c:15ff])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 853AEB6560
+        for <linux-alpha@vger.kernel.org>; Thu,  1 Sep 2022 22:07:33 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+        d=linux.org.uk; s=zeniv-20220401; h=Sender:In-Reply-To:Content-Type:
+        MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
+        Content-Transfer-Encoding:Content-ID:Content-Description;
+        bh=IrxLyUCuHVYdeXyhz9uZok3MAQ43QAdmpIFfIgB32j8=; b=Gzvq9R8M/AyAHeWk2Exrjb5fOd
+        k0Qe0cuN3KGJGvCwPLH8fDglxSEFFPiDjFEYMJJrxIgmFQzoZkprFOomn1juaXx/AdpcLmcp7KdIg
+        iot4JG4N+t1ll9r+f0TiImosttwmcxGlLKN7Ly533KF1xVmAnZqwf9KA5eFHugiNzlPRCCDnJAxDs
+        bD4rzCrpAHS6u0oNdSAhjGHkjZVgBEViEKAjutj0t16cyFb74YJwc7mJ6a20w2GvFPVJu4hdy6CEu
+        QyjxkeqGZkJU5HiZspPmlgP6P2w4VkRz11kO5ttsiqD+9zcIryvKSgLfqwvv2ZftnPDGwa2juCaDr
+        h+0uja4g==;
+Received: from viro by zeniv.linux.org.uk with local (Exim 4.95 #2 (Red Hat Linux))
+        id 1oTytv-00BDxN-Fj;
+        Fri, 02 Sep 2022 05:07:31 +0000
+Date:   Fri, 2 Sep 2022 06:07:31 +0100
+From:   Al Viro <viro@zeniv.linux.org.uk>
+To:     Linus Torvalds <torvalds@linux-foundation.org>
 Cc:     linux-alpha@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-X-Spam-Status: No, score=-1.8 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
-        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE
-        autolearn=no autolearn_force=no version=3.4.6
+Subject: Re: [PATCH v2 7/7] alpha: lazy FPU switching
+Message-ID: <YxGPk1dDyCP2AWul@ZenIV>
+References: <YxFhB4/cEXX5aHbn@ZenIV>
+ <20220902015012.2664521-1-viro@zeniv.linux.org.uk>
+ <20220902015012.2664521-7-viro@zeniv.linux.org.uk>
+ <CAHk-=wjfCBF_xYtKacU920YFMKNDnesTUy-gYq8qHucLDTWNHQ@mail.gmail.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <CAHk-=wjfCBF_xYtKacU920YFMKNDnesTUy-gYq8qHucLDTWNHQ@mail.gmail.com>
+Sender: Al Viro <viro@ftp.linux.org.uk>
+X-Spam-Status: No, score=-2.0 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_EF,SPF_HELO_NONE,SPF_NONE,T_SCC_BODY_TEXT_LINE
+        autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-alpha.vger.kernel.org>
 X-Mailing-List: linux-alpha@vger.kernel.org
 
-On Thu, Sep 1, 2022 at 6:50 PM Al Viro <viro@zeniv.linux.org.uk> wrote:
->
->         On each context switch we save the FPU registers on stack
-> of old process and restore FPU registers from the stack of new one.
-> That allows us to avoid doing that each time we enter/leave the
-> kernel mode; however, that can get suboptimal in some cases.
+On Thu, Sep 01, 2022 at 09:24:52PM -0700, Linus Torvalds wrote:
+> On Thu, Sep 1, 2022 at 6:50 PM Al Viro <viro@zeniv.linux.org.uk> wrote:
+> >
+> >         On each context switch we save the FPU registers on stack
+> > of old process and restore FPU registers from the stack of new one.
+> > That allows us to avoid doing that each time we enter/leave the
+> > kernel mode; however, that can get suboptimal in some cases.
+> 
+> Do we really care, for what is effectively a dead architecture?
 
-Do we really care, for what is effectively a dead architecture?
+Umm...  To an extent we do - remember the fun bugs Eric had caught
+wrt kernel threads that end up running with unusual stack layout?
+That's where this series had come from - alpha is the worst offender
+in that respect; it has batshit crazy amount of extras on top of
+pt_regs and while the rest of that stuff could be dealt with, the
+full set of FP registers is well beyond anything we could reasonably
+save on each syscall entry.  And that also happens to be a killer
+for ever switching to generic syscall glue.
 
-This patch feels like something that might have made sense 25 years
-ago. Does it make sense today?
+So I wanted to see if such stuff could be dealt with; alpha FPU registers
+were the worst example in the entire tree...
+ 
+> This patch feels like something that might have made sense 25 years
+> ago. Does it make sense today?
+> 
+> I guess I don't care (for the same reason), but just how much testing
+> has this gotten, and what subtle bugs might this have?
 
-I guess I don't care (for the same reason), but just how much testing
-has this gotten, and what subtle bugs might this have?
+Umm... kernel builds, libc builds (and self-tests), xfstests (qemu only;
+sorry, but doing that on DS10 with IDE disk is just fucking awful).  Debian
+updates, to an extent...
+ 
+> With the asm even having a comment about how it only works because
+> alpha doesn't do preemption (ARCH_NO_PREEMPT), but then the C code
+> does do those preempt_disable/enable pairs, and I see an actual bug in
+> there too:
+> 
+> Both alpha_read_fp_reg() and alpha_read_fp_reg_s() do a
+> preempt_enable() -> preempt_enable() pair (ie the first one should be
+> a preempt_disable()).
 
-With the asm even having a comment about how it only works because
-alpha doesn't do preemption (ARCH_NO_PREEMPT), but then the C code
-does do those preempt_disable/enable pairs, and I see an actual bug in
-there too:
+Will fix.
 
-Both alpha_read_fp_reg() and alpha_read_fp_reg_s() do a
-preempt_enable() -> preempt_enable() pair (ie the first one should be
-a preempt_disable()).
+> Does that bug matter? No. ARCH_NO_PREEMPT means that it's all no-ops
+> anyway. But it's wrong and I think shows the status of this patch -
+> well-meaning, but maybe not really fully thought out.
 
-Does that bug matter? No. ARCH_NO_PREEMPT means that it's all no-ops
-anyway. But it's wrong and I think shows the status of this patch -
-well-meaning, but maybe not really fully thought out.
+Any review would obviously be welcome.  Again, as far as I'm concerned,
+it's more of figuring out how painful does that kind of work end up
+being.
 
-           Linus
+Beginning of the series is a different story (and a good example of the
+reasons for taking as much as possible out of asm glue into generic
+C helpers - look at the first patch and note that TIF_NOTIFY_SIGNAL
+is going to grow more uses in generic kernel).  TBH, I'm really sick
+and tired of crawling through asm glue every year or so and coming
+up with new piles of fun bugs ;-/  And it's not as if it had only
+affected dead and stillborn architectures - riscv development is quite
+alive...
