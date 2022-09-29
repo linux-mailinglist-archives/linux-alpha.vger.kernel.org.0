@@ -2,113 +2,104 @@ Return-Path: <linux-alpha-owner@vger.kernel.org>
 X-Original-To: lists+linux-alpha@lfdr.de
 Delivered-To: lists+linux-alpha@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 630B45EBAAE
-	for <lists+linux-alpha@lfdr.de>; Tue, 27 Sep 2022 08:31:30 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 26B575EF31E
+	for <lists+linux-alpha@lfdr.de>; Thu, 29 Sep 2022 12:14:26 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230179AbiI0Gb0 (ORCPT <rfc822;lists+linux-alpha@lfdr.de>);
-        Tue, 27 Sep 2022 02:31:26 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56016 "EHLO
+        id S234453AbiI2KOY (ORCPT <rfc822;lists+linux-alpha@lfdr.de>);
+        Thu, 29 Sep 2022 06:14:24 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35530 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229834AbiI0GbS (ORCPT
+        with ESMTP id S233587AbiI2KOX (ORCPT
         <rfc822;linux-alpha@vger.kernel.org>);
-        Tue, 27 Sep 2022 02:31:18 -0400
-Received: from muru.com (muru.com [72.249.23.125])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTP id 3B430979F9;
-        Mon, 26 Sep 2022 23:31:14 -0700 (PDT)
-Received: from localhost (localhost [127.0.0.1])
-        by muru.com (Postfix) with ESMTPS id 5E7B081BD;
-        Tue, 27 Sep 2022 06:22:54 +0000 (UTC)
-Date:   Tue, 27 Sep 2022 09:31:11 +0300
-From:   Tony Lindgren <tony@atomide.com>
-To:     Peter Zijlstra <peterz@infradead.org>
-Cc:     richard.henderson@linaro.org, ink@jurassic.park.msu.ru,
-        mattst88@gmail.com, vgupta@kernel.org, linux@armlinux.org.uk,
-        ulli.kroll@googlemail.com, linus.walleij@linaro.org,
-        shawnguo@kernel.org, Sascha Hauer <s.hauer@pengutronix.de>,
-        kernel@pengutronix.de, festevam@gmail.com, linux-imx@nxp.com,
-        khilman@kernel.org, catalin.marinas@arm.com, will@kernel.org,
-        guoren@kernel.org, bcain@quicinc.com, chenhuacai@kernel.org,
-        kernel@xen0n.name, geert@linux-m68k.org, sammy@sammy.net,
-        monstr@monstr.eu, tsbogend@alpha.franken.de, dinguyen@kernel.org,
-        jonas@southpole.se, stefan.kristiansson@saunalahti.fi,
-        shorne@gmail.com, James.Bottomley@hansenpartnership.com,
-        deller@gmx.de, mpe@ellerman.id.au, npiggin@gmail.com,
-        christophe.leroy@csgroup.eu, paul.walmsley@sifive.com,
-        palmer@dabbelt.com, aou@eecs.berkeley.edu, hca@linux.ibm.com,
-        gor@linux.ibm.com, agordeev@linux.ibm.com,
-        borntraeger@linux.ibm.com, svens@linux.ibm.com,
-        ysato@users.sourceforge.jp, dalias@libc.org, davem@davemloft.net,
-        richard@nod.at, anton.ivanov@cambridgegreys.com,
-        johannes@sipsolutions.net, tglx@linutronix.de, mingo@redhat.com,
-        bp@alien8.de, dave.hansen@linux.intel.com, x86@kernel.org,
-        hpa@zytor.com, acme@kernel.org, mark.rutland@arm.com,
-        alexander.shishkin@linux.intel.com, jolsa@kernel.org,
-        namhyung@kernel.org, jgross@suse.com, srivatsa@csail.mit.edu,
-        amakhalov@vmware.com, pv-drivers@vmware.com,
-        boris.ostrovsky@oracle.com, chris@zankel.net, jcmvbkbc@gmail.com,
-        rafael@kernel.org, lenb@kernel.org, pavel@ucw.cz,
-        gregkh@linuxfoundation.org, mturquette@baylibre.com,
-        sboyd@kernel.org, daniel.lezcano@linaro.org, lpieralisi@kernel.org,
-        sudeep.holla@arm.com, agross@kernel.org,
-        bjorn.andersson@linaro.org, konrad.dybcio@somainline.org,
-        anup@brainfault.org, thierry.reding@gmail.com,
-        jonathanh@nvidia.com, jacob.jun.pan@linux.intel.com,
-        atishp@atishpatra.org, Arnd Bergmann <arnd@arndb.de>,
-        yury.norov@gmail.com, andriy.shevchenko@linux.intel.com,
-        linux@rasmusvillemoes.dk, dennis@kernel.org, tj@kernel.org,
-        cl@linux.com, rostedt@goodmis.org, pmladek@suse.com,
-        senozhatsky@chromium.org, john.ogness@linutronix.de,
-        juri.lelli@redhat.com, vincent.guittot@linaro.org,
-        dietmar.eggemann@arm.com, bsegall@google.com, mgorman@suse.de,
-        bristot@redhat.com, vschneid@redhat.com, fweisbec@gmail.com,
-        ryabinin.a.a@gmail.com, glider@google.com, andreyknvl@gmail.com,
-        dvyukov@google.com, vincenzo.frascino@arm.com,
-        Andrew Morton <akpm@linux-foundation.org>, jpoimboe@kernel.org,
-        linux-alpha@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-snps-arc@lists.infradead.org, linux-omap@vger.kernel.org,
-        linux-csky@vger.kernel.org, linux-hexagon@vger.kernel.org,
-        linux-ia64@vger.kernel.org, loongarch@lists.linux.dev,
-        linux-m68k@lists.linux-m68k.org, linux-mips@vger.kernel.org,
-        openrisc@lists.librecores.org, linux-parisc@vger.kernel.org,
-        linuxppc-dev@lists.ozlabs.org, linux-riscv@lists.infradead.org,
-        linux-s390@vger.kernel.org, linux-sh@vger.kernel.org,
-        sparclinux@vger.kernel.org, linux-um@lists.infradead.org,
-        linux-perf-users@vger.kernel.org,
-        virtualization@lists.linux-foundation.org,
-        linux-xtensa@linux-xtensa.org, linux-acpi@vger.kernel.org,
-        linux-pm@vger.kernel.org, linux-clk@vger.kernel.org,
-        linux-arm-msm@vger.kernel.org, linux-tegra@vger.kernel.org,
-        linux-arch@vger.kernel.org, kasan-dev@googlegroups.com
-Subject: Re: [PATCH v2 00/44] cpuidle,rcu: Clean up the mess
-Message-ID: <YzKYrx8Kd9SBYcUg@atomide.com>
-References: <20220919095939.761690562@infradead.org>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20220919095939.761690562@infradead.org>
-X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,SPF_HELO_NONE,
-        SPF_NONE autolearn=ham autolearn_force=no version=3.4.6
+        Thu, 29 Sep 2022 06:14:23 -0400
+Received: from mail-wr1-x433.google.com (mail-wr1-x433.google.com [IPv6:2a00:1450:4864:20::433])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A42251497BB;
+        Thu, 29 Sep 2022 03:14:22 -0700 (PDT)
+Received: by mail-wr1-x433.google.com with SMTP id n10so1378644wrw.12;
+        Thu, 29 Sep 2022 03:14:22 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=message-id:date:subject:cc:to:from:from:to:cc:subject:date;
+        bh=+1jb+nfNrrfT47twFWxXKdVM9Wqmz0pwBbN3bVcD7Sc=;
+        b=RMlq4j0v9c9V68QmGp8qPZAxlNF0r+I8ps9TEAfWeSlPwqYQmFZOHMNm9WKzaZpiqP
+         BUIhBp8izAt+eC5a4STiG0cb+/G7vOoeb0iyb2Kc6HXq+NQ7fsfD3meT+CNgHhFWM89i
+         wPpn6fiZC9ftYmg1ZuNZ2V5Bb260mXiEg6zuV/iSW0KpUXVX8UCOE/fj6PpAGFm3qRyb
+         PjzHirM3LoRUVT1kiX87w9n0TzKpEnR0zqVwtve1amKwIDotfT2hVPcF3Z44+WAteO3u
+         +M3stm9d/ZbwwsJ2ePE0FIy16K8mjCNT8L8Gm2+tR73iP6wUUoZhfVTTXna89fl+DPe8
+         j7Zg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
+         :subject:date;
+        bh=+1jb+nfNrrfT47twFWxXKdVM9Wqmz0pwBbN3bVcD7Sc=;
+        b=0D6p9Rkw/g8p48h6R6xJeqdQ1rSWoknkWqBInLMNr8C9+WYJ6lcELIN2otdHvUf3ht
+         /x+GctBTexScldit9LEUoD4vEU19nib0QzbbqxN39gt/Ui7xpZH59D6o8eQLktauC2Tm
+         7fMd0kNClHkG5Z1kfhB45v8nyHfpE9Ml/4m0q+hyION4jKI3CGDgEoX+k4gsaYM/jTM/
+         aasrUgMJgZ1gRzombccRl3tR1qwvib+jIJr3APNpy7WBu6NWLPKAZubCWnXjrx5oLoIY
+         lYuKnUcC1aaTIJF01z8pBHrR0Sya9Lzfc9gMyO5wkC7bU/nwB0d933pIzJ0/SKwQ64w9
+         IiQA==
+X-Gm-Message-State: ACrzQf1WFb9UUrjgQMVPi24yzjLd/sSD5ArPToBNUkEAkExT7zEINK6G
+        c5dPrDdHCIn+Mr/Nl/BUzGy29mJQFD4=
+X-Google-Smtp-Source: AMsMyM4a1ThGMdCDyv5qN2IGEoba4iQiJVnd/J0gYcyaFj6lXbzwvbWw0eoSyfdTgL9jGkocyMNbVg==
+X-Received: by 2002:a05:6000:1c1c:b0:228:de40:986f with SMTP id ba28-20020a0560001c1c00b00228de40986fmr1688955wrb.212.1664446460813;
+        Thu, 29 Sep 2022 03:14:20 -0700 (PDT)
+Received: from felia.fritz.box (200116b826e11200b190ebfd45660ea6.dip.versatel-1u1.de. [2001:16b8:26e1:1200:b190:ebfd:4566:ea6])
+        by smtp.gmail.com with ESMTPSA id g14-20020adfe40e000000b0022ae8b862a7sm6233187wrm.35.2022.09.29.03.14.19
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 29 Sep 2022 03:14:20 -0700 (PDT)
+From:   Lukas Bulwahn <lukas.bulwahn@gmail.com>
+To:     kernel-janitors@vger.kernel.org, linux-kernel@vger.kernel.org,
+        Richard Henderson <richard.henderson@linaro.org>,
+        Ivan Kokshaysky <ink@jurassic.park.msu.ru>,
+        Matt Turner <mattst88@gmail.com>, linux-alpha@vger.kernel.org
+Cc:     Lukas Bulwahn <lukas.bulwahn@gmail.com>
+Subject: [PATCH] alpha: update config files
+Date:   Thu, 29 Sep 2022 12:13:29 +0200
+Message-Id: <20220929101329.31036-1-lukas.bulwahn@gmail.com>
+X-Mailer: git-send-email 2.17.1
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
+        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS autolearn=ham
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-alpha.vger.kernel.org>
 X-Mailing-List: linux-alpha@vger.kernel.org
 
-Hi,
+Clean up config files by:
+  - removing configs that were deleted in the past
+  - removing configs not in tree and without recently pending patches
+  - adding new configs that are replacements for old configs in the file
 
-* Peter Zijlstra <peterz@infradead.org> [220919 10:08]:
-> Hi All!
-> 
-> At long last, a respin of the cpuidle vs rcu cleanup patches.
-> 
-> v1: https://lkml.kernel.org/r/20220608142723.103523089@infradead.org
-> 
-> These here patches clean up the mess that is cpuidle vs rcuidle.
+For some detailed information, see Link.
 
-I just gave these a quick test and things still work for me. The old
-omap3 off mode during idle still works. No more need to play the
-whack the mole game with RCU-idle :) I did not test on x86, or on other
-ARMs, but considering the test pretty much covered the all the
-affected RCU-idle related paths, where suitable, feel free to add:
+Link: https://lore.kernel.org/kernel-janitors/20220929090645.1389-1-lukas.bulwahn@gmail.com/
 
-Tested-by: Tony Lindgren <tony@atomide.com>
+Signed-off-by: Lukas Bulwahn <lukas.bulwahn@gmail.com>
+---
+ arch/alpha/configs/defconfig | 2 --
+ 1 file changed, 2 deletions(-)
+
+diff --git a/arch/alpha/configs/defconfig b/arch/alpha/configs/defconfig
+index 6a39fe8ce9e5..1816c1dc22b1 100644
+--- a/arch/alpha/configs/defconfig
++++ b/arch/alpha/configs/defconfig
+@@ -39,14 +39,12 @@ CONFIG_PATA_CYPRESS=y
+ CONFIG_ATA_GENERIC=y
+ CONFIG_NETDEVICES=y
+ CONFIG_DUMMY=m
+-CONFIG_NET_ETHERNET=y
+ CONFIG_NET_VENDOR_3COM=y
+ CONFIG_VORTEX=y
+ CONFIG_NET_TULIP=y
+ CONFIG_DE2104X=m
+ CONFIG_TULIP=y
+ CONFIG_TULIP_MMIO=y
+-CONFIG_NET_PCI=y
+ CONFIG_YELLOWFIN=y
+ CONFIG_SERIAL_8250=y
+ CONFIG_SERIAL_8250_CONSOLE=y
+-- 
+2.17.1
+
