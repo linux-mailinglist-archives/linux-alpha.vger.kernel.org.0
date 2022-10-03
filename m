@@ -2,139 +2,135 @@ Return-Path: <linux-alpha-owner@vger.kernel.org>
 X-Original-To: lists+linux-alpha@lfdr.de
 Delivered-To: lists+linux-alpha@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 3C7FB5F2605
-	for <lists+linux-alpha@lfdr.de>; Mon,  3 Oct 2022 00:45:30 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 8A3FC5F300C
+	for <lists+linux-alpha@lfdr.de>; Mon,  3 Oct 2022 14:13:27 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229496AbiJBWp3 (ORCPT <rfc822;lists+linux-alpha@lfdr.de>);
-        Sun, 2 Oct 2022 18:45:29 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48818 "EHLO
+        id S229702AbiJCMNZ (ORCPT <rfc822;lists+linux-alpha@lfdr.de>);
+        Mon, 3 Oct 2022 08:13:25 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49454 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229479AbiJBWp1 (ORCPT
-        <rfc822;linux-alpha@vger.kernel.org>); Sun, 2 Oct 2022 18:45:27 -0400
-Received: from mail-pj1-x1029.google.com (mail-pj1-x1029.google.com [IPv6:2607:f8b0:4864:20::1029])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id BA68822BEF;
-        Sun,  2 Oct 2022 15:45:24 -0700 (PDT)
-Received: by mail-pj1-x1029.google.com with SMTP id e11-20020a17090a77cb00b00205edbfd646so13759420pjs.1;
-        Sun, 02 Oct 2022 15:45:24 -0700 (PDT)
+        with ESMTP id S229713AbiJCMNY (ORCPT
+        <rfc822;linux-alpha@vger.kernel.org>); Mon, 3 Oct 2022 08:13:24 -0400
+Received: from mail-lj1-x233.google.com (mail-lj1-x233.google.com [IPv6:2a00:1450:4864:20::233])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A547E520BD
+        for <linux-alpha@vger.kernel.org>; Mon,  3 Oct 2022 05:13:22 -0700 (PDT)
+Received: by mail-lj1-x233.google.com with SMTP id s10so11535818ljp.5
+        for <linux-alpha@vger.kernel.org>; Mon, 03 Oct 2022 05:13:22 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:sender:from:to:cc:subject:date;
-        bh=hTl+pyY12f3DZxyUqnMSkcg5Alz1/QdlswdwOgdvgGk=;
-        b=XItK+i7/HHci/1wBFZFyGwYWT2B91gu7BuaV3mRqEMPRoXYrcBnpcqKi23LUK4/1j4
-         Z+xWpx3f0QM7q5q/w8zc6ls9iGpj/Q7bVIWz7VyZoyN3CfpUunLP8KslF7KvgLCUfSDE
-         +kYMQFIwDVxI6C4jJlSPDr8oA/T/xNcwijpIqbzLzHqAm2KWG1W2jbe2Bd4krpv4Mbjq
-         W7HLeqJ3INfBp2DjKHH3ut2jdD6bUbDyR4k3v6uzL0LKMDt2b7clroFdda89W/fg1EpV
-         xzr3xbAXANE7O+xsyTfo/qhN7IfFUMb+/r2as/EIep+c14/5M+ioEdecitSMCP9bhHjP
-         l+Wg==
+        d=linaro.org; s=google;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date;
+        bh=YsLY1swMVj4DKjC2Q49eQR4Pp7U9mFeotQVi/NOOp94=;
+        b=pV53mRtibSCQbNNhXfTXs70Kmg8n3Z+FVWKdAtto7dRD3YuIZyNVFPInMy3JGWS3MD
+         FBsQWZ+GAJHC7TItFNEGBj6pQdVskouXi66wSGxST8L8thTQDQST6VHHLeAaD732CbTm
+         QLVxgKBWZT8Yz6EiRY5KjKJ/i5oojzRPwOolKi1GsscMGPbxvEn9VWJzUb07ObMNssIQ
+         HkE9fXeTFtCOtxnL3uzM3p/ktu4I3MVsr7/ehRHh4GawuEyuJgpYb5lVSZHxMV3CO+kX
+         gYXhjlFYAd3c9H5gG2TZxmvD3uDF0nfgqC1PN0yi0PbUf/1UI1AAEeAt1wuDgKuF1SlQ
+         LRsA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:sender:x-gm-message-state:from:to:cc
-         :subject:date;
-        bh=hTl+pyY12f3DZxyUqnMSkcg5Alz1/QdlswdwOgdvgGk=;
-        b=vTHcZiJo9RTQn45EleJ2arnUNi4e897AZaYlYRqZU/jzUoTgBnbbfu+LwlCA3ZUPXu
-         7sXn3m0MNFHqBWA+6eOcdRfV8oDwgQWuPDp/zmf2EnRmzF3d+g1Sv9f1i8/tmqOAK8qh
-         8rRumw/CjUr5kvegljCz5xCnxYPUmKRNroSgXZ9OUQszEjuZcg9g1fFmlBy90EkwzDiN
-         QLGPYvO/3llre6yMQ/9VepiJsIDPS57dTdLFoI4Y6RQmRQLgwZLgYFHzdoANC9dKKtZc
-         cwXIFowucACQmbLty2KltF4v9CNkpW8Z3qcqxuu1V9mlta9gIKCp5OFGRTMtwdReNf7f
-         FsOA==
-X-Gm-Message-State: ACrzQf0PMfLaiaugUW7UI6Kon2AfIAipHGUkYuTaq8YRmmOwsTI+GuwD
-        nB+BdUvCFv6CuKxudQKlgCkPEZmKHKJcIQ==
-X-Google-Smtp-Source: AMsMyM6W5QLuMgH75IkaviUYdJedBOHtfRaIhto/pGd+YnZZC/1KBjCHoBb2PtzhkdEC3gmrkuxprg==
-X-Received: by 2002:a17:902:c205:b0:178:5083:f656 with SMTP id 5-20020a170902c20500b001785083f656mr19309554pll.81.1664750724254;
-        Sun, 02 Oct 2022 15:45:24 -0700 (PDT)
-Received: from server.roeck-us.net ([2600:1700:e321:62f0:329c:23ff:fee3:9d7c])
-        by smtp.gmail.com with ESMTPSA id r13-20020a63204d000000b00438b79c7049sm5326429pgm.42.2022.10.02.15.45.22
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date;
+        bh=YsLY1swMVj4DKjC2Q49eQR4Pp7U9mFeotQVi/NOOp94=;
+        b=hlfDCW2L4NLu2FOIZWQjbvqJUShL/xs4/HXFRW0N+u/VXKGbd7ZhIweketRCSJbLuk
+         FeRuB42ZNtCaYdU7RjHb4X4B8Ga7EhYwgvyihR5vR4sK+Try0dakpbJH9290k8vrDPjs
+         lKMT8pRSwJwnpuYF1CiXaZ5Zhg6cpTcoFqL7Gq7BB5UW0OTd2FB6TIuur5R6TPC1yUXK
+         rnXMdvZpVeDhZJfceW1iprnWvhD/80tImwotaBMBSxOySC727w24mvuXizeEmTYbsOtg
+         B2ALPxEU8nw+S4YDCr9AsoZjaY9wMm6Pc99+cfZD2Dgs1rTuqzib4UaoEWn+4HBwijwr
+         WJlQ==
+X-Gm-Message-State: ACrzQf0SU+6Qtt5eo7JaFz8fPrk0cvN45IrtXB8UaiLy/Qd4898g7qVT
+        q5bk5vELXl6YOQrYUu8EaGE8pg==
+X-Google-Smtp-Source: AMsMyM5jkom1WL6i/J8FWjPHF3VUaTG9/NOtjIVcSs2jkS65wz9QlEyEI1W5sI+i9gtnHsXm+73LdQ==
+X-Received: by 2002:a2e:b8d6:0:b0:26c:4776:ba2e with SMTP id s22-20020a2eb8d6000000b0026c4776ba2emr5998334ljp.143.1664799200257;
+        Mon, 03 Oct 2022 05:13:20 -0700 (PDT)
+Received: from fedora.. ([85.235.10.72])
+        by smtp.gmail.com with ESMTPSA id k15-20020a05651239cf00b00492dadd8143sm1431154lfu.168.2022.10.03.05.13.19
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 02 Oct 2022 15:45:23 -0700 (PDT)
-Sender: Guenter Roeck <groeck7@gmail.com>
-Date:   Sun, 2 Oct 2022 15:45:21 -0700
-From:   Guenter Roeck <linux@roeck-us.net>
-To:     Linus Walleij <linus.walleij@linaro.org>
-Cc:     Richard Henderson <richard.henderson@linaro.org>,
+        Mon, 03 Oct 2022 05:13:19 -0700 (PDT)
+From:   Linus Walleij <linus.walleij@linaro.org>
+To:     Richard Henderson <richard.henderson@linaro.org>,
         Ivan Kokshaysky <ink@jurassic.park.msu.ru>,
-        Matt Turner <mattst88@gmail.com>,
-        Arnd Bergmann <arnd@arndb.de>, linux-alpha@vger.kernel.org,
-        kernel test robot <lkp@intel.com>,
-        Mark Brown <broonie@kernel.org>, linux-arch@vger.kernel.org
-Subject: Re: [PATCH] alpha: Use generic <asm-generic/io.h>
-Message-ID: <20221002224521.GA968453@roeck-us.net>
-References: <20220818092059.103884-1-linus.walleij@linaro.org>
+        Matt Turner <mattst88@gmail.com>, Arnd Bergmann <arnd@arndb.de>
+Cc:     linux-alpha@vger.kernel.org,
+        Linus Walleij <linus.walleij@linaro.org>,
+        Guenter Roeck <linux@roeck-us.net>, linux-arch@vger.kernel.org
+Subject: [PATCH] alpha: Fix ioread64/iowrite64 helpers
+Date:   Mon,  3 Oct 2022 14:13:16 +0200
+Message-Id: <20221003121316.2540339-1-linus.walleij@linaro.org>
+X-Mailer: git-send-email 2.37.3
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20220818092059.103884-1-linus.walleij@linaro.org>
-X-Spam-Status: No, score=-1.2 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_EF,FREEMAIL_ENVFROM_END_DIGIT,
-        FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,HEADER_FROM_DIFFERENT_DOMAINS,
-        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS autolearn=no
-        autolearn_force=no version=3.4.6
+Content-Transfer-Encoding: 8bit
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
+        SPF_HELO_NONE,SPF_PASS autolearn=unavailable autolearn_force=no
+        version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-alpha.vger.kernel.org>
 X-Mailing-List: linux-alpha@vger.kernel.org
 
-On Thu, Aug 18, 2022 at 11:20:59AM +0200, Linus Walleij wrote:
-> This enables the alpha to use <asm-generic/io.h> to fill in the
-> missing (undefined) I/O accessor functions.
-> 
-> This is needed if Alpha ever wants to uses CONFIG_REGMAP_MMIO
-> which has been patches to use accelerated _noinc accessors
-> such as readsq/writesq that Alpha, while being a 64bit platform,
-> as of now not yet provide. readq/writeq is however provided
-> so the machine can do 64bit I/O.
-> 
-> This comes with the requirement that everything the architecture
-> already provides needs to be defined, rather than just being,
-> say, static inline functions.
-> 
-> Bite the bullet and just provide the definitions and make it work.
-> 
-> Alternative approaches:
-> 
-> - Implement proper readsq/writesq inline accessors for alpha
-> - Rewrite the whole world of io.h to use something like __weak
->   instead of relying on defines
-> - Leave regmap MMIO broken on Alpha because none of its drivers
->   use it
-> - Make regmap MMIO depend of !ARCH_ALPHA
-> 
-> The latter seems a bit over the top. First option to implement
-> readsq/writesq seems possible but I cannot test it (no hardware)
-> so using the generic fallbacks seems like a better idea, also in
-> general that will provide future defaults for accelerated defines.
-> 
-> Leaving regmap MMIO broken or disabling it for Alpha feels bad
-> because it breaks compiler coverage.
-> 
-> Reported-by: kernel test robot <lkp@intel.com>
-> Link: https://lore.kernel.org/linux-mm/202208181447.G9FLcMkI-lkp@intel.com/
-> Cc: Mark Brown <broonie@kernel.org>
-> Cc: Arnd Bergmann <arnd@arndb.de>
-> Cc: Richard Henderson <richard.henderson@linaro.org>
-> Cc: Ivan Kokshaysky <ink@jurassic.park.msu.ru>
-> Cc: Matt Turner <mattst88@gmail.com>
-> Cc: linux-arch@vger.kernel.org
-> Cc: linux-alpha@vger.kernel.org
-> Signed-off-by: Linus Walleij <linus.walleij@linaro.org>
+When doing allmod builds it turns out some modules are using
+ioread64() and iowrite64() that the alpha does not implement,
+as it is using <asm-generic/iomap.h> without selecting
+GENERIC_IOMAP.
 
-This patch results in the following build errors when trying to build
-alpha:allmodconfig.
+Fix this by implementing the ioread64()/iowrite64() stubs
+as well, using readq() and writeq() respectively.
 
-ERROR: modpost: "ioread64" [drivers/pci/switch/switchtec.ko] undefined!
-ERROR: modpost: "ioread64" [drivers/net/ethernet/freescale/enetc/fsl-enetc.ko] undefined!
-ERROR: modpost: "ioread64" [drivers/net/ethernet/freescale/enetc/fsl-enetc-vf.ko] undefined!
-ERROR: modpost: "iowrite64" [drivers/net/ethernet/xilinx/xilinx_emac.ko] undefined!
-ERROR: modpost: "iowrite64" [drivers/net/wwan/t7xx/mtk_t7xx.ko] undefined!
-ERROR: modpost: "ioread64" [drivers/net/wwan/t7xx/mtk_t7xx.ko] undefined!
-ERROR: modpost: "iowrite64" [drivers/firmware/arm_scmi/scmi-module.ko] undefined!
-ERROR: modpost: "ioread64" [drivers/firmware/arm_scmi/scmi-module.ko] undefined!
-ERROR: modpost: "iowrite64" [drivers/vfio/pci/vfio-pci-core.ko] undefined!
-ERROR: modpost: "ioread64" [drivers/ntb/hw/mscc/ntb_hw_switchtec.ko] undefined!
+Reported-by: Guenter Roeck <linux@roeck-us.net>
+Fixes: 7e772dad9913 ("alpha: Use generic <asm-generic/io.h>")
+Link: https://lore.kernel.org/linux-arch/20221002224521.GA968453@roeck-us.net/
+Cc: Arnd Bergmann <arnd@arndb.de>
+Cc: Richard Henderson <richard.henderson@linaro.org>
+Cc: Ivan Kokshaysky <ink@jurassic.park.msu.ru>
+Cc: Matt Turner <mattst88@gmail.com>
+Cc: linux-arch@vger.kernel.org
+Cc: linux-alpha@vger.kernel.org
+Signed-off-by: Linus Walleij <linus.walleij@linaro.org>
+---
+Arnd if this looks OK then please apply it on linux-arch
+for fixes.
+---
+ arch/alpha/kernel/io.c | 12 ++++++++++++
+ 1 file changed, 12 insertions(+)
 
-Reverting it doesn't help because that just reintroduces the problem
-that was supposed to be fixed by this patch.
+diff --git a/arch/alpha/kernel/io.c b/arch/alpha/kernel/io.c
+index 838586abb1e0..5f3e75a945c1 100644
+--- a/arch/alpha/kernel/io.c
++++ b/arch/alpha/kernel/io.c
+@@ -41,6 +41,11 @@ unsigned int ioread32(const void __iomem *addr)
+ 	return ret;
+ }
+ 
++u64 ioread64(const void __iomem *addr)
++{
++	return readq(addr);
++}
++
+ void iowrite8(u8 b, void __iomem *addr)
+ {
+ 	mb();
+@@ -59,12 +64,19 @@ void iowrite32(u32 b, void __iomem *addr)
+ 	IO_CONCAT(__IO_PREFIX,iowrite32)(b, addr);
+ }
+ 
++void iowrite64(u64 b, void __iomem *addr)
++{
++	writeq(b, addr);
++}
++
+ EXPORT_SYMBOL(ioread8);
+ EXPORT_SYMBOL(ioread16);
+ EXPORT_SYMBOL(ioread32);
++EXPORT_SYMBOL(ioread64);
+ EXPORT_SYMBOL(iowrite8);
+ EXPORT_SYMBOL(iowrite16);
+ EXPORT_SYMBOL(iowrite32);
++EXPORT_SYMBOL(iowrite64);
+ 
+ u8 inb(unsigned long port)
+ {
+-- 
+2.34.1
 
-Guenter
