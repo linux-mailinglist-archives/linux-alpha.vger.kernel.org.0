@@ -2,102 +2,91 @@ Return-Path: <linux-alpha-owner@vger.kernel.org>
 X-Original-To: lists+linux-alpha@lfdr.de
 Delivered-To: lists+linux-alpha@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 5E3E45F35DA
-	for <lists+linux-alpha@lfdr.de>; Mon,  3 Oct 2022 20:49:24 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 567435F3A4B
+	for <lists+linux-alpha@lfdr.de>; Tue,  4 Oct 2022 02:02:58 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229773AbiJCStW (ORCPT <rfc822;lists+linux-alpha@lfdr.de>);
-        Mon, 3 Oct 2022 14:49:22 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60806 "EHLO
+        id S229520AbiJDAC5 (ORCPT <rfc822;lists+linux-alpha@lfdr.de>);
+        Mon, 3 Oct 2022 20:02:57 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49002 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229651AbiJCStV (ORCPT
-        <rfc822;linux-alpha@vger.kernel.org>); Mon, 3 Oct 2022 14:49:21 -0400
-Received: from mail-ej1-x630.google.com (mail-ej1-x630.google.com [IPv6:2a00:1450:4864:20::630])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A0C0F422E2
-        for <linux-alpha@vger.kernel.org>; Mon,  3 Oct 2022 11:49:20 -0700 (PDT)
-Received: by mail-ej1-x630.google.com with SMTP id au23so3364590ejc.1
-        for <linux-alpha@vger.kernel.org>; Mon, 03 Oct 2022 11:49:20 -0700 (PDT)
+        with ESMTP id S229530AbiJDACz (ORCPT
+        <rfc822;linux-alpha@vger.kernel.org>); Mon, 3 Oct 2022 20:02:55 -0400
+Received: from mail-oi1-x229.google.com (mail-oi1-x229.google.com [IPv6:2607:f8b0:4864:20::229])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 241B117599
+        for <linux-alpha@vger.kernel.org>; Mon,  3 Oct 2022 17:02:53 -0700 (PDT)
+Received: by mail-oi1-x229.google.com with SMTP id c81so12926731oif.3
+        for <linux-alpha@vger.kernel.org>; Mon, 03 Oct 2022 17:02:52 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google;
+        d=linux-foundation.org; s=google;
         h=cc:to:subject:message-id:date:from:in-reply-to:references
          :mime-version:from:to:cc:subject:date;
-        bh=mW0eP1euyTsPufJF3RY6mTasIPwML94yQM8WRieMZv8=;
-        b=qQ3UFfhUG4hy4flmVEo19VHjI0ro2bfcPzLjrd7J0A0+0iR41B7TsRFHg4EuUp1DuV
-         bCIg4RDg0XRoCnUT6HYlVm4Gv1MbJR2oM51uXQwsRXF2etP263r86D+0Q4bfBI5CYkcg
-         wzGzXhrfq1d4eQxPMv7H5DTcDV6dZj+rXa09Xiex27xf9AXV3WiV0MthHDM7yNx6lnlY
-         g/jocUTOuCWvRByQ1IgEtXfkcwXcvYu5THZFq8XSeiszjWlZzq+Uy4yx3qBeFItqpXtL
-         U4os3n2rHOFEgNpXVXaJN1qvVxtR2iow/rbauane4zOtrYf8W3WEv296qKR0EVxPuSIL
-         KslQ==
+        bh=cueZVs+JemlUrpCma8cU2MoonpwhlFUlNsIey5jOwDk=;
+        b=XImYLaeVrdpGlNz131QskDLw57oShRWzKlWl05q7GZnGP4fmLn3bLvHYlOU50VM4qE
+         TrQfrXYjC1XKLtzwwbG6eTPBPk1J5zgX5EeI1ih1razMkvCmB7KCJ/sG2aTDHxxXW6kE
+         cEFUO07c0IZLTZFRJTYwoErMenDJhy5VrY4EY=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=cc:to:subject:message-id:date:from:in-reply-to:references
          :mime-version:x-gm-message-state:from:to:cc:subject:date;
-        bh=mW0eP1euyTsPufJF3RY6mTasIPwML94yQM8WRieMZv8=;
-        b=AsSa5iUSH3ymjv3grfyx+JfPCef0P1tAvaAU8EfFBbGLOsef0b0oPdPp1BPQD7frFf
-         qLVwO+pVJx7LBP6ZkG+/7Fnw1WrmBR782AyrWa8HnI23HVoy4PgvzD7w4tGVDVaRWlHU
-         Un6BLLk0NmhkAjOJLnbbzk25ZLMpV6026B7xDaeYC8nMxd+UZE5izSAT132ZiHvrW/sN
-         1bQ9QN9nOUu7DXUdBnVBOMyQs3Vy16UoQXrcwd4pmZ6U+zPjTSBY49xw3AMV01rXuvdT
-         eKWZLfzXn4Y6uyuXZiJRga2MkQbaXKefaI3ju0vKsZIcMHYMZNqGG3e9XNojS4R7YqfR
-         Pbtg==
-X-Gm-Message-State: ACrzQf2i8j5+/oMAuhGFBxYijfe2wn0jsY8bfw70b6o4iWl8pFDpeCmt
-        RT5/zaiQvQpJaavzzhy1X5LEq6bEbqN3S/qEz9DeUw==
-X-Google-Smtp-Source: AMsMyM4EGN7PvngA7L7nQ7E/X5PeoHaomxOQ9gWu6opDyrMIudhEv+Qec41PaqLXR1Duz6qB3dy2sY7/fIazo4yZuUw=
-X-Received: by 2002:a17:906:58c8:b0:6fe:91d5:18d2 with SMTP id
- e8-20020a17090658c800b006fe91d518d2mr16368996ejs.190.1664822959207; Mon, 03
- Oct 2022 11:49:19 -0700 (PDT)
+        bh=cueZVs+JemlUrpCma8cU2MoonpwhlFUlNsIey5jOwDk=;
+        b=m4SuOLJsF07veWqJigFH5q93LJxHsQxz6FTrrkJWEEUyKvCdt+ynVU+u7u/SHa1kZi
+         1ZEavl51vcoQe1DOaefzLbX5A9lGI821DkbJCn+Iz7McU4CLaANzUVZC8064P+EHIM5s
+         TJmOQDcXzXnUoDj/jRC3NlY8uqvUC/Kom21fsghEdMiLz7E9889KfrwmQGE63G+hP1AM
+         P3DGkTXIjW0BLPwL2ee5lhfWmAn8v6xlaM6Z2bmFVXrLg8r06P/IorYWQr0Y0bGoIu4M
+         BZfEwjaBAbLqS35AmFW3O26k/qfvs92f6UGO/RXj4doHjttQbPpE4bXeFGZuhPTpielp
+         0JIg==
+X-Gm-Message-State: ACrzQf0pkTu2W3BtFEy0CzgEjqksSzLHeOa5Akat7/d+AR8iRdbjOT6A
+        AcKyBn2TXSH3XAColNOUqxRoIDHqAVMNyw==
+X-Google-Smtp-Source: AMsMyM6vLf0fLVc1OXZorBjv+3o9zHMRPGHAGscfr6g8gtLHMF3l4ggqc4oIGgHC+uH6i+F3UrPL6g==
+X-Received: by 2002:a05:6808:21a3:b0:350:cca1:9f40 with SMTP id be35-20020a05680821a300b00350cca19f40mr5253195oib.205.1664841771618;
+        Mon, 03 Oct 2022 17:02:51 -0700 (PDT)
+Received: from mail-oa1-f52.google.com (mail-oa1-f52.google.com. [209.85.160.52])
+        by smtp.gmail.com with ESMTPSA id g10-20020a056870340a00b00127c03b39cesm3312583oah.35.2022.10.03.17.02.49
+        for <linux-alpha@vger.kernel.org>
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Mon, 03 Oct 2022 17:02:49 -0700 (PDT)
+Received: by mail-oa1-f52.google.com with SMTP id 586e51a60fabf-1322fa1cf6fso7534522fac.6
+        for <linux-alpha@vger.kernel.org>; Mon, 03 Oct 2022 17:02:49 -0700 (PDT)
+X-Received: by 2002:a05:6870:c0c9:b0:127:c4df:5b50 with SMTP id
+ e9-20020a056870c0c900b00127c4df5b50mr6593752oad.126.1664841769263; Mon, 03
+ Oct 2022 17:02:49 -0700 (PDT)
 MIME-Version: 1.0
-References: <20220818092059.103884-1-linus.walleij@linaro.org>
- <20221002224521.GA968453@roeck-us.net> <fd905ca5-fe0d-4cfb-a0d0-aea8af539cc7@app.fastmail.com>
-In-Reply-To: <fd905ca5-fe0d-4cfb-a0d0-aea8af539cc7@app.fastmail.com>
-From:   Linus Walleij <linus.walleij@linaro.org>
-Date:   Mon, 3 Oct 2022 20:49:07 +0200
-Message-ID: <CACRpkdbb7OVy7Vg1KGphw5zLLSTCR+hjJPdFyzs4HQBdw-iMow@mail.gmail.com>
-Subject: Re: [PATCH] alpha: Use generic <asm-generic/io.h>
-To:     Arnd Bergmann <arnd@arndb.de>
-Cc:     Guenter Roeck <linux@roeck-us.net>,
-        Richard Henderson <richard.henderson@linaro.org>,
-        Ivan Kokshaysky <ink@jurassic.park.msu.ru>,
-        Matt Turner <mattst88@gmail.com>, linux-alpha@vger.kernel.org,
-        kernel test robot <lkp@intel.com>,
-        Mark Brown <broonie@kernel.org>,
-        Linux-Arch <linux-arch@vger.kernel.org>
+References: <202210010938.3922D4DCE@keescook>
+In-Reply-To: <202210010938.3922D4DCE@keescook>
+From:   Linus Torvalds <torvalds@linux-foundation.org>
+Date:   Mon, 3 Oct 2022 17:02:33 -0700
+X-Gmail-Original-Message-ID: <CAHk-=wjwvBc3VQMNtUVUrMBVoMPSPu26OuatZ_+1gZ2m-PmmRA@mail.gmail.com>
+Message-ID: <CAHk-=wjwvBc3VQMNtUVUrMBVoMPSPu26OuatZ_+1gZ2m-PmmRA@mail.gmail.com>
+Subject: Re: [GIT PULL] execve updates for v6.1-rc1
+To:     Kees Cook <keescook@chromium.org>
+Cc:     linux-kernel@vger.kernel.org, Arnd Bergmann <arnd@arndb.de>,
+        "Eric W. Biederman" <ebiederm@xmission.com>,
+        Lukas Bulwahn <lukas.bulwahn@gmail.com>,
+        alpha <linux-alpha@vger.kernel.org>
 Content-Type: text/plain; charset="UTF-8"
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
-        SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
+X-Spam-Status: No, score=-1.8 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
+        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS autolearn=no
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-alpha.vger.kernel.org>
 X-Mailing-List: linux-alpha@vger.kernel.org
 
-On Mon, Oct 3, 2022 at 3:04 PM Arnd Bergmann <arnd@arndb.de> wrote:
-
-> From 258382f3ca77b0e50501a0010d8c9abc2d4c51c8 Mon Sep 17 00:00:00 2001
-> From: Arnd Bergmann <arnd@arndb.de>
-> Date: Mon, 3 Oct 2022 13:12:54 +0200
-> Subject: [PATCH] alpha: add full ioread64/iowrite64 implementation
+On Sat, Oct 1, 2022 at 9:40 AM Kees Cook <keescook@chromium.org> wrote:
 >
-> The previous patch introduced ioread64/iowrite64 declarations, but
-> this means we no longer get the io-64-nonatomic variant, and
-> run into a long error when someone actually wants to use these:
->
-> ERROR: modpost: "ioread64" [drivers/net/ethernet/freescale/enetc/fsl-enetc.ko] undefined!
->
-> Add the (hopefully) correct implementation for each machine type,
-> based on the 32-bit accessor. Since the 32-bit return type does
-> not work for ioread64(), change the internal implementation to use
-> the correct width consistently, but leave the external interface
-> to match the asm-generic/iomap.h header that uses 32-bit or 64-bit
-> return values.
->
-> Reported-by: Guenter Roeck <linux@roeck-us.net>
-> Fixes: 7e772dad9913 ("alpha: Use generic <asm-generic/io.h>")
-> Signed-off-by: Arnd Bergmann <arnd@arndb.de>
+> Please pull these execve updates for v6.1-rc1. This removes a.out
+> support globally; it has been disabled for a while now.
 
-Reviewed-by: Linus Walleij <linus.walleij@linaro.org>
+Pulled.
 
-This patch was really sweet for Alpha, it makes all of the code
-more complete and consistent.
+And I think some of the alpha side could be cleaned up a bit further,
+in that I think this ends up making the osf_readv/writev system calls
+be the exact same as the standard readv/writev, since the legacy OSF/1
+hackery is now gone with CONFIG_OSF4_COMPAT being a thing of the past.
 
-Yours,
-Linus Walleij
+But it's not a big deal - cc'ing linux-alpha just in case somebody
+feels inspired.
+
+               Linus
