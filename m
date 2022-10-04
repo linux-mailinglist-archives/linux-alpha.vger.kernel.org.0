@@ -2,66 +2,65 @@ Return-Path: <linux-alpha-owner@vger.kernel.org>
 X-Original-To: lists+linux-alpha@lfdr.de
 Delivered-To: lists+linux-alpha@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 5C55B5F450D
-	for <lists+linux-alpha@lfdr.de>; Tue,  4 Oct 2022 16:03:00 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 78E9B5F4518
+	for <lists+linux-alpha@lfdr.de>; Tue,  4 Oct 2022 16:04:05 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229532AbiJDOC6 (ORCPT <rfc822;lists+linux-alpha@lfdr.de>);
-        Tue, 4 Oct 2022 10:02:58 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38666 "EHLO
+        id S229562AbiJDOEE (ORCPT <rfc822;lists+linux-alpha@lfdr.de>);
+        Tue, 4 Oct 2022 10:04:04 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39690 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229577AbiJDOC5 (ORCPT
-        <rfc822;linux-alpha@vger.kernel.org>); Tue, 4 Oct 2022 10:02:57 -0400
-Received: from mail-yw1-x1132.google.com (mail-yw1-x1132.google.com [IPv6:2607:f8b0:4864:20::1132])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 429665D0C5;
-        Tue,  4 Oct 2022 07:02:56 -0700 (PDT)
-Received: by mail-yw1-x1132.google.com with SMTP id 00721157ae682-345528ceb87so136462647b3.11;
-        Tue, 04 Oct 2022 07:02:56 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date;
-        bh=TR5SAJXFGC1nDy2HAPbOzDqZLUl4bxPSNS4KiodXPBA=;
-        b=ODABosh2WEoafTy1FxycIrl08tnWb4XcbVBosrmRQRYRk18/f0IJCY53gDOQLgaH1d
-         cnzdiQfyy3aOmueHuIBUapQYRBjJqobOaJ2nD9l01GlMpoJRMkUrSN5XaXYplTMGlceW
-         YMuNzIgbFT+Uz2PdcrHreKSWLXjLrSWk3YL32wbKIC8W0e8sLtlSV6LBWKeirpeAPrPj
-         O2vNGaHi+7KJRHWJ8+0s4G1aaSRkvmPaG24suNyLuXNx/9qAItQwdO+ozuqNVBnGIGDW
-         4eyTcupSvwG5l7hA9ct0cH7Dozufzq9fFyOLM7ly6e5GojpXzpnIo+T4iqe2n3foXe70
-         En7A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date;
-        bh=TR5SAJXFGC1nDy2HAPbOzDqZLUl4bxPSNS4KiodXPBA=;
-        b=2r974264Ggat7GPwuIK238baZEZgFUTF8uNiIkY/lG9tbIJhfrrfmIPrULqnnJxrd+
-         cW42k1+i9Chm/069gzkaue6INUEtTTyDMM945I5Oj3UDI11dfvhta8mjWnbQBF3EGifv
-         1T8DLQUmdrf6a+ljpa2nJjxQOHDIqBX0n8fPDRAZDvtDFYo8vxutum+/RYWnD0tj1ioC
-         neY61bQH3yo5zdjGjZXbneTOXB/sarZtMLVbfcqW6pxsxHJooTA2xXcMZH2g9mVCunJG
-         +2Ab4J2i8OFd35pwghI8MURpQNAQsuNF7MMyhjZff4RZpkl7L2NNJ240dk5YXlUeLZrP
-         TQ2g==
-X-Gm-Message-State: ACrzQf2dV7bh1/ZizcO1kXuyc6bmP+d4z3WUvmmOmGhQpEhHhEcaXQiN
-        4uxcOeKfW/+R0HB8hzBH/uC28TxtEA2EBfV58lc=
-X-Google-Smtp-Source: AMsMyM6/enW4yMl7nEiPTn3SY2RZwgwa25M+qgpNc51oKtFaV3an6svt2n92gr9f3KXbSyUwg8t9SqdpcULH3fSl+So=
-X-Received: by 2002:a81:a087:0:b0:357:3a80:1fca with SMTP id
- x129-20020a81a087000000b003573a801fcamr16479943ywg.481.1664892174802; Tue, 04
- Oct 2022 07:02:54 -0700 (PDT)
+        with ESMTP id S229495AbiJDOED (ORCPT
+        <rfc822;linux-alpha@vger.kernel.org>); Tue, 4 Oct 2022 10:04:03 -0400
+Received: from ams.source.kernel.org (ams.source.kernel.org [145.40.68.75])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1D78D5D0C5;
+        Tue,  4 Oct 2022 07:04:03 -0700 (PDT)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by ams.source.kernel.org (Postfix) with ESMTPS id C2EECB81A93;
+        Tue,  4 Oct 2022 14:04:01 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 37B20C433D6;
+        Tue,  4 Oct 2022 14:04:00 +0000 (UTC)
+Authentication-Results: smtp.kernel.org;
+        dkim=pass (1024-bit key) header.d=zx2c4.com header.i=@zx2c4.com header.b="K46wjlS/"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=zx2c4.com; s=20210105;
+        t=1664892239;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         in-reply-to:in-reply-to:references:references;
+        bh=M8Id8SmAbYgSzlRRtwgUO/TtxBOviRpHBZddWECEq2I=;
+        b=K46wjlS/l4KOKURP2/0mX7GNXXR/Z94jbhpvE0ZlPrwO9ZB4ssnLEUe8ON7WIdBNK9x+08
+        8F/jSDg7zLOIh/HSX0i4nMlfiA1qhdPWHIvnrmB6ING00EaPbqZ8nCsMz5Jo6QxoD6PR43
+        0mvgoAkOZmNqGZK8Rbmr7M6hZu0vZq8=
+Received: by mail.zx2c4.com (ZX2C4 Mail Server) with ESMTPSA id df5e732b (TLSv1.3:TLS_AES_256_GCM_SHA384:256:NO);
+        Tue, 4 Oct 2022 14:03:59 +0000 (UTC)
+Received: by mail-ej1-f42.google.com with SMTP id a2so8988929ejx.10;
+        Tue, 04 Oct 2022 07:03:59 -0700 (PDT)
+X-Gm-Message-State: ACrzQf2JtsC8nj0fuAAAXIyAB6t1dYU5UKA/Hc793RaAyZhYsub5tQhB
+        vHQQkGWLkI+//Uv7cwrj0LefpYkkynYUM3W9Huk=
+X-Google-Smtp-Source: AMsMyM4joupZEHi7vuP/nbi8LX5jsPLs+j4kLhNEf7ea5moim3iP4hpm2Xq8rRUKIRMwHVxRk/mN75sEZ+d0WlDUNyM=
+X-Received: by 2002:a17:907:72c6:b0:78c:b48c:5136 with SMTP id
+ du6-20020a17090772c600b0078cb48c5136mr5437335ejc.359.1664892233100; Tue, 04
+ Oct 2022 07:03:53 -0700 (PDT)
 MIME-Version: 1.0
 References: <CAHk-=wjwvBc3VQMNtUVUrMBVoMPSPu26OuatZ_+1gZ2m-PmmRA@mail.gmail.com>
- <20221004135301.1420873-1-Jason@zx2c4.com>
-In-Reply-To: <20221004135301.1420873-1-Jason@zx2c4.com>
-From:   Lukas Bulwahn <lukas.bulwahn@gmail.com>
-Date:   Tue, 4 Oct 2022 16:02:11 +0200
-Message-ID: <CAKXUXMyvk6WJr2M09+=D43QocX_igoaU0-qMN-MCwQk++O=vwA@mail.gmail.com>
+ <20221004135301.1420873-1-Jason@zx2c4.com> <CAKXUXMyvk6WJr2M09+=D43QocX_igoaU0-qMN-MCwQk++O=vwA@mail.gmail.com>
+In-Reply-To: <CAKXUXMyvk6WJr2M09+=D43QocX_igoaU0-qMN-MCwQk++O=vwA@mail.gmail.com>
+From:   "Jason A. Donenfeld" <Jason@zx2c4.com>
+Date:   Tue, 4 Oct 2022 16:03:40 +0200
+X-Gmail-Original-Message-ID: <CAHmME9oSAMesW_5rQ0LM7u-yHCtKgn6THZCOEZ9DHKaSAri7dQ@mail.gmail.com>
+Message-ID: <CAHmME9oSAMesW_5rQ0LM7u-yHCtKgn6THZCOEZ9DHKaSAri7dQ@mail.gmail.com>
 Subject: Re: [PATCH] alpha: remove osf_{readv,writev}
-To:     "Jason A. Donenfeld" <Jason@zx2c4.com>
+To:     Lukas Bulwahn <lukas.bulwahn@gmail.com>
 Cc:     linux-alpha@vger.kernel.org, linux-kernel@vger.kernel.org,
         Linus Torvalds <torvalds@linux-foundation.org>,
         Kees Cook <keescook@chromium.org>,
         "Eric W . Biederman" <ebiederm@xmission.com>,
         Arnd Bergmann <arnd@arndb.de>
 Content-Type: text/plain; charset="UTF-8"
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
-        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS autolearn=ham
+X-Spam-Status: No, score=-6.8 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
+        RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_PASS autolearn=ham
         autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
@@ -69,81 +68,28 @@ Precedence: bulk
 List-ID: <linux-alpha.vger.kernel.org>
 X-Mailing-List: linux-alpha@vger.kernel.org
 
-On Tue, Oct 4, 2022 at 3:53 PM Jason A. Donenfeld <Jason@zx2c4.com> wrote:
+On Tue, Oct 4, 2022 at 4:02 PM Lukas Bulwahn <lukas.bulwahn@gmail.com> wrote:
 >
-> As of 987f20a9dcce ("a.out: Remove the a.out implementation"),
-> sys_osf_{readv,writev} is now the same as sys_{readv,writev}. So remove
-> the osf indirection, and point the syscall table directly at the generic
-> functions, as is done on other platforms.
+> On Tue, Oct 4, 2022 at 3:53 PM Jason A. Donenfeld <Jason@zx2c4.com> wrote:
+> >
+> > As of 987f20a9dcce ("a.out: Remove the a.out implementation"),
+> > sys_osf_{readv,writev} is now the same as sys_{readv,writev}. So remove
+> > the osf indirection, and point the syscall table directly at the generic
+> > functions, as is done on other platforms.
+> >
+> > Reported-by: Linus Torvalds <torvalds@linux-foundation.org>
+> > Cc: Kees Cook <keescook@chromium.org>
+> > Cc: Eric W. Biederman <ebiederm@xmission.com>
+> > Cc: Arnd Bergmann <arnd@arndb.de>
+> > Cc: Lukas Bulwahn <lukas.bulwahn@gmail.com>
+> > Signed-off-by: Jason A. Donenfeld <Jason@zx2c4.com>
+> > ---
+> > Only compiled and QEMU-booted with no userspace, but seems simple
+> > enough?
+> >
 >
-> Reported-by: Linus Torvalds <torvalds@linux-foundation.org>
-> Cc: Kees Cook <keescook@chromium.org>
-> Cc: Eric W. Biederman <ebiederm@xmission.com>
-> Cc: Arnd Bergmann <arnd@arndb.de>
-> Cc: Lukas Bulwahn <lukas.bulwahn@gmail.com>
-> Signed-off-by: Jason A. Donenfeld <Jason@zx2c4.com>
-> ---
-> Only compiled and QEMU-booted with no userspace, but seems simple
-> enough?
->
+> This patch looks exactly the same as the patch I sent a few hours ago:
 
-This patch looks exactly the same as the patch I sent a few hours ago:
+Whoops, my bad for not searching first.
 
-https://lore.kernel.org/lkml/20221004071302.11471-1-lukas.bulwahn@gmail.com/
-
-My patch was completely untested; good that this one is at least
-compile tested and went through basic boot tests.
-
-Any of the two patches, the one above or this one, can be picked.
-
-Reviewed-by: Lukas Bulwahn <lukas.bulwahn@gmail.com>
-
-
-
-Lukas
-
->  arch/alpha/kernel/osf_sys.c            | 12 ------------
->  arch/alpha/kernel/syscalls/syscall.tbl |  4 ++--
->  2 files changed, 2 insertions(+), 14 deletions(-)
->
-> diff --git a/arch/alpha/kernel/osf_sys.c b/arch/alpha/kernel/osf_sys.c
-> index b3ad8c44c971..6c6c4337e201 100644
-> --- a/arch/alpha/kernel/osf_sys.c
-> +++ b/arch/alpha/kernel/osf_sys.c
-> @@ -1278,18 +1278,6 @@ arch_get_unmapped_area(struct file *filp, unsigned long addr,
->         return addr;
->  }
->
-> -SYSCALL_DEFINE3(osf_readv, unsigned long, fd,
-> -               const struct iovec __user *, vector, unsigned long, count)
-> -{
-> -       return sys_readv(fd, vector, count);
-> -}
-> -
-> -SYSCALL_DEFINE3(osf_writev, unsigned long, fd,
-> -               const struct iovec __user *, vector, unsigned long, count)
-> -{
-> -       return sys_writev(fd, vector, count);
-> -}
-> -
->  SYSCALL_DEFINE2(osf_getpriority, int, which, int, who)
->  {
->         int prio = sys_getpriority(which, who);
-> diff --git a/arch/alpha/kernel/syscalls/syscall.tbl b/arch/alpha/kernel/syscalls/syscall.tbl
-> index 3515bc4f16a4..8ebacf37a8cf 100644
-> --- a/arch/alpha/kernel/syscalls/syscall.tbl
-> +++ b/arch/alpha/kernel/syscalls/syscall.tbl
-> @@ -125,8 +125,8 @@
->  116    common  osf_gettimeofday                sys_osf_gettimeofday
->  117    common  osf_getrusage                   sys_osf_getrusage
->  118    common  getsockopt                      sys_getsockopt
-> -120    common  readv                           sys_osf_readv
-> -121    common  writev                          sys_osf_writev
-> +120    common  readv                           sys_readv
-> +121    common  writev                          sys_writev
->  122    common  osf_settimeofday                sys_osf_settimeofday
->  123    common  fchown                          sys_fchown
->  124    common  fchmod                          sys_fchmod
-> --
-> 2.37.3
->
+Jason
