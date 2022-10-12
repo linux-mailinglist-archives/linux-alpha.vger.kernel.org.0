@@ -2,90 +2,130 @@ Return-Path: <linux-alpha-owner@vger.kernel.org>
 X-Original-To: lists+linux-alpha@lfdr.de
 Delivered-To: lists+linux-alpha@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id F0D985FBC45
-	for <lists+linux-alpha@lfdr.de>; Tue, 11 Oct 2022 22:41:57 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 9FBE25FC6F8
+	for <lists+linux-alpha@lfdr.de>; Wed, 12 Oct 2022 16:05:28 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229675AbiJKUl4 (ORCPT <rfc822;lists+linux-alpha@lfdr.de>);
-        Tue, 11 Oct 2022 16:41:56 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59114 "EHLO
+        id S229595AbiJLOF1 (ORCPT <rfc822;lists+linux-alpha@lfdr.de>);
+        Wed, 12 Oct 2022 10:05:27 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47632 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229504AbiJKUl4 (ORCPT
+        with ESMTP id S229502AbiJLOFZ (ORCPT
         <rfc822;linux-alpha@vger.kernel.org>);
-        Tue, 11 Oct 2022 16:41:56 -0400
-Received: from ams.source.kernel.org (ams.source.kernel.org [IPv6:2604:1380:4601:e00::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9AB9C71BC1;
-        Tue, 11 Oct 2022 13:41:54 -0700 (PDT)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by ams.source.kernel.org (Postfix) with ESMTPS id 4DE87B8169A;
-        Tue, 11 Oct 2022 20:41:53 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id E8570C433C1;
-        Tue, 11 Oct 2022 20:41:44 +0000 (UTC)
-Date:   Tue, 11 Oct 2022 16:41:43 -0400
-From:   Steven Rostedt <rostedt@goodmis.org>
-To:     Valentin Schneider <vschneid@redhat.com>
-Cc:     Daniel Bristot de Oliveira <bristot@redhat.com>,
-        linux-alpha@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-snps-arc@lists.infradead.org,
-        linux-arm-kernel@lists.infradead.org, linux-csky@vger.kernel.org,
-        linux-hexagon@vger.kernel.org, linux-ia64@vger.kernel.org,
-        loongarch@lists.linux.dev, linux-mips@vger.kernel.org,
-        openrisc@lists.librecores.org, linux-parisc@vger.kernel.org,
-        linuxppc-dev@lists.ozlabs.org, linux-riscv@lists.infradead.org,
-        linux-s390@vger.kernel.org, linux-sh@vger.kernel.org,
-        sparclinux@vger.kernel.org, linux-xtensa@linux-xtensa.org,
-        x86@kernel.org, "Paul E. McKenney" <paulmck@kernel.org>,
-        Peter Zijlstra <peterz@infradead.org>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Sebastian Andrzej Siewior <bigeasy@linutronix.de>,
-        Juri Lelli <juri.lelli@redhat.com>,
-        Frederic Weisbecker <frederic@kernel.org>,
-        Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
-        Dave Hansen <dave.hansen@linux.intel.com>,
-        "H. Peter Anvin" <hpa@zytor.com>, Marc Zyngier <maz@kernel.org>,
-        Mark Rutland <mark.rutland@arm.com>,
-        Russell King <linux@armlinux.org.uk>,
-        Nicholas Piggin <npiggin@gmail.com>,
-        Marcelo Tosatti <mtosatti@redhat.com>,
-        Guo Ren <guoren@kernel.org>,
-        "David S. Miller" <davem@davemloft.net>,
-        Douglas RAILLARD <douglas.raillard@arm.com>
-Subject: Re: [RFC PATCH 0/5] Generic IPI sending tracepoint
-Message-ID: <20221011164143.52c84421@rorschach.local.home>
-In-Reply-To: <xhsmhfsfufh51.mognet@vschneid.remote.csb>
-References: <20221007154145.1877054-1-vschneid@redhat.com>
-        <Y0CFnWDpMNGajIRD@fuller.cnet>
-        <xhsmhilkqfi7z.mognet@vschneid.remote.csb>
-        <3e680bb9-9896-3665-dd59-4f2e6f8205bb@redhat.com>
-        <xhsmhfsfufh51.mognet@vschneid.remote.csb>
-X-Mailer: Claws Mail 3.17.8 (GTK+ 2.24.33; x86_64-pc-linux-gnu)
+        Wed, 12 Oct 2022 10:05:25 -0400
+Received: from mail-pj1-x1035.google.com (mail-pj1-x1035.google.com [IPv6:2607:f8b0:4864:20::1035])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C429D3911D;
+        Wed, 12 Oct 2022 07:05:23 -0700 (PDT)
+Received: by mail-pj1-x1035.google.com with SMTP id l1-20020a17090a72c100b0020a6949a66aso2162328pjk.1;
+        Wed, 12 Oct 2022 07:05:23 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:sender:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=LBlu7tPT0Tx5MrjvdiscmABwb2kCDpiFMguHWsE1qRI=;
+        b=TriEn0TBit/DhtfVmixexLUZ4cUN9xq7qt7CmMgifx0UYigJtkT8QUVnkhv34TEPqV
+         WvL7xPmd1PvCBxp4IEbGmJOfyAH3pw9dFJcFEaRY2ghKvoMiSon30uxminzvjSS6s1gh
+         7hRpGaqX7MCzROsRMGzLYNd4HM4lbnEdvkNPjgwYFRx8UzsZ28boB3Y09SiyEIJxxIQ3
+         ZRTs/GO0NM23bjGMkHwdX8dklDjz+orMbj+wRThAa0YxQyFPq02854mvleJ2oxRgHwRO
+         +8DR32cLkSVyBJuRrD27zQxAzzakPoSzrXiUuyMNBsSTwFKUhozZ1fbiJ0F9XNy8mSB/
+         Mn4g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:sender:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=LBlu7tPT0Tx5MrjvdiscmABwb2kCDpiFMguHWsE1qRI=;
+        b=o2VxKsqlWBb7c8e1T2V7NNEwguBUUZI+wEkVWCG83+R1gdlnQTH+rXaZcSqjTDsOTM
+         S/FZMFlxZ0aEi0G5cWAl/RX/l/967+q1u7WT8RZIpZK9PkRVNMOu7EZlw+50qHFb8fCl
+         dM4x39f+94US9Ajhsgm/WFIzw6aKWpKjVmyIuWlACaCcYansK/jSAko8UniTTCgkEFTt
+         uPrT54uzAyD32SeGtvio8g1GrZSEwSlOeHOSLFS0xUXK8r+Nz2Rp82HD+xvpaP7Aejk0
+         VmBj68kGvQaFOeJRYN3Ch89x7faL/5h0wOBtZc3dFh49t7EtxnfR9c4mhp+fkkwf4LvL
+         WxZg==
+X-Gm-Message-State: ACrzQf3d5ZjOPaLiZdsCpRyIIwi8dKB0DxSfWqRUTf/pzxnw/+MGek2R
+        uPCMIltaxo7gMfzixZ7grGA=
+X-Google-Smtp-Source: AMsMyM533bBiEubHIjupTgGRt7/XMfF4p3p2/+tATp4bKUGSSf5uOxbPfntEFeuulxdGlsyniGXYUA==
+X-Received: by 2002:a17:90b:4b42:b0:20d:954e:28d with SMTP id mi2-20020a17090b4b4200b0020d954e028dmr2205621pjb.93.1665583523209;
+        Wed, 12 Oct 2022 07:05:23 -0700 (PDT)
+Received: from server.roeck-us.net ([2600:1700:e321:62f0:329c:23ff:fee3:9d7c])
+        by smtp.gmail.com with ESMTPSA id f9-20020a636a09000000b004277f43b736sm9607783pgc.92.2022.10.12.07.05.20
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 12 Oct 2022 07:05:21 -0700 (PDT)
+Sender: Guenter Roeck <groeck7@gmail.com>
+Date:   Wed, 12 Oct 2022 07:05:19 -0700
+From:   Guenter Roeck <linux@roeck-us.net>
+To:     Arnd Bergmann <arnd@arndb.de>
+Cc:     Linus Walleij <linus.walleij@linaro.org>,
+        Richard Henderson <richard.henderson@linaro.org>,
+        Ivan Kokshaysky <ink@jurassic.park.msu.ru>,
+        Matt Turner <mattst88@gmail.com>, linux-alpha@vger.kernel.org,
+        kernel test robot <lkp@intel.com>,
+        Mark Brown <broonie@kernel.org>,
+        Linux-Arch <linux-arch@vger.kernel.org>,
+        regressions@lists.linux.dev
+Subject: Re: [PATCH] alpha: Use generic <asm-generic/io.h>
+Message-ID: <20221012140519.GA2405113@roeck-us.net>
+References: <20220818092059.103884-1-linus.walleij@linaro.org>
+ <20221002224521.GA968453@roeck-us.net>
+ <fd905ca5-fe0d-4cfb-a0d0-aea8af539cc7@app.fastmail.com>
+ <57200020-c460-74ec-c786-9a2c16f4870e@roeck-us.net>
+ <2e110666-7519-4693-8a89-240cbb118c7e@app.fastmail.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
-X-Spam-Status: No, score=-6.7 required=5.0 tests=BAYES_00,
-        HEADER_FROM_DIFFERENT_DOMAINS,RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_PASS
-        autolearn=ham autolearn_force=no version=3.4.6
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <2e110666-7519-4693-8a89-240cbb118c7e@app.fastmail.com>
+X-Spam-Status: No, score=-1.2 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_EF,FREEMAIL_ENVFROM_END_DIGIT,
+        FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,HEADER_FROM_DIFFERENT_DOMAINS,
+        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS autolearn=no
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-alpha.vger.kernel.org>
 X-Mailing-List: linux-alpha@vger.kernel.org
 
-On Tue, 11 Oct 2022 17:40:26 +0100
-Valentin Schneider <vschneid@redhat.com> wrote:
-
-> > You could keep the tracepoint as a mask, and then make it pretty, like cpus=3-5,8
-> > in user-space. For example with a trace-cmd/perf loadable plugin, libtracefs helper.
-> >  
+On Tue, Oct 04, 2022 at 10:28:24PM +0200, Arnd Bergmann wrote:
+> On Tue, Oct 4, 2022, at 9:42 PM, Guenter Roeck wrote:
+> > On 10/3/22 06:03, Arnd Bergmann wrote:
+> >> On Mon, Oct 3, 2022, at 12:45 AM, Guenter Roeck wrote:
+> >
+> > Looks like something was missed. When building alpha:allnoconfig
+> > in next-20221004:
+> >
+> > Building alpha:allnoconfig ... failed
+> > --------------
+> > Error log:
+> > <stdin>:1517:2: warning: #warning syscall clone3 not implemented [-Wcpp]
+> > arch/alpha/kernel/core_marvel.c:807:1: error: conflicting types for 
+> > 'marvel_ioread8'; have 'unsigned int(const void *)'
+> >    807 | marvel_ioread8(const void __iomem *xaddr)
+> >        | ^~~~~~~~~~~~~~
+> > In file included from arch/alpha/kernel/core_marvel.c:10:
+> > arch/alpha/include/asm/core_marvel.h:335:11: note: previous declaration 
+> > of 'marvel_ioread8' with type 'u8(const void *)' {aka 'unsigned 
+> > char(const void *)'}
+> >    335 | extern u8 marvel_ioread8(const void __iomem *);
+> >        |           ^~~~~~~~~~~~~~
 > 
-> That's a nice idea, the one downside I see is that means registering an
-> event handler for all events with cpumasks rather than directly targeting
-> cpumask fields, but that doesn't look too horrible. I'll dig a bit in that
-> direction.
+> Right, I already noticed this and uploaded a fixed branch earlier today.
+> Should be ok tomorrow.
+> 
 
-We could just make all all dynamic array's of unsigned long use that
-format? I don't know of any other event that has dynamic arrays of
-unsigned longs. And doing a search doesn't come up with any.
+Unfortunately that did not completely fix the problem, or maybe the fix got
+lost. In mainline, when building alpha:allnoconfig:
 
--- Steve
+arch/alpha/kernel/core_marvel.c:807:1: error: expected '=', ',', ';', 'asm' or '__attribute__' before 'marvel_ioread8'
+  807 | marvel_ioread8(const void __iomem *xaddr)
+
+The code is:
+
+unsigned u8
+marvel_ioread8(const void __iomem *xaddr)
+
+The compiler doesn't like "unsigned u8".
+
+#regzbot ^introduced: e19d4ebc536d
+#regzbot title: alpha:allnoconfig fails to build
+#regzbot monitor: https://lore.kernel.org/linux-arch/202210062117.wJypzBWL-lkp@intel.com/
+
+Guenter
