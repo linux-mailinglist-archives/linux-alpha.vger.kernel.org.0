@@ -2,74 +2,74 @@ Return-Path: <linux-alpha-owner@vger.kernel.org>
 X-Original-To: lists+linux-alpha@lfdr.de
 Delivered-To: lists+linux-alpha@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 553475FF4D7
-	for <lists+linux-alpha@lfdr.de>; Fri, 14 Oct 2022 22:50:41 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 9B537600D4A
+	for <lists+linux-alpha@lfdr.de>; Mon, 17 Oct 2022 13:02:13 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231466AbiJNUuk (ORCPT <rfc822;lists+linux-alpha@lfdr.de>);
-        Fri, 14 Oct 2022 16:50:40 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54772 "EHLO
+        id S230513AbiJQLCL (ORCPT <rfc822;lists+linux-alpha@lfdr.de>);
+        Mon, 17 Oct 2022 07:02:11 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45932 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231360AbiJNUuj (ORCPT
+        with ESMTP id S230439AbiJQLBh (ORCPT
         <rfc822;linux-alpha@vger.kernel.org>);
-        Fri, 14 Oct 2022 16:50:39 -0400
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 88BF9A8361;
-        Fri, 14 Oct 2022 13:50:33 -0700 (PDT)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id 140B961C0D;
-        Fri, 14 Oct 2022 20:50:33 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPS id 7537AC433D6;
-        Fri, 14 Oct 2022 20:50:32 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1665780632;
-        bh=UtG27lxqruNpU17YlUrA97cjNDxRFMq2DHB+k82IAPM=;
-        h=Subject:From:In-Reply-To:References:Date:To:Cc:From;
-        b=Rz1Ub1pt6LPmXF+wmmmkUqZc+pavUepYqP95fOSymvOuJSFwGb9HX/QeO9jPgWad2
-         JyMq1eofgLDfjJuTb/J2f2/YbtGb2qGLXQ20Pq8ejfVaEHHlEEL+7Otb4G+303xLJF
-         LDVBRPkjJ4bE/q1ftEUQosvfRHdpzsOURQgtHl2CrsFahwo51xvBWS/Uh1x7tOya7Q
-         SuZADRBBKdZ8xbrf+E7V0mTyjfWoXf01QqBtMWqD8k2W0KANfWQMEDu52Lxqu/ea26
-         x6qACkdcAfkMyBcW6+IWbw7taCfLZSzAVmZ+TpHJV1BDDVYkH3zhvqRLn1OWib9yON
-         4D9py0siyYAug==
-Received: from aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (localhost.localdomain [127.0.0.1])
-        by aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (Postfix) with ESMTP id 62F43E270EF;
-        Fri, 14 Oct 2022 20:50:32 +0000 (UTC)
-Subject: Re: [GIT PULL] asm-generic: arch/alpha regression fix for 6.1
-From:   pr-tracker-bot@kernel.org
-In-Reply-To: <796854e9-ccbb-4dc1-aec6-bf3461d9d813@app.fastmail.com>
-References: <796854e9-ccbb-4dc1-aec6-bf3461d9d813@app.fastmail.com>
-X-PR-Tracked-List-Id: <linux-kernel.vger.kernel.org>
-X-PR-Tracked-Message-Id: <796854e9-ccbb-4dc1-aec6-bf3461d9d813@app.fastmail.com>
-X-PR-Tracked-Remote: https://git.kernel.org/pub/scm/linux/kernel/git/arnd/asm-generic.git asm-generic-fixes-6.1-1
-X-PR-Tracked-Commit-Id: 2e21c1575208786f667cb66d8cf87a52160b81db
-X-PR-Merge-Tree: torvalds/linux.git
-X-PR-Merge-Refname: refs/heads/master
-X-PR-Merge-Commit-Id: 73344a3f6793d6b5384077be1e5ce6b90bbcaeb4
-Message-Id: <166578063239.25591.6601511984817088258.pr-tracker-bot@kernel.org>
-Date:   Fri, 14 Oct 2022 20:50:32 +0000
-To:     Arnd Bergmann <arnd@arndb.de>
-Cc:     Linus Torvalds <torvalds@linux-foundation.org>,
-        linux-kernel@vger.kernel.org, linux-alpha@vger.kernel.org,
-        Linux-Arch <linux-arch@vger.kernel.org>
-X-Spam-Status: No, score=-7.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_HI,
-        SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
+        Mon, 17 Oct 2022 07:01:37 -0400
+Received: from mail-ej1-x62d.google.com (mail-ej1-x62d.google.com [IPv6:2a00:1450:4864:20::62d])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 89A4E61138
+        for <linux-alpha@vger.kernel.org>; Mon, 17 Oct 2022 04:00:39 -0700 (PDT)
+Received: by mail-ej1-x62d.google.com with SMTP id b2so24027255eja.6
+        for <linux-alpha@vger.kernel.org>; Mon, 17 Oct 2022 04:00:39 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=to:subject:message-id:date:from:mime-version:from:to:cc:subject
+         :date:message-id:reply-to;
+        bh=h6TAvh2KhlPwZbZl975on9cPhNtC4Qh0FGtOTBu2EFs=;
+        b=DT8N1zHgLUhSB1amgTlfFh83oizvxuJI1bIsoUxMqxVUs6HsG0Bk31WC7B8BnwOprK
+         D6mdVNtCiEnV4TxaF3j3hPCQmnySY0FuitZ4lFHuqDs+/kz0yR8Y/IolCLGy5i1rKQI3
+         zIQ9eQ1LxaFe9lvQWiyywxDOPpb+CK+epF6ABZTS+DkW9f5mZh20AcvFA4KMwVps5ZB8
+         JXe4Y91AttcyJgHMjZFO7ABKX8twjogHMbgukFek7fDiU2DepYLjOSV/SrNgT2eaKZfc
+         BmNVu2eUWCWIP4AT6DQBUh/oyB3Fiw4B2pP72PaHrf82HVgxEmWrD8TF75gUsj5psKlF
+         cI1Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=to:subject:message-id:date:from:mime-version:x-gm-message-state
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=h6TAvh2KhlPwZbZl975on9cPhNtC4Qh0FGtOTBu2EFs=;
+        b=TZa3S4Ga8ZmwxU0oB6/npHZIzOXULwNnY2lw/+eY9W2nOpBi0oAQ65ORJuXjG7GwqL
+         NBGbt1tx2/bX2FEUg9ThFbQVX2HXIH6LhMqVkeSqBRA6pB2Vf1/VbtyXku8EQqgJ9NxL
+         pEcgpL0jLMXQQ4gSyARtr3DsltcaL+Q0AW2TpIa36kJRX6bJbzXfyCPY0dZyaLOiMbhK
+         y76abebU8itQYPv7r+uqpyTcSEY7ZApCM+PPNB4GpXCXLSCBj+2cgJXgSOA2OEZeXJgS
+         vRJpUpuBg06A1acpYnhdDPoGkgX6Wze8HTk3AWybtAq8xsU+UEz6cowOaNDRHmPO6/aJ
+         JxOg==
+X-Gm-Message-State: ACrzQf3MS1AnUJ6xjQjcbGWGU8ZuB5EWDPg4kZNESIocsOZfeQqYtrXs
+        jC8fQI2VuYtIJ5A7ws/yix9UgPgWEgxTDUUCIDM=
+X-Google-Smtp-Source: AMsMyM74yHjVKIntIP82c1RevnU7nAjR2UNpS5Lb2GuXZmne+62tWsGsOvV77WZgR2y3iOGN4qsJp/C78bwdlkN2CtY=
+X-Received: by 2002:a17:906:eecb:b0:73c:5bcb:8eb3 with SMTP id
+ wu11-20020a170906eecb00b0073c5bcb8eb3mr7860270ejb.284.1666004425820; Mon, 17
+ Oct 2022 04:00:25 -0700 (PDT)
+MIME-Version: 1.0
+Received: by 2002:a50:71a:0:b0:1df:c5cd:1b43 with HTTP; Mon, 17 Oct 2022
+ 04:00:25 -0700 (PDT)
+From:   M Cheickna Toure <metraoretk5@gmail.com>
+Date:   Mon, 17 Oct 2022 12:00:25 +0100
+Message-ID: <CACw7F=bKmq3FB6uTbtMRGMKD2i_mzwTSayyUxgyDT06qYbcJNw@mail.gmail.com>
+Subject: Hello, Good morning
+To:     undisclosed-recipients:;
+Content-Type: text/plain; charset="UTF-8"
+X-Spam-Status: No, score=1.9 required=5.0 tests=BAYES_50,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_ENVFROM_END_DIGIT,
+        FREEMAIL_FROM,FREEMAIL_REPLY,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS
+        autolearn=no autolearn_force=no version=3.4.6
+X-Spam-Level: *
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-alpha.vger.kernel.org>
 X-Mailing-List: linux-alpha@vger.kernel.org
 
-The pull request you sent on Fri, 14 Oct 2022 22:35:44 +0200:
-
-> https://git.kernel.org/pub/scm/linux/kernel/git/arnd/asm-generic.git asm-generic-fixes-6.1-1
-
-has been merged into torvalds/linux.git:
-https://git.kernel.org/torvalds/c/73344a3f6793d6b5384077be1e5ce6b90bbcaeb4
-
-Thank you!
-
--- 
-Deet-doot-dot, I am a bot.
-https://korg.docs.kernel.org/prtracker.html
+Hello,
+Good morning and how are you?
+I have an important and favourable information/proposal which might
+interest you to know,
+let me hear from you to detail you, it's important
+Sincerely,
+M.Cheickna
+tourecheickna@consultant.com
