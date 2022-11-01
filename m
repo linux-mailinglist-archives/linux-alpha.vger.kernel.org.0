@@ -2,96 +2,108 @@ Return-Path: <linux-alpha-owner@vger.kernel.org>
 X-Original-To: lists+linux-alpha@lfdr.de
 Delivered-To: lists+linux-alpha@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 0AC0B607F98
-	for <lists+linux-alpha@lfdr.de>; Fri, 21 Oct 2022 22:18:48 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 0A997615104
+	for <lists+linux-alpha@lfdr.de>; Tue,  1 Nov 2022 18:47:21 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229460AbiJUUSq (ORCPT <rfc822;lists+linux-alpha@lfdr.de>);
-        Fri, 21 Oct 2022 16:18:46 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58114 "EHLO
+        id S229766AbiKARrS (ORCPT <rfc822;lists+linux-alpha@lfdr.de>);
+        Tue, 1 Nov 2022 13:47:18 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44274 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229728AbiJUUSp (ORCPT
-        <rfc822;linux-alpha@vger.kernel.org>);
-        Fri, 21 Oct 2022 16:18:45 -0400
-Received: from ams.source.kernel.org (ams.source.kernel.org [145.40.68.75])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CA5A629F114;
-        Fri, 21 Oct 2022 13:18:44 -0700 (PDT)
+        with ESMTP id S229562AbiKARrS (ORCPT
+        <rfc822;linux-alpha@vger.kernel.org>); Tue, 1 Nov 2022 13:47:18 -0400
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 514231D0D3;
+        Tue,  1 Nov 2022 10:47:17 -0700 (PDT)
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by ams.source.kernel.org (Postfix) with ESMTPS id 6E43AB82C93;
-        Fri, 21 Oct 2022 20:18:43 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id DAECEC433D6;
-        Fri, 21 Oct 2022 20:18:41 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1666383522;
-        bh=9N8hC43F53uZw3GUeYPmUFhh7KM4AYDCYlgMmHNSMks=;
-        h=From:To:Cc:Subject:Date:From;
-        b=pAPQH6Ma/i6sfdSdfOn98fL1TD3501f1E5jKOHMJY6M75NyN2XLX5E+aJGAtOp0Xt
-         kG/lhzDu+uLlL10cTUepsLxvfESaf9vvZM6FQfVBPwK/NkrmRNmAugI26n2ElhgmSx
-         UFWwbmVuF+vfgKwGiL3JvuqPQAKQagW+qMC3ArklDhvYdFBOMP09i+QnYpOGsTFdWH
-         hDkSHFxJUaMjZV82bt1087addmv8lNkUAo+pOHQ77jLCHRP/SkGMZpoAIKRqPnNici
-         TWxKYQJ+YX4yO8YoO9pUnjP+nUVbaoAlyTTSP9ke4jCu7teFZvJHL+Kkr27Zl/0vC4
-         VSQIPc7BEag/A==
-From:   Bjorn Helgaas <helgaas@kernel.org>
-To:     Richard Henderson <richard.henderson@linaro.org>,
+        by dfw.source.kernel.org (Postfix) with ESMTPS id E0AF6616D8;
+        Tue,  1 Nov 2022 17:47:16 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2CD53C433D6;
+        Tue,  1 Nov 2022 17:47:05 +0000 (UTC)
+Date:   Tue, 1 Nov 2022 17:47:01 +0000
+From:   Catalin Marinas <catalin.marinas@arm.com>
+To:     Kefeng Wang <wangkefeng.wang@huawei.com>
+Cc:     Andrew Morton <akpm@linux-foundation.org>,
+        linux-alpha@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-snps-arc@lists.infradead.org,
+        linux-arm-kernel@lists.infradead.org, linux-csky@vger.kernel.org,
+        linux-hexagon@vger.kernel.org, linux-ia64@vger.kernel.org,
+        loongarch@lists.linux.dev, linux-m68k@lists.linux-m68k.org,
+        linux-mips@vger.kernel.org, openrisc@lists.librecores.org,
+        linux-parisc@vger.kernel.org, linuxppc-dev@lists.ozlabs.org,
+        linux-riscv@lists.infradead.org, linux-s390@vger.kernel.org,
+        linux-sh@vger.kernel.org, sparclinux@vger.kernel.org,
+        linux-um@lists.infradead.org, linux-xtensa@linux-xtensa.org,
+        linux-fsdevel@vger.kernel.org,
+        Richard Henderson <richard.henderson@linaro.org>,
         Ivan Kokshaysky <ink@jurassic.park.msu.ru>,
-        Matt Turner <mattst88@gmail.com>
-Cc:     linux-alpha@vger.kernel.org, linux-kernel@vger.kernel.org,
-        Bjorn Helgaas <bhelgaas@google.com>
-Subject: [PATCH] alpha: remove unused __SLOW_DOWN_IO and SLOW_DOWN_IO definitions
-Date:   Fri, 21 Oct 2022 15:18:38 -0500
-Message-Id: <20221021201838.306176-1-helgaas@kernel.org>
-X-Mailer: git-send-email 2.25.1
+        Matt Turner <mattst88@gmail.com>,
+        Vineet Gupta <vgupta@kernel.org>,
+        Russell King <linux@armlinux.org.uk>,
+        Will Deacon <will@kernel.org>, Guo Ren <guoren@kernel.org>,
+        Huacai Chen <chenhuacai@kernel.org>,
+        WANG Xuerui <kernel@xen0n.name>,
+        Geert Uytterhoeven <geert@linux-m68k.org>,
+        Greg Ungerer <gerg@linux-m68k.org>,
+        Michal Simek <monstr@monstr.eu>,
+        Thomas Bogendoerfer <tsbogend@alpha.franken.de>,
+        Dinh Nguyen <dinguyen@kernel.org>,
+        Jonas Bonn <jonas@southpole.se>,
+        Stefan Kristiansson <stefan.kristiansson@saunalahti.fi>,
+        Stafford Horne <shorne@gmail.com>,
+        "James E . J . Bottomley" <James.Bottomley@hansenpartnership.com>,
+        Helge Deller <deller@gmx.de>,
+        Michael Ellerman <mpe@ellerman.id.au>,
+        Nicholas Piggin <npiggin@gmail.com>,
+        Christophe Leroy <christophe.leroy@csgroup.eu>,
+        Paul Walmsley <paul.walmsley@sifive.com>,
+        Palmer Dabbelt <palmer@dabbelt.com>,
+        Albert Ou <aou@eecs.berkeley.edu>,
+        Heiko Carstens <hca@linux.ibm.com>,
+        Vasily Gorbik <gor@linux.ibm.com>,
+        Alexander Gordeev <agordeev@linux.ibm.com>,
+        Christian Borntraeger <borntraeger@linux.ibm.com>,
+        Sven Schnelle <svens@linux.ibm.com>,
+        Yoshinori Sato <ysato@users.sourceforge.jp>,
+        Rich Felker <dalias@libc.org>,
+        "David S . Miller" <davem@davemloft.net>,
+        Richard Weinberger <richard@nod.at>,
+        Anton Ivanov <anton.ivanov@cambridgegreys.com>,
+        Johannes Berg <johannes@sipsolutions.net>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
+        Dave Hansen <dave.hansen@linux.intel.com>, x86@kernel.org,
+        "H . Peter Anvin" <hpa@zytor.com>,
+        Andy Lutomirski <luto@kernel.org>,
+        Peter Zijlstra <peterz@infradead.org>,
+        Chris Zankel <chris@zankel.net>,
+        Max Filippov <jcmvbkbc@gmail.com>
+Subject: Re: [PATCH] mm: remove kern_addr_valid() completely
+Message-ID: <Y2FblZlz2LIGh5qH@arm.com>
+References: <20221018074014.185687-1-wangkefeng.wang@huawei.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=-7.3 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_HI,
-        SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20221018074014.185687-1-wangkefeng.wang@huawei.com>
+X-Spam-Status: No, score=-6.7 required=5.0 tests=BAYES_00,
+        HEADER_FROM_DIFFERENT_DOMAINS,RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_PASS
+        autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-alpha.vger.kernel.org>
 X-Mailing-List: linux-alpha@vger.kernel.org
 
-From: Bjorn Helgaas <bhelgaas@google.com>
+On Tue, Oct 18, 2022 at 03:40:14PM +0800, Kefeng Wang wrote:
+> Most architectures(except arm64/x86/sparc) simply return 1 for
+> kern_addr_valid(), which is only used in read_kcore(), and it
+> calls copy_from_kernel_nofault() which could check whether the
+> address is a valid kernel address, so no need kern_addr_valid(),
+> let's remove unneeded kern_addr_valid() completely.
+> 
+> Signed-off-by: Kefeng Wang <wangkefeng.wang@huawei.com>
 
-Remove unused __SLOW_DOWN_IO and SLOW_DOWN_IO definitions.
+For arm64:
 
-Signed-off-by: Bjorn Helgaas <bhelgaas@google.com>
----
-
-[Sorry for the noise; I sent this a few minutes ago, but it bounced from
-all the individual recipients because of DMARC issues]
-
-Previously posted v1 4/15/2022 at
-  https://lore.kernel.org/all/20220415190817.842864-1-helgaas@kernel.org/
-and reposted v1 10/13/2022 at
-  https://lore.kernel.org/all/20221014001911.3342485-1-helgaas@kernel.org/
-
-Changes from v1 to v2:
-  - Drop the ia64 patch because Andrew applied it
-      https://lore.kernel.org/all/20221021045245.99636C433C1@smtp.kernel.org/
-
-  - Split sh and alpha to separate series
-
- arch/alpha/include/asm/io.h | 4 ----
- 1 file changed, 4 deletions(-)
-
-diff --git a/arch/alpha/include/asm/io.h b/arch/alpha/include/asm/io.h
-index 1c3605d874e9..7aeaf7c30a6f 100644
---- a/arch/alpha/include/asm/io.h
-+++ b/arch/alpha/include/asm/io.h
-@@ -14,10 +14,6 @@
-    the implementation we have here matches that interface.  */
- #include <asm-generic/iomap.h>
- 
--/* We don't use IO slowdowns on the Alpha, but.. */
--#define __SLOW_DOWN_IO	do { } while (0)
--#define SLOW_DOWN_IO	do { } while (0)
--
- /*
-  * Virtual -> physical identity mapping starts at this offset
-  */
--- 
-2.25.1
-
+Acked-by: Catalin Marinas <catalin.marinas@arm.com>
