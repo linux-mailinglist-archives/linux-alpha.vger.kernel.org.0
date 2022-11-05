@@ -2,116 +2,74 @@ Return-Path: <linux-alpha-owner@vger.kernel.org>
 X-Original-To: lists+linux-alpha@lfdr.de
 Delivered-To: lists+linux-alpha@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 1CE4161881F
-	for <lists+linux-alpha@lfdr.de>; Thu,  3 Nov 2022 20:01:34 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id A6AF361D9E3
+	for <lists+linux-alpha@lfdr.de>; Sat,  5 Nov 2022 13:35:43 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230244AbiKCTBa (ORCPT <rfc822;lists+linux-alpha@lfdr.de>);
-        Thu, 3 Nov 2022 15:01:30 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46686 "EHLO
+        id S229648AbiKEMfi (ORCPT <rfc822;lists+linux-alpha@lfdr.de>);
+        Sat, 5 Nov 2022 08:35:38 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39016 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231316AbiKCTBU (ORCPT
-        <rfc822;linux-alpha@vger.kernel.org>); Thu, 3 Nov 2022 15:01:20 -0400
-Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1D30C18349;
-        Thu,  3 Nov 2022 12:01:19 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1667502079; x=1699038079;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:content-transfer-encoding:in-reply-to;
-  bh=sNkpjDaE4wFtOA2SWrBA99Yi2yLtSUQQFYkHqzgZpY0=;
-  b=ZXt1L7pOhqi5WlmhDXsXmtPvPzFNWctwy1R7Q4Nq9odpGkclZS16RZoK
-   yr0pKTMTKNTuyGMD6FHVYJOdygkVad7sglNjs8Cr+jWptpVC3Xwwtk4+F
-   wO3FLNwQ/TLABvyu1b0tslvcUXYyVUlQkCnKntZMzTDTMWwE2/SceXpTY
-   7wCgLODK9awyPzQKPB8raMf32pF09qwtXXyOTcdW1z/qPCLfmMwO9lIoT
-   T2ELTsBsjnab3bY7pmSLFcT1xOCGowIq+91pOv0FIQn4SQz6OYOwB1JqE
-   +PiauyijoaYM/9M+J4/4FGsVZqfBSZXyX18MCHUPeBquk8DHiDMz6Kf9p
-   Q==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10520"; a="336475095"
-X-IronPort-AV: E=Sophos;i="5.96,135,1665471600"; 
-   d="scan'208";a="336475095"
-Received: from orsmga007.jf.intel.com ([10.7.209.58])
-  by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Nov 2022 12:01:18 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10520"; a="629452994"
-X-IronPort-AV: E=Sophos;i="5.96,135,1665471600"; 
-   d="scan'208";a="629452994"
-Received: from smile.fi.intel.com ([10.237.72.54])
-  by orsmga007.jf.intel.com with ESMTP; 03 Nov 2022 12:01:11 -0700
-Received: from andy by smile.fi.intel.com with local (Exim 4.96)
-        (envelope-from <andriy.shevchenko@linux.intel.com>)
-        id 1oqfSd-006zXu-1O;
-        Thu, 03 Nov 2022 21:01:07 +0200
-Date:   Thu, 3 Nov 2022 21:01:07 +0200
-From:   Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-To:     Dominik Brodowski <linux@dominikbrodowski.net>
-Cc:     Krzysztof =?utf-8?Q?Wilczy=C5=84ski?= <kw@linux.com>,
-        =?iso-8859-1?Q?Micka=EBl_Sala=FCn?= <mic@digikod.net>,
-        Mika Westerberg <mika.westerberg@linux.intel.com>,
-        Michael Ellerman <mpe@ellerman.id.au>,
-        Arnd Bergmann <arnd@arndb.de>,
-        Bjorn Helgaas <helgaas@kernel.org>,
-        "Rafael J. Wysocki" <rafael.j.wysocki@intel.com>,
-        Juergen Gross <jgross@suse.com>, linux-kernel@vger.kernel.org,
-        linux-alpha@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-        linux-mips@vger.kernel.org, linuxppc-dev@lists.ozlabs.org,
-        sparclinux@vger.kernel.org, linux-pci@vger.kernel.org,
-        xen-devel@lists.xenproject.org, Miguel Ojeda <ojeda@kernel.org>,
-        Richard Henderson <richard.henderson@linaro.org>,
-        Ivan Kokshaysky <ink@jurassic.park.msu.ru>,
-        Matt Turner <mattst88@gmail.com>,
-        Russell King <linux@armlinux.org.uk>,
-        Thomas Bogendoerfer <tsbogend@alpha.franken.de>,
-        Nicholas Piggin <npiggin@gmail.com>,
-        Christophe Leroy <christophe.leroy@csgroup.eu>,
-        "David S. Miller" <davem@davemloft.net>,
-        Bjorn Helgaas <bhelgaas@google.com>,
-        Stefano Stabellini <sstabellini@kernel.org>,
-        Oleksandr Tyshchenko <oleksandr_tyshchenko@epam.com>
-Subject: Re: [PATCH v2 4/4] pcmcia: Convert to use
- pci_bus_for_each_resource_p()
-Message-ID: <Y2QP8yrZ7/9fpUQQ@smile.fi.intel.com>
-References: <20221103164644.70554-1-andriy.shevchenko@linux.intel.com>
- <20221103164644.70554-5-andriy.shevchenko@linux.intel.com>
- <Y2P0XCNJvTVuziO7@owl.dominikbrodowski.net>
- <Y2P2ja26ikNecTsv@smile.fi.intel.com>
- <Y2QImB0OLakzz1+F@rocinante>
- <Y2QKjzL+nH6Zabg7@owl.dominikbrodowski.net>
+        with ESMTP id S229516AbiKEMfi (ORCPT
+        <rfc822;linux-alpha@vger.kernel.org>); Sat, 5 Nov 2022 08:35:38 -0400
+Received: from mail-ed1-x52f.google.com (mail-ed1-x52f.google.com [IPv6:2a00:1450:4864:20::52f])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3EF1015726
+        for <linux-alpha@vger.kernel.org>; Sat,  5 Nov 2022 05:35:37 -0700 (PDT)
+Received: by mail-ed1-x52f.google.com with SMTP id u24so11087619edd.13
+        for <linux-alpha@vger.kernel.org>; Sat, 05 Nov 2022 05:35:37 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=content-transfer-encoding:to:subject:message-id:date:from:reply-to
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=c8XA1N0uaxkLO/wKHErNWHaSuu64k5Pjb5u9dmcZrOc=;
+        b=cBRQ6Y8RpefIRHVQrLMSbFXJhzjFVhKUVpWiqphfFD7ZpdDCO4bkiuF3D/wQA8szCV
+         N9/bn9IHCh7XDMLbhEEGrfqiLIOEs4dJxsB83TL3DNqg7MfoEPuluMIpDp6ZBO90y4DD
+         fWKUOs/7GSTK6BhMWPmhNXEAq6hohjAMxPiWpy1hZI9WsxxcpRo2Yb+NBHr+rq8EXy5G
+         MP37jw6howTDBU0pbP6pioWqE/qZyyX+SMTGB3BuhtQMIjk4NfTxtGc7ZD/jM6B1zSTJ
+         SG+flxql5YVXo/GQ+GhmgMs26VLfUnwwzfizS49eehXvsuQO1umllX/v9vFFdjUUHgmE
+         ubNw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=content-transfer-encoding:to:subject:message-id:date:from:reply-to
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=c8XA1N0uaxkLO/wKHErNWHaSuu64k5Pjb5u9dmcZrOc=;
+        b=xV5DYiM93OO2ZASOlPjc24nMnADvknIdMeD2xL5ncIrhNvseXy8yswhvF/4DjkixfP
+         L2qmN/5s18trdwKDTCduVPWYrn2a8Hw3BXmMG47tboXeoJ18iqcntYiSuau5Z1xas34R
+         DZOifG+I3nM6HsnNScXARvicd7XxtGb4Lm904nBXkak+1EGxMqiRGPunPfkom3OscuuB
+         6BcEK8+ACJkXEKFK1ljr500Tfk2kpXiu1xGvIBOr75qpNCzXAuXQAm8OGhZqTE7ujzWq
+         io13FoP/Bvg2RIcwJl+JOEJoblYrs6C8wQ/Uy7wsviSs/8o16a9p29YIfhL4ToPrtBFq
+         9n9Q==
+X-Gm-Message-State: ACrzQf0XdcgKsxOWAv5Bu+aTfjZeFPwhk/oVYeiyefmevTnj+I26fsYp
+        yFKLuDOZj0JLsBInZoKM+uqHprMLh/5DGWYz2iA=
+X-Google-Smtp-Source: AMsMyM7ov6riUwC0zZeruMWfTOWyLCbUC37ops/VJH6Iz0RYno+LBVMMQ4SF3SwUDowxxmVLzV5y8vk580CQgz/obwk=
+X-Received: by 2002:a05:6402:2947:b0:451:32a:2222 with SMTP id
+ ed7-20020a056402294700b00451032a2222mr39283693edb.376.1667651735582; Sat, 05
+ Nov 2022 05:35:35 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <Y2QKjzL+nH6Zabg7@owl.dominikbrodowski.net>
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
-X-Spam-Status: No, score=-8.0 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_EF,RCVD_IN_DNSWL_HI,
-        RCVD_IN_MSPIKE_H3,RCVD_IN_MSPIKE_WL,SPF_HELO_NONE,SPF_NONE
-        autolearn=ham autolearn_force=no version=3.4.6
+Received: by 2002:a17:906:3c41:b0:78d:b654:8aec with HTTP; Sat, 5 Nov 2022
+ 05:35:34 -0700 (PDT)
+Reply-To: stefanopessia755@hotmail.com
+From:   Stefano Pessina <annastaciamutuku87@gmail.com>
+Date:   Sat, 5 Nov 2022 15:35:34 +0300
+Message-ID: <CA+Rj53bd_Xp1QaoObL4LCwiUdRsk7BNXS8hYLLL5HqpCEx86qg@mail.gmail.com>
+Subject: Geldspende
+To:     undisclosed-recipients:;
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Spam-Status: No, score=4.9 required=5.0 tests=BAYES_50,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_ENVFROM_END_DIGIT,
+        FREEMAIL_FROM,FREEMAIL_REPLYTO,FREEMAIL_REPLYTO_END_DIGIT,
+        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,UNDISC_FREEM autolearn=no
+        autolearn_force=no version=3.4.6
+X-Spam-Level: ****
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-alpha.vger.kernel.org>
 X-Mailing-List: linux-alpha@vger.kernel.org
 
-On Thu, Nov 03, 2022 at 07:38:07PM +0100, Dominik Brodowski wrote:
-> Am Fri, Nov 04, 2022 at 03:29:44AM +0900 schrieb Krzysztof Wilczyński:
-
-...
-
-> > That said, Dominik is the maintainer of PCMCIA driver, so his is the last
-> > word, so to speak. :)
-> > 
-> > > Considering this is done, can you issue your conditional tag so I will
-> > > incorporate it in v3?
-> > 
-> > No need, really.  Again, unless Dominik thinks otherwise.
-> 
-> Ah, thanks for the correction. Then v2 is perfectly fine.
-
-I'm fine with either, thanks!
-
--- 
-With Best Regards,
-Andy Shevchenko
-
-
+--=20
+Die Summe von 500.000,00 =E2=82=AC wurde Ihnen von STEFANO PESSINA gespende=
+t.
+Bitte kontaktieren Sie uns f=C3=BCr weitere Informationen =C3=BCber
+stefanopessia755@hotmail.com
