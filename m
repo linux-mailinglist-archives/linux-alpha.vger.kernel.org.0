@@ -2,152 +2,97 @@ Return-Path: <linux-alpha-owner@vger.kernel.org>
 X-Original-To: lists+linux-alpha@lfdr.de
 Delivered-To: lists+linux-alpha@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 7B743630014
-	for <lists+linux-alpha@lfdr.de>; Fri, 18 Nov 2022 23:29:08 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 2B10463328F
+	for <lists+linux-alpha@lfdr.de>; Tue, 22 Nov 2022 03:03:26 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229933AbiKRW3G (ORCPT <rfc822;lists+linux-alpha@lfdr.de>);
-        Fri, 18 Nov 2022 17:29:06 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53734 "EHLO
+        id S231950AbiKVCDY (ORCPT <rfc822;lists+linux-alpha@lfdr.de>);
+        Mon, 21 Nov 2022 21:03:24 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33072 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230490AbiKRW3F (ORCPT
+        with ESMTP id S232412AbiKVCDX (ORCPT
         <rfc822;linux-alpha@vger.kernel.org>);
-        Fri, 18 Nov 2022 17:29:05 -0500
-Received: from mail-pl1-x636.google.com (mail-pl1-x636.google.com [IPv6:2607:f8b0:4864:20::636])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id DD5DC7C680
-        for <linux-alpha@vger.kernel.org>; Fri, 18 Nov 2022 14:29:03 -0800 (PST)
-Received: by mail-pl1-x636.google.com with SMTP id g10so5747580plo.11
-        for <linux-alpha@vger.kernel.org>; Fri, 18 Nov 2022 14:29:03 -0800 (PST)
+        Mon, 21 Nov 2022 21:03:23 -0500
+Received: from mail-yb1-xb2f.google.com (mail-yb1-xb2f.google.com [IPv6:2607:f8b0:4864:20::b2f])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B8F9BD5A1B;
+        Mon, 21 Nov 2022 18:03:21 -0800 (PST)
+Received: by mail-yb1-xb2f.google.com with SMTP id c15so15729405ybf.1;
+        Mon, 21 Nov 2022 18:03:21 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=UbBsvDU//DL6nEBTfVogOGw4gtrIt5cEgoWU7wg0yqE=;
-        b=An8R27hBelrmHfCbOWIi0CQbpB+FbdUKZd/K74OWA+t1inv8v4494buerQXpAbVoQ/
-         hawXo5IWqwOaOJXIlgQJ62nY4aZ8mzIQL8T0sN5QawgAa8EGZw3klOrzN/KXycM8ohn1
-         PnwiDQNXHvwQENzmlhMaoO6BFIxzwB92hREPE=
+        d=gmail.com; s=20210112;
+        h=to:subject:message-id:date:from:mime-version:from:to:cc:subject
+         :date:message-id:reply-to;
+        bh=7SqnKaq0wZ3Ypodl8lAIUkjWtitllK4iWiIBbtfpnfo=;
+        b=LuVIOMqsxbtMVbNf3lGAlfSqJQ34cyPGQ4pjS6OqD2ZS3XQZJ2tI3qt30Fy/q4Vfkm
+         rK3My5ypSCa4rElTrLahu7VDIaPpKea4R72N2qlAtAnYLfYeGgbGaV/hLZMECT7fx5F7
+         3yv8O/W6B14Xs1W7oeZvrrCdwJR1fnA2XA3S7ld5DI5uWqRY+H4wL1h+/7lNxuWNYpJq
+         wBZVdmzl5x89+wrfoijH9T03Fh+Ua3T1znNfiHsv2nk6EDg+rkeoeuYFtSEaZ0H8kaWX
+         4mg/QHEnqWV2xVYgFuFUjSGHL1T4qtWWwkX9J1IZEIsPpd2613Y0n20DlFBqk8aqQNzA
+         tY6g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=UbBsvDU//DL6nEBTfVogOGw4gtrIt5cEgoWU7wg0yqE=;
-        b=5hGN2hkZPwSk6h3+0sxKOHG6Vou6ezY8VZKkNYs8ANCJ0Y2M7JljdzAivBNIVnMx9g
-         nJ0KjmJ2lb0wO3Vbaq9/ecSZqPMW3MCoy+YNWA6hPCiJ43vvxIbdOEiMxHJJ2yjo8iJ6
-         UMi+k2XUt1RNh3dK+imAh/9YAobunX+6NPIGDvkO4rbd85U9vO/gasmu+0liBBHGO5bc
-         fzFB5cJrG+OF+yfpQLnmi7pWIU72ow+TJfbsXvAyLWu4KXl/kSdX8x/5AD12BjTqHe6t
-         jtr/JTYWq0L15HHkHrPfYqMys7WmwZNdXTQu6mXVs4QZWrbx2+kAyu1ECRyvCi7VVgtS
-         xLsw==
-X-Gm-Message-State: ANoB5pn6NwrvAVk5bRK2MwCpxQMytFZsHR0LT5Xwy3RPUXehEqOKX+OL
-        aIefI0bI6dUDBrFdBROPw7B4Nw==
-X-Google-Smtp-Source: AA0mqf6x3WR1+0wUVWwli47/xk6od69+oUWF0cQjmoupKb1o7R1u9AWIvzDIrLxmCvQfjLJnyEjRtg==
-X-Received: by 2002:a17:902:e009:b0:188:649b:9dbe with SMTP id o9-20020a170902e00900b00188649b9dbemr1414800plo.107.1668810543395;
-        Fri, 18 Nov 2022 14:29:03 -0800 (PST)
-Received: from www.outflux.net (smtp.outflux.net. [198.145.64.163])
-        by smtp.gmail.com with ESMTPSA id b29-20020aa7951d000000b00561382a5a25sm3714931pfp.26.2022.11.18.14.29.02
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 18 Nov 2022 14:29:02 -0800 (PST)
-Date:   Fri, 18 Nov 2022 14:29:02 -0800
-From:   Kees Cook <keescook@chromium.org>
-To:     Peter Zijlstra <peterz@infradead.org>
-Cc:     Linus Torvalds <torvalds@linux-foundation.org>,
-        David Hildenbrand <david@redhat.com>,
-        linux-kernel@vger.kernel.org, x86@kernel.org,
-        linux-alpha@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-        linux-ia64@vger.kernel.org, linux-mips@vger.kernel.org,
-        linuxppc-dev@lists.ozlabs.org, sparclinux@vger.kernel.org,
-        linux-um@lists.infradead.org, etnaviv@lists.freedesktop.org,
-        dri-devel@lists.freedesktop.org, linux-samsung-soc@vger.kernel.org,
-        linux-rdma@vger.kernel.org, linux-media@vger.kernel.org,
-        linux-fsdevel@vger.kernel.org, linux-mm@kvack.org,
-        linux-perf-users@vger.kernel.org,
-        linux-security-module@vger.kernel.org,
-        linux-kselftest@vger.kernel.org,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Jason Gunthorpe <jgg@ziepe.ca>,
-        John Hubbard <jhubbard@nvidia.com>,
-        Peter Xu <peterx@redhat.com>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Andrea Arcangeli <aarcange@redhat.com>,
-        Hugh Dickins <hughd@google.com>, Nadav Amit <namit@vmware.com>,
-        Vlastimil Babka <vbabka@suse.cz>,
-        Matthew Wilcox <willy@infradead.org>,
-        Mike Kravetz <mike.kravetz@oracle.com>,
-        Muchun Song <songmuchun@bytedance.com>,
-        Shuah Khan <shuah@kernel.org>,
-        Lucas Stach <l.stach@pengutronix.de>,
-        David Airlie <airlied@gmail.com>,
-        Oded Gabbay <ogabbay@kernel.org>,
-        Arnd Bergmann <arnd@arndb.de>,
-        Christoph Hellwig <hch@infradead.org>,
-        Alex Williamson <alex.williamson@redhat.com>,
-        Oleg Nesterov <oleg@redhat.com>,
-        Richard Henderson <richard.henderson@linaro.org>,
-        Ivan Kokshaysky <ink@jurassic.park.msu.ru>,
-        Matt Turner <mattst88@gmail.com>,
-        Catalin Marinas <catalin.marinas@arm.com>,
-        Will Deacon <will@kernel.org>,
-        Thomas Bogendoerfer <tsbogend@alpha.franken.de>,
-        Michael Ellerman <mpe@ellerman.id.au>,
-        Nicholas Piggin <npiggin@gmail.com>,
-        Christophe Leroy <christophe.leroy@csgroup.eu>,
-        "David S. Miller" <davem@davemloft.net>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
-        Dave Hansen <dave.hansen@linux.intel.com>,
-        "H. Peter Anvin" <hpa@zytor.com>,
-        Richard Weinberger <richard@nod.at>,
-        Anton Ivanov <anton.ivanov@cambridgegreys.com>,
-        Johannes Berg <johannes@sipsolutions.net>,
-        Eric Biederman <ebiederm@xmission.com>,
-        Alexander Viro <viro@zeniv.linux.org.uk>,
-        Arnaldo Carvalho de Melo <acme@kernel.org>,
-        Mark Rutland <mark.rutland@arm.com>,
-        Alexander Shishkin <alexander.shishkin@linux.intel.com>,
-        Jiri Olsa <jolsa@kernel.org>,
-        Namhyung Kim <namhyung@kernel.org>,
-        Kentaro Takeda <takedakn@nttdata.co.jp>,
-        Tetsuo Handa <penguin-kernel@i-love.sakura.ne.jp>,
-        Paul Moore <paul@paul-moore.com>,
-        James Morris <jmorris@namei.org>,
-        "Serge E. Hallyn" <serge@hallyn.com>
-Subject: Re: [PATCH mm-unstable v1 20/20] mm: rename FOLL_FORCE to FOLL_PTRACE
-Message-ID: <202211181427.4D1C3132FE@keescook>
-References: <20221116102659.70287-1-david@redhat.com>
- <20221116102659.70287-21-david@redhat.com>
- <CAHk-=wgtEwpR-rE_=cXzecHMZ+zgrx5zf9UfvH0w-mKgckn4=Q@mail.gmail.com>
- <Y3dnzgwJpjTQXI9y@hirez.programming.kicks-ass.net>
+        h=to:subject:message-id:date:from:mime-version:x-gm-message-state
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=7SqnKaq0wZ3Ypodl8lAIUkjWtitllK4iWiIBbtfpnfo=;
+        b=2Cgd8+OJzneaPtXJobjOl0uL49kgcUUsX/LkZqCrzgWk/fTQ457LPOjYNw6H2kN/AQ
+         s3r9OWISB6KXxgIqNny9QK5NOwqDkDW6cDeAGkIdoHoLyg5FHoxovMtwFBR51BTkwAmL
+         nUuXR0qfrLjrEqCvQ2nzmdW+DkE3sqRHFPcBEGyD3NnT16DY00eIAUGD8cPb5r4IVRq5
+         +OadimAEEzQ4eeOilFY5fu4xTuEndtE/8KSrpl9mmvq317/lgLDdlcs4O0kcEG8ayKkt
+         IVUwhblzPJdw2YmLxB7zgDGiM8Pr+UWCCt1WWmvBachMpph7v8PY0kQAFUetvBMHVxzq
+         vouQ==
+X-Gm-Message-State: ANoB5pntDYWvGR6pvUerTOGTsTamRkTvr4KN4DVOB3aWUDTgg+hJYHIl
+        MvfYU0ghRwpIIJKlOqnyVgMHj3wGONRfSUy2lwH1zxmdhsbaPQ==
+X-Google-Smtp-Source: AA0mqf5VA1v1zygNZuk9xikfSkGo2oIHhPDVRQkvlSxZecMjMsPtsUwgS39mVMfV2OwiQpBwUrQBENPHnaEEHZm6FWo=
+X-Received: by 2002:a25:f30c:0:b0:6dd:7395:72bc with SMTP id
+ c12-20020a25f30c000000b006dd739572bcmr1611042ybs.533.1669082600726; Mon, 21
+ Nov 2022 18:03:20 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <Y3dnzgwJpjTQXI9y@hirez.programming.kicks-ass.net>
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
-        SPF_HELO_NONE,SPF_PASS autolearn=unavailable autolearn_force=no
-        version=3.4.6
+Received: by 2002:a25:9f88:0:0:0:0:0 with HTTP; Mon, 21 Nov 2022 18:03:20
+ -0800 (PST)
+From:   Felipe Bedetti <felipebedetticosta@gmail.com>
+Date:   Mon, 21 Nov 2022 23:03:20 -0300
+Message-ID: <CAFO8usyvQSAKfXR0EWDaPpHK+Y22XREd2v3-wz7iNtcT_sccBg@mail.gmail.com>
+Subject: Re:Norah Colly
+To:     linux acpi <linux-acpi@vger.kernel.org>,
+        linux afs <linux-afs@lists.infradead.org>,
+        linux aio <linux-aio@kvack.org>,
+        linux alpha <linux-alpha@vger.kernel.org>,
+        linux altix <linux-altix@sgi.com>
+Content-Type: text/plain; charset="UTF-8"
+X-Spam-Status: Yes, score=5.5 required=5.0 tests=BAYES_50,BODY_SINGLE_URI,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
+        RCVD_IN_DNSWL_NONE,SHORT_SHORTNER,SPF_HELO_NONE,SPF_PASS,
+        SUSPICIOUS_RECIPS,TVD_SPACE_RATIO,T_PDS_SHORTFWD_URISHRT_FP
+        autolearn=no autolearn_force=no version=3.4.6
+X-Spam-Report: * -0.0 RCVD_IN_DNSWL_NONE RBL: Sender listed at
+        *      https://www.dnswl.org/, no trust
+        *      [2607:f8b0:4864:20:0:0:0:b2f listed in]
+        [list.dnswl.org]
+        *  0.8 BAYES_50 BODY: Bayes spam probability is 40 to 60%
+        *      [score: 0.4996]
+        *  0.0 SPF_HELO_NONE SPF: HELO does not publish an SPF Record
+        *  2.5 SUSPICIOUS_RECIPS Similar addresses in recipient list
+        * -0.0 SPF_PASS SPF: sender matches SPF record
+        *  0.0 FREEMAIL_FROM Sender email is commonly abused enduser mail
+        *      provider
+        *      [felipebedetticosta[at]gmail.com]
+        *  0.1 DKIM_SIGNED Message has a DKIM or DK signature, not necessarily
+        *       valid
+        * -0.1 DKIM_VALID_EF Message has a valid DKIM or DK signature from
+        *      envelope-from domain
+        * -0.1 DKIM_VALID_AU Message has a valid DKIM or DK signature from
+        *      author's domain
+        * -0.1 DKIM_VALID Message has at least one valid DKIM or DK signature
+        *  0.0 TVD_SPACE_RATIO No description available.
+        *  0.0 T_PDS_SHORTFWD_URISHRT_FP Apparently a short fwd/re with URI
+        *      shortener
+        *  1.6 SHORT_SHORTNER Short body with little more than a link to a
+        *      shortener
+        *  0.7 BODY_SINGLE_URI Message body is only a URI
+X-Spam-Level: *****
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-alpha.vger.kernel.org>
 X-Mailing-List: linux-alpha@vger.kernel.org
 
-On Fri, Nov 18, 2022 at 12:09:02PM +0100, Peter Zijlstra wrote:
-> On Wed, Nov 16, 2022 at 10:16:34AM -0800, Linus Torvalds wrote:
-> > Following the history of it is a big of a mess, because there's a
-> > number of renamings and re-organizations, but it seems to go back to
-> > 2007 and commit b6a2fea39318 ("mm: variable length argument support").
-> 
-> I went back and read parts of the discussions with Ollie, and the
-> .force=1 thing just magically appeared one day when we were sending
-> work-in-progress patches back and forth without mention of where it came
-> from :-/
-> 
-> And I certainly can't remember now..
-> 
-> Looking at it now, I have the same reaction as both you and Kees had, it
-> seems entirely superflous. So I'm all for trying to remove it.
-
-Thanks for digging through the history! I've pushed the change to -next:
-https://git.kernel.org/pub/scm/linux/kernel/git/kees/linux.git/commit/?h=for-next/execve&id=cd57e443831d8eeb083c7165bce195d886e216d4
-
--- 
-Kees Cook
+https://bit.ly/3Xm3FtK
