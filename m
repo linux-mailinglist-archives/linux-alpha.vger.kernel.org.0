@@ -2,99 +2,116 @@ Return-Path: <linux-alpha-owner@vger.kernel.org>
 X-Original-To: lists+linux-alpha@lfdr.de
 Delivered-To: lists+linux-alpha@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 8EBAA633EF5
-	for <lists+linux-alpha@lfdr.de>; Tue, 22 Nov 2022 15:31:10 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 6D053633EB3
+	for <lists+linux-alpha@lfdr.de>; Tue, 22 Nov 2022 15:20:35 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233987AbiKVObI (ORCPT <rfc822;lists+linux-alpha@lfdr.de>);
-        Tue, 22 Nov 2022 09:31:08 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49562 "EHLO
+        id S233133AbiKVOUe (ORCPT <rfc822;lists+linux-alpha@lfdr.de>);
+        Tue, 22 Nov 2022 09:20:34 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40078 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233916AbiKVObC (ORCPT
+        with ESMTP id S233988AbiKVOU1 (ORCPT
         <rfc822;linux-alpha@vger.kernel.org>);
-        Tue, 22 Nov 2022 09:31:02 -0500
-X-Greylist: delayed 4084 seconds by postgrey-1.37 at lindbergh.monkeyblade.net; Tue, 22 Nov 2022 06:31:01 PST
-Received: from fanzine2.igalia.com (fanzine2.igalia.com [213.97.179.56])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5CD9065E44;
-        Tue, 22 Nov 2022 06:31:01 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com;
-        s=20170329; h=Content-Transfer-Encoding:Content-Type:In-Reply-To:From:
-        References:Cc:To:Subject:MIME-Version:Date:Message-ID:Sender:Reply-To:
-        Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
-        Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:
-        List-Subscribe:List-Post:List-Owner:List-Archive;
-        bh=FY+JqUTCgihErrGkfvd81tTDafGHo4/Ls5aZBztvCRI=; b=AYvzjRrTruNeQnueKgELb+zCk8
-        UVbGiVtGj9aoxeLpY3IHAd6Yyk/0XAO+o2htBjsFecMi89SKtq9feHUApjGt4pHm9mbOA9I+V6mQy
-        eA1GZ6fQ6GWJNN3dCHh8ww04qprqnImBnhWQLBqyOQGGeGjftBRgox+qxDxtDwCs7Pe3JTcckNuWw
-        22NGy7Gh2WlrpbVnmNlxHaFUiSJQ0FGaPuTPCZR61CqiCeq1X2BlTCgPo3VjT41nAbu/kZbhSbP3E
-        nCOY/8g75zWymxjFr1MTnfhgzD0q7u7PDtf6dQ4r8PSil1SrtlAunMWnkjmPGBICS5bbVJH8nkYfS
-        sle/jWGg==;
-Received: from [177.102.6.147] (helo=[192.168.1.60])
-        by fanzine2.igalia.com with esmtpsa 
-        (Cipher TLS1.3:ECDHE_X25519__RSA_PSS_RSAE_SHA256__AES_128_GCM:128) (Exim)
-        id 1oxTEh-006xXr-3p; Tue, 22 Nov 2022 14:22:52 +0100
-Message-ID: <3f0bc380-e6c9-d1fa-a22f-6ba9051d4219@igalia.com>
-Date:   Tue, 22 Nov 2022 10:22:45 -0300
+        Tue, 22 Nov 2022 09:20:27 -0500
+Received: from smtp-out1.suse.de (smtp-out1.suse.de [IPv6:2001:67c:2178:6::1c])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9DE36682B4;
+        Tue, 22 Nov 2022 06:20:25 -0800 (PST)
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+         key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+        (No client certificate requested)
+        by smtp-out1.suse.de (Postfix) with ESMTPS id 2F670220C7;
+        Tue, 22 Nov 2022 14:20:24 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
+        t=1669126824; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+         mime-version:mime-version:content-type:content-type:
+         content-transfer-encoding:content-transfer-encoding:
+         in-reply-to:in-reply-to:references:references;
+        bh=sH9ni1mWjwD99/t20LozYjCgs14d4WSa0QQZ5/xw57A=;
+        b=ONiDsrks6Adh9kmLKRG5hX7BqNe+hBnscyawkgvu1AJz8qGmtAZIZ+hXnS6VAoj0OrAugk
+        o40tROK3kM3fcR+iRbpZ9PF8GZdkPa5vCpRePpRrCzRDrYRdaQdlrBhTLjbiqdgGW8ubhN
+        aliL9MBnPxAi22usfZx72R5a86MXxhI=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
+        s=susede2_ed25519; t=1669126824;
+        h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+         mime-version:mime-version:content-type:content-type:
+         content-transfer-encoding:content-transfer-encoding:
+         in-reply-to:in-reply-to:references:references;
+        bh=sH9ni1mWjwD99/t20LozYjCgs14d4WSa0QQZ5/xw57A=;
+        b=uarCxHzXrpMaljr4S9hN6puiDtHJ7KzEH6f0QN+PEco61ECA0/JD1fNHaEc4r+5V2Q/nrm
+        T3EfGohG+a+5HLDA==
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+         key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+        (No client certificate requested)
+        by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 9FB2913AA1;
+        Tue, 22 Nov 2022 14:20:23 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([192.168.254.65])
+        by imap2.suse-dmz.suse.de with ESMTPSA
+        id amktJqfafGMkbgAAMHmgww
+        (envelope-from <vbabka@suse.cz>); Tue, 22 Nov 2022 14:20:23 +0000
+Message-ID: <d6140b16-38c0-30d5-8ed8-0fcffa98a951@suse.cz>
+Date:   Tue, 22 Nov 2022 15:20:23 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.3.2
-Subject: Re: [PATCH V3 03/11] alpha: Clean-up the panic notifier code
+ Thunderbird/102.5.0
+Subject: Re: [PATCH mm-unstable v1 06/20] mm: rework handling in do_wp_page()
+ based on private vs. shared mappings
 Content-Language: en-US
-To:     linux-alpha@vger.kernel.org, Richard Henderson <rth@gcc.gnu.org>,
-        Ivan Kokshaysky <ink@jurassic.park.msu.ru>,
-        Matt Turner <mattst88@gmail.com>, richard.henderson@linaro.org
-Cc:     kexec@lists.infradead.org, linux-kernel@vger.kernel.org,
-        linux-hyperv@vger.kernel.org, netdev@vger.kernel.org,
-        x86@kernel.org, kernel-dev@igalia.com, kernel@gpiccoli.net,
-        Petr Mladek <pmladek@suse.com>
-References: <20220819221731.480795-1-gpiccoli@igalia.com>
- <20220819221731.480795-4-gpiccoli@igalia.com>
-From:   "Guilherme G. Piccoli" <gpiccoli@igalia.com>
-In-Reply-To: <20220819221731.480795-4-gpiccoli@igalia.com>
+To:     David Hildenbrand <david@redhat.com>, linux-kernel@vger.kernel.org
+Cc:     x86@kernel.org, linux-alpha@vger.kernel.org,
+        linux-arm-kernel@lists.infradead.org, linux-ia64@vger.kernel.org,
+        linux-mips@vger.kernel.org, linuxppc-dev@lists.ozlabs.org,
+        sparclinux@vger.kernel.org, linux-um@lists.infradead.org,
+        etnaviv@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
+        linux-samsung-soc@vger.kernel.org, linux-rdma@vger.kernel.org,
+        linux-media@vger.kernel.org, linux-fsdevel@vger.kernel.org,
+        linux-mm@kvack.org, linux-perf-users@vger.kernel.org,
+        linux-security-module@vger.kernel.org,
+        linux-kselftest@vger.kernel.org,
+        Linus Torvalds <torvalds@linux-foundation.org>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Jason Gunthorpe <jgg@ziepe.ca>,
+        John Hubbard <jhubbard@nvidia.com>,
+        Peter Xu <peterx@redhat.com>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Andrea Arcangeli <aarcange@redhat.com>,
+        Hugh Dickins <hughd@google.com>, Nadav Amit <namit@vmware.com>,
+        Matthew Wilcox <willy@infradead.org>,
+        Mike Kravetz <mike.kravetz@oracle.com>,
+        Muchun Song <songmuchun@bytedance.com>,
+        Shuah Khan <shuah@kernel.org>,
+        Lucas Stach <l.stach@pengutronix.de>,
+        David Airlie <airlied@gmail.com>,
+        Oded Gabbay <ogabbay@kernel.org>,
+        Arnd Bergmann <arnd@arndb.de>,
+        Christoph Hellwig <hch@infradead.org>,
+        Alex Williamson <alex.williamson@redhat.com>
+References: <20221116102659.70287-1-david@redhat.com>
+ <20221116102659.70287-7-david@redhat.com>
+From:   Vlastimil Babka <vbabka@suse.cz>
+In-Reply-To: <20221116102659.70287-7-david@redhat.com>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,SPF_HELO_NONE,
-        SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
+X-Spam-Status: No, score=-3.7 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,RCVD_IN_DNSWL_MED,
+        SPF_HELO_NONE,SPF_SOFTFAIL autolearn=ham autolearn_force=no
+        version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-alpha.vger.kernel.org>
 X-Mailing-List: linux-alpha@vger.kernel.org
 
-On 19/08/2022 19:17, Guilherme G. Piccoli wrote:
-> The alpha panic notifier has some code issues, not following
-> the conventions of other notifiers. Also, it might halt the
-> machine but still it is set to run as early as possible, which
-> doesn't seem to be a good idea.
+On 11/16/22 11:26, David Hildenbrand wrote:
+> We want to extent FAULT_FLAG_UNSHARE support to anything mapped into a
+> COW mapping (pagecache page, zeropage, PFN, ...), not just anonymous pages.
+> Let's prepare for that by handling shared mappings first such that we can
+> handle private mappings last.
 > 
-> So, let's clean the code and set the notifier to run as the
-> latest, following the same approach other architectures are
-> doing - also, remove the unnecessary include of a header already
-> included indirectly.
+> While at it, use folio-based functions instead of page-based functions
+> where we touch the code either way.
 > 
-> Cc: Ivan Kokshaysky <ink@jurassic.park.msu.ru>
-> Cc: Matt Turner <mattst88@gmail.com>
-> Cc: Richard Henderson <rth@gcc.gnu.org>
-> Reviewed-by: Petr Mladek <pmladek@suse.com>
-> Signed-off-by: Guilherme G. Piccoli <gpiccoli@igalia.com>
-> 
-> ---
-> 
-> V3:
-> - No changes.
-> 
-> V2:
-> - Fixed rth email address;
-> - Added Petr's review tag - thanks!
-> 
+> Signed-off-by: David Hildenbrand <david@redhat.com>
 
-Hi Alpha maintainers, is there anything else to be done here? I'd really
-appreciate any advice on how to get this merged.
+Reviewed-by: Vlastimil Babka <vbabka@suse.cz>
 
-I'm also adding here Richard's linaro email (and trimming huge CC list).
-
-Thanks in advance!
-Cheers,
-
-
-Guilherme
