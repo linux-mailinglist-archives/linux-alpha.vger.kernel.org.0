@@ -2,145 +2,83 @@ Return-Path: <linux-alpha-owner@vger.kernel.org>
 X-Original-To: lists+linux-alpha@lfdr.de
 Delivered-To: lists+linux-alpha@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 9715D6361D0
-	for <lists+linux-alpha@lfdr.de>; Wed, 23 Nov 2022 15:30:39 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id D2106636220
+	for <lists+linux-alpha@lfdr.de>; Wed, 23 Nov 2022 15:43:40 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S238520AbiKWOaf (ORCPT <rfc822;lists+linux-alpha@lfdr.de>);
-        Wed, 23 Nov 2022 09:30:35 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57786 "EHLO
+        id S236755AbiKWOnj (ORCPT <rfc822;lists+linux-alpha@lfdr.de>);
+        Wed, 23 Nov 2022 09:43:39 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42512 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S238450AbiKWOaJ (ORCPT
+        with ESMTP id S237340AbiKWOnS (ORCPT
         <rfc822;linux-alpha@vger.kernel.org>);
-        Wed, 23 Nov 2022 09:30:09 -0500
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0C93290580;
-        Wed, 23 Nov 2022 06:28:36 -0800 (PST)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id 60E9E61D3B;
-        Wed, 23 Nov 2022 14:28:36 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 5B521C433D6;
-        Wed, 23 Nov 2022 14:28:28 +0000 (UTC)
-Message-ID: <0da1813a-7e37-bc35-cf8d-8c41590f3b1a@xs4all.nl>
-Date:   Wed, 23 Nov 2022 15:28:27 +0100
+        Wed, 23 Nov 2022 09:43:18 -0500
+Received: from mail-ej1-x632.google.com (mail-ej1-x632.google.com [IPv6:2a00:1450:4864:20::632])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3AF1C4046B
+        for <linux-alpha@vger.kernel.org>; Wed, 23 Nov 2022 06:42:47 -0800 (PST)
+Received: by mail-ej1-x632.google.com with SMTP id n21so43199180ejb.9
+        for <linux-alpha@vger.kernel.org>; Wed, 23 Nov 2022 06:42:47 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=content-transfer-encoding:to:subject:message-id:date:from:sender
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=2TzIZ6xHjbIeFdhCqmg0PjYdWwfTp54Oif1Ik3qZKiw=;
+        b=CF+bTeon2TPdIMEJe+xgCbUcbx0l3EQxNd8BShboRbuz3qjB9bD9HJaI0nbuF2q/dJ
+         7g1Li5/OnXFbUsFVxmmn86Y5JQ5qiUAkWOasiC0wvIaxlzys7LSGzB/YJ95ztrK63FRE
+         PbFkFpX25/cWK8Dr22rlQYHQR83xaP9asf8vk1PGbyuwxshWv2wHCSAGonYrBKZ/7bdi
+         J+KmEQMjBRbA2ldbB5aguBk6YCDgRjBglaOSm1TDtKK75kKbpcQVrI7iKVLqa++wnPNq
+         5mOkU+tvUiPU/QNmBdxmNDz3zY87cjkUmfyAJLbTWmvB8ueOUCWVLkfluSyUXUmhyglf
+         zHEw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=content-transfer-encoding:to:subject:message-id:date:from:sender
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=2TzIZ6xHjbIeFdhCqmg0PjYdWwfTp54Oif1Ik3qZKiw=;
+        b=JcfHbfOS1UqJIazuMbTDza/w9AV5YWb12uUnt7pKVfcACfCOLMAlZ6ZX4WcFXyXiG2
+         ztjHV0od4xax0OEe4XPfGy871z5cCCGGbkOJLW7j7J/7WudWKx/xV4pBxB9ZHDwQfmw+
+         /mCy7Xs6nIisa4JT1p6+mkjMMmuwOxjiZyndd+WUDB8FacmYSNUcBdDkgeUlzErnQsWd
+         TmvzuT+Re9ixcsMPLbyxUFjxvoOXd+G0t5qloAwoPRlsLJ6WUg6DsjkFv5nYg0qRoG4Y
+         NmRqBr8LeHgxZrqFNH2bhDGe4ZG3DYS0VhDJx5p6TeUwRyG8xDP4H/62L+UqrWoCfLFk
+         zGGg==
+X-Gm-Message-State: ANoB5pn3WlIHRRSgZaMLWwxiH9uI/wxMF5l0KMj32ch8alrmb+8+5dIC
+        ZzQaqHNEmR+auQuJ7rO+qnR5AioFUS0YWV/yrJQ=
+X-Google-Smtp-Source: AA0mqf6Z9dqsT0K+uc4LNJqnjGXmGfuCnXa+0zo0xQMIz8UQWGdpqZGqP7iPutAes7PYCgeHP0mHEo4Qdzha1JC8vvc=
+X-Received: by 2002:a17:906:50f:b0:78d:ad5d:75e with SMTP id
+ j15-20020a170906050f00b0078dad5d075emr24123368eja.172.1669214565569; Wed, 23
+ Nov 2022 06:42:45 -0800 (PST)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.4.1
-Subject: Re: [PATCH mm-unstable v1 16/20] mm/frame-vector: remove FOLL_FORCE
- usage
-Content-Language: en-US
-From:   Hans Verkuil <hverkuil@xs4all.nl>
-To:     David Hildenbrand <david@redhat.com>,
-        Tomasz Figa <tfiga@chromium.org>
-Cc:     x86@kernel.org, linux-alpha@vger.kernel.org,
-        linux-arm-kernel@lists.infradead.org, linux-ia64@vger.kernel.org,
-        linux-mips@vger.kernel.org, linuxppc-dev@lists.ozlabs.org,
-        sparclinux@vger.kernel.org, linux-um@lists.infradead.org,
-        etnaviv@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
-        linux-samsung-soc@vger.kernel.org, linux-rdma@vger.kernel.org,
-        linux-media@vger.kernel.org, linux-fsdevel@vger.kernel.org,
-        linux-mm@kvack.org, linux-perf-users@vger.kernel.org,
-        linux-security-module@vger.kernel.org,
-        linux-kselftest@vger.kernel.org,
-        Linus Torvalds <torvalds@linux-foundation.org>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Jason Gunthorpe <jgg@ziepe.ca>,
-        John Hubbard <jhubbard@nvidia.com>,
-        Peter Xu <peterx@redhat.com>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Andrea Arcangeli <aarcange@redhat.com>,
-        Hugh Dickins <hughd@google.com>, Nadav Amit <namit@vmware.com>,
-        Vlastimil Babka <vbabka@suse.cz>,
-        Matthew Wilcox <willy@infradead.org>,
-        Mike Kravetz <mike.kravetz@oracle.com>,
-        Muchun Song <songmuchun@bytedance.com>,
-        Shuah Khan <shuah@kernel.org>,
-        Lucas Stach <l.stach@pengutronix.de>,
-        David Airlie <airlied@gmail.com>,
-        Oded Gabbay <ogabbay@kernel.org>,
-        Arnd Bergmann <arnd@arndb.de>,
-        Christoph Hellwig <hch@infradead.org>,
-        Alex Williamson <alex.williamson@redhat.com>,
-        Marek Szyprowski <m.szyprowski@samsung.com>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        linux-kernel@vger.kernel.org
-References: <20221116102659.70287-1-david@redhat.com>
- <20221116102659.70287-17-david@redhat.com>
- <36dd800b-d96b-af39-d0de-a5a8ca1034dd@xs4all.nl>
-In-Reply-To: <36dd800b-d96b-af39-d0de-a5a8ca1034dd@xs4all.nl>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-Spam-Status: No, score=-6.7 required=5.0 tests=BAYES_00,
-        HEADER_FROM_DIFFERENT_DOMAINS,NICE_REPLY_A,RCVD_IN_DNSWL_HI,
-        SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
+Sender: nournoura283@gmail.com
+Received: by 2002:a05:6402:524a:b0:462:e523:5345 with HTTP; Wed, 23 Nov 2022
+ 06:42:45 -0800 (PST)
+From:   Miss Reacheal <Reacheal4u@gmail.com>
+Date:   Wed, 23 Nov 2022 14:42:45 +0000
+X-Google-Sender-Auth: _g-gGptndrwqa7Q63sHSmUBqFy4
+Message-ID: <CAEQzSBasSFzicZDtMNqAwCd8ugEr6mmkfm-Cea77PH3U5=BDiQ@mail.gmail.com>
+Subject: RE: HELLO DEAR
+To:     undisclosed-recipients:;
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Spam-Status: No, score=-1.3 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_ENVFROM_END_DIGIT,
+        FREEMAIL_FROM,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,SUBJ_ALL_CAPS,
+        T_HK_NAME_FM_MR_MRS autolearn=no autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-alpha.vger.kernel.org>
 X-Mailing-List: linux-alpha@vger.kernel.org
 
-On 23/11/2022 14:26, Hans Verkuil wrote:
-> Hi David, Tomasz,
-> 
-> On 16/11/2022 11:26, David Hildenbrand wrote:
->> FOLL_FORCE is really only for ptrace access. According to commit
->> 707947247e95 ("media: videobuf2-vmalloc: get_userptr: buffers are always
->> writable"), get_vaddr_frames() currently pins all pages writable as a
->> workaround for issues with read-only buffers.
-> 
-> I've decided to revert 707947247e95: I have not been able to reproduce the problem
-> described in that commit, and Tomasz reported that it caused problems with a
-> specific use-case they encountered. I'll post that patch soon and I expect it
-> to land in 6.2. It will cause a conflict with this patch, though.
-> 
-> If the problem described in that patch occurs again, then I will revisit it
-> and hopefully do a better job than I did before. That commit was not my
-> finest moment.
+Szia,
 
-In any case, for this patch:
+Megkaptad az el=C5=91z=C5=91 =C3=BCzenetem? M=C3=A1r kor=C3=A1bban felvette=
+m =C3=96nnel a
+kapcsolatot, de az =C3=BCzenet nem siker=C3=BClt visszak=C3=BCldeni, ez=C3=
+=A9rt =C3=BAgy
+d=C3=B6nt=C3=B6ttem, hogy =C3=BAjra =C3=ADrok. K=C3=A9rem, er=C5=91s=C3=ADt=
+se meg, ha megkapja ezt, hogy
+folytathassam.
 
-Acked-by: Hans Verkuil <hverkuil-cisco@xs4all.nl>
+V=C3=A1rok a v=C3=A1laszodra.
 
-Regards,
-
-	Hans
-
-> 
-> Regards,
-> 
-> 	Hans
-> 
->>
->> FOLL_FORCE, however, seems to be a legacy leftover as it predates
->> commit 707947247e95 ("media: videobuf2-vmalloc: get_userptr: buffers are
->> always writable"). Let's just remove it.
->>
->> Once the read-only buffer issue has been resolved, FOLL_WRITE could
->> again be set depending on the DMA direction.
->>
->> Cc: Hans Verkuil <hverkuil@xs4all.nl>
->> Cc: Marek Szyprowski <m.szyprowski@samsung.com>
->> Cc: Tomasz Figa <tfiga@chromium.org>
->> Cc: Marek Szyprowski <m.szyprowski@samsung.com>
->> Cc: Mauro Carvalho Chehab <mchehab@kernel.org>
->> Signed-off-by: David Hildenbrand <david@redhat.com>
->> ---
->>  drivers/media/common/videobuf2/frame_vector.c | 2 +-
->>  1 file changed, 1 insertion(+), 1 deletion(-)
->>
->> diff --git a/drivers/media/common/videobuf2/frame_vector.c b/drivers/media/common/videobuf2/frame_vector.c
->> index 542dde9d2609..062e98148c53 100644
->> --- a/drivers/media/common/videobuf2/frame_vector.c
->> +++ b/drivers/media/common/videobuf2/frame_vector.c
->> @@ -50,7 +50,7 @@ int get_vaddr_frames(unsigned long start, unsigned int nr_frames,
->>  	start = untagged_addr(start);
->>  
->>  	ret = pin_user_pages_fast(start, nr_frames,
->> -				  FOLL_FORCE | FOLL_WRITE | FOLL_LONGTERM,
->> +				  FOLL_WRITE | FOLL_LONGTERM,
->>  				  (struct page **)(vec->ptrs));
->>  	if (ret > 0) {
->>  		vec->got_ref = true;
-> 
-
+=C3=9Cdv=C3=B6zlettel,
+Reacheal kisasszony
