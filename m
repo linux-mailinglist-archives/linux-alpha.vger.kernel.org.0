@@ -2,75 +2,222 @@ Return-Path: <linux-alpha-owner@vger.kernel.org>
 X-Original-To: lists+linux-alpha@lfdr.de
 Delivered-To: lists+linux-alpha@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 96172639784
-	for <lists+linux-alpha@lfdr.de>; Sat, 26 Nov 2022 19:08:17 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id BC0B06399E6
+	for <lists+linux-alpha@lfdr.de>; Sun, 27 Nov 2022 11:37:06 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229504AbiKZSIP (ORCPT <rfc822;lists+linux-alpha@lfdr.de>);
-        Sat, 26 Nov 2022 13:08:15 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56058 "EHLO
+        id S229580AbiK0KgK (ORCPT <rfc822;lists+linux-alpha@lfdr.de>);
+        Sun, 27 Nov 2022 05:36:10 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52278 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229459AbiKZSIP (ORCPT
+        with ESMTP id S229521AbiK0KgJ (ORCPT
         <rfc822;linux-alpha@vger.kernel.org>);
-        Sat, 26 Nov 2022 13:08:15 -0500
-Received: from mail.rrk.ir (mail.rrk.ir [46.209.19.217])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id DE46BFAC2;
-        Sat, 26 Nov 2022 10:08:12 -0800 (PST)
-Received: from localhost (mail.rrk.ir [127.0.0.1])
-        by mail.rrk.ir (Postfix) with ESMTP id C481838D9A0;
-        Sat, 26 Nov 2022 21:37:32 +0330 (+0330)
-X-Virus-Scanned: Debian amavisd-new at mail.rrk.ir
-Received: from mail.rrk.ir ([127.0.0.1])
-        by localhost (mail.rrk.ir [127.0.0.1]) (amavisd-new, port 10024)
-        with ESMTP id CFIx55AsO790; Sat, 26 Nov 2022 21:37:23 +0330 (+0330)
-Content-Type: text/plain; charset="iso-8859-1"
-DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=rrk.ir; s=rrk;
-        t=1669467275; bh=Tek/QbFshVvW3DxuEJIWlwCvxszEYuMod+HhVGwXvdw=;
-        h=Subject:To:From:Date:Reply-To:From;
-        b=Hw71v4y9yrE004yZ9eO4Q5oLsq2KSFaUs3uITrAj3aH3Y7KiChIF39JN6SAdFE8Fn
-         aFN6s97jJf7VIV4J5nT99w5wPNm29NTFKzGZ94dc8La0EW7gko3G2HFC7VDWxOPBXx
-         PBGobfMl+j0fgqkpYxFwq3H1avFzM++/Vo2C/kEE=
+        Sun, 27 Nov 2022 05:36:09 -0500
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2B50EE00B
+        for <linux-alpha@vger.kernel.org>; Sun, 27 Nov 2022 02:35:15 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+        s=mimecast20190719; t=1669545314;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         content-transfer-encoding:content-transfer-encoding:
+         in-reply-to:in-reply-to:references:references;
+        bh=a/FKhEJUKr4Au5jEDV0nA39boCfv1uOAmeL78/XZzlw=;
+        b=O27xJtPpaXX+WGWtRHYJetfQf0LitOuWyYASTvh9BOIc76OBbAvqAJoksVcyj8ihyyybuL
+        K0BzXUXxU998BrnvTHmhdCmjqJ56s5MlltXbtXEOh8pcP8m9+etTCwEOVSMLMxVzLD+KhE
+        02JICc1N+vm9jg/GhumwHtE2HYBwStg=
+Received: from mail-wm1-f69.google.com (mail-wm1-f69.google.com
+ [209.85.128.69]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
+ us-mta-592-eMtO9KiRMG2x7twP76iUFQ-1; Sun, 27 Nov 2022 05:35:13 -0500
+X-MC-Unique: eMtO9KiRMG2x7twP76iUFQ-1
+Received: by mail-wm1-f69.google.com with SMTP id v188-20020a1cacc5000000b003cf76c4ae66so6985456wme.7
+        for <linux-alpha@vger.kernel.org>; Sun, 27 Nov 2022 02:35:12 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=content-transfer-encoding:in-reply-to:subject:organization:from
+         :content-language:references:cc:to:user-agent:mime-version:date
+         :message-id:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=a/FKhEJUKr4Au5jEDV0nA39boCfv1uOAmeL78/XZzlw=;
+        b=fUhnpftlYW9ZQwkdOV1mxV2TgMal3Sz4WTKsUX9n8IULxsE0R9wc62gKZWy45jEwb/
+         cqBsyWf2nCa2wQcbFCoU6ImwNCuKcurSIS1bKPYlJQMhYNZzwqJ5Z4/vUu5COEfgKqjW
+         goXm9FKQa9jv42OSXP8w2ekhaa5KSlpfeXyGEJUbvS+W8hcx/i/bS/QGzhla2LOs1Zex
+         sqqmpBR7yQBWesvUPCO8QIwhbJDR9RkYY83FPXEhVNjnCK4EAYEIQ6RYKBO0LJAa/KLP
+         XLatAshmO0QAb4zH75nOKhTlOB11/9qGH7Z+mHe+9epj95t+aYA890oMjXaBbYJfOrtf
+         bKnA==
+X-Gm-Message-State: ANoB5pkXbk+EmR/r52IligfwEjKx7jEPRask8CGizYriwEvvv7t+tZs9
+        sfSNPfAEbLYuZRwFZgBwbynmX9lwRrBDGeus/ryyb+7xIwhjs4GgP68WXwbWCerNp0HO9gBgX2m
+        2l2fpgrbSkoOXl0ZmoeFQZUI=
+X-Received: by 2002:a05:600c:4e88:b0:3b5:477:1e80 with SMTP id f8-20020a05600c4e8800b003b504771e80mr34594863wmq.200.1669545312003;
+        Sun, 27 Nov 2022 02:35:12 -0800 (PST)
+X-Google-Smtp-Source: AA0mqf44zTk6J1KBaqs1seffTqR2+v9TqwwPSmjBWI2JrtJKUPaYELfhGu32bDJHUXiVwBKDfUuj3g==
+X-Received: by 2002:a05:600c:4e88:b0:3b5:477:1e80 with SMTP id f8-20020a05600c4e8800b003b504771e80mr34594816wmq.200.1669545311706;
+        Sun, 27 Nov 2022 02:35:11 -0800 (PST)
+Received: from ?IPV6:2003:cb:c724:dc00:5ea8:da59:8609:7da? (p200300cbc724dc005ea8da59860907da.dip0.t-ipconnect.de. [2003:cb:c724:dc00:5ea8:da59:8609:7da])
+        by smtp.gmail.com with ESMTPSA id u10-20020a05600c19ca00b003c5571c27a1sm14797024wmq.32.2022.11.27.02.35.09
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Sun, 27 Nov 2022 02:35:11 -0800 (PST)
+Message-ID: <81fb0fa3-2e06-b765-56ac-a7d981194e59@redhat.com>
+Date:   Sun, 27 Nov 2022 11:35:09 +0100
 MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-Content-Description: Mail message body
-Subject: Re: Liaison Officer Needed In Your State...  
-To:     Recipients <firewall@rrk.ir>
-From:   "Ms. Kelvin Lin " <firewall@rrk.ir>
-Date:   Sat, 26 Nov 2022 04:54:23 -0800
-Reply-To: mail@gukaimail.com
-Message-Id: <20221126180732.C481838D9A0@mail.rrk.ir>
-X-Spam-Status: Yes, score=5.1 required=5.0 tests=BAYES_99,BAYES_999,
-        DATE_IN_PAST_03_06,DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,
-        SPF_HELO_PASS,SPF_PASS autolearn=no autolearn_force=no version=3.4.6
-X-Spam-Report: *  0.2 BAYES_999 BODY: Bayes spam probability is 99.9 to 100%
-        *      [score: 0.9999]
-        *  3.5 BAYES_99 BODY: Bayes spam probability is 99 to 100%
-        *      [score: 0.9999]
-        * -0.0 SPF_PASS SPF: sender matches SPF record
-        *  1.6 DATE_IN_PAST_03_06 Date: is 3 to 6 hours before Received: date
-        * -0.0 SPF_HELO_PASS SPF: HELO matches SPF record
-        * -0.1 DKIM_VALID Message has at least one valid DKIM or DK signature
-        * -0.1 DKIM_VALID_EF Message has a valid DKIM or DK signature from
-        *      envelope-from domain
-        *  0.1 DKIM_SIGNED Message has a DKIM or DK signature, not necessarily
-        *       valid
-        * -0.1 DKIM_VALID_AU Message has a valid DKIM or DK signature from
-        *      author's domain
-X-Spam-Level: *****
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.4.1
+To:     linux-kernel@vger.kernel.org, Hans Verkuil <hverkuil@xs4all.nl>,
+        Andrew Morton <akpm@linux-foundation.org>
+Cc:     x86@kernel.org, linux-alpha@vger.kernel.org,
+        linux-arm-kernel@lists.infradead.org, linux-ia64@vger.kernel.org,
+        linux-mips@vger.kernel.org, linuxppc-dev@lists.ozlabs.org,
+        sparclinux@vger.kernel.org, linux-um@lists.infradead.org,
+        etnaviv@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
+        linux-samsung-soc@vger.kernel.org, linux-rdma@vger.kernel.org,
+        linux-media@vger.kernel.org, linux-fsdevel@vger.kernel.org,
+        linux-mm@kvack.org, linux-perf-users@vger.kernel.org,
+        linux-security-module@vger.kernel.org,
+        linux-kselftest@vger.kernel.org,
+        Linus Torvalds <torvalds@linux-foundation.org>,
+        Jason Gunthorpe <jgg@ziepe.ca>,
+        John Hubbard <jhubbard@nvidia.com>,
+        Peter Xu <peterx@redhat.com>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Andrea Arcangeli <aarcange@redhat.com>,
+        Hugh Dickins <hughd@google.com>, Nadav Amit <namit@vmware.com>,
+        Vlastimil Babka <vbabka@suse.cz>,
+        Matthew Wilcox <willy@infradead.org>,
+        Mike Kravetz <mike.kravetz@oracle.com>,
+        Muchun Song <songmuchun@bytedance.com>,
+        Shuah Khan <shuah@kernel.org>,
+        Lucas Stach <l.stach@pengutronix.de>,
+        David Airlie <airlied@gmail.com>,
+        Oded Gabbay <ogabbay@kernel.org>,
+        Arnd Bergmann <arnd@arndb.de>,
+        Christoph Hellwig <hch@infradead.org>,
+        Alex Williamson <alex.williamson@redhat.com>,
+        Marek Szyprowski <m.szyprowski@samsung.com>,
+        Tomasz Figa <tfiga@chromium.org>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>
+References: <20221116102659.70287-1-david@redhat.com>
+ <20221116102659.70287-17-david@redhat.com>
+Content-Language: en-US
+From:   David Hildenbrand <david@redhat.com>
+Organization: Red Hat
+Subject: Re: [PATCH mm-unstable v1 16/20] mm/frame-vector: remove FOLL_FORCE
+ usage
+In-Reply-To: <20221116102659.70287-17-david@redhat.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-Spam-Status: No, score=-2.4 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,
+        RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H2,SPF_HELO_NONE,SPF_NONE
+        autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-alpha.vger.kernel.org>
 X-Mailing-List: linux-alpha@vger.kernel.org
 
-Hello,
+On 16.11.22 11:26, David Hildenbrand wrote:
+> FOLL_FORCE is really only for ptrace access. According to commit
+> 707947247e95 ("media: videobuf2-vmalloc: get_userptr: buffers are always
+> writable"), get_vaddr_frames() currently pins all pages writable as a
+> workaround for issues with read-only buffers.
+> 
+> FOLL_FORCE, however, seems to be a legacy leftover as it predates
+> commit 707947247e95 ("media: videobuf2-vmalloc: get_userptr: buffers are
+> always writable"). Let's just remove it.
+> 
+> Once the read-only buffer issue has been resolved, FOLL_WRITE could
+> again be set depending on the DMA direction.
+> 
+> Cc: Hans Verkuil <hverkuil@xs4all.nl>
+> Cc: Marek Szyprowski <m.szyprowski@samsung.com>
+> Cc: Tomasz Figa <tfiga@chromium.org>
+> Cc: Marek Szyprowski <m.szyprowski@samsung.com>
+> Cc: Mauro Carvalho Chehab <mchehab@kernel.org>
+> Signed-off-by: David Hildenbrand <david@redhat.com>
+> ---
+>   drivers/media/common/videobuf2/frame_vector.c | 2 +-
+>   1 file changed, 1 insertion(+), 1 deletion(-)
+> 
+> diff --git a/drivers/media/common/videobuf2/frame_vector.c b/drivers/media/common/videobuf2/frame_vector.c
+> index 542dde9d2609..062e98148c53 100644
+> --- a/drivers/media/common/videobuf2/frame_vector.c
+> +++ b/drivers/media/common/videobuf2/frame_vector.c
+> @@ -50,7 +50,7 @@ int get_vaddr_frames(unsigned long start, unsigned int nr_frames,
+>   	start = untagged_addr(start);
+>   
+>   	ret = pin_user_pages_fast(start, nr_frames,
+> -				  FOLL_FORCE | FOLL_WRITE | FOLL_LONGTERM,
+> +				  FOLL_WRITE | FOLL_LONGTERM,
+>   				  (struct page **)(vec->ptrs));
+>   	if (ret > 0) {
+>   		vec->got_ref = true;
 
 
-A reputable pharmaceutical company from Vietnam is in need of a reliable in=
-dividual or corporate entity in your state to act as their Liaison; this wi=
-ll not affect your current job or business operations in anyway.  If intere=
-sted, reply for more information.
+Hi Andrew,
+
+see the discussion at [1] regarding a conflict and how to proceed with
+upstreaming. The conflict would be easy to resolve, however, also
+the patch description doesn't make sense anymore with [1].
 
 
-Sincerely,
-Ms. Kelvin Lin
-CC
+On top of mm-unstable, reverting this patch and applying [1] gives me
+an updated patch:
+
+
+ From 1e66c25f1467c1f1e5f275312f2c6df29308d4df Mon Sep 17 00:00:00 2001
+From: David Hildenbrand <david@redhat.com>
+Date: Wed, 16 Nov 2022 11:26:55 +0100
+Subject: [PATCH] mm/frame-vector: remove FOLL_FORCE usage
+
+GUP now supports reliable R/O long-term pinning in COW mappings, such
+that we break COW early. MAP_SHARED VMAs only use the shared zeropage so
+far in one corner case (DAXFS file with holes), which can be ignored
+because GUP does not support long-term pinning in fsdax (see
+check_vma_flags()).
+
+Consequently, FOLL_FORCE | FOLL_WRITE | FOLL_LONGTERM is no longer required
+for reliable R/O long-term pinning: FOLL_LONGTERM is sufficient. So stop
+using FOLL_FORCE, which is really only for ptrace access.
+
+Reviewed-by: Daniel Vetter <daniel.vetter@ffwll.ch>
+Acked-by: Hans Verkuil <hverkuil-cisco@xs4all.nl>
+Cc: Hans Verkuil <hverkuil@xs4all.nl>
+Cc: Marek Szyprowski <m.szyprowski@samsung.com>
+Cc: Tomasz Figa <tfiga@chromium.org>
+Cc: Marek Szyprowski <m.szyprowski@samsung.com>
+Cc: Mauro Carvalho Chehab <mchehab@kernel.org>
+Signed-off-by: David Hildenbrand <david@redhat.com>
+---
+  drivers/media/common/videobuf2/frame_vector.c | 2 +-
+  1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/drivers/media/common/videobuf2/frame_vector.c b/drivers/media/common/videobuf2/frame_vector.c
+index aad72640f055..8606fdacf5b8 100644
+--- a/drivers/media/common/videobuf2/frame_vector.c
++++ b/drivers/media/common/videobuf2/frame_vector.c
+@@ -41,7 +41,7 @@ int get_vaddr_frames(unsigned long start, unsigned int nr_frames, bool write,
+  	int ret_pin_user_pages_fast = 0;
+  	int ret = 0;
+  	int err;
+-	unsigned int gup_flags = FOLL_FORCE | FOLL_LONGTERM;
++	unsigned int gup_flags = FOLL_LONGTERM;
+  
+  	if (nr_frames == 0)
+  		return 0;
+-- 
+2.38.1
+
+
+
+Please let me know how you want to proceed. Ideally, you'd pick up
+[1] and apply this updated patch. Also, please tell me if I should
+send this updated patch in a separate mail (e.g., as reply to this mail).
+
+
+[1] https://lkml.kernel.org/r/71bdd3cf-b044-3f12-df58-7c16d5749587@xs4all.nl
+
+-- 
+Thanks,
+
+David / dhildenb
+
