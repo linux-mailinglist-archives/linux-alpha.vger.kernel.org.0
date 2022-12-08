@@ -2,66 +2,69 @@ Return-Path: <linux-alpha-owner@vger.kernel.org>
 X-Original-To: lists+linux-alpha@lfdr.de
 Delivered-To: lists+linux-alpha@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 44D96646B14
-	for <lists+linux-alpha@lfdr.de>; Thu,  8 Dec 2022 09:54:01 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id E74BC646B2A
+	for <lists+linux-alpha@lfdr.de>; Thu,  8 Dec 2022 09:56:58 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230039AbiLHIyA (ORCPT <rfc822;lists+linux-alpha@lfdr.de>);
-        Thu, 8 Dec 2022 03:54:00 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56960 "EHLO
+        id S229896AbiLHI46 (ORCPT <rfc822;lists+linux-alpha@lfdr.de>);
+        Thu, 8 Dec 2022 03:56:58 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57928 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229937AbiLHIx6 (ORCPT
-        <rfc822;linux-alpha@vger.kernel.org>); Thu, 8 Dec 2022 03:53:58 -0500
+        with ESMTP id S230106AbiLHI44 (ORCPT
+        <rfc822;linux-alpha@vger.kernel.org>); Thu, 8 Dec 2022 03:56:56 -0500
 Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 475A71B9F4
-        for <linux-alpha@vger.kernel.org>; Thu,  8 Dec 2022 00:53:03 -0800 (PST)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 497D262EA7
+        for <linux-alpha@vger.kernel.org>; Thu,  8 Dec 2022 00:55:56 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1670489582;
+        s=mimecast20190719; t=1670489755;
         h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
          to:to:cc:cc:mime-version:mime-version:content-type:content-type:
          content-transfer-encoding:content-transfer-encoding:
          in-reply-to:in-reply-to:references:references;
-        bh=WtVANh0eBS7cuUnAJkHyLAHfwCxkRrG12+slAtG+/Kc=;
-        b=OLICTvYRAWvZClShRUAIwD9mWbKVNaKMOB8J9S+fnVKvTFPyAa8mca61v0jvrn2pNrgplw
-        esCvIowYvc4M7IljieXbhfyoYPG0fxXHUWHmOSSvNGmbG8YL1adq+9tzuEJbcudSURHbnV
-        lVWjNrKKcKHlaIIMUGRrq/NaSERw2FE=
-Received: from mail-wm1-f69.google.com (mail-wm1-f69.google.com
- [209.85.128.69]) by relay.mimecast.com with ESMTP with STARTTLS
+        bh=qZzQND0XXn/ac1VVVRiwKzVF2wPIGejtH8QPoB1hHfA=;
+        b=QPFkG++A/8JL5La+pALQpMxgOwAt4ktwVCkc0B7GKmSOmsQdJwO6bUe02qtZHfivaxVdc3
+        G9Wjgdcy6CTAaGzTr8Cckc2sdx+1EbdNMrC++y5ZAPBbYS5RMOrBZy9yOPYliW8bDkf1S/
+        1Ay3qqX5PGov4onlFtRbv5LxaYRg05Q=
+Received: from mail-wm1-f71.google.com (mail-wm1-f71.google.com
+ [209.85.128.71]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-302-2-koChSBPt6KFxmec5O6dQ-1; Thu, 08 Dec 2022 03:53:01 -0500
-X-MC-Unique: 2-koChSBPt6KFxmec5O6dQ-1
-Received: by mail-wm1-f69.google.com with SMTP id a6-20020a05600c224600b003d1f3ed49adso350407wmm.4
-        for <linux-alpha@vger.kernel.org>; Thu, 08 Dec 2022 00:53:01 -0800 (PST)
+ us-mta-648-frrYLZIwOYmU4V4t8BGpPg-1; Thu, 08 Dec 2022 03:55:54 -0500
+X-MC-Unique: frrYLZIwOYmU4V4t8BGpPg-1
+Received: by mail-wm1-f71.google.com with SMTP id 9-20020a1c0209000000b003d1c0a147f6so2113056wmc.4
+        for <linux-alpha@vger.kernel.org>; Thu, 08 Dec 2022 00:55:53 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=content-transfer-encoding:in-reply-to:subject:organization:from
-         :references:cc:to:content-language:user-agent:mime-version:date
+        h=content-transfer-encoding:in-reply-to:organization:references:cc:to
+         :from:content-language:subject:user-agent:mime-version:date
          :message-id:x-gm-message-state:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=WtVANh0eBS7cuUnAJkHyLAHfwCxkRrG12+slAtG+/Kc=;
-        b=FNi5gbdWiSyg1jsOmxFOw/XESkcZfyXUsbrhsBPS+9XmEio0KotJPL9jKbC6/5vAy2
-         8nYPAklXk9Wqsrc8wlfd1/ytM+dayxUnkb1uGtn+yBU1KRAO4x737g0bYE6drTbC7aMR
-         fA39+NP0AvSycX3mirxf/RBXR4f9rFbQ+G1PaoVd6w7DHqPkDwwk4M3kxLyKMZSHN5na
-         6FwDVGqFFyA3zLE64FY6M3b5NAhwaWhVUz5TVgb5/hVkqSTV6txzyoirCTbO5JxC6HKI
-         uhfxOSZ2e1UqZObmqF8Q7DxRczOcbkBWYELP5UTTyDRAIjA1fqVHFzLEHIW0wFxYUkNf
-         5+vQ==
-X-Gm-Message-State: ANoB5pm9agkoNWra4TEuQuizo550pk979PSMIrmDKrXTxPUEtG04YbNY
-        kd3SbKRFNt3rJ77PBBzBWrM7uA/p46AVCa6Q9nWnefmJpYDX2UjnEydb8rF0qpTy3CVDt2jDEES
-        nCwlJDH1Jd5wg2CZcUT4i2E0=
-X-Received: by 2002:a7b:c3d3:0:b0:3d1:cec6:75a8 with SMTP id t19-20020a7bc3d3000000b003d1cec675a8mr10610874wmj.206.1670489580106;
-        Thu, 08 Dec 2022 00:53:00 -0800 (PST)
-X-Google-Smtp-Source: AA0mqf43lyCBCnse73L4nmQgwKX2lVPb0zDtRkTV00eD7UM2rHA9mTsLvJ7fK1IaCMRkleIpPTdzzg==
-X-Received: by 2002:a7b:c3d3:0:b0:3d1:cec6:75a8 with SMTP id t19-20020a7bc3d3000000b003d1cec675a8mr10610851wmj.206.1670489579743;
-        Thu, 08 Dec 2022 00:52:59 -0800 (PST)
+        bh=qZzQND0XXn/ac1VVVRiwKzVF2wPIGejtH8QPoB1hHfA=;
+        b=4NiT/UZLicxh/6IWdRj9EzyXR6NkdrYKTWaCtgtnkjLcpmManF5Q5/vb2k8UTVUGfG
+         xY5gNYSCdDYcFmlI0RAWCda662GY/2S7dgCUuhJoQVDVTjd/L6Jmq8KUtKvyto6b/dp9
+         NCFIKn0PqQSJsdEBY49HaLuSQ4ipf79zawR2P3rYGcCzFjkuN3yHxtD22PsrLmJONj8H
+         RYnVCYsCw4OOd9D/vY5VDQZ/tGbWXwY8NWwda9HdFFGHPMylEgi2ivILY1j99KSYUUCw
+         13KYSf17s6uF00jbbVPWzWVIRVZ8d8oc7MIE8096qulPTBTPFqSWsXnpaFWpUkYnmguh
+         3Pmg==
+X-Gm-Message-State: ANoB5pkVdswpV1HJVAJsQm/p1HRcdCp7dFDo51/0G756ZJg8ZWh5Hayl
+        K1kLz5I1eoy1ln6QqWblWy4Lg2jci/qHNMqFdYFYHM/QxrpyPJNoPNSnfnN9cquCLwFUruWtKlz
+        qpXPkZeO3DMoz1n8Pfc4Lciw=
+X-Received: by 2002:a5d:504d:0:b0:242:246c:2f89 with SMTP id h13-20020a5d504d000000b00242246c2f89mr22919586wrt.108.1670489752974;
+        Thu, 08 Dec 2022 00:55:52 -0800 (PST)
+X-Google-Smtp-Source: AA0mqf668NfxbMXQWSDBD6iCzqqUG4mJSCJROvTfbJs0ERpg3lPeZTVH/8wev7o0MHbpIs1xArxqSg==
+X-Received: by 2002:a5d:504d:0:b0:242:246c:2f89 with SMTP id h13-20020a5d504d000000b00242246c2f89mr22919565wrt.108.1670489752626;
+        Thu, 08 Dec 2022 00:55:52 -0800 (PST)
 Received: from ?IPV6:2a09:80c0:192:0:5dac:bf3d:c41:c3e7? ([2a09:80c0:192:0:5dac:bf3d:c41:c3e7])
-        by smtp.gmail.com with ESMTPSA id h1-20020a05600c350100b003a2f2bb72d5sm5810986wmq.45.2022.12.08.00.52.58
+        by smtp.gmail.com with ESMTPSA id o29-20020adfa11d000000b0024278304ef6sm6288982wro.13.2022.12.08.00.55.50
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 08 Dec 2022 00:52:59 -0800 (PST)
-Message-ID: <0b5b1303-8bcb-c19d-5f63-0e4a3517fea5@redhat.com>
-Date:   Thu, 8 Dec 2022 09:52:57 +0100
+        Thu, 08 Dec 2022 00:55:52 -0800 (PST)
+Message-ID: <c904aa67-1add-119c-162f-e35d8243a11a@redhat.com>
+Date:   Thu, 8 Dec 2022 09:55:49 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
  Thunderbird/102.5.0
+Subject: Re: [PATCH mm-unstable RFC 17/26] powerpc/mm: support
+ __HAVE_ARCH_PTE_SWP_EXCLUSIVE on 32bit book3s
 Content-Language: en-US
+From:   David Hildenbrand <david@redhat.com>
 To:     Christophe Leroy <christophe.leroy@csgroup.eu>,
         "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>
 Cc:     Andrew Morton <akpm@linux-foundation.org>,
@@ -101,94 +104,98 @@ Cc:     Andrew Morton <akpm@linux-foundation.org>,
 References: <20221206144730.163732-1-david@redhat.com>
  <20221206144730.163732-18-david@redhat.com>
  <8be167b6-3836-25c3-9f69-b8b3916ee5b4@csgroup.eu>
-From:   David Hildenbrand <david@redhat.com>
+ <0b5b1303-8bcb-c19d-5f63-0e4a3517fea5@redhat.com>
 Organization: Red Hat
-Subject: Re: [PATCH mm-unstable RFC 17/26] powerpc/mm: support
- __HAVE_ARCH_PTE_SWP_EXCLUSIVE on 32bit book3s
-In-Reply-To: <8be167b6-3836-25c3-9f69-b8b3916ee5b4@csgroup.eu>
+In-Reply-To: <0b5b1303-8bcb-c19d-5f63-0e4a3517fea5@redhat.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
 X-Spam-Status: No, score=-2.4 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
         DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,
         RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H2,SPF_HELO_NONE,SPF_NONE
-        autolearn=ham autolearn_force=no version=3.4.6
+        autolearn=unavailable autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-alpha.vger.kernel.org>
 X-Mailing-List: linux-alpha@vger.kernel.org
 
-On 07.12.22 14:55, Christophe Leroy wrote:
+On 08.12.22 09:52, David Hildenbrand wrote:
+> On 07.12.22 14:55, Christophe Leroy wrote:
+>>
+>>
+>> Le 06/12/2022 à 15:47, David Hildenbrand a écrit :
+>>> We already implemented support for 64bit book3s in commit bff9beaa2e80
+>>> ("powerpc/pgtable: support __HAVE_ARCH_PTE_SWP_EXCLUSIVE for book3s")
+>>>
+>>> Let's support __HAVE_ARCH_PTE_SWP_EXCLUSIVE also in 32bit by reusing yet
+>>> unused LSB 2 / MSB 29. There seems to be no real reason why that bit cannot
+>>> be used, and reusing it avoids having to steal one bit from the swap
+>>> offset.
+>>>
+>>> While at it, mask the type in __swp_entry().
+>>>
+>>> Cc: Michael Ellerman <mpe@ellerman.id.au>
+>>> Cc: Nicholas Piggin <npiggin@gmail.com>
+>>> Cc: Christophe Leroy <christophe.leroy@csgroup.eu>
+>>> Signed-off-by: David Hildenbrand <david@redhat.com>
+>>> ---
+>>>     arch/powerpc/include/asm/book3s/32/pgtable.h | 38 +++++++++++++++++---
+>>>     1 file changed, 33 insertions(+), 5 deletions(-)
+>>>
+>>> diff --git a/arch/powerpc/include/asm/book3s/32/pgtable.h b/arch/powerpc/include/asm/book3s/32/pgtable.h
+>>> index 75823f39e042..8107835b38c1 100644
+>>> --- a/arch/powerpc/include/asm/book3s/32/pgtable.h
+>>> +++ b/arch/powerpc/include/asm/book3s/32/pgtable.h
+>>> @@ -42,6 +42,9 @@
+>>>     #define _PMD_PRESENT_MASK (PAGE_MASK)
+>>>     #define _PMD_BAD	(~PAGE_MASK)
+>>>     
+>>> +/* We borrow the _PAGE_USER bit to store the exclusive marker in swap PTEs. */
+>>> +#define _PAGE_SWP_EXCLUSIVE	_PAGE_USER
+>>> +
+>>>     /* And here we include common definitions */
+>>>     
+>>>     #define _PAGE_KERNEL_RO		0
+>>> @@ -363,17 +366,42 @@ static inline void __ptep_set_access_flags(struct vm_area_struct *vma,
+>>>     #define pmd_page(pmd)		pfn_to_page(pmd_pfn(pmd))
+>>>     
+>>>     /*
+>>> - * Encode and decode a swap entry.
+>>> - * Note that the bits we use in a PTE for representing a swap entry
+>>> - * must not include the _PAGE_PRESENT bit or the _PAGE_HASHPTE bit (if used).
+>>> - *   -- paulus
+>>> + * Encode/decode swap entries and swap PTEs. Swap PTEs are all PTEs that
+>>> + * are !pte_none() && !pte_present().
+>>> + *
+>>> + * Format of swap PTEs (32bit PTEs):
+>>> + *
+>>> + *                         1 1 1 1 1 1 1 1 1 2 2 2 2 2 2 2 2 2 2 3 3
+>>> + *   0 1 2 3 4 5 6 7 8 9 0 1 2 3 4 5 6 7 8 9 0 1 2 3 4 5 6 7 8 9 0 1
+>>> + *   E H P <- type --> <----------------- offset ------------------>
+>>
+>> That's in reversed order. _PAGE_HASHPTE is bit 30 and should be on the
+>> right hand side. Etc ...
+> 
+> Ugh, messed it up while converting back and forth between LSB 0 and MSB 0.
+> 
+> /*
+>    * Format of swap PTEs (32bit PTEs):
+>    *
+>    *                         1 1 1 1 1 1 1 1 1 2 2 2 2 2 2 2 2 2 2 3 3
+>    *   0 1 2 3 4 5 6 7 8 9 0 1 2 3 4 5 6 7 8 9 0 1 2 3 4 5 6 7 8 9 0 1
+>    *   <----------------- offset ------------------> <- type --> E H P
 > 
 > 
-> Le 06/12/2022 à 15:47, David Hildenbrand a écrit :
->> We already implemented support for 64bit book3s in commit bff9beaa2e80
->> ("powerpc/pgtable: support __HAVE_ARCH_PTE_SWP_EXCLUSIVE for book3s")
->>
->> Let's support __HAVE_ARCH_PTE_SWP_EXCLUSIVE also in 32bit by reusing yet
->> unused LSB 2 / MSB 29. There seems to be no real reason why that bit cannot
->> be used, and reusing it avoids having to steal one bit from the swap
->> offset.
->>
->> While at it, mask the type in __swp_entry().
->>
->> Cc: Michael Ellerman <mpe@ellerman.id.au>
->> Cc: Nicholas Piggin <npiggin@gmail.com>
->> Cc: Christophe Leroy <christophe.leroy@csgroup.eu>
->> Signed-off-by: David Hildenbrand <david@redhat.com>
->> ---
->>    arch/powerpc/include/asm/book3s/32/pgtable.h | 38 +++++++++++++++++---
->>    1 file changed, 33 insertions(+), 5 deletions(-)
->>
->> diff --git a/arch/powerpc/include/asm/book3s/32/pgtable.h b/arch/powerpc/include/asm/book3s/32/pgtable.h
->> index 75823f39e042..8107835b38c1 100644
->> --- a/arch/powerpc/include/asm/book3s/32/pgtable.h
->> +++ b/arch/powerpc/include/asm/book3s/32/pgtable.h
->> @@ -42,6 +42,9 @@
->>    #define _PMD_PRESENT_MASK (PAGE_MASK)
->>    #define _PMD_BAD	(~PAGE_MASK)
->>    
->> +/* We borrow the _PAGE_USER bit to store the exclusive marker in swap PTEs. */
->> +#define _PAGE_SWP_EXCLUSIVE	_PAGE_USER
->> +
->>    /* And here we include common definitions */
->>    
->>    #define _PAGE_KERNEL_RO		0
->> @@ -363,17 +366,42 @@ static inline void __ptep_set_access_flags(struct vm_area_struct *vma,
->>    #define pmd_page(pmd)		pfn_to_page(pmd_pfn(pmd))
->>    
->>    /*
->> - * Encode and decode a swap entry.
->> - * Note that the bits we use in a PTE for representing a swap entry
->> - * must not include the _PAGE_PRESENT bit or the _PAGE_HASHPTE bit (if used).
->> - *   -- paulus
->> + * Encode/decode swap entries and swap PTEs. Swap PTEs are all PTEs that
->> + * are !pte_none() && !pte_present().
->> + *
->> + * Format of swap PTEs (32bit PTEs):
->> + *
->> + *                         1 1 1 1 1 1 1 1 1 2 2 2 2 2 2 2 2 2 2 3 3
->> + *   0 1 2 3 4 5 6 7 8 9 0 1 2 3 4 5 6 7 8 9 0 1 2 3 4 5 6 7 8 9 0 1
->> + *   E H P <- type --> <----------------- offset ------------------>
-> 
-> That's in reversed order. _PAGE_HASHPTE is bit 30 and should be on the
-> right hand side. Etc ...
 
-Ugh, messed it up while converting back and forth between LSB 0 and MSB 0.
+Still wrong, the type is only 5 bits:
 
-/*
-  * Format of swap PTEs (32bit PTEs):
-  *
-  *                         1 1 1 1 1 1 1 1 1 2 2 2 2 2 2 2 2 2 2 3 3
-  *   0 1 2 3 4 5 6 7 8 9 0 1 2 3 4 5 6 7 8 9 0 1 2 3 4 5 6 7 8 9 0 1
-  *   <----------------- offset ------------------> <- type --> E H P
++ * Format of swap PTEs (32bit PTEs):
++ *
++ *                         1 1 1 1 1 1 1 1 1 2 2 2 2 2 2 2 2 2 2 3 3
++ *   0 1 2 3 4 5 6 7 8 9 0 1 2 3 4 5 6 7 8 9 0 1 2 3 4 5 6 7 8 9 0 1
++ *   <----------------- offset --------------------> < type -> E H P
++ *
 
-
-Now the patch description ("unused LSB 2 / MSB 29") makes sense.
-
-Thanks!
-
-Any feedback if the bit could be problematic?
 
 -- 
 Thanks,
