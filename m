@@ -2,54 +2,53 @@ Return-Path: <linux-alpha-owner@vger.kernel.org>
 X-Original-To: lists+linux-alpha@lfdr.de
 Delivered-To: lists+linux-alpha@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 0ABFF65A85C
-	for <lists+linux-alpha@lfdr.de>; Sun,  1 Jan 2023 00:58:04 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 7B74565AA5E
+	for <lists+linux-alpha@lfdr.de>; Sun,  1 Jan 2023 16:38:31 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235870AbiLaX6C (ORCPT <rfc822;lists+linux-alpha@lfdr.de>);
-        Sat, 31 Dec 2022 18:58:02 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49890 "EHLO
+        id S231458AbjAAPi3 (ORCPT <rfc822;lists+linux-alpha@lfdr.de>);
+        Sun, 1 Jan 2023 10:38:29 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34598 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232520AbiLaX6B (ORCPT
-        <rfc822;linux-alpha@vger.kernel.org>);
-        Sat, 31 Dec 2022 18:58:01 -0500
-Received: from mail-wm1-x329.google.com (mail-wm1-x329.google.com [IPv6:2a00:1450:4864:20::329])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id AA1F92BCE
-        for <linux-alpha@vger.kernel.org>; Sat, 31 Dec 2022 15:57:59 -0800 (PST)
-Received: by mail-wm1-x329.google.com with SMTP id ay2-20020a05600c1e0200b003d22e3e796dso18060910wmb.0
-        for <linux-alpha@vger.kernel.org>; Sat, 31 Dec 2022 15:57:59 -0800 (PST)
+        with ESMTP id S229652AbjAAPi1 (ORCPT
+        <rfc822;linux-alpha@vger.kernel.org>); Sun, 1 Jan 2023 10:38:27 -0500
+Received: from mail-wm1-x32f.google.com (mail-wm1-x32f.google.com [IPv6:2a00:1450:4864:20::32f])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5EC8338B6
+        for <linux-alpha@vger.kernel.org>; Sun,  1 Jan 2023 07:38:25 -0800 (PST)
+Received: by mail-wm1-x32f.google.com with SMTP id m3so9678090wmq.0
+        for <linux-alpha@vger.kernel.org>; Sun, 01 Jan 2023 07:38:25 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=ixsystems.com; s=google;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=WccIxo2DJfoEJ5YBwAHVUk30lKwL/NF6q/shqTsMJ/g=;
-        b=PYD6Et/bUEgVTRKONHNLIX7Br1SoQK0HjrzczFsh/b64dhdRb+RXa2lfP3U09MVjh+
-         8QvH+g41Y2eOOAKAHLMfJ+0olZNzOtxWFnihyy1LZLSoYKVhClQRxA52aiPbQ27h192s
-         QBfqv4MetVxeBXsMm8vag5d/5f/MJqZP7H5aDFsTYgX5YJ/wQLScyVt2wkejd1j8LntM
-         RZFxnBqLX9DNcuZv3h+buaEphFbigGVSzE3/CMre5MTrICibRgCwDYsXcuINNxPWnZ83
-         Fvh3siYDtPPUe9Uh8YVHebdfiqSQruf8lAjV5jEU4PTxkGytB4uw5H/eO+ns1vWfe9Sb
-         xhDQ==
+        bh=4e5rsOVvoPsB8/0IGCnvHUCFwzCz86SgBX4arQD6Bsk=;
+        b=iIz+0dD+Xqd9D7Aclt4WbtMz7FB/uNMAN19vTh+6DwoOScIf+jA5tIb6pl1sZbrOaW
+         XlLYQHnQ/0PyPvz0qvTAbzXKi09qSjTBYmGSnxvzBbdFRVbIvsgwji7HfzL/dg1Gk0Y+
+         V3CYrx7vxebfUhVMmDvLcttZh71xYJ2bXwn2IQvA2brc4xEH/FpvfiNOKwmIE+3+/3a3
+         aGxfOrAg6fPjQzN7n5StTR3W7Zq9HRIvBP9hKK/qbFPVmelZ5Bqrz5fO21NfQtRIVsHM
+         2C27VpRX929Xk3Bf3fEht9dzD2A4sp2tATdthjFDTt8SQ6Z6iV058eZOPa8Nj3UL5qEA
+         EvOg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=WccIxo2DJfoEJ5YBwAHVUk30lKwL/NF6q/shqTsMJ/g=;
-        b=43LtN9NNqcwrjW+5m2JcEb9j6yjn7mTdXIqrQycvioNXKlghBLOWIMX4TdzOk432/2
-         +mRatIGk695TJ58OCA11SHqz9B6eJi1/T0XaqJJoyRNn0GmWP1Q2tJRmgOoYP3J5sdmL
-         IW+BATQpRY7oEnwEOYwSdm0MKdMzJMoXzh/X31/No6McF5PluIry+u19Wv8mtVzaKZUE
-         NHBqsjgAnY+ugYz29xXk82bLvvZiWqO2Gfd5KTCNmgpVAra1rU7cjvTPRXQ3hpQsxU3M
-         O9QG4m7nJXwaLV8zOvyCJe+vcrQFAyqFJdluOi8bg9LVbUHSmwMFjebDlJpvBQYbhZ3Z
-         Zu2A==
-X-Gm-Message-State: AFqh2koxHMqWUfNhWhrifjEOtI7wmaCR3hg0XX/vZUg6qNgm2uQwd3Yq
-        1/dw4Iov/9OfuP/nnmeK8tvmnQ==
-X-Google-Smtp-Source: AMrXdXtRNBDndHkFdZDBELgeq2/SNgFiLZ/gcwKGh8wlH1+fUQyak3Pd1DeT6ZQr37/CBJzorwy7xA==
-X-Received: by 2002:a05:600c:3509:b0:3cf:ae53:9193 with SMTP id h9-20020a05600c350900b003cfae539193mr25892482wmq.39.1672531078140;
-        Sat, 31 Dec 2022 15:57:58 -0800 (PST)
-Received: from localhost.localdomain ([2400:adc1:158:c700:fcdc:d674:179b:c287])
-        by smtp.googlemail.com with ESMTPSA id l42-20020a05600c1d2a00b003cfbbd54178sm56066592wms.2.2022.12.31.15.57.53
+        bh=4e5rsOVvoPsB8/0IGCnvHUCFwzCz86SgBX4arQD6Bsk=;
+        b=OiYEGh+vvLder7EEFKMQuZen0mZYtPVLSM0OoKMCGLiGe6tdJsa0tORd8O3GWpT4vc
+         TT9J4x9FiebKvZP0LaVs53aus7JNvhLgPA0/XA75pVU61QZUdbqJtrt+5teSjL2nAGNs
+         xhJ1VFI8ltPDsyQpAdsVBpvtmimb+Ocb3ClSEnNc7lstmhZJz4ZvfdItEPIYCNcTiQ16
+         kKD1mh2eLEj4a8N444GQ78o6gSutkEeNTlI+3P2pgmrqbyJaE7BR/kvAaP/F8HMw6ctR
+         /NjfxvBKPaBgyAYLK645jplLxeqEDLqh4HeYFPR0Cr21Yq8kqoajn8T97asAWQvVRClC
+         Fccw==
+X-Gm-Message-State: AFqh2kqbq93MsnmrETWF4Z3LXI4vdILCQQh2jD7qI01dtLN5xFl51rmT
+        FOtZn0Sc82w02Nc/QO9oAJUTXw==
+X-Google-Smtp-Source: AMrXdXvmgsB9mkhQhPLutjUrJsEcNZBj3ZzRuTx0yHaXlM7F4s4uXk1dMC6Vuz5WxgOhV0eMYtO5Qw==
+X-Received: by 2002:a05:600c:4998:b0:3cf:68d3:3047 with SMTP id h24-20020a05600c499800b003cf68d33047mr26779179wmp.41.1672587503834;
+        Sun, 01 Jan 2023 07:38:23 -0800 (PST)
+Received: from localhost.localdomain ([2400:adc1:158:c700:ab52:9bd1:ee17:5669])
+        by smtp.googlemail.com with ESMTPSA id c4-20020a05600c0a4400b003cf75213bb9sm46153975wmq.8.2023.01.01.07.38.19
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 31 Dec 2022 15:57:57 -0800 (PST)
+        Sun, 01 Jan 2023 07:38:23 -0800 (PST)
 From:   Ameer Hamza <ahamza@ixsystems.com>
 To:     viro@zeniv.linux.org.uk, jlayton@kernel.org,
         chuck.lever@oracle.com, arnd@arndb.de, guoren@kernel.org,
@@ -61,12 +60,12 @@ Cc:     linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org,
         linux-arch@vger.kernel.org, ahamza@ixsystems.com,
         awalker@ixsystems.com, sparclinux@vger.kernel.org,
         linux-parisc@vger.kernel.org, linux-alpha@vger.kernel.org
-Subject: [PATCH v2] Add new open(2) flag - O_EMPTY_PATH
-Date:   Sun,  1 Jan 2023 04:56:18 +0500
-Message-Id: <20221231235618.117201-1-ahamza@ixsystems.com>
+Subject: [PATCH v3] Add new open(2) flag - O_EMPTY_PATH
+Date:   Sun,  1 Jan 2023 20:37:52 +0500
+Message-Id: <20230101153752.20165-1-ahamza@ixsystems.com>
 X-Mailer: git-send-email 2.25.1
-In-Reply-To: <202212310842.ysbymPHY-lkp@intel.com>
-References: <202212310842.ysbymPHY-lkp@intel.com>
+In-Reply-To: <202301011901.GyiYVRyd-lkp@intel.com>
+References: <202301011901.GyiYVRyd-lkp@intel.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
@@ -88,6 +87,9 @@ flags in a race-free way.
 Signed-off-by: Ameer Hamza <ahamza@ixsystems.com>
 
 ---
+Change in v3:
+resolve O_EMPTY_PATH conflict with __FMODE_NONOTIFY for sparc.
+
 Change in v2:
 add nonconflicting values for O_EMPTY_PATH on architectures
 where default conflicts with existing flags.
@@ -129,14 +131,14 @@ index 03dee816cb13..e6144823ee5b 100644
  #define F_GETLK64	8
  #define F_SETLK64	9
 diff --git a/arch/sparc/include/uapi/asm/fcntl.h b/arch/sparc/include/uapi/asm/fcntl.h
-index 67dae75e5274..08aed1e2b32d 100644
+index 67dae75e5274..ed99e4e4a717 100644
 --- a/arch/sparc/include/uapi/asm/fcntl.h
 +++ b/arch/sparc/include/uapi/asm/fcntl.h
 @@ -37,6 +37,7 @@
  
  #define O_PATH		0x1000000
  #define __O_TMPFILE	0x2000000
-+#define O_EMPTY_PATH	0x4000000
++#define O_EMPTY_PATH	0x8000000
  
  #define F_GETOWN	5	/*  for sockets. */
  #define F_SETOWN	6	/*  for sockets. */
