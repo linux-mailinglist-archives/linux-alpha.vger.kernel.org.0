@@ -2,90 +2,129 @@ Return-Path: <linux-alpha-owner@vger.kernel.org>
 X-Original-To: lists+linux-alpha@lfdr.de
 Delivered-To: lists+linux-alpha@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 81E63660C05
-	for <lists+linux-alpha@lfdr.de>; Sat,  7 Jan 2023 03:46:33 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 8291A660E2A
+	for <lists+linux-alpha@lfdr.de>; Sat,  7 Jan 2023 12:04:57 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229561AbjAGCqb (ORCPT <rfc822;lists+linux-alpha@lfdr.de>);
-        Fri, 6 Jan 2023 21:46:31 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59238 "EHLO
+        id S230137AbjAGLE4 (ORCPT <rfc822;lists+linux-alpha@lfdr.de>);
+        Sat, 7 Jan 2023 06:04:56 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52214 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229521AbjAGCq3 (ORCPT
-        <rfc822;linux-alpha@vger.kernel.org>); Fri, 6 Jan 2023 21:46:29 -0500
-Received: from zeniv.linux.org.uk (zeniv.linux.org.uk [IPv6:2a03:a000:7:0:5054:ff:fe1c:15ff])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 11B5184BFC;
-        Fri,  6 Jan 2023 18:46:28 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-        d=linux.org.uk; s=zeniv-20220401; h=Sender:In-Reply-To:Content-Type:
-        MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
-        Content-Transfer-Encoding:Content-ID:Content-Description;
-        bh=z80V7BWLLwigfiKI4dL/5j2LGkzDiZ6a+1vY1hMchMQ=; b=aBKfPNrS2h2+fLKta3N2z73QTi
-        HoKRtKUXnLHT1i7pg9kITNSh1L8Uf8rPFCejKIqouYArS7xgfWwtWAzn39WwVcs6i9qNkpDBhqPPB
-        eZodBcNpeK6VmsoXLc4FhJAqNDmN5nmwmN1ejH85wweziz4Gm3sblNjp0f695D9wHDXXwM0phGkPK
-        pmIfQm+5ZR4pFo18qtSMhFDCJO5uWpWXbmxrVAlS6CW4/mFI9rpceVbCO3fJ5r6X3CH3gBigtjHZ3
-        tT13+vA89kDAkG+vH+NDDpmFX64nyoxjrc27hjzaeXhJMdFChS/xwe/NFQz+uPjtXxCejb0qvs/EG
-        4pd+1tZg==;
-Received: from viro by zeniv.linux.org.uk with local (Exim 4.96 #2 (Red Hat Linux))
-        id 1pDzE1-000GZH-2c;
-        Sat, 07 Jan 2023 02:46:26 +0000
-Date:   Sat, 7 Jan 2023 02:46:25 +0000
-From:   Al Viro <viro@zeniv.linux.org.uk>
-To:     Richard Henderson <rth@twiddle.net>
-Cc:     linux-alpha@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] alpha: fix FEN fault handling
-Message-ID: <Y7jdARsEQXPugR0t@ZenIV>
-References: <Y7jD8XDZGnQkTvMI@ZenIV>
- <84c0d4ea-09e2-4907-d03d-939d40fa3c96@twiddle.net>
+        with ESMTP id S230135AbjAGLEz (ORCPT
+        <rfc822;linux-alpha@vger.kernel.org>); Sat, 7 Jan 2023 06:04:55 -0500
+Received: from mail-wm1-x32e.google.com (mail-wm1-x32e.google.com [IPv6:2a00:1450:4864:20::32e])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9879F4F124;
+        Sat,  7 Jan 2023 03:04:54 -0800 (PST)
+Received: by mail-wm1-x32e.google.com with SMTP id ay40so2704294wmb.2;
+        Sat, 07 Jan 2023 03:04:54 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:sender:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=jV2yBF+mbkDE0BvyOwe05ARE6EO7XhtOfB/KJLMsfFA=;
+        b=BzPTx+ODS2RwGu5d9Av3CGI6XJ0NbmKP1pStUzg0M0m6+VF6wu2vf0tqTwK0k6q0qV
+         Fbx7Y4Wluy9p+k8PZjL3FOoLufHJHxtq2K/BaarEwd/dPtd/DgO4uDiDqLUXCcfzSy4g
+         Wd0wz4xfpZYGbxR/O6enZWRjIhs25ZrrKgwvTGouDcupcbkSfLeRveiApotbcr4XMgph
+         w/4+08uhP/RwKAozhcyw6lYPvScMk8zL6fmWwbkyxQOkT9WdSUz8lze9ta3Mlh7zLg9k
+         cM2v76pe7iQT/2ZR+EkGweLVXlhhfTIoWJwjo2u32vXfi3qjeDrWte72tROnSs3wxhtS
+         1Wwg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:sender:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=jV2yBF+mbkDE0BvyOwe05ARE6EO7XhtOfB/KJLMsfFA=;
+        b=f6beJaoz3jCOL/c6eOjf3eeUBcHKDVUaH0Uw7trbB+q3preXNB8XQN+BgMEgXIqyrg
+         ztQ0YAwwQaBudBMFT671W0eam+CskRUARfQ2XtTMgg7PiwB16C4qvG0b2DGR8BAeYCdV
+         bjE0ugK+fesG9oz6KyRgSvF1+EPPvRlWpElpDIRlqjl3n5CE931DsOVRR67+Oc0OvvUU
+         qarRyALAo/0CgrsP1WoMbvFscUnStpWk5q7ULbXRDwxCcfn2VYXgqtcJFerXS2Z6O5F8
+         beGTpGvDntwL4xWdS5LKe1BVCIIzmFG6ZI1prA001YwkI8usgU5FZC7q8O2rG9nMPSjr
+         Vt0w==
+X-Gm-Message-State: AFqh2kp6KNn7SZRVsi7FHGQnApV2HTmVi/cE5A8/t+/ipcJNN8L/Cf0I
+        P0aGIHmiHJAhWmac1ay0yUU=
+X-Google-Smtp-Source: AMrXdXuUafS1AFxogNrZXZJj6k6oC1QjVGeJmfZCRFdf2sgwNHMbrVBUD4+y7GGme2gWJhcqxBhA0A==
+X-Received: by 2002:a05:600c:601e:b0:3c6:e61e:ae71 with SMTP id az30-20020a05600c601e00b003c6e61eae71mr50341357wmb.1.1673089493118;
+        Sat, 07 Jan 2023 03:04:53 -0800 (PST)
+Received: from gmail.com (1F2EF507.nat.pool.telekom.hu. [31.46.245.7])
+        by smtp.gmail.com with ESMTPSA id o9-20020a05600c510900b003c6f8d30e40sm10657278wms.31.2023.01.07.03.04.49
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sat, 07 Jan 2023 03:04:50 -0800 (PST)
+Sender: Ingo Molnar <mingo.kernel.org@gmail.com>
+Date:   Sat, 7 Jan 2023 12:04:47 +0100
+From:   Ingo Molnar <mingo@kernel.org>
+To:     Valentin Schneider <vschneid@redhat.com>
+Cc:     linux-alpha@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-snps-arc@lists.infradead.org,
+        linux-arm-kernel@lists.infradead.org, linux-csky@vger.kernel.org,
+        linux-hexagon@vger.kernel.org, linux-ia64@vger.kernel.org,
+        loongarch@lists.linux.dev, linux-mips@vger.kernel.org,
+        openrisc@lists.librecores.org, linux-parisc@vger.kernel.org,
+        linuxppc-dev@lists.ozlabs.org, linux-riscv@lists.infradead.org,
+        linux-s390@vger.kernel.org, linux-sh@vger.kernel.org,
+        sparclinux@vger.kernel.org, linux-xtensa@linux-xtensa.org,
+        x86@kernel.org, Steven Rostedt <rostedt@goodmis.org>,
+        "Paul E. McKenney" <paulmck@kernel.org>,
+        Peter Zijlstra <peterz@infradead.org>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Sebastian Andrzej Siewior <bigeasy@linutronix.de>,
+        Juri Lelli <juri.lelli@redhat.com>,
+        Daniel Bristot de Oliveira <bristot@redhat.com>,
+        Marcelo Tosatti <mtosatti@redhat.com>,
+        Frederic Weisbecker <frederic@kernel.org>,
+        Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
+        Dave Hansen <dave.hansen@linux.intel.com>,
+        "H. Peter Anvin" <hpa@zytor.com>, Marc Zyngier <maz@kernel.org>,
+        Mark Rutland <mark.rutland@arm.com>,
+        Russell King <linux@armlinux.org.uk>,
+        Nicholas Piggin <npiggin@gmail.com>,
+        Guo Ren <guoren@kernel.org>,
+        "David S. Miller" <davem@davemloft.net>
+Subject: Re: [PATCH v3 3/8] sched, smp: Trace IPIs sent via
+ send_call_function_single_ipi()
+Message-ID: <Y7lRz7oCaAmAhoqS@gmail.com>
+References: <20221202155817.2102944-1-vschneid@redhat.com>
+ <20221202155817.2102944-4-vschneid@redhat.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <84c0d4ea-09e2-4907-d03d-939d40fa3c96@twiddle.net>
-Sender: Al Viro <viro@ftp.linux.org.uk>
-X-Spam-Status: No, score=-2.0 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_EF,SPF_HELO_NONE,SPF_NONE autolearn=ham
-        autolearn_force=no version=3.4.6
+In-Reply-To: <20221202155817.2102944-4-vschneid@redhat.com>
+X-Spam-Status: No, score=-1.5 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_EF,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
+        HEADER_FROM_DIFFERENT_DOMAINS,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,
+        SPF_PASS autolearn=no autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-alpha.vger.kernel.org>
 X-Mailing-List: linux-alpha@vger.kernel.org
 
-On Fri, Jan 06, 2023 at 05:55:14PM -0800, Richard Henderson wrote:
-> On 1/6/23 16:59, Al Viro wrote:
-> > Type 3 instruction fault (FPU insn with FPU disabled) is handled
-> > by quietly enabling FPU and returning.  Which is fine, except that
-> > we need to do that both for fault in userland and in the kernel;
-> > the latter *can* legitimately happen - all it takes is this:
-> > 
-> > .global _start
-> > _start:
-> > 	call_pal 0xae
-> > 	lda $0, 0
-> > 	ldq $0, 0($0)
-> > 
-> > - call_pal CLRFEN to clear "FPU enabled" flag and arrange for
-> > a signal delivery (SIGSEGV in this case).
-> > 
-> > Fixed by moving the handling of type 3 into the common part of
-> > do_entIF(), before we check for kernel vs. user mode.
-> > 
-> > Incidentally, check for kernel mode is unidiomatic; the normal
-> > way to do that is !user_mode(regs).  The difference is that
-> > the open-coded variant treats any of bits 63..3 of regs->ps being
-> > set as "it's user mode" while the normal approach is to check just
-> > the bit 3.  PS is a 4-bit register and regs->ps always will have
-> > bits 63..4 clear, so the open-code variant here is actually equivalent
-> > to !user_mode(regs).  Harder to follow, though...
-> > 
-> > Reproducer above will crash any box where CLRFEN is not ignored by
-> > PAL (== any actual hardware, AFAICS; PAL used in qemu doesn't
-> > bother implementing that crap).
-> 
-> I didn't realize I'd forgotten this in qemu.  Anyway,
-> 
-> Reviewed-by: Richard Henderson <rth@twiddle.net>
 
-Not sure it's worth bothering with in palcode-clipper - for Linux it's
-useless (run out of timeslice and FEN will end up set, no matter what),
-nothing in NetBSD or OpenBSD trees generates that call_pal, current
-FreeBSD doesn't support alpha and their last version to do so hadn't
-generated that call_pal either...  What else is out there?  OSF?
+* Valentin Schneider <vschneid@redhat.com> wrote:
+
+> send_call_function_single_ipi() is the thing that sends IPIs at the bottom
+> of smp_call_function*() via either generic_exec_single() or
+> smp_call_function_many_cond(). Give it an IPI-related tracepoint.
+> 
+> Note that this ends up tracing any IPI sent via __smp_call_single_queue(),
+> which covers __ttwu_queue_wakelist() and irq_work_queue_on() "for free".
+> 
+> Signed-off-by: Valentin Schneider <vschneid@redhat.com>
+> Reviewed-by: Steven Rostedt (Google) <rostedt@goodmis.org>
+
+Acked-by: Ingo Molnar <mingo@kernel.org>
+
+Patch series logistics:
+
+ - No objections from the scheduler side, this feature looks pretty useful.
+
+ - Certain patches are incomplete, others are noted as being merged 
+   separately, so I presume you'll send an updated/completed series 
+   eventually?
+
+ - We can merge this via the scheduler tree I suspect, as most callbacks 
+   affected relate to tip:sched/core and tmp:smp/core - but if you have 
+   some other preferred tree that's fine too.
+
+Thanks,
+
+	Ingo
