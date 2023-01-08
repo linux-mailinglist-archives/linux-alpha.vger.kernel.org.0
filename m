@@ -2,103 +2,107 @@ Return-Path: <linux-alpha-owner@vger.kernel.org>
 X-Original-To: lists+linux-alpha@lfdr.de
 Delivered-To: lists+linux-alpha@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 212CD661279
-	for <lists+linux-alpha@lfdr.de>; Sun,  8 Jan 2023 00:03:27 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 58DEA6614BD
+	for <lists+linux-alpha@lfdr.de>; Sun,  8 Jan 2023 12:29:46 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230170AbjAGXDY (ORCPT <rfc822;lists+linux-alpha@lfdr.de>);
-        Sat, 7 Jan 2023 18:03:24 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56408 "EHLO
+        id S233015AbjAHL3o (ORCPT <rfc822;lists+linux-alpha@lfdr.de>);
+        Sun, 8 Jan 2023 06:29:44 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47076 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229785AbjAGXDX (ORCPT
-        <rfc822;linux-alpha@vger.kernel.org>); Sat, 7 Jan 2023 18:03:23 -0500
-Received: from mail-pf1-x430.google.com (mail-pf1-x430.google.com [IPv6:2607:f8b0:4864:20::430])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id EFA6E34D6F;
-        Sat,  7 Jan 2023 15:03:17 -0800 (PST)
-Received: by mail-pf1-x430.google.com with SMTP id g20so3623862pfb.3;
-        Sat, 07 Jan 2023 15:03:17 -0800 (PST)
+        with ESMTP id S233133AbjAHL3m (ORCPT
+        <rfc822;linux-alpha@vger.kernel.org>); Sun, 8 Jan 2023 06:29:42 -0500
+Received: from mail-ej1-x642.google.com (mail-ej1-x642.google.com [IPv6:2a00:1450:4864:20::642])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id EDAD3D2C9
+        for <linux-alpha@vger.kernel.org>; Sun,  8 Jan 2023 03:29:40 -0800 (PST)
+Received: by mail-ej1-x642.google.com with SMTP id gh17so13538848ejb.6
+        for <linux-alpha@vger.kernel.org>; Sun, 08 Jan 2023 03:29:40 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :sender:from:to:cc:subject:date:message-id:reply-to;
-        bh=ghLtHCxEHQN0G4J8VZiZj3ppzJlMdwxuQQiALlB0bi8=;
-        b=PLZ+fpox0EVHAsl/kse4VxOpAI/itllww8vvFZz4QlOJnDgg38OJlVJQTYWeGMI/JT
-         vr3rhlMRPRmsyoaj0ymPqZephZ1JzxYx+fouUUF9V24Wem+dY+QWHBddh2hb7dw/Dk5y
-         N4to1k0IwLP5M95xE0Czpv+B+in/EvQjr7uUbOFKFRX+S+Ik+Ob3+u2SthZlnG5WEap9
-         DxEaZG7oYh1At1gW/Mvgc6BWIUS7UC/8xGJnKmyS/s2OSX16OzDM2QxnUoTAPCGA75oI
-         aNBxCLVQtVwUj1cv+RwriCZnQ0i41doPgYlNLFhBxKdw3oS2wI+Wr1CysiDdx7nCXRCW
-         5V9g==
+        h=to:subject:message-id:date:from:reply-to:mime-version:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=HcpM41K3Tg/Gq2Sy2fOw39ukTQf5X/VzmfsS+yU67xU=;
+        b=qKooUu0cR0Q6Kb35Lml+i1nctcRKDXBFIEuTWecR2oAg5gpt8iWCWrVTzR/d0ltIz+
+         N3v4mI+Id5n22IQcOsRNrs3LfLqdT/HvxkxuThnBBMHey7FRBoM71zAIiDMTHnSgpN5Z
+         x3kiNifkBHa67aksnuVhN0ViIH4omkoEA1V/MRsaIxBjjHuMlU8Etutr9d/g3k0VBqS+
+         Gvcs1w6Oyb+6hjEoSfAoX0iu6yv8bOv93HJHe2b0EXqway2L9PMP8z4v5codhy5CVb8Z
+         gUWDwMgHqJCe7GMUzyDwpcS2znrsiSd/kh+kobYvXrnptX2TmVNEgI44vAZpnc1lh6J9
+         XwZw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :sender:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=ghLtHCxEHQN0G4J8VZiZj3ppzJlMdwxuQQiALlB0bi8=;
-        b=r/ulGJC+2nILbMMOUUkLI7lPDM80b9bN4TPxlRejPjsV2K3XJV0K8vws927M47vWQd
-         W6+TOXmLhlQkqJd1So3ySMDkgAN4+4w87MGUkA0w4FRa6jf0QrSsB6T8PSd1DuVHzBum
-         Otpp50r9gYdSNobkbL5/qaowW7BIzviBOrPPrL8z5CVvHSKZUHeWzDbRWH8AV4KFt8uI
-         AnxXJqjOa9H46cTYRtU3ajgBo58zzwSi5psQHr4BOyUNKP4LsPucC5DJ3WbRPW2FOTF1
-         GtkfSaj/oZhdOFay76BzTlKwmpnqiUx6pwompzvU+pjjqqSfGzEAl6y3woqPa0kFvNsi
-         Tlrg==
-X-Gm-Message-State: AFqh2koVz0tMAlpEn99XWcWZrJy/Ikyiwt5titzy/BylOm6UD8vEO0jp
-        rl/zT2MbRwJEjAAKVjvfr1IOc68/9qs=
-X-Google-Smtp-Source: AMrXdXtaYPXPcJhOlF3D5Ggj6ZpYWpwqNOwLh7+OYGnZbLIBfy9qbkqCBj9C7+mZQRJLjw5VkzIxlQ==
-X-Received: by 2002:a62:1d57:0:b0:581:6979:5e with SMTP id d84-20020a621d57000000b005816979005emr43365172pfd.15.1673132597170;
-        Sat, 07 Jan 2023 15:03:17 -0800 (PST)
-Received: from ?IPV6:2602:47:d48c:8101:8a2d:2011:f402:6f82? ([2602:47:d48c:8101:8a2d:2011:f402:6f82])
-        by smtp.googlemail.com with ESMTPSA id r4-20020aa79624000000b0056bd1bf4243sm3311428pfg.53.2023.01.07.15.03.15
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Sat, 07 Jan 2023 15:03:16 -0800 (PST)
-Sender: Richard Henderson <rth7680@gmail.com>
-Message-ID: <f1de15a5-1713-70e7-81af-a0090583d888@twiddle.net>
-Date:   Sat, 7 Jan 2023 15:03:14 -0800
+        h=to:subject:message-id:date:from:reply-to:mime-version
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=HcpM41K3Tg/Gq2Sy2fOw39ukTQf5X/VzmfsS+yU67xU=;
+        b=c3T8RF20iVU2mQCPH9qy8sh/1hIb67OdBsoqIYkI61A3yZ3lK4UBfPOvCIBuzNsCkw
+         qlGtwoFvfqtIkNiSXIrnI8g9qA1ciigcqjsyy1kEZcLotLIssBEJ4KZthz/09EMOkrMf
+         gMuOl67GB/VISEZ30651kjWDdAzpl/DJ690L5oEV/SEwfLMVjbsDk0nXAIu2VfwCSyfP
+         w7SbtXDtZNliK5jYjNvs1hzf/MT5W8Rr9Wbs80TprbuLZheWqKXQ/8YMn/WhxqHBDcka
+         upNQBHg9/0/XGiyws5tosY54YrO/WRPQfmXZNn1I0HDXOQxh9XXWOPQXeh+oQsSYQou8
+         Orzw==
+X-Gm-Message-State: AFqh2kqti+y5kYg8wyFZD+cBVWxL4Q7jyte8gULDnkhONdMoOMMs1tiz
+        Pwi9UhUaIUJOS7QGREX2h2hbo9mICg2JaOFkOx4=
+X-Google-Smtp-Source: AMrXdXv8qNP079N8Ljgdg1YxgYDV453aDSNxK9LIR74YsJCiaWn938eOuW+3voCWEBes5so6o/csZ9cDSEO/Bl+oL2k=
+X-Received: by 2002:a17:906:8381:b0:7c1:57e7:e45a with SMTP id
+ p1-20020a170906838100b007c157e7e45amr3219427ejx.548.1673177379128; Sun, 08
+ Jan 2023 03:29:39 -0800 (PST)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.4.2
-Subject: Re: [PATCH] alpha: fix FEN fault handling
-Content-Language: en-US
-To:     Al Viro <viro@zeniv.linux.org.uk>
-Cc:     linux-alpha@vger.kernel.org, linux-kernel@vger.kernel.org
-References: <Y7jD8XDZGnQkTvMI@ZenIV>
- <84c0d4ea-09e2-4907-d03d-939d40fa3c96@twiddle.net> <Y7jdARsEQXPugR0t@ZenIV>
- <Y7nj80buxCO3u69l@ZenIV>
-From:   Richard Henderson <rth@twiddle.net>
-In-Reply-To: <Y7nj80buxCO3u69l@ZenIV>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-Spam-Status: No, score=-4.4 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_EF,FREEMAIL_ENVFROM_END_DIGIT,
-        FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,HEADER_FROM_DIFFERENT_DOMAINS,
-        NICE_REPLY_A,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS autolearn=ham
-        autolearn_force=no version=3.4.6
+Received: by 2002:a17:906:eca7:b0:7c0:dfb2:c37b with HTTP; Sun, 8 Jan 2023
+ 03:29:38 -0800 (PST)
+Reply-To: muhammadabdulrahma999@gmail.com
+From:   muhammad <nnannacollins2019@gmail.com>
+Date:   Sun, 8 Jan 2023 03:29:38 -0800
+Message-ID: <CAPQqOC03wuphQb6NMCpfv7tZrur=MdFAiO_zctdzRwH0PfHa1Q@mail.gmail.com>
+Subject: Re:Re:Inquiry about your products.!!
+To:     undisclosed-recipients:;
+Content-Type: text/plain; charset="UTF-8"
+X-Spam-Status: Yes, score=6.8 required=5.0 tests=BAYES_50,DEAR_SOMETHING,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,
+        FREEMAIL_ENVFROM_END_DIGIT,FREEMAIL_FROM,FREEMAIL_REPLYTO,
+        FREEMAIL_REPLYTO_END_DIGIT,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,
+        UNDISC_FREEM autolearn=no autolearn_force=no version=3.4.6
+X-Spam-Report: * -0.0 RCVD_IN_DNSWL_NONE RBL: Sender listed at
+        *      https://www.dnswl.org/, no trust
+        *      [2a00:1450:4864:20:0:0:0:642 listed in]
+        [list.dnswl.org]
+        *  0.8 BAYES_50 BODY: Bayes spam probability is 40 to 60%
+        *      [score: 0.5129]
+        *  0.0 FREEMAIL_FROM Sender email is commonly abused enduser mail
+        *      provider
+        *      [nnannacollins2019[at]gmail.com]
+        *  0.2 FREEMAIL_ENVFROM_END_DIGIT Envelope-from freemail username ends
+        *       in digit
+        *      [nnannacollins2019[at]gmail.com]
+        * -0.0 SPF_PASS SPF: sender matches SPF record
+        *  0.2 FREEMAIL_REPLYTO_END_DIGIT Reply-To freemail username ends in
+        *      digit
+        *      [muhammadabdulrahma999[at]gmail.com]
+        *  0.0 SPF_HELO_NONE SPF: HELO does not publish an SPF Record
+        *  2.0 DEAR_SOMETHING BODY: Contains 'Dear (something)'
+        * -0.1 DKIM_VALID_EF Message has a valid DKIM or DK signature from
+        *      envelope-from domain
+        *  0.1 DKIM_SIGNED Message has a DKIM or DK signature, not necessarily
+        *       valid
+        * -0.1 DKIM_VALID Message has at least one valid DKIM or DK signature
+        * -0.1 DKIM_VALID_AU Message has a valid DKIM or DK signature from
+        *      author's domain
+        *  2.7 UNDISC_FREEM Undisclosed recipients + freemail reply-to
+        *  1.0 FREEMAIL_REPLYTO Reply-To/From or Reply-To/body contain
+        *      different freemails
+X-Spam-Level: ******
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-alpha.vger.kernel.org>
 X-Mailing-List: linux-alpha@vger.kernel.org
 
-On 1/7/23 13:28, Al Viro wrote:
-> On Sat, Jan 07, 2023 at 02:46:26AM +0000, Al Viro wrote:
-> 
->> Not sure it's worth bothering with in palcode-clipper - for Linux it's
->> useless (run out of timeslice and FEN will end up set, no matter what),
->> nothing in NetBSD or OpenBSD trees generates that call_pal, current
->> FreeBSD doesn't support alpha and their last version to do so hadn't
->> generated that call_pal either...  What else is out there?  OSF?
-> 
-> BTW, out of curiosity - what was
->                case 5: /* illoc */
->                default: /* unexpected instruction-fault type */
-> about in that switch in do_entIF()?
-> 
-> All documentation I'd been able to find had only 0..4 as expected
-> values (bpt/bugcheck/gentrap/fen/opdec)...
+Dear Sir/Madam,
 
-No idea.
+An open Tender for the supply of your company products to (Doha,
+Qatar). Urgently furnish us in full details about the standard of your
+product. We will appreciate it more if you give us with Details:
+Specification and Catalogs or Price list via Email.To avoid making a
+wrong choice of products before placing an order for it.
 
-Historical git (cd52cb6178a7, v2.4.8 -> v2.4.8.1) suggests it's related to shark_mv, so 
-perhaps a later revision of DEC PALcode.  But I have no corresponding documentation.
+Terms of payment:An upfront payment of 80% (T/T) will be made to your
+account for production,While 20% will be paid before shipment.
 
-
-r~
+Thanks and Regards
