@@ -2,117 +2,113 @@ Return-Path: <linux-alpha-owner@vger.kernel.org>
 X-Original-To: lists+linux-alpha@lfdr.de
 Delivered-To: lists+linux-alpha@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 89485664275
-	for <lists+linux-alpha@lfdr.de>; Tue, 10 Jan 2023 14:53:49 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 79BE56664ED
+	for <lists+linux-alpha@lfdr.de>; Wed, 11 Jan 2023 21:43:16 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232738AbjAJNxr (ORCPT <rfc822;lists+linux-alpha@lfdr.de>);
-        Tue, 10 Jan 2023 08:53:47 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44850 "EHLO
+        id S231204AbjAKUnO (ORCPT <rfc822;lists+linux-alpha@lfdr.de>);
+        Wed, 11 Jan 2023 15:43:14 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51000 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S237663AbjAJNxU (ORCPT
+        with ESMTP id S229935AbjAKUnN (ORCPT
         <rfc822;linux-alpha@vger.kernel.org>);
-        Tue, 10 Jan 2023 08:53:20 -0500
-Received: from mga07.intel.com (mga07.intel.com [134.134.136.100])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0EF098BF38;
-        Tue, 10 Jan 2023 05:52:31 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1673358752; x=1704894752;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=Tp8Z9Ay/HrlqQE0qDFK7p4Fost9+vU0ggkXvi/hfbkY=;
-  b=kO8ox8CR+uhilfo5/X2nxkaV4R1ebPsPUWkdF4QsFnqdZi0+9yMqWhfv
-   PKlzD1J/dYnz4SJUbaTjjtC0QteypDLuv9UL2ilJKOJseLb3blbbDRgKR
-   /alyOqQ4wC48vEI6zM+ZbMmNStQiJjb/yC4L96pos2WPad5aLaWdyVG4l
-   uSLI+r8CIVKKNrMjXpOdrBxFuVBLBGOGy9vjBUTE3wgpx9dSS06FYtC+A
-   FnrdBVP/dZdOHbJka0bOPO00rFLSmTMw/1SY2fd3RmEgzglcdIq9JPESj
-   +zfCtPa5XOVBH9lR3c6QkN7FDo4tDCyPTRSCV6yON/XMy6W476qcBtwWn
-   A==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10585"; a="387599277"
-X-IronPort-AV: E=Sophos;i="5.96,315,1665471600"; 
-   d="scan'208";a="387599277"
-Received: from orsmga005.jf.intel.com ([10.7.209.41])
-  by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Jan 2023 05:52:31 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10585"; a="830995823"
-X-IronPort-AV: E=Sophos;i="5.96,315,1665471600"; 
-   d="scan'208";a="830995823"
-Received: from smile.fi.intel.com ([10.237.72.54])
-  by orsmga005.jf.intel.com with ESMTP; 10 Jan 2023 05:52:23 -0800
-Received: from andy by smile.fi.intel.com with local (Exim 4.96)
-        (envelope-from <andriy.shevchenko@linux.intel.com>)
-        id 1pFF36-0073E7-37;
-        Tue, 10 Jan 2023 15:52:20 +0200
-Date:   Tue, 10 Jan 2023 15:52:20 +0200
-From:   Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-To:     Andrzej Hajda <andrzej.hajda@intel.com>
-Cc:     Mark Rutland <mark.rutland@arm.com>, linux-ia64@vger.kernel.org,
-        linux-sh@vger.kernel.org, Peter Zijlstra <peterz@infradead.org>,
-        dri-devel@lists.freedesktop.org, linux-mips@vger.kernel.org,
-        sparclinux@vger.kernel.org, linux-riscv@lists.infradead.org,
-        linux-s390@vger.kernel.org, linux-hexagon@vger.kernel.org,
-        linux-snps-arc@lists.infradead.org,
-        Boqun Feng <boqun.feng@gmail.com>,
-        linux-xtensa@linux-xtensa.org, Arnd Bergmann <arnd@arndb.de>,
-        intel-gfx@lists.freedesktop.org, linux-m68k@lists.linux-m68k.org,
-        openrisc@lists.librecores.org, loongarch@lists.linux.dev,
-        Rodrigo Vivi <rodrigo.vivi@intel.com>,
-        linux-arm-kernel@lists.infradead.org, linux-parisc@vger.kernel.org,
-        linux-kernel@vger.kernel.org, Daniel Vetter <daniel@ffwll.ch>,
-        linux-alpha@vger.kernel.org,
-        Andrew Morton <akpm@linux-foundation.org>,
-        linuxppc-dev@lists.ozlabs.org
-Subject: Re: [Intel-gfx] [RFC DO NOT MERGE] treewide: use __xchg in most
- obvious places
-Message-ID: <Y71tlG23t0gH9K1t@smile.fi.intel.com>
-References: <Y7b6/7coJEVlTVxK@phenom.ffwll.local>
- <20230110105306.3973122-1-andrzej.hajda@intel.com>
- <Y71G1tkmUzM4BLxn@smile.fi.intel.com>
- <1bfae3d0-8c0b-ea83-7184-db847a4a969f@intel.com>
+        Wed, 11 Jan 2023 15:43:13 -0500
+Received: from zeniv.linux.org.uk (zeniv.linux.org.uk [IPv6:2a03:a000:7:0:5054:ff:fe1c:15ff])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E2700193F5
+        for <linux-alpha@vger.kernel.org>; Wed, 11 Jan 2023 12:43:11 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+        d=linux.org.uk; s=zeniv-20220401; h=Sender:Content-Type:MIME-Version:
+        Message-ID:Subject:To:From:Date:Reply-To:Cc:Content-Transfer-Encoding:
+        Content-ID:Content-Description:In-Reply-To:References;
+        bh=Ux8GgdBMl9eR/WogF8ePMNoWJGD1MCxK7CYf94mdnDc=; b=oFZ2XAysYh+LmsFGhlfAqOxdap
+        7Qiw3DdxV3RJ2JdDmn29yAS7FC+Xba+OEFhni0lzJ8DZTv1wzkVlIPlana/io+jvnnuuFXbJd4ZWr
+        YPaqgfszFDyr70NTJ1evhrqB2Qy7wiZor5yJ/PmHwdA6JJkPufzHGDKcrUeTA1PwPonz0fNYb5STz
+        cTZRIJgn6c1QmRTdzUj4yL9/N6mwDdHfp7SNe0xbJPXmTBCWR+7uXoc5fdCzIwl40dOOb7E8IlV9c
+        MwGiQ+e5Llj9vIm7hIMdR2CYVOXwIeFbPwNm6nVhz++A0S6tgdQsxsT8Ge3d1H91hRrgz6ftIuWRA
+        wMjrN1Qg==;
+Received: from viro by zeniv.linux.org.uk with local (Exim 4.96 #2 (Red Hat Linux))
+        id 1pFhwE-001MjF-0s
+        for linux-alpha@vger.kernel.org;
+        Wed, 11 Jan 2023 20:43:10 +0000
+Date:   Wed, 11 Jan 2023 20:43:10 +0000
+From:   Al Viro <viro@zeniv.linux.org.uk>
+To:     linux-alpha@vger.kernel.org
+Subject: [PATCH] alpha/boot: fix the breakage from -isystem series...
+Message-ID: <Y78fXnVzitfpX1Tm@ZenIV>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <1bfae3d0-8c0b-ea83-7184-db847a4a969f@intel.com>
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
-X-Spam-Status: No, score=-4.3 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,SPF_HELO_NONE,
-        SPF_NONE autolearn=unavailable autolearn_force=no version=3.4.6
+Sender: Al Viro <viro@ftp.linux.org.uk>
+X-Spam-Status: No, score=-2.0 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_EF,SPF_HELO_NONE,SPF_NONE autolearn=ham
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-alpha.vger.kernel.org>
 X-Mailing-List: linux-alpha@vger.kernel.org
 
-On Tue, Jan 10, 2023 at 01:46:37PM +0100, Andrzej Hajda wrote:
-> On 10.01.2023 12:07, Andy Shevchenko wrote:
-> > On Tue, Jan 10, 2023 at 11:53:06AM +0100, Andrzej Hajda wrote:
+Signed-off-by: Al Viro <viro@zeniv.linux.org.uk>
+---
+ arch/alpha/boot/bootp.c  | 2 +-
+ arch/alpha/boot/bootpz.c | 2 +-
+ arch/alpha/boot/main.c   | 2 +-
+ arch/alpha/boot/stdio.c  | 4 ++--
+ 4 files changed, 5 insertions(+), 5 deletions(-)
 
-...
-
-> > > +	return __xchg(&p_chain->p_prod_elem,
-> > > +		      (void *)(((u8 *)p_chain->p_prod_elem) + p_chain->elem_size));
-> > 
-> > Wondering if you still need a (void *) casting after the change. Ditto for the
-> > rest of similar cases.
-> 
-> IMHO it is not needed also before the change and IIRC gcc has an extension
-> which allows to drop (u8 *) cast as well [1].
-
-I guess you can drop at least the former one.
-
-> [1]: https://gcc.gnu.org/onlinedocs/gcc/Pointer-Arith.html
-
-...
-
-> > Btw, is it done by coccinelle? If no, why not providing the script?
-> 
-> Yes I have used cocci. My cocci skills are far from perfect, so I did not
-> want to share my dirty code, but this is nothing secret:
-
-Thank you! It's not about secrecy, it's about automation / error proofness.
-
+diff --git a/arch/alpha/boot/bootp.c b/arch/alpha/boot/bootp.c
+index b4faba2432d5..842e85776cc0 100644
+--- a/arch/alpha/boot/bootp.c
++++ b/arch/alpha/boot/bootp.c
+@@ -18,7 +18,7 @@
+ #include <asm/hwrpb.h>
+ #include <asm/io.h>
+ 
+-#include <stdarg.h>
++#include <linux/stdarg.h>
+ 
+ #include "ksize.h"
+ 
+diff --git a/arch/alpha/boot/bootpz.c b/arch/alpha/boot/bootpz.c
+index 90a2b341e9c0..c6079308eab3 100644
+--- a/arch/alpha/boot/bootpz.c
++++ b/arch/alpha/boot/bootpz.c
+@@ -20,7 +20,7 @@
+ #include <asm/hwrpb.h>
+ #include <asm/io.h>
+ 
+-#include <stdarg.h>
++#include <linux/stdarg.h>
+ 
+ #include "kzsize.h"
+ 
+diff --git a/arch/alpha/boot/main.c b/arch/alpha/boot/main.c
+index e5347a080008..22a1cb0264af 100644
+--- a/arch/alpha/boot/main.c
++++ b/arch/alpha/boot/main.c
+@@ -15,7 +15,7 @@
+ #include <asm/console.h>
+ #include <asm/hwrpb.h>
+ 
+-#include <stdarg.h>
++#include <linux/stdarg.h>
+ 
+ #include "ksize.h"
+ 
+diff --git a/arch/alpha/boot/stdio.c b/arch/alpha/boot/stdio.c
+index 60f73ccd2e89..a5abeaf94791 100644
+--- a/arch/alpha/boot/stdio.c
++++ b/arch/alpha/boot/stdio.c
+@@ -2,8 +2,8 @@
+ /*
+  * Copyright (C) Paul Mackerras 1997.
+  */
+-#include <stdarg.h>
+-#include <stddef.h>
++#include <linux/string.h>
++#include <linux/stdarg.h>
+ 
+ size_t strnlen(const char * s, size_t count)
+ {
 -- 
-With Best Regards,
-Andy Shevchenko
-
+2.30.2
 
