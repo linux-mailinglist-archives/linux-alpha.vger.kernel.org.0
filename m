@@ -2,153 +2,182 @@ Return-Path: <linux-alpha-owner@vger.kernel.org>
 X-Original-To: lists+linux-alpha@lfdr.de
 Delivered-To: lists+linux-alpha@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id B0B3B66A589
-	for <lists+linux-alpha@lfdr.de>; Fri, 13 Jan 2023 23:00:21 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id C7B1B66AC7D
+	for <lists+linux-alpha@lfdr.de>; Sat, 14 Jan 2023 17:12:05 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230417AbjAMWAT (ORCPT <rfc822;lists+linux-alpha@lfdr.de>);
-        Fri, 13 Jan 2023 17:00:19 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51598 "EHLO
+        id S230184AbjANQME (ORCPT <rfc822;lists+linux-alpha@lfdr.de>);
+        Sat, 14 Jan 2023 11:12:04 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52770 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229996AbjAMWAT (ORCPT
+        with ESMTP id S230229AbjANQMD (ORCPT
         <rfc822;linux-alpha@vger.kernel.org>);
-        Fri, 13 Jan 2023 17:00:19 -0500
-Received: from maynard.decadent.org.uk (maynard.decadent.org.uk [95.217.213.242])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5F22913E2A
-        for <linux-alpha@vger.kernel.org>; Fri, 13 Jan 2023 14:00:16 -0800 (PST)
-Received: from 213.219.160.184.adsl.dyn.edpnet.net ([213.219.160.184] helo=deadeye)
-        by maynard with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
-        (Exim 4.92)
-        (envelope-from <ben@decadent.org.uk>)
-        id 1pGS5u-000269-97; Fri, 13 Jan 2023 23:00:14 +0100
-Received: from ben by deadeye with local (Exim 4.96)
-        (envelope-from <ben@decadent.org.uk>)
-        id 1pGS5t-005Gcw-2N;
-        Fri, 13 Jan 2023 23:00:13 +0100
-Date:   Fri, 13 Jan 2023 23:00:13 +0100
-From:   Ben Hutchings <ben@decadent.org.uk>
-To:     linux-alpha@vger.kernel.org
-Cc:     John Paul Adrian Glaubitz <glaubitz@physik.fu-berlin.de>
-Subject: [PATCH] alpha: Fix missing symbol versions for str{,n}{cat,cpy}
-Message-ID: <Y8HUbeQh51qLA1th@decadent.org.uk>
+        Sat, 14 Jan 2023 11:12:03 -0500
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CD1BB6E9B
+        for <linux-alpha@vger.kernel.org>; Sat, 14 Jan 2023 08:12:02 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+        s=mimecast20190719; t=1673712722;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         content-transfer-encoding:content-transfer-encoding:
+         in-reply-to:in-reply-to:references:references;
+        bh=Q3R4pvBr6dG+A0u3o+nBNguX6qX9S+oXSEacD+sP77s=;
+        b=G6fWsnxkuSZI5ATrsnbmM2M9CJ+OViIDq1TzRXAcIAVCgqB8RGjrTykowmODceiUp+YrRj
+        vnkSCx45ADNtYTLgqFUA/4C9Qgh68LlcdssWPhVzxyU7MzTpXB+5hnVZDj36AfD9IdvHCb
+        gBwna45GeO3ju4GpOyFBBxY12EhKr68=
+Received: from mail-wm1-f72.google.com (mail-wm1-f72.google.com
+ [209.85.128.72]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
+ us-mta-620-vKGYQal-MD2qZn9fH8Q3zQ-1; Sat, 14 Jan 2023 11:09:39 -0500
+X-MC-Unique: vKGYQal-MD2qZn9fH8Q3zQ-1
+Received: by mail-wm1-f72.google.com with SMTP id fm17-20020a05600c0c1100b003d96f0a7f2eso15993599wmb.6
+        for <linux-alpha@vger.kernel.org>; Sat, 14 Jan 2023 08:09:39 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=content-transfer-encoding:in-reply-to:subject:organization:from
+         :references:cc:to:content-language:user-agent:mime-version:date
+         :message-id:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=Q3R4pvBr6dG+A0u3o+nBNguX6qX9S+oXSEacD+sP77s=;
+        b=S8DVEeaoSuXw+gqfU7bxh8CFAmkW0gtm/8byro9wLDghxRKxckj8XP2GXBOFuOFaz2
+         9P9yveontjrkRCQ9CI3WVgw3OqLsY7sVuYliTYWNpCtbPOnbdQK+2juIlLgIFp8oik3A
+         372/mE5jBtZ2Squ5DOFOwJcgecj/VcESBMumHvMLHWfbyfgSqOV+fyLB3FRdq7uO8lTO
+         i6kokGwU0ho0bdHGOuCNIC0XfiOMBBivnFSk3AtNoJpcvZzZiMv7Z8cl2hpSI6ubYTIU
+         GDSQmWHzTKfoE7V6FKysftXK/u1XM9ESHtWgYd+Xdzg4XbepXkZ55FsLuZ2zROEV+MnX
+         GENQ==
+X-Gm-Message-State: AFqh2kqTSnk126WI1cu7u1f79AsutgbWyM0zD7NGkNvbyx7Y/9W87Gs6
+        3iXT3LtYhHPONXBanpU/sCpvXsrTFUbyUhr2XyflUIji+3dTuPkWFHkO6Pwe5uEbg8HJj4AT6U9
+        BKn6w0idrQT/a19ri4jbJDGU=
+X-Received: by 2002:a05:600c:348b:b0:3d1:f16b:30e6 with SMTP id a11-20020a05600c348b00b003d1f16b30e6mr62422460wmq.28.1673712578319;
+        Sat, 14 Jan 2023 08:09:38 -0800 (PST)
+X-Google-Smtp-Source: AMrXdXtvXECQ77f+OwG9Mdcw6TdAWlLhcG76s2TeMh5Hr9A1VofwYXs3lPZWG9daADyc7xNo4jh7zQ==
+X-Received: by 2002:a05:600c:348b:b0:3d1:f16b:30e6 with SMTP id a11-20020a05600c348b00b003d1f16b30e6mr62422426wmq.28.1673712578037;
+        Sat, 14 Jan 2023 08:09:38 -0800 (PST)
+Received: from ?IPV6:2003:cb:c71c:9800:fa4a:c1fc:a860:85af? (p200300cbc71c9800fa4ac1fca86085af.dip0.t-ipconnect.de. [2003:cb:c71c:9800:fa4a:c1fc:a860:85af])
+        by smtp.gmail.com with ESMTPSA id q18-20020adfdfd2000000b002bdc129c8f6sm10260315wrn.43.2023.01.14.08.09.36
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Sat, 14 Jan 2023 08:09:37 -0800 (PST)
+Message-ID: <6aaad548-cf48-77fa-9d6c-db83d724b2eb@redhat.com>
+Date:   Sat, 14 Jan 2023 17:09:35 +0100
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-        protocol="application/pgp-signature"; boundary="ME91w2cl5VCmWMxg"
-Content-Disposition: inline
-X-SA-Exim-Connect-IP: 213.219.160.184
-X-SA-Exim-Mail-From: ben@decadent.org.uk
-X-SA-Exim-Scanned: No (on maynard); SAEximRunCond expanded to false
-X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,SPF_HELO_NONE,
-        SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.6.0
+Content-Language: en-US
+To:     linux-kernel@vger.kernel.org
+Cc:     Andrew Morton <akpm@linux-foundation.org>,
+        Hugh Dickins <hughd@google.com>,
+        John Hubbard <jhubbard@nvidia.com>,
+        Jason Gunthorpe <jgg@nvidia.com>,
+        Mike Rapoport <rppt@linux.ibm.com>,
+        Yang Shi <shy828301@gmail.com>,
+        Vlastimil Babka <vbabka@suse.cz>,
+        Nadav Amit <namit@vmware.com>,
+        Andrea Arcangeli <aarcange@redhat.com>,
+        Peter Xu <peterx@redhat.com>, linux-mm@kvack.org,
+        x86@kernel.org, linux-alpha@vger.kernel.org,
+        linux-snps-arc@lists.infradead.org,
+        linux-arm-kernel@lists.infradead.org, linux-csky@vger.kernel.org,
+        linux-hexagon@vger.kernel.org, linux-ia64@vger.kernel.org,
+        loongarch@lists.linux.dev, linux-m68k@lists.linux-m68k.org,
+        linux-mips@vger.kernel.org, openrisc@lists.librecores.org,
+        linux-parisc@vger.kernel.org, linuxppc-dev@lists.ozlabs.org,
+        linux-riscv@lists.infradead.org, linux-s390@vger.kernel.org,
+        linux-sh@vger.kernel.org, sparclinux@vger.kernel.org,
+        linux-um@lists.infradead.org, linux-xtensa@linux-xtensa.org
+References: <20230113171026.582290-1-david@redhat.com>
+ <20230113171026.582290-2-david@redhat.com>
+From:   David Hildenbrand <david@redhat.com>
+Organization: Red Hat
+Subject: Re: [PATCH mm-unstable v1 01/26] mm/debug_vm_pgtable: more
+ pte_swp_exclusive() sanity checks
+In-Reply-To: <20230113171026.582290-2-david@redhat.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,
+        RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H2,SPF_HELO_NONE,SPF_NONE
+        autolearn=unavailable autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-alpha.vger.kernel.org>
 X-Mailing-List: linux-alpha@vger.kernel.org
 
+On 13.01.23 18:10, David Hildenbrand wrote:
+> We want to implement __HAVE_ARCH_PTE_SWP_EXCLUSIVE on all architectures.
+> Let's extend our sanity checks, especially testing that our PTE bit
+> does not affect:
+> * is_swap_pte() -> pte_present() and pte_none()
+> * the swap entry + type
+> * pte_swp_soft_dirty()
+> 
+> Especially, the pfn_pte() is dodgy when the swap PTE layout differs
+> heavily from ordinary PTEs. Let's properly construct a swap PTE from
+> swap type+offset.
+> 
+> Signed-off-by: David Hildenbrand <david@redhat.com>
+> ---
 
---ME91w2cl5VCmWMxg
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+The following fixup for !CONFIG_SWAP on top, which makes it compile for me and
+passes when booting on x86_64 with CONFIG_DEBUG_VM_PGTABLE:
 
-Now that modpost extracts symbol versions from *.cmd files, it can't
-find the versions for these 4 symbols.  This is due to the way we link
-their objects together ahead of the full vmlinux link.  genksyms puts
-their symbol CRCs in .str{,n}{cat,cpy}.o.cmd, but modpost only reads
-the .sty{,n}cpy.o.cmd files.
+...
+[    0.347112] Loaded X.509 cert 'Build time autogenerated kernel key: ee6afc0578f6475656fec8a4f9d02832'
+[    0.350112] debug_vm_pgtable: [debug_vm_pgtable         ]: Validating architecture page table helpers
+[    0.351217] page_owner is disabled
+...
 
-Instead of using the linker for this, add assembly sources that
-concatenate the appropriate routines with include directives.
 
-Reported-by: John Paul Adrian Glaubitz <glaubitz@physik.fu-berlin.de>
-Fixes: f292d875d0dc ("modpost: extract symbol versions from *.cmd files")
-Signed-off-by: Ben Hutchings <ben@decadent.org.uk>
+ From 6a6162e8af62a4b3f7b9d823fdfae86de3f34a9d Mon Sep 17 00:00:00 2001
+From: David Hildenbrand <david@redhat.com>
+Date: Sat, 14 Jan 2023 16:47:12 +0100
+Subject: [PATCH] fixup: mm/debug_vm_pgtable: more pte_swp_exclusive() sanity
+  checks
+
+generic_max_swapfile_size() is only available with CONFIG_SWAP -- which
+makes sense, because without SWAP there are no swap files. Let's
+simply probe manually which bits we can obtain after storing them in a
+PTE, and properly call it "max swap offset", which is more generic for
+a swap entry.
+
+Reported-by: kernel test robot <lkp@intel.com>
+Signed-off-by: David Hildenbrand <david@redhat.com>
 ---
- arch/alpha/lib/Makefile  | 14 --------------
- arch/alpha/lib/stycpy.S  | 13 +++++++++++++
- arch/alpha/lib/styncpy.S | 13 +++++++++++++
- 3 files changed, 26 insertions(+), 14 deletions(-)
- create mode 100644 arch/alpha/lib/stycpy.S
- create mode 100644 arch/alpha/lib/styncpy.S
+  mm/debug_vm_pgtable.c | 8 +++++---
+  1 file changed, 5 insertions(+), 3 deletions(-)
 
-diff --git a/arch/alpha/lib/Makefile b/arch/alpha/lib/Makefile
-index 1cc74f7b50ef..8f1c32a25a40 100644
---- a/arch/alpha/lib/Makefile
-+++ b/arch/alpha/lib/Makefile
-@@ -45,17 +45,3 @@ AFLAGS___remlu.o =       -DREM -DINTSIZE
- $(addprefix $(obj)/,__divqu.o __remqu.o __divlu.o __remlu.o): \
- 						$(src)/$(ev6-y)divide.S FORCE
- 	$(call if_changed_rule,as_o_S)
--
--# There are direct branches between {str*cpy,str*cat} and stx*cpy.
--# Ensure the branches are within range by merging these objects.
--
--LDFLAGS_stycpy.o := -r
--LDFLAGS_styncpy.o := -r
--
--$(obj)/stycpy.o: $(obj)/strcpy.o $(obj)/$(ev67-y)strcat.o \
--		 $(obj)/$(ev6-y)stxcpy.o FORCE
--	$(call if_changed,ld)
--
--$(obj)/styncpy.o: $(obj)/strncpy.o $(obj)/$(ev67-y)strncat.o \
--		 $(obj)/$(ev6-y)stxncpy.o FORCE
--	$(call if_changed,ld)
-diff --git a/arch/alpha/lib/stycpy.S b/arch/alpha/lib/stycpy.S
-new file mode 100644
-index 000000000000..bf2b0238209e
---- /dev/null
-+++ b/arch/alpha/lib/stycpy.S
-@@ -0,0 +1,13 @@
-+/* SPDX-License-Identifier: GPL-2.0 */
-+/*
-+ * There are direct branches between strcpy, strcat, and stxcpy.
-+ * Ensure the branches are within range by concatenating their code.
-+ */
-+#include "strcpy.S"
-+#ifdef CONFIG_ALPHA_EV6
-+#include "ev6-strcat.S"
-+#include "ev6-stxcpy.S"
-+#else
-+#include "strcat.S"
-+#include "stxcpy.S"
-+#endif
-diff --git a/arch/alpha/lib/styncpy.S b/arch/alpha/lib/styncpy.S
-new file mode 100644
-index 000000000000..213d1678be2a
---- /dev/null
-+++ b/arch/alpha/lib/styncpy.S
-@@ -0,0 +1,13 @@
-+/* SPDX-License-Identifier: GPL-2.0 */
-+/*
-+ * There are direct branches between strncpy, strncat, and stxncpy.
-+ * Ensure the branches are within range by concatenating their code.
-+ */
-+#include "strncpy.S"
-+#ifdef CONFIG_ALPHA_EV6
-+#include "ev6-strncat.S"
-+#include "ev6-stxncpy.S"
-+#else
-+#include "strncat.S"
-+#include "stxncpy.S"
-+#endif
+diff --git a/mm/debug_vm_pgtable.c b/mm/debug_vm_pgtable.c
+index 3da0cc380c35..af59cc7bd307 100644
+--- a/mm/debug_vm_pgtable.c
++++ b/mm/debug_vm_pgtable.c
+@@ -810,15 +810,17 @@ static void __init pmd_swap_soft_dirty_tests(struct pgtable_debug_args *args) {
+  
+  static void __init pte_swap_exclusive_tests(struct pgtable_debug_args *args)
+  {
+-	unsigned long max_swapfile_size = generic_max_swapfile_size();
++	unsigned long max_swap_offset;
+  	swp_entry_t entry, entry2;
+  	pte_t pte;
+  
+  	pr_debug("Validating PTE swap exclusive\n");
+  
++	/* See generic_max_swapfile_size(): probe the maximum offset */
++	max_swap_offset = swp_offset(pte_to_swp_entry(swp_entry_to_pte(swp_entry(0, ~0UL))));
++
+  	/* Create a swp entry with all possible bits set */
+-	entry = swp_entry((1 << MAX_SWAPFILES_SHIFT) - 1,
+-			  max_swapfile_size - 1);
++	entry = swp_entry((1 << MAX_SWAPFILES_SHIFT) - 1, max_swap_offset);
+  
+  	pte = swp_entry_to_pte(entry);
+  	WARN_ON(pte_swp_exclusive(pte));
+-- 
+2.39.0
 
---ME91w2cl5VCmWMxg
-Content-Type: application/pgp-signature; name="signature.asc"
 
------BEGIN PGP SIGNATURE-----
 
-iQIzBAABCgAdFiEErCspvTSmr92z9o8157/I7JWGEQkFAmPB1GgACgkQ57/I7JWG
-EQnAmQ/+JACBLNcRIeJ859bKZ3BVCoUsXwslrToD0306GXHZlI7h7ucVPN+eCHnF
-ene/yqBWYjFJ7T/iPsBXGjhwX9NNVzLku2dfuh/Dat81PdwdMDZ/M5TIKp63FExC
-nkqkCkDNAm1w0tZctbjsA9HM6sWPPmgXClPhiJMDz+v6db4mT9WSlqQHzElVHrlU
-QlMJaWW9LFa13d2WPS2xP59/JpZBW6OUh4RI62l3CoyOq+uaGopADv5sS8OIWyNC
-9FRNSLrJFHAURzyCKxY/HFGTIs9OT9xv+IODnNq3n8SE2RZQd+lRELFBSB8gkuNv
-lqXtCQRyWMPWRmBTPfOSjo8AbEemNNiawBAGdQyaCmt0VkfEAF+KMeVyu6vUkC6s
-ZE8+oEOtnwLmMRVNtd/khOIlWQlJizJbJsTwInV3JLk3ZQIot2ySrWe3sg+trbTi
-bgIK0QfUsI2+z9W6gc6CUMYHA+Wusltb4DHrzQSLmH7/y2hG+fKvpuY3w3nzTKZ9
-C/qm6SsPaUI8gGKavbu0spNGJIQyj13dBsEY40XkmxDbm801PP58J+phJcPP2f1z
-z4/M4MsE5gwQxZhutEdcLwBzvu3GlAcvzlBbi5kEXy9OZfhFyYmwoNvWOrrx2dAR
-UGYyhAUP6jYdTwbzpzTR0pXx6ForNmU+xQKhdFLvCr5fyfqpEGg=
-=+cfg
------END PGP SIGNATURE-----
+-- 
+Thanks,
 
---ME91w2cl5VCmWMxg--
+David / dhildenb
+
