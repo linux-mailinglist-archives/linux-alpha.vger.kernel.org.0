@@ -2,92 +2,141 @@ Return-Path: <linux-alpha-owner@vger.kernel.org>
 X-Original-To: lists+linux-alpha@lfdr.de
 Delivered-To: lists+linux-alpha@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 157F868B1A4
-	for <lists+linux-alpha@lfdr.de>; Sun,  5 Feb 2023 21:41:45 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 612C468B461
+	for <lists+linux-alpha@lfdr.de>; Mon,  6 Feb 2023 04:12:12 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229494AbjBEUln (ORCPT <rfc822;lists+linux-alpha@lfdr.de>);
-        Sun, 5 Feb 2023 15:41:43 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52988 "EHLO
+        id S229581AbjBFDMJ (ORCPT <rfc822;lists+linux-alpha@lfdr.de>);
+        Sun, 5 Feb 2023 22:12:09 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34358 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229564AbjBEUln (ORCPT
-        <rfc822;linux-alpha@vger.kernel.org>); Sun, 5 Feb 2023 15:41:43 -0500
-Received: from mail-ej1-x634.google.com (mail-ej1-x634.google.com [IPv6:2a00:1450:4864:20::634])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8D07B1C33F
-        for <linux-alpha@vger.kernel.org>; Sun,  5 Feb 2023 12:41:38 -0800 (PST)
-Received: by mail-ej1-x634.google.com with SMTP id ml19so29136966ejb.0
-        for <linux-alpha@vger.kernel.org>; Sun, 05 Feb 2023 12:41:38 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linux-foundation.org; s=google;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=nA/a76A+HUu/p3q1j/ksBjPXLniSmCFkRwLsRUtoauc=;
-        b=RAXg4fKD/6SPLwBhZz74xHccwCI6WZIYpGpGHWQ9ObJeCvGoohTSAtwCqfiD+ZaDQ1
-         aIRLI8OL+avYEEBlM4uINCdq7A3GKoZhraxTCpB9pYCimwQ4kIElEWhkml7G/7PEKTT6
-         Vy21ly1st4HkkM+1bI4kXV+bK57J6A6HvWAas=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=nA/a76A+HUu/p3q1j/ksBjPXLniSmCFkRwLsRUtoauc=;
-        b=nq7Q93eTcUd0i1kVl5qUEDCaNd9JyqjuTCIh/W/yFxgLPHGCiNY3CbpQZkQ2cuJ9ZC
-         7QB+pweWC0PpDXvsR5oegzju5wSd7u27cGgpCLMI5aUwt9vC5A4Cwsj2XzeR5UIwx1mz
-         P2Jqmofh/7c2PTVXFz6Ml2i1MnqbyVuNf5Cks/JKLdM9X+r6v4SZvYdss7kjqaWvii8P
-         gHHkCZlu0ovE3CpBbqHPxcipHteZeeUVLUvzx8cKqPRjSADo07Zx6R9tqe+yRR94jrEw
-         UTRnbcuMcmd+SgHU+DJPtuRL1TVO6xnGN1PVMsVO1A+h9JQMP7exV+BGiZOwbF+WY2ns
-         Ie4w==
-X-Gm-Message-State: AO0yUKV+mkrbViyR/WzQaP7e1mknigI7YWu7UsgY7INggyB/6UFhdxx3
-        oFZCRG465Azq5/g2q3HPha9Dgcp7s25zFnSW1OI=
-X-Google-Smtp-Source: AK7set/uL1IwcmE4t0zu/P9Axj5A2iPcngJ4x85UF4ypWKT3EmPUefJ/mSu/l/wjiUGP/5zbXRhZLQ==
-X-Received: by 2002:a17:907:9382:b0:878:4c4e:1c6a with SMTP id cm2-20020a170907938200b008784c4e1c6amr13977625ejc.3.1675629696774;
-        Sun, 05 Feb 2023 12:41:36 -0800 (PST)
-Received: from mail-ej1-f43.google.com (mail-ej1-f43.google.com. [209.85.218.43])
-        by smtp.gmail.com with ESMTPSA id u23-20020a1709063b9700b0088ba2de323csm4533319ejf.181.2023.02.05.12.41.35
-        for <linux-alpha@vger.kernel.org>
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Sun, 05 Feb 2023 12:41:36 -0800 (PST)
-Received: by mail-ej1-f43.google.com with SMTP id mc11so28920776ejb.10
-        for <linux-alpha@vger.kernel.org>; Sun, 05 Feb 2023 12:41:35 -0800 (PST)
-X-Received: by 2002:a17:906:892:b0:87a:7098:ca09 with SMTP id
- n18-20020a170906089200b0087a7098ca09mr4402604eje.78.1675629695651; Sun, 05
- Feb 2023 12:41:35 -0800 (PST)
+        with ESMTP id S229522AbjBFDMJ (ORCPT
+        <rfc822;linux-alpha@vger.kernel.org>); Sun, 5 Feb 2023 22:12:09 -0500
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6BDCD1A4B7;
+        Sun,  5 Feb 2023 19:12:08 -0800 (PST)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id E972E60C67;
+        Mon,  6 Feb 2023 03:12:07 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 5721CC433AC;
+        Mon,  6 Feb 2023 03:12:07 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1675653127;
+        bh=SEHqDj0pecZaoDvI2TxfvISMCoNXpVJslROmtkQHTl0=;
+        h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+        b=aBHWxbUE1qscXgToVSLDbDbOTBJx5ol3QAloFKF6quHuxSLDc6bLN0hEb6oLgxGmy
+         MnLxdeRrgyeBdJ9pGDDQDN8qL5E9eF3ZREg1BlrIswbxzqSGfwNgKGkpU7eR7l/H+i
+         Vbq9BwU/inl0wIHB7aGtD4Z3NEhanBgFaoByYV66gksXGt6rGyMFlx2u7/LVAOMEK5
+         3UQMP1Lhs7EYtOpLuMlrIWY7J57uJMJDeSdRPH5Gq31PiUX/XFKpgBmcKERl5TtGxs
+         zZmDid7aciqyecTQEc01AFRGPklMTl/8Ni72awcEbNNyPoB7lSyFUULT/gnF3yjq+a
+         QYealvajIFRZg==
+Received: by mail-ej1-f42.google.com with SMTP id mf7so30465661ejc.6;
+        Sun, 05 Feb 2023 19:12:07 -0800 (PST)
+X-Gm-Message-State: AO0yUKXQj1OYwkzCxr8lt87Nj1nU8qdd5VU2CQpXDhxca9gqVyHqszgK
+        HDc/+CsIh6KCcN2YsgRztMH+HIG+lrAREpPbv6k=
+X-Google-Smtp-Source: AK7set+C2OPIEjxuD4imJwgo/SdFRSDGqxy+aWdQoxwR9LsZ/L0xaRFmrPMBBJUVbKfwf6WwaCs9pUvWr8CjvlkkXS4=
+X-Received: by 2002:a17:906:8419:b0:884:c19c:7c6 with SMTP id
+ n25-20020a170906841900b00884c19c07c6mr4724728ejx.120.1675653125517; Sun, 05
+ Feb 2023 19:12:05 -0800 (PST)
 MIME-Version: 1.0
-References: <Y9lz6yk113LmC9SI@ZenIV> <Y9l0aBPUEpf1bci9@ZenIV>
- <92a4aa45-0a7c-a389-798a-2f3e3cfa516f@linux-m68k.org> <Y+AUEJpWYdUzW0OD@ZenIV>
-In-Reply-To: <Y+AUEJpWYdUzW0OD@ZenIV>
-From:   Linus Torvalds <torvalds@linux-foundation.org>
-Date:   Sun, 5 Feb 2023 12:41:18 -0800
-X-Gmail-Original-Message-ID: <CAHk-=wh8+LsDDd8AFMwaYHAA+eLT8O2ziEJfpoeo_H6MCg2NKg@mail.gmail.com>
-Message-ID: <CAHk-=wh8+LsDDd8AFMwaYHAA+eLT8O2ziEJfpoeo_H6MCg2NKg@mail.gmail.com>
-Subject: Re: [PATCH 04/10] m68k: fix livelock in uaccess
-To:     Al Viro <viro@zeniv.linux.org.uk>
-Cc:     Finn Thain <fthain@linux-m68k.org>, linux-arch@vger.kernel.org,
-        linux-alpha@vger.kernel.org, linux-ia64@vger.kernel.org,
-        linux-hexagon@vger.kernel.org, linux-m68k@lists.linux-m68k.org,
-        Michal Simek <monstr@monstr.eu>,
-        Dinh Nguyen <dinguyen@kernel.org>,
-        linux-parisc@vger.kernel.org, linux-riscv@lists.infradead.org,
-        sparclinux@vger.kernel.org
+References: <cover.1675461757.git.jpoimboe@kernel.org> <f860f3a1c1a53c437a99abc53e8f1a798aef6881.1675461757.git.jpoimboe@kernel.org>
+ <CAJF2gTSKe3ve4_rsOYpmSBOyUSU5rpLHyijn9i2-i+WfLqxzYw@mail.gmail.com> <20230204022932.k24laszjs3v4bc3v@treble>
+In-Reply-To: <20230204022932.k24laszjs3v4bc3v@treble>
+From:   Guo Ren <guoren@kernel.org>
+Date:   Mon, 6 Feb 2023 11:11:53 +0800
+X-Gmail-Original-Message-ID: <CAJF2gTSrGNm3xkwzws4uh1bv__1XYFCh322MJtk2ObQmv1_nEA@mail.gmail.com>
+Message-ID: <CAJF2gTSrGNm3xkwzws4uh1bv__1XYFCh322MJtk2ObQmv1_nEA@mail.gmail.com>
+Subject: Re: [PATCH 05/22] csky/cpu: Make sure arch_cpu_idle_dead() doesn't return
+To:     Josh Poimboeuf <jpoimboe@kernel.org>
+Cc:     linux-kernel@vger.kernel.org, jgross@suse.com,
+        richard.henderson@linaro.org, ink@jurassic.park.msu.ru,
+        mattst88@gmail.com, linux-alpha@vger.kernel.org,
+        linux@armlinux.org.uk, linux-arm-kernel@lists.infradead.org,
+        catalin.marinas@arm.com, will@kernel.org,
+        linux-csky@vger.kernel.org, linux-ia64@vger.kernel.org,
+        chenhuacai@kernel.org, kernel@xen0n.name,
+        loongarch@lists.linux.dev, f.fainelli@gmail.com,
+        bcm-kernel-feedback-list@broadcom.com, tsbogend@alpha.franken.de,
+        linux-mips@vger.kernel.org, jiaxun.yang@flygoat.com,
+        mpe@ellerman.id.au, npiggin@gmail.com, christophe.leroy@csgroup.eu,
+        linuxppc-dev@lists.ozlabs.org, ysato@users.sourceforge.jp,
+        dalias@libc.org, linux-sh@vger.kernel.org, davem@davemloft.net,
+        sparclinux@vger.kernel.org, tglx@linutronix.de, mingo@redhat.com,
+        bp@alien8.de, dave.hansen@linux.intel.com, x86@kernel.org,
+        hpa@zytor.com, chris@zankel.net, jcmvbkbc@gmail.com,
+        linux-xtensa@linux-xtensa.org, peterz@infradead.org,
+        juri.lelli@redhat.com, vincent.guittot@linaro.org,
+        dietmar.eggemann@arm.com, rostedt@goodmis.org, bsegall@google.com,
+        mgorman@suse.de, bristot@redhat.com, vschneid@redhat.com,
+        paulmck@kernel.org
 Content-Type: text/plain; charset="UTF-8"
-X-Spam-Status: No, score=-1.8 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
-        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS autolearn=no
-        autolearn_force=no version=3.4.6
+X-Spam-Status: No, score=-4.4 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,
+        SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-alpha.vger.kernel.org>
 X-Mailing-List: linux-alpha@vger.kernel.org
 
-On Sun, Feb 5, 2023 at 12:39 PM Al Viro <viro@zeniv.linux.org.uk> wrote:
+On Sat, Feb 4, 2023 at 10:29 AM Josh Poimboeuf <jpoimboe@kernel.org> wrote:
 >
-> BTW, since these patches would be much easier to backport than any unification
-> work, I think the right thing to do would be to have further unification done on
-> top of them.
+> On Sat, Feb 04, 2023 at 09:12:31AM +0800, Guo Ren wrote:
+> > On Sat, Feb 4, 2023 at 6:05 AM Josh Poimboeuf <jpoimboe@kernel.org> wrote:
+> > >
+> > > arch_cpu_idle_dead() doesn't return.  Make that more explicit with a
+> > > BUG().
+> > >
+> > > BUG() is preferable to unreachable() because BUG() is a more explicit
+> > > failure mode and avoids undefined behavior like falling off the edge of
+> > > the function into whatever code happens to be next.
+> > >
+> > > Signed-off-by: Josh Poimboeuf <jpoimboe@kernel.org>
+> > > ---
+> > >  arch/csky/kernel/smp.c | 2 ++
+> > >  1 file changed, 2 insertions(+)
+> > >
+> > > diff --git a/arch/csky/kernel/smp.c b/arch/csky/kernel/smp.c
+> > > index b45d1073307f..0ec20efaf5fd 100644
+> > > --- a/arch/csky/kernel/smp.c
+> > > +++ b/arch/csky/kernel/smp.c
+> > > @@ -317,5 +317,7 @@ void arch_cpu_idle_dead(void)
+> > >                 "jmpi   csky_start_secondary"
+> > >                 :
+> > >                 : "r" (secondary_stack));
+> > > +
+> > > +       BUG();
+> > Why not:
+> > diff --git a/kernel/sched/idle.c b/kernel/sched/idle.c
+> > index f26ab2675f7d..1d3bf903add2 100644
+> > --- a/kernel/sched/idle.c
+> > +++ b/kernel/sched/idle.c
+> > @@ -285,6 +285,7 @@ static void do_idle(void)
+> >                         tick_nohz_idle_stop_tick();
+> >                         cpuhp_report_idle_dead();
+> >                         arch_cpu_idle_dead();
+> > +                       BUG();
+>
+> Without the BUG() in csky arch_cpu_idle_dead(), the compiler will warn
+> about arch_cpu_idle_dead() returning, because it's marked __noreturn but
+> doesn't clearly return (as far as the compiler knows).
+>
+> And we want it marked __noreturn so we'll be more likely to catch such
+> bugs at build time.
+>
+> And as a bonus we get better code generation and clearer code semantics
+> which helps both humans and tooling understand the intent of the code.
+Thx for the clarification.
 
-Ack. I'm not NAKing the patches, I was just hoping that we also have
-some way forward.
+Acked-by: Guo Ren <guoren@kernel.org>
 
-So "fix the issues, then unify" sounds like the right thing to do to me.
+>
+> --
+> Josh
 
-               Linus
+
+
+-- 
+Best Regards
+ Guo Ren
