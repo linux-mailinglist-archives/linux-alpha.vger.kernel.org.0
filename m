@@ -2,54 +2,54 @@ Return-Path: <linux-alpha-owner@vger.kernel.org>
 X-Original-To: lists+linux-alpha@lfdr.de
 Delivered-To: lists+linux-alpha@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 57B95695BAF
-	for <lists+linux-alpha@lfdr.de>; Tue, 14 Feb 2023 09:00:52 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 6A4B8695BB9
+	for <lists+linux-alpha@lfdr.de>; Tue, 14 Feb 2023 09:01:54 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229729AbjBNIAv (ORCPT <rfc822;lists+linux-alpha@lfdr.de>);
-        Tue, 14 Feb 2023 03:00:51 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34436 "EHLO
+        id S230340AbjBNIBx (ORCPT <rfc822;lists+linux-alpha@lfdr.de>);
+        Tue, 14 Feb 2023 03:01:53 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34346 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231814AbjBNIAk (ORCPT
+        with ESMTP id S229648AbjBNIBa (ORCPT
         <rfc822;linux-alpha@vger.kernel.org>);
-        Tue, 14 Feb 2023 03:00:40 -0500
-Received: from mail-wr1-x431.google.com (mail-wr1-x431.google.com [IPv6:2a00:1450:4864:20::431])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6087023113
-        for <linux-alpha@vger.kernel.org>; Tue, 14 Feb 2023 00:00:17 -0800 (PST)
-Received: by mail-wr1-x431.google.com with SMTP id h16so14672905wrz.12
-        for <linux-alpha@vger.kernel.org>; Tue, 14 Feb 2023 00:00:17 -0800 (PST)
+        Tue, 14 Feb 2023 03:01:30 -0500
+Received: from mail-wm1-x332.google.com (mail-wm1-x332.google.com [IPv6:2a00:1450:4864:20::332])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7ABC41AD
+        for <linux-alpha@vger.kernel.org>; Tue, 14 Feb 2023 00:01:18 -0800 (PST)
+Received: by mail-wm1-x332.google.com with SMTP id l37-20020a05600c1d2500b003dfe46a9801so10904241wms.0
+        for <linux-alpha@vger.kernel.org>; Tue, 14 Feb 2023 00:01:18 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=rivosinc-com.20210112.gappssmtp.com; s=20210112;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=E2QJZPzpdHOLfexOQ+hmmrB7dRtnPULpm3pE6FQ2lH4=;
-        b=C0BKrtLVD9dPrMd/+CblqjI5N9M4hOpsDT1jeSn//bLeSUNyeNRV2ooJMH08nRoIQS
-         ONq/MOqxPFeZlIoEGN8YZASLSSCQrg/eqCEelFWRVVb63y8KZQCVcX9vSbHRqPFNlIC+
-         TeDkuM4gHepb+qbD6N2SfjuNFdvJq7OfgVO1JdSYMLlWn78H0eT8NaQauwrQE90tLJhI
-         b1szqM+4oXeT3F3RMSC8v9UVQoYQ0bd3kq2oH3oFxQhhmDUZnumwnDBU79bcGQ9C57OO
-         fNw5HdPiDMupP3h9vBjMMu4K1PcELsOrXFsLgwmva/L1FqjXaNcw+hnfIvHNys5eSmUu
-         jWQA==
+        bh=Qo6bbo2bRyWK11RZrfYsn5sMa7dXFL8PHrhyCBAfahw=;
+        b=TMMbRSi/BCE/yErJFR+8mP4kHpzJPnjWYD1LaUx1BM/FJpNCkORSwWkRjLfPsMyQqo
+         fulZsqvrZEVPcRzKF+1vKVnCe1gxjJdsKqL5a0Ur/QtPt0cEiklml/LFDMQInlcJXKbN
+         3EuzLq3yK0iBVF7Bo1UPCHnmEyjscloEzV6naOlGZOYvtNSv3xVvG4cBi2FvaRmDbucP
+         RwobnEOFQiJf2qRFuHMOB187Bn0enZcqtaErAMCGff/IE4dTHZhs8fIIzk3pmvmFm+JH
+         xRTgMqgp/xyznDIWlGzaYoXKmkXepF79f9ku6U8W97rBDLEsTc2Cpy/RncixjD8957uR
+         v7wQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=E2QJZPzpdHOLfexOQ+hmmrB7dRtnPULpm3pE6FQ2lH4=;
-        b=P2Cn0Y6PrWLFi9cv4KGrYSwG94qObxonN4Oi0DwiYy3Mce5EZ5HHVOUCXgAhvQW0gK
-         TTlOUzGM08apHYkayqV674aTt+0Hc/BR6OTTS7iMoUYFbYx9ox1pBpBzZ9jdC2rKXZM+
-         5tMmUwJD9nSqUDL6cVGb1WpAZF5Z3nI0dDQc0YIaX3+zPJm8jpNuryWOXTLONZZCn2L5
-         0xW3NGvaXtle2hoSAuU8+0irnRMQ/yTWBeH8nSNGBswgDN132bO4STl9cZ0Ez/vi9PgH
-         y5hOMM/hovyDcz7rCL7dNLaGLpBzORq13cfPnvX+Xv7YS++dYHGWU1Z+10mLT8wrXX0n
-         JZiQ==
-X-Gm-Message-State: AO0yUKVER29CX8F5i0tFjguPsiDSSHLUtfwViwSCX5tKu83VWO3Q7ibd
-        K/xE6rpNL4TO50OI770QMgjF8Q==
-X-Google-Smtp-Source: AK7set+XzNXYkHtZqTwMW8TxEbRzyb1kB86Lv95kElQfHkdnpF1SNAaWiJ77PP4F49Qltd39nZaGEA==
-X-Received: by 2002:adf:ea0f:0:b0:2c5:54a7:363c with SMTP id q15-20020adfea0f000000b002c554a7363cmr1349716wrm.23.1676361615303;
-        Tue, 14 Feb 2023 00:00:15 -0800 (PST)
+        bh=Qo6bbo2bRyWK11RZrfYsn5sMa7dXFL8PHrhyCBAfahw=;
+        b=BFBgMghCbWbqJOH9IptarlWvMCq07GS/mg2nXtdUiv/C/FE4E2B7/CW+tI7JhGjxD9
+         hGQjke0x2AwPCdDPTPNSQ5EKg3GZzQj5jh7qR18lhCWTX9i6ruhSSjlCkSQk6bSNk0xK
+         pnubu2Nd7SpziJPEsXJuJYyvKXp4lzhPwv/bd/Hqf4Z+FDtTMNkLymlSMPo5ujjr9zgB
+         jutN+tZCVFi/dm8p8pGhaxXLuVLTOzRhfl6zrwi0Xi4OHNrNYImXIxFtamREpAvaCsDn
+         KCN+nI1URducqRfFpoZR1gap5eNXrJP3C/FHlKoIt9gp4FTtN/OMKQkI1e4kg7fIwUSP
+         vShA==
+X-Gm-Message-State: AO0yUKUVec5LRp507DXoVTFEIxPy8MJQ5VxyPYBXcU6I0sN//FvdDAxD
+        fLWoXGdx8rhnkh6AjHazOdx1sw==
+X-Google-Smtp-Source: AK7set8IpWY8CpzAPCBWVzNURL5vk19ARmKC+w+wpmjRTy+p7eC6MNgebM0G0jyEe8mq9fD+Zj4AGQ==
+X-Received: by 2002:a05:600c:13ca:b0:3df:50eb:7cd9 with SMTP id e10-20020a05600c13ca00b003df50eb7cd9mr1198904wmg.14.1676361677044;
+        Tue, 14 Feb 2023 00:01:17 -0800 (PST)
 Received: from alex-rivos.ba.rivosinc.com (lfbn-lyo-1-450-160.w2-7.abo.wanadoo.fr. [2.7.42.160])
-        by smtp.gmail.com with ESMTPSA id l2-20020a5d6742000000b002c55cdb1de5sm3293178wrw.116.2023.02.14.00.00.13
+        by smtp.gmail.com with ESMTPSA id r18-20020a05600c459200b003db03725e86sm18139496wmo.8.2023.02.14.00.01.15
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 14 Feb 2023 00:00:15 -0800 (PST)
+        Tue, 14 Feb 2023 00:01:16 -0800 (PST)
 From:   Alexandre Ghiti <alexghiti@rivosinc.com>
 To:     Jonathan Corbet <corbet@lwn.net>,
         Richard Henderson <richard.henderson@linaro.org>,
@@ -96,17 +96,17 @@ To:     Jonathan Corbet <corbet@lwn.net>,
         sparclinux@vger.kernel.org, linux-xtensa@linux-xtensa.org,
         linux-arch@vger.kernel.org
 Cc:     Palmer Dabbelt <palmer@rivosinc.com>
-Subject: [PATCH v3 10/24] sparc: Remove COMMAND_LINE_SIZE from uapi
-Date:   Tue, 14 Feb 2023 08:49:11 +0100
-Message-Id: <20230214074925.228106-11-alexghiti@rivosinc.com>
+Subject: [PATCH v3 11/24] xtensa: Remove COMMAND_LINE_SIZE from uapi
+Date:   Tue, 14 Feb 2023 08:49:12 +0100
+Message-Id: <20230214074925.228106-12-alexghiti@rivosinc.com>
 X-Mailer: git-send-email 2.37.2
 In-Reply-To: <20230214074925.228106-1-alexghiti@rivosinc.com>
 References: <20230214074925.228106-1-alexghiti@rivosinc.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS
-        autolearn=unavailable autolearn_force=no version=3.4.6
+        DKIM_VALID,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS autolearn=ham
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
@@ -120,43 +120,45 @@ be part of the user-visible API.
 
 Signed-off-by: Palmer Dabbelt <palmer@rivosinc.com>
 ---
- arch/sparc/include/asm/setup.h      | 6 +++++-
- arch/sparc/include/uapi/asm/setup.h | 7 -------
- 2 files changed, 5 insertions(+), 8 deletions(-)
+ arch/xtensa/include/asm/setup.h      | 17 +++++++++++++++++
+ arch/xtensa/include/uapi/asm/setup.h |  2 --
+ 2 files changed, 17 insertions(+), 2 deletions(-)
+ create mode 100644 arch/xtensa/include/asm/setup.h
 
-diff --git a/arch/sparc/include/asm/setup.h b/arch/sparc/include/asm/setup.h
-index 72205684e51e..d1384ed92547 100644
---- a/arch/sparc/include/asm/setup.h
-+++ b/arch/sparc/include/asm/setup.h
-@@ -7,7 +7,11 @@
- 
- #include <linux/interrupt.h>
- 
--#include <uapi/asm/setup.h>
-+#if defined(__sparc__) && defined(__arch64__)
-+# define COMMAND_LINE_SIZE 2048
-+#else
-+# define COMMAND_LINE_SIZE 256
+diff --git a/arch/xtensa/include/asm/setup.h b/arch/xtensa/include/asm/setup.h
+new file mode 100644
+index 000000000000..5356a5fd4d17
+--- /dev/null
++++ b/arch/xtensa/include/asm/setup.h
+@@ -0,0 +1,17 @@
++/* SPDX-License-Identifier: GPL-2.0 WITH Linux-syscall-note */
++/*
++ * include/asm-xtensa/setup.h
++ *
++ * This file is subject to the terms and conditions of the GNU General Public
++ * License.  See the file "COPYING" in the main directory of this archive
++ * for more details.
++ *
++ * Copyright (C) 2001 - 2005 Tensilica Inc.
++ */
++
++#ifndef _XTENSA_SETUP_H
++#define _XTENSA_SETUP_H
++
++#define COMMAND_LINE_SIZE	256
++
 +#endif
+diff --git a/arch/xtensa/include/uapi/asm/setup.h b/arch/xtensa/include/uapi/asm/setup.h
+index 5356a5fd4d17..6f982394684a 100644
+--- a/arch/xtensa/include/uapi/asm/setup.h
++++ b/arch/xtensa/include/uapi/asm/setup.h
+@@ -12,6 +12,4 @@
+ #ifndef _XTENSA_SETUP_H
+ #define _XTENSA_SETUP_H
  
- extern char reboot_command[];
- 
-diff --git a/arch/sparc/include/uapi/asm/setup.h b/arch/sparc/include/uapi/asm/setup.h
-index 3c208a4dd464..c3cf1b0d30b3 100644
---- a/arch/sparc/include/uapi/asm/setup.h
-+++ b/arch/sparc/include/uapi/asm/setup.h
-@@ -6,11 +6,4 @@
- #ifndef _UAPI_SPARC_SETUP_H
- #define _UAPI_SPARC_SETUP_H
- 
--#if defined(__sparc__) && defined(__arch64__)
--# define COMMAND_LINE_SIZE 2048
--#else
--# define COMMAND_LINE_SIZE 256
--#endif
+-#define COMMAND_LINE_SIZE	256
 -
--
- #endif /* _UAPI_SPARC_SETUP_H */
+ #endif
 -- 
 2.37.2
 
