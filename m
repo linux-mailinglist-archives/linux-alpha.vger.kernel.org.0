@@ -2,112 +2,78 @@ Return-Path: <linux-alpha-owner@vger.kernel.org>
 X-Original-To: lists+linux-alpha@lfdr.de
 Delivered-To: lists+linux-alpha@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 45E8B6A11E3
-	for <lists+linux-alpha@lfdr.de>; Thu, 23 Feb 2023 22:24:42 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id A96676A1561
+	for <lists+linux-alpha@lfdr.de>; Fri, 24 Feb 2023 04:30:15 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229709AbjBWVYk (ORCPT <rfc822;lists+linux-alpha@lfdr.de>);
-        Thu, 23 Feb 2023 16:24:40 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38092 "EHLO
+        id S229921AbjBXDaP (ORCPT <rfc822;lists+linux-alpha@lfdr.de>);
+        Thu, 23 Feb 2023 22:30:15 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34158 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229555AbjBWVYj (ORCPT
+        with ESMTP id S229445AbjBXDaO (ORCPT
         <rfc822;linux-alpha@vger.kernel.org>);
-        Thu, 23 Feb 2023 16:24:39 -0500
-Received: from mga04.intel.com (mga04.intel.com [192.55.52.120])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0A9EA2FCC7;
-        Thu, 23 Feb 2023 13:24:35 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1677187476; x=1708723476;
-  h=message-id:date:mime-version:subject:to:cc:references:
-   from:in-reply-to:content-transfer-encoding;
-  bh=mVoVfL5vlPHnSouV6VBABWbzjtaVYznfmLZ6wrrIyJs=;
-  b=ARbNOFfth9NJH01seMIkjhbcjWnHhhY5DHZa5R6gB+zUuSyqHvHf0f9K
-   9FN32kBf31zMFgZvv78ArwWLBqomgSZcpYFC9FK29I4oZgV55YSiiYvi/
-   RgOI+PgUXwTctAou/cm3qlh8uhT3JnYuhQTiR8Nh3UvCfxSxdk2AwY65M
-   7ny86cwBPlk+pin+xJxLWfA8p8jA2BcePsdHPn4G9yLid2jNH3hiDrZ7u
-   yootBKvyEu2BaqYrSy+gt0XP9NT2pkwwPC0fPJwCsjOCUHGeuiD4jWhFh
-   oz5MBXY7A9sB8pF5632czPC94rZ8NltmnrbRkXzFXuql7e937+D9aAf8g
-   g==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10630"; a="332006822"
-X-IronPort-AV: E=Sophos;i="5.97,322,1669104000"; 
-   d="scan'208";a="332006822"
-Received: from orsmga007.jf.intel.com ([10.7.209.58])
-  by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Feb 2023 13:24:28 -0800
-X-IronPort-AV: E=McAfee;i="6500,9779,10630"; a="665941632"
-X-IronPort-AV: E=Sophos;i="5.97,322,1669104000"; 
-   d="scan'208";a="665941632"
-Received: from ahajda-mobl.ger.corp.intel.com (HELO [10.213.25.22]) ([10.213.25.22])
-  by orsmga007-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Feb 2023 13:24:21 -0800
-Message-ID: <17f40b7c-f98d-789d-fa19-12ec077b756a@intel.com>
-Date:   Thu, 23 Feb 2023 22:24:19 +0100
+        Thu, 23 Feb 2023 22:30:14 -0500
+Received: from zeniv.linux.org.uk (zeniv.linux.org.uk [IPv6:2a03:a000:7:0:5054:ff:fe1c:15ff])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B18091632C;
+        Thu, 23 Feb 2023 19:30:12 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+        d=linux.org.uk; s=zeniv-20220401; h=Sender:Content-Type:MIME-Version:
+        Message-ID:Subject:Cc:To:From:Date:Reply-To:Content-Transfer-Encoding:
+        Content-ID:Content-Description:In-Reply-To:References;
+        bh=WoGEh3GpgKr7pgT4O415W8h/g3kPJjv7hqWwOPUeUCw=; b=vCWhtk+KhDTKQiqUL4Y57ZVkGI
+        tj2t0oIw6j8vberwOPeM/O41jl64O35gu+6ypR86v55330b4YJ+mOsomgT/9t3MC0wU39RRGnztwn
+        vBfT88G2NhMYNOU4uxPSHv78AvXOum/fXVEADHnkpsjRzUpDeUcuhbmArrJ7TfBQ6IRy+D5ES9+/6
+        FQtMRchhtvKUfID8vrjLU06fhkkBW3rS5dvWgqQywocNi74P6TRCaiwR/hcMAHyLrlhUmx/dfJqom
+        arhQmucHPVfg8ERmn3tVsG4hRkUW/J3y8+kQc3UOdykqewrTvVLF3bgBJjb4tni+VG5vKKAjlQjVf
+        1EWfmW3Q==;
+Received: from viro by zeniv.linux.org.uk with local (Exim 4.96 #2 (Red Hat Linux))
+        id 1pVOmg-00Bs95-1s;
+        Fri, 24 Feb 2023 03:30:10 +0000
+Date:   Fri, 24 Feb 2023 03:30:10 +0000
+From:   Al Viro <viro@zeniv.linux.org.uk>
+To:     Linus Torvalds <torvalds@linux-foundation.org>
+Cc:     linux-kernel@vger.kernel.org, linux-alpha@vger.kernel.org
+Subject: [git pill] vfs.git alpha fixes
+Message-ID: <Y/gvQh5+4k8y+IdF@ZenIV>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
- Firefox/102.0 Thunderbird/102.8.0
-Subject: Re: [Intel-gfx] [PATCH v5 0/7] Introduce __xchg, non-atomic xchg
-To:     Peter Zijlstra <peterz@infradead.org>
-Cc:     Mark Rutland <mark.rutland@arm.com>, linux-ia64@vger.kernel.org,
-        linux-sh@vger.kernel.org, dri-devel@lists.freedesktop.org,
-        linux-mips@vger.kernel.org, sparclinux@vger.kernel.org,
-        linux-riscv@lists.infradead.org, linux-s390@vger.kernel.org,
-        linux-hexagon@vger.kernel.org, linux-snps-arc@lists.infradead.org,
-        Boqun Feng <boqun.feng@gmail.com>,
-        linux-xtensa@linux-xtensa.org, Arnd Bergmann <arnd@arndb.de>,
-        intel-gfx@lists.freedesktop.org, linux-m68k@lists.linux-m68k.org,
-        openrisc@lists.librecores.org, loongarch@lists.linux.dev,
-        Rodrigo Vivi <rodrigo.vivi@intel.com>,
-        Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
-        linux-arm-kernel@lists.infradead.org, linux-parisc@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-alpha@vger.kernel.org,
-        Andrew Morton <akpm@linux-foundation.org>,
-        linuxppc-dev@lists.ozlabs.org
-References: <20230118153529.57695-1-andrzej.hajda@intel.com>
- <Y/ZLH5F8LA3H10aL@hirez.programming.kicks-ass.net>
-Content-Language: en-US
-From:   Andrzej Hajda <andrzej.hajda@intel.com>
-Organization: Intel Technology Poland sp. z o.o. - ul. Slowackiego 173, 80-298
- Gdansk - KRS 101882 - NIP 957-07-52-316
-In-Reply-To: <Y/ZLH5F8LA3H10aL@hirez.programming.kicks-ass.net>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-Spam-Status: No, score=-4.5 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,
-        RCVD_IN_DNSWL_MED,SPF_HELO_NONE,SPF_NONE autolearn=ham
-        autolearn_force=no version=3.4.6
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Sender: Al Viro <viro@ftp.linux.org.uk>
+X-Spam-Status: No, score=-4.3 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,SPF_HELO_NONE,SPF_NONE
+        autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-alpha.vger.kernel.org>
 X-Mailing-List: linux-alpha@vger.kernel.org
 
-On 22.02.2023 18:04, Peter Zijlstra wrote:
-> On Wed, Jan 18, 2023 at 04:35:22PM +0100, Andrzej Hajda wrote:
-> 
->> Andrzej Hajda (7):
->>    arch: rename all internal names __xchg to __arch_xchg
->>    linux/include: add non-atomic version of xchg
->>    arch/*/uprobes: simplify arch_uretprobe_hijack_return_addr
->>    llist: simplify __llist_del_all
->>    io_uring: use __xchg if possible
->>    qed: use __xchg if possible
->>    drm/i915/gt: use __xchg instead of internal helper
-> 
-> Nothing crazy in here I suppose, I somewhat wonder why you went through
-> the trouble, but meh.
+	FEN fault fix deals with a really old oopsable braino, the rest
+is alpha/boot compile fixes and minor cleaning up.
 
-If you are asking why I have proposed this patchset, then the answer is 
-simple, 1st I've tried to find a way to move internal i915 helper to 
-core (see patch 7).
-Then I was looking for possible other users of this helper. And 
-apparently there are many of them, patches 3-7 shows some.
+The following changes since commit b7bfaa761d760e72a969d116517eaa12e404c262:
 
+  Linux 6.2-rc3 (2023-01-08 11:49:43 -0600)
 
-> 
-> You want me to take this through te locking tree (for the next cycle,
-> not this one) where I normally take atomic things or does someone else
-> want this?
+are available in the Git repository at:
 
-If you could take it I will be happy.
+  git://git.kernel.org/pub/scm/linux/kernel/git/viro/vfs.git work.alpha
 
-Regards
-Andrzej
+for you to fetch changes up to beb9797ee8b0c19598ffccdfae24afa6e0066f6a:
 
+  alpha/boot/misc: trim unused declarations (2023-01-11 15:36:52 -0500)
+
+----------------------------------------------------------------
+Al Viro (4):
+      alpha: fix FEN fault handling
+      alpha/boot: fix the breakage from -isystem series...
+      alpha/boot/tools/objstrip: fix the check for ELF header
+      alpha/boot/misc: trim unused declarations
+
+ arch/alpha/boot/bootp.c          |  2 +-
+ arch/alpha/boot/bootpz.c         |  2 +-
+ arch/alpha/boot/main.c           |  2 +-
+ arch/alpha/boot/misc.c           |  2 --
+ arch/alpha/boot/stdio.c          |  4 ++--
+ arch/alpha/boot/tools/objstrip.c |  2 +-
+ arch/alpha/kernel/traps.c        | 30 +++++++++++++++---------------
+ 7 files changed, 21 insertions(+), 23 deletions(-)
