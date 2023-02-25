@@ -2,73 +2,176 @@ Return-Path: <linux-alpha-owner@vger.kernel.org>
 X-Original-To: lists+linux-alpha@lfdr.de
 Delivered-To: lists+linux-alpha@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 702116A2709
-	for <lists+linux-alpha@lfdr.de>; Sat, 25 Feb 2023 04:40:40 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 9C1096A2744
+	for <lists+linux-alpha@lfdr.de>; Sat, 25 Feb 2023 05:32:37 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229585AbjBYDki (ORCPT <rfc822;lists+linux-alpha@lfdr.de>);
-        Fri, 24 Feb 2023 22:40:38 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53072 "EHLO
+        id S229496AbjBYEcf (ORCPT <rfc822;lists+linux-alpha@lfdr.de>);
+        Fri, 24 Feb 2023 23:32:35 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57932 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229613AbjBYDkf (ORCPT
+        with ESMTP id S229468AbjBYEce (ORCPT
         <rfc822;linux-alpha@vger.kernel.org>);
-        Fri, 24 Feb 2023 22:40:35 -0500
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9D65B6EB34;
-        Fri, 24 Feb 2023 19:40:24 -0800 (PST)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id 346B1619CC;
-        Sat, 25 Feb 2023 03:40:24 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPS id 9CECCC433D2;
-        Sat, 25 Feb 2023 03:40:23 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1677296423;
-        bh=PVmZHIicn/RdailN6+/WGuKSmh+NZNSCT27Jb8e0zY4=;
-        h=Subject:From:In-Reply-To:References:Date:To:Cc:From;
-        b=r7RQGzVdUZj2IjrMeKOqDJnuODaBG9nGBopU7EyGymw96SGu3zxlHg4+GcF5EUIMD
-         yZ2u5Wz73O4Ti5JNfISEsM6KzQnhbick5wuTi5bt1NEK62MezSaxpz0fduGN03hT8P
-         dcwLoOscJeLM8fLZKIAE8rMsuLsubzJerbfnj2aHSBzm0hxJKT/ITMo4nnWJFvizxC
-         E8a8DVLI0fFtRw04yv4Amking+QaecVoVs9pEhyGAUmzpGtLgQuGrtQ5htv08kfxt+
-         8myn6tkPuSLFFx2N2qhaqx6zyfM7qhbI2R2g2WRzYWy9PGNUfwKt562B5+blAidaW0
-         MJ/JfjmhUD31w==
-Received: from aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (localhost.localdomain [127.0.0.1])
-        by aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (Postfix) with ESMTP id 89E65C43157;
-        Sat, 25 Feb 2023 03:40:23 +0000 (UTC)
-Subject: Re: [git pill] vfs.git alpha fixes
-From:   pr-tracker-bot@kernel.org
-In-Reply-To: <Y/gvQh5+4k8y+IdF@ZenIV>
-References: <Y/gvQh5+4k8y+IdF@ZenIV>
-X-PR-Tracked-List-Id: <linux-kernel.vger.kernel.org>
-X-PR-Tracked-Message-Id: <Y/gvQh5+4k8y+IdF@ZenIV>
-X-PR-Tracked-Remote: git://git.kernel.org/pub/scm/linux/kernel/git/viro/vfs.git work.alpha
-X-PR-Tracked-Commit-Id: beb9797ee8b0c19598ffccdfae24afa6e0066f6a
-X-PR-Merge-Tree: torvalds/linux.git
-X-PR-Merge-Refname: refs/heads/master
-X-PR-Merge-Commit-Id: 10cc5d483ebc00e82d9a38d3419b2edc8b79b64d
-Message-Id: <167729642356.19216.15347998468562553343.pr-tracker-bot@kernel.org>
-Date:   Sat, 25 Feb 2023 03:40:23 +0000
-To:     Al Viro <viro@zeniv.linux.org.uk>
-Cc:     Linus Torvalds <torvalds@linux-foundation.org>,
-        linux-kernel@vger.kernel.org, linux-alpha@vger.kernel.org
-X-Spam-Status: No, score=-4.4 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,
-        SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
+        Fri, 24 Feb 2023 23:32:34 -0500
+Received: from mail-io1-xd32.google.com (mail-io1-xd32.google.com [IPv6:2607:f8b0:4864:20::d32])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2C40B21A2C
+        for <linux-alpha@vger.kernel.org>; Fri, 24 Feb 2023 20:32:33 -0800 (PST)
+Received: by mail-io1-xd32.google.com with SMTP id b5so461964iow.0
+        for <linux-alpha@vger.kernel.org>; Fri, 24 Feb 2023 20:32:33 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=tJDwjiUbjmMyCjW5l7WmXBECkt1SZeq/g8ufbu3qyPQ=;
+        b=jXLHET5muMtZ82OvfNcnBK6VWkLDU2ujR6I83ljffslyTphoUGhckUtgKrGkiNm45h
+         wyb5nY5UHkzk6Rz25POJnP2Epn50C5h0ZHe/0dV+l2BF6z/Z/uamvr2s+F4COzxtpzcb
+         +6SMo9ktmBEJfOsTvYyz+BYXpSTShePhwV3i+QigwvHN1wQOPL4rHJEybymzfwlQTknn
+         0Sp6iV4XaYfCZcQliY5CcpuQKd5V3T7BWS0hK7aUlNxgxDyzhartm48nCtoGvF0eVqk1
+         S00eywUNZVtwsOLwpklf2fh5kptEa186n5PrLpI5ng8QX2V2aEENEO87j+dXsZGyonwR
+         X/FA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=tJDwjiUbjmMyCjW5l7WmXBECkt1SZeq/g8ufbu3qyPQ=;
+        b=h1VLOG232k1qYb3PP3UGPkxniiRT6YTEGcoaKkc3MBwGf3Upcgn5lE5VUEcUDeJzet
+         9hAk7SK7hHTaQsFNQNmmGcp3Ph0kMSQathwiYhrFGcMQ6vApEGEpfVwALuszBRI1c7ro
+         OMoz7vsjwg007qv22Osa9Fca15RSM3yzLNCmayXbEpp7E61ijSm5ElQCIqFAommClMi0
+         QY5t4ekokoaZKmER1CXDgPEIonFOV1bFeosNmcDwzg4w5lvTdk+sXOuETdQptZbgDd30
+         PDd5KpbU+4/Xetq2EiSEl+ZJB/99+Z835+It5dG+GvTlRlcNBShSLE3hf8Fg73qrGhvv
+         mcDw==
+X-Gm-Message-State: AO0yUKVIY2m3yYxaAICmqQXugMB5Ownn9E9PJRmtBtV4d+tCFm2Z3j2+
+        TEHo+6aXScDO5KlvIR4j0RM/o2vZIJt906NjNXeA03DYdVedNA==
+X-Google-Smtp-Source: AK7set+1auXE+d/y9+B13BW2ybnht3d4GAdNemIe92+PU4QwnOzWpv+halMRe8WnG3pOMqaPSk6PVjGh6Clq5Jy0z58=
+X-Received: by 2002:a6b:b756:0:b0:745:68ef:e410 with SMTP id
+ h83-20020a6bb756000000b0074568efe410mr3140142iof.0.1677299552392; Fri, 24 Feb
+ 2023 20:32:32 -0800 (PST)
+MIME-Version: 1.0
+References: <Y8HUbeQh51qLA1th@decadent.org.uk>
+In-Reply-To: <Y8HUbeQh51qLA1th@decadent.org.uk>
+From:   Matt Turner <mattst88@gmail.com>
+Date:   Fri, 24 Feb 2023 23:32:21 -0500
+Message-ID: <CAEdQ38FE6-DNmXL9yayUq1NhryS898JgVbKKi7EFaRA41VD=ig@mail.gmail.com>
+Subject: Re: [PATCH] alpha: Fix missing symbol versions for str{,n}{cat,cpy}
+To:     Ben Hutchings <ben@decadent.org.uk>
+Cc:     linux-alpha@vger.kernel.org,
+        John Paul Adrian Glaubitz <glaubitz@physik.fu-berlin.de>
+Content-Type: text/plain; charset="UTF-8"
+X-Spam-Status: No, score=-1.8 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_ENVFROM_END_DIGIT,
+        FREEMAIL_FROM,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS autolearn=ham
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-alpha.vger.kernel.org>
 X-Mailing-List: linux-alpha@vger.kernel.org
 
-The pull request you sent on Fri, 24 Feb 2023 03:30:10 +0000:
+On Fri, Jan 13, 2023 at 5:02 PM Ben Hutchings <ben@decadent.org.uk> wrote:
+>
+> Now that modpost extracts symbol versions from *.cmd files, it can't
+> find the versions for these 4 symbols.  This is due to the way we link
+> their objects together ahead of the full vmlinux link.  genksyms puts
+> their symbol CRCs in .str{,n}{cat,cpy}.o.cmd, but modpost only reads
+> the .sty{,n}cpy.o.cmd files.
+>
+> Instead of using the linker for this, add assembly sources that
+> concatenate the appropriate routines with include directives.
+>
+> Reported-by: John Paul Adrian Glaubitz <glaubitz@physik.fu-berlin.de>
+> Fixes: f292d875d0dc ("modpost: extract symbol versions from *.cmd files")
+> Signed-off-by: Ben Hutchings <ben@decadent.org.uk>
 
-> git://git.kernel.org/pub/scm/linux/kernel/git/viro/vfs.git work.alpha
+Thanks a bunch for the patch!
 
-has been merged into torvalds/linux.git:
-https://git.kernel.org/torvalds/c/10cc5d483ebc00e82d9a38d3419b2edc8b79b64d
+> ---
+>  arch/alpha/lib/Makefile  | 14 --------------
+>  arch/alpha/lib/stycpy.S  | 13 +++++++++++++
+>  arch/alpha/lib/styncpy.S | 13 +++++++++++++
+>  3 files changed, 26 insertions(+), 14 deletions(-)
+>  create mode 100644 arch/alpha/lib/stycpy.S
+>  create mode 100644 arch/alpha/lib/styncpy.S
+>
+> diff --git a/arch/alpha/lib/Makefile b/arch/alpha/lib/Makefile
+> index 1cc74f7b50ef..8f1c32a25a40 100644
+> --- a/arch/alpha/lib/Makefile
+> +++ b/arch/alpha/lib/Makefile
+> @@ -45,17 +45,3 @@ AFLAGS___remlu.o =       -DREM -DINTSIZE
+>  $(addprefix $(obj)/,__divqu.o __remqu.o __divlu.o __remlu.o): \
+>                                                 $(src)/$(ev6-y)divide.S FORCE
+>         $(call if_changed_rule,as_o_S)
+> -
+> -# There are direct branches between {str*cpy,str*cat} and stx*cpy.
+> -# Ensure the branches are within range by merging these objects.
+> -
+> -LDFLAGS_stycpy.o := -r
+> -LDFLAGS_styncpy.o := -r
+> -
+> -$(obj)/stycpy.o: $(obj)/strcpy.o $(obj)/$(ev67-y)strcat.o \
+> -                $(obj)/$(ev6-y)stxcpy.o FORCE
+> -       $(call if_changed,ld)
+> -
+> -$(obj)/styncpy.o: $(obj)/strncpy.o $(obj)/$(ev67-y)strncat.o \
+> -                $(obj)/$(ev6-y)stxncpy.o FORCE
+> -       $(call if_changed,ld)
+> diff --git a/arch/alpha/lib/stycpy.S b/arch/alpha/lib/stycpy.S
+> new file mode 100644
+> index 000000000000..bf2b0238209e
+> --- /dev/null
+> +++ b/arch/alpha/lib/stycpy.S
+> @@ -0,0 +1,13 @@
+> +/* SPDX-License-Identifier: GPL-2.0 */
+> +/*
+> + * There are direct branches between strcpy, strcat, and stxcpy.
+> + * Ensure the branches are within range by concatenating their code.
+> + */
+> +#include "strcpy.S"
+> +#ifdef CONFIG_ALPHA_EV6
+> +#include "ev6-strcat.S"
 
-Thank you!
+  AS      arch/alpha/lib/stycpy.o
+arch/alpha/lib/stycpy.S:8:10: fatal error: ev6-strcat.S: No such file
+or directory
+    8 | #include "ev6-strcat.S"
+      |          ^~~~~~~~~~~~~~
 
--- 
-Deet-doot-dot, I am a bot.
-https://korg.docs.kernel.org/prtracker.html
+There's no ev6-strcat.S, but there is an ev67-strcat.S. I guess that's
+what we want here, along with s/CONFIG_ALPHA_EV6/CONFIG_ALPHA_EV67'.
+
+It's EV67-only because of the cttz instruction.
+
+> +#include "ev6-stxcpy.S"
+> +#else
+> +#include "strcat.S"
+> +#include "stxcpy.S"
+> +#endif
+> diff --git a/arch/alpha/lib/styncpy.S b/arch/alpha/lib/styncpy.S
+> new file mode 100644
+> index 000000000000..213d1678be2a
+> --- /dev/null
+> +++ b/arch/alpha/lib/styncpy.S
+> @@ -0,0 +1,13 @@
+> +/* SPDX-License-Identifier: GPL-2.0 */
+> +/*
+> + * There are direct branches between strncpy, strncat, and stxncpy.
+> + * Ensure the branches are within range by concatenating their code.
+> + */
+> +#include "strncpy.S"
+> +#ifdef CONFIG_ALPHA_EV6
+> +#include "ev6-strncat.S"
+
+  AS      arch/alpha/lib/styncpy.o
+arch/alpha/lib/styncpy.S:8:10: fatal error: ev6-strncat.S: No such
+file or directory
+    8 | #include "ev6-strncat.S"
+      |          ^~~~~~~~~~~~~~~
+compilation terminated.
+
+Same thing here. ev67-strncat.S. s/CONFIG_ALPHA_EV6/CONFIG_ALPHA_EV67'
+above as well.
+
+> +#include "ev6-stxncpy.S"
+> +#else
+> +#include "strncat.S"
+> +#include "stxncpy.S"
+> +#endif
