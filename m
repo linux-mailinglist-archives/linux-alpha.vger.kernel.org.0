@@ -2,87 +2,73 @@ Return-Path: <linux-alpha-owner@vger.kernel.org>
 X-Original-To: lists+linux-alpha@lfdr.de
 Delivered-To: lists+linux-alpha@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id B3E356A26E9
-	for <lists+linux-alpha@lfdr.de>; Sat, 25 Feb 2023 04:17:40 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 702116A2709
+	for <lists+linux-alpha@lfdr.de>; Sat, 25 Feb 2023 04:40:40 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229488AbjBYDRj (ORCPT <rfc822;lists+linux-alpha@lfdr.de>);
-        Fri, 24 Feb 2023 22:17:39 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39998 "EHLO
+        id S229585AbjBYDki (ORCPT <rfc822;lists+linux-alpha@lfdr.de>);
+        Fri, 24 Feb 2023 22:40:38 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53072 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229461AbjBYDRi (ORCPT
+        with ESMTP id S229613AbjBYDkf (ORCPT
         <rfc822;linux-alpha@vger.kernel.org>);
-        Fri, 24 Feb 2023 22:17:38 -0500
-Received: from mail-ed1-x531.google.com (mail-ed1-x531.google.com [IPv6:2a00:1450:4864:20::531])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 087D3231F5
-        for <linux-alpha@vger.kernel.org>; Fri, 24 Feb 2023 19:17:37 -0800 (PST)
-Received: by mail-ed1-x531.google.com with SMTP id d30so4871908eda.4
-        for <linux-alpha@vger.kernel.org>; Fri, 24 Feb 2023 19:17:36 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linux-foundation.org; s=google;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=LmNBVo7uMw1aKq2gIrda4qCIdgm1A6fpKV1+5VP6zB8=;
-        b=CNsccW8tA+8ig58sm067TPguHm1dqrGdvdIfAPEzz6ALh36vuJuyTUG5qKT+eU4uM/
-         7fMH3gXsZbB4TC8buks/zia2MSzAQQ6lVZy35U+/aMqF/7piRqQ0lU6oHnGJQfOSwGLu
-         QjsHiGsYCvsFkN/7u71yE9bcCEGRxqLZw1Vwo=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=LmNBVo7uMw1aKq2gIrda4qCIdgm1A6fpKV1+5VP6zB8=;
-        b=xX5SkApYYEBIZPBIFTfz7KCxWyb+OpN1m5pYNPGWmaPZErgdmIRuKmw2jbbIaSLh00
-         U/QY2ELpNgRRBK/XXoQlFGOIf5d45YhIgq7r9K9Abdo9IBVat+nmvRS9MRK1F2UqT/ix
-         WPbhyLBF//PNXQT1rc87H9+xvFEr4lbBkN2kHYd05kiTIvYA4dtFxYtKbEmktUuiRZt0
-         /M4uHTjUn6e7MOYbrjhKSCDrI4LsXCis7SDfAqKWVTnJB0VlLerea5AaUhwYRHND4ttl
-         gvbprfue9zLX2KvwhIenX2VMnQEioZkdnQHTH6SyIYCg/pnZGHc28vF6w2rnt226nMu6
-         k9cw==
-X-Gm-Message-State: AO0yUKVgCo33aF2IJFi3E+E/HKo4Yx/tFXfezDpm02+NaKsW/iDNEzIk
-        x5DgQFyQOTLfg44fvR0/yYqstU8xEtbNH1KoUl4Nwg==
-X-Google-Smtp-Source: AK7set/brpbu2xAh2Xz+wNZOAKD86o5xvxvS9soMnScBQQ17G+Qm8BG7FQzHwlaNYUGNtDs6l+AS4Q==
-X-Received: by 2002:a17:907:2bd2:b0:889:d998:1576 with SMTP id gv18-20020a1709072bd200b00889d9981576mr24555324ejc.66.1677295054142;
-        Fri, 24 Feb 2023 19:17:34 -0800 (PST)
-Received: from mail-ed1-f53.google.com (mail-ed1-f53.google.com. [209.85.208.53])
-        by smtp.gmail.com with ESMTPSA id o5-20020a17090611c500b008b907006d5dsm315299eja.173.2023.02.24.19.17.33
-        for <linux-alpha@vger.kernel.org>
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 24 Feb 2023 19:17:33 -0800 (PST)
-Received: by mail-ed1-f53.google.com with SMTP id h16so4742190edz.10
-        for <linux-alpha@vger.kernel.org>; Fri, 24 Feb 2023 19:17:33 -0800 (PST)
-X-Received: by 2002:a17:907:988c:b0:877:747e:f076 with SMTP id
- ja12-20020a170907988c00b00877747ef076mr11483974ejc.0.1677295053168; Fri, 24
- Feb 2023 19:17:33 -0800 (PST)
-MIME-Version: 1.0
-References: <Y/gvQh5+4k8y+IdF@ZenIV>
-In-Reply-To: <Y/gvQh5+4k8y+IdF@ZenIV>
-From:   Linus Torvalds <torvalds@linux-foundation.org>
-Date:   Fri, 24 Feb 2023 19:17:16 -0800
-X-Gmail-Original-Message-ID: <CAHk-=whwFeuahxGxCidcaaZ-Xawh2drJV6WFwhs7ujDZGNGV4Q@mail.gmail.com>
-Message-ID: <CAHk-=whwFeuahxGxCidcaaZ-Xawh2drJV6WFwhs7ujDZGNGV4Q@mail.gmail.com>
+        Fri, 24 Feb 2023 22:40:35 -0500
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9D65B6EB34;
+        Fri, 24 Feb 2023 19:40:24 -0800 (PST)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id 346B1619CC;
+        Sat, 25 Feb 2023 03:40:24 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPS id 9CECCC433D2;
+        Sat, 25 Feb 2023 03:40:23 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1677296423;
+        bh=PVmZHIicn/RdailN6+/WGuKSmh+NZNSCT27Jb8e0zY4=;
+        h=Subject:From:In-Reply-To:References:Date:To:Cc:From;
+        b=r7RQGzVdUZj2IjrMeKOqDJnuODaBG9nGBopU7EyGymw96SGu3zxlHg4+GcF5EUIMD
+         yZ2u5Wz73O4Ti5JNfISEsM6KzQnhbick5wuTi5bt1NEK62MezSaxpz0fduGN03hT8P
+         dcwLoOscJeLM8fLZKIAE8rMsuLsubzJerbfnj2aHSBzm0hxJKT/ITMo4nnWJFvizxC
+         E8a8DVLI0fFtRw04yv4Amking+QaecVoVs9pEhyGAUmzpGtLgQuGrtQ5htv08kfxt+
+         8myn6tkPuSLFFx2N2qhaqx6zyfM7qhbI2R2g2WRzYWy9PGNUfwKt562B5+blAidaW0
+         MJ/JfjmhUD31w==
+Received: from aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (localhost.localdomain [127.0.0.1])
+        by aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (Postfix) with ESMTP id 89E65C43157;
+        Sat, 25 Feb 2023 03:40:23 +0000 (UTC)
 Subject: Re: [git pill] vfs.git alpha fixes
+From:   pr-tracker-bot@kernel.org
+In-Reply-To: <Y/gvQh5+4k8y+IdF@ZenIV>
+References: <Y/gvQh5+4k8y+IdF@ZenIV>
+X-PR-Tracked-List-Id: <linux-kernel.vger.kernel.org>
+X-PR-Tracked-Message-Id: <Y/gvQh5+4k8y+IdF@ZenIV>
+X-PR-Tracked-Remote: git://git.kernel.org/pub/scm/linux/kernel/git/viro/vfs.git work.alpha
+X-PR-Tracked-Commit-Id: beb9797ee8b0c19598ffccdfae24afa6e0066f6a
+X-PR-Merge-Tree: torvalds/linux.git
+X-PR-Merge-Refname: refs/heads/master
+X-PR-Merge-Commit-Id: 10cc5d483ebc00e82d9a38d3419b2edc8b79b64d
+Message-Id: <167729642356.19216.15347998468562553343.pr-tracker-bot@kernel.org>
+Date:   Sat, 25 Feb 2023 03:40:23 +0000
 To:     Al Viro <viro@zeniv.linux.org.uk>
-Cc:     linux-kernel@vger.kernel.org, linux-alpha@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-X-Spam-Status: No, score=-1.8 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
-        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS autolearn=no
-        autolearn_force=no version=3.4.6
+Cc:     Linus Torvalds <torvalds@linux-foundation.org>,
+        linux-kernel@vger.kernel.org, linux-alpha@vger.kernel.org
+X-Spam-Status: No, score=-4.4 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,
+        SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-alpha.vger.kernel.org>
 X-Mailing-List: linux-alpha@vger.kernel.org
 
-On Thu, Feb 23, 2023 at 7:30 PM Al Viro <viro@zeniv.linux.org.uk> wrote:
->
->  FEN fault fix deals with a really old oopsable braino
+The pull request you sent on Fri, 24 Feb 2023 03:30:10 +0000:
 
-My old alpha architecture manual doesn't even list "clrfen" as a
-PAL-code instruction.
+> git://git.kernel.org/pub/scm/linux/kernel/git/viro/vfs.git work.alpha
 
-It does have "wrfen", but that's privileged.
+has been merged into torvalds/linux.git:
+https://git.kernel.org/torvalds/c/10cc5d483ebc00e82d9a38d3419b2edc8b79b64d
 
-I have no idea when clrfen became a thing. But it's clearly a later
-addition that somebody didn't think through.
+Thank you!
 
-             Linus
+-- 
+Deet-doot-dot, I am a bot.
+https://korg.docs.kernel.org/prtracker.html
