@@ -2,105 +2,177 @@ Return-Path: <linux-alpha-owner@vger.kernel.org>
 X-Original-To: lists+linux-alpha@lfdr.de
 Delivered-To: lists+linux-alpha@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 4BE126A2F20
-	for <lists+linux-alpha@lfdr.de>; Sun, 26 Feb 2023 11:46:22 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 1FA6E6A33DC
+	for <lists+linux-alpha@lfdr.de>; Sun, 26 Feb 2023 21:13:55 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229598AbjBZKqU (ORCPT <rfc822;lists+linux-alpha@lfdr.de>);
-        Sun, 26 Feb 2023 05:46:20 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54896 "EHLO
+        id S229701AbjBZUNw (ORCPT <rfc822;lists+linux-alpha@lfdr.de>);
+        Sun, 26 Feb 2023 15:13:52 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58096 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229536AbjBZKqU (ORCPT
+        with ESMTP id S229379AbjBZUNv (ORCPT
         <rfc822;linux-alpha@vger.kernel.org>);
-        Sun, 26 Feb 2023 05:46:20 -0500
-Received: from gandalf.ozlabs.org (mail.ozlabs.org [IPv6:2404:9400:2221:ea00::3])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B354012F08;
-        Sun, 26 Feb 2023 02:46:17 -0800 (PST)
-Received: from authenticated.ozlabs.org (localhost [127.0.0.1])
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-         key-exchange ECDHE (P-256) server-signature RSA-PSS (4096 bits) server-digest SHA256)
-        (No client certificate requested)
-        by mail.ozlabs.org (Postfix) with ESMTPSA id 4PPgKJ0S8Fz4x80;
-        Sun, 26 Feb 2023 21:46:11 +1100 (AEDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=canb.auug.org.au;
-        s=201702; t=1677408372;
-        bh=Qf69gqalS+erSQr23jCazSB1VxuPBCS5Msd8dRmHN5g=;
-        h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-        b=UFP+HN0CMDRK+bUKltreDR7LVG151tcmDKU/KgtmM7N4invGBuiQz0o6X567n0nMl
-         LaS0eHTaTcIxn12ao00/qFC3HADENwtzemxbnFCwPBtXJ7+WcQXqSCYTZAdm+KI9t2
-         HYrQNvHO+BF0HeowFpSAiyCmgRZHm9fkGDGHZf93lt0A9cgCXwJ1e7WFWBuQRQAnGh
-         EzMOr3ROTfMi2APzPUT2WnkokqLnsBMUc81Iw1gWX3thcgMxGBqyfuM1nYcIfAxiSt
-         q07hRHx44S2EShs1+AOA1jGd3bWgvr49UeJEL+xGNzutjXOvIkQhxsOFDZjqhhqVU2
-         VPKkyBSXi8Gtw==
-Date:   Sun, 26 Feb 2023 21:46:07 +1100
-From:   Stephen Rothwell <sfr@canb.auug.org.au>
-To:     "Arnd Bergmann" <arnd@arndb.de>
-Cc:     "Matt Turner" <mattst88@gmail.com>, linux-alpha@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] alpha: Implement "current_stack_pointer"
-Message-ID: <20230226214607.59ac22b2@canb.auug.org.au>
-In-Reply-To: <29763841-bdaa-4a4b-aa0e-5e1b3935317d@app.fastmail.com>
-References: <20220224060558.1856804-1-keescook@chromium.org>
-        <CAEdQ38Fg=Au5=BbyTHiEO+GaivheCe6hPBjcZhjgALxn4503Mg@mail.gmail.com>
-        <29763841-bdaa-4a4b-aa0e-5e1b3935317d@app.fastmail.com>
+        Sun, 26 Feb 2023 15:13:51 -0500
+Received: from mail-qt1-f170.google.com (mail-qt1-f170.google.com [209.85.160.170])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1B6BAD301;
+        Sun, 26 Feb 2023 12:13:50 -0800 (PST)
+Received: by mail-qt1-f170.google.com with SMTP id cf14so4701877qtb.10;
+        Sun, 26 Feb 2023 12:13:50 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=Gg5lD1thnSOjSPD2ugSmhhuDJpRIfjxQ4WV4ji/sEm4=;
+        b=b4fvqlKEnKtSkihrg55JYq+ke0pEzfiymXjhN3I6/fQybr+DvLraWGgthf8ZtPjCuQ
+         6xXuuE3Y+TLKzGA8BaKIGqVv49ebOFSGwJQ+h5Ngr2W1Xu8xllIDi1ZXlwoERY0x45ra
+         ReBdvXHBsf3RgUvVSazqK8baSqpxGG3NGPUro9cfOO02NMuyy4/uhKWAxVoiMIuXrV88
+         l+K48IrSMo4w6Z6EThjVQfC/gdYNb460HM6nurUHmXYspkS4R1cQLrryx70FCmqQntv1
+         tsgV9ECV6YcDKfNlVpnl2VYdVjOSEMg41u2aMYCXM5p6wALfJw9b8DSaeoYU8tB/ukpo
+         ZDqg==
+X-Gm-Message-State: AO0yUKXVUfRCo9lua3f27kFTNtm06jvdTBQ/z3wEd2OdaiblPaBAWZyw
+        jPnSQ54eFzaQTRJV29N2cVkUnHiCg/Uz/w==
+X-Google-Smtp-Source: AK7set/moY1L6F+ebE6HKWgvhvMgP5uM2L9z7Rmqe5nF1PsdDFF11lerf3DY0AEL23MzZqU7yIzsFA==
+X-Received: by 2002:ac8:5907:0:b0:3b8:3629:7cb7 with SMTP id 7-20020ac85907000000b003b836297cb7mr39427624qty.64.1677442428848;
+        Sun, 26 Feb 2023 12:13:48 -0800 (PST)
+Received: from mail-yw1-f181.google.com (mail-yw1-f181.google.com. [209.85.128.181])
+        by smtp.gmail.com with ESMTPSA id k8-20020a05620a142800b0073ba211e765sm3591529qkj.19.2023.02.26.12.13.47
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Sun, 26 Feb 2023 12:13:47 -0800 (PST)
+Received: by mail-yw1-f181.google.com with SMTP id 00721157ae682-536af432ee5so124981857b3.0;
+        Sun, 26 Feb 2023 12:13:47 -0800 (PST)
+X-Received: by 2002:a81:af5f:0:b0:536:38b4:f51 with SMTP id
+ x31-20020a81af5f000000b0053638b40f51mr8731562ywj.5.1677442427017; Sun, 26 Feb
+ 2023 12:13:47 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: multipart/signed; boundary="Sig_/oSZx5=AKndJNoGljDYvlgrZ";
- protocol="application/pgp-signature"; micalg=pgp-sha256
-X-Spam-Status: No, score=-4.3 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,RCVD_IN_DNSWL_MED,SPF_HELO_PASS,SPF_PASS
-        autolearn=ham autolearn_force=no version=3.4.6
+References: <20230113171026.582290-1-david@redhat.com> <20230113171026.582290-12-david@redhat.com>
+In-Reply-To: <20230113171026.582290-12-david@redhat.com>
+From:   Geert Uytterhoeven <geert@linux-m68k.org>
+Date:   Sun, 26 Feb 2023 21:13:33 +0100
+X-Gmail-Original-Message-ID: <CAMuHMdX-FDga8w=pgg1myskEx6wp+oyZifhPPPFnWrc1zW7ZpQ@mail.gmail.com>
+Message-ID: <CAMuHMdX-FDga8w=pgg1myskEx6wp+oyZifhPPPFnWrc1zW7ZpQ@mail.gmail.com>
+Subject: Re: [PATCH mm-unstable v1 11/26] microblaze/mm: support __HAVE_ARCH_PTE_SWP_EXCLUSIVE
+To:     David Hildenbrand <david@redhat.com>
+Cc:     linux-kernel@vger.kernel.org,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Hugh Dickins <hughd@google.com>,
+        John Hubbard <jhubbard@nvidia.com>,
+        Jason Gunthorpe <jgg@nvidia.com>,
+        Mike Rapoport <rppt@linux.ibm.com>,
+        Yang Shi <shy828301@gmail.com>,
+        Vlastimil Babka <vbabka@suse.cz>,
+        Nadav Amit <namit@vmware.com>,
+        Andrea Arcangeli <aarcange@redhat.com>,
+        Peter Xu <peterx@redhat.com>, linux-mm@kvack.org,
+        x86@kernel.org, linux-alpha@vger.kernel.org,
+        linux-snps-arc@lists.infradead.org,
+        linux-arm-kernel@lists.infradead.org, linux-csky@vger.kernel.org,
+        linux-hexagon@vger.kernel.org, linux-ia64@vger.kernel.org,
+        loongarch@lists.linux.dev, linux-m68k@lists.linux-m68k.org,
+        linux-mips@vger.kernel.org, openrisc@lists.librecores.org,
+        linux-parisc@vger.kernel.org, linuxppc-dev@lists.ozlabs.org,
+        linux-riscv@lists.infradead.org, linux-s390@vger.kernel.org,
+        linux-sh@vger.kernel.org, sparclinux@vger.kernel.org,
+        linux-um@lists.infradead.org, linux-xtensa@linux-xtensa.org,
+        Michal Simek <monstr@monstr.eu>
+Content-Type: text/plain; charset="UTF-8"
+X-Spam-Status: No, score=-1.4 required=5.0 tests=BAYES_00,
+        FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,HEADER_FROM_DIFFERENT_DOMAINS,
+        RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H3,RCVD_IN_MSPIKE_WL,SPF_HELO_NONE,
+        SPF_PASS autolearn=no autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-alpha.vger.kernel.org>
 X-Mailing-List: linux-alpha@vger.kernel.org
 
---Sig_/oSZx5=AKndJNoGljDYvlgrZ
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: quoted-printable
+Hi David,
 
-Hi Arnd,
-
-On Sun, 26 Feb 2023 11:24:13 +0100 "Arnd Bergmann" <arnd@arndb.de> wrote:
+On Fri, Jan 13, 2023 at 6:16 PM David Hildenbrand <david@redhat.com> wrote:
+> Let's support __HAVE_ARCH_PTE_SWP_EXCLUSIVE by stealing one bit
+> from the type. Generic MM currently only uses 5 bits for the type
+> (MAX_SWAPFILES_SHIFT), so the stolen bit is effectively unused.
 >
-> On Sun, Feb 26, 2023, at 03:08, Matt Turner wrote:
-> >
-> > Thanks for the patch! This was included in my pull request today and
-> > is now upstream in Linus' tree. =20
->=20
-> [trimming Cc list for hijacked thread]
->=20
-> Hi Matt,
->=20
-> I remember that Stephen Rothwell mentioned he dropped a couple of
-> architecture trees from linux-next due to long inactivity, and I
-> see that none of your branches are included any more. Should
->=20
-> https://git.kernel.org/pub/scm/linux/kernel/git/mattst88/alpha.git/log/?h=
-=3Dfor-linus
->=20
-> or the (currently empty) alpha-next branch be added back there?
+> The shift by 2 when converting between PTE and arch-specific swap entry
+> makes the swap PTE layout a little bit harder to decipher.
+>
+> While at it, drop the comment from paulus---copy-and-paste leftover
+> from powerpc where we actually have _PAGE_HASHPTE---and mask the type in
+> __swp_entry_to_pte() as well.
+>
+> Cc: Michal Simek <monstr@monstr.eu>
+> Signed-off-by: David Hildenbrand <david@redhat.com>
 
-There has never been an alpha branch in linux-next.
+Thanks for your patch, which is now commit b5c88f21531c3457
+("microblaze/mm: support __HAVE_ARCH_PTE_SWP_EXCLUSIVE") in
 
-I would welcome one, however ;-)
---=20
-Cheers,
-Stephen Rothwell
+>  arch/m68k/include/asm/mcf_pgtable.h   |  4 +--
 
---Sig_/oSZx5=AKndJNoGljDYvlgrZ
-Content-Type: application/pgp-signature
-Content-Description: OpenPGP digital signature
+What is this m68k change doing here?
+Sorry for not noticing this earlier.
 
------BEGIN PGP SIGNATURE-----
+Furthermore, several things below look strange to me...
 
-iQEzBAEBCAAdFiEENIC96giZ81tWdLgKAVBC80lX0GwFAmP7OG8ACgkQAVBC80lX
-0Gwl9gf6A6wzfVk3CbJvPQR/zksvj1uYtWMzL5VncjHOnvqoo+/PBEytPoCVOAu0
-R9XVVULKy7Q03rTJFIOtwQYPtwip8Wjp3zP3EvyGTGG5VRgscPgEQo3pD/lXojBy
-adw4ndru+1QKm19tLbKWSHGDKM2FkO8WNT6y42movf9NTE2yGkDJIf8LuCoaNmUy
-Q4mIUlrfc42ZOk1qLfMgekyRtHR+rh8Hgt4eIkjAprJ00qoro/X9vYXwJGmkhU+9
-GmEgNuRjWY4a74akiDENqztix9xfkrfxVFAra1vyvrwNYUuLlP2zHSNznBNFWCan
-8zOWvzk3FK97ris0QskLxyNzDmq0nw==
-=AQxy
------END PGP SIGNATURE-----
+>  arch/microblaze/include/asm/pgtable.h | 45 +++++++++++++++++++++------
+>  2 files changed, 37 insertions(+), 12 deletions(-)
+>
+> diff --git a/arch/m68k/include/asm/mcf_pgtable.h b/arch/m68k/include/asm/mcf_pgtable.h
+> index 3f8f4d0e66dd..e573d7b649f7 100644
+> --- a/arch/m68k/include/asm/mcf_pgtable.h
+> +++ b/arch/m68k/include/asm/mcf_pgtable.h
+> @@ -46,8 +46,8 @@
+>  #define _CACHEMASK040          (~0x060)
+>  #define _PAGE_GLOBAL040                0x400   /* 68040 global bit, used for kva descs */
+>
+> -/* We borrow bit 7 to store the exclusive marker in swap PTEs. */
+> -#define _PAGE_SWP_EXCLUSIVE    0x080
+> +/* We borrow bit 24 to store the exclusive marker in swap PTEs. */
+> +#define _PAGE_SWP_EXCLUSIVE    CF_PAGE_NOCACHE
 
---Sig_/oSZx5=AKndJNoGljDYvlgrZ--
+CF_PAGE_NOCACHE is 0x80, so this is still bit 7, thus the new comment
+is wrong?
+
+>
+>  /*
+>   * Externally used page protection values.
+> diff --git a/arch/microblaze/include/asm/pgtable.h b/arch/microblaze/include/asm/pgtable.h
+> index 42f5988e998b..7e3de54bf426 100644
+> --- a/arch/microblaze/include/asm/pgtable.h
+> +++ b/arch/microblaze/include/asm/pgtable.h
+> @@ -131,10 +131,10 @@ extern pte_t *va_to_pte(unsigned long address);
+>   * of the 16 available.  Bit 24-26 of the TLB are cleared in the TLB
+>   * miss handler.  Bit 27 is PAGE_USER, thus selecting the correct
+>   * zone.
+> - * - PRESENT *must* be in the bottom two bits because swap cache
+> - * entries use the top 30 bits.  Because 4xx doesn't support SMP
+> - * anyway, M is irrelevant so we borrow it for PAGE_PRESENT.  Bit 30
+> - * is cleared in the TLB miss handler before the TLB entry is loaded.
+> + * - PRESENT *must* be in the bottom two bits because swap PTEs use the top
+> + * 30 bits.  Because 4xx doesn't support SMP anyway, M is irrelevant so we
+> + * borrow it for PAGE_PRESENT.  Bit 30 is cleared in the TLB miss handler
+> + * before the TLB entry is loaded.
+
+So the PowerPC 4xx comment is still here?
+
+>   * - All other bits of the PTE are loaded into TLBLO without
+>   *  * modification, leaving us only the bits 20, 21, 24, 25, 26, 30 for
+>   * software PTE bits.  We actually use bits 21, 24, 25, and
+> @@ -155,6 +155,9 @@ extern pte_t *va_to_pte(unsigned long address);
+>  #define _PAGE_ACCESSED 0x400   /* software: R: page referenced */
+>  #define _PMD_PRESENT   PAGE_MASK
+>
+> +/* We borrow bit 24 to store the exclusive marker in swap PTEs. */
+> +#define _PAGE_SWP_EXCLUSIVE    _PAGE_DIRTY
+
+_PAGE_DIRTY is 0x80, so this is also bit 7, thus the new comment is
+wrong?
+
+Gr{oetje,eeting}s,
+
+                        Geert
+
+-- 
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
+
+In personal conversations with technical people, I call myself a hacker. But
+when I'm talking to journalists I just say "programmer" or something like that.
+                                -- Linus Torvalds
