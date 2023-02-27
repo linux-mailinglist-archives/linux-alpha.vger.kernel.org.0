@@ -2,124 +2,146 @@ Return-Path: <linux-alpha-owner@vger.kernel.org>
 X-Original-To: lists+linux-alpha@lfdr.de
 Delivered-To: lists+linux-alpha@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 795C06A48F3
-	for <lists+linux-alpha@lfdr.de>; Mon, 27 Feb 2023 18:58:54 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 9AFCB6A4B78
+	for <lists+linux-alpha@lfdr.de>; Mon, 27 Feb 2023 20:47:19 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230130AbjB0R6Z (ORCPT <rfc822;lists+linux-alpha@lfdr.de>);
-        Mon, 27 Feb 2023 12:58:25 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48974 "EHLO
+        id S230281AbjB0TrR (ORCPT <rfc822;lists+linux-alpha@lfdr.de>);
+        Mon, 27 Feb 2023 14:47:17 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59108 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230181AbjB0R6P (ORCPT
+        with ESMTP id S230268AbjB0TrQ (ORCPT
         <rfc822;linux-alpha@vger.kernel.org>);
-        Mon, 27 Feb 2023 12:58:15 -0500
-Received: from casper.infradead.org (casper.infradead.org [IPv6:2001:8b0:10b:1236::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 834B126AC;
-        Mon, 27 Feb 2023 09:57:50 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-        d=infradead.org; s=casper.20170209; h=Content-Transfer-Encoding:MIME-Version:
-        References:In-Reply-To:Message-Id:Date:Subject:Cc:To:From:Sender:Reply-To:
-        Content-Type:Content-ID:Content-Description;
-        bh=sxlK/dYV0ak5B9qHymTAjJFaSXLib2XJVaYWuBBEzbA=; b=KJArGZg5ykb/Jt6MrUMbaOQqDd
-        UnMjz5PSAOd/w5pETz+CjwQDQ6ckLaC2VobWTEa9SBodl7MPmdlHlNGKktbfKpGOfOsumfcLXwB67
-        lpmiE7axvL4uExQ5lnOl67durBwmWg4ZP3kkly1SwvjwaYj8bJtVY9L4hxVwBRLIDtsrWqBf/+2ce
-        Ipuk59BoCRUfc2NYdkGz4zXmBWMrGqW4PBFJMHel9wuHi2Xl6xsMts8Xep9d5Y0AfTev9G8LXypdg
-        TRRlSzCBok51T+YaD9NzrQ4G+tQ794Piz+yjO2KqsXpBBINYOdQIkLzcCoL89nSDxn2zDk3bGfxzL
-        pjYGDM4g==;
-Received: from willy by casper.infradead.org with local (Exim 4.94.2 #2 (Red Hat Linux))
-        id 1pWhkt-000IX4-Sk; Mon, 27 Feb 2023 17:57:43 +0000
-From:   "Matthew Wilcox (Oracle)" <willy@infradead.org>
-To:     linux-mm@kvack.org, linux-arch@vger.kernel.org
-Cc:     "Matthew Wilcox (Oracle)" <willy@infradead.org>,
-        linux-kernel@vger.kernel.org,
-        Richard Henderson <richard.henderson@linaro.org>,
-        Ivan Kokshaysky <ink@jurassic.park.msu.ru>,
-        Matt Turner <mattst88@gmail.com>, linux-alpha@vger.kernel.org
-Subject: [PATCH v2 05/30] alpha: Implement the new page table range API
-Date:   Mon, 27 Feb 2023 17:57:16 +0000
-Message-Id: <20230227175741.71216-6-willy@infradead.org>
-X-Mailer: git-send-email 2.37.1
-In-Reply-To: <20230227175741.71216-1-willy@infradead.org>
-References: <20230227175741.71216-1-willy@infradead.org>
+        Mon, 27 Feb 2023 14:47:16 -0500
+Received: from mail-qt1-f181.google.com (mail-qt1-f181.google.com [209.85.160.181])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 27EA028202;
+        Mon, 27 Feb 2023 11:46:48 -0800 (PST)
+Received: by mail-qt1-f181.google.com with SMTP id w23so8016473qtn.6;
+        Mon, 27 Feb 2023 11:46:48 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=zgbfP6t1iEXlYeQDHgpgkGKrmlu/wPbkfmiZJDZsq5c=;
+        b=PeklCc/BUNFCM4ElJPmsx7n8MV2Iwl7q5/6ZPW3lCqlV0dMVC71bUn6ySKhihacRzX
+         IhLjkT0taaowmeHkjhqcFjY42CZF3KDVUY920L/intcsjFkVCc92QmU6ESE91dLH9qqs
+         V3sLiIIK128WszIJ9B7tbufuqevD12qezThCbonkuk3CPRtE9KNzSf+rSsBX0KMmXCT3
+         +Yjkpx/NDjxKtTNEsS7Lw4xz/pqZVVRInUsB7OPGfgDt+AWZsfiYWcwVyZRQoHcUkzDM
+         zBLMNGBSVhgNGmNAK4cWhJW8rVsEcT3kNheHkBquP/cEltZS6iHTNcLNoBthBFvRZfmE
+         406w==
+X-Gm-Message-State: AO0yUKU2kiVR8Z6e10D3Yg2rJy4ajsfSR3Icpd5EZkzuMmyjFb/fVh/f
+        9rbA4MyhoEEmv4O+n6cUCizaH3lW93uHzw==
+X-Google-Smtp-Source: AK7set/pQ6JDnl+0gvg72l8iO9kyYF90JvlZkNPQjMM+HJ4miR7SQEsMKDfQzYgWmCLw7AgxTXFqhg==
+X-Received: by 2002:a05:622a:50:b0:3bf:ce27:e1fc with SMTP id y16-20020a05622a005000b003bfce27e1fcmr1053059qtw.7.1677527206826;
+        Mon, 27 Feb 2023 11:46:46 -0800 (PST)
+Received: from mail-yw1-f171.google.com (mail-yw1-f171.google.com. [209.85.128.171])
+        by smtp.gmail.com with ESMTPSA id s184-20020a372cc1000000b0073bb00eb0besm5463580qkh.22.2023.02.27.11.46.45
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Mon, 27 Feb 2023 11:46:45 -0800 (PST)
+Received: by mail-yw1-f171.google.com with SMTP id 00721157ae682-536cb25982eso206302047b3.13;
+        Mon, 27 Feb 2023 11:46:45 -0800 (PST)
+X-Received: by 2002:a5b:d4e:0:b0:967:f8b2:7a42 with SMTP id
+ f14-20020a5b0d4e000000b00967f8b27a42mr7816406ybr.7.1677527205039; Mon, 27 Feb
+ 2023 11:46:45 -0800 (PST)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=-4.4 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,SPF_HELO_NONE,
-        SPF_NONE autolearn=ham autolearn_force=no version=3.4.6
+References: <20230113171026.582290-1-david@redhat.com> <20230113171026.582290-12-david@redhat.com>
+ <CAMuHMdX-FDga8w=pgg1myskEx6wp+oyZifhPPPFnWrc1zW7ZpQ@mail.gmail.com>
+ <9ed766a6-cf06-535d-3337-ea6ff25c2362@redhat.com> <CAMuHMdWSaoKqO1Nx7QMDCcXrRmFbqqX8uwDRezXs8g+HdEFjKA@mail.gmail.com>
+ <c145a2db-f92c-65aa-3e68-07dbb2e097a6@redhat.com>
+In-Reply-To: <c145a2db-f92c-65aa-3e68-07dbb2e097a6@redhat.com>
+From:   Geert Uytterhoeven <geert@linux-m68k.org>
+Date:   Mon, 27 Feb 2023 20:46:31 +0100
+X-Gmail-Original-Message-ID: <CAMuHMdX7MND++KXgTpx4jscfctQA_-zPt3EN9-+79EWE7e+OjA@mail.gmail.com>
+Message-ID: <CAMuHMdX7MND++KXgTpx4jscfctQA_-zPt3EN9-+79EWE7e+OjA@mail.gmail.com>
+Subject: Re: [PATCH mm-unstable v1 11/26] microblaze/mm: support __HAVE_ARCH_PTE_SWP_EXCLUSIVE
+To:     David Hildenbrand <david@redhat.com>
+Cc:     linux-kernel@vger.kernel.org,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Hugh Dickins <hughd@google.com>,
+        John Hubbard <jhubbard@nvidia.com>,
+        Jason Gunthorpe <jgg@nvidia.com>,
+        Mike Rapoport <rppt@linux.ibm.com>,
+        Yang Shi <shy828301@gmail.com>,
+        Vlastimil Babka <vbabka@suse.cz>,
+        Nadav Amit <namit@vmware.com>,
+        Andrea Arcangeli <aarcange@redhat.com>,
+        Peter Xu <peterx@redhat.com>, linux-mm@kvack.org,
+        x86@kernel.org, linux-alpha@vger.kernel.org,
+        linux-snps-arc@lists.infradead.org,
+        linux-arm-kernel@lists.infradead.org, linux-csky@vger.kernel.org,
+        linux-hexagon@vger.kernel.org, linux-ia64@vger.kernel.org,
+        loongarch@lists.linux.dev, linux-m68k@lists.linux-m68k.org,
+        linux-mips@vger.kernel.org, openrisc@lists.librecores.org,
+        linux-parisc@vger.kernel.org, linuxppc-dev@lists.ozlabs.org,
+        linux-riscv@lists.infradead.org, linux-s390@vger.kernel.org,
+        linux-sh@vger.kernel.org, sparclinux@vger.kernel.org,
+        linux-um@lists.infradead.org, linux-xtensa@linux-xtensa.org,
+        Michal Simek <monstr@monstr.eu>
+Content-Type: text/plain; charset="UTF-8"
+X-Spam-Status: No, score=-1.4 required=5.0 tests=BAYES_00,
+        FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,HEADER_FROM_DIFFERENT_DOMAINS,
+        RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H3,RCVD_IN_MSPIKE_WL,SPF_HELO_NONE,
+        SPF_PASS autolearn=no autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-alpha.vger.kernel.org>
 X-Mailing-List: linux-alpha@vger.kernel.org
 
-Add set_ptes(), update_mmu_cache_range() and flush_icache_pages().
+Hi David,
 
-Signed-off-by: Matthew Wilcox (Oracle) <willy@infradead.org>
-Cc: Richard Henderson <richard.henderson@linaro.org>
-Cc: Ivan Kokshaysky <ink@jurassic.park.msu.ru>
-Cc: Matt Turner <mattst88@gmail.com>
-Cc: linux-alpha@vger.kernel.org
----
- arch/alpha/include/asm/cacheflush.h | 10 ++++++++++
- arch/alpha/include/asm/pgtable.h    | 18 +++++++++++++++++-
- 2 files changed, 27 insertions(+), 1 deletion(-)
+On Mon, Feb 27, 2023 at 6:01 PM David Hildenbrand <david@redhat.com> wrote:
+> >>>>    /*
+> >>>>     * Externally used page protection values.
+> >>>> diff --git a/arch/microblaze/include/asm/pgtable.h b/arch/microblaze/include/asm/pgtable.h
+> >>>> index 42f5988e998b..7e3de54bf426 100644
+> >>>> --- a/arch/microblaze/include/asm/pgtable.h
+> >>>> +++ b/arch/microblaze/include/asm/pgtable.h
 
-diff --git a/arch/alpha/include/asm/cacheflush.h b/arch/alpha/include/asm/cacheflush.h
-index 9945ff483eaf..3956460e69e2 100644
---- a/arch/alpha/include/asm/cacheflush.h
-+++ b/arch/alpha/include/asm/cacheflush.h
-@@ -57,6 +57,16 @@ extern void flush_icache_user_page(struct vm_area_struct *vma,
- #define flush_icache_page(vma, page) \
- 	flush_icache_user_page((vma), (page), 0, 0)
- 
-+/*
-+ * Both implementations of flush_icache_user_page flush the entire
-+ * address space, so one call, no matter how many pages.
-+ */
-+static inline void flush_icache_pages(struct vm_area_struct *vma,
-+		struct page *page, unsigned int nr)
-+{
-+	flush_icache_user_page(vma, page, 0, 0);
-+}
-+
- #include <asm-generic/cacheflush.h>
- 
- #endif /* _ALPHA_CACHEFLUSH_H */
-diff --git a/arch/alpha/include/asm/pgtable.h b/arch/alpha/include/asm/pgtable.h
-index ba43cb841d19..1e3354e9731b 100644
---- a/arch/alpha/include/asm/pgtable.h
-+++ b/arch/alpha/include/asm/pgtable.h
-@@ -26,7 +26,18 @@ struct vm_area_struct;
-  * hook is made available.
-  */
- #define set_pte(pteptr, pteval) ((*(pteptr)) = (pteval))
--#define set_pte_at(mm,addr,ptep,pteval) set_pte(ptep,pteval)
-+static inline void set_ptes(struct mm_struct *mm, unsigned long addr,
-+		pte_t *ptep, pte_t pte, unsigned int nr)
-+{
-+	for (;;) {
-+		set_pte(ptep, pte);
-+		if (--nr == 0)
-+			break;
-+		ptep++;
-+		pte_val(pte) += 1UL << 32;
-+	}
-+}
-+#define set_pte_at(mm, addr, ptep, pte) set_ptes(mm, addr, ptep, pte, 1)
- 
- /* PMD_SHIFT determines the size of the area a second-level page table can map */
- #define PMD_SHIFT	(PAGE_SHIFT + (PAGE_SHIFT-3))
-@@ -303,6 +314,11 @@ extern inline void update_mmu_cache(struct vm_area_struct * vma,
- {
- }
- 
-+static inline void update_mmu_cache_range(struct vm_area_struct *vma,
-+		unsigned long address, pte_t *ptep, unsigned int nr)
-+{
-+}
-+
- /*
-  * Encode/decode swap entries and swap PTEs. Swap PTEs are all PTEs that
-  * are !pte_none() && !pte_present().
+> >>>>     * - All other bits of the PTE are loaded into TLBLO without
+> >>>>     *  * modification, leaving us only the bits 20, 21, 24, 25, 26, 30 for
+> >>>>     * software PTE bits.  We actually use bits 21, 24, 25, and
+> >>>> @@ -155,6 +155,9 @@ extern pte_t *va_to_pte(unsigned long address);
+> >>>>    #define _PAGE_ACCESSED 0x400   /* software: R: page referenced */
+> >>>>    #define _PMD_PRESENT   PAGE_MASK
+> >>>>
+> >>>> +/* We borrow bit 24 to store the exclusive marker in swap PTEs. */
+> >>>> +#define _PAGE_SWP_EXCLUSIVE    _PAGE_DIRTY
+> >>>
+> >>> _PAGE_DIRTY is 0x80, so this is also bit 7, thus the new comment is
+> >>> wrong?
+> >>
+> >> In the example, I use MSB-0 bit numbering (which I determined to be
+> >> correct in microblaze context eventually, but I got confused a couple a
+> >> times because it's very inconsistent). That should be MSB-0 bit 24.
+> >
+> > Thanks, TIL microblaze uses IBM bit numbering...
+>
+> I assume IBM bit numbering corresponds to MSB-0 bit numbering, correct?
+
+Correct, as seen in s370 and PowerPC manuals...
+
+> I recall that I used the comment above "/* Definitions for MicroBlaze.
+> */" as an orientation.
+>
+> 0  1  2  3  4  ... 18 19 20 21 22 23 24 25 26 27 28 29 30 31
+> RPN.....................  0  0 EX WR ZSEL.......  W  I  M  G
+
+Indeed, that's where I noticed the "unconventional" numbering...
+
+> So ... either we adjust both or we leave it as is. (again, depends on
+> what the right thing to to is -- which I don't know :) )
+
+It depends whether you want to match the hardware documentation,
+or the Linux BIT() macro and friends...
+
+Gr{oetje,eeting}s,
+
+                        Geert
+
 -- 
-2.39.1
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
 
+In personal conversations with technical people, I call myself a hacker. But
+when I'm talking to journalists I just say "programmer" or something like that.
+                                -- Linus Torvalds
