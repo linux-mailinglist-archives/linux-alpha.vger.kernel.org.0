@@ -2,53 +2,53 @@ Return-Path: <linux-alpha-owner@vger.kernel.org>
 X-Original-To: lists+linux-alpha@lfdr.de
 Delivered-To: lists+linux-alpha@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 3158F6A7F2B
-	for <lists+linux-alpha@lfdr.de>; Thu,  2 Mar 2023 10:57:42 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 2F6E26A7F3C
+	for <lists+linux-alpha@lfdr.de>; Thu,  2 Mar 2023 10:58:11 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229509AbjCBJ5K (ORCPT <rfc822;lists+linux-alpha@lfdr.de>);
-        Thu, 2 Mar 2023 04:57:10 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39542 "EHLO
+        id S229821AbjCBJ5j (ORCPT <rfc822;lists+linux-alpha@lfdr.de>);
+        Thu, 2 Mar 2023 04:57:39 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41144 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230423AbjCBJ4a (ORCPT
-        <rfc822;linux-alpha@vger.kernel.org>); Thu, 2 Mar 2023 04:56:30 -0500
-Received: from mail-wr1-x431.google.com (mail-wr1-x431.google.com [IPv6:2a00:1450:4864:20::431])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 275D64108E
-        for <linux-alpha@vger.kernel.org>; Thu,  2 Mar 2023 01:56:18 -0800 (PST)
-Received: by mail-wr1-x431.google.com with SMTP id l25so15929505wrb.3
-        for <linux-alpha@vger.kernel.org>; Thu, 02 Mar 2023 01:56:18 -0800 (PST)
+        with ESMTP id S230110AbjCBJ5W (ORCPT
+        <rfc822;linux-alpha@vger.kernel.org>); Thu, 2 Mar 2023 04:57:22 -0500
+Received: from mail-wr1-x429.google.com (mail-wr1-x429.google.com [IPv6:2a00:1450:4864:20::429])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id EA2093E0AB
+        for <linux-alpha@vger.kernel.org>; Thu,  2 Mar 2023 01:57:19 -0800 (PST)
+Received: by mail-wr1-x429.google.com with SMTP id bw19so15878904wrb.13
+        for <linux-alpha@vger.kernel.org>; Thu, 02 Mar 2023 01:57:19 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=rivosinc-com.20210112.gappssmtp.com; s=20210112; t=1677750976;
+        d=rivosinc-com.20210112.gappssmtp.com; s=20210112; t=1677751038;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=nEs3yIz8iEmRFY8PICbSYz9IDFM/n81OtFDX6/s/AEc=;
-        b=knISX1iT2rRR106GIUlbJC06fpznhY3A4dilwlF3bmeod/OcRdwY77WLBaAulDxb61
-         Pk0zUhuXMaIpdVWHqDXDoQZZ3D3QzpQ3Ruhv1clqcbP74yLjtq6jpqGX6eesH+6oHzeO
-         3cFNkLpsLel0/ACtssFKIJ3XeqH1VIntoI5WTyMPUBcqLkiJqxc6DyFl45oy9ffoLcB6
-         I5E/cyonnx/gqVU4jjtrDPhZyMePqvpZyhm7gZHvwM1XibslkBs+UwOXQFGzPPAsdzYb
-         KpDXTSzIiVWdMGKpc9SW2D4U9Q+S2OqdMYO+45EVoUwJ0dpEVpNAY2jfr0NIemdeGfl+
-         h4Eg==
+        bh=mbWJMLbW9/e/jUg8R3Gl59aPCKpvLB2ljblArfmNMkc=;
+        b=D2ZYUezj7aXly01/SHVyB+eFeXkneR6Cc8J1my71IdSLnhhdqJGVfRRuNkgwlJ1qTN
+         XUUF4gwOhKXYNFbCGsPQC/fmmm1CJhuz26LBixBplzOx/7FJFh6PFoLAIUEiL//BV7/Y
+         05yc1sH5U/bYE6lmFIKXOjlBADocSoL/FEYlfqKZv7cm3nfJkD6F5h36pt/Z2SLu/6qL
+         Q4UPcDTpDkTK02yhFZFBAya3cYKbiMxizDybGbQOWT1w/zioAktweZfsaacnK76n8rs+
+         hsQvLkRQmO2Fk5KV27RZdUHPghO6NZZTRFh8sElYxJrDsC3pGWp7EiGwSf9BKEnHMDqz
+         Mp/Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112; t=1677750976;
+        d=1e100.net; s=20210112; t=1677751038;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=nEs3yIz8iEmRFY8PICbSYz9IDFM/n81OtFDX6/s/AEc=;
-        b=srW5aFpRXjGXsHes1R0VKCx00tEyFhzTP5U1sfyhbq8pECqur2jbS0UAsAbfqn12qT
-         MAzM1p1T2vQPQpi1/YirjVQEFkbl68LiQFDa2QXHOnu/1HST1rQIE4i9CNeQ6arqiQY5
-         dEVGKCCr1N+ZAxcjqyAzOhGs/VEdc4Pjrd1Q5/Nnmr8HNx4O/Jh6ooxA4TTa64iO+pvo
-         PJqDSfFkrze6U8eAJTekIJGjiTLSCcSiLen0d1fk41h3x8nigvvlvh1lttQml6NROYOE
-         suFuvf3YIHazpVg74T9+qg8XypAbN6P/FqM6HBwHTa54KdSBI4hptNY9bNv85Sn4I7Pg
-         bpAA==
-X-Gm-Message-State: AO0yUKW5MreVLlr4c0OdqcY3M9TR/izyQbFsOX+Y+V6IeGPQSvjxo+4z
-        NJrZLV+qZQuuhMF4JljcLnAaxw==
-X-Google-Smtp-Source: AK7set+NmzGCXmV49Z+yuGoqtBuUh6WsMHapZ5sjWJvg1AxjPSuRMcddn6CMUFtPpYXviamzMTzYwg==
-X-Received: by 2002:a5d:4845:0:b0:2c7:7b7:ee94 with SMTP id n5-20020a5d4845000000b002c707b7ee94mr6581157wrs.13.1677750976700;
-        Thu, 02 Mar 2023 01:56:16 -0800 (PST)
+        bh=mbWJMLbW9/e/jUg8R3Gl59aPCKpvLB2ljblArfmNMkc=;
+        b=fDM7wei+E6HEwlNHBzl9IV3tz6hE/qWyCx4nGZKX2ajHDY1gDy6pG3UXB8VThqYivU
+         qXe6oPPfjnSapxDmJztAyA/Su+YJIGBAkwMbJ74vS6bqepDg1aFvyOwjdlUBq5Ld1MZS
+         TyffF6j4U1rmnmTT5CyCbOdvkyWFITFD8eZ0YBkUgvBxhNu8BgD8voXjLKGIUk5aH8OJ
+         b0Cz1Q8b7CWfTGybPm7rE4ZZ3Pkt22jeV9TfBdVAQb4tgr2P4OkFG4gkW7c+I/jiONyb
+         drhA/p5nahvZGDcCowXHf4uszaUbRqq+DZ2IcIOVAnGyTvi4ppGZ7Sn7K7WYt1gsSIKA
+         CSOg==
+X-Gm-Message-State: AO0yUKWjjtAcZsbm3hJgDTl3rrRcjFy0tGyfcAjol+FzFbheuwCWCsfB
+        lZDm/ScrqynDxpqauF3rv9N5lA==
+X-Google-Smtp-Source: AK7set+UVLLQy3pDYpEgdjukHVt3/WbXJ1ubEMzbQOj5ZYV5HNP6MY5JJcqxoBmTXacmF2llU10eSw==
+X-Received: by 2002:adf:f4c9:0:b0:2c9:8a3c:9fc5 with SMTP id h9-20020adff4c9000000b002c98a3c9fc5mr6437471wrp.41.1677751038459;
+        Thu, 02 Mar 2023 01:57:18 -0800 (PST)
 Received: from alex-rivos.home (amontpellier-656-1-456-62.w92-145.abo.wanadoo.fr. [92.145.124.62])
-        by smtp.gmail.com with ESMTPSA id e15-20020a5d594f000000b002c5d3f0f737sm14703514wri.30.2023.03.02.01.56.15
+        by smtp.gmail.com with ESMTPSA id l7-20020a5d5267000000b002c8ed82c56csm14784474wrc.116.2023.03.02.01.57.17
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 02 Mar 2023 01:56:16 -0800 (PST)
+        Thu, 02 Mar 2023 01:57:18 -0800 (PST)
 From:   Alexandre Ghiti <alexghiti@rivosinc.com>
 To:     Jonathan Corbet <corbet@lwn.net>,
         Richard Henderson <richard.henderson@linaro.org>,
@@ -94,16 +94,14 @@ To:     Jonathan Corbet <corbet@lwn.net>,
         linux-s390@vger.kernel.org, linux-sh@vger.kernel.org,
         sparclinux@vger.kernel.org, linux-xtensa@linux-xtensa.org,
         linux-arch@vger.kernel.org
-Cc:     Palmer Dabbelt <palmer@rivosinc.com>,
-        =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@linaro.org>
-Subject: [PATCH v4 20/24] x86: Remove empty <uapi/asm/setup.h>
-Date:   Thu,  2 Mar 2023 10:35:35 +0100
-Message-Id: <20230302093539.372962-21-alexghiti@rivosinc.com>
+Cc:     Palmer Dabbelt <palmer@rivosinc.com>
+Subject: [PATCH v4 21/24] xtensa: Remove empty <uapi/asm/setup.h>
+Date:   Thu,  2 Mar 2023 10:35:36 +0100
+Message-Id: <20230302093539.372962-22-alexghiti@rivosinc.com>
 X-Mailer: git-send-email 2.37.2
 In-Reply-To: <20230302093539.372962-1-alexghiti@rivosinc.com>
 References: <20230302093539.372962-1-alexghiti@rivosinc.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,DKIM_SIGNED,
         DKIM_VALID,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS
@@ -117,33 +115,33 @@ X-Mailing-List: linux-alpha@vger.kernel.org
 From: Palmer Dabbelt <palmer@rivosinc.com>
 
 Signed-off-by: Palmer Dabbelt <palmer@rivosinc.com>
-Reviewed-by: Philippe Mathieu-Daudé <philmd@linaro.org>
+Acked-by: Max Filippov <jcmvbkbc@gmail.com>
 ---
- arch/x86/include/asm/setup.h      | 2 --
- arch/x86/include/uapi/asm/setup.h | 1 -
- 2 files changed, 3 deletions(-)
- delete mode 100644 arch/x86/include/uapi/asm/setup.h
+ arch/xtensa/include/uapi/asm/setup.h | 15 ---------------
+ 1 file changed, 15 deletions(-)
+ delete mode 100644 arch/xtensa/include/uapi/asm/setup.h
 
-diff --git a/arch/x86/include/asm/setup.h b/arch/x86/include/asm/setup.h
-index f37cbff7354c..449b50a2f390 100644
---- a/arch/x86/include/asm/setup.h
-+++ b/arch/x86/include/asm/setup.h
-@@ -2,8 +2,6 @@
- #ifndef _ASM_X86_SETUP_H
- #define _ASM_X86_SETUP_H
- 
--#include <uapi/asm/setup.h>
--
- #define COMMAND_LINE_SIZE 2048
- 
- #include <linux/linkage.h>
-diff --git a/arch/x86/include/uapi/asm/setup.h b/arch/x86/include/uapi/asm/setup.h
+diff --git a/arch/xtensa/include/uapi/asm/setup.h b/arch/xtensa/include/uapi/asm/setup.h
 deleted file mode 100644
-index 79a9626b5500..000000000000
---- a/arch/x86/include/uapi/asm/setup.h
+index 6f982394684a..000000000000
+--- a/arch/xtensa/include/uapi/asm/setup.h
 +++ /dev/null
-@@ -1 +0,0 @@
--/* */
+@@ -1,15 +0,0 @@
+-/* SPDX-License-Identifier: GPL-2.0 WITH Linux-syscall-note */
+-/*
+- * include/asm-xtensa/setup.h
+- *
+- * This file is subject to the terms and conditions of the GNU General Public
+- * License.  See the file "COPYING" in the main directory of this archive
+- * for more details.
+- *
+- * Copyright (C) 2001 - 2005 Tensilica Inc.
+- */
+-
+-#ifndef _XTENSA_SETUP_H
+-#define _XTENSA_SETUP_H
+-
+-#endif
 -- 
 2.37.2
 
