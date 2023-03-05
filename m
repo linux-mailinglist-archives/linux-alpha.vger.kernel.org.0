@@ -2,47 +2,47 @@ Return-Path: <linux-alpha-owner@vger.kernel.org>
 X-Original-To: lists+linux-alpha@lfdr.de
 Delivered-To: lists+linux-alpha@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 864EB6AB064
-	for <lists+linux-alpha@lfdr.de>; Sun,  5 Mar 2023 14:55:42 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id CE0806AB090
+	for <lists+linux-alpha@lfdr.de>; Sun,  5 Mar 2023 14:57:26 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230172AbjCENzk (ORCPT <rfc822;lists+linux-alpha@lfdr.de>);
-        Sun, 5 Mar 2023 08:55:40 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43464 "EHLO
+        id S230258AbjCEN5Y (ORCPT <rfc822;lists+linux-alpha@lfdr.de>);
+        Sun, 5 Mar 2023 08:57:24 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43376 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230089AbjCENzI (ORCPT
-        <rfc822;linux-alpha@vger.kernel.org>); Sun, 5 Mar 2023 08:55:08 -0500
+        with ESMTP id S230222AbjCEN5H (ORCPT
+        <rfc822;linux-alpha@vger.kernel.org>); Sun, 5 Mar 2023 08:57:07 -0500
 Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D22F993F2;
-        Sun,  5 Mar 2023 05:54:45 -0800 (PST)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9F1B7210D;
+        Sun,  5 Mar 2023 05:56:11 -0800 (PST)
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id 5E4A460B1B;
-        Sun,  5 Mar 2023 13:54:41 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id F13C0C433EF;
-        Sun,  5 Mar 2023 13:54:39 +0000 (UTC)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id A939060B0D;
+        Sun,  5 Mar 2023 13:55:01 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 44C66C433EF;
+        Sun,  5 Mar 2023 13:55:00 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1678024480;
-        bh=bxTptbUVa63UoQCRWI3jLiKQBHLWc7zNuIcPhaE4q9U=;
+        s=k20201202; t=1678024501;
+        bh=uK+ef2YNaL/8nHoWhWxVzFQp5/xsZI26cmKsOwW7KEc=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=fTdrVIYNP1IIvzPehBYnLAVUEbXyPpFXsYkNsayIlewtJxK9pp8HnMx79LVs0oaIQ
-         qOYgFKjWfu9CzbG1H9ZHAsRudsdXxxqf45ZDmwNUnm/B24zZObgCRhApt+5axnt1LN
-         kw6QJQJsI+FXvpjrh4efsZEWzMAjqFnrxi/ZjwdiS4ZkgnaP6hDD/aJGbd3ow6VzhL
-         LClzjfbADClDPVY0QelAP3i75lAe2g8bNI9H1D2cIL2YJmwrtjNmCw1j7lilEIxbem
-         4xfOkgRm53hoe9T+ZFIYehMhuGiuJI66h3G0G3UzEZiQbWHJmPp9nO5z0i6fJtDUi5
-         fZl01FvTcEZkA==
+        b=Yj7JEtF38ZCtqTgx3S2moTlfrP4/zPZN4QLocGMec4npr5JPp8+SX7LHEzyhhsODl
+         QRvhOKBq6G+8EIuEamM+eTzo6yD6Ogmq2AWyXzp3LMvzfje4k+mawvxYAvAasAfgmt
+         dwKE0FAMPMUBbTDA/keCv7WrugI5NNvAK6QcVGmUTVm9mh8GPutCiCA8c51S6czkqH
+         q9xGwNHN7oaE9nxjt6xCxhXUJcm8vJBOr4KkKjjpErfDxi7GiSLu+UvF1up8+zzMWW
+         KUZ0dysYbBIGVp8u25CMWryoi26801goyNTSqofVJklWG4Pp6QH+l9V0QH7gYrhdKm
+         +R6DdC56F0Yzw==
 From:   Sasha Levin <sashal@kernel.org>
 To:     linux-kernel@vger.kernel.org, stable@vger.kernel.org
 Cc:     Edward Humes <aurxenon@lunos.org>,
         Matt Turner <mattst88@gmail.com>,
         Sasha Levin <sashal@kernel.org>, richard.henderson@linaro.org,
         ink@jurassic.park.msu.ru, linux-alpha@vger.kernel.org
-Subject: [PATCH AUTOSEL 5.10 5/8] alpha: fix R_ALPHA_LITERAL reloc for large modules
-Date:   Sun,  5 Mar 2023 08:54:22 -0500
-Message-Id: <20230305135425.1793964-5-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 5.4 4/7] alpha: fix R_ALPHA_LITERAL reloc for large modules
+Date:   Sun,  5 Mar 2023 08:54:45 -0500
+Message-Id: <20230305135449.1794083-4-sashal@kernel.org>
 X-Mailer: git-send-email 2.39.2
-In-Reply-To: <20230305135425.1793964-1-sashal@kernel.org>
-References: <20230305135425.1793964-1-sashal@kernel.org>
+In-Reply-To: <20230305135449.1794083-1-sashal@kernel.org>
+References: <20230305135449.1794083-1-sashal@kernel.org>
 MIME-Version: 1.0
 X-stable: review
 X-Patchwork-Hint: Ignore
@@ -88,7 +88,7 @@ Signed-off-by: Sasha Levin <sashal@kernel.org>
  1 file changed, 1 insertion(+), 3 deletions(-)
 
 diff --git a/arch/alpha/kernel/module.c b/arch/alpha/kernel/module.c
-index 5b60c248de9ea..cbefa5a773846 100644
+index ac110ae8f9780..b19a8aae74e1f 100644
 --- a/arch/alpha/kernel/module.c
 +++ b/arch/alpha/kernel/module.c
 @@ -146,10 +146,8 @@ apply_relocate_add(Elf64_Shdr *sechdrs, const char *strtab,
