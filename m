@@ -2,119 +2,107 @@ Return-Path: <linux-alpha-owner@vger.kernel.org>
 X-Original-To: lists+linux-alpha@lfdr.de
 Delivered-To: lists+linux-alpha@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 2D3CA6AAEC9
-	for <lists+linux-alpha@lfdr.de>; Sun,  5 Mar 2023 10:30:10 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 273016AB030
+	for <lists+linux-alpha@lfdr.de>; Sun,  5 Mar 2023 14:53:40 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229643AbjCEJaH convert rfc822-to-8bit (ORCPT
-        <rfc822;lists+linux-alpha@lfdr.de>); Sun, 5 Mar 2023 04:30:07 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36144 "EHLO
+        id S229662AbjCENxj (ORCPT <rfc822;lists+linux-alpha@lfdr.de>);
+        Sun, 5 Mar 2023 08:53:39 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39720 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229545AbjCEJaH (ORCPT
-        <rfc822;linux-alpha@vger.kernel.org>); Sun, 5 Mar 2023 04:30:07 -0500
-Received: from mail-qt1-f181.google.com (mail-qt1-f181.google.com [209.85.160.181])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 55D897AB7;
-        Sun,  5 Mar 2023 01:30:06 -0800 (PST)
-Received: by mail-qt1-f181.google.com with SMTP id z6so7651640qtv.0;
-        Sun, 05 Mar 2023 01:30:06 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112; t=1678008605;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=vgd0m+/MCaDvNZBjSvDtubD53Qmudtg807BEeMSQ1f0=;
-        b=TgJfpiw6bQwfYRwu06aJLoVRQ9AE57Buw1rCCjqjSdej4lOQnY/ypZTNIoWmAIBmcL
-         Em++mWom34GrU4QJQSgXF15ULPCUPb/4v1xcaXvnK9adWv2o5WO+jsV3qcZoB8fq8cfP
-         C16Vo+nmsMlH81ypwR1gf6WQQy9AkmOpWRKfzAlTSoIbNgpsw/iN/XJstKm/VTV/m6b5
-         C+HM8MgMUDoy1HBaNpfW5TVDjg9M8IVRtorxSvyjfJmcknHNOnqDYSicmwfJKT7Dqr7R
-         3437uLqqzIs8lQEydVsYcHvZjyo0Tl6HMuhYm+VtBJ3heeCQzANIYFy08q5c7pVDG8bT
-         6Dmw==
-X-Gm-Message-State: AO0yUKWT0vT+HQ+ETIXCy0EYolndTCyiDe3PUOsB2M6jqQWUa9Y1hNma
-        CRGZCzcwa0nO3eBfdnE778jrRQ07yhEs+Q==
-X-Google-Smtp-Source: AK7set/Qet7Y2xObux9A9+h42PzkaHtV04/tBNVDpaZLXtJ4Bp9Tna6wIAKORhr1xA+Wc7IjPVmuMw==
-X-Received: by 2002:a05:622a:19a7:b0:3b8:2e92:94e7 with SMTP id u39-20020a05622a19a700b003b82e9294e7mr13025765qtc.44.1678008605119;
-        Sun, 05 Mar 2023 01:30:05 -0800 (PST)
-Received: from mail-yw1-f182.google.com (mail-yw1-f182.google.com. [209.85.128.182])
-        by smtp.gmail.com with ESMTPSA id l11-20020a37f90b000000b0071ddbe8fe23sm5221567qkj.24.2023.03.05.01.30.04
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Sun, 05 Mar 2023 01:30:04 -0800 (PST)
-Received: by mail-yw1-f182.google.com with SMTP id 00721157ae682-536be69eadfso128890197b3.1;
-        Sun, 05 Mar 2023 01:30:04 -0800 (PST)
-X-Received: by 2002:a81:af0c:0:b0:52f:1c23:ef1 with SMTP id
- n12-20020a81af0c000000b0052f1c230ef1mr4669025ywh.5.1678008604127; Sun, 05 Mar
- 2023 01:30:04 -0800 (PST)
+        with ESMTP id S229875AbjCENx0 (ORCPT
+        <rfc822;linux-alpha@vger.kernel.org>); Sun, 5 Mar 2023 08:53:26 -0500
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1A3CD2D63;
+        Sun,  5 Mar 2023 05:52:59 -0800 (PST)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id A8DFE60B1B;
+        Sun,  5 Mar 2023 13:52:58 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 5AC61C433D2;
+        Sun,  5 Mar 2023 13:52:57 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1678024378;
+        bh=bxTptbUVa63UoQCRWI3jLiKQBHLWc7zNuIcPhaE4q9U=;
+        h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+        b=J2nBVDKs14PHAgpGa0Zv4un0suiq6IClw07I+dw0qHdHjHcwI1LNKysJQ330VO/Xq
+         WeMnRU35/dD4M9+tuX5zmr8PbntclClgnjJZRl0ys9BbCydIGjGwjtF2OkmTvCqBGk
+         q+1EeppAghjx4MIAVaADgwmITyo5bCKUqk6GvGP8Hso2VEKK6vd8dJlgNdDvjeNd2B
+         /3veWvnHoRVf9MIVC/cvxSZxSzy2GR7G8dzgxxg2vSC08GemlAxZ6XledV3pc0BA98
+         GZ7L1L3rWxzIXl7P8egc/jcVb9zkU17Wi3BhzkDMj04EYksgoqX6CGzHHrrE+S3jks
+         q/wS0KKM+KO/g==
+From:   Sasha Levin <sashal@kernel.org>
+To:     linux-kernel@vger.kernel.org, stable@vger.kernel.org
+Cc:     Edward Humes <aurxenon@lunos.org>,
+        Matt Turner <mattst88@gmail.com>,
+        Sasha Levin <sashal@kernel.org>, richard.henderson@linaro.org,
+        ink@jurassic.park.msu.ru, linux-alpha@vger.kernel.org
+Subject: [PATCH AUTOSEL 6.2 13/16] alpha: fix R_ALPHA_LITERAL reloc for large modules
+Date:   Sun,  5 Mar 2023 08:52:04 -0500
+Message-Id: <20230305135207.1793266-13-sashal@kernel.org>
+X-Mailer: git-send-email 2.39.2
+In-Reply-To: <20230305135207.1793266-1-sashal@kernel.org>
+References: <20230305135207.1793266-1-sashal@kernel.org>
 MIME-Version: 1.0
-References: <20230303102817.212148-1-bhe@redhat.com> <20230303102817.212148-3-bhe@redhat.com>
- <87sfej1rie.fsf@mpe.ellerman.id.au>
-In-Reply-To: <87sfej1rie.fsf@mpe.ellerman.id.au>
-From:   Geert Uytterhoeven <geert@linux-m68k.org>
-Date:   Sun, 5 Mar 2023 10:29:52 +0100
-X-Gmail-Original-Message-ID: <CAMuHMdXoM24uAZGcjBtscNMOSY_+4u08PEOR7gOfCH7jvCceDg@mail.gmail.com>
-Message-ID: <CAMuHMdXoM24uAZGcjBtscNMOSY_+4u08PEOR7gOfCH7jvCceDg@mail.gmail.com>
-Subject: Re: [PATCH v3 2/2] arch/*/io.h: remove ioremap_uc in some architectures
-To:     Michael Ellerman <mpe@ellerman.id.au>
-Cc:     Baoquan He <bhe@redhat.com>, linux-kernel@vger.kernel.org,
-        linux-arch@vger.kernel.org, linux-mm@kvack.org, arnd@arndb.de,
-        mcgrof@kernel.org, hch@infradead.org, linux-alpha@vger.kernel.org,
-        linux-hexagon@vger.kernel.org, linux-m68k@lists.linux-m68k.org,
-        linux-mips@vger.kernel.org, linux-parisc@vger.kernel.org,
-        linuxppc-dev@lists.ozlabs.org, linux-sh@vger.kernel.org,
-        sparclinux@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 8BIT
-X-Spam-Status: No, score=-1.4 required=5.0 tests=BAYES_00,
-        FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,HEADER_FROM_DIFFERENT_DOMAINS,
-        RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H3,RCVD_IN_MSPIKE_WL,SPF_HELO_NONE,
-        SPF_PASS autolearn=no autolearn_force=no version=3.4.6
+X-stable: review
+X-Patchwork-Hint: Ignore
+Content-Transfer-Encoding: 8bit
+X-Spam-Status: No, score=-7.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_HI,
+        SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-alpha.vger.kernel.org>
 X-Mailing-List: linux-alpha@vger.kernel.org
 
-Hi Michael,
+From: Edward Humes <aurxenon@lunos.org>
 
-On Sun, Mar 5, 2023 at 10:23 AM Michael Ellerman <mpe@ellerman.id.au> wrote:
-> Baoquan He <bhe@redhat.com> writes:
-> > ioremap_uc() is only meaningful on old x86-32 systems with the PAT
-> > extension, and on ia64 with its slightly unconventional ioremap()
-> > behavior, everywhere else this is the same as ioremap() anyway.
-> >
-> > Here, remove the ioremap_uc() definition in architecutures other
-> > than x86 and ia64. These architectures all have asm-generic/io.h
-> > included and will have the default ioremap_uc() definition which
-> > returns NULL.
-> >
-> > Note: This changes the existing behaviour and could break code
-> > calling ioremap_uc(). If any ARCH meets this breakage and really
-> > needs a specific ioremap_uc() for its own usage, one ioremap_uc()
-> > can be added in the ARCH.
->
-> I see one use in:
->
-> drivers/video/fbdev/aty/atyfb_base.c:        par->ati_regbase = ioremap_uc(info->fix.mmio_start, 0x1000);
->
->
-> Which isn't obviously x86/ia64 specific.
->
-> I'm pretty sure some powermacs (powerpc) use that driver.
+[ Upstream commit b6b17a8b3ecd878d98d5472a9023ede9e669ca72 ]
 
-I originally wrote that driver for CHRP, so yes.
+Previously, R_ALPHA_LITERAL relocations would overflow for large kernel
+modules.
 
-> Maybe that exact code path is only reachable on x86/ia64? But if so
-> please explain why.
->
-> Otherwise it looks like this series could break that driver on powerpc
-> at least.
+This was because the Alpha's apply_relocate_add was relying on the kernel's
+module loader to have sorted the GOT towards the very end of the module as it
+was mapped into memory in order to correctly assign the global pointer. While
+this behavior would mostly work fine for small kernel modules, this approach
+would overflow on kernel modules with large GOT's since the global pointer
+would be very far away from the GOT, and thus, certain entries would be out of
+range.
 
-Indeed.
+This patch fixes this by instead using the Tru64 behavior of assigning the
+global pointer to be 32KB away from the start of the GOT. The change made
+in this patch won't work for multi-GOT kernel modules as it makes the
+assumption the module only has one GOT located at the beginning of .got,
+although for the vast majority kernel modules, this should be fine. Of the
+kernel modules that would previously result in a relocation error, none of
+them, even modules like nouveau, have even come close to filling up a single
+GOT, and they've all worked fine under this patch.
 
-Gr{oetje,eeting}s,
+Signed-off-by: Edward Humes <aurxenon@lunos.org>
+Signed-off-by: Matt Turner <mattst88@gmail.com>
+Signed-off-by: Sasha Levin <sashal@kernel.org>
+---
+ arch/alpha/kernel/module.c | 4 +---
+ 1 file changed, 1 insertion(+), 3 deletions(-)
 
-                        Geert
-
+diff --git a/arch/alpha/kernel/module.c b/arch/alpha/kernel/module.c
+index 5b60c248de9ea..cbefa5a773846 100644
+--- a/arch/alpha/kernel/module.c
++++ b/arch/alpha/kernel/module.c
+@@ -146,10 +146,8 @@ apply_relocate_add(Elf64_Shdr *sechdrs, const char *strtab,
+ 	base = (void *)sechdrs[sechdrs[relsec].sh_info].sh_addr;
+ 	symtab = (Elf64_Sym *)sechdrs[symindex].sh_addr;
+ 
+-	/* The small sections were sorted to the end of the segment.
+-	   The following should definitely cover them.  */
+-	gp = (u64)me->core_layout.base + me->core_layout.size - 0x8000;
+ 	got = sechdrs[me->arch.gotsecindex].sh_addr;
++	gp = got + 0x8000;
+ 
+ 	for (i = 0; i < n; i++) {
+ 		unsigned long r_sym = ELF64_R_SYM (rela[i].r_info);
 -- 
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
+2.39.2
 
-In personal conversations with technical people, I call myself a hacker. But
-when I'm talking to journalists I just say "programmer" or something like that.
-                                -- Linus Torvalds
