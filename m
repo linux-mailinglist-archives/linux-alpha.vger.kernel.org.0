@@ -2,107 +2,112 @@ Return-Path: <linux-alpha-owner@vger.kernel.org>
 X-Original-To: lists+linux-alpha@lfdr.de
 Delivered-To: lists+linux-alpha@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 6D3246AB0AB
-	for <lists+linux-alpha@lfdr.de>; Sun,  5 Mar 2023 14:58:15 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 11A0C6AB1FE
+	for <lists+linux-alpha@lfdr.de>; Sun,  5 Mar 2023 21:11:19 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230372AbjCEN6O (ORCPT <rfc822;lists+linux-alpha@lfdr.de>);
-        Sun, 5 Mar 2023 08:58:14 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39970 "EHLO
+        id S229586AbjCEULR (ORCPT <rfc822;lists+linux-alpha@lfdr.de>);
+        Sun, 5 Mar 2023 15:11:17 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53860 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230257AbjCEN5w (ORCPT
-        <rfc822;linux-alpha@vger.kernel.org>); Sun, 5 Mar 2023 08:57:52 -0500
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CC9EA1B30A;
-        Sun,  5 Mar 2023 05:56:57 -0800 (PST)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id 0F97560AE2;
-        Sun,  5 Mar 2023 13:55:34 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id B4740C433D2;
-        Sun,  5 Mar 2023 13:55:32 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1678024533;
-        bh=mnn5RPSXMS1FgIfdFe4OFtnjWbWjKO6WKfdlV5IqC2U=;
-        h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=Yl+yyh8QkYeEKwv1vyc3/JjVD/9cnW/t+zvjKXca8gW+FoMa6rOAjmQVhh/4oWa/Q
-         YncqkLBs6mvpPrA5P/0pzUSb+3nykrGEhmddfEuv64pp28guOcYWKO0DEFCngXIZZX
-         +tllSd6zT42L82GY74pLaLuYmi0XLdlPr4tQnVqZhswhVcA8UkK9CYOQmXzY5CRTyx
-         349wfoovUF3fFvZjTBEzdX5fTcnhDCUbV8pS7kd/VkiM6gjaiENiNaFFKGCmez8zSg
-         1QCgVbQ43KkIXUa0rDFjWJri7m1xWWFqLidEb2/2W+s2vwiow7lniHkpf7ymUSm2Pa
-         6jH7U2u57Sezw==
-From:   Sasha Levin <sashal@kernel.org>
-To:     linux-kernel@vger.kernel.org, stable@vger.kernel.org
-Cc:     Edward Humes <aurxenon@lunos.org>,
-        Matt Turner <mattst88@gmail.com>,
-        Sasha Levin <sashal@kernel.org>, richard.henderson@linaro.org,
-        ink@jurassic.park.msu.ru, linux-alpha@vger.kernel.org
-Subject: [PATCH AUTOSEL 4.14 3/6] alpha: fix R_ALPHA_LITERAL reloc for large modules
-Date:   Sun,  5 Mar 2023 08:55:22 -0500
-Message-Id: <20230305135525.1794277-3-sashal@kernel.org>
-X-Mailer: git-send-email 2.39.2
-In-Reply-To: <20230305135525.1794277-1-sashal@kernel.org>
-References: <20230305135525.1794277-1-sashal@kernel.org>
-MIME-Version: 1.0
-X-stable: review
-X-Patchwork-Hint: Ignore
-Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=-4.4 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,
-        SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
+        with ESMTP id S229688AbjCEULP (ORCPT
+        <rfc822;linux-alpha@vger.kernel.org>); Sun, 5 Mar 2023 15:11:15 -0500
+Received: from out5-smtp.messagingengine.com (out5-smtp.messagingengine.com [66.111.4.29])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 77ECC16891;
+        Sun,  5 Mar 2023 12:10:56 -0800 (PST)
+Received: from compute6.internal (compute6.nyi.internal [10.202.2.47])
+        by mailout.nyi.internal (Postfix) with ESMTP id 456115C00E6;
+        Sun,  5 Mar 2023 15:10:53 -0500 (EST)
+Received: from imap51 ([10.202.2.101])
+  by compute6.internal (MEProxy); Sun, 05 Mar 2023 15:10:53 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=arndb.de; h=cc
+        :cc:content-transfer-encoding:content-type:content-type:date
+        :date:from:from:in-reply-to:in-reply-to:message-id:mime-version
+        :references:reply-to:sender:subject:subject:to:to; s=fm1; t=
+        1678047053; x=1678133453; bh=cjW13UmZQsjwyJDeHx5kIcthGLujwjX/c4O
+        TYrUnVEo=; b=M+iX57D3tki6mdnYuiW2+/TVDcTnCB2Ga/GIjvvg25JyIDtZhzU
+        mLkYC+yAY4SFZTnNttwjLlO8DD8yCYVw2kqWR6oHe88HECHGwU2I7Axt7fx139oN
+        etVdN33n4Awn9hGCJAMtMjqHAQtx2VRikVcaIkNPJ7OSOLVm6//NltGUsHzgIj37
+        6Q3ejPZj5Yi2cHI9b414CB+2Y/WNWnifgSj0Gzxyz7KQ4KCQRarWS5CulHYbi5eC
+        ag9J4dSS2qmKbTaLa9/5xYv+fAFL3Yxj7jbc/4GSpKvlOtsPrPUdGxBgQX6SJ5Z/
+        5TNCZ2yUU9mfrFdl1+bt1hfGmpR+ALzk/+w==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+        messagingengine.com; h=cc:cc:content-transfer-encoding
+        :content-type:content-type:date:date:feedback-id:feedback-id
+        :from:from:in-reply-to:in-reply-to:message-id:mime-version
+        :references:reply-to:sender:subject:subject:to:to:x-me-proxy
+        :x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm1; t=
+        1678047053; x=1678133453; bh=cjW13UmZQsjwyJDeHx5kIcthGLujwjX/c4O
+        TYrUnVEo=; b=CYjynxi2XdbvcwdySeuJXuc1PmUeES5qN5N0+ACWBaHPfzz2mdY
+        KOtHjXR5RghXHpnlzSUA3NKQ8HzaPRpU50fjVFpJJj2Vy6sGAfy9/jRTA0VzqhBk
+        8GsAumW0PCYRukJgw9SVPtwhkxwpu7ePss7hnK46F7qIf9wvuoF9/IIYqYHLSQ6S
+        WYeQ8pkNDtW0oDCAUXUKxKH9ooj8BOTq4NG7N1mHccROcNqGiApuSD4gGmN67hlg
+        /JkwqqShEOb8mieY78lGMfW+Gz28CVp4X2Co4shGbu4N41Qb30SR08YRmY/mYRXg
+        wfIYMYkcUjgcGZeIAy669di3WjfqzK4B1xQ==
+X-ME-Sender: <xms:TPcEZBo-q52j-jqchY2XGMpcTPYR06yXpKAxCmCfSK69n_WJZvxBew>
+    <xme:TPcEZDrpog9WoSHrCoXbSnoa2mLg-BTyPhTgGzmB-0qEgXBt4T7_tYyFgcQXJBgjV
+    lAj5AsSTwmqOpGlKmY>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvhedrvddtgedgudefgecutefuodetggdotefrod
+    ftvfcurfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfgh
+    necuuegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmd
+    enucfjughrpefofgggkfgjfhffhffvvefutgfgsehtqhertderreejnecuhfhrohhmpedf
+    tehrnhguuceuvghrghhmrghnnhdfuceorghrnhgusegrrhhnuggsrdguvgeqnecuggftrf
+    grthhtvghrnhepgfekueelgeeigefhudduledtkeefffejueelheelfedutedttdfgveeu
+    feefieegnecuffhomhgrihhnpehkvghrnhgvlhdrohhrghenucevlhhushhtvghrufhiii
+    gvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpegrrhhnugesrghrnhgusgdruggv
+X-ME-Proxy: <xmx:TPcEZOPBv0ou0224OqiUylR9QEbHsuuPAEnRPF5o8Yfvrtw8YAv_tg>
+    <xmx:TPcEZM7r_vfyT0vMjnpfebYe8dIUVygFUa3KtMBPW88bfxP-LizgeA>
+    <xmx:TPcEZA4_keGj9AgoFlOut-Hu30B0X1Jw1pHtsEd1RMfb_pDQw2T6KA>
+    <xmx:TfcEZLJhlAB4TepxklBPOSFU5nuw9mrTxiy269e0J3uc6tV0KxUo8A>
+Feedback-ID: i56a14606:Fastmail
+Received: by mailuser.nyi.internal (Postfix, from userid 501)
+        id 15985B60086; Sun,  5 Mar 2023 15:10:51 -0500 (EST)
+X-Mailer: MessagingEngine.com Webmail Interface
+User-Agent: Cyrus-JMAP/3.9.0-alpha0-183-gbf7d00f500-fm-20230220.001-gbf7d00f5
+Mime-Version: 1.0
+Message-Id: <5dec69d0-0bc9-4f6c-8d0d-ee5422783100@app.fastmail.com>
+In-Reply-To: <CAMuHMdXoM24uAZGcjBtscNMOSY_+4u08PEOR7gOfCH7jvCceDg@mail.gmail.com>
+References: <20230303102817.212148-1-bhe@redhat.com>
+ <20230303102817.212148-3-bhe@redhat.com> <87sfej1rie.fsf@mpe.ellerman.id.au>
+ <CAMuHMdXoM24uAZGcjBtscNMOSY_+4u08PEOR7gOfCH7jvCceDg@mail.gmail.com>
+Date:   Sun, 05 Mar 2023 21:10:31 +0100
+From:   "Arnd Bergmann" <arnd@arndb.de>
+To:     "Geert Uytterhoeven" <geert@linux-m68k.org>,
+        "Michael Ellerman" <mpe@ellerman.id.au>
+Cc:     Linux-Arch <linux-arch@vger.kernel.org>,
+        "Baoquan He" <bhe@redhat.com>, linux-sh@vger.kernel.org,
+        linux-m68k@lists.linux-m68k.org, linux-hexagon@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-mips@vger.kernel.org,
+        "Christoph Hellwig" <hch@infradead.org>, linux-mm@kvack.org,
+        "Luis Chamberlain" <mcgrof@kernel.org>,
+        linux-parisc@vger.kernel.org, linux-alpha@vger.kernel.org,
+        sparclinux@vger.kernel.org, linuxppc-dev@lists.ozlabs.org
+Subject: Re: [PATCH v3 2/2] arch/*/io.h: remove ioremap_uc in some architectures
+Content-Type: text/plain;charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+X-Spam-Status: No, score=-2.8 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_LOW,SPF_HELO_PASS,
+        SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-alpha.vger.kernel.org>
 X-Mailing-List: linux-alpha@vger.kernel.org
 
-From: Edward Humes <aurxenon@lunos.org>
+On Sun, Mar 5, 2023, at 10:29, Geert Uytterhoeven wrote:
+>
+> On Sun, Mar 5, 2023 at 10:23=E2=80=AFAM Michael Ellerman <mpe@ellerman=
+.id.au> wrote:
+>> Maybe that exact code path is only reachable on x86/ia64? But if so
+>> please explain why.
+>>
+>> Otherwise it looks like this series could break that driver on powerpc
+>> at least.
+>
+> Indeed.
 
-[ Upstream commit b6b17a8b3ecd878d98d5472a9023ede9e669ca72 ]
+When I last looked into this, I sent a patch to use ioremap()
+on non-x86:
 
-Previously, R_ALPHA_LITERAL relocations would overflow for large kernel
-modules.
+https://lore.kernel.org/all/20191111192258.2234502-1-arnd@arndb.de/
 
-This was because the Alpha's apply_relocate_add was relying on the kernel's
-module loader to have sorted the GOT towards the very end of the module as it
-was mapped into memory in order to correctly assign the global pointer. While
-this behavior would mostly work fine for small kernel modules, this approach
-would overflow on kernel modules with large GOT's since the global pointer
-would be very far away from the GOT, and thus, certain entries would be out of
-range.
-
-This patch fixes this by instead using the Tru64 behavior of assigning the
-global pointer to be 32KB away from the start of the GOT. The change made
-in this patch won't work for multi-GOT kernel modules as it makes the
-assumption the module only has one GOT located at the beginning of .got,
-although for the vast majority kernel modules, this should be fine. Of the
-kernel modules that would previously result in a relocation error, none of
-them, even modules like nouveau, have even come close to filling up a single
-GOT, and they've all worked fine under this patch.
-
-Signed-off-by: Edward Humes <aurxenon@lunos.org>
-Signed-off-by: Matt Turner <mattst88@gmail.com>
-Signed-off-by: Sasha Levin <sashal@kernel.org>
----
- arch/alpha/kernel/module.c | 4 +---
- 1 file changed, 1 insertion(+), 3 deletions(-)
-
-diff --git a/arch/alpha/kernel/module.c b/arch/alpha/kernel/module.c
-index 47632fa8c24e0..b169dc9a9ac17 100644
---- a/arch/alpha/kernel/module.c
-+++ b/arch/alpha/kernel/module.c
-@@ -158,10 +158,8 @@ apply_relocate_add(Elf64_Shdr *sechdrs, const char *strtab,
- 	base = (void *)sechdrs[sechdrs[relsec].sh_info].sh_addr;
- 	symtab = (Elf64_Sym *)sechdrs[symindex].sh_addr;
- 
--	/* The small sections were sorted to the end of the segment.
--	   The following should definitely cover them.  */
--	gp = (u64)me->core_layout.base + me->core_layout.size - 0x8000;
- 	got = sechdrs[me->arch.gotsecindex].sh_addr;
-+	gp = got + 0x8000;
- 
- 	for (i = 0; i < n; i++) {
- 		unsigned long r_sym = ELF64_R_SYM (rela[i].r_info);
--- 
-2.39.2
-
+    Arnd
