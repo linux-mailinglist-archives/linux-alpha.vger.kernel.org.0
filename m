@@ -2,122 +2,75 @@ Return-Path: <linux-alpha-owner@vger.kernel.org>
 X-Original-To: lists+linux-alpha@lfdr.de
 Delivered-To: lists+linux-alpha@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 617506B82F5
-	for <lists+linux-alpha@lfdr.de>; Mon, 13 Mar 2023 21:41:04 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 0671D6B8334
+	for <lists+linux-alpha@lfdr.de>; Mon, 13 Mar 2023 21:57:32 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229638AbjCMUlC (ORCPT <rfc822;lists+linux-alpha@lfdr.de>);
-        Mon, 13 Mar 2023 16:41:02 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40758 "EHLO
+        id S229516AbjCMU5a (ORCPT <rfc822;lists+linux-alpha@lfdr.de>);
+        Mon, 13 Mar 2023 16:57:30 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39938 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229482AbjCMUlA (ORCPT
+        with ESMTP id S229880AbjCMU53 (ORCPT
         <rfc822;linux-alpha@vger.kernel.org>);
-        Mon, 13 Mar 2023 16:41:00 -0400
-Received: from mail-il1-x135.google.com (mail-il1-x135.google.com [IPv6:2607:f8b0:4864:20::135])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B55B950721;
-        Mon, 13 Mar 2023 13:40:07 -0700 (PDT)
-Received: by mail-il1-x135.google.com with SMTP id 4so7590975ilz.6;
-        Mon, 13 Mar 2023 13:40:07 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112; t=1678740006;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=JZaCV0WUtBPAAadzUTN1+MYnU8j2LSiKAw9rROH/ouw=;
-        b=JtofO/o3gg0239JS75f2bHGUOx1O8xSzUbXwHyM7gEMl2D9ouJPoN7pkWICQjgIsfS
-         /sU0y2PVmDml/f89PZu0LDpGvuh11lH4itW1jbqx0Lj9YJrCi+ti1j5t5b1J98G9M3et
-         4CwuuASQK/mhg/ASaJ19PxRvsyFEmbfhQhAycjYkwKT5SNNkYa81U+cQo10onwGGadMr
-         ejs4VvRTPoax5lWdECcehOP1UpCWUCuUnK0k4ShB5wMYQbzA1rKoyzAVwAP2tr82V2FA
-         Foi0LwqnkGmOu1Be+shGE56Q2AB9GineC2g0BBDdQ1QUzEGXjMfbGnWZkPG44FNHirNY
-         V7xQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112; t=1678740006;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=JZaCV0WUtBPAAadzUTN1+MYnU8j2LSiKAw9rROH/ouw=;
-        b=U4R5WJBgWTDJ3ZdBXIbVP2LTUoWxULRX0rOlgp2G9+NOGgdeZQNbGiN+WgAJRc3HCq
-         7xrYevYRhHlk6PV4M5zdfIbKxgfOlIeLQZwANp+2gxHiR6cunPugLTw7GdrklNRpnP/r
-         WKAj58buWnz9ijJyUUy1eSmWtkFjF5iGV7JDUiEMc2lTG2XP7iEVAg5OqFHDK24u0Vj9
-         dGYyi+wTpVT1pLqqeJSRtDvPcielKJj15Ra1SV/CJb6PJweggUksvo6jBtfMoHa+IB1U
-         aJ3hgswDtRXWRCOQMHX0GZPH9UqEEdPdusn9IX8F9Q5T8dzfclbcfn7Yea2R+VOV/mMR
-         ilsw==
-X-Gm-Message-State: AO0yUKX/9JELG+2mpJWmzv3KTNKjzMFz15v47lJEX6TBT6KhmqU7e6RX
-        a8se75kz3eXFNlad5roEESygYUHDfXYvvLc7iOe4ZTz7meg=
-X-Google-Smtp-Source: AK7set93On5UXiWXqIE/iSH6Lyki5HnTxQbbXShr7riWwECrynof73TKCea678jmafu1j1FjmhSIG1K0NtbHbO4dy5k=
-X-Received: by 2002:a05:6e02:790:b0:322:fdba:24c1 with SMTP id
- q16-20020a056e02079000b00322fdba24c1mr504636ils.1.1678740006525; Mon, 13 Mar
- 2023 13:40:06 -0700 (PDT)
+        Mon, 13 Mar 2023 16:57:29 -0400
+Received: from fanzine2.igalia.com (fanzine2.igalia.com [213.97.179.56])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 642018236C;
+        Mon, 13 Mar 2023 13:57:25 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com;
+        s=20170329; h=Content-Transfer-Encoding:Content-Type:In-Reply-To:From:
+        References:Cc:To:Subject:MIME-Version:Date:Message-ID:Sender:Reply-To:
+        Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
+        Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:
+        List-Subscribe:List-Post:List-Owner:List-Archive;
+        bh=m3KRKIIxdQGzDnfQbP1Rf414m0PFZ7Oc2osrdxzJBmk=; b=mOvcffLPKSHMzp5msUiTRSnf6M
+        GACFCJHb1oFRC8NQpHSfAxYCgkrg/YW4MaAikPTySg4VabWqIWcicuLikA5eGcoft5ayR7AEHZV6O
+        AqOMLj6RRJpOM9Z9SjqeVev1BjlPqhNi3gSfEdVD4z9cbj1RWcbFnwEXDMDozw0N6D8GgA4Dw7bOH
+        9gJ0xIw1nJQE2TlmURapIZMFBKDKw691LB5Lv54I1HNxuvPy26M9okKO7EOVpwOz+p3K70QegGPjL
+        klhC7WHA6YkPNA9jNSN8xFBGQthVjwrCS8y0++66L2bx40qUFjWm3N1IPzSSf6iERzHXxRqAH3eqJ
+        JuhuUCvg==;
+Received: from [152.254.169.34] (helo=[192.168.1.60])
+        by fanzine2.igalia.com with esmtpsa 
+        (Cipher TLS1.3:ECDHE_X25519__RSA_PSS_RSAE_SHA256__AES_128_GCM:128) (Exim)
+        id 1pbpEQ-008SEj-0N; Mon, 13 Mar 2023 21:57:22 +0100
+Message-ID: <522c745a-4e4c-8c6c-cca5-0d4ebc76ace3@igalia.com>
+Date:   Mon, 13 Mar 2023 17:57:17 -0300
 MIME-Version: 1.0
-References: <20230220212245.153554-1-gpiccoli@igalia.com> <ba225af5-3729-32a4-318a-c1c4b8e8b37a@igalia.com>
-In-Reply-To: <ba225af5-3729-32a4-318a-c1c4b8e8b37a@igalia.com>
-From:   Matt Turner <mattst88@gmail.com>
-Date:   Mon, 13 Mar 2023 16:39:55 -0400
-Message-ID: <CAEdQ38HS=V9QJsdSoccos02HGn4=QKobkci=BTP9tc3=RyzUFQ@mail.gmail.com>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.8.0
 Subject: Re: [PATCH v4] alpha: Clean-up the panic notifier code
-To:     "Guilherme G. Piccoli" <gpiccoli@igalia.com>
+Content-Language: en-US
+To:     Matt Turner <mattst88@gmail.com>
 Cc:     linux-alpha@vger.kernel.org,
         Richard Henderson <richard.henderson@linaro.org>,
         Ivan Kokshaysky <ink@jurassic.park.msu.ru>,
         linux-kernel@vger.kernel.org, kernel-dev@igalia.com,
         kernel@gpiccoli.net, Petr Mladek <pmladek@suse.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Spam-Status: No, score=-1.8 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_ENVFROM_END_DIGIT,
-        FREEMAIL_FROM,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS autolearn=ham
-        autolearn_force=no version=3.4.6
+References: <20230220212245.153554-1-gpiccoli@igalia.com>
+ <ba225af5-3729-32a4-318a-c1c4b8e8b37a@igalia.com>
+ <CAEdQ38HS=V9QJsdSoccos02HGn4=QKobkci=BTP9tc3=RyzUFQ@mail.gmail.com>
+From:   "Guilherme G. Piccoli" <gpiccoli@igalia.com>
+In-Reply-To: <CAEdQ38HS=V9QJsdSoccos02HGn4=QKobkci=BTP9tc3=RyzUFQ@mail.gmail.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,SPF_HELO_NONE,
+        SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-alpha.vger.kernel.org>
 X-Mailing-List: linux-alpha@vger.kernel.org
 
-On Mon, Mar 13, 2023 at 4:18=E2=80=AFPM Guilherme G. Piccoli
-<gpiccoli@igalia.com> wrote:
->
-> On 20/02/2023 18:22, Guilherme G. Piccoli wrote:
-> > The alpha panic notifier has some code issues, not following
-> > the conventions of other notifiers. Also, it might halt the
-> > machine but still it is set to run as early as possible, which
-> > doesn't seem to be a good idea.
-> >
-> > So, let's clean the code and set the notifier to run as the
-> > latest, following the same approach other architectures are
-> > doing - also, remove the unnecessary include of a header already
-> > included indirectly.
-> >
-> > Cc: Ivan Kokshaysky <ink@jurassic.park.msu.ru>
-> > Cc: Matt Turner <mattst88@gmail.com>
-> > Cc: Richard Henderson <richard.henderson@linaro.org>
-> > Reviewed-by: Petr Mladek <pmladek@suse.com>
-> > Signed-off-by: Guilherme G. Piccoli <gpiccoli@igalia.com>
-> >
-> > ---
-> >
-> >
-> > V4:
-> > - Rebased (and build-tested) against v6.2.
-> >
-> > V3:
-> > - No changes.
-> >
-> > V2:
-> > - Fixed rth email address;
-> > - Added Petr's review tag - thanks!
-> >
->
-> Hi folks, just a gentle ping.
-> Lemme know if there's anything I could do in order to get this move forwa=
-rd.
->
-> Thanks in advance,
->
->
-> Guilherme
+On 13/03/2023 17:39, Matt Turner wrote:
+> [...]
+> My apologies. I meant to include this in my last pull request.
+> 
+> I'll take it through my tree.
+> 
+> Thanks,
+> Matt
 
-My apologies. I meant to include this in my last pull request.
+Hi Matt, no need for apologies - thanks for including!
+Cheers,
 
-I'll take it through my tree.
 
-Thanks,
-Matt
+Guilherme
