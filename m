@@ -2,75 +2,122 @@ Return-Path: <linux-alpha-owner@vger.kernel.org>
 X-Original-To: lists+linux-alpha@lfdr.de
 Delivered-To: lists+linux-alpha@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 0671D6B8334
-	for <lists+linux-alpha@lfdr.de>; Mon, 13 Mar 2023 21:57:32 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id E3F1E6B9417
+	for <lists+linux-alpha@lfdr.de>; Tue, 14 Mar 2023 13:40:48 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229516AbjCMU5a (ORCPT <rfc822;lists+linux-alpha@lfdr.de>);
-        Mon, 13 Mar 2023 16:57:30 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39938 "EHLO
+        id S230253AbjCNMkr (ORCPT <rfc822;lists+linux-alpha@lfdr.de>);
+        Tue, 14 Mar 2023 08:40:47 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55386 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229880AbjCMU53 (ORCPT
+        with ESMTP id S231405AbjCNMki (ORCPT
         <rfc822;linux-alpha@vger.kernel.org>);
-        Mon, 13 Mar 2023 16:57:29 -0400
-Received: from fanzine2.igalia.com (fanzine2.igalia.com [213.97.179.56])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 642018236C;
-        Mon, 13 Mar 2023 13:57:25 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com;
-        s=20170329; h=Content-Transfer-Encoding:Content-Type:In-Reply-To:From:
-        References:Cc:To:Subject:MIME-Version:Date:Message-ID:Sender:Reply-To:
-        Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
-        Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:
-        List-Subscribe:List-Post:List-Owner:List-Archive;
-        bh=m3KRKIIxdQGzDnfQbP1Rf414m0PFZ7Oc2osrdxzJBmk=; b=mOvcffLPKSHMzp5msUiTRSnf6M
-        GACFCJHb1oFRC8NQpHSfAxYCgkrg/YW4MaAikPTySg4VabWqIWcicuLikA5eGcoft5ayR7AEHZV6O
-        AqOMLj6RRJpOM9Z9SjqeVev1BjlPqhNi3gSfEdVD4z9cbj1RWcbFnwEXDMDozw0N6D8GgA4Dw7bOH
-        9gJ0xIw1nJQE2TlmURapIZMFBKDKw691LB5Lv54I1HNxuvPy26M9okKO7EOVpwOz+p3K70QegGPjL
-        klhC7WHA6YkPNA9jNSN8xFBGQthVjwrCS8y0++66L2bx40qUFjWm3N1IPzSSf6iERzHXxRqAH3eqJ
-        JuhuUCvg==;
-Received: from [152.254.169.34] (helo=[192.168.1.60])
-        by fanzine2.igalia.com with esmtpsa 
-        (Cipher TLS1.3:ECDHE_X25519__RSA_PSS_RSAE_SHA256__AES_128_GCM:128) (Exim)
-        id 1pbpEQ-008SEj-0N; Mon, 13 Mar 2023 21:57:22 +0100
-Message-ID: <522c745a-4e4c-8c6c-cca5-0d4ebc76ace3@igalia.com>
-Date:   Mon, 13 Mar 2023 17:57:17 -0300
-MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.8.0
-Subject: Re: [PATCH v4] alpha: Clean-up the panic notifier code
-Content-Language: en-US
-To:     Matt Turner <mattst88@gmail.com>
-Cc:     linux-alpha@vger.kernel.org,
+        Tue, 14 Mar 2023 08:40:38 -0400
+Received: from sipsolutions.net (s3.sipsolutions.net [IPv6:2a01:4f8:191:4433::2])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 04C4596C0A;
+        Tue, 14 Mar 2023 05:40:15 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+        d=sipsolutions.net; s=mail; h=MIME-Version:Content-Transfer-Encoding:
+        Content-Type:References:In-Reply-To:Date:Cc:To:From:Subject:Message-ID:Sender
+        :Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:Resent-To:
+        Resent-Cc:Resent-Message-ID; bh=pOg2+UYpTygnBlX1RyGCO9nWu9fsmXuoawMaiLoDXLo=;
+        t=1678797615; x=1680007215; b=JDfeqyz66j/1OSlkRo7oEl8L1nvxvq6BodO72FGLa+QNkVX
+        aHBXuz/sE64+EN/m3XGIVLLNuEsNf/YmmnF40dDsKpcC66Pdm5L5rRE7WIKYkeP9pydbwIS+MV3Cz
+        TkaKWzppMgeSjoK+de2gH5lIsLKEjP61kBEAw0v+gqLL2FUOkjeL45cduFXpAb9jhQpzmMR86WWbW
+        mhTa1koli65WDXs/25LuQ1O082uNBWPKZD/KrpQyI7p/3OdOudSYEso0DaNATgxC+wzxMWw5BI3dA
+        Y0DUmQgocQiDrndOG3IhH6cdOx2EYurOW0+mcI+Hn/uegCUYHxyPECaw/pcUTJYA==;
+Received: by sipsolutions.net with esmtpsa (TLS1.3:ECDHE_X25519__RSA_PSS_RSAE_SHA256__AES_256_GCM:256)
+        (Exim 4.96)
+        (envelope-from <johannes@sipsolutions.net>)
+        id 1pc3uU-003AIF-1Y;
+        Tue, 14 Mar 2023 13:37:46 +0100
+Message-ID: <21a828bae06b97b8ca806a6b76d867902b1e0e1f.camel@sipsolutions.net>
+Subject: Re: [PATCH v3 01/38] Kconfig: introduce HAS_IOPORT option and
+ select it as necessary
+From:   Johannes Berg <johannes@sipsolutions.net>
+To:     Niklas Schnelle <schnelle@linux.ibm.com>,
+        Arnd Bergmann <arnd@arndb.de>,
         Richard Henderson <richard.henderson@linaro.org>,
         Ivan Kokshaysky <ink@jurassic.park.msu.ru>,
-        linux-kernel@vger.kernel.org, kernel-dev@igalia.com,
-        kernel@gpiccoli.net, Petr Mladek <pmladek@suse.com>
-References: <20230220212245.153554-1-gpiccoli@igalia.com>
- <ba225af5-3729-32a4-318a-c1c4b8e8b37a@igalia.com>
- <CAEdQ38HS=V9QJsdSoccos02HGn4=QKobkci=BTP9tc3=RyzUFQ@mail.gmail.com>
-From:   "Guilherme G. Piccoli" <gpiccoli@igalia.com>
-In-Reply-To: <CAEdQ38HS=V9QJsdSoccos02HGn4=QKobkci=BTP9tc3=RyzUFQ@mail.gmail.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+        Matt Turner <mattst88@gmail.com>,
+        Russell King <linux@armlinux.org.uk>,
+        Catalin Marinas <catalin.marinas@arm.com>,
+        Will Deacon <will@kernel.org>,
+        Geert Uytterhoeven <geert@linux-m68k.org>,
+        Michal Simek <monstr@monstr.eu>,
+        Thomas Bogendoerfer <tsbogend@alpha.franken.de>,
+        "James E.J. Bottomley" <James.Bottomley@HansenPartnership.com>,
+        Helge Deller <deller@gmx.de>,
+        Michael Ellerman <mpe@ellerman.id.au>,
+        Nicholas Piggin <npiggin@gmail.com>,
+        Christophe Leroy <christophe.leroy@csgroup.eu>,
+        Paul Walmsley <paul.walmsley@sifive.com>,
+        Palmer Dabbelt <palmer@dabbelt.com>,
+        Albert Ou <aou@eecs.berkeley.edu>,
+        Yoshinori Sato <ysato@users.sourceforge.jp>,
+        Rich Felker <dalias@libc.org>,
+        John Paul Adrian Glaubitz <glaubitz@physik.fu-berlin.de>,
+        "David S. Miller" <davem@davemloft.net>,
+        Richard Weinberger <richard@nod.at>,
+        Anton Ivanov <anton.ivanov@cambridgegreys.com>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
+        Dave Hansen <dave.hansen@linux.intel.com>, x86@kernel.org,
+        "H. Peter Anvin" <hpa@zytor.com>
+Cc:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Bjorn Helgaas <bhelgaas@google.com>,
+        Uwe =?ISO-8859-1?Q?Kleine-K=F6nig?= 
+        <u.kleine-koenig@pengutronix.de>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Alan Stern <stern@rowland.harvard.edu>,
+        "Rafael J. Wysocki" <rafael@kernel.org>,
+        linux-kernel@vger.kernel.org, linux-arch@vger.kernel.org,
+        linux-pci@vger.kernel.org, Arnd Bergmann <arnd@kernel.org>,
+        linux-alpha@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+        linux-ia64@vger.kernel.org, linux-m68k@lists.linux-m68k.org,
+        linux-mips@vger.kernel.org, linux-parisc@vger.kernel.org,
+        linuxppc-dev@lists.ozlabs.org, linux-riscv@lists.infradead.org,
+        linux-sh@vger.kernel.org, sparclinux@vger.kernel.org,
+        linux-um@lists.infradead.org
+Date:   Tue, 14 Mar 2023 13:37:43 +0100
+In-Reply-To: <20230314121216.413434-2-schnelle@linux.ibm.com>
+References: <20230314121216.413434-1-schnelle@linux.ibm.com>
+         <20230314121216.413434-2-schnelle@linux.ibm.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.46.4 (3.46.4-1.fc37) 
+MIME-Version: 1.0
+X-malware-bazaar: not-scanned
 X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,SPF_HELO_NONE,
-        SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_PASS,SPF_PASS,
+        URIBL_BLOCKED autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-alpha.vger.kernel.org>
 X-Mailing-List: linux-alpha@vger.kernel.org
 
-On 13/03/2023 17:39, Matt Turner wrote:
-> [...]
-> My apologies. I meant to include this in my last pull request.
-> 
-> I'll take it through my tree.
-> 
-> Thanks,
-> Matt
+On Tue, 2023-03-14 at 13:11 +0100, Niklas Schnelle wrote:
+> --- a/arch/um/Kconfig
+> +++ b/arch/um/Kconfig
+> @@ -56,6 +56,7 @@ config NO_IOPORT_MAP
+> =20
+>  config ISA
+>  	bool
+> +	depends on HAS_IOPORT
+>=20
 
-Hi Matt, no need for apologies - thanks for including!
-Cheers,
+config ISA here is already unselectable, and nothing ever does "select
+ISA" (only in some other architectures), so is there much point in this?
+
+I'm not even sure why this exists at all.
+
+But anyway, adding a dependency to a always-false symbol doesn't make it
+less always-false :-)
+
+Acked-by: Johannes Berg <johannes@sipsolutions.net> # for ARCH=3Dum
 
 
-Guilherme
+Certainly will be nice to get rid of this cruft for architectures that
+don't have it.
+
+johannes
