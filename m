@@ -2,158 +2,122 @@ Return-Path: <linux-alpha-owner@vger.kernel.org>
 X-Original-To: lists+linux-alpha@lfdr.de
 Delivered-To: lists+linux-alpha@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id C4E856B9F9A
-	for <lists+linux-alpha@lfdr.de>; Tue, 14 Mar 2023 20:26:43 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id B06F46BA6BB
+	for <lists+linux-alpha@lfdr.de>; Wed, 15 Mar 2023 06:15:27 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230110AbjCNT0L (ORCPT <rfc822;lists+linux-alpha@lfdr.de>);
-        Tue, 14 Mar 2023 15:26:11 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35580 "EHLO
+        id S231414AbjCOFPZ (ORCPT <rfc822;lists+linux-alpha@lfdr.de>);
+        Wed, 15 Mar 2023 01:15:25 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48690 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229475AbjCNT0J (ORCPT
+        with ESMTP id S231309AbjCOFPI (ORCPT
         <rfc822;linux-alpha@vger.kernel.org>);
-        Tue, 14 Mar 2023 15:26:09 -0400
-Received: from mga07.intel.com (mga07.intel.com [134.134.136.100])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8D27AF979;
-        Tue, 14 Mar 2023 12:26:04 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1678821964; x=1710357964;
-  h=from:to:cc:subject:date:message-id:in-reply-to:
-   references:mime-version:content-transfer-encoding;
-  bh=3Bu5KEQ7VbEZVFxJWJ3dCxTl63qFR3TMO6ewhBoLJ+8=;
-  b=m7I5cnQz5VqgaSgmnP+VYIVf1FMaqPRo8a6woO+CmvxnxqSmYyBusbWM
-   r5cufTyZ39Z/H4U4fIzzKYZCnBBBtlfwUo5sP1YG1qSlNY6HYAoORTLRY
-   nKYcygVLwVVpTUhyFCu73z33iRFI2st1WCxcI2UA716YtjJbK6dglMKZU
-   VQiFfBZHQ53KMtygpqWfYcOYF60nK69OcjKknJVJ0ZdjzAutS0WmFNLM0
-   zRMyyAg6m/yObM3L3hmcA8o+xhHIbkVDhahZ9ik9o9NiztHv6eQ+/IIPl
-   KpUdrkB8/lioQDa4K2D37MqALzsNrD9bNuNMVhJfleiJZU6mb3wf35FQk
-   g==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10649"; a="402389722"
-X-IronPort-AV: E=Sophos;i="5.98,260,1673942400"; 
-   d="scan'208";a="402389722"
-Received: from orsmga006.jf.intel.com ([10.7.209.51])
-  by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Mar 2023 12:26:02 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10649"; a="656474978"
-X-IronPort-AV: E=Sophos;i="5.98,260,1673942400"; 
-   d="scan'208";a="656474978"
-Received: from black.fi.intel.com ([10.237.72.28])
-  by orsmga006.jf.intel.com with ESMTP; 14 Mar 2023 12:25:52 -0700
-Received: by black.fi.intel.com (Postfix, from userid 1003)
-        id BC9AF3B8; Tue, 14 Mar 2023 21:26:37 +0200 (EET)
-From:   Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-To:     =?UTF-8?q?Micka=C3=ABl=20Sala=C3=BCn?= <mic@digikod.net>,
-        Mika Westerberg <mika.westerberg@linux.intel.com>,
-        =?UTF-8?q?Krzysztof=20Wilczy=C5=84ski?= <kw@linux.com>,
-        Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
-        Michael Ellerman <mpe@ellerman.id.au>,
-        Randy Dunlap <rdunlap@infradead.org>,
-        Arnd Bergmann <arnd@arndb.de>,
-        Niklas Schnelle <schnelle@linux.ibm.com>,
-        Bjorn Helgaas <helgaas@kernel.org>,
-        "Rafael J. Wysocki" <rafael.j.wysocki@intel.com>,
-        =?UTF-8?q?Pali=20Roh=C3=A1r?= <pali@kernel.org>,
-        "Maciej W. Rozycki" <macro@orcam.me.uk>,
-        Juergen Gross <jgross@suse.com>,
-        Dominik Brodowski <linux@dominikbrodowski.net>,
-        linux-kernel@vger.kernel.org, linux-alpha@vger.kernel.org,
-        linux-arm-kernel@lists.infradead.org, linux-mips@vger.kernel.org,
-        linuxppc-dev@lists.ozlabs.org, linux-sh@vger.kernel.org,
-        sparclinux@vger.kernel.org, linux-pci@vger.kernel.org,
-        xen-devel@lists.xenproject.org, linux-acpi@vger.kernel.org
-Cc:     Miguel Ojeda <ojeda@kernel.org>,
+        Wed, 15 Mar 2023 01:15:08 -0400
+Received: from casper.infradead.org (casper.infradead.org [IPv6:2001:8b0:10b:1236::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 84CA32B9C3;
+        Tue, 14 Mar 2023 22:14:53 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+        d=infradead.org; s=casper.20170209; h=Content-Transfer-Encoding:MIME-Version:
+        References:In-Reply-To:Message-Id:Date:Subject:Cc:To:From:Sender:Reply-To:
+        Content-Type:Content-ID:Content-Description;
+        bh=0st9Mrc59fhc9IMmLMdFdFFlAbLT9wbreqz2AWFYyJ8=; b=Dgag4LmKF0rIz5AIdwp+wqJheo
+        CLolCrddE7Bc8qR0iHxu6Ho7H150VijFW/ZxoRKOY6x4pkWnZmiPY0OM2oN5P8H/Fs/MeH4QPtXgk
+        ZE9mPbldtrjXnQVG697nsaMbI2wTBcFEO7DWOgSTrwEVysrfAlkiBXRblG53BZqYTrzOgkNvRlNQu
+        7OChw55UZHmed+ZDbPSiZJwFD+Q5Q56Hv65kwKcSjZV6jnH7UGJWU4GYt9WxNmwbniA0F2rFm/IEy
+        WV9Cu7ZcCxlHNqKM4+Sl7GfbN2anMoSQIpkz59WebhopeUz0ENti95uNjgV9Zi7Gb0vNAl40o1sVl
+        koLF9org==;
+Received: from willy by casper.infradead.org with local (Exim 4.94.2 #2 (Red Hat Linux))
+        id 1pcJTK-00DYB9-WE; Wed, 15 Mar 2023 05:14:47 +0000
+From:   "Matthew Wilcox (Oracle)" <willy@infradead.org>
+To:     linux-arch@vger.kernel.org
+Cc:     "Matthew Wilcox (Oracle)" <willy@infradead.org>,
+        linux-mm@kvack.org, linux-kernel@vger.kernel.org,
         Richard Henderson <richard.henderson@linaro.org>,
         Ivan Kokshaysky <ink@jurassic.park.msu.ru>,
-        Matt Turner <mattst88@gmail.com>,
-        Russell King <linux@armlinux.org.uk>,
-        Andrew Lunn <andrew@lunn.ch>,
-        Sebastian Hesselbarth <sebastian.hesselbarth@gmail.com>,
-        Gregory Clement <gregory.clement@bootlin.com>,
-        Thomas Bogendoerfer <tsbogend@alpha.franken.de>,
-        Nicholas Piggin <npiggin@gmail.com>,
-        Christophe Leroy <christophe.leroy@csgroup.eu>,
-        Anatolij Gustschin <agust@denx.de>,
-        Yoshinori Sato <ysato@users.sourceforge.jp>,
-        Rich Felker <dalias@libc.org>,
-        John Paul Adrian Glaubitz <glaubitz@physik.fu-berlin.de>,
-        "David S. Miller" <davem@davemloft.net>,
-        Bjorn Helgaas <bhelgaas@google.com>,
-        Stefano Stabellini <sstabellini@kernel.org>,
-        Oleksandr Tyshchenko <oleksandr_tyshchenko@epam.com>
-Subject: [PATCH v5 4/4] pcmcia: Convert to use pci_bus_for_each_resource_p()
-Date:   Tue, 14 Mar 2023 21:26:34 +0200
-Message-Id: <20230314192634.63531-5-andriy.shevchenko@linux.intel.com>
-X-Mailer: git-send-email 2.39.2
-In-Reply-To: <20230314192634.63531-1-andriy.shevchenko@linux.intel.com>
-References: <20230314192634.63531-1-andriy.shevchenko@linux.intel.com>
+        Matt Turner <mattst88@gmail.com>, linux-alpha@vger.kernel.org
+Subject: [PATCH v4 06/36] alpha: Implement the new page table range API
+Date:   Wed, 15 Mar 2023 05:14:14 +0000
+Message-Id: <20230315051444.3229621-7-willy@infradead.org>
+X-Mailer: git-send-email 2.37.1
+In-Reply-To: <20230315051444.3229621-1-willy@infradead.org>
+References: <20230315051444.3229621-1-willy@infradead.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=-4.3 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,
-        RCVD_IN_MSPIKE_H2,SPF_HELO_NONE,SPF_NONE,URIBL_BLOCKED autolearn=ham
-        autolearn_force=no version=3.4.6
+X-Spam-Status: No, score=-4.4 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,SPF_HELO_NONE,
+        SPF_NONE,URIBL_BLOCKED autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-alpha.vger.kernel.org>
 X-Mailing-List: linux-alpha@vger.kernel.org
 
-The pci_bus_for_each_resource_p() hides the iterator loop since
-it may be not used otherwise. With this, we may drop that iterator
-variable definition.
+Add PFN_PTE_SHIFT, update_mmu_cache_range() and flush_icache_pages().
 
-Signed-off-by: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-Reviewed-by: Krzysztof Wilczyński <kw@linux.com>
-Acked-by: Dominik Brodowski <linux@dominikbrodowski.net>
+Signed-off-by: Matthew Wilcox (Oracle) <willy@infradead.org>
+Cc: Richard Henderson <richard.henderson@linaro.org>
+Cc: Ivan Kokshaysky <ink@jurassic.park.msu.ru>
+Cc: Matt Turner <mattst88@gmail.com>
+Cc: linux-alpha@vger.kernel.org
 ---
- drivers/pcmcia/rsrc_nonstatic.c | 9 +++------
- drivers/pcmcia/yenta_socket.c   | 3 +--
- 2 files changed, 4 insertions(+), 8 deletions(-)
+ arch/alpha/include/asm/cacheflush.h | 10 ++++++++++
+ arch/alpha/include/asm/pgtable.h    |  9 +++++++--
+ 2 files changed, 17 insertions(+), 2 deletions(-)
 
-diff --git a/drivers/pcmcia/rsrc_nonstatic.c b/drivers/pcmcia/rsrc_nonstatic.c
-index ad1141fddb4c..9d92d4bb6239 100644
---- a/drivers/pcmcia/rsrc_nonstatic.c
-+++ b/drivers/pcmcia/rsrc_nonstatic.c
-@@ -934,7 +934,7 @@ static int adjust_io(struct pcmcia_socket *s, unsigned int action, unsigned long
- static int nonstatic_autoadd_resources(struct pcmcia_socket *s)
- {
- 	struct resource *res;
--	int i, done = 0;
-+	int done = 0;
+diff --git a/arch/alpha/include/asm/cacheflush.h b/arch/alpha/include/asm/cacheflush.h
+index 9945ff483eaf..3956460e69e2 100644
+--- a/arch/alpha/include/asm/cacheflush.h
++++ b/arch/alpha/include/asm/cacheflush.h
+@@ -57,6 +57,16 @@ extern void flush_icache_user_page(struct vm_area_struct *vma,
+ #define flush_icache_page(vma, page) \
+ 	flush_icache_user_page((vma), (page), 0, 0)
  
- 	if (!s->cb_dev || !s->cb_dev->bus)
- 		return -ENODEV;
-@@ -960,12 +960,9 @@ static int nonstatic_autoadd_resources(struct pcmcia_socket *s)
- 	 */
- 	if (s->cb_dev->bus->number == 0)
- 		return -EINVAL;
--
--	for (i = 0; i < PCI_BRIDGE_RESOURCE_NUM; i++) {
--		res = s->cb_dev->bus->resource[i];
--#else
--	pci_bus_for_each_resource(s->cb_dev->bus, res, i) {
- #endif
++/*
++ * Both implementations of flush_icache_user_page flush the entire
++ * address space, so one call, no matter how many pages.
++ */
++static inline void flush_icache_pages(struct vm_area_struct *vma,
++		struct page *page, unsigned int nr)
++{
++	flush_icache_user_page(vma, page, 0, 0);
++}
 +
-+	pci_bus_for_each_resource_p(s->cb_dev->bus, res) {
- 		if (!res)
- 			continue;
+ #include <asm-generic/cacheflush.h>
  
-diff --git a/drivers/pcmcia/yenta_socket.c b/drivers/pcmcia/yenta_socket.c
-index 1365eaa20ff4..2e5bdf3db0ba 100644
---- a/drivers/pcmcia/yenta_socket.c
-+++ b/drivers/pcmcia/yenta_socket.c
-@@ -673,9 +673,8 @@ static int yenta_search_res(struct yenta_socket *socket, struct resource *res,
- 			    u32 min)
+ #endif /* _ALPHA_CACHEFLUSH_H */
+diff --git a/arch/alpha/include/asm/pgtable.h b/arch/alpha/include/asm/pgtable.h
+index ba43cb841d19..6c24c408b8e9 100644
+--- a/arch/alpha/include/asm/pgtable.h
++++ b/arch/alpha/include/asm/pgtable.h
+@@ -26,7 +26,6 @@ struct vm_area_struct;
+  * hook is made available.
+  */
+ #define set_pte(pteptr, pteval) ((*(pteptr)) = (pteval))
+-#define set_pte_at(mm,addr,ptep,pteval) set_pte(ptep,pteval)
+ 
+ /* PMD_SHIFT determines the size of the area a second-level page table can map */
+ #define PMD_SHIFT	(PAGE_SHIFT + (PAGE_SHIFT-3))
+@@ -189,7 +188,8 @@ extern unsigned long __zero_page(void);
+  * and a page entry and page directory to the page they refer to.
+  */
+ #define page_to_pa(page)	(page_to_pfn(page) << PAGE_SHIFT)
+-#define pte_pfn(pte)	(pte_val(pte) >> 32)
++#define PFN_PTE_SHIFT		32
++#define pte_pfn(pte)		(pte_val(pte) >> PFN_PTE_SHIFT)
+ 
+ #define pte_page(pte)	pfn_to_page(pte_pfn(pte))
+ #define mk_pte(page, pgprot)						\
+@@ -303,6 +303,11 @@ extern inline void update_mmu_cache(struct vm_area_struct * vma,
  {
- 	struct resource *root;
--	int i;
+ }
  
--	pci_bus_for_each_resource(socket->dev->bus, root, i) {
-+	pci_bus_for_each_resource_p(socket->dev->bus, root) {
- 		if (!root)
- 			continue;
- 
++static inline void update_mmu_cache_range(struct vm_area_struct *vma,
++		unsigned long address, pte_t *ptep, unsigned int nr)
++{
++}
++
+ /*
+  * Encode/decode swap entries and swap PTEs. Swap PTEs are all PTEs that
+  * are !pte_none() && !pte_present().
 -- 
 2.39.2
 
