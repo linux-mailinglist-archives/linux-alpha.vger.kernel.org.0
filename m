@@ -2,97 +2,168 @@ Return-Path: <linux-alpha-owner@vger.kernel.org>
 X-Original-To: lists+linux-alpha@lfdr.de
 Delivered-To: lists+linux-alpha@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id BE3786C02D7
-	for <lists+linux-alpha@lfdr.de>; Sun, 19 Mar 2023 16:35:31 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 765076C12F7
+	for <lists+linux-alpha@lfdr.de>; Mon, 20 Mar 2023 14:17:21 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229486AbjCSPf3 (ORCPT <rfc822;lists+linux-alpha@lfdr.de>);
-        Sun, 19 Mar 2023 11:35:29 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45310 "EHLO
+        id S231754AbjCTNRT (ORCPT <rfc822;lists+linux-alpha@lfdr.de>);
+        Mon, 20 Mar 2023 09:17:19 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41368 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229472AbjCSPf3 (ORCPT
+        with ESMTP id S231750AbjCTNRL (ORCPT
         <rfc822;linux-alpha@vger.kernel.org>);
-        Sun, 19 Mar 2023 11:35:29 -0400
-Received: from mail-oi1-x235.google.com (mail-oi1-x235.google.com [IPv6:2607:f8b0:4864:20::235])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3D3DC1B30B
-        for <linux-alpha@vger.kernel.org>; Sun, 19 Mar 2023 08:35:28 -0700 (PDT)
-Received: by mail-oi1-x235.google.com with SMTP id q30so47398oiw.13
-        for <linux-alpha@vger.kernel.org>; Sun, 19 Mar 2023 08:35:28 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112; t=1679240127;
-        h=to:subject:message-id:date:from:reply-to:mime-version:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=0ZeK4ZJ1o6tGrUVsDjmi+mms9O6S9hGyBZoeD/hC1EM=;
-        b=j4m5CG6k+h5y3qxrTasxpJ5cA6wjHZ3sJ76jyzJRFW/oe6XG3/1OA5Q1e96qCfB4r2
-         IVS59kinzlxfCa6amSL/yeALWjaVikzEaBT6DXCy/ualJ7wlATTzKmzAOXa3zQvP2ZJ4
-         itwG7NwOx2OCgzJEYy0ZcNbOuvI9mKzGx4FP2z5IKJ/WH6x2vt720g7m2B+e59LMrEBi
-         mjpzxuPRM0GOH1ngYKJotLC9yJtQAVmsdtQF8ufmyy7KyRnWMDURzRIW55fSq82DsGYO
-         nHFaBmb8bptfXS+duoPADamNmeerbyxfk08d5Jr91pW+tQrbwlgivhwWqSPRoM2/VG9s
-         QB9A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112; t=1679240127;
-        h=to:subject:message-id:date:from:reply-to:mime-version
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=0ZeK4ZJ1o6tGrUVsDjmi+mms9O6S9hGyBZoeD/hC1EM=;
-        b=A1zGDoF1fYHBtnUIp1M2FQmpXCB7207KjBn72JtwY05w3XffqgCxnSoKWidOUeMR5j
-         2F5Ee9ZYaNIAK4ggqH8N72bveCZG2MUihidwFm8EaCSXfonceM86+mFJ5EUDTrvqEtZ5
-         7Nz4pVQqzYOBSrW/PrS7Tss8aWIczmrHhQBkWNBD7sX53XZ9QI4GBnhoNG1PuvVy7PWj
-         9dZFUMDrM9AhNK2NikNC6/i/jBMsoqf+lr2DXJjhrtPvX/i7rqQsL6Nin/OOAj5mptSR
-         /YG1iRuaxsIhFI23fWVzuLqY1lVor11nYgH2tm+2dICP4YPsQ9YBdX03LCBLqR3c4cXV
-         fjgQ==
-X-Gm-Message-State: AO0yUKW4kCRNNTJCtTTYXiozRDxPl5RcWKx23ivNGD0du1r0K4Q2uut+
-        sQhZkAw3UxXT/dBKXBlmGHMTZ5HH+geLkGQKUTM=
-X-Google-Smtp-Source: AK7set9kpyp35DFfsAz7KJvVBxe5vr5TUIwsRpMZUK2GuNpFOYUYhAiqx2KVwUc65xwKiRvyPb4KHpsnmwytjAN+ksA=
-X-Received: by 2002:a05:6808:298c:b0:384:1f7c:b1f3 with SMTP id
- ex12-20020a056808298c00b003841f7cb1f3mr4403681oib.6.1679240127578; Sun, 19
- Mar 2023 08:35:27 -0700 (PDT)
+        Mon, 20 Mar 2023 09:17:11 -0400
+Received: from mga05.intel.com (mga05.intel.com [192.55.52.43])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4706A19F17;
+        Mon, 20 Mar 2023 06:17:00 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1679318220; x=1710854220;
+  h=from:to:cc:subject:date:message-id:mime-version:
+   content-transfer-encoding;
+  bh=KxlXRVH7N+45zvim8tIjdmWaRb89rG1+XDN/qvGgUbg=;
+  b=UsqpqAhuJbdQTfkguPAG7jLqQP2xkzvlUhZxax2n/vPfv7U796DYxqJ2
+   nvkqJwWyWU9qL0tmOhnnLGypW27KJEybMRJ0jhIwmGVvH9P9wnHebiCx5
+   50y3jpv6ScGLdNZzTi4fAPx1iQAxVTMcJ3PPT62w3THUMSsREe5vZDQK9
+   kPjsyJuzhWCMQRtUyxSE5zH7uMg0ZKtkX6dsuTOD5NARQ0geMiEDnZqzN
+   oMoNBcLciWL5tFuqJOIzogXRolMPyDaFRpEq9hehGgfJjBeXknCxfR9+S
+   xk8M2f2HF/D88e13KshrGMfsQuyQrIPELYz0GbK+B8gWI20ySC2LwTqpS
+   g==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10655"; a="424932297"
+X-IronPort-AV: E=Sophos;i="5.98,274,1673942400"; 
+   d="scan'208";a="424932297"
+Received: from orsmga007.jf.intel.com ([10.7.209.58])
+  by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Mar 2023 06:16:08 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10654"; a="674382652"
+X-IronPort-AV: E=Sophos;i="5.98,274,1673942400"; 
+   d="scan'208";a="674382652"
+Received: from black.fi.intel.com ([10.237.72.28])
+  by orsmga007.jf.intel.com with ESMTP; 20 Mar 2023 06:15:58 -0700
+Received: by black.fi.intel.com (Postfix, from userid 1003)
+        id E4F3A4FF; Mon, 20 Mar 2023 15:16:43 +0200 (EET)
+From:   Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+To:     =?UTF-8?q?Micka=C3=ABl=20Sala=C3=BCn?= <mic@digikod.net>,
+        Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+        Mika Westerberg <mika.westerberg@linux.intel.com>,
+        =?UTF-8?q?Krzysztof=20Wilczy=C5=84ski?= <kw@linux.com>,
+        Michael Ellerman <mpe@ellerman.id.au>,
+        Randy Dunlap <rdunlap@infradead.org>,
+        Arnd Bergmann <arnd@arndb.de>,
+        Niklas Schnelle <schnelle@linux.ibm.com>,
+        Bjorn Helgaas <helgaas@kernel.org>,
+        "Rafael J. Wysocki" <rafael.j.wysocki@intel.com>,
+        =?UTF-8?q?Pali=20Roh=C3=A1r?= <pali@kernel.org>,
+        "Maciej W. Rozycki" <macro@orcam.me.uk>,
+        Juergen Gross <jgross@suse.com>,
+        Dominik Brodowski <linux@dominikbrodowski.net>,
+        linux-kernel@vger.kernel.org, linux-alpha@vger.kernel.org,
+        linux-arm-kernel@lists.infradead.org, linux-mips@vger.kernel.org,
+        linuxppc-dev@lists.ozlabs.org, linux-sh@vger.kernel.org,
+        sparclinux@vger.kernel.org, linux-pci@vger.kernel.org,
+        xen-devel@lists.xenproject.org, linux-acpi@vger.kernel.org
+Cc:     Miguel Ojeda <ojeda@kernel.org>,
+        Richard Henderson <richard.henderson@linaro.org>,
+        Ivan Kokshaysky <ink@jurassic.park.msu.ru>,
+        Matt Turner <mattst88@gmail.com>,
+        Russell King <linux@armlinux.org.uk>,
+        Andrew Lunn <andrew@lunn.ch>,
+        Sebastian Hesselbarth <sebastian.hesselbarth@gmail.com>,
+        Gregory Clement <gregory.clement@bootlin.com>,
+        Thomas Bogendoerfer <tsbogend@alpha.franken.de>,
+        Nicholas Piggin <npiggin@gmail.com>,
+        Christophe Leroy <christophe.leroy@csgroup.eu>,
+        Anatolij Gustschin <agust@denx.de>,
+        Yoshinori Sato <ysato@users.sourceforge.jp>,
+        Rich Felker <dalias@libc.org>,
+        John Paul Adrian Glaubitz <glaubitz@physik.fu-berlin.de>,
+        "David S. Miller" <davem@davemloft.net>,
+        Bjorn Helgaas <bhelgaas@google.com>,
+        Stefano Stabellini <sstabellini@kernel.org>,
+        Oleksandr Tyshchenko <oleksandr_tyshchenko@epam.com>
+Subject: [PATCH v6 0/4] Add pci_dev_for_each_resource() helper and update users
+Date:   Mon, 20 Mar 2023 15:16:29 +0200
+Message-Id: <20230320131633.61680-1-andriy.shevchenko@linux.intel.com>
+X-Mailer: git-send-email 2.39.2
 MIME-Version: 1.0
-Received: by 2002:a05:6358:9ac7:b0:104:5efc:1f4 with HTTP; Sun, 19 Mar 2023
- 08:35:27 -0700 (PDT)
-Reply-To: fiona.hill.2023@outlook.com
-From:   Fion Hill <youngm8819@gmail.com>
-Date:   Sun, 19 Mar 2023 08:35:27 -0700
-Message-ID: <CAKE2LTYkFrTx0jTB6HScsbbjd4CVdYcS6yXtdAk_fGL0XAoWMA@mail.gmail.com>
-Subject: 
-To:     undisclosed-recipients:;
-Content-Type: text/plain; charset="UTF-8"
-X-Spam-Status: Yes, score=5.0 required=5.0 tests=BAYES_50,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_ENVFROM_END_DIGIT,
-        FREEMAIL_FROM,FREEMAIL_REPLYTO,FREEMAIL_REPLYTO_END_DIGIT,
-        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,UNDISC_FREEM autolearn=no
-        autolearn_force=no version=3.4.6
-X-Spam-Report: * -0.0 RCVD_IN_DNSWL_NONE RBL: Sender listed at
-        *      https://www.dnswl.org/, no trust
-        *      [2607:f8b0:4864:20:0:0:0:235 listed in]
-        [list.dnswl.org]
-        *  0.8 BAYES_50 BODY: Bayes spam probability is 40 to 60%
-        *      [score: 0.5683]
-        * -0.0 SPF_PASS SPF: sender matches SPF record
-        *  0.2 FREEMAIL_ENVFROM_END_DIGIT Envelope-from freemail username ends
-        *       in digit
-        *      [youngm8819[at]gmail.com]
-        *  0.0 SPF_HELO_NONE SPF: HELO does not publish an SPF Record
-        *  0.0 FREEMAIL_FROM Sender email is commonly abused enduser mail
-        *      provider
-        *      [youngm8819[at]gmail.com]
-        *  0.2 FREEMAIL_REPLYTO_END_DIGIT Reply-To freemail username ends in
-        *      digit
-        *      [fiona.hill.2023[at]outlook.com]
-        *  0.1 DKIM_SIGNED Message has a DKIM or DK signature, not necessarily
-        *       valid
-        * -0.1 DKIM_VALID_EF Message has a valid DKIM or DK signature from
-        *      envelope-from domain
-        * -0.1 DKIM_VALID_AU Message has a valid DKIM or DK signature from
-        *      author's domain
-        * -0.1 DKIM_VALID Message has at least one valid DKIM or DK signature
-        *  2.9 UNDISC_FREEM Undisclosed recipients + freemail reply-to
-        *  1.0 FREEMAIL_REPLYTO Reply-To/From or Reply-To/body contain
-        *      different freemails
-X-Spam-Level: *****
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+X-Spam-Status: No, score=-4.3 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,SPF_HELO_NONE,
+        SPF_NONE autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-alpha.vger.kernel.org>
 X-Mailing-List: linux-alpha@vger.kernel.org
 
+Provide two new helper macros to iterate over PCI device resources and
+convert users.
+
+Looking at it, refactor existing pci_bus_for_each_resource() and convert
+users accordingly.
+
+Changelog v6:
+- dropped unused variable in PPC code (LKP)
+
+Changelog v5:
+- renamed loop variable to minimize the clash (Keith)
+- addressed smatch warning (Dan)
+- addressed 0-day bot findings (LKP)
+
+Changelog v4:
+- rebased on top of v6.3-rc1
+- added tag (Krzysztof)
+
+Changelog v3:
+- rebased on top of v2 by Mika, see above
+- added tag to pcmcia patch (Dominik)
+
+Changelog v2:
+- refactor to have two macros
+- refactor existing pci_bus_for_each_resource() in the same way and
+  convert users
+
+Andy Shevchenko (3):
+  PCI: Split pci_bus_for_each_resource_p() out of
+    pci_bus_for_each_resource()
+  EISA: Convert to use pci_bus_for_each_resource_p()
+  pcmcia: Convert to use pci_bus_for_each_resource_p()
+
+Mika Westerberg (1):
+  PCI: Introduce pci_dev_for_each_resource()
+
+ .clang-format                             |  3 ++
+ arch/alpha/kernel/pci.c                   |  5 ++-
+ arch/arm/kernel/bios32.c                  | 16 +++++-----
+ arch/arm/mach-dove/pcie.c                 | 10 +++---
+ arch/arm/mach-mv78xx0/pcie.c              | 10 +++---
+ arch/arm/mach-orion5x/pci.c               | 10 +++---
+ arch/mips/pci/ops-bcm63xx.c               |  8 ++---
+ arch/mips/pci/pci-legacy.c                |  3 +-
+ arch/powerpc/kernel/pci-common.c          | 21 +++++++------
+ arch/powerpc/platforms/4xx/pci.c          |  8 ++---
+ arch/powerpc/platforms/52xx/mpc52xx_pci.c |  5 ++-
+ arch/powerpc/platforms/pseries/pci.c      | 16 +++++-----
+ arch/sh/drivers/pci/pcie-sh7786.c         | 10 +++---
+ arch/sparc/kernel/leon_pci.c              |  5 ++-
+ arch/sparc/kernel/pci.c                   | 10 +++---
+ arch/sparc/kernel/pcic.c                  |  5 ++-
+ drivers/eisa/pci_eisa.c                   |  4 +--
+ drivers/pci/bus.c                         |  7 ++---
+ drivers/pci/hotplug/shpchp_sysfs.c        |  8 ++---
+ drivers/pci/pci.c                         |  5 ++-
+ drivers/pci/probe.c                       |  2 +-
+ drivers/pci/remove.c                      |  5 ++-
+ drivers/pci/setup-bus.c                   | 37 +++++++++--------------
+ drivers/pci/setup-res.c                   |  4 +--
+ drivers/pci/vgaarb.c                      | 17 +++--------
+ drivers/pci/xen-pcifront.c                |  4 +--
+ drivers/pcmcia/rsrc_nonstatic.c           |  9 ++----
+ drivers/pcmcia/yenta_socket.c             |  3 +-
+ drivers/pnp/quirks.c                      | 29 ++++++------------
+ include/linux/pci.h                       | 29 ++++++++++++++----
+ 30 files changed, 142 insertions(+), 166 deletions(-)
+
 -- 
-Hello friend did you receive my message i send to you? please get back to me
+2.39.2
+
