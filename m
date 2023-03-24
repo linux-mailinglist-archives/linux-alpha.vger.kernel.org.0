@@ -2,207 +2,135 @@ Return-Path: <linux-alpha-owner@vger.kernel.org>
 X-Original-To: lists+linux-alpha@lfdr.de
 Delivered-To: lists+linux-alpha@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 11D686C7039
-	for <lists+linux-alpha@lfdr.de>; Thu, 23 Mar 2023 19:32:20 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id BDB5C6C7A9A
+	for <lists+linux-alpha@lfdr.de>; Fri, 24 Mar 2023 10:00:26 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231222AbjCWScS (ORCPT <rfc822;lists+linux-alpha@lfdr.de>);
-        Thu, 23 Mar 2023 14:32:18 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54532 "EHLO
+        id S231364AbjCXJAY (ORCPT <rfc822;lists+linux-alpha@lfdr.de>);
+        Fri, 24 Mar 2023 05:00:24 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39532 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231168AbjCWScR (ORCPT
+        with ESMTP id S231985AbjCXJAW (ORCPT
         <rfc822;linux-alpha@vger.kernel.org>);
-        Thu, 23 Mar 2023 14:32:17 -0400
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5CC83252A1
-        for <linux-alpha@vger.kernel.org>; Thu, 23 Mar 2023 11:31:44 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1679596303;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         in-reply-to:in-reply-to:references:references;
-        bh=OQhuytQNa//R38jUclcb8GrjXYgITp5dQj88746r1Bo=;
-        b=hzzGJfyMtg4+UYZoLvcYhCd5Zk005nkpFZgR0cdlzrx/hOqAQ2LUYi85ah3jZCHs+und4z
-        d/RRANXxSfkwckr2w3euoDn84gzckfO/k3WOBsHaZo2dGyyNjJVzMuKPbxFep4+VqsheOd
-        JbyoMkzpBilWzvfKoxlJQy7I04aZ1Ok=
-Received: from mail-wm1-f69.google.com (mail-wm1-f69.google.com
- [209.85.128.69]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-584-UmFz5oL2Pq-2Sq_krNNIpQ-1; Thu, 23 Mar 2023 14:31:42 -0400
-X-MC-Unique: UmFz5oL2Pq-2Sq_krNNIpQ-1
-Received: by mail-wm1-f69.google.com with SMTP id p10-20020a05600c358a00b003edf7d484d4so1357629wmq.0
-        for <linux-alpha@vger.kernel.org>; Thu, 23 Mar 2023 11:31:42 -0700 (PDT)
+        Fri, 24 Mar 2023 05:00:22 -0400
+Received: from mail-wm1-x32b.google.com (mail-wm1-x32b.google.com [IPv6:2a00:1450:4864:20::32b])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3CD8F35BF
+        for <linux-alpha@vger.kernel.org>; Fri, 24 Mar 2023 02:00:17 -0700 (PDT)
+Received: by mail-wm1-x32b.google.com with SMTP id fm20-20020a05600c0c1400b003ead37e6588so2681244wmb.5
+        for <linux-alpha@vger.kernel.org>; Fri, 24 Mar 2023 02:00:17 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1679648415;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=5xxjybCBQ7FBka5nE6E8+uHXCIz/6b/SCGTHJfPcbCM=;
+        b=a1FBd8hdYt0yM0X/QMw5JK93/6fmZkvcvOaCpGAhllGD9kZY3ocWprh/fBfy2T2rod
+         YkjH4UdxH2uedUuCvo+EkF57N3c7HVf3QBOceSd07Mza5R+OpESBolPUbeS2d8fEsBnh
+         OQSDXwfd2956PoRvrlESlWmo04/2c61Xl/bDa7ICS7G31P3ZvNNxX5D0+ZOcZrZ5tdVJ
+         2S9NsPv6/2vlegpFew239TZL4Ndvj2ZSLHjydzAhHLKc0SUYXBptCAACw1ytjJlvXLD2
+         ngcfW35TYBHM51xRfg++jvURD69Dmc0jU2GT+32k16t0vBRoghLroNVWI9Q6WKBRZRnc
+         Sc/A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112; t=1679596301;
-        h=mime-version:message-id:date:references:in-reply-to:subject:cc:to
-         :from:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=OQhuytQNa//R38jUclcb8GrjXYgITp5dQj88746r1Bo=;
-        b=M09yxiz3CRtBlUcNnmYw2bQRiUmFTJvtrEbWoreMSzf/HRH5a6hACDX6z7FaoteRQb
-         1yHELtLo5/hqp3WXY9jq+Po1XtsiMiAeNPepgEeLJn+K6vDvZ04fIThejGoLyYUKilGE
-         QrKwePwGRkHvVdjehRhSKfcX2jwpHt1eVmVFEJ0hHU/G06qZ37lfLmR9Dpnx44/H70Xe
-         rBpQDHS0CeZnKVFnVqzgfRZ5df8V4wf6igkMGgIFOyTc9ji9V7KtOhgr4QFdsVwChwpr
-         qZfBAM5e5dihXbKWfMKrRKluWcS9LwytekSr3r8qN4CWSu4ua2eSSzfuMrnalqtfF9/N
-         Ta2A==
-X-Gm-Message-State: AAQBX9e6q01EmL3qYaEqSIjhjzo3Itv7BeOvFWFf68wfD1XLs0d0qUjG
-        RNxx9Hr8kE8vsZXZ8qj7xKL0jLJiATcthOgN4EQhdQ7z6iZlAy1WacfQJn00mLaGVIZpQ6EIWjJ
-        Hpq2KDJwKCCSlY+L5fReBaNg=
-X-Received: by 2002:adf:ee4e:0:b0:2d2:f3e3:115d with SMTP id w14-20020adfee4e000000b002d2f3e3115dmr104115wro.59.1679596301278;
-        Thu, 23 Mar 2023 11:31:41 -0700 (PDT)
-X-Google-Smtp-Source: AKy350akLKxXWb1wSOfhINrcngkAYQLWnw4Bp2RUkomUFDjjiyXwtTV3jYctLuET3Ky7jfggPrYKfQ==
-X-Received: by 2002:adf:ee4e:0:b0:2d2:f3e3:115d with SMTP id w14-20020adfee4e000000b002d2f3e3115dmr104063wro.59.1679596300886;
-        Thu, 23 Mar 2023 11:31:40 -0700 (PDT)
-Received: from vschneid.remote.csb ([154.57.232.159])
-        by smtp.gmail.com with ESMTPSA id s17-20020a5d4251000000b002d1801018e2sm16702552wrr.63.2023.03.23.11.31.37
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 23 Mar 2023 11:31:39 -0700 (PDT)
-From:   Valentin Schneider <vschneid@redhat.com>
-To:     Peter Zijlstra <peterz@infradead.org>
-Cc:     linux-alpha@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-snps-arc@lists.infradead.org,
-        linux-arm-kernel@lists.infradead.org, linux-csky@vger.kernel.org,
-        linux-hexagon@vger.kernel.org, linux-ia64@vger.kernel.org,
-        loongarch@lists.linux.dev, linux-mips@vger.kernel.org,
-        openrisc@lists.librecores.org, linux-parisc@vger.kernel.org,
-        linuxppc-dev@lists.ozlabs.org, linux-riscv@lists.infradead.org,
-        linux-s390@vger.kernel.org, linux-sh@vger.kernel.org,
-        sparclinux@vger.kernel.org, linux-xtensa@linux-xtensa.org,
-        x86@kernel.org, "Paul E. McKenney" <paulmck@kernel.org>,
-        Steven Rostedt <rostedt@goodmis.org>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Sebastian Andrzej Siewior <bigeasy@linutronix.de>,
-        Juri Lelli <juri.lelli@redhat.com>,
-        Daniel Bristot de Oliveira <bristot@redhat.com>,
-        Marcelo Tosatti <mtosatti@redhat.com>,
-        Frederic Weisbecker <frederic@kernel.org>,
-        Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
-        Dave Hansen <dave.hansen@linux.intel.com>,
-        "H. Peter Anvin" <hpa@zytor.com>, Marc Zyngier <maz@kernel.org>,
-        Mark Rutland <mark.rutland@arm.com>,
-        Russell King <linux@armlinux.org.uk>,
-        Nicholas Piggin <npiggin@gmail.com>,
-        Guo Ren <guoren@kernel.org>,
-        "David S. Miller" <davem@davemloft.net>
-Subject: Re: [PATCH v5 7/7] sched, smp: Trace smp callback causing an IPI
-In-Reply-To: <20230323174129.GA2753619@hirez.programming.kicks-ass.net>
-References: <20230307143558.294354-1-vschneid@redhat.com>
- <20230307143558.294354-8-vschneid@redhat.com>
- <20230322095329.GS2017917@hirez.programming.kicks-ass.net>
- <xhsmhmt45c703.mognet@vschneid.remote.csb>
- <20230322140434.GC2357380@hirez.programming.kicks-ass.net>
- <xhsmhbkkjcu4q.mognet@vschneid.remote.csb>
- <20230323174129.GA2753619@hirez.programming.kicks-ass.net>
-Date:   Thu, 23 Mar 2023 18:31:37 +0000
-Message-ID: <xhsmh8rfncoae.mognet@vschneid.remote.csb>
+        d=1e100.net; s=20210112; t=1679648415;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=5xxjybCBQ7FBka5nE6E8+uHXCIz/6b/SCGTHJfPcbCM=;
+        b=aIwT3uR9sSX/JKkC1pHJ0L6vNfu+rx9iFovLWW8dS3RR8vxzCMDjjjLelIZVqUkyH9
+         ddfBjMlxWTvSbcFqhF7dw9ZqRbsNN/wK0thSZ2jC7/W/7Avk20l3xgIxbcEWtV94jhoC
+         w+S0DdSJ/+3CQ8mIhNNciyHGvLQAJFLJrY27tfBZfBgsQlPwAoLaGjgm/XpripTERMBf
+         DtRzQ2DPqwhvE6vpwEED82JtyFm5BrA8tHTUwOuZioqIflOtHprvSI2+7wDKTlO/W87Q
+         Xnu2DNrtUVLuDHkwAGf60kTJtvRhppz+8xtEIZEmxeaWxXfU4ntAl1v5BQRnUoOzJubu
+         3tsA==
+X-Gm-Message-State: AO0yUKULGCNlWXd+8LkfQtGhHl+OPbVNVws+O9E6qomqgsq2GKvB4GYA
+        yELZkJR5mlRv1AKDXE3RDJny7w==
+X-Google-Smtp-Source: AK7set/G+BrnIBHzdKAcJLIchyTJ1+8LJ+VqEzbQ4F0KmkhucSNebeQVHkqJ+K4tuv21EwA1IHVe7Q==
+X-Received: by 2002:a7b:c459:0:b0:3eb:a4e:a2b2 with SMTP id l25-20020a7bc459000000b003eb0a4ea2b2mr1815337wmi.4.1679648415689;
+        Fri, 24 Mar 2023 02:00:15 -0700 (PDT)
+Received: from [192.168.69.115] ([176.176.152.149])
+        by smtp.gmail.com with ESMTPSA id n20-20020a7bc5d4000000b003ee10fb56ebsm4302953wmk.9.2023.03.24.02.00.12
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Fri, 24 Mar 2023 02:00:15 -0700 (PDT)
+Message-ID: <78a9e002-ba18-c580-fe89-46f5653ea49d@linaro.org>
+Date:   Fri, 24 Mar 2023 10:00:10 +0100
 MIME-Version: 1.0
-Content-Type: text/plain
-X-Spam-Status: No, score=-0.2 required=5.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
-        RCVD_IN_MSPIKE_H2,SPF_HELO_NONE,SPF_NONE autolearn=unavailable
-        autolearn_force=no version=3.4.6
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:102.0)
+ Gecko/20100101 Thunderbird/102.9.0
+Subject: Re: [PATCH v7 3/6] PCI: Allow pci_bus_for_each_resource() to take
+ less arguments
+Content-Language: en-US
+To:     Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+        =?UTF-8?Q?Micka=c3=abl_Sala=c3=bcn?= <mic@digikod.net>,
+        Mika Westerberg <mika.westerberg@linux.intel.com>,
+        =?UTF-8?Q?Krzysztof_Wilczy=c5=84ski?= <kw@linux.com>,
+        Michael Ellerman <mpe@ellerman.id.au>,
+        Randy Dunlap <rdunlap@infradead.org>,
+        Arnd Bergmann <arnd@arndb.de>,
+        Niklas Schnelle <schnelle@linux.ibm.com>,
+        Bjorn Helgaas <helgaas@kernel.org>,
+        "Rafael J. Wysocki" <rafael.j.wysocki@intel.com>,
+        =?UTF-8?Q?Pali_Roh=c3=a1r?= <pali@kernel.org>,
+        "Maciej W. Rozycki" <macro@orcam.me.uk>,
+        Juergen Gross <jgross@suse.com>,
+        Dominik Brodowski <linux@dominikbrodowski.net>,
+        linux-kernel@vger.kernel.org, linux-alpha@vger.kernel.org,
+        linux-arm-kernel@lists.infradead.org, linux-mips@vger.kernel.org,
+        linuxppc-dev@lists.ozlabs.org, linux-sh@vger.kernel.org,
+        sparclinux@vger.kernel.org, linux-pci@vger.kernel.org,
+        xen-devel@lists.xenproject.org, linux-acpi@vger.kernel.org
+Cc:     Miguel Ojeda <ojeda@kernel.org>,
+        Richard Henderson <richard.henderson@linaro.org>,
+        Ivan Kokshaysky <ink@jurassic.park.msu.ru>,
+        Matt Turner <mattst88@gmail.com>,
+        Russell King <linux@armlinux.org.uk>,
+        Andrew Lunn <andrew@lunn.ch>,
+        Sebastian Hesselbarth <sebastian.hesselbarth@gmail.com>,
+        Gregory Clement <gregory.clement@bootlin.com>,
+        Thomas Bogendoerfer <tsbogend@alpha.franken.de>,
+        Nicholas Piggin <npiggin@gmail.com>,
+        Christophe Leroy <christophe.leroy@csgroup.eu>,
+        Anatolij Gustschin <agust@denx.de>,
+        Yoshinori Sato <ysato@users.sourceforge.jp>,
+        Rich Felker <dalias@libc.org>,
+        John Paul Adrian Glaubitz <glaubitz@physik.fu-berlin.de>,
+        "David S. Miller" <davem@davemloft.net>,
+        Bjorn Helgaas <bhelgaas@google.com>,
+        Stefano Stabellini <sstabellini@kernel.org>,
+        Oleksandr Tyshchenko <oleksandr_tyshchenko@epam.com>
+References: <20230323173610.60442-1-andriy.shevchenko@linux.intel.com>
+ <20230323173610.60442-4-andriy.shevchenko@linux.intel.com>
+From:   =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>
+In-Reply-To: <20230323173610.60442-4-andriy.shevchenko@linux.intel.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+X-Spam-Status: No, score=-0.2 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
+        DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,RCVD_IN_DNSWL_NONE,
+        SPF_HELO_NONE,SPF_PASS autolearn=unavailable autolearn_force=no
+        version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-alpha.vger.kernel.org>
 X-Mailing-List: linux-alpha@vger.kernel.org
 
-On 23/03/23 18:41, Peter Zijlstra wrote:
-> On Thu, Mar 23, 2023 at 04:25:25PM +0000, Valentin Schneider wrote:
->> On 22/03/23 15:04, Peter Zijlstra wrote:
->> > @@ -798,14 +794,20 @@ static void smp_call_function_many_cond(
->> >  		}
->> >  
->> >  		/*
->> > +		 * Trace each smp_function_call_*() as an IPI, actual IPIs
->> > +		 * will be traced with func==generic_smp_call_function_single_ipi().
->> > +		 */
->> > +		trace_ipi_send_cpumask(cfd->cpumask_ipi, _RET_IP_, func);
->> 
->> I just got a trace pointing out this can emit an event even though no IPI
->> is sent if e.g. the cond_func predicate filters all CPUs in the argument
->> mask:
->> 
->>   ipi_send_cpumask:     cpumask= callsite=on_each_cpu_cond_mask+0x3c callback=flush_tlb_func+0x0
->> 
->> Maybe something like so on top?
->> 
->> ---
->> diff --git a/kernel/smp.c b/kernel/smp.c
->> index ba5478814e677..1dc452017d000 100644
->> --- a/kernel/smp.c
->> +++ b/kernel/smp.c
->> @@ -791,6 +791,8 @@ static void smp_call_function_many_cond(const struct cpumask *mask,
->>  			}
->>  		}
->>  
->> +		if (!nr_cpus)
->> +			goto local;
->
-> Hmm, this isn't right. You can get nr_cpus==0 even though it did add
-> some to various lists but never was first.
->
+On 23/3/23 18:36, Andy Shevchenko wrote:
+> Refactor pci_bus_for_each_resource() in the same way as it's done in
+> pci_dev_for_each_resource() case. This will allow to hide iterator
+> inside the loop, where it's not used otherwise.
+> 
+> No functional changes intended.
+> 
+> Signed-off-by: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+> Reviewed-by: Krzysztof Wilczyński <kw@linux.com>
+> ---
+>   drivers/pci/bus.c                  |  7 +++----
+>   drivers/pci/hotplug/shpchp_sysfs.c |  8 ++++----
+>   drivers/pci/pci.c                  |  3 +--
+>   drivers/pci/probe.c                |  2 +-
+>   drivers/pci/setup-bus.c            | 10 ++++------
+>   include/linux/pci.h                | 17 +++++++++++++----
+>   6 files changed, 26 insertions(+), 21 deletions(-)
 
-Duh, glanced over that.
+Nice.
 
-> But urgh, even if we were to say count nr_queued we'd never get the mask
-> right, because we don't track which CPUs have the predicate matched,
-> only those we need to actually send an IPI to :/
->
-> Ooh, I think we can clear those bits from cfd->cpumask, arguably that's
-> a correctness fix too, because the 'run_remote && wait' case shouldn't
-> wait on things we didn't queue.
->
-
-Yeah, that makes sense to me. Just one tiny suggestion below.
-
-> Hmm?
->
->
-> --- a/kernel/smp.c
-> +++ b/kernel/smp.c
-> @@ -728,9 +728,9 @@ static void smp_call_function_many_cond(
->  	int cpu, last_cpu, this_cpu = smp_processor_id();
->  	struct call_function_data *cfd;
->  	bool wait = scf_flags & SCF_WAIT;
-> +	int nr_cpus = 0, nr_queued = 0;
->  	bool run_remote = false;
->  	bool run_local = false;
-> -	int nr_cpus = 0;
->  
->  	lockdep_assert_preemption_disabled();
->  
-> @@ -772,8 +772,10 @@ static void smp_call_function_many_cond(
->  		for_each_cpu(cpu, cfd->cpumask) {
->  			call_single_data_t *csd = per_cpu_ptr(cfd->csd, cpu);
->  
-> -			if (cond_func && !cond_func(cpu, info))
-> +			if (cond_func && !cond_func(cpu, info)) {
-> +				__cpumask_clear_cpu(cpu, cfd->cpumask);
->  				continue;
-> +			}
->  
->  			csd_lock(csd);
->  			if (wait)
-> @@ -789,13 +791,15 @@ static void smp_call_function_many_cond(
->  				nr_cpus++;
->  				last_cpu = cpu;
->  			}
-> +			nr_queued++;
->  		}
->  
->  		/*
->  		 * Trace each smp_function_call_*() as an IPI, actual IPIs
->  		 * will be traced with func==generic_smp_call_function_single_ipi().
->  		 */
-> -		trace_ipi_send_cpumask(cfd->cpumask_ipi, _RET_IP_, func);
-> +		if (nr_queued)
-
-With your change to cfd->cpumask, we could ditch nr_queued and make this
-
-                if (!cpumask_empty(cfd->cpumask))
-
-since cfd->cpumask now only contains CPUs that have had a CSD queued.
-
-> +			trace_ipi_send_cpumask(cfd->cpumask, _RET_IP_, func);
->  
->  		/*
->  		 * Choose the most efficient way to send an IPI. Note that the
+Reviewed-by: Philippe Mathieu-Daudé <philmd@linaro.org>
 
