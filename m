@@ -2,133 +2,201 @@ Return-Path: <linux-alpha-owner@vger.kernel.org>
 X-Original-To: lists+linux-alpha@lfdr.de
 Delivered-To: lists+linux-alpha@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 629826D7F20
-	for <lists+linux-alpha@lfdr.de>; Wed,  5 Apr 2023 16:19:20 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id D333E6D8164
+	for <lists+linux-alpha@lfdr.de>; Wed,  5 Apr 2023 17:17:05 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S238569AbjDEOTT (ORCPT <rfc822;lists+linux-alpha@lfdr.de>);
-        Wed, 5 Apr 2023 10:19:19 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42826 "EHLO
+        id S238903AbjDEPRE (ORCPT <rfc822;lists+linux-alpha@lfdr.de>);
+        Wed, 5 Apr 2023 11:17:04 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35964 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S238420AbjDEOSe (ORCPT
-        <rfc822;linux-alpha@vger.kernel.org>); Wed, 5 Apr 2023 10:18:34 -0400
-Received: from mail-ed1-x52e.google.com (mail-ed1-x52e.google.com [IPv6:2a00:1450:4864:20::52e])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id DA25A30D4;
-        Wed,  5 Apr 2023 07:18:03 -0700 (PDT)
-Received: by mail-ed1-x52e.google.com with SMTP id ek18so141537725edb.6;
-        Wed, 05 Apr 2023 07:18:03 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112; t=1680704276;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=tX2Wz3EA82OevW9OfamI7/Kvuo0JRd1kfWWZWf7tBPI=;
-        b=dcJpf62STM2t7wBeMFWRHA65D4e8ki42FaDdkuuO3agKqVH6m85Cy4lQ8Jc6WqjxoF
-         fnnlug9El9w16kuSLGTsPbq74oNaQ+P8JDxMAcNUZHQhE8u+5jySMEVYMmtE4egR+MrD
-         Yo63AeJfrWzh2LWw4CUsO/Jz8F4pDt2KwqewSmosxEslt2xhDsBYXNkotYBZ0u2SUb3b
-         bY44Ptodk1vZVbJl1WFw1p9lD7pDptPbaK3ykNtKWYarwScxbwyxAFGsy3vIZ++4+u08
-         7sJWtj5rpBofs9g4DRnm1uwhZ6aYf1PTSfC6VMfZ4+8IxgDtdbMLLd8hp6MXeYVptMAQ
-         HEzw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112; t=1680704276;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=tX2Wz3EA82OevW9OfamI7/Kvuo0JRd1kfWWZWf7tBPI=;
-        b=8Fv0C2oIfqzNYT5EW+Tebedn6a1Ldu9NM/vBrhRq7CyNBY4FmBYj1uhTF7Su/c3M3U
-         +bWh7mJFhOE1/scfDX5mvoD2CZ82P908e80ZyKPVSrvtDNI0hj6ymAgzKJtKhUOsfWM7
-         l4bIzBj8JybWExmvd3VaHc4+N3Q2mB6iGELdrq6QJtXWqQbpwDMytWmQIJE6PKpcS3QU
-         FH5U+nl3f7O99ZIKoNUQ1OKdMilAhOAthnIAGECaiYW3qwT1bHmpzmRRPNfY4QfG19iO
-         UL42ezOQuqlON9jKxv5jXBDSzRDbK5/JHopJXBGB/ozSxj3r7tiUU6mbWVcLO6yATzST
-         F9tg==
-X-Gm-Message-State: AAQBX9fc0h4azbPJSz0jkkBg6V292q7RU6RF1kS7yKIg9+57Iup0iB2W
-        bmLvBV9umLIo0SrmmU0i+mQ7yrs+Fs0vyMyw
-X-Google-Smtp-Source: AKy350ZbYZNSgst5kJdLcblY6mgsM4CglBWBhr5I5xeGEgTa/9eOQOFET04v+j0TrQ94wu4NswT8dQ==
-X-Received: by 2002:a17:906:53c3:b0:947:791b:fdcb with SMTP id p3-20020a17090653c300b00947791bfdcbmr2772881ejo.21.1680704276052;
-        Wed, 05 Apr 2023 07:17:56 -0700 (PDT)
-Received: from localhost.localdomain ([46.248.82.114])
-        by smtp.gmail.com with ESMTPSA id g6-20020a170906348600b009334219656dsm7381246ejb.56.2023.04.05.07.17.55
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 05 Apr 2023 07:17:55 -0700 (PDT)
-From:   Uros Bizjak <ubizjak@gmail.com>
-To:     linux-alpha@vger.kernel.org, loongarch@lists.linux.dev,
-        linux-mips@vger.kernel.org, linuxppc-dev@lists.ozlabs.org,
-        x86@kernel.org, linux-arch@vger.kernel.org,
-        linux-perf-users@vger.kernel.org, linux-kernel@vger.kernel.org
-Cc:     Uros Bizjak <ubizjak@gmail.com>
-Subject: [PATCH v2 5/5] events: Illustrate the transition to local{,64}_try_cmpxchg
-Date:   Wed,  5 Apr 2023 16:17:10 +0200
-Message-Id: <20230405141710.3551-6-ubizjak@gmail.com>
-X-Mailer: git-send-email 2.39.2
-In-Reply-To: <20230405141710.3551-1-ubizjak@gmail.com>
-References: <20230405141710.3551-1-ubizjak@gmail.com>
+        with ESMTP id S238148AbjDEPQv (ORCPT
+        <rfc822;linux-alpha@vger.kernel.org>); Wed, 5 Apr 2023 11:16:51 -0400
+Received: from mx0b-001b2d01.pphosted.com (mx0b-001b2d01.pphosted.com [148.163.158.5])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id F0BAE768F;
+        Wed,  5 Apr 2023 08:15:23 -0700 (PDT)
+Received: from pps.filterd (m0098417.ppops.net [127.0.0.1])
+        by mx0a-001b2d01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id 335Ex0qK002073;
+        Wed, 5 Apr 2023 15:12:47 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com; h=message-id : subject :
+ from : to : cc : date : in-reply-to : references : content-type :
+ content-transfer-encoding : mime-version; s=pp1;
+ bh=EP7H/BG3XCUIVobBKkorHkQj2TA2B5DpLLQdBFgYKS4=;
+ b=XbWxDBkfY2fo/oPyI6TrXqcU1euUz4IzeWoGlM8pMsRk498yO8yVE/7T1S6eJTb2S1UY
+ Ce4n6uRJXGbJACtJS5PEQm7yDaXiLZ77NckRKQQQ5DNapH75rb5fd/ItpAm5JdaIGkJB
+ EjYbhhlQ0ryc2KE5ooaYTcsk8RJlUZZfLediFtvaH7EkQ1SjyGt/Xzy43DdKyba2DK/C
+ mj3z1Ouz77q3PQdLEc8JzeNlXRNO2YNOk1g5JnRZp+nfYv7EYFBF1bpKeDuLr8vDL+6n
+ b4UH/HRs8HkTZNjSxDyvmPDruJP3v3TVMAV46NXQWSanaU69dM9Hykbwz50y1ICQraWy Mw== 
+Received: from pps.reinject (localhost [127.0.0.1])
+        by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3ps9mdkkrq-1
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+        Wed, 05 Apr 2023 15:12:47 +0000
+Received: from m0098417.ppops.net (m0098417.ppops.net [127.0.0.1])
+        by pps.reinject (8.17.1.5/8.17.1.5) with ESMTP id 335Ena21018706;
+        Wed, 5 Apr 2023 15:12:46 GMT
+Received: from ppma04fra.de.ibm.com (6a.4a.5195.ip4.static.sl-reverse.com [149.81.74.106])
+        by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3ps9mdkkpp-1
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+        Wed, 05 Apr 2023 15:12:45 +0000
+Received: from pps.filterd (ppma04fra.de.ibm.com [127.0.0.1])
+        by ppma04fra.de.ibm.com (8.17.1.19/8.17.1.19) with ESMTP id 335DwTrM010607;
+        Wed, 5 Apr 2023 15:12:43 GMT
+Received: from smtprelay01.fra02v.mail.ibm.com ([9.218.2.227])
+        by ppma04fra.de.ibm.com (PPS) with ESMTPS id 3ppc86tktp-1
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+        Wed, 05 Apr 2023 15:12:43 +0000
+Received: from smtpav06.fra02v.mail.ibm.com (smtpav06.fra02v.mail.ibm.com [10.20.54.105])
+        by smtprelay01.fra02v.mail.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id 335FCejC27853382
+        (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+        Wed, 5 Apr 2023 15:12:40 GMT
+Received: from smtpav06.fra02v.mail.ibm.com (unknown [127.0.0.1])
+        by IMSVA (Postfix) with ESMTP id 7493520040;
+        Wed,  5 Apr 2023 15:12:40 +0000 (GMT)
+Received: from smtpav06.fra02v.mail.ibm.com (unknown [127.0.0.1])
+        by IMSVA (Postfix) with ESMTP id CE7A920043;
+        Wed,  5 Apr 2023 15:12:38 +0000 (GMT)
+Received: from [9.155.211.163] (unknown [9.155.211.163])
+        by smtpav06.fra02v.mail.ibm.com (Postfix) with ESMTP;
+        Wed,  5 Apr 2023 15:12:38 +0000 (GMT)
+Message-ID: <248a41a536d5a3c9e81e8e865b34c5bf74cd36d4.camel@linux.ibm.com>
+Subject: Re: [PATCH v4] Kconfig: introduce HAS_IOPORT option and select it
+ as necessary
+From:   Niklas Schnelle <schnelle@linux.ibm.com>
+To:     Arnd Bergmann <arnd@arndb.de>,
+        Richard Henderson <richard.henderson@linaro.org>,
+        Ivan Kokshaysky <ink@jurassic.park.msu.ru>,
+        Matt Turner <mattst88@gmail.com>,
+        Russell King <linux@armlinux.org.uk>,
+        Catalin Marinas <catalin.marinas@arm.com>,
+        Will Deacon <will@kernel.org>,
+        Huacai Chen <chenhuacai@kernel.org>,
+        WANG Xuerui <kernel@xen0n.name>,
+        Geert Uytterhoeven <geert@linux-m68k.org>,
+        Michal Simek <monstr@monstr.eu>,
+        Thomas Bogendoerfer <tsbogend@alpha.franken.de>,
+        "James E.J. Bottomley" <James.Bottomley@HansenPartnership.com>,
+        Helge Deller <deller@gmx.de>,
+        Michael Ellerman <mpe@ellerman.id.au>,
+        Nicholas Piggin <npiggin@gmail.com>,
+        Christophe Leroy <christophe.leroy@csgroup.eu>,
+        Paul Walmsley <paul.walmsley@sifive.com>,
+        Palmer Dabbelt <palmer@dabbelt.com>,
+        Albert Ou <aou@eecs.berkeley.edu>,
+        Yoshinori Sato <ysato@users.sourceforge.jp>,
+        Rich Felker <dalias@libc.org>,
+        John Paul Adrian Glaubitz <glaubitz@physik.fu-berlin.de>,
+        "David S. Miller" <davem@davemloft.net>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
+        Dave Hansen <dave.hansen@linux.intel.com>, x86@kernel.org,
+        "H. Peter Anvin" <hpa@zytor.com>
+Cc:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Bjorn Helgaas <bhelgaas@google.com>,
+        Uwe =?ISO-8859-1?Q?Kleine-K=F6nig?= 
+        <u.kleine-koenig@pengutronix.de>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Alan Stern <stern@rowland.harvard.edu>,
+        "Rafael J. Wysocki" <rafael@kernel.org>,
+        linux-kernel@vger.kernel.org, linux-arch@vger.kernel.org,
+        linux-pci@vger.kernel.org, Arnd Bergmann <arnd@kernel.org>,
+        Johannes Berg <johannes@sipsolutions.net>,
+        linux-alpha@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+        linux-ia64@vger.kernel.org, loongarch@lists.linux.dev,
+        linux-m68k@lists.linux-m68k.org, linux-mips@vger.kernel.org,
+        linux-parisc@vger.kernel.org, linuxppc-dev@lists.ozlabs.org,
+        linux-riscv@lists.infradead.org, linux-sh@vger.kernel.org,
+        sparclinux@vger.kernel.org
+Date:   Wed, 05 Apr 2023 17:12:38 +0200
+In-Reply-To: <20230323163354.1454196-1-schnelle@linux.ibm.com>
+References: <20230323163354.1454196-1-schnelle@linux.ibm.com>
+Content-Type: text/plain; charset="UTF-8"
+User-Agent: Evolution 3.46.4 (3.46.4-1.fc37) 
+X-TM-AS-GCONF: 00
+X-Proofpoint-ORIG-GUID: Chh8ozZVKyRilF6r1sDguQSl3KT7MF3_
+X-Proofpoint-GUID: RSLPMutPzrPKT5ywknWUr1qrnGdzz6Rn
+Content-Transfer-Encoding: quoted-printable
+X-Proofpoint-UnRewURL: 0 URL was un-rewritten
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=-0.2 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
-        DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,RCVD_IN_DNSWL_NONE,
-        SPF_HELO_NONE,SPF_PASS autolearn=unavailable autolearn_force=no
-        version=3.4.6
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.254,Aquarius:18.0.942,Hydra:6.0.573,FMLib:17.11.170.22
+ definitions=2023-04-05_09,2023-04-05_01,2023-02-09_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 suspectscore=0
+ impostorscore=0 phishscore=0 priorityscore=1501 mlxscore=0
+ lowpriorityscore=0 adultscore=0 clxscore=1011 bulkscore=0 spamscore=0
+ malwarescore=0 mlxlogscore=438 classifier=spam adjust=0 reason=mlx
+ scancount=1 engine=8.12.0-2303200000 definitions=main-2304050136
+X-Spam-Status: No, score=-0.1 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
+        DKIM_VALID_EF,RCVD_IN_MSPIKE_H2,SPF_HELO_NONE,SPF_PASS
+        autolearn=unavailable autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-alpha.vger.kernel.org>
 X-Mailing-List: linux-alpha@vger.kernel.org
 
-This patch illustrates the transition to local{,64}_try_cmpxchg.
-It is not intended to be merged as-is.
+On Thu, 2023-03-23 at 17:33 +0100, Niklas Schnelle wrote:
+> We introduce a new HAS_IOPORT Kconfig option to indicate support for I/O
+> Port access. In a future patch HAS_IOPORT=3Dn will disable compilation of
+> the I/O accessor functions inb()/outb() and friends on architectures
+> which can not meaningfully support legacy I/O spaces such as s390.
+>=20
+> The following architectures do not select HAS_IOPORT:
+>=20
+> * ARC
+> * C-SKY
+> * Hexagon
+> * Nios II
+> * OpenRISC
+> * s390
+> * User-Mode Linux
+> * Xtensa
+>=20
+> All other architectures select HAS_IOPORT at least conditionally.
+>=20
+> The "depends on" relations on HAS_IOPORT in drivers as well as ifdefs
+> for HAS_IOPORT specific sections will be added in subsequent patches on
+> a per subsystem basis.
+>=20
+> Co-developed-by: Arnd Bergmann <arnd@kernel.org>
+> Signed-off-by: Arnd Bergmann <arnd@kernel.org>
+> Acked-by: Johannes Berg <johannes@sipsolutions.net> # for ARCH=3Dum
+> Acked-by: Geert Uytterhoeven <geert@linux-m68k.org>
+> Signed-off-by: Niklas Schnelle <schnelle@linux.ibm.com>
+> ---
+> Note: This patch is the initial patch of a larger series[0]. This patch
+> introduces the HAS_IOPORT config option while the rest of the series adds
+> driver dependencies and the final patch removes inb() / outb() and friend=
+s on
+> platforms that don't support them.=20
+>=20
+> Thus each of the per-subsystem patches is independent from each other but
+> depends on this patch while the final patch depends on the whole series. =
+Thus
+> splitting this initial patch off allows the per-subsytem HAS_IOPORT depen=
+dency
+> addition be merged separately via different trees without breaking the bu=
+ild.
+>=20
+> [0] https://lore.kernel.org/lkml/20230314121216.413434-1-schnelle@linux.i=
+bm.com/
+>=20
+> Changes since v3:
+> - List archs without HAS_IOPORT in commit message (Arnd)
+> - Select HAS_IOPORT for LoongArch (Arnd)
+> - Use "select HAS_IOPORT if (E)ISA || .." instead of a "depends on" for (=
+E)ISA
+>   for m68k and parisc
+> - Select HAS_IOPORT with config GSC on parisc (Arnd)
+> - Drop "depends on HAS_IOPORT" for um's config ISA (Johannes)
+> - Drop "depends on HAS_IOPORT" for config ISA on x86 and parisc where it =
+is
+>   always selected (Arnd)
+>=20
 
-Signed-off-by: Uros Bizjak <ubizjak@gmail.com>
----
- arch/x86/events/core.c      | 9 ++++-----
- kernel/events/ring_buffer.c | 5 +++--
- 2 files changed, 7 insertions(+), 7 deletions(-)
+Gentle ping. As far as I can tell this hasn't been picked to any tree
+sp far but also hasn't seen complains so I'm wondering if I should send
+a new version of the combined series of this patch plus the added
+HAS_IOPORT dependencies per subsystem or wait until this is picked up.
 
-diff --git a/arch/x86/events/core.c b/arch/x86/events/core.c
-index d096b04bf80e..d9310e9363f1 100644
---- a/arch/x86/events/core.c
-+++ b/arch/x86/events/core.c
-@@ -129,13 +129,12 @@ u64 x86_perf_event_update(struct perf_event *event)
- 	 * exchange a new raw count - then add that new-prev delta
- 	 * count to the generic event atomically:
- 	 */
--again:
- 	prev_raw_count = local64_read(&hwc->prev_count);
--	rdpmcl(hwc->event_base_rdpmc, new_raw_count);
- 
--	if (local64_cmpxchg(&hwc->prev_count, prev_raw_count,
--					new_raw_count) != prev_raw_count)
--		goto again;
-+	do {
-+		rdpmcl(hwc->event_base_rdpmc, new_raw_count);
-+	} while (!local64_try_cmpxchg(&hwc->prev_count, &prev_raw_count,
-+				      new_raw_count));
- 
- 	/*
- 	 * Now we have the new raw value and have updated the prev
-diff --git a/kernel/events/ring_buffer.c b/kernel/events/ring_buffer.c
-index 273a0fe7910a..111ab85ee97d 100644
---- a/kernel/events/ring_buffer.c
-+++ b/kernel/events/ring_buffer.c
-@@ -191,9 +191,10 @@ __perf_output_begin(struct perf_output_handle *handle,
- 
- 	perf_output_get_handle(handle);
- 
-+	offset = local_read(&rb->head);
- 	do {
- 		tail = READ_ONCE(rb->user_page->data_tail);
--		offset = head = local_read(&rb->head);
-+		head = offset;
- 		if (!rb->overwrite) {
- 			if (unlikely(!ring_buffer_has_space(head, tail,
- 							    perf_data_size(rb),
-@@ -217,7 +218,7 @@ __perf_output_begin(struct perf_output_handle *handle,
- 			head += size;
- 		else
- 			head -= size;
--	} while (local_cmpxchg(&rb->head, offset, head) != offset);
-+	} while (!local_try_cmpxchg(&rb->head, &offset, head));
- 
- 	if (backward) {
- 		offset = head;
--- 
-2.39.2
+Thanks,
+Niklas
 
