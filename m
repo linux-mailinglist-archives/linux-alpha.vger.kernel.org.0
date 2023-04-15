@@ -2,61 +2,48 @@ Return-Path: <linux-alpha-owner@vger.kernel.org>
 X-Original-To: lists+linux-alpha@lfdr.de
 Delivered-To: lists+linux-alpha@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 5BC3B6F0B1D
-	for <lists+linux-alpha@lfdr.de>; Thu, 27 Apr 2023 19:42:13 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 119686F0B22
+	for <lists+linux-alpha@lfdr.de>; Thu, 27 Apr 2023 19:42:26 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S244363AbjD0RmL (ORCPT <rfc822;lists+linux-alpha@lfdr.de>);
-        Thu, 27 Apr 2023 13:42:11 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48812 "EHLO
+        id S244503AbjD0RmY (ORCPT <rfc822;lists+linux-alpha@lfdr.de>);
+        Thu, 27 Apr 2023 13:42:24 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48730 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S244281AbjD0RmK (ORCPT
+        with ESMTP id S244449AbjD0RmS (ORCPT
         <rfc822;linux-alpha@vger.kernel.org>);
-        Thu, 27 Apr 2023 13:42:10 -0400
+        Thu, 27 Apr 2023 13:42:18 -0400
 Received: from linux.microsoft.com (linux.microsoft.com [13.77.154.182])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTP id B15EB5584;
-        Thu, 27 Apr 2023 10:41:54 -0700 (PDT)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTP id B40EA3584;
+        Thu, 27 Apr 2023 10:42:04 -0700 (PDT)
 Received: from skinsburskii.localdomain (c-67-170-100-148.hsd1.wa.comcast.net [67.170.100.148])
-        by linux.microsoft.com (Postfix) with ESMTPSA id 2EDFA21C33DF;
-        Thu, 27 Apr 2023 10:41:52 -0700 (PDT)
-DKIM-Filter: OpenDKIM Filter v2.11.0 linux.microsoft.com 2EDFA21C33DF
+        by linux.microsoft.com (Postfix) with ESMTPSA id 1256821C33E2;
+        Thu, 27 Apr 2023 10:42:04 -0700 (PDT)
+DKIM-Filter: OpenDKIM Filter v2.11.0 linux.microsoft.com 1256821C33E2
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.microsoft.com;
-        s=default; t=1682617312;
-        bh=tQBmtbcpqnp+RILjBR0oqwhW0pMzwxDvx3m4tXPmSeg=;
-        h=Subject:From:Cc:Date:From;
-        b=koFTR0U8zfUvb5Uc+C+Hbp/AJH8F6PVoyRgqvwqagczF7i9s34sgxAtQuetm20+XS
-         5Qm+28Pt+pSiCHLtISTWzADXqXkirskMRFVFEdzGl5W3ecGwC3+rdF73jW6Ou0nhTs
-         O5MdjQWqF4ihM7lRjxSdq9BjhqMcNktql7ZPF+I0=
-Subject: [PATCH 0/7] Expect immutable pointer in virt_to_phys/isa_virt_to_bus
- prototypes
+        s=default; t=1682617324;
+        bh=y5FKETkcR5bJeA05EuMUf08/uW3fzemI0xL6hftJZ0w=;
+        h=Subject:From:Cc:Date:In-Reply-To:References:From;
+        b=I81ONq4flDFybAHDmcdEBwB18AgoI8OINU6R4Az6WvVIVzocvmY/pieHzLajTdhKo
+         HA0Dp+jT2ScUGmry+Oi6xup26Stlv/BVUUj8EZqzcf+c26o+ieBPHo+PXorzzsW/Y4
+         ltVQ+ERLydTb/l5zHlX3TcVCAlUq35bKUAjZ5cSk=
+Subject: [PATCH 2/7] alpha: asm/io.h: Expect immutable pointer in
+ virt_to_phys/isa_virt_to_bus prototypes
 From:   Stanislav Kinsburskii <skinsburskii@linux.microsoft.com>
-Cc:     Matt Turner <mattst88@gmail.com>, x86@kernel.org,
-        Stanislav Kinsburskii <stanislav.kinsburskii@gmail.com>,
-        Borislav Petkov <bp@alien8.de>, linux-ia64@vger.kernel.org,
-        Mark Brown <broonie@kernel.org>,
+Cc:     Stanislav Kinsburskii <stanislav.kinsburskii@gmail.com>,
         Richard Henderson <richard.henderson@linaro.org>,
-        linux-kernel@vger.kernel.org, Brian Cain <bcain@quicinc.com>,
-        linux-mips@vger.kernel.org,
-        Geert Uytterhoeven <geert@linux-m68k.org>,
-        linux-alpha@vger.kernel.org, linux-arch@vger.kernel.org,
-        Michael Ellerman <mpe@ellerman.id.au>,
-        Linus Walleij <linus.walleij@linaro.org>,
-        Jiaxun Yang <jiaxun.yang@flygoat.com>,
-        Bjorn Helgaas <bhelgaas@google.com>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Dave Hansen <dave.hansen@linux.intel.com>,
-        Omar Sandoval <osandov@fb.com>, Helge Deller <deller@gmx.de>,
-        linuxppc-dev@lists.ozlabs.org, linux-hexagon@vger.kernel.org,
-        Thomas Bogendoerfer <tsbogend@alpha.franken.de>,
         Ivan Kokshaysky <ink@jurassic.park.msu.ru>,
-        Ingo Molnar <mingo@redhat.com>, Arnd Bergmann <arnd@arndb.de>,
-        Florian Fainelli <f.fainelli@gmail.com>,
-        Chris Down <chris@chrisdown.name>,
-        Nicholas Piggin <npiggin@gmail.com>,
-        Christophe Leroy <christophe.leroy@csgroup.eu>,
-        "H. Peter Anvin" <hpa@zytor.com>,
-        Thomas Gleixner <tglx@linutronix.de>
-Date:   Sat, 15 Apr 2023 04:17:19 -0700
-Message-ID: <168155718437.13678.714141668943813263.stgit@skinsburskii.localdomain>
+        Matt Turner <mattst88@gmail.com>,
+        Arnd Bergmann <arnd@arndb.de>,
+        Geert Uytterhoeven <geert@linux-m68k.org>,
+        Linus Walleij <linus.walleij@linaro.org>,
+        Stanislav Kinsburskii <stanislav.kinsburskii@gmail.com>,
+        Michael Ellerman <mpe@ellerman.id.au>,
+        Bjorn Helgaas <bhelgaas@google.com>,
+        linux-alpha@vger.kernel.org, linux-kernel@vger.kernel.org
+Date:   Sat, 15 Apr 2023 04:17:31 -0700
+Message-ID: <168155745118.13678.3878958755096151716.stgit@skinsburskii.localdomain>
+In-Reply-To: <168155718437.13678.714141668943813263.stgit@skinsburskii.localdomain>
+References: <168155718437.13678.714141668943813263.stgit@skinsburskii.localdomain>
 User-Agent: StGit/0.19
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
@@ -73,36 +60,62 @@ Precedence: bulk
 List-ID: <linux-alpha.vger.kernel.org>
 X-Mailing-List: linux-alpha@vger.kernel.org
 
-This series is aimed to address compilation warnings when a constant pointer
-is passed to virt_to_phys and isa_virt_to_bus functions:
+From: Stanislav Kinsburskii <stanislav.kinsburskii@gmail.com>
+
+These two helper functions - virt_to_phys and isa_virt_to_bus - don't need the
+address pointer to be mutable.
+
+In the same time expecting it to be mutable leads to the following build
+warning for constant pointers:
 
   warning: passing argument 1 of ‘virt_to_phys’ discards ‘const’ qualifier from pointer target type
-  warning: passing argument 1 of ‘isa_virt_to_bus’ discards ‘const’ qualifier from pointer target type
 
-The change(s) is the same for all architectures, but it's split into a series on
-per-arch basis to simplify applying and testing on the maintainers side.
-
-The following series implements...
-
+Signed-off-by: Stanislav Kinsburskii <stanislav.kinsburskii@gmail.com>
+CC: Richard Henderson <richard.henderson@linaro.org>
+CC: Ivan Kokshaysky <ink@jurassic.park.msu.ru>
+CC: Matt Turner <mattst88@gmail.com>
+CC: Arnd Bergmann <arnd@arndb.de>
+CC: Geert Uytterhoeven <geert@linux-m68k.org>
+CC: Linus Walleij <linus.walleij@linaro.org>
+CC: Stanislav Kinsburskii <stanislav.kinsburskii@gmail.com>
+CC: Michael Ellerman <mpe@ellerman.id.au>
+CC: Bjorn Helgaas <bhelgaas@google.com>
+CC: linux-alpha@vger.kernel.org
+CC: linux-kernel@vger.kernel.org
 ---
+ arch/alpha/include/asm/io.h |    6 +++---
+ 1 file changed, 3 insertions(+), 3 deletions(-)
 
-Stanislav Kinsburskii (7):
-      x86: asm/io.h: Expect immutable pointer in virt_to_phys/isa_virt_to_bus prototypes
-      alpha: asm/io.h: Expect immutable pointer in virt_to_phys/isa_virt_to_bus prototypes
-      mips: asm/io.h: Expect immutable pointer in isa_virt_to_bus prototype
-      hexagon: asm/io.h: Expect immutable pointer in virt_to_phys prototype
-      ia64: asm/io.h: Expect immutable pointer in virt_to_phys prototype
-      powerpc: asm/io.h: Expect immutable pointer in virt_to_phys prototype
-      asm-generic/io.h: Expect immutable pointer in virt_to_phys
-
-
- arch/alpha/include/asm/io.h   |    6 +++---
- arch/hexagon/include/asm/io.h |    2 +-
- arch/ia64/include/asm/io.h    |    2 +-
- arch/mips/include/asm/io.h    |    2 +-
- arch/powerpc/include/asm/io.h |    2 +-
- arch/x86/include/asm/io.h     |    4 ++--
- include/asm-generic/io.h      |    2 +-
- 7 files changed, 10 insertions(+), 10 deletions(-)
+diff --git a/arch/alpha/include/asm/io.h b/arch/alpha/include/asm/io.h
+index 7aeaf7c30a6f..0e2016537bd3 100644
+--- a/arch/alpha/include/asm/io.h
++++ b/arch/alpha/include/asm/io.h
+@@ -56,7 +56,7 @@ extern inline void set_hae(unsigned long new_hae)
+  * Change virtual addresses to physical addresses and vv.
+  */
+ #ifdef USE_48_BIT_KSEG
+-static inline unsigned long virt_to_phys(volatile void *address)
++static inline unsigned long virt_to_phys(const volatile void *address)
+ {
+ 	return (unsigned long)address - IDENT_ADDR;
+ }
+@@ -66,7 +66,7 @@ static inline void * phys_to_virt(unsigned long address)
+ 	return (void *) (address + IDENT_ADDR);
+ }
+ #else
+-static inline unsigned long virt_to_phys(volatile void *address)
++static inline unsigned long virt_to_phys(const volatile void *address)
+ {
+         unsigned long phys = (unsigned long)address;
+ 
+@@ -104,7 +104,7 @@ static inline void * phys_to_virt(unsigned long address)
+ extern unsigned long __direct_map_base;
+ extern unsigned long __direct_map_size;
+ 
+-static inline unsigned long __deprecated isa_virt_to_bus(volatile void *address)
++static inline unsigned long __deprecated isa_virt_to_bus(const volatile void *address)
+ {
+ 	unsigned long phys = virt_to_phys(address);
+ 	unsigned long bus = phys + __direct_map_base;
 
 
