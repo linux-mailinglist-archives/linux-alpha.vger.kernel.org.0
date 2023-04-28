@@ -2,120 +2,135 @@ Return-Path: <linux-alpha-owner@vger.kernel.org>
 X-Original-To: lists+linux-alpha@lfdr.de
 Delivered-To: lists+linux-alpha@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 119686F0B22
-	for <lists+linux-alpha@lfdr.de>; Thu, 27 Apr 2023 19:42:26 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id C95316F12A4
+	for <lists+linux-alpha@lfdr.de>; Fri, 28 Apr 2023 09:43:54 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S244503AbjD0RmY (ORCPT <rfc822;lists+linux-alpha@lfdr.de>);
-        Thu, 27 Apr 2023 13:42:24 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48730 "EHLO
+        id S1345770AbjD1Hnw (ORCPT <rfc822;lists+linux-alpha@lfdr.de>);
+        Fri, 28 Apr 2023 03:43:52 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48904 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S244449AbjD0RmS (ORCPT
+        with ESMTP id S1345641AbjD1Hng (ORCPT
         <rfc822;linux-alpha@vger.kernel.org>);
-        Thu, 27 Apr 2023 13:42:18 -0400
-Received: from linux.microsoft.com (linux.microsoft.com [13.77.154.182])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTP id B40EA3584;
-        Thu, 27 Apr 2023 10:42:04 -0700 (PDT)
-Received: from skinsburskii.localdomain (c-67-170-100-148.hsd1.wa.comcast.net [67.170.100.148])
-        by linux.microsoft.com (Postfix) with ESMTPSA id 1256821C33E2;
-        Thu, 27 Apr 2023 10:42:04 -0700 (PDT)
-DKIM-Filter: OpenDKIM Filter v2.11.0 linux.microsoft.com 1256821C33E2
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.microsoft.com;
-        s=default; t=1682617324;
-        bh=y5FKETkcR5bJeA05EuMUf08/uW3fzemI0xL6hftJZ0w=;
-        h=Subject:From:Cc:Date:In-Reply-To:References:From;
-        b=I81ONq4flDFybAHDmcdEBwB18AgoI8OINU6R4Az6WvVIVzocvmY/pieHzLajTdhKo
-         HA0Dp+jT2ScUGmry+Oi6xup26Stlv/BVUUj8EZqzcf+c26o+ieBPHo+PXorzzsW/Y4
-         ltVQ+ERLydTb/l5zHlX3TcVCAlUq35bKUAjZ5cSk=
-Subject: [PATCH 2/7] alpha: asm/io.h: Expect immutable pointer in
- virt_to_phys/isa_virt_to_bus prototypes
-From:   Stanislav Kinsburskii <skinsburskii@linux.microsoft.com>
-Cc:     Stanislav Kinsburskii <stanislav.kinsburskii@gmail.com>,
-        Richard Henderson <richard.henderson@linaro.org>,
-        Ivan Kokshaysky <ink@jurassic.park.msu.ru>,
-        Matt Turner <mattst88@gmail.com>,
-        Arnd Bergmann <arnd@arndb.de>,
-        Geert Uytterhoeven <geert@linux-m68k.org>,
-        Linus Walleij <linus.walleij@linaro.org>,
-        Stanislav Kinsburskii <stanislav.kinsburskii@gmail.com>,
-        Michael Ellerman <mpe@ellerman.id.au>,
-        Bjorn Helgaas <bhelgaas@google.com>,
-        linux-alpha@vger.kernel.org, linux-kernel@vger.kernel.org
-Date:   Sat, 15 Apr 2023 04:17:31 -0700
-Message-ID: <168155745118.13678.3878958755096151716.stgit@skinsburskii.localdomain>
+        Fri, 28 Apr 2023 03:43:36 -0400
+Received: from wout3-smtp.messagingengine.com (wout3-smtp.messagingengine.com [64.147.123.19])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 39D015FC0;
+        Fri, 28 Apr 2023 00:42:35 -0700 (PDT)
+Received: from compute6.internal (compute6.nyi.internal [10.202.2.47])
+        by mailout.west.internal (Postfix) with ESMTP id 615423200319;
+        Fri, 28 Apr 2023 03:41:39 -0400 (EDT)
+Received: from imap51 ([10.202.2.101])
+  by compute6.internal (MEProxy); Fri, 28 Apr 2023 03:41:41 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=arndb.de; h=cc
+        :cc:content-transfer-encoding:content-type:content-type:date
+        :date:from:from:in-reply-to:in-reply-to:message-id:mime-version
+        :references:reply-to:sender:subject:subject:to:to; s=fm2; t=
+        1682667698; x=1682754098; bh=IpndvKPF8+ZBYjcJVQBy1hma252/YYop7a9
+        JdT/8deI=; b=DclSOfxipXonjr10Zfze2g04tEcMacCmPEMQj9KSUXPgBjVvL3b
+        MQo6fuWFJzT27nHJRs74jQBGwTtn2n2KHu5aTUjHmlrE0229hVE5oHF9yZDkS3ew
+        p1PmAZmZsXTagjeqlDcNnPsWoMKrE3WDRUgwOnllR2Mxd40mEjio8JDSoZrBhcLY
+        EpF/qnQ//QXfqOClL6sTo+6QcKph0TMZrseOTG+p/07lIk+CJDRuw9l1QbbyGXjO
+        Eb35nUJHmU87iS3+aXTcjIEw3yWT1ZcEtVJ4ScA81na/2JXShjG0jXm+bNsByN9H
+        0auAMaDbwZPPaqpkQeZO7SI/+wjiURWUsIw==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+        messagingengine.com; h=cc:cc:content-transfer-encoding
+        :content-type:content-type:date:date:feedback-id:feedback-id
+        :from:from:in-reply-to:in-reply-to:message-id:mime-version
+        :references:reply-to:sender:subject:subject:to:to:x-me-proxy
+        :x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm3; t=
+        1682667698; x=1682754098; bh=IpndvKPF8+ZBYjcJVQBy1hma252/YYop7a9
+        JdT/8deI=; b=ZK/ac6fyNoZWTXPXbTwDD4R131otN5WDVVkeFrFt0hh+B+HJxI8
+        X1G/CekMUpexmmrmmtZG9J6nlcBpYM2so1ttFbssFuvmAd/ypJumITr52uxj1kqy
+        Zy5c2xC/bhpYC6ggOg+MvqevGn68/zmzyOJ/3I3FVAlKSomAD5e4Rd6yFIqBKGoS
+        hfpNiJGqsm98wDNSPOSseTUhCzwwWb6vjvWT3xqdwN747++XNPbtRAEMqvBh4uIw
+        8a5wbLZI4Yp1uAxenqy8Yq0fZoWyfdJOOTsgpDQXZZOenD4BGJ/pbNjPRx5NNA7H
+        eRdIwS64tODrt1vngpa6XkfH9l9gVEeJE5g==
+X-ME-Sender: <xms:sXhLZC_w2Ek7ASHPBn9INJdoLclKFnb0_xbl3lC3xmLCPyKQXxk-BA>
+    <xme:sXhLZCuacs7cUiWYO0nEuiBYqB32l5BX1MLYeiBEMcK-fUP18Owr4Xr3Py6CFXhZd
+    _Jcbs_IxCTeOMDCEhI>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvhedrfedujedguddvhecutefuodetggdotefrod
+    ftvfcurfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfgh
+    necuuegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmd
+    enucfjughrpefofgggkfgjfhffhffvvefutgfgsehtqhertderreejnecuhfhrohhmpedf
+    tehrnhguuceuvghrghhmrghnnhdfuceorghrnhgusegrrhhnuggsrdguvgeqnecuggftrf
+    grthhtvghrnhepgeefjeehvdelvdffieejieejiedvvdfhleeivdelveehjeelteegudek
+    tdfgjeevnecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmrghilhhfrhhomh
+    eprghrnhgusegrrhhnuggsrdguvg
+X-ME-Proxy: <xmx:sXhLZICeUj5YmbBGBf_2m0H6PdWJkxUh3cvjU_9w54cXtxEeD9Uaeg>
+    <xmx:sXhLZKfodyYkaB9AElovPFxDfwUHR8mUJf5ooIYAhxFkIsxA5POH_w>
+    <xmx:sXhLZHPdS6QKadaKE8YtYrFaIvC03TvHzezzcglBLhUn06N1drpMBQ>
+    <xmx:snhLZPb3qpLzi_KGSCW3CvjqMT17lW441eMUaxBX-rqa1NYZ3zdyZQ>
+Feedback-ID: i56a14606:Fastmail
+Received: by mailuser.nyi.internal (Postfix, from userid 501)
+        id 1B945B60086; Fri, 28 Apr 2023 03:41:37 -0400 (EDT)
+X-Mailer: MessagingEngine.com Webmail Interface
+User-Agent: Cyrus-JMAP/3.9.0-alpha0-374-g72c94f7a42-fm-20230417.001-g72c94f7a
+Mime-Version: 1.0
+Message-Id: <52dd950a-e714-4ebe-a663-4e0ec6463d03@app.fastmail.com>
 In-Reply-To: <168155718437.13678.714141668943813263.stgit@skinsburskii.localdomain>
 References: <168155718437.13678.714141668943813263.stgit@skinsburskii.localdomain>
-User-Agent: StGit/0.19
-MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=-15.4 required=5.0 tests=BAYES_00,DATE_IN_PAST_96_XX,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,ENV_AND_HDR_SPF_MATCH,
-        MISSING_HEADERS,RCVD_IN_DNSWL_MED,SPF_HELO_PASS,SPF_PASS,
-        T_SCC_BODY_TEXT_LINE,USER_IN_DEF_DKIM_WL,USER_IN_DEF_SPF_WL
-        autolearn=no autolearn_force=no version=3.4.6
+Date:   Fri, 28 Apr 2023 08:40:51 +0100
+From:   "Arnd Bergmann" <arnd@arndb.de>
+To:     "Stanislav Kinsburskii" <skinsburskii@linux.microsoft.com>
+Cc:     "Matt Turner" <mattst88@gmail.com>, x86@kernel.org,
+        "Stanislav Kinsburskii" <stanislav.kinsburskii@gmail.com>,
+        "Borislav Petkov" <bp@alien8.de>, linux-ia64@vger.kernel.org,
+        "Mark Brown" <broonie@kernel.org>,
+        "Richard Henderson" <richard.henderson@linaro.org>,
+        linux-kernel@vger.kernel.org, "Brian Cain" <bcain@quicinc.com>,
+        linux-mips@vger.kernel.org,
+        "Geert Uytterhoeven" <geert@linux-m68k.org>,
+        linux-alpha@vger.kernel.org,
+        Linux-Arch <linux-arch@vger.kernel.org>,
+        "Michael Ellerman" <mpe@ellerman.id.au>,
+        "Linus Walleij" <linus.walleij@linaro.org>,
+        "Jiaxun Yang" <jiaxun.yang@flygoat.com>,
+        "Bjorn Helgaas" <bhelgaas@google.com>,
+        "Andrew Morton" <akpm@linux-foundation.org>,
+        "Dave Hansen" <dave.hansen@linux.intel.com>,
+        "Omar Sandoval" <osandov@fb.com>, "Helge Deller" <deller@gmx.de>,
+        linuxppc-dev@lists.ozlabs.org, linux-hexagon@vger.kernel.org,
+        "Thomas Bogendoerfer" <tsbogend@alpha.franken.de>,
+        "Ivan Kokshaysky" <ink@jurassic.park.msu.ru>,
+        "Ingo Molnar" <mingo@redhat.com>,
+        "Florian Fainelli" <f.fainelli@gmail.com>,
+        "Chris Down" <chris@chrisdown.name>,
+        "Nicholas Piggin" <npiggin@gmail.com>,
+        "Christophe Leroy" <christophe.leroy@csgroup.eu>,
+        "H. Peter Anvin" <hpa@zytor.com>,
+        "Thomas Gleixner" <tglx@linutronix.de>
+Subject: Re: [PATCH 0/7] Expect immutable pointer in virt_to_phys/isa_virt_to_bus
+ prototypes
+Content-Type: text/plain;charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+X-Spam-Status: No, score=-2.8 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_LOW,SPF_HELO_PASS,
+        SPF_PASS,T_SCC_BODY_TEXT_LINE,URIBL_BLOCKED autolearn=ham
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
-To:     unlisted-recipients:; (no To-header on input)
 Precedence: bulk
 List-ID: <linux-alpha.vger.kernel.org>
 X-Mailing-List: linux-alpha@vger.kernel.org
 
-From: Stanislav Kinsburskii <stanislav.kinsburskii@gmail.com>
+On Sat, Apr 15, 2023, at 12:17, Stanislav Kinsburskii wrote:
+> This series is aimed to address compilation warnings when a constant p=
+ointer
+> is passed to virt_to_phys and isa_virt_to_bus functions:
+>
+>   warning: passing argument 1 of =E2=80=98virt_to_phys=E2=80=99 discar=
+ds =E2=80=98const=E2=80=99=20
+> qualifier from pointer target type
+>   warning: passing argument 1 of =E2=80=98isa_virt_to_bus=E2=80=99 dis=
+cards =E2=80=98const=E2=80=99=20
+> qualifier from pointer target type
+>
+> The change(s) is the same for all architectures, but it's split into a=
+ series on
+> per-arch basis to simplify applying and testing on the maintainers sid=
+e.
+>
 
-These two helper functions - virt_to_phys and isa_virt_to_bus - don't need the
-address pointer to be mutable.
+Looks all good to me. If everyone is happy with it, I'll queue it up
+after in the asm-generic tree for 6.5, once rc1 is out.
 
-In the same time expecting it to be mutable leads to the following build
-warning for constant pointers:
-
-  warning: passing argument 1 of ‘virt_to_phys’ discards ‘const’ qualifier from pointer target type
-
-Signed-off-by: Stanislav Kinsburskii <stanislav.kinsburskii@gmail.com>
-CC: Richard Henderson <richard.henderson@linaro.org>
-CC: Ivan Kokshaysky <ink@jurassic.park.msu.ru>
-CC: Matt Turner <mattst88@gmail.com>
-CC: Arnd Bergmann <arnd@arndb.de>
-CC: Geert Uytterhoeven <geert@linux-m68k.org>
-CC: Linus Walleij <linus.walleij@linaro.org>
-CC: Stanislav Kinsburskii <stanislav.kinsburskii@gmail.com>
-CC: Michael Ellerman <mpe@ellerman.id.au>
-CC: Bjorn Helgaas <bhelgaas@google.com>
-CC: linux-alpha@vger.kernel.org
-CC: linux-kernel@vger.kernel.org
----
- arch/alpha/include/asm/io.h |    6 +++---
- 1 file changed, 3 insertions(+), 3 deletions(-)
-
-diff --git a/arch/alpha/include/asm/io.h b/arch/alpha/include/asm/io.h
-index 7aeaf7c30a6f..0e2016537bd3 100644
---- a/arch/alpha/include/asm/io.h
-+++ b/arch/alpha/include/asm/io.h
-@@ -56,7 +56,7 @@ extern inline void set_hae(unsigned long new_hae)
-  * Change virtual addresses to physical addresses and vv.
-  */
- #ifdef USE_48_BIT_KSEG
--static inline unsigned long virt_to_phys(volatile void *address)
-+static inline unsigned long virt_to_phys(const volatile void *address)
- {
- 	return (unsigned long)address - IDENT_ADDR;
- }
-@@ -66,7 +66,7 @@ static inline void * phys_to_virt(unsigned long address)
- 	return (void *) (address + IDENT_ADDR);
- }
- #else
--static inline unsigned long virt_to_phys(volatile void *address)
-+static inline unsigned long virt_to_phys(const volatile void *address)
- {
-         unsigned long phys = (unsigned long)address;
- 
-@@ -104,7 +104,7 @@ static inline void * phys_to_virt(unsigned long address)
- extern unsigned long __direct_map_base;
- extern unsigned long __direct_map_size;
- 
--static inline unsigned long __deprecated isa_virt_to_bus(volatile void *address)
-+static inline unsigned long __deprecated isa_virt_to_bus(const volatile void *address)
- {
- 	unsigned long phys = virt_to_phys(address);
- 	unsigned long bus = phys + __direct_map_base;
-
-
+ Arnd
