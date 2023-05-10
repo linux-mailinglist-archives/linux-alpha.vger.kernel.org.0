@@ -2,126 +2,239 @@ Return-Path: <linux-alpha-owner@vger.kernel.org>
 X-Original-To: lists+linux-alpha@lfdr.de
 Delivered-To: lists+linux-alpha@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 264BD6FCDA3
-	for <lists+linux-alpha@lfdr.de>; Tue,  9 May 2023 20:21:31 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id DFE226FE4AF
+	for <lists+linux-alpha@lfdr.de>; Wed, 10 May 2023 21:58:12 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234478AbjEISV2 (ORCPT <rfc822;lists+linux-alpha@lfdr.de>);
-        Tue, 9 May 2023 14:21:28 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46564 "EHLO
+        id S235944AbjEJT6L (ORCPT <rfc822;lists+linux-alpha@lfdr.de>);
+        Wed, 10 May 2023 15:58:11 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39818 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229543AbjEISV1 (ORCPT
-        <rfc822;linux-alpha@vger.kernel.org>); Tue, 9 May 2023 14:21:27 -0400
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 327EF4C2D;
-        Tue,  9 May 2023 11:21:25 -0700 (PDT)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id BB6FA6132C;
-        Tue,  9 May 2023 18:21:24 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id AE77FC433EF;
-        Tue,  9 May 2023 18:21:23 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1683656484;
-        bh=wTrGWZ/prXac+ksuuHC0df7jUrXSG9zBg0tuZm4eZAk=;
-        h=Date:From:To:Cc:Subject:In-Reply-To:From;
-        b=eWEhqVADxc/GqJSwXnOQ3JLmV9EVm67GRKXU/8kCH+e7bYAn4tbjZ8OZRHVaX3ZcO
-         S0xv0AhCQd5NINM++YJU/lVWNxRqARJ2JdTZgkf8DKQ/aBVDAb43Y4DpvrsggmiDhc
-         VLuK4RypC1++gIMHtYJwDcVU3u+My56Q4IZYK0at1LgOku1qb8yZmqculMrILZXTXZ
-         neG8vnzAeERR8/VCvqWmCzd1JtSknWdohvz8yYije8I6fBKpAtZuUigoK/yqxiyRiQ
-         4E280Lp7b1rI5aQ6wbmUv7nAdHleWjJ8JY7/fVD00VEW304Ke/w4PCv+lqMsKKDnXi
-         XzOdVIUpJ2dRg==
-Date:   Tue, 9 May 2023 13:21:22 -0500
-From:   Bjorn Helgaas <helgaas@kernel.org>
-To:     Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-Cc:     Krzysztof =?utf-8?Q?Wilczy=C5=84ski?= <kw@linux.com>,
-        Rich Felker <dalias@libc.org>, linux-sh@vger.kernel.org,
-        linux-pci@vger.kernel.org,
-        Dominik Brodowski <linux@dominikbrodowski.net>,
-        linux-mips@vger.kernel.org, Bjorn Helgaas <bhelgaas@google.com>,
-        Andrew Lunn <andrew@lunn.ch>, sparclinux@vger.kernel.org,
-        Stefano Stabellini <sstabellini@kernel.org>,
-        Yoshinori Sato <ysato@users.sourceforge.jp>,
-        Gregory Clement <gregory.clement@bootlin.com>,
-        "Rafael J. Wysocki" <rafael.j.wysocki@intel.com>,
-        Russell King <linux@armlinux.org.uk>,
-        linux-acpi@vger.kernel.org, Miguel Ojeda <ojeda@kernel.org>,
-        xen-devel@lists.xenproject.org, Matt Turner <mattst88@gmail.com>,
-        Anatolij Gustschin <agust@denx.de>,
-        Sebastian Hesselbarth <sebastian.hesselbarth@gmail.com>,
-        Arnd Bergmann <arnd@arndb.de>,
-        Niklas Schnelle <schnelle@linux.ibm.com>,
-        Richard Henderson <richard.henderson@linaro.org>,
-        Nicholas Piggin <npiggin@gmail.com>,
-        Ivan Kokshaysky <ink@jurassic.park.msu.ru>,
-        John Paul Adrian Glaubitz <glaubitz@physik.fu-berlin.de>,
-        =?iso-8859-1?Q?Micka=EBl_Sala=FCn?= <mic@digikod.net>,
-        Mika Westerberg <mika.westerberg@linux.intel.com>,
-        linux-arm-kernel@lists.infradead.org,
-        Juergen Gross <jgross@suse.com>,
-        Thomas Bogendoerfer <tsbogend@alpha.franken.de>,
-        Philippe =?iso-8859-1?Q?Mathieu-Daud=E9?= <philmd@linaro.org>,
-        Pali =?iso-8859-1?Q?Roh=E1r?= <pali@kernel.org>,
-        Randy Dunlap <rdunlap@infradead.org>,
-        linux-kernel@vger.kernel.org,
-        Oleksandr Tyshchenko <oleksandr_tyshchenko@epam.com>,
-        linux-alpha@vger.kernel.org, linuxppc-dev@lists.ozlabs.org,
-        "David S. Miller" <davem@davemloft.net>,
-        "Maciej W. Rozycki" <macro@orcam.me.uk>
-Subject: Re: [PATCH v8 0/7] Add pci_dev_for_each_resource() helper and update
- users
-Message-ID: <20230509182122.GA1259567@bhelgaas>
+        with ESMTP id S229521AbjEJT6K (ORCPT
+        <rfc822;linux-alpha@vger.kernel.org>);
+        Wed, 10 May 2023 15:58:10 -0400
+Received: from mail-pj1-x102d.google.com (mail-pj1-x102d.google.com [IPv6:2607:f8b0:4864:20::102d])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 28C0944B0;
+        Wed, 10 May 2023 12:58:08 -0700 (PDT)
+Received: by mail-pj1-x102d.google.com with SMTP id 98e67ed59e1d1-250175762b8so6631574a91.1;
+        Wed, 10 May 2023 12:58:08 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20221208; t=1683748687; x=1686340687;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=vrx8jUkYApu9SW/+pw7TCUy5jAaSOx8fwCfGK3LodVQ=;
+        b=cNfvtEg/+MJREEIXc8i2FMKkB0WQkc8kpFbwpZNegWdKFWhI58Qu/5Dl6RY7rgClL4
+         ZbYJQlMaYc0ZZ4jAT4kdrCSxEfW+oyjRgQfhHQslvIttyNP5nQZeoJBIIUhewaZckeSp
+         z8hazt7Ua+tZUeFQuzfskcMu+XGsjLGkjQh287f04HkoakF+uOYzSwLzxZ9SMJO4cnPQ
+         3Y3JRXTLDBR13s7sYYCbFO9CMg+P65shwNk0pyrlFSa1gBBrYKcfrOjOq7Lt8PMrNl3B
+         v5V21g/ZbP1FhaLsWju2CINDJaf9dRcGpqievi+vxLnE2g5yf5n+B1HL7WvJugoJcZz7
+         /qvw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20221208; t=1683748687; x=1686340687;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=vrx8jUkYApu9SW/+pw7TCUy5jAaSOx8fwCfGK3LodVQ=;
+        b=Q6P5Lpsr4Qo+zT5AIN7cN4klDIewOu3TWrUNs9PEeyT4U+p3h53w89AxW/rLtkfvZi
+         5I9vyUluLBBT6jP/M3V/dDW0qdAgQ9DwRKDktcO3CSNS9BpfDS6MqnvQ6Kdzgvjl935v
+         pCkpVzGFztdf81/NnekEe9glVgvKhlq+lizOCwoItMWFvJ4wsk9rHSgYzJc7ok6UVWBc
+         tXxHXtk20kCeb9Q44TYP+8p0S7qdrOCUUDPpxbGf+6cAxlN6PdKjaABzml8YyjHR3Lva
+         nXqZw0u/tAG2xACTKfIBIpap6fIyVjtu+/RCaTrjkrwsLH2yaqqsnoj+RuxPsPeOc8km
+         o/3w==
+X-Gm-Message-State: AC+VfDxbvcpCPnhPAXBp7Xt6DTOmwCvUVOO5YT1j0w6uUHMJKPEUVJHD
+        pN+KAhzzACpJz1NZUslnBoA=
+X-Google-Smtp-Source: ACHHUZ5hK9VGUuyMmTnmAQ9kmEZlouRZGOv1NQBM2ITyyig1tB1tBZEus8BNk0FQqRn/fXp2f9PNIw==
+X-Received: by 2002:a17:90b:b85:b0:24b:a5b6:e866 with SMTP id bd5-20020a17090b0b8500b0024ba5b6e866mr19822621pjb.24.1683748687406;
+        Wed, 10 May 2023 12:58:07 -0700 (PDT)
+Received: from localhost (fwdproxy-prn-118.fbsv.net. [2a03:2880:ff:76::face:b00c])
+        by smtp.gmail.com with ESMTPSA id 191-20020a6305c8000000b004e28be19d1csm3601518pgf.32.2023.05.10.12.58.06
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 10 May 2023 12:58:07 -0700 (PDT)
+From:   Nhat Pham <nphamcs@gmail.com>
+To:     akpm@linux-foundation.org
+Cc:     linux-mm@kvack.org, linux-api@vger.kernel.org,
+        kernel-team@meta.com, linux-arch@vger.kernel.org,
+        hannes@cmpxchg.org, richard.henderson@linaro.org,
+        ink@jurassic.park.msu.ru, mattst88@gmail.com,
+        linux@armlinux.org.uk, geert@linux-m68k.org, monstr@monstr.eu,
+        tsbogend@alpha.franken.de, James.Bottomley@HansenPartnership.com,
+        deller@gmx.de, mpe@ellerman.id.au, npiggin@gmail.com,
+        christophe.leroy@csgroup.eu, hca@linux.ibm.com, gor@linux.ibm.com,
+        agordeev@linux.ibm.com, borntraeger@linux.ibm.com,
+        svens@linux.ibm.com, ysato@users.sourceforge.jp, dalias@libc.org,
+        glaubitz@physik.fu-berlin.de, davem@davemloft.net,
+        chris@zankel.net, jcmvbkbc@gmail.com, linux-alpha@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+        linux-ia64@vger.kernel.org, linux-m68k@lists.linux-m68k.org,
+        linux-mips@vger.kernel.org, linux-parisc@vger.kernel.org,
+        linuxppc-dev@lists.ozlabs.org, linux-s390@vger.kernel.org,
+        linux-sh@vger.kernel.org, sparclinux@vger.kernel.org
+Subject: [PATCH] cachestat: wire up cachestat for other architectures
+Date:   Wed, 10 May 2023 12:58:06 -0700
+Message-Id: <20230510195806.2902878-1-nphamcs@gmail.com>
+X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20230404161101.GA3554747@bhelgaas>
-X-Spam-Status: No, score=-4.4 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,
-        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham
-        autolearn_force=no version=3.4.6
+Content-Transfer-Encoding: 8bit
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
+        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE
+        autolearn=unavailable autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-alpha.vger.kernel.org>
 X-Mailing-List: linux-alpha@vger.kernel.org
 
-On Tue, Apr 04, 2023 at 11:11:01AM -0500, Bjorn Helgaas wrote:
-> On Thu, Mar 30, 2023 at 07:24:27PM +0300, Andy Shevchenko wrote:
-> > Provide two new helper macros to iterate over PCI device resources and
-> > convert users.
+cachestat is previously only wired in for x86 (and architectures using
+the generic unistd.h table):
 
-> Applied 2-7 to pci/resource for v6.4, thanks, I really like this!
+https://lore.kernel.org/lkml/20230503013608.2431726-1-nphamcs@gmail.com/
 
-This is 09cc90063240 ("PCI: Introduce pci_dev_for_each_resource()")
-upstream now.
+This patch wires cachestat in for all the other architectures.
 
-Coverity complains about each use, sample below from
-drivers/pci/vgaarb.c.  I didn't investigate at all, so it might be a
-false positive; just FYI.
+Signed-off-by: Nhat Pham <nphamcs@gmail.com>
+---
+ arch/alpha/kernel/syscalls/syscall.tbl      | 1 +
+ arch/arm/tools/syscall.tbl                  | 1 +
+ arch/ia64/kernel/syscalls/syscall.tbl       | 1 +
+ arch/m68k/kernel/syscalls/syscall.tbl       | 1 +
+ arch/microblaze/kernel/syscalls/syscall.tbl | 1 +
+ arch/mips/kernel/syscalls/syscall_n32.tbl   | 1 +
+ arch/mips/kernel/syscalls/syscall_n64.tbl   | 1 +
+ arch/mips/kernel/syscalls/syscall_o32.tbl   | 1 +
+ arch/parisc/kernel/syscalls/syscall.tbl     | 1 +
+ arch/powerpc/kernel/syscalls/syscall.tbl    | 1 +
+ arch/s390/kernel/syscalls/syscall.tbl       | 1 +
+ arch/sh/kernel/syscalls/syscall.tbl         | 1 +
+ arch/sparc/kernel/syscalls/syscall.tbl      | 1 +
+ arch/xtensa/kernel/syscalls/syscall.tbl     | 1 +
+ 14 files changed, 14 insertions(+)
 
-	  1. Condition screen_info.capabilities & (2U /* 1 << 1 */), taking true branch.
-  556        if (screen_info.capabilities & VIDEO_CAPABILITY_64BIT_BASE)
-  557                base |= (u64)screen_info.ext_lfb_base << 32;
-  558
-  559        limit = base + size;
-  560
-  561        /* Does firmware framebuffer belong to us? */
-	  2. Condition __b < PCI_NUM_RESOURCES, taking true branch.
-	  3. Condition (r = &pdev->resource[__b]) , (__b < PCI_NUM_RESOURCES), taking true branch.
-	  6. Condition __b < PCI_NUM_RESOURCES, taking true branch.
-	  7. cond_at_most: Checking __b < PCI_NUM_RESOURCES implies that __b may be up to 16 on the true branch.
-	  8. Condition (r = &pdev->resource[__b]) , (__b < PCI_NUM_RESOURCES), taking true branch.
-	  11. incr: Incrementing __b. The value of __b may now be up to 17.
-	  12. alias: Assigning: r = &pdev->resource[__b]. r may now point to as high as element 17 of pdev->resource (which consists of 17 64-byte elements).
-	  13. Condition __b < PCI_NUM_RESOURCES, taking true branch.
-	  14. Condition (r = &pdev->resource[__b]) , (__b < PCI_NUM_RESOURCES), taking true branch.
-  562        pci_dev_for_each_resource(pdev, r) {
-	  4. Condition resource_type(r) != 512, taking true branch.
-	  9. Condition resource_type(r) != 512, taking true branch.
+diff --git a/arch/alpha/kernel/syscalls/syscall.tbl b/arch/alpha/kernel/syscalls/syscall.tbl
+index 8ebacf37a8cf..1f13995d00d7 100644
+--- a/arch/alpha/kernel/syscalls/syscall.tbl
++++ b/arch/alpha/kernel/syscalls/syscall.tbl
+@@ -490,3 +490,4 @@
+ 558	common	process_mrelease		sys_process_mrelease
+ 559	common  futex_waitv                     sys_futex_waitv
+ 560	common	set_mempolicy_home_node		sys_ni_syscall
++561	common	cachestat			sys_cachestat
+diff --git a/arch/arm/tools/syscall.tbl b/arch/arm/tools/syscall.tbl
+index ac964612d8b0..8ebed8a13874 100644
+--- a/arch/arm/tools/syscall.tbl
++++ b/arch/arm/tools/syscall.tbl
+@@ -464,3 +464,4 @@
+ 448	common	process_mrelease		sys_process_mrelease
+ 449	common	futex_waitv			sys_futex_waitv
+ 450	common	set_mempolicy_home_node		sys_set_mempolicy_home_node
++451	common	cachestat			sys_cachestat
+diff --git a/arch/ia64/kernel/syscalls/syscall.tbl b/arch/ia64/kernel/syscalls/syscall.tbl
+index 72c929d9902b..f8c74ffeeefb 100644
+--- a/arch/ia64/kernel/syscalls/syscall.tbl
++++ b/arch/ia64/kernel/syscalls/syscall.tbl
+@@ -371,3 +371,4 @@
+ 448	common	process_mrelease		sys_process_mrelease
+ 449	common  futex_waitv                     sys_futex_waitv
+ 450	common	set_mempolicy_home_node		sys_set_mempolicy_home_node
++451	common	cachestat			sys_cachestat
+diff --git a/arch/m68k/kernel/syscalls/syscall.tbl b/arch/m68k/kernel/syscalls/syscall.tbl
+index b1f3940bc298..4f504783371f 100644
+--- a/arch/m68k/kernel/syscalls/syscall.tbl
++++ b/arch/m68k/kernel/syscalls/syscall.tbl
+@@ -450,3 +450,4 @@
+ 448	common	process_mrelease		sys_process_mrelease
+ 449	common  futex_waitv                     sys_futex_waitv
+ 450	common	set_mempolicy_home_node		sys_set_mempolicy_home_node
++451	common	cachestat			sys_cachestat
+diff --git a/arch/microblaze/kernel/syscalls/syscall.tbl b/arch/microblaze/kernel/syscalls/syscall.tbl
+index 820145e47350..858d22bf275c 100644
+--- a/arch/microblaze/kernel/syscalls/syscall.tbl
++++ b/arch/microblaze/kernel/syscalls/syscall.tbl
+@@ -456,3 +456,4 @@
+ 448	common	process_mrelease		sys_process_mrelease
+ 449	common  futex_waitv                     sys_futex_waitv
+ 450	common	set_mempolicy_home_node		sys_set_mempolicy_home_node
++451	common	cachestat			sys_cachestat
+diff --git a/arch/mips/kernel/syscalls/syscall_n32.tbl b/arch/mips/kernel/syscalls/syscall_n32.tbl
+index 253ff994ed2e..1976317d4e8b 100644
+--- a/arch/mips/kernel/syscalls/syscall_n32.tbl
++++ b/arch/mips/kernel/syscalls/syscall_n32.tbl
+@@ -389,3 +389,4 @@
+ 448	n32	process_mrelease		sys_process_mrelease
+ 449	n32	futex_waitv			sys_futex_waitv
+ 450	n32	set_mempolicy_home_node		sys_set_mempolicy_home_node
++451	n32	cachestat			sys_cachestat
+diff --git a/arch/mips/kernel/syscalls/syscall_n64.tbl b/arch/mips/kernel/syscalls/syscall_n64.tbl
+index 3f1886ad9d80..cfda2511badf 100644
+--- a/arch/mips/kernel/syscalls/syscall_n64.tbl
++++ b/arch/mips/kernel/syscalls/syscall_n64.tbl
+@@ -365,3 +365,4 @@
+ 448	n64	process_mrelease		sys_process_mrelease
+ 449	n64	futex_waitv			sys_futex_waitv
+ 450	common	set_mempolicy_home_node		sys_set_mempolicy_home_node
++451	n64	cachestat			sys_cachestat
+diff --git a/arch/mips/kernel/syscalls/syscall_o32.tbl b/arch/mips/kernel/syscalls/syscall_o32.tbl
+index 8f243e35a7b2..7692234c3768 100644
+--- a/arch/mips/kernel/syscalls/syscall_o32.tbl
++++ b/arch/mips/kernel/syscalls/syscall_o32.tbl
+@@ -438,3 +438,4 @@
+ 448	o32	process_mrelease		sys_process_mrelease
+ 449	o32	futex_waitv			sys_futex_waitv
+ 450	o32	set_mempolicy_home_node		sys_set_mempolicy_home_node
++451	o32	cachestat			sys_cachestat
+diff --git a/arch/parisc/kernel/syscalls/syscall.tbl b/arch/parisc/kernel/syscalls/syscall.tbl
+index 0e42fceb2d5e..3c71fad78318 100644
+--- a/arch/parisc/kernel/syscalls/syscall.tbl
++++ b/arch/parisc/kernel/syscalls/syscall.tbl
+@@ -448,3 +448,4 @@
+ 448	common	process_mrelease		sys_process_mrelease
+ 449	common	futex_waitv			sys_futex_waitv
+ 450	common	set_mempolicy_home_node		sys_set_mempolicy_home_node
++451	common	cachestat			sys_cachestat
+diff --git a/arch/powerpc/kernel/syscalls/syscall.tbl b/arch/powerpc/kernel/syscalls/syscall.tbl
+index a0be127475b1..8c0b08b7a80e 100644
+--- a/arch/powerpc/kernel/syscalls/syscall.tbl
++++ b/arch/powerpc/kernel/syscalls/syscall.tbl
+@@ -537,3 +537,4 @@
+ 448	common	process_mrelease		sys_process_mrelease
+ 449	common  futex_waitv                     sys_futex_waitv
+ 450 	nospu	set_mempolicy_home_node		sys_set_mempolicy_home_node
++451	common	cachestat			sys_cachestat
+diff --git a/arch/s390/kernel/syscalls/syscall.tbl b/arch/s390/kernel/syscalls/syscall.tbl
+index 799147658dee..7df0329d46cb 100644
+--- a/arch/s390/kernel/syscalls/syscall.tbl
++++ b/arch/s390/kernel/syscalls/syscall.tbl
+@@ -453,3 +453,4 @@
+ 448  common	process_mrelease	sys_process_mrelease		sys_process_mrelease
+ 449  common	futex_waitv		sys_futex_waitv			sys_futex_waitv
+ 450  common	set_mempolicy_home_node	sys_set_mempolicy_home_node	sys_set_mempolicy_home_node
++451  common	cachestat		sys_cachestat			sys_cachestat
+diff --git a/arch/sh/kernel/syscalls/syscall.tbl b/arch/sh/kernel/syscalls/syscall.tbl
+index 2de85c977f54..97377e8c5025 100644
+--- a/arch/sh/kernel/syscalls/syscall.tbl
++++ b/arch/sh/kernel/syscalls/syscall.tbl
+@@ -453,3 +453,4 @@
+ 448	common	process_mrelease		sys_process_mrelease
+ 449	common  futex_waitv                     sys_futex_waitv
+ 450	common	set_mempolicy_home_node		sys_set_mempolicy_home_node
++451	common	cachestat			sys_cachestat
+diff --git a/arch/sparc/kernel/syscalls/syscall.tbl b/arch/sparc/kernel/syscalls/syscall.tbl
+index 4398cc6fb68d..faa835f3c54a 100644
+--- a/arch/sparc/kernel/syscalls/syscall.tbl
++++ b/arch/sparc/kernel/syscalls/syscall.tbl
+@@ -496,3 +496,4 @@
+ 448	common	process_mrelease		sys_process_mrelease
+ 449	common  futex_waitv                     sys_futex_waitv
+ 450	common	set_mempolicy_home_node		sys_set_mempolicy_home_node
++451	common	cachestat			sys_cachestat
+diff --git a/arch/xtensa/kernel/syscalls/syscall.tbl b/arch/xtensa/kernel/syscalls/syscall.tbl
+index 52c94ab5c205..2b69c3c035b6 100644
+--- a/arch/xtensa/kernel/syscalls/syscall.tbl
++++ b/arch/xtensa/kernel/syscalls/syscall.tbl
+@@ -421,3 +421,4 @@
+ 448	common	process_mrelease		sys_process_mrelease
+ 449	common  futex_waitv                     sys_futex_waitv
+ 450	common	set_mempolicy_home_node		sys_set_mempolicy_home_node
++451	common	cachestat			sys_cachestat
+-- 
+2.34.1
 
-  CID 1529911 (#1 of 1): Out-of-bounds read (OVERRUN)
-  15. overrun-local: Overrunning array of 1088 bytes at byte offset 1088 by dereferencing pointer r. [show details]
-  563                if (resource_type(r) != IORESOURCE_MEM)
-	  5. Continuing loop.
-	  10. Continuing loop.
-  564                        continue;
