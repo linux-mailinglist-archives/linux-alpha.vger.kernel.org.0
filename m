@@ -2,100 +2,75 @@ Return-Path: <linux-alpha-owner@vger.kernel.org>
 X-Original-To: lists+linux-alpha@lfdr.de
 Delivered-To: lists+linux-alpha@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 59F1B706173
-	for <lists+linux-alpha@lfdr.de>; Wed, 17 May 2023 09:42:01 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id E2349709617
+	for <lists+linux-alpha@lfdr.de>; Fri, 19 May 2023 13:17:49 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229510AbjEQHl7 (ORCPT <rfc822;lists+linux-alpha@lfdr.de>);
-        Wed, 17 May 2023 03:41:59 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39130 "EHLO
+        id S231758AbjESLRr (ORCPT <rfc822;lists+linux-alpha@lfdr.de>);
+        Fri, 19 May 2023 07:17:47 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53922 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229626AbjEQHl6 (ORCPT
+        with ESMTP id S231617AbjESLRq (ORCPT
         <rfc822;linux-alpha@vger.kernel.org>);
-        Wed, 17 May 2023 03:41:58 -0400
-Received: from mail-qt1-x831.google.com (mail-qt1-x831.google.com [IPv6:2607:f8b0:4864:20::831])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6305010E6;
-        Wed, 17 May 2023 00:41:53 -0700 (PDT)
-Received: by mail-qt1-x831.google.com with SMTP id d75a77b69052e-3f38c23b06eso3364831cf.3;
-        Wed, 17 May 2023 00:41:53 -0700 (PDT)
+        Fri, 19 May 2023 07:17:46 -0400
+Received: from mail-ej1-x62b.google.com (mail-ej1-x62b.google.com [IPv6:2a00:1450:4864:20::62b])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 413B210F3
+        for <linux-alpha@vger.kernel.org>; Fri, 19 May 2023 04:17:44 -0700 (PDT)
+Received: by mail-ej1-x62b.google.com with SMTP id a640c23a62f3a-965d2749e2eso481763566b.1
+        for <linux-alpha@vger.kernel.org>; Fri, 19 May 2023 04:17:44 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20221208; t=1684309312; x=1686901312;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=Gt8vcqfcBcSzFv5CqI8kXtZUiisqmIiLAVfG/Z4B1wo=;
-        b=gNAni+aefYGCbzXJZ1KCoFg8ZVjbrHwK7u+sKWIsmjjGqQJ2bWNPSg+WakHJQVS3ab
-         Bp5bqMntw1uQkVw+IN1lOsU4BFRNTNuMiq9ef5c1RW9TLIi66HUQpNRoz99rtQztmRGD
-         KYnmVtSd+sNgymFummMsYYEpskLLZBxJnmkacqEQxSIDH8jjQDIifWpfH9ktAgm+tMoA
-         l5xZHrVJnxwv1lhnl/gXppJABX//LI0ugS4VIj2bunZX7U1ejXCSJwy/Tf02yZh0TYX/
-         2qa/8Rhqzrv1gtxn/rhiuEfjmYRrH3Jk4TsxNllrNjP6UscF1wHGQheDYKzJXyF9J7W6
-         2Wiw==
+        d=gmail.com; s=20221208; t=1684495062; x=1687087062;
+        h=to:subject:message-id:date:from:reply-to:mime-version:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=YmxaI1amCfTksu6ynk2557PwK0HJxrBQmYIx/Pz5hBs=;
+        b=JSg3rdU6W2mjqmEc+mB2A7cFmRegMCR83SHfOjxmRVbwY2A7mgymSN+oh42ISHBfwO
+         GhYoUeZQdTAgrrktfs4VHXg5wvlxv+psdIxXqG71lRhZUTeGY0gkCC1W0WGnQ2KuhHot
+         +NPDFYfn4R+L8OP+VhWdlcDsDSc9o5ruZin0Jy7jEd2WIJigUk3W15VR/5RcuFsK0DW/
+         FpfL86ckeVx6y5Gc/4Q2cQwsXt6HqauHnQBLsDdwzZSaOMbN/NAWKn10V/OC4oS8nobW
+         BkYyI389vonSGsu8g2o2QiZVmSCS1RCYF7e1+Ah3/AvqFMUnq3kHlvS8oKVbVQM9I4Wp
+         NQBg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1684309312; x=1686901312;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=Gt8vcqfcBcSzFv5CqI8kXtZUiisqmIiLAVfG/Z4B1wo=;
-        b=O4BYHxzEvATblTSSSlpOJLuQ4kAEho7zd5KcXofjc+THCL0MoOYhNMnHEsINaiMzMY
-         8/gfZU6ToH1Vk3B+BTnXDm+K4OFWxDpQXiS0yYpXLs/ZRVDxbNUdoQnbfWfmiAOI2GwU
-         DYvR7VyrseNN0cDnPGGZgNAEqQGWRyMeBVw9YEeN7phjgQAX/b4AN1k7N9nkLecpS3xA
-         sZU9kI6PyxmI7L0L/EOSicDT782+s6Hsb+9Gpc5edF6ai1Ca5ORhXtZU9Iv0z1+n3crr
-         vd7r0wcW115VM7ejZJhrEsWdCWbXTqu/rxUxO1XSfY2bbY/GkGa1a6WYiZ+mYq7J0Fz6
-         deTw==
-X-Gm-Message-State: AC+VfDwNnDyAUbXk6EDuKdwHea5oMUnnwALi3IIn2PjnSiD7eroUU819
-        q+nJ47q78vMmJPsfR8bzalDjTaY5v8J7GXf1kls=
-X-Google-Smtp-Source: ACHHUZ74fvUaQLS0H9Z1NeDqPl+csekVSshwiPDecXWRaUqETx8dIFlUfbpRHpQ/LDhjlhXM7ONSaWWLwZCTLV0Bubs=
-X-Received: by 2002:ac8:580e:0:b0:3ef:52ac:10d2 with SMTP id
- g14-20020ac8580e000000b003ef52ac10d2mr66678755qtg.43.1684309312426; Wed, 17
- May 2023 00:41:52 -0700 (PDT)
+        d=1e100.net; s=20221208; t=1684495062; x=1687087062;
+        h=to:subject:message-id:date:from:reply-to:mime-version
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=YmxaI1amCfTksu6ynk2557PwK0HJxrBQmYIx/Pz5hBs=;
+        b=OXWwuoboKoT0eZlAgUopvnpa0Cm5HTGoMIofuWU5mbm2udcfUxmsEBKVUp2Ln4VXHK
+         rpVb4yCIjfB0J00K9ikKp+rCC3knHhMREmNkBp23HDxPpqvpWjd3hKFkKs3+OD5Poyj+
+         /Op++slUFyp4wiwX9uibJ8RPROqxv5ka8afqBd/w+oYhCmJLrEmVlXV26sD++e2kScWv
+         mKqAwldrIFkXh+jReF3lKY0pezQMl3WceNcSZbupXpBq7stezRpBi5Df0oDQkJFyPnql
+         OuvBDnlGNtGd52jLaQH8k9AXDpZqC8+M9axpMklJdlkGf4DXpquNdwir/4rJECpPPO8q
+         HxRQ==
+X-Gm-Message-State: AC+VfDyprJxVsWZzW2ACALKHAiQJp6pdAaYjKTWuQ/tUHOyM0sFIh7rc
+        gjI+ebp9qFUA39+YAdvmwgJz8x+7eWJRlcLQfDY=
+X-Google-Smtp-Source: ACHHUZ4GcdKjctEWmkMJD/Q5ZDCusH7zrjV+w4c4EgP8GDbM+BMa7NNuPpP4cOMUW2oAUk/kOHHzW6hqw5zKR98kQX0=
+X-Received: by 2002:a17:907:1b12:b0:8b8:c06e:52d8 with SMTP id
+ mp18-20020a1709071b1200b008b8c06e52d8mr1298232ejc.36.1684495062361; Fri, 19
+ May 2023 04:17:42 -0700 (PDT)
 MIME-Version: 1.0
-References: <20230405141710.3551-1-ubizjak@gmail.com> <20230405141710.3551-4-ubizjak@gmail.com>
-In-Reply-To: <20230405141710.3551-4-ubizjak@gmail.com>
-From:   Charlemagne Lasse <charlemagnelasse@gmail.com>
-Date:   Wed, 17 May 2023 09:41:41 +0200
-Message-ID: <CAFGhKbyxtuk=LoW-E3yLXgcmR93m+Dfo5-u9oQA_YC5Fcy_t9g@mail.gmail.com>
-Subject: Re: [PATCH v2 3/5] locking/arch: Wire up local_try_cmpxchg
-To:     Uros Bizjak <ubizjak@gmail.com>
-Cc:     linux-alpha@vger.kernel.org, loongarch@lists.linux.dev,
-        linux-mips@vger.kernel.org, linuxppc-dev@lists.ozlabs.org,
-        x86@kernel.org, linux-arch@vger.kernel.org,
-        linux-perf-users@vger.kernel.org, linux-kernel@vger.kernel.org,
-        Richard Henderson <richard.henderson@linaro.org>,
-        Ivan Kokshaysky <ink@jurassic.park.msu.ru>,
-        Matt Turner <mattst88@gmail.com>,
-        Huacai Chen <chenhuacai@kernel.org>,
-        WANG Xuerui <kernel@xen0n.name>,
-        Jiaxun Yang <jiaxun.yang@flygoat.com>,
-        Jun Yi <yijun@loongson.cn>,
-        Thomas Bogendoerfer <tsbogend@alpha.franken.de>,
-        Michael Ellerman <mpe@ellerman.id.au>,
-        Nicholas Piggin <npiggin@gmail.com>,
-        Christophe Leroy <christophe.leroy@csgroup.eu>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
-        Dave Hansen <dave.hansen@linux.intel.com>,
-        "H. Peter Anvin" <hpa@zytor.com>
+Received: by 2002:a17:907:7dab:b0:94f:7d03:8e8b with HTTP; Fri, 19 May 2023
+ 04:17:41 -0700 (PDT)
+Reply-To: ninacoulibaly03@myself.com
+From:   nina coulibaly <ninacoulibaly199@gmail.com>
+Date:   Fri, 19 May 2023 04:17:41 -0700
+Message-ID: <CAM7Z2JAd00KW6b=O8M27vwRnsJ1w3AmDO5tP+gSmzkaHvk6=CA@mail.gmail.com>
+Subject: from nina coulibaly
+To:     undisclosed-recipients:;
 Content-Type: text/plain; charset="UTF-8"
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
-        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE
-        autolearn=ham autolearn_force=no version=3.4.6
+X-Spam-Status: No, score=4.8 required=5.0 tests=BAYES_50,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_ENVFROM_END_DIGIT,
+        FREEMAIL_FROM,FREEMAIL_REPLYTO,FREEMAIL_REPLYTO_END_DIGIT,
+        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE,
+        UNDISC_FREEM autolearn=no autolearn_force=no version=3.4.6
+X-Spam-Level: ****
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-alpha.vger.kernel.org>
 X-Mailing-List: linux-alpha@vger.kernel.org
 
-> +static __inline__ bool local_try_cmpxchg(local_t *l, long *old, long new)
-> +{
-> +       typeof(l->a.counter) *__old = (typeof(l->a.counter) *) old;
-> +       return try_cmpxchg_local(&l->a.counter, __old, new);
-> +}
-> +
+Dear,
 
-This patch then causes following sparse errors:
+Please grant me permission to share a very crucial discussion with
+you. I am looking forward to hearing from you at your earliest
+convenience.
 
-    ./arch/x86/include/asm/local.h:131:16: warning: symbol '__old'
-shadows an earlier one
-    ./arch/x86/include/asm/local.h:130:30: originally declared here
-
-This is then visible in all kinds of builds - which makes it hard to
-find out actual problems with sparse.
+Mrs. Nina Coulibal
