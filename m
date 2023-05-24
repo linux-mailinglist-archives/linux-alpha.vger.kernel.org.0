@@ -2,117 +2,98 @@ Return-Path: <linux-alpha-owner@vger.kernel.org>
 X-Original-To: lists+linux-alpha@lfdr.de
 Delivered-To: lists+linux-alpha@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 5759F70FC80
-	for <lists+linux-alpha@lfdr.de>; Wed, 24 May 2023 19:19:23 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 66C6070FCA1
+	for <lists+linux-alpha@lfdr.de>; Wed, 24 May 2023 19:28:20 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233629AbjEXRTW (ORCPT <rfc822;lists+linux-alpha@lfdr.de>);
-        Wed, 24 May 2023 13:19:22 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42724 "EHLO
+        id S231259AbjEXR2S (ORCPT <rfc822;lists+linux-alpha@lfdr.de>);
+        Wed, 24 May 2023 13:28:18 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47604 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S235779AbjEXRTI (ORCPT
+        with ESMTP id S229799AbjEXR2R (ORCPT
         <rfc822;linux-alpha@vger.kernel.org>);
-        Wed, 24 May 2023 13:19:08 -0400
-Received: from mail-pf1-x42f.google.com (mail-pf1-x42f.google.com [IPv6:2607:f8b0:4864:20::42f])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 956FEE5B
-        for <linux-alpha@vger.kernel.org>; Wed, 24 May 2023 10:18:59 -0700 (PDT)
-Received: by mail-pf1-x42f.google.com with SMTP id d2e1a72fcca58-64d2e8a842cso911675b3a.3
-        for <linux-alpha@vger.kernel.org>; Wed, 24 May 2023 10:18:59 -0700 (PDT)
+        Wed, 24 May 2023 13:28:17 -0400
+Received: from mail-ej1-x630.google.com (mail-ej1-x630.google.com [IPv6:2a00:1450:4864:20::630])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8D7E793
+        for <linux-alpha@vger.kernel.org>; Wed, 24 May 2023 10:28:16 -0700 (PDT)
+Received: by mail-ej1-x630.google.com with SMTP id a640c23a62f3a-96f818c48fbso208278466b.0
+        for <linux-alpha@vger.kernel.org>; Wed, 24 May 2023 10:28:16 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20221208; t=1684948738; x=1687540738;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+        d=linux-foundation.org; s=google; t=1684949295; x=1687541295;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=W4zFZrNoBN7VmAO1selbkqGP4to7smKZ8JOAFepzbeA=;
-        b=ZDueHHRfLWIs9BABd7MhLFNcW2S0IRxmKCRr8dfgqxSaTEGbJw2zJ9rpzyIqlJpzTc
-         IVcCJyZXUjl/cuLXido/nVL8BBc+qEnrN+pKlYuEvKcWQFGQCFiJ4tMOBclDISXfIoO8
-         l8aXBFZ4YSrFBR+bSsqR42b/I54L7XZ15ftS6laMcX/SkrWTmb82IISpplDBxbh1bVyZ
-         kj2/UxwvmzC3oddV6k68tGZ2h/FApgd9D6ggI0FjZ//yojq1X4WLKKTeVaYNTe+3ZqhS
-         Esy/9HOj3OI1UepnxZNRfglJbcS9kiu5wlzawBna1DIZLhe0jv3murYgw+qyffGwECGS
-         1x5g==
+        bh=ObDKBRhJ0vxirZ4DEKIOQzI3AAzidba1IRigzBqLyYk=;
+        b=WGWMX8QcBo5lDwOdLsqpGgY4sJ9lJ0BHzkJ05ccXe8dgvRKPeKLcMobRLAQRuIq0uB
+         GxDuHsc5e2q16d3ryv7g8oD929F1nuAJH44m6Ad3bJh8I9yNiB8qFg5XmmAJC3MTw9FG
+         mnIw3qWDfDC/WkKWrcFfumXoOU95rmuTmYKL8=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1684948738; x=1687540738;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
+        d=1e100.net; s=20221208; t=1684949295; x=1687541295;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=W4zFZrNoBN7VmAO1selbkqGP4to7smKZ8JOAFepzbeA=;
-        b=Nl+70Lh0vgEaW8kXwR0H6UJgh7BkEm7zg5aWkTcJ9WTV/74J9dPrUhT4U5QBppvTfv
-         5kc4g6MGbQZHZmpYHyDcUjCD8VsUEffU3aVc22/F1fGyyPdHFUdGCrUc1FSiK7bAw1v0
-         0OCSdiBXjcpAX7FNfJZuu0zJA8bVj6TmDZdc+CA1Hu/RC2xUJe0+dMqy6R+sPvLApYts
-         NnTz4GMYAAIiwg7akfxExFYOOHoPC46s6nr7nR6+rEMSQi4ZyaYLE0+3BwFk2K1x3+4F
-         qmUNUdZJaBebmtrBxgvRx1Qfd1xH+M+j8msAYUoBzjOtp+l4geI9NTtemQkKSCKMn9fg
-         pZJw==
-X-Gm-Message-State: AC+VfDxnWvAhjSVubxEcIHx4TRWvvARl4CMketZ0EhyF84BkmPFjllgy
-        oucc0c5fzJn8ig7R2A52Emys4MN08n4=
-X-Google-Smtp-Source: ACHHUZ5aq+qzxZwYhRwXy9e2IjDAmKZxrmNsSkjkVlbYUfJgNbo20p5Z9kvrzgBykqySxq91d91lKQ==
-X-Received: by 2002:a05:6a00:15cf:b0:643:b263:404 with SMTP id o15-20020a056a0015cf00b00643b2630404mr5071635pfu.33.1684948738586;
-        Wed, 24 May 2023 10:18:58 -0700 (PDT)
-Received: from wheely.local0.net ([220.240.241.243])
-        by smtp.gmail.com with ESMTPSA id p18-20020aa78612000000b0063b7c42a070sm7698643pfn.68.2023.05.24.10.18.54
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 24 May 2023 10:18:57 -0700 (PDT)
-From:   Nicholas Piggin <npiggin@gmail.com>
-To:     linux-alpha@vger.kernel.org
-Cc:     Nicholas Piggin <npiggin@gmail.com>,
+        bh=ObDKBRhJ0vxirZ4DEKIOQzI3AAzidba1IRigzBqLyYk=;
+        b=fBvUCPIXqBqjUziYUxHsBZrq7HcETuLHCeIwGwF0S1zPQaWpvKr0ua+P3l4Jg4VxLM
+         bHEcXpwjnCAocK+nhY93MIh2uV2yV/snosz2TzZb2qzsgE2vIOT6Bs2q8f3yazzXMgqI
+         tdOygZa4NfaFRq35LKevRXN1w4LnKuQRksh8Wsb5VtpptcahQoXylkY+2vRMhuOLboaq
+         tYV9JgBFq+hB5yl4mBBlhDNIMtMeyat2lGhXqi8ESyjNjKSDU9ZMc5qGVNqKWOP5i8jT
+         TEuusMhbG6Zx+jfDyfTkjOLjy39gLWebYMK1M0Xj6xhENYXPDUghfMWgk8tz5BVvcvRz
+         q0qQ==
+X-Gm-Message-State: AC+VfDzkHpHhbI3WO+OKnWewI+XcG1PRXE+h+jkCqnv7EAsYalenA8Wf
+        9sQ2mwWTdivbfuMlxTzH9ZakDnBiLpP3fvYSOclSi3Vs
+X-Google-Smtp-Source: ACHHUZ5AE+X6rUJ6L/AeoQUWHgUSTMF4ryngGA0icCN88Ol1+e5W6LkLXWgeQueRDXB1npN9WolUlw==
+X-Received: by 2002:a17:907:168b:b0:96f:da2c:ddc1 with SMTP id hc11-20020a170907168b00b0096fda2cddc1mr10952005ejc.75.1684949294646;
+        Wed, 24 May 2023 10:28:14 -0700 (PDT)
+Received: from mail-ej1-f52.google.com (mail-ej1-f52.google.com. [209.85.218.52])
+        by smtp.gmail.com with ESMTPSA id m5-20020a17090672c500b009666523d52dsm6014484ejl.156.2023.05.24.10.28.13
+        for <linux-alpha@vger.kernel.org>
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Wed, 24 May 2023 10:28:14 -0700 (PDT)
+Received: by mail-ej1-f52.google.com with SMTP id a640c23a62f3a-96fbe7fbdd4so204022966b.3
+        for <linux-alpha@vger.kernel.org>; Wed, 24 May 2023 10:28:13 -0700 (PDT)
+X-Received: by 2002:a17:907:26c3:b0:94f:2a13:4e01 with SMTP id
+ bp3-20020a17090726c300b0094f2a134e01mr17056730ejc.74.1684949293631; Wed, 24
+ May 2023 10:28:13 -0700 (PDT)
+MIME-Version: 1.0
+References: <20230524171822.177133-1-npiggin@gmail.com>
+In-Reply-To: <20230524171822.177133-1-npiggin@gmail.com>
+From:   Linus Torvalds <torvalds@linux-foundation.org>
+Date:   Wed, 24 May 2023 10:27:56 -0700
+X-Gmail-Original-Message-ID: <CAHk-=wjdRm=0kHEAByy5FdV0TsnWt270Yi55RmoOdsPB6qSwzw@mail.gmail.com>
+Message-ID: <CAHk-=wjdRm=0kHEAByy5FdV0TsnWt270Yi55RmoOdsPB6qSwzw@mail.gmail.com>
+Subject: Re: [RFC PATCH 0/6] Implement MMU_LAZY_TLB_SHOOTDOWN for alpha
+To:     Nicholas Piggin <npiggin@gmail.com>
+Cc:     linux-alpha@vger.kernel.org,
         Richard Henderson <richard.henderson@linaro.org>,
         Ivan Kokshaysky <ink@jurassic.park.msu.ru>,
-        Matt Turner <mattst88@gmail.com>,
-        Linus Torvalds <torvalds@linux-foundation.org>
-Subject: [RFC PATCH 6/6] alpha: shoot the lazy tlb mm when flushing TLBs
-Date:   Thu, 25 May 2023 03:18:22 +1000
-Message-Id: <20230524171822.177133-7-npiggin@gmail.com>
-X-Mailer: git-send-email 2.40.1
-In-Reply-To: <20230524171822.177133-1-npiggin@gmail.com>
-References: <20230524171822.177133-1-npiggin@gmail.com>
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
+        Matt Turner <mattst88@gmail.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Spam-Status: No, score=-1.8 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
         RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE
-        autolearn=ham autolearn_force=no version=3.4.6
+        autolearn=no autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-alpha.vger.kernel.org>
 X-Mailing-List: linux-alpha@vger.kernel.org
 
-Since we're flushing the TLB, take the opportunity to switch away from
-a lazy tlb mm if it's active, allowing the CPU to be taken out of
-mm_cpumask and avoiding any further IPIs from TLB flushing or the final
-lazy tlb mm shootdown.
+On Wed, May 24, 2023 at 10:18=E2=80=AFAM Nicholas Piggin <npiggin@gmail.com=
+> wrote:
+>
+> Any thoughts about the series would be interesting to hear.
 
-This naturally combines lazy tlb mm shootdowns with the final exit TLB
-flush IPIs, reducing the need for additional IPIs for the lazy tlb mm
-shootdown.
+Well, alpha is in a deathmatch with ia64 on "least relevant
+architecture ever, and next to be removed".
 
-Signed-off-by: Nicholas Piggin <npiggin@gmail.com>
----
- arch/alpha/kernel/smp.c | 11 ++++++++++-
- 1 file changed, 10 insertions(+), 1 deletion(-)
+There are no winners in that match.
 
-diff --git a/arch/alpha/kernel/smp.c b/arch/alpha/kernel/smp.c
-index 73bbb81f336e..cccd5ef721b7 100644
---- a/arch/alpha/kernel/smp.c
-+++ b/arch/alpha/kernel/smp.c
-@@ -624,9 +624,18 @@ try_clear_mm_cpumask(struct mm_struct *mm)
- {
- 	int cpu;
- 
--	if (current->active_mm == mm || asn_locked())
-+	if (current->mm == mm || asn_locked())
- 		return;
- 
-+	/*
-+	 * Shoot the lazy tlb mm while we're here. This allows us to also
-+	 * trim it out of the mm_cpumask if it was the active_mm, and has the
-+	 * effect of avoiding final lazy shootdown IPIs in cleanup_lazy_tlbs(),
-+	 * because the final TLB cleanup happens before that.
-+	 */
-+	if (current->active_mm == mm)
-+		kthread_end_lazy_tlb_mm();
-+
- 	cpu = smp_processor_id();
- 	if (cpumask_test_cpu(cpu, mm_cpumask(mm)))
- 		cpumask_clear_cpu(cpu, mm_cpumask(mm));
--- 
-2.40.1
+I still have the alpha architecture manual somewhere here, but I
+haven't touched any actual hardware in decades.
 
+But I certainly don't see anything _wrong_ with your series from a
+quick read-through.  It would be nice to hear that it works on real
+hardware, of course, but from previous attempts, there's only a couple
+of people that still occasionally run it.
+
+               Linus
