@@ -2,54 +2,54 @@ Return-Path: <linux-alpha-owner@vger.kernel.org>
 X-Original-To: lists+linux-alpha@lfdr.de
 Delivered-To: lists+linux-alpha@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 9BCD270FC7E
-	for <lists+linux-alpha@lfdr.de>; Wed, 24 May 2023 19:19:10 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id BED5070FC7F
+	for <lists+linux-alpha@lfdr.de>; Wed, 24 May 2023 19:19:14 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233929AbjEXRTJ (ORCPT <rfc822;lists+linux-alpha@lfdr.de>);
-        Wed, 24 May 2023 13:19:09 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42596 "EHLO
+        id S230195AbjEXRTN (ORCPT <rfc822;lists+linux-alpha@lfdr.de>);
+        Wed, 24 May 2023 13:19:13 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42400 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232688AbjEXRTD (ORCPT
+        with ESMTP id S232134AbjEXRTG (ORCPT
         <rfc822;linux-alpha@vger.kernel.org>);
-        Wed, 24 May 2023 13:19:03 -0400
-Received: from mail-pf1-x435.google.com (mail-pf1-x435.google.com [IPv6:2607:f8b0:4864:20::435])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 24B1C1A8
-        for <linux-alpha@vger.kernel.org>; Wed, 24 May 2023 10:18:51 -0700 (PDT)
-Received: by mail-pf1-x435.google.com with SMTP id d2e1a72fcca58-64d24136663so921178b3a.0
-        for <linux-alpha@vger.kernel.org>; Wed, 24 May 2023 10:18:51 -0700 (PDT)
+        Wed, 24 May 2023 13:19:06 -0400
+Received: from mail-pf1-x42c.google.com (mail-pf1-x42c.google.com [IPv6:2607:f8b0:4864:20::42c])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 16B94E46
+        for <linux-alpha@vger.kernel.org>; Wed, 24 May 2023 10:18:55 -0700 (PDT)
+Received: by mail-pf1-x42c.google.com with SMTP id d2e1a72fcca58-64d30ab1f89so906107b3a.3
+        for <linux-alpha@vger.kernel.org>; Wed, 24 May 2023 10:18:55 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20221208; t=1684948730; x=1687540730;
+        d=gmail.com; s=20221208; t=1684948734; x=1687540734;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=p/fgyjon/AwniOTHg0dz2YdYyh8X90uD3//N5gexQS8=;
-        b=YqpyVFlp/d4Lx0SsnRQaqESTcuqAxtY+z/G3hBNpzdk9qAI2rrOTjXfwVNHLGPXSvW
-         3D0Lg85VlDAGr5Vnz+eQJVtRS95S3puj09RSyQOiQ8vVLLIAW4pXT8Ia4shdQxpL3gPX
-         RWkt8ncOZfb+qZ9bNAmW2ylYiuhjfd9j7MI7w+CQJQRw3+kr/KFzMudlUmpUBjmsz7po
-         CjxXSPag109m5qiOvHPiKgjJCPQZpni8RSbg9YWnUEo11o9vAyVYgbF6BuG4wV1sPupN
-         wMNsWKEYQTvcds+DKgNl2indi8YjTy20ygnH2ojIzTgxOimL45fZKpdQ1+MdNPXJj0nU
-         k8nA==
+        bh=kjn6EdAl09CUVOfjtVI6BOYTWM3WknCj5waV1jTxDBs=;
+        b=FEle1APVRzL697qNwmsE1rCHmb1YKkQEoVCxUN0/9vtN6/Tb/lUTJ873/S2zMh164U
+         v2kgmVJZ8GBqkSN+BklYabiOgTM+okVz1WAqPcmEmWrUEpSXFvUI2dOBnexmUrfWeHPE
+         i9uFGU/Lk87J2RxlPd+0asFb4McwiNkfTbNxNcmBUitj/eiDZpztgdG2Bdu+NrQVkWxm
+         9EhiYL23rIxR4r/SQa4DyHyk48QoGcjCsGD8lo4wqPVaq77RrOhsfzCj3K1/5o6xFVkE
+         Lt4WdGOfM0QeuBAh7nL/tx9f2/Ir2DZ1jTMjheXz8xfxu+y4pMImseR2VQt3ZrYXX2n+
+         MPqw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1684948730; x=1687540730;
+        d=1e100.net; s=20221208; t=1684948734; x=1687540734;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=p/fgyjon/AwniOTHg0dz2YdYyh8X90uD3//N5gexQS8=;
-        b=jcoYzJGf5iW0rxnctQny5H/hA9t97LVsNrlFkQ7BtVBdaqS6U74obLlnHaK05G2Ufv
-         AiFycr47PeZbv9SPY1X7LVaDyeEczWyM6moFS3WNudsnF+27qSstiO+oqrucIAeIybZP
-         00jlp99bbn1Vn94TTRlj0AcuDz+7vTvCk65g7lIILac4ekx3mqT8XD1FuDez1MkgdA6K
-         s2FC0Il1baHf3+yJnweb0h2Dr+KXRR8a2t5MzTFN309eKfF/9nTFs2b43FuHPfKYy7gE
-         vkHu4PqJfNp1qSl6PQMcQ2vT6tYfj3drMhrc84EO+4uPOxU0N5MILoyAijy7Fc1L8jxo
-         eRKQ==
-X-Gm-Message-State: AC+VfDzqpfRT7PiJChKH+Nm2cWMoQjDo5LVJn3FZXRrH0ZfE08ZFSEdv
-        gylRsK/GdTXswjEKXHH1Wg0Q0SbhfTM=
-X-Google-Smtp-Source: ACHHUZ6HfFMFc/d2v/oxxEl7VwRE3rz6SMQJRQmkBlNQx0dOwei0qqk9Cb1kUv651OIxHM2p6JepSg==
-X-Received: by 2002:a05:6a00:a1a:b0:64a:f8c9:a421 with SMTP id p26-20020a056a000a1a00b0064af8c9a421mr5257909pfh.32.1684948730012;
-        Wed, 24 May 2023 10:18:50 -0700 (PDT)
+        bh=kjn6EdAl09CUVOfjtVI6BOYTWM3WknCj5waV1jTxDBs=;
+        b=jCg1zH51b6NCEPD3xpqzVjArP4Xv1HkcIpdTcavK0LozLzFR9/7/Wz0gG7rbzcHpFh
+         TmTqozRDLRUSP4bKJPt4tlJZJmdgK8FNY0JhhlBOVe+tomed1YpKw+/fIAhupvW0NdIc
+         ADWKKWDdo1ri1cxN/xxfzwP94Bm+T6tPtQWTZCfdZhuK0AJ6RafAAGnV996v4vyg45Qz
+         2ELjzrUKnJTN7F0qRBvP51u1ph5rXkE3yncoT6inG624vhKlW1oWthpFMbgkUHQKhePx
+         IbZ0RsrNBj3mpcRFB44H+4rCPSjH382+YOV4Dd1anmQmmwjKlyKkuPtqOMVskJThkCKQ
+         tNuw==
+X-Gm-Message-State: AC+VfDw4thmfz+/KSOKAZCvbRh3GCxA4MG9j3AIsjly2P2GDBE2rpqAh
+        RNj7wg9cllLpFpvmxloWFTJTcHIpn4o=
+X-Google-Smtp-Source: ACHHUZ4c9vye8atu1XbJpgiS8oBbbxTDY6kF+nKtVnghGX0uN9gSxxo0+3SDduGJYdmz8DvhnX0Iww==
+X-Received: by 2002:a05:6a00:2daa:b0:64b:20cd:6d52 with SMTP id fb42-20020a056a002daa00b0064b20cd6d52mr4512621pfb.14.1684948734187;
+        Wed, 24 May 2023 10:18:54 -0700 (PDT)
 Received: from wheely.local0.net ([220.240.241.243])
-        by smtp.gmail.com with ESMTPSA id p18-20020aa78612000000b0063b7c42a070sm7698643pfn.68.2023.05.24.10.18.46
+        by smtp.gmail.com with ESMTPSA id p18-20020aa78612000000b0063b7c42a070sm7698643pfn.68.2023.05.24.10.18.50
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 24 May 2023 10:18:49 -0700 (PDT)
+        Wed, 24 May 2023 10:18:53 -0700 (PDT)
 From:   Nicholas Piggin <npiggin@gmail.com>
 To:     linux-alpha@vger.kernel.org
 Cc:     Nicholas Piggin <npiggin@gmail.com>,
@@ -57,9 +57,9 @@ Cc:     Nicholas Piggin <npiggin@gmail.com>,
         Ivan Kokshaysky <ink@jurassic.park.msu.ru>,
         Matt Turner <mattst88@gmail.com>,
         Linus Torvalds <torvalds@linux-foundation.org>
-Subject: [RFC PATCH 4/6] alpha: clean mm_cpumask when flushing TLBs
-Date:   Thu, 25 May 2023 03:18:20 +1000
-Message-Id: <20230524171822.177133-5-npiggin@gmail.com>
+Subject: [RFC PATCH 5/6] alpha: enable MMU_LAZY_TLB_SHOOTDOWN
+Date:   Thu, 25 May 2023 03:18:21 +1000
+Message-Id: <20230524171822.177133-6-npiggin@gmail.com>
 X-Mailer: git-send-email 2.40.1
 In-Reply-To: <20230524171822.177133-1-npiggin@gmail.com>
 References: <20230524171822.177133-1-npiggin@gmail.com>
@@ -75,112 +75,40 @@ Precedence: bulk
 List-ID: <linux-alpha.vger.kernel.org>
 X-Mailing-List: linux-alpha@vger.kernel.org
 
-mm_cpumask is a map of the CPUs which must be IPIed to flush TLBs,
-and/or IPIed to shootdown lazy TLB mms at exit time.
-
-When flushing TLBs on the CPU, trim it from mm_cpumask if the mm is not
-currently active on the CPU. TLBs will have been flush, and the mm is
-not active, so there is no more reason to get IPIs.
+With the sticky mm_cpumask, and conversion to mmgrab_lazy_tlb(), alpha
+meets the requirements for MMU_LAZY_TLB_SHOOTDOWN. Select it.
 
 Signed-off-by: Nicholas Piggin <npiggin@gmail.com>
 ---
- arch/alpha/include/asm/tlbflush.h |  3 +++
- arch/alpha/kernel/smp.c           | 29 +++++++++++++++++++++++++++--
- 2 files changed, 30 insertions(+), 2 deletions(-)
+ arch/alpha/Kconfig      | 1 +
+ arch/alpha/kernel/smp.c | 2 +-
+ 2 files changed, 2 insertions(+), 1 deletion(-)
 
-diff --git a/arch/alpha/include/asm/tlbflush.h b/arch/alpha/include/asm/tlbflush.h
-index 94dc37cf873a..7c4e719ac9e7 100644
---- a/arch/alpha/include/asm/tlbflush.h
-+++ b/arch/alpha/include/asm/tlbflush.h
-@@ -12,6 +12,7 @@
- #endif
- 
- extern void __load_new_mm_context(struct mm_struct *);
-+extern void try_clear_mm_cpumask(struct mm_struct *);
- 
- 
- /* Use a few helper functions to hide the ugly broken ASN
-@@ -106,6 +107,7 @@ static inline void flush_tlb_all(void)
- static inline void
- flush_tlb_mm(struct mm_struct *mm)
- {
-+	try_clear_mm_cpumask(mm);
- 	if (mm == current->active_mm)
- 		flush_tlb_current(mm);
- 	else
-@@ -118,6 +120,7 @@ flush_tlb_page(struct vm_area_struct *vma, unsigned long addr)
- {
- 	struct mm_struct *mm = vma->vm_mm;
- 
-+	try_clear_mm_cpumask(mm);
- 	if (mm == current->active_mm)
- 		flush_tlb_current_page(mm, vma, addr);
- 	else
+diff --git a/arch/alpha/Kconfig b/arch/alpha/Kconfig
+index a5c2b1aa46b0..8f9995d66345 100644
+--- a/arch/alpha/Kconfig
++++ b/arch/alpha/Kconfig
+@@ -35,6 +35,7 @@ config ALPHA
+ 	select OLD_SIGSUSPEND
+ 	select CPU_NO_EFFICIENT_FFS if !ALPHA_EV67
+ 	select MMU_GATHER_NO_RANGE
++	select MMU_LAZY_TLB_SHOOTDOWN
+ 	select SPARSEMEM_EXTREME if SPARSEMEM
+ 	select ZONE_DMA
+ 	help
 diff --git a/arch/alpha/kernel/smp.c b/arch/alpha/kernel/smp.c
-index e436c056267d..d668b9d319af 100644
+index d668b9d319af..73bbb81f336e 100644
 --- a/arch/alpha/kernel/smp.c
 +++ b/arch/alpha/kernel/smp.c
-@@ -610,6 +610,28 @@ smp_imb(void)
- }
- EXPORT_SYMBOL(smp_imb);
+@@ -143,7 +143,7 @@ smp_callin(void)
+ 		alpha_mv.smp_callin();
  
-+#define asn_locked() (cpu_data[smp_processor_id()].asn_lock)
-+
-+/*
-+ * If the mm_cpumask bit is cleared, the caller *must* flush the TLB for the
-+ * mm on this CPU. It is only cleared when the mm is not active, in which
-+ * case the flushing always performs flush_tlb_other that flushes everything.
-+ * If that changes in callers, they will have to arrange to always do a full
-+ * flush if mm_cpumask is cleared by this function.
-+ */
-+void
-+try_clear_mm_cpumask(struct mm_struct *mm)
-+{
-+	int cpu;
-+
-+	if (current->active_mm == mm || asn_locked())
-+		return;
-+
-+	cpu = smp_processor_id();
-+	if (cpumask_test_cpu(cpu, mm_cpumask(mm)))
-+		cpumask_clear_cpu(cpu, mm_cpumask(mm));
-+}
-+
- static void
- ipi_flush_tlb_all(void *ignored)
- {
-@@ -624,12 +646,12 @@ flush_tlb_all(void)
- 	on_each_cpu(ipi_flush_tlb_all, NULL, 1);
- }
+ 	/* All kernel threads share the same mm context.  */
+-	mmgrab(&init_mm);
++	mmgrab_lazy_tlb(&init_mm);
+ 	current->active_mm = &init_mm;
+ 	cpumask_set_cpu(smp_processor_id(), mm_cpumask(&init_mm));
  
--#define asn_locked() (cpu_data[smp_processor_id()].asn_lock)
--
- static void
- ipi_flush_tlb_mm(void *x)
- {
- 	struct mm_struct *mm = x;
-+
-+	try_clear_mm_cpumask(mm);
- 	if (mm == current->active_mm && !asn_locked())
- 		flush_tlb_current(mm);
- 	else
-@@ -671,6 +693,7 @@ ipi_flush_tlb_page(void *x)
- 	struct flush_tlb_page_struct *data = x;
- 	struct mm_struct * mm = data->mm;
- 
-+	try_clear_mm_cpumask(mm);
- 	if (mm == current->active_mm && !asn_locked())
- 		flush_tlb_current_page(mm, data->vma, data->addr);
- 	else
-@@ -710,6 +733,8 @@ static void
- ipi_flush_icache_page(void *x)
- {
- 	struct mm_struct *mm = (struct mm_struct *) x;
-+
-+	try_clear_mm_cpumask(mm);
- 	if (mm == current->active_mm && !asn_locked())
- 		__load_new_mm_context(mm);
- 	else
 -- 
 2.40.1
 
