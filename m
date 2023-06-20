@@ -2,199 +2,236 @@ Return-Path: <linux-alpha-owner@vger.kernel.org>
 X-Original-To: lists+linux-alpha@lfdr.de
 Delivered-To: lists+linux-alpha@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 8D70273565B
-	for <lists+linux-alpha@lfdr.de>; Mon, 19 Jun 2023 14:02:13 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 1886B7361D6
+	for <lists+linux-alpha@lfdr.de>; Tue, 20 Jun 2023 05:01:39 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229554AbjFSMCM (ORCPT <rfc822;lists+linux-alpha@lfdr.de>);
-        Mon, 19 Jun 2023 08:02:12 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37370 "EHLO
+        id S230037AbjFTDBf (ORCPT <rfc822;lists+linux-alpha@lfdr.de>);
+        Mon, 19 Jun 2023 23:01:35 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48558 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229903AbjFSMCL (ORCPT
+        with ESMTP id S230061AbjFTDBa (ORCPT
         <rfc822;linux-alpha@vger.kernel.org>);
-        Mon, 19 Jun 2023 08:02:11 -0400
-Received: from mout.web.de (mout.web.de [217.72.192.78])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CA34DB3
-        for <linux-alpha@vger.kernel.org>; Mon, 19 Jun 2023 05:02:06 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=web.de;
- s=s29768273; t=1687176099; x=1687780899; i=frank.scheiner@web.de;
- bh=OX3j8RfUr3GzVFHYjbMtQfXmLaaft2okW3ldrHgZSSM=;
- h=X-UI-Sender-Class:Date:Subject:To:Cc:References:From:In-Reply-To;
- b=dv9mfNF24pzDUCTbYDlWowGhUAGkoSrlej+lirD+za3cce4zc72faS8yQB+2ziniGXZpwKp
- k7B1+nzDX5ZqrfDfWCqLBr+vCTggLThmsqze//cgPQyi/OtGtIUS8PJ/pQkixG8PYXCLElEu6
- Dbbq0NEa52+i+G988w6ysmQpL7g6GSzaKcJTL49o+K3cXjA/ml9jOM/Pwd0tCa0UkaBF9SL/m
- gWtdyN8bv1kIzQRIlPlDQVoRxmdsIcS2ku/H9kLvsj//wjIwA5uOZ6ImXOxc+FEBvo10ZDE0W
- LhUhXMATFBnfzJi9F0vql7rdgtqEjfs2m8nf8zVF6fnHvrCWS/UA==
-X-UI-Sender-Class: 814a7b36-bfc1-4dae-8640-3722d8ec6cd6
-Received: from [192.168.178.30] ([87.155.233.12]) by smtp.web.de (mrweb106
- [213.165.67.124]) with ESMTPSA (Nemesis) id 1MS13Z-1qec1I1Mfj-00TWyG; Mon, 19
- Jun 2023 14:01:39 +0200
-Message-ID: <d5316df3-bc5e-cc0d-e673-7859e01047c2@web.de>
-Date:   Mon, 19 Jun 2023 14:01:36 +0200
+        Mon, 19 Jun 2023 23:01:30 -0400
+Received: from mail-ej1-x62a.google.com (mail-ej1-x62a.google.com [IPv6:2a00:1450:4864:20::62a])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0A5D710D7
+        for <linux-alpha@vger.kernel.org>; Mon, 19 Jun 2023 20:01:26 -0700 (PDT)
+Received: by mail-ej1-x62a.google.com with SMTP id a640c23a62f3a-98802908fedso365082266b.1
+        for <linux-alpha@vger.kernel.org>; Mon, 19 Jun 2023 20:01:26 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20221208; t=1687230085; x=1689822085;
+        h=content-transfer-encoding:to:subject:message-id:date:from
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=BrbG7JxveYysVe86t5gOLnlc9dkaosvcFTwxzJdTEvM=;
+        b=Cy5pcyOImQpaN7G92qqjZ5UPpPhwXXa0U/wX1p6euky/gRqwmCiIjcvH8suIvwLW0J
+         IuPbv5tVtrvSjFshSlf7QMCgPDigk5RsuH8+X6E12JZiPcEi5SoHiQZ5tTs442IZqypA
+         XPZrVq/lMy8xqoB9YBP6BKKVlCA+22uwncX0NmLkRQJZDgg0sBn+f+JHWjMgG9NstzzO
+         u5sWeWw6a/TY0d0wJMH5pQ5dXZFlnfOsxdpGwoBHAJNzT6nipo4udBoVcD/FMvX0iwQ9
+         GuxFQkHix38G3qxCD7BxZs/1LW+BY4vb3HLrVU1PN9vZdEBuCiSH/g3deu0dPjtpUFfA
+         NVkQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20221208; t=1687230085; x=1689822085;
+        h=content-transfer-encoding:to:subject:message-id:date:from
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=BrbG7JxveYysVe86t5gOLnlc9dkaosvcFTwxzJdTEvM=;
+        b=CoGZLak+2kGn3ms2Ybtz0lneXkJd3dtoMuJLwRf5LpwQvV9y8mAKJJS4htUQ0xtPP/
+         iiMSGETR6lWqsqbwIwUW3GT26sJ8XxVGt6VM5g9wjbJul5OsAQcYp4Q6l3deDv0HKPxu
+         PoCcKDNPIIMNphsIp4lal1pHWZgtcZX3kisiQ0Aro5ckpXP99qBbgodTEJYM190mSaAg
+         fUdF6PCTIg9GmPUCiR25KJZOWSMj3/qxb16abvnphU56vKr2umEE+r1oZaPWjaVzTXgv
+         jhIYE1yHI9raIHl4gCzBBg9NNorwsr8Mwa9Lvn1KR0cJF9qU7ZDzzsLHYv7GYGoZtjKi
+         jUkg==
+X-Gm-Message-State: AC+VfDytFZcDqh83zDJgQihpThaGpvRJwaDZmdDcdrSaxh4CXyC+3Ant
+        8y41e+HMc1p2/mVQY4tOpXuB2SItNV6YmuUS1c8=
+X-Google-Smtp-Source: ACHHUZ4q0wcNoNmaGedRzMdTlBXBComQaL8c4ZUOPgoRGHkgsmwQb8NO3O1AbMN3W5Kbmy2w/uCOezj3/Oqu4iYdtJM=
+X-Received: by 2002:a17:907:6d9c:b0:988:9763:9517 with SMTP id
+ sb28-20020a1709076d9c00b0098897639517mr3996214ejc.43.1687230085204; Mon, 19
+ Jun 2023 20:01:25 -0700 (PDT)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.11.0
-Subject: Re: Linux 6.1.27, cgroup: Instruction fault 4 with systemd
-To:     John Paul Adrian Glaubitz <glaubitz@physik.fu-berlin.de>,
-        linux-alpha@vger.kernel.org
-Cc:     "debian-alpha@lists.debian.org" <debian-alpha@lists.debian.org>,
-        Michael Cree <mcree@orcon.net.nz>
-References: <57622252-b409-869e-7aae-81cf61e94fda@web.de>
- <b9e52b7a6f68782707ca809a746823c0c752de5c.camel@physik.fu-berlin.de>
-Content-Language: en-US
-From:   Frank Scheiner <frank.scheiner@web.de>
-In-Reply-To: <b9e52b7a6f68782707ca809a746823c0c752de5c.camel@physik.fu-berlin.de>
-Content-Type: text/plain; charset=UTF-8; format=flowed
+Received: by 2002:a17:906:4a90:b0:986:545c:2dc5 with HTTP; Mon, 19 Jun 2023
+ 20:01:24 -0700 (PDT)
+From:   United Nations <cindylove276@gmail.com>
+Date:   Mon, 19 Jun 2023 23:01:24 -0400
+Message-ID: <CANHmF4AM9mqGLwbJuFsV1RCae2eGKd-i2nS7f1fkY90cJn7=fA@mail.gmail.com>
+Subject: Congratulations
+To:     undisclosed-recipients:;
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
-X-Provags-ID: V03:K1:w+SLag2WWGexhv3VKT2EoIgsljXD6pX1fdGR85QO+2DyvH8exkf
- uRUE3MqlhGIwLL7JBsntLSgrHw1/lzBLCVcxfgju7EM8iLfPEm+naPWtx4J/DR+E0SAWlf7
- Hb+rR+6Wz2IiFXhydfFpUcNzaukfC6euvEhD4Vz61obC+lDy5WmoA2O2kYnNJTm/zr6tTj1
- mLIrI2hNPJG+abUsGgnLg==
-UI-OutboundReport: notjunk:1;M01:P0:ShXyKOzA5rM=;KZwGQNw1nUI6/AGfSXxLu9hu6dp
- jRUMU1Vn6v3bZs75uVhzmo0Qrdb7cWYrMZeH4d/0PQpTF+TZvAjYffn7AcnT4A07U8GHIUnz+
- 9O2eTeRKRNMKKWtP79S6K6PMnzD9l59JOSfFKJ/WJjXQbSeMVMMlyEpbBSPM4QCgF/QiUgIWU
- tDcPFfezbsHp/K6njWjXJ2WQ6JkZZE/W3ddPCsitdSfxfOvtUfadqFOsdE01pgOXlgjyZcLnG
- romT3OaPmSP+IFY8eXAE53x0KXh+9ukON7h31ur6RvkoHCNkFAk3MYsYOSBj2aBqM8Uf25jgt
- I1VcNq2g6slQzDoE1HF2NZ6a9TMYt/pXK4J4KHLN9ZUAgOJBswPIvIoDiNJwDrCxulOqYYNe8
- 6aiyyloFny9Q+g7UZPlHOVgB6s+vGyCmbft/WA2s+/aYO5U1pxwvMxvfnC3ZCQ2XrUypEqOlN
- 7outm5qwo1AUVxzvXA/4TqiENO1pjdxLxV6GrYGV2l1OLkvSnkjXPL+dPBPh1N5uAaObPQIhN
- OtOJThZe3jp5X9PbYnWCc1pkCiyD3RyQNB1rcLU1JP0x/9Vg/oIUSMHUYiPUFt7LKTQuacfsT
- TL8ZmKKmj3Ka98hVh7dsLwV//z95zpuyd1jJeWSYVqh9yPaTy+zHZ6pUvgfAf0yhslRXZMlGJ
- CIJM3SLwvW+pKdZ1qZMTEZcd7ZyvGH24HPNLzvfJS7Qut0C7TICbZbDV5hy4iqiPKMVlVZEtK
- /WkY8YPLezl7dFh0mhPW3h7H8uoddT+Hhgj6CNPtrgTyknzBXLKqbJFhkrRWXN5HvU/9iOor6
- 9o3JXdd4VjvZirT74kCxSLO3yu60zlStI/mY5Uph6kbwTFotyFjEaoHhBg5hcMI3ww9X/x3jL
- z8n0P8s2UylvF3/s6MK0NYPqUQdwdkHTlvvNWNt7oSwmpqqiMI/SPkH+UEXfONe28L+iO+GgN
- Mugk0nCJvTMesrrR1d7CIcjPu1s=
-X-Spam-Status: No, score=-2.9 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,NICE_REPLY_A,
-        RCVD_IN_DNSWL_LOW,RCVD_IN_MSPIKE_H5,RCVD_IN_MSPIKE_WL,SPF_HELO_NONE,
-        SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no
+X-Spam-Status: Yes, score=6.9 required=5.0 tests=ADVANCE_FEE_3_NEW_FRM_MNY,
+        BAYES_50,DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,
+        FILL_THIS_FORM,FILL_THIS_FORM_LONG,FORM_FRAUD_5,
+        FREEMAIL_ENVFROM_END_DIGIT,FREEMAIL_FROM,FREEMAIL_REPLY,LOTS_OF_MONEY,
+        MONEY_FORM,MONEY_FRAUD_5,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,
+        T_SCC_BODY_TEXT_LINE,UNDISC_MONEY autolearn=no autolearn_force=no
         version=3.4.6
+X-Spam-Report: * -0.0 RCVD_IN_DNSWL_NONE RBL: Sender listed at
+        *      https://www.dnswl.org/, no trust
+        *      [2a00:1450:4864:20:0:0:0:62a listed in]
+        [list.dnswl.org]
+        *  0.8 BAYES_50 BODY: Bayes spam probability is 40 to 60%
+        *      [score: 0.5000]
+        *  0.0 SPF_HELO_NONE SPF: HELO does not publish an SPF Record
+        * -0.0 SPF_PASS SPF: sender matches SPF record
+        *  0.2 FREEMAIL_ENVFROM_END_DIGIT Envelope-from freemail username ends
+        *       in digit
+        *      [cindylove276[at]gmail.com]
+        *  0.0 FREEMAIL_FROM Sender email is commonly abused enduser mail
+        *      provider
+        *      [cindylove276[at]gmail.com]
+        * -0.1 DKIM_VALID_AU Message has a valid DKIM or DK signature from
+        *      author's domain
+        *  0.1 DKIM_SIGNED Message has a DKIM or DK signature, not necessarily
+        *       valid
+        * -0.1 DKIM_VALID_EF Message has a valid DKIM or DK signature from
+        *      envelope-from domain
+        * -0.1 DKIM_VALID Message has at least one valid DKIM or DK signature
+        *  0.0 LOTS_OF_MONEY Huge... sums of money
+        * -0.0 T_SCC_BODY_TEXT_LINE No description available.
+        *  1.0 FREEMAIL_REPLY From and body contain different freemails
+        *  0.0 FILL_THIS_FORM Fill in a form with personal information
+        *  2.0 FILL_THIS_FORM_LONG Fill in a form with personal information
+        *  0.0 MONEY_FORM Lots of money if you fill out a form
+        *  3.1 UNDISC_MONEY Undisclosed recipients + money/fraud signs
+        *  0.0 ADVANCE_FEE_3_NEW_FRM_MNY Advance Fee fraud form and lots of
+        *      money
+        *  0.0 MONEY_FRAUD_5 Lots of money and many fraud phrases
+        *  0.0 FORM_FRAUD_5 Fill a form and many fraud phrases
+X-Spam-Level: ******
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-alpha.vger.kernel.org>
 X-Mailing-List: linux-alpha@vger.kernel.org
 
-Hi,
+V=C3=A1=C5=BEen=C3=BD vlastn=C3=ADk e-mailu/p=C5=99=C3=ADjemce fondu,
 
-let me add some additional data point(s):
+Neodvolateln=C3=BD platebn=C3=AD p=C5=99=C3=ADkaz p=C5=99es western union
 
-After some testing on different machines and with different kernel types
-it looks like this problem is exclusive to MP kernels. This also when
-running a MP kernel on a single processor machine actually (tested on an
-AlphaServer 800 5/400 w/EV56).
+Byli jsme pov=C4=9B=C5=99eni gener=C3=A1ln=C3=ADm tajemn=C3=ADkem Organizac=
+e spojen=C3=BDch n=C3=A1rod=C5=AF a
+=C5=99=C3=ADd=C3=ADc=C3=ADm org=C3=A1nem m=C4=9Bnov=C3=A9 jednotky OSN, aby=
+chom pro=C5=A1et=C5=99ili zbyte=C4=8Dn=C3=A9
+zpo=C5=BEd=C4=9Bn=C3=AD platby doporu=C4=8Den=C3=A9 a schv=C3=A1len=C3=A9 v=
+e v=C3=A1=C5=A1 prosp=C4=9Bch. B=C4=9Bhem na=C5=A1eho
+vy=C5=A1et=C5=99ov=C3=A1n=C3=AD jsme se zd=C4=9B=C5=A1en=C3=ADm zjistili, =
+=C5=BEe va=C5=A1e platba byla zbyte=C4=8Dn=C4=9B
+zdr=C5=BEov=C3=A1na zkorumpovan=C3=BDmi =C3=BA=C5=99edn=C3=ADky banky, kte=
+=C5=99=C3=AD se sna=C5=BEili p=C5=99esm=C4=9Brovat
+va=C5=A1e prost=C5=99edky na jejich soukrom=C3=A9 =C3=BA=C4=8Dty.
 
-Running an SP kernel does not trigger that problem.
+Aby se tomu p=C5=99ede=C5=A1lo, bylo zabezpe=C4=8Den=C3=AD va=C5=A1ich fina=
+n=C4=8Dn=C3=ADch prost=C5=99edk=C5=AF
+zorganizov=C3=A1no ve form=C4=9B kontroln=C3=ADch =C4=8D=C3=ADsel p=C5=99ev=
+odu pen=C4=9Bz (MTCN) v
+Western Union, co=C5=BE v=C3=A1m umo=C5=BEn=C3=AD m=C3=ADt p=C5=99=C3=ADmou=
+ kontrolu nad va=C5=A1imi
+finan=C4=8Dn=C3=ADmi prost=C5=99edky prost=C5=99ednictv=C3=ADm Western Unio=
+n. Tuto platbu
+budeme sami sledovat, abychom se vyhnuli bezv=C3=BDchodn=C3=A9 situaci, kte=
+rou
+vytvo=C5=99ili =C3=BA=C5=99edn=C3=ADci banky.
 
-I posted a diff between the -alpha-generic and -alpha-smp kernel
-configurations on [1].
+Skupina Sv=C4=9Btov=C3=A9 banky a Mezin=C3=A1rodn=C3=AD m=C4=9Bnov=C3=BD fo=
+nd (MMF) na va=C5=A1i platbu
+vystavily neodvolatelnou platebn=C3=AD z=C3=A1ruku. Jsme v=C5=A1ak r=C3=A1d=
+i, =C5=BEe v=C3=A1m
+m=C5=AF=C5=BEeme ozn=C3=A1mit, =C5=BEe na z=C3=A1klad=C4=9B na=C5=A1eho dop=
+oru=C4=8Den=C3=AD/pokyn=C5=AF; va=C5=A1e kompletn=C3=AD
+finan=C4=8Dn=C3=AD prost=C5=99edky byly p=C5=99ips=C3=A1ny ve v=C3=A1=C5=A1=
+ prosp=C4=9Bch prost=C5=99ednictv=C3=ADm
+pen=C4=9B=C5=BEenky western union a western union v=C3=A1m bude pos=C3=ADla=
+t =C4=8D=C3=A1stku p=C4=9Bt
+tis=C3=ADc dolar=C5=AF denn=C4=9B, dokud nebude celkov=C3=A1 =C4=8D=C3=A1st=
+ka kompenzace dokon=C4=8Dena.
 
-[1]: https://pastebin.com/AwZQjHD9
+Proto V=C3=A1m doporu=C4=8Dujeme kontaktovat:
 
-On 22.05.23 11:37, John Paul Adrian Glaubitz wrote:
-> Hello Frank!
->
-> On Mon, 2023-05-22 at 11:34 +0200, Frank Scheiner wrote:
->> Maybe someone on linux-alpha has an idea what could be the reason?
->
-> Try reproducing it with libcgroup to see if it's a systemd or a kernel b=
-ug:
->
->> https://wiki.archlinux.org/title/cgroups#Examples
+pan=C3=AD Olga Martinezov=C3=A1
+=C5=98editel platebn=C3=ADho odd=C4=9Blen=C3=AD
+Glob=C3=A1ln=C3=AD obnova spot=C5=99ebitele
+Podpora operac=C3=AD Fcc
+E-mailov=C3=A1 adresa: (olgapatygmartinez@fastservice.com)
 
-Took me a while to get back to this and actually get it working...
+Kontaktujte ji nyn=C3=AD a =C5=99ekn=C4=9Bte j=C3=AD, aby v=C3=A1m poradila=
+, jak obdr=C5=BEet prvn=C3=AD
+platbu. Jakmile s n=C3=AD nav=C3=A1=C5=BEete kontakt, nasm=C4=9Bruje v=C3=
+=A1s, co m=C3=A1te d=C4=9Blat, a
+p=C5=99es Western Union budete dost=C3=A1vat =C4=8D=C3=A1stku p=C4=9Bt tis=
+=C3=ADc dolar=C5=AF (5000
+dolar=C5=AF) denn=C4=9B, dokud nebude celkov=C3=A1 =C4=8D=C3=A1stka dokon=
+=C4=8Dena.
 
-Following misc. examples and manpages (e.g. [2] and [3]) I did the
-following to test cgroup functionality with System V init installed and
-running instead of systemd:
+Kdy=C5=BE ji budete kontaktovat, m=C4=9Bli byste ji kontaktovat se sv=C3=BD=
+mi =C3=BAdaji,
+jak je uvedeno n=C3=AD=C5=BEe:
 
-```
-root@ds25:~# uname -a
-Linux ds25 6.3.0-1-alpha-smp #1 SMP Debian 6.3.7-1 (2023-06-12) alpha
-GNU/Linux
+1. Va=C5=A1e cel=C3=A9 jm=C3=A9no:
+2. Va=C5=A1e adresa:
+3. V=C3=A1=C5=A1 v=C4=9Bk:
+4. Povol=C3=A1n=C3=AD:
+5. Telefonn=C3=AD =C4=8D=C3=ADsla:
+6. Zem=C4=9B:
 
-root@ds25:~# mount
-[...]
-cgroup on /sys/fs/cgroup type tmpfs (rw,relatime,mode=3D755,inode64)
-cgroup on /sys/fs/cgroup/cpuset type cgroup (rw,relatime,cpuset)
-cgroup on /sys/fs/cgroup/cpu type cgroup (rw,relatime,cpu)
-[...]
-cgroup on /sys/fs/cgroup/rdma type cgroup (rw,relatime,rdma)
-cgroup on /sys/fs/cgroup/misc type cgroup (rw,relatime,misc)
+Pozn=C3=A1mka: Doporu=C4=8Dujeme v=C3=A1m, abyste pan=C3=AD Olze Martinezov=
+=C3=A9 poskytli
+spr=C3=A1vn=C3=A9 a platn=C3=A9 =C3=BAdaje. Bu=C4=8Fte tak=C3=A9 informov=
+=C3=A1ni, =C5=BEe va=C5=A1e celkov=C3=A1 =C4=8D=C3=A1stka
+m=C3=A1 hodnotu 1 000 000 00 $. Gratulujeme.
 
-root@ds25:~# CGROUP=3D/sys/fs/cgroup
+Zpr=C3=A1va od prof=C3=ADka
+Spojen=C3=A9 n=C3=A1rody
+...................................................
+Dear email owner/fund beneficiary,
 
-root@ds25:~# mkdir $CGROUP/red
-root@ds25:~# mount -t cgroup -o cpuset red $CGROUP/red
-root@ds25:~# mkdir -p $CGROUP/red/shells/bash
-root@ds25:~# chown root:root $CGROUP/red/shells/bash/*
-root@ds25:~# id johndoe
-uid=3D1001(johndoe) gid=3D1001(johndoe) groups=3D1001(johndoe),100(users)
-root@ds25:~# chown root:johndoe $CGROUP/red/shells/bash/tasks
-root@ds25:~# echo $(cgget -n -v -r cpuset.mems /) >
-$CGROUP/red/shells/cpuset.mems
-root@ds25:~# echo $(cgget -n -v -r cpuset.cpus /) >
-$CGROUP/red/shells/cpuset.cpus
-root@ds25:~# echo 0 > $CGROUP/red/shells/bash/cpuset.mems
-root@ds25:~# echo 0 > $CGROUP/red/shells/bash/cpuset.cpus
+Irrevocable payment order via western union
 
-root@ds25:~# cat /proc/self/cgroup
-13:misc:/
-12:rdma:/
-11:pids:/
-10:net_prio:/
-9:perf_event:/
-8:net_cls:/
-7:freezer:/
-6:devices:/
-5:memory:/
-4:blkio:/
-3:cpuacct:/
-2:cpu:/
-1:cpuset:/
+We have been authorized by the United Nations' secretary general, and
+the governing body of the United Nations' monetary unit, to
+investigate the unnecessary delay on the payment recommended and
+approved in your favor. During our investigation, we discovered with
+dismay that your payment has been unnecessarily delayed by corrupt
+officials of the bank who were trying to divert your funds into their
+private accounts.
 
-root@ds25:~# echo $$
-1496
+To forestall this, security for your funds was organized in the form
+of money transfer control numbers (MTCN) in western union, and this
+will enable only you to have direct control over your funds via
+western union. We will monitor this payment ourselves to avoid the
+hopeless situation created by the officials of the bank.
 
-root@ds25:~# cgexec -g cpuset:shells/bash bash
+An irrevocable payment guarantee has been issued by the World Bank
+group and the international monetary fund (IMF) on your payment.
+However, we are happy to inform you that based on our
+recommendation/instructions; your complete funds have been credited in
+your favor through western union wallet, and western union will be
+sending to you the sum of five thousand dollars per day until the
+total compensation amount is completed.
 
-root@ds25:~# echo $$
-1695
+You are therefore advised to contact:
 
-root@ds25:~# cat /proc/self/cgroup
-13:misc:/
-[...]
-2:cpu:/
-1:cpuset:/shells/bash
-```
+Mrs. Olga Martinez
+Director payment department
+Global consumer reinstatement
+Fcc operations support
+Email address:  (olgapatygmartinez@naver.com)
 
-[2]:
-https://access.redhat.com/documentation/en-us/red_hat_enterprise_linux/6/h=
-tml/resource_management_guide/ch-using_control_groups
+Contact her now and tell her to advise you on how to receive your
+first payment. As soon as you establish a contact with her, she will
+direct you on what to do, and you will be receiving the sum of five
+thousand dollars ($5000) via western union per day until the total sum
+is completed.
 
-[3]: https://wiki.archlinux.org/title/cgroups#Examples
+When contacting her, you should contact her with your data as stated below:
 
-I then ran `7za b` in that shell and though `7za` executes two threads
-assuming it has access to both CPUs, `htop` showed both of them running
-on the first processor only. So it looks like at least this part of the
-cgroup functionality is working with Linux 6.3.0-1 from Debian when
-using System V init.
+1. Your full name:
+2. Your address:
+3. Your age:
+4. Occupation:
+5. Telephone numbers:
+6. Country:
 
-So it could be that this problem is only triggered with one or multiple
-specific controller(s). But I don't exactly know how to determine the
-used controller(s) for target "graphical.target" - where this seems to
-happen according to (see more details on [4]):
+Note: you are advised to furnish Mrs. Olga Martinez with your correct
+and valid details. Also be informed that your total sum is valued $1,
+000, 000, 00. Congratulations.
 
-```
-[...]
-[   11.864251] systemd[1]: Queued start job for default target
-graphical.target.
-[   11.958978] CPU 1
-[   11.958978] systemd(1): Instruction fault 4
-[...]
-```
-
-[4]: https://lists.debian.org/debian-alpha/2023/05/msg00012.html
-
-Cheers,
-Frank
+Message from the pro
+United Nations
