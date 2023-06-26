@@ -2,236 +2,197 @@ Return-Path: <linux-alpha-owner@vger.kernel.org>
 X-Original-To: lists+linux-alpha@lfdr.de
 Delivered-To: lists+linux-alpha@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 1886B7361D6
-	for <lists+linux-alpha@lfdr.de>; Tue, 20 Jun 2023 05:01:39 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id C69D773E610
+	for <lists+linux-alpha@lfdr.de>; Mon, 26 Jun 2023 19:15:06 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230037AbjFTDBf (ORCPT <rfc822;lists+linux-alpha@lfdr.de>);
-        Mon, 19 Jun 2023 23:01:35 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48558 "EHLO
+        id S230229AbjFZRPF (ORCPT <rfc822;lists+linux-alpha@lfdr.de>);
+        Mon, 26 Jun 2023 13:15:05 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51272 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230061AbjFTDBa (ORCPT
+        with ESMTP id S230509AbjFZROt (ORCPT
         <rfc822;linux-alpha@vger.kernel.org>);
-        Mon, 19 Jun 2023 23:01:30 -0400
-Received: from mail-ej1-x62a.google.com (mail-ej1-x62a.google.com [IPv6:2a00:1450:4864:20::62a])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0A5D710D7
-        for <linux-alpha@vger.kernel.org>; Mon, 19 Jun 2023 20:01:26 -0700 (PDT)
-Received: by mail-ej1-x62a.google.com with SMTP id a640c23a62f3a-98802908fedso365082266b.1
-        for <linux-alpha@vger.kernel.org>; Mon, 19 Jun 2023 20:01:26 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20221208; t=1687230085; x=1689822085;
-        h=content-transfer-encoding:to:subject:message-id:date:from
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=BrbG7JxveYysVe86t5gOLnlc9dkaosvcFTwxzJdTEvM=;
-        b=Cy5pcyOImQpaN7G92qqjZ5UPpPhwXXa0U/wX1p6euky/gRqwmCiIjcvH8suIvwLW0J
-         IuPbv5tVtrvSjFshSlf7QMCgPDigk5RsuH8+X6E12JZiPcEi5SoHiQZ5tTs442IZqypA
-         XPZrVq/lMy8xqoB9YBP6BKKVlCA+22uwncX0NmLkRQJZDgg0sBn+f+JHWjMgG9NstzzO
-         u5sWeWw6a/TY0d0wJMH5pQ5dXZFlnfOsxdpGwoBHAJNzT6nipo4udBoVcD/FMvX0iwQ9
-         GuxFQkHix38G3qxCD7BxZs/1LW+BY4vb3HLrVU1PN9vZdEBuCiSH/g3deu0dPjtpUFfA
-         NVkQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1687230085; x=1689822085;
-        h=content-transfer-encoding:to:subject:message-id:date:from
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=BrbG7JxveYysVe86t5gOLnlc9dkaosvcFTwxzJdTEvM=;
-        b=CoGZLak+2kGn3ms2Ybtz0lneXkJd3dtoMuJLwRf5LpwQvV9y8mAKJJS4htUQ0xtPP/
-         iiMSGETR6lWqsqbwIwUW3GT26sJ8XxVGt6VM5g9wjbJul5OsAQcYp4Q6l3deDv0HKPxu
-         PoCcKDNPIIMNphsIp4lal1pHWZgtcZX3kisiQ0Aro5ckpXP99qBbgodTEJYM190mSaAg
-         fUdF6PCTIg9GmPUCiR25KJZOWSMj3/qxb16abvnphU56vKr2umEE+r1oZaPWjaVzTXgv
-         jhIYE1yHI9raIHl4gCzBBg9NNorwsr8Mwa9Lvn1KR0cJF9qU7ZDzzsLHYv7GYGoZtjKi
-         jUkg==
-X-Gm-Message-State: AC+VfDytFZcDqh83zDJgQihpThaGpvRJwaDZmdDcdrSaxh4CXyC+3Ant
-        8y41e+HMc1p2/mVQY4tOpXuB2SItNV6YmuUS1c8=
-X-Google-Smtp-Source: ACHHUZ4q0wcNoNmaGedRzMdTlBXBComQaL8c4ZUOPgoRGHkgsmwQb8NO3O1AbMN3W5Kbmy2w/uCOezj3/Oqu4iYdtJM=
-X-Received: by 2002:a17:907:6d9c:b0:988:9763:9517 with SMTP id
- sb28-20020a1709076d9c00b0098897639517mr3996214ejc.43.1687230085204; Mon, 19
- Jun 2023 20:01:25 -0700 (PDT)
+        Mon, 26 Jun 2023 13:14:49 -0400
+Received: from foss.arm.com (foss.arm.com [217.140.110.172])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTP id 9C69E10E7;
+        Mon, 26 Jun 2023 10:14:41 -0700 (PDT)
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+        by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 23F3C2F4;
+        Mon, 26 Jun 2023 10:15:25 -0700 (PDT)
+Received: from e125769.cambridge.arm.com (e125769.cambridge.arm.com [10.1.196.26])
+        by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 37CCD3F663;
+        Mon, 26 Jun 2023 10:14:38 -0700 (PDT)
+From:   Ryan Roberts <ryan.roberts@arm.com>
+To:     Andrew Morton <akpm@linux-foundation.org>,
+        "Matthew Wilcox (Oracle)" <willy@infradead.org>,
+        "Kirill A. Shutemov" <kirill.shutemov@linux.intel.com>,
+        Yin Fengwei <fengwei.yin@intel.com>,
+        David Hildenbrand <david@redhat.com>,
+        Yu Zhao <yuzhao@google.com>,
+        Catalin Marinas <catalin.marinas@arm.com>,
+        Will Deacon <will@kernel.org>,
+        Geert Uytterhoeven <geert@linux-m68k.org>,
+        Christian Borntraeger <borntraeger@linux.ibm.com>,
+        Sven Schnelle <svens@linux.ibm.com>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
+        Dave Hansen <dave.hansen@linux.intel.com>,
+        "H. Peter Anvin" <hpa@zytor.com>
+Cc:     Ryan Roberts <ryan.roberts@arm.com>, linux-kernel@vger.kernel.org,
+        linux-mm@kvack.org, linux-alpha@vger.kernel.org,
+        linux-arm-kernel@lists.infradead.org, linux-ia64@vger.kernel.org,
+        linux-m68k@lists.linux-m68k.org, linux-s390@vger.kernel.org
+Subject: [PATCH v1 00/10] variable-order, large folios for anonymous memory
+Date:   Mon, 26 Jun 2023 18:14:20 +0100
+Message-Id: <20230626171430.3167004-1-ryan.roberts@arm.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-Received: by 2002:a17:906:4a90:b0:986:545c:2dc5 with HTTP; Mon, 19 Jun 2023
- 20:01:24 -0700 (PDT)
-From:   United Nations <cindylove276@gmail.com>
-Date:   Mon, 19 Jun 2023 23:01:24 -0400
-Message-ID: <CANHmF4AM9mqGLwbJuFsV1RCae2eGKd-i2nS7f1fkY90cJn7=fA@mail.gmail.com>
-Subject: Congratulations
-To:     undisclosed-recipients:;
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Spam-Status: Yes, score=6.9 required=5.0 tests=ADVANCE_FEE_3_NEW_FRM_MNY,
-        BAYES_50,DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,
-        FILL_THIS_FORM,FILL_THIS_FORM_LONG,FORM_FRAUD_5,
-        FREEMAIL_ENVFROM_END_DIGIT,FREEMAIL_FROM,FREEMAIL_REPLY,LOTS_OF_MONEY,
-        MONEY_FORM,MONEY_FRAUD_5,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,
-        T_SCC_BODY_TEXT_LINE,UNDISC_MONEY autolearn=no autolearn_force=no
-        version=3.4.6
-X-Spam-Report: * -0.0 RCVD_IN_DNSWL_NONE RBL: Sender listed at
-        *      https://www.dnswl.org/, no trust
-        *      [2a00:1450:4864:20:0:0:0:62a listed in]
-        [list.dnswl.org]
-        *  0.8 BAYES_50 BODY: Bayes spam probability is 40 to 60%
-        *      [score: 0.5000]
-        *  0.0 SPF_HELO_NONE SPF: HELO does not publish an SPF Record
-        * -0.0 SPF_PASS SPF: sender matches SPF record
-        *  0.2 FREEMAIL_ENVFROM_END_DIGIT Envelope-from freemail username ends
-        *       in digit
-        *      [cindylove276[at]gmail.com]
-        *  0.0 FREEMAIL_FROM Sender email is commonly abused enduser mail
-        *      provider
-        *      [cindylove276[at]gmail.com]
-        * -0.1 DKIM_VALID_AU Message has a valid DKIM or DK signature from
-        *      author's domain
-        *  0.1 DKIM_SIGNED Message has a DKIM or DK signature, not necessarily
-        *       valid
-        * -0.1 DKIM_VALID_EF Message has a valid DKIM or DK signature from
-        *      envelope-from domain
-        * -0.1 DKIM_VALID Message has at least one valid DKIM or DK signature
-        *  0.0 LOTS_OF_MONEY Huge... sums of money
-        * -0.0 T_SCC_BODY_TEXT_LINE No description available.
-        *  1.0 FREEMAIL_REPLY From and body contain different freemails
-        *  0.0 FILL_THIS_FORM Fill in a form with personal information
-        *  2.0 FILL_THIS_FORM_LONG Fill in a form with personal information
-        *  0.0 MONEY_FORM Lots of money if you fill out a form
-        *  3.1 UNDISC_MONEY Undisclosed recipients + money/fraud signs
-        *  0.0 ADVANCE_FEE_3_NEW_FRM_MNY Advance Fee fraud form and lots of
-        *      money
-        *  0.0 MONEY_FRAUD_5 Lots of money and many fraud phrases
-        *  0.0 FORM_FRAUD_5 Fill a form and many fraud phrases
-X-Spam-Level: ******
+Content-Transfer-Encoding: 8bit
+X-Spam-Status: No, score=-4.2 required=5.0 tests=BAYES_00,RCVD_IN_DNSWL_MED,
+        SPF_HELO_NONE,SPF_NONE,T_SCC_BODY_TEXT_LINE autolearn=ham
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-alpha.vger.kernel.org>
 X-Mailing-List: linux-alpha@vger.kernel.org
 
-V=C3=A1=C5=BEen=C3=BD vlastn=C3=ADk e-mailu/p=C5=99=C3=ADjemce fondu,
+Hi All,
 
-Neodvolateln=C3=BD platebn=C3=AD p=C5=99=C3=ADkaz p=C5=99es western union
+Following on from the previous RFCv2 [1], this series implements variable order,
+large folios for anonymous memory. The objective of this is to improve
+performance by allocating larger chunks of memory during anonymous page faults:
 
-Byli jsme pov=C4=9B=C5=99eni gener=C3=A1ln=C3=ADm tajemn=C3=ADkem Organizac=
-e spojen=C3=BDch n=C3=A1rod=C5=AF a
-=C5=99=C3=ADd=C3=ADc=C3=ADm org=C3=A1nem m=C4=9Bnov=C3=A9 jednotky OSN, aby=
-chom pro=C5=A1et=C5=99ili zbyte=C4=8Dn=C3=A9
-zpo=C5=BEd=C4=9Bn=C3=AD platby doporu=C4=8Den=C3=A9 a schv=C3=A1len=C3=A9 v=
-e v=C3=A1=C5=A1 prosp=C4=9Bch. B=C4=9Bhem na=C5=A1eho
-vy=C5=A1et=C5=99ov=C3=A1n=C3=AD jsme se zd=C4=9B=C5=A1en=C3=ADm zjistili, =
-=C5=BEe va=C5=A1e platba byla zbyte=C4=8Dn=C4=9B
-zdr=C5=BEov=C3=A1na zkorumpovan=C3=BDmi =C3=BA=C5=99edn=C3=ADky banky, kte=
-=C5=99=C3=AD se sna=C5=BEili p=C5=99esm=C4=9Brovat
-va=C5=A1e prost=C5=99edky na jejich soukrom=C3=A9 =C3=BA=C4=8Dty.
+ - Since SW (the kernel) is dealing with larger chunks of memory than base
+   pages, there are efficiency savings to be had; fewer page faults, batched PTE
+   and RMAP manipulation, fewer items on lists, etc. In short, we reduce kernel
+   overhead. This should benefit all architectures.
+ - Since we are now mapping physically contiguous chunks of memory, we can take
+   advantage of HW TLB compression techniques. A reduction in TLB pressure
+   speeds up kernel and user space. arm64 systems have 2 mechanisms to coalesce
+   TLB entries; "the contiguous bit" (architectural) and HPA (uarch).
 
-Aby se tomu p=C5=99ede=C5=A1lo, bylo zabezpe=C4=8Den=C3=AD va=C5=A1ich fina=
-n=C4=8Dn=C3=ADch prost=C5=99edk=C5=AF
-zorganizov=C3=A1no ve form=C4=9B kontroln=C3=ADch =C4=8D=C3=ADsel p=C5=99ev=
-odu pen=C4=9Bz (MTCN) v
-Western Union, co=C5=BE v=C3=A1m umo=C5=BEn=C3=AD m=C3=ADt p=C5=99=C3=ADmou=
- kontrolu nad va=C5=A1imi
-finan=C4=8Dn=C3=ADmi prost=C5=99edky prost=C5=99ednictv=C3=ADm Western Unio=
-n. Tuto platbu
-budeme sami sledovat, abychom se vyhnuli bezv=C3=BDchodn=C3=A9 situaci, kte=
-rou
-vytvo=C5=99ili =C3=BA=C5=99edn=C3=ADci banky.
+This patch set deals with the SW side of things only and based on feedback from
+the RFC, aims to be the most minimal initial change, upon which future
+incremental changes can be added. For this reason, the new behaviour is hidden
+behind a new Kconfig switch, CONFIG_LARGE_ANON_FOLIO, which is disabled by
+default. Although the code has been refactored to parameterize the desired order
+of the allocation, when the feature is disabled (by forcing the order to be
+always 0) my performance tests measure no regression. So I'm hoping this will be
+a suitable mechanism to allow incremental submissions to the kernel without
+affecting the rest of the world.
 
-Skupina Sv=C4=9Btov=C3=A9 banky a Mezin=C3=A1rodn=C3=AD m=C4=9Bnov=C3=BD fo=
-nd (MMF) na va=C5=A1i platbu
-vystavily neodvolatelnou platebn=C3=AD z=C3=A1ruku. Jsme v=C5=A1ak r=C3=A1d=
-i, =C5=BEe v=C3=A1m
-m=C5=AF=C5=BEeme ozn=C3=A1mit, =C5=BEe na z=C3=A1klad=C4=9B na=C5=A1eho dop=
-oru=C4=8Den=C3=AD/pokyn=C5=AF; va=C5=A1e kompletn=C3=AD
-finan=C4=8Dn=C3=AD prost=C5=99edky byly p=C5=99ips=C3=A1ny ve v=C3=A1=C5=A1=
- prosp=C4=9Bch prost=C5=99ednictv=C3=ADm
-pen=C4=9B=C5=BEenky western union a western union v=C3=A1m bude pos=C3=ADla=
-t =C4=8D=C3=A1stku p=C4=9Bt
-tis=C3=ADc dolar=C5=AF denn=C4=9B, dokud nebude celkov=C3=A1 =C4=8D=C3=A1st=
-ka kompenzace dokon=C4=8Dena.
+The patches are based on top of v6.4 plus Matthew Wilcox's set_ptes() series
+[2], which is a hard dependency. I'm not sure of Matthew's exact plans for
+getting that series into the kernel, but I'm hoping we can start the review
+process on this patch set independently. I have a branch at [3].
 
-Proto V=C3=A1m doporu=C4=8Dujeme kontaktovat:
+I've posted a separate series concerning the HW part (contpte mapping) for arm64
+at [4].
 
-pan=C3=AD Olga Martinezov=C3=A1
-=C5=98editel platebn=C3=ADho odd=C4=9Blen=C3=AD
-Glob=C3=A1ln=C3=AD obnova spot=C5=99ebitele
-Podpora operac=C3=AD Fcc
-E-mailov=C3=A1 adresa: (olgapatygmartinez@fastservice.com)
 
-Kontaktujte ji nyn=C3=AD a =C5=99ekn=C4=9Bte j=C3=AD, aby v=C3=A1m poradila=
-, jak obdr=C5=BEet prvn=C3=AD
-platbu. Jakmile s n=C3=AD nav=C3=A1=C5=BEete kontakt, nasm=C4=9Bruje v=C3=
-=A1s, co m=C3=A1te d=C4=9Blat, a
-p=C5=99es Western Union budete dost=C3=A1vat =C4=8D=C3=A1stku p=C4=9Bt tis=
-=C3=ADc dolar=C5=AF (5000
-dolar=C5=AF) denn=C4=9B, dokud nebude celkov=C3=A1 =C4=8D=C3=A1stka dokon=
-=C4=8Dena.
+Performance
+-----------
 
-Kdy=C5=BE ji budete kontaktovat, m=C4=9Bli byste ji kontaktovat se sv=C3=BD=
-mi =C3=BAdaji,
-jak je uvedeno n=C3=AD=C5=BEe:
+Below results show 2 benchmarks; kernel compilation and speedometer 2.0 (a
+javascript benchmark running in Chromium). Both cases are running on Ampere
+Altra with 1 NUMA node enabled, Ubuntu 22.04 and XFS filesystem. Each benchmark
+is repeated 15 times over 5 reboots and averaged.
 
-1. Va=C5=A1e cel=C3=A9 jm=C3=A9no:
-2. Va=C5=A1e adresa:
-3. V=C3=A1=C5=A1 v=C4=9Bk:
-4. Povol=C3=A1n=C3=AD:
-5. Telefonn=C3=AD =C4=8D=C3=ADsla:
-6. Zem=C4=9B:
+All improvements are relative to baseline-4k. 'anonfolio-basic' is this series.
+'anonfolio' is the full patch set similar to the RFC with the additional changes
+to the extra 3 fault paths. The rest of the configs are described at [4].
 
-Pozn=C3=A1mka: Doporu=C4=8Dujeme v=C3=A1m, abyste pan=C3=AD Olze Martinezov=
-=C3=A9 poskytli
-spr=C3=A1vn=C3=A9 a platn=C3=A9 =C3=BAdaje. Bu=C4=8Fte tak=C3=A9 informov=
-=C3=A1ni, =C5=BEe va=C5=A1e celkov=C3=A1 =C4=8D=C3=A1stka
-m=C3=A1 hodnotu 1 000 000 00 $. Gratulujeme.
+Kernel Compilation (smaller is better):
 
-Zpr=C3=A1va od prof=C3=ADka
-Spojen=C3=A9 n=C3=A1rody
-...................................................
-Dear email owner/fund beneficiary,
+| kernel          |   real-time |   kern-time |   user-time |
+|:----------------|------------:|------------:|------------:|
+| baseline-4k     |        0.0% |        0.0% |        0.0% |
+| anonfolio-basic |       -5.3% |      -42.9% |       -0.6% |
+| anonfolio       |       -5.4% |      -46.0% |       -0.3% |
+| contpte         |       -6.8% |      -45.7% |       -2.1% |
+| exefolio        |       -8.4% |      -46.4% |       -3.7% |
+| baseline-16k    |       -8.7% |      -49.2% |       -3.7% |
+| baseline-64k    |      -10.5% |      -66.0% |       -3.5% |
 
-Irrevocable payment order via western union
+Speedometer 2.0 (bigger is better):
 
-We have been authorized by the United Nations' secretary general, and
-the governing body of the United Nations' monetary unit, to
-investigate the unnecessary delay on the payment recommended and
-approved in your favor. During our investigation, we discovered with
-dismay that your payment has been unnecessarily delayed by corrupt
-officials of the bank who were trying to divert your funds into their
-private accounts.
+| kernel          |   runs_per_min |
+|:----------------|---------------:|
+| baseline-4k     |           0.0% |
+| anonfolio-basic |           0.7% |
+| anonfolio       |           1.2% |
+| contpte         |           3.1% |
+| exefolio        |           4.2% |
+| baseline-16k    |           5.3% |
 
-To forestall this, security for your funds was organized in the form
-of money transfer control numbers (MTCN) in western union, and this
-will enable only you to have direct control over your funds via
-western union. We will monitor this payment ourselves to avoid the
-hopeless situation created by the officials of the bank.
 
-An irrevocable payment guarantee has been issued by the World Bank
-group and the international monetary fund (IMF) on your payment.
-However, we are happy to inform you that based on our
-recommendation/instructions; your complete funds have been credited in
-your favor through western union wallet, and western union will be
-sending to you the sum of five thousand dollars per day until the
-total compensation amount is completed.
+Changes since RFCv2
+-------------------
 
-You are therefore advised to contact:
+  - Simplified series to bare minimum (on David Hildenbrand's advice)
+      - Removed changes to 3 fault paths:
+          - write fault on zero page: wp_page_copy()
+          - write fault on non-exclusive CoW page: wp_page_copy()
+          - write fault on exclusive CoW page: do_wp_page()/wp_page_reuse()
+      - Only 1 fault path change remains:
+          - write fault on unallocated address: do_anonymous_page()
+      - Removed support patches that are no longer needed
+  - Added Kconfig CONFIG_LARGE_ANON_FOLIO and friends
+      - Whole feature defaults to off
+      - Arch opts-in to allowing feature and provides max allocation order
 
-Mrs. Olga Martinez
-Director payment department
-Global consumer reinstatement
-Fcc operations support
-Email address:  (olgapatygmartinez@naver.com)
 
-Contact her now and tell her to advise you on how to receive your
-first payment. As soon as you establish a contact with her, she will
-direct you on what to do, and you will be receiving the sum of five
-thousand dollars ($5000) via western union per day until the total sum
-is completed.
+Future Work
+-----------
 
-When contacting her, you should contact her with your data as stated below:
+Once this series is in, there are some more incremental changes I plan to follow
+up with:
 
-1. Your full name:
-2. Your address:
-3. Your age:
-4. Occupation:
-5. Telephone numbers:
-6. Country:
+  - Add the other 3 fault path changes back in
+  - Properly support pte-mapped folios for:
+      - numa balancing (do_numa_page())
+      - fix assumptions about exclusivity for large folios in madvise()
+      - compaction (although I think this is already a problem for large folios
+        in the file cache so perhaps someone is working on it?)
 
-Note: you are advised to furnish Mrs. Olga Martinez with your correct
-and valid details. Also be informed that your total sum is valued $1,
-000, 000, 00. Congratulations.
 
-Message from the pro
-United Nations
+[1] https://lore.kernel.org/linux-mm/20230414130303.2345383-1-ryan.roberts@arm.com/
+[2] https://lore.kernel.org/linux-mm/20230315051444.3229621-1-willy@infradead.org/
+[3] https://gitlab.arm.com/linux-arm/linux-rr/-/tree/features/granule_perf/anonfolio-lkml_v1
+[4] https://lore.kernel.org/linux-arm-kernel/20230622144210.2623299-1-ryan.roberts@arm.com/
+
+Thanks,
+Ryan
+
+
+Ryan Roberts (10):
+  mm: Expose clear_huge_page() unconditionally
+  mm: pass gfp flags and order to vma_alloc_zeroed_movable_folio()
+  mm: Introduce try_vma_alloc_movable_folio()
+  mm: Implement folio_add_new_anon_rmap_range()
+  mm: Implement folio_remove_rmap_range()
+  mm: Allow deferred splitting of arbitrary large anon folios
+  mm: Batch-zap large anonymous folio PTE mappings
+  mm: Kconfig hooks to determine max anon folio allocation order
+  arm64: mm: Declare support for large anonymous folios
+  mm: Allocate large folios for anonymous memory
+
+ arch/alpha/include/asm/page.h   |   5 +-
+ arch/arm64/Kconfig              |  13 ++
+ arch/arm64/include/asm/page.h   |   3 +-
+ arch/arm64/mm/fault.c           |   7 +-
+ arch/ia64/include/asm/page.h    |   5 +-
+ arch/m68k/include/asm/page_no.h |   7 +-
+ arch/s390/include/asm/page.h    |   5 +-
+ arch/x86/include/asm/page.h     |   5 +-
+ include/linux/highmem.h         |  23 ++-
+ include/linux/mm.h              |   3 +-
+ include/linux/rmap.h            |   4 +
+ mm/Kconfig                      |  39 ++++
+ mm/memory.c                     | 324 ++++++++++++++++++++++++++++++--
+ mm/rmap.c                       | 107 ++++++++++-
+ 14 files changed, 506 insertions(+), 44 deletions(-)
+
+--
+2.25.1
+
