@@ -2,58 +2,58 @@ Return-Path: <linux-alpha-owner@vger.kernel.org>
 X-Original-To: lists+linux-alpha@lfdr.de
 Delivered-To: lists+linux-alpha@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 4366273F124
-	for <lists+linux-alpha@lfdr.de>; Tue, 27 Jun 2023 05:07:04 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 7C79473F2D7
+	for <lists+linux-alpha@lfdr.de>; Tue, 27 Jun 2023 05:36:56 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229913AbjF0DHB (ORCPT <rfc822;lists+linux-alpha@lfdr.de>);
-        Mon, 26 Jun 2023 23:07:01 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34410 "EHLO
+        id S230376AbjF0Dgy (ORCPT <rfc822;lists+linux-alpha@lfdr.de>);
+        Mon, 26 Jun 2023 23:36:54 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45610 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229655AbjF0DG7 (ORCPT
+        with ESMTP id S230058AbjF0DgR (ORCPT
         <rfc822;linux-alpha@vger.kernel.org>);
-        Mon, 26 Jun 2023 23:06:59 -0400
-Received: from mail-qt1-x836.google.com (mail-qt1-x836.google.com [IPv6:2607:f8b0:4864:20::836])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7930E122
-        for <linux-alpha@vger.kernel.org>; Mon, 26 Jun 2023 20:06:58 -0700 (PDT)
-Received: by mail-qt1-x836.google.com with SMTP id d75a77b69052e-401f4408955so92911cf.1
-        for <linux-alpha@vger.kernel.org>; Mon, 26 Jun 2023 20:06:58 -0700 (PDT)
+        Mon, 26 Jun 2023 23:36:17 -0400
+Received: from mail-qt1-x833.google.com (mail-qt1-x833.google.com [IPv6:2607:f8b0:4864:20::833])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CDB324C15
+        for <linux-alpha@vger.kernel.org>; Mon, 26 Jun 2023 20:30:58 -0700 (PDT)
+Received: by mail-qt1-x833.google.com with SMTP id d75a77b69052e-401d1d967beso142201cf.0
+        for <linux-alpha@vger.kernel.org>; Mon, 26 Jun 2023 20:30:58 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20221208; t=1687835217; x=1690427217;
+        d=google.com; s=20221208; t=1687836655; x=1690428655;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=vHjDKRRl/15ekTuy08miOOxy3w0/yhMNRIiKSHMWeKc=;
-        b=U+XAZ3T2dIrYSDRflvSR1rmzQYNaCDWIXrwa1SuzZyMaNy4R1Z9M7iKbPChbnEUUcN
-         HbNR42w6rgICSGyutbOx3FUPFNrEn/y7PrelQZJmyCIivX/xaF9v3GFiJpnhAtYeu4RI
-         /ZCmbFdAX8t40oXyMcprKrsltgmdVNvgUKpuOluQcm4IA1tHAnjOewZE9hAeGjLHQPzC
-         F4j8dAcFO/tUYsA1CRgw8DhT52AI7ytP29bgeMTekvzrlL0PghVPLmiES2dlOXNuNOv9
-         MjlQKW2/dQnNI81iD4ySLmnOu8yM7NHqS0Y6SWD1+C1voL+3X694zE5VmhYQ+Sl+KeBK
-         q2gg==
+        bh=Dps86R1lndJwF4gJQy/c3O9t7fuW8Q1JEcrGXaT4yyM=;
+        b=DPpXKg59gxCfYZfd9BY428kZ8iu0DYsney6Rdb3rBdwDtXCqI6by6+cpd+iFCxaq79
+         l5qUs+UtG6qNw6vClJxqZ156uilkFr4nqOfpOjwb4sCDK3cewEwBmVMA0EIXWOjk8R9i
+         TVfgsTBk1kHsR06KuWByKOPsHwpa4kfikZiOJBSb1rUERnaQZ2h4T5rsCZtkeArohaZX
+         Mkw8ML+8yLd2TpK+iFeG6sjz2DCcKu+mgd+76Du4ZXe9n58Em657zW5MzIJDxXMzqKBe
+         fEm9np6GD+3Cx5VBNcJHXVbW+BthLgsTGUPU+3D1UFEeHCXje/m+ogWz3nybucVagpcD
+         4StQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1687835217; x=1690427217;
+        d=1e100.net; s=20221208; t=1687836655; x=1690428655;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=vHjDKRRl/15ekTuy08miOOxy3w0/yhMNRIiKSHMWeKc=;
-        b=FpnUqvurSObDsQOAHxZ23emzWe7OzbLSywXHEgi1RWuHXHHewSROOdeny6g9Qbro4E
-         +L0sU2rIfRc6S5jaLclg1aJ3jQK72HQqka1ccwK7xjOZdTdEEPnHsifF47uPq3V3bXZz
-         JrrmUDhu/9oLh/Cv+Ztv1VLX1nZRAbvUibz/C8rNa+fF422JOW/ekmwVVl4Eb4J0nK7q
-         xmng+c4lCdc4yhf5p91+fMOqaYQa3qX1ldh6q98No/0RVlx4Kbl0UZ5HB894BoSk7ihs
-         V4fIJ5XC7kBGFNJ0PDEvSE71OBkVr3YgDkVepHImBLOfuKq2F7D8O/jKAf/oCCRW9qtq
-         2KDg==
-X-Gm-Message-State: AC+VfDwWR32MWoNGP3doH11nQPC01Q7ml45Cs3DhPLeFQ6OP5pPc8In0
-        0AKvIQB3fe++4b6YKWJiIRQSE0GloOs+IGsInrWAMg==
-X-Google-Smtp-Source: ACHHUZ5p5sW4PXCHzSz3Bi+SKvcosf62y2SJQOFc8Eaih/xwzKdQqVu4Rv48gDYQD7M4asyor1cgbPKZvcH6CWAHIzY=
-X-Received: by 2002:ac8:59c1:0:b0:3e8:684b:195d with SMTP id
- f1-20020ac859c1000000b003e8684b195dmr619236qtf.10.1687835217476; Mon, 26 Jun
- 2023 20:06:57 -0700 (PDT)
+        bh=Dps86R1lndJwF4gJQy/c3O9t7fuW8Q1JEcrGXaT4yyM=;
+        b=AQKZ0RcigcPlfAKQBMvkckMAIDm9mbbqRNLscmWNvS9ozA7+y6sZhNi/wT9smfy3VB
+         +S4W3WRNYMyyTlA4CN/OAhfaqkc64jvjWF4I72GEAvXKNZwSFYq9TkvNZS1cC8YFz+pU
+         7pdUmw2GtSCZzZnGwtnZ5065nFa3G17RxE3ckrezRbzgdYbX+ubV1Z/X0rmEySmPHkRT
+         fVwkM6mstmrH4DRY63TWVA4JGLWvJVM0vRdUoEOxocXffNU96HnSTL9g5wrAENfaoDop
+         25S51hG4rux6CgXHnDUAfIL1yt2EqAZKs43BhJ52VLVPowkkalSSPYCE9ph/BgTGjs7C
+         bgpw==
+X-Gm-Message-State: AC+VfDwCJ/8OABuocaMK3pPdNZmAdd3PCBBH1OtrwJvRgOdbEnb6GpZa
+        y+8DiJEVVxNufe6tvnYxHJlLev3zbA4CjkuuiyE0Dg==
+X-Google-Smtp-Source: ACHHUZ4qGh8xmLwSTj4hOczEKK2tKapgoJ7DPtSPYajCf/D7+00nPQt51ielpDPZJ55CqXUcttPpnW7qGjNXY0ewa5Y=
+X-Received: by 2002:ac8:5953:0:b0:3f5:49b6:f18d with SMTP id
+ 19-20020ac85953000000b003f549b6f18dmr57784qtz.11.1687836655385; Mon, 26 Jun
+ 2023 20:30:55 -0700 (PDT)
 MIME-Version: 1.0
-References: <20230626171430.3167004-1-ryan.roberts@arm.com> <20230626171430.3167004-6-ryan.roberts@arm.com>
-In-Reply-To: <20230626171430.3167004-6-ryan.roberts@arm.com>
+References: <20230626171430.3167004-1-ryan.roberts@arm.com>
+In-Reply-To: <20230626171430.3167004-1-ryan.roberts@arm.com>
 From:   Yu Zhao <yuzhao@google.com>
-Date:   Mon, 26 Jun 2023 21:06:21 -0600
-Message-ID: <CAOUHufZB=E5jW2O_ASuGUP=X-PfVUSFxOCvC=YU1_WwJiQCibA@mail.gmail.com>
-Subject: Re: [PATCH v1 05/10] mm: Implement folio_remove_rmap_range()
+Date:   Mon, 26 Jun 2023 21:30:19 -0600
+Message-ID: <CAOUHufaUTbUw9MTzw8D=sVrEB+RP6LSBQVGn93TWk=ozV8XobA@mail.gmail.com>
+Subject: Re: [PATCH v1 00/10] variable-order, large folios for anonymous memory
 To:     Ryan Roberts <ryan.roberts@arm.com>
 Cc:     Andrew Morton <akpm@linux-foundation.org>,
         "Matthew Wilcox (Oracle)" <willy@infradead.org>,
@@ -88,14 +88,107 @@ X-Mailing-List: linux-alpha@vger.kernel.org
 On Mon, Jun 26, 2023 at 11:14=E2=80=AFAM Ryan Roberts <ryan.roberts@arm.com=
 > wrote:
 >
-> Like page_remove_rmap() but batch-removes the rmap for a range of pages
-> belonging to a folio, for effciency savings. All pages are accounted as
-> small pages.
+> Hi All,
 >
-> Signed-off-by: Ryan Roberts <ryan.roberts@arm.com>
-> ---
->  include/linux/rmap.h |  2 ++
->  mm/rmap.c            | 62 ++++++++++++++++++++++++++++++++++++++++++++
->  2 files changed, 64 insertions(+)
+> Following on from the previous RFCv2 [1], this series implements variable=
+ order,
+> large folios for anonymous memory. The objective of this is to improve
+> performance by allocating larger chunks of memory during anonymous page f=
+aults:
+>
+>  - Since SW (the kernel) is dealing with larger chunks of memory than bas=
+e
+>    pages, there are efficiency savings to be had; fewer page faults, batc=
+hed PTE
+>    and RMAP manipulation, fewer items on lists, etc. In short, we reduce =
+kernel
+>    overhead. This should benefit all architectures.
+>  - Since we are now mapping physically contiguous chunks of memory, we ca=
+n take
+>    advantage of HW TLB compression techniques. A reduction in TLB pressur=
+e
+>    speeds up kernel and user space. arm64 systems have 2 mechanisms to co=
+alesce
+>    TLB entries; "the contiguous bit" (architectural) and HPA (uarch).
+>
+> This patch set deals with the SW side of things only and based on feedbac=
+k from
+> the RFC, aims to be the most minimal initial change, upon which future
+> incremental changes can be added. For this reason, the new behaviour is h=
+idden
+> behind a new Kconfig switch, CONFIG_LARGE_ANON_FOLIO, which is disabled b=
+y
+> default. Although the code has been refactored to parameterize the desire=
+d order
+> of the allocation, when the feature is disabled (by forcing the order to =
+be
+> always 0) my performance tests measure no regression. So I'm hoping this =
+will be
+> a suitable mechanism to allow incremental submissions to the kernel witho=
+ut
+> affecting the rest of the world.
+>
+> The patches are based on top of v6.4 plus Matthew Wilcox's set_ptes() ser=
+ies
+> [2], which is a hard dependency. I'm not sure of Matthew's exact plans fo=
+r
+> getting that series into the kernel, but I'm hoping we can start the revi=
+ew
+> process on this patch set independently. I have a branch at [3].
+>
+> I've posted a separate series concerning the HW part (contpte mapping) fo=
+r arm64
+> at [4].
+>
+>
+> Performance
+> -----------
+>
+> Below results show 2 benchmarks; kernel compilation and speedometer 2.0 (=
+a
+> javascript benchmark running in Chromium). Both cases are running on Ampe=
+re
+> Altra with 1 NUMA node enabled, Ubuntu 22.04 and XFS filesystem. Each ben=
+chmark
+> is repeated 15 times over 5 reboots and averaged.
+>
+> All improvements are relative to baseline-4k. 'anonfolio-basic' is this s=
+eries.
+> 'anonfolio' is the full patch set similar to the RFC with the additional =
+changes
+> to the extra 3 fault paths. The rest of the configs are described at [4].
+>
+> Kernel Compilation (smaller is better):
+>
+> | kernel          |   real-time |   kern-time |   user-time |
+> |:----------------|------------:|------------:|------------:|
+> | baseline-4k     |        0.0% |        0.0% |        0.0% |
+> | anonfolio-basic |       -5.3% |      -42.9% |       -0.6% |
+> | anonfolio       |       -5.4% |      -46.0% |       -0.3% |
+> | contpte         |       -6.8% |      -45.7% |       -2.1% |
+> | exefolio        |       -8.4% |      -46.4% |       -3.7% |
+> | baseline-16k    |       -8.7% |      -49.2% |       -3.7% |
+> | baseline-64k    |      -10.5% |      -66.0% |       -3.5% |
+>
+> Speedometer 2.0 (bigger is better):
+>
+> | kernel          |   runs_per_min |
+> |:----------------|---------------:|
+> | baseline-4k     |           0.0% |
+> | anonfolio-basic |           0.7% |
+> | anonfolio       |           1.2% |
+> | contpte         |           3.1% |
+> | exefolio        |           4.2% |
+> | baseline-16k    |           5.3% |
 
-Sorry for nagging: this can be included in a followup series.
+Thanks for pushing this forward!
+
+> Changes since RFCv2
+> -------------------
+>
+>   - Simplified series to bare minimum (on David Hildenbrand's advice)
+
+My impression is that this series still includes many pieces that can
+be split out and discussed separately with followup series.
+
+(I skipped 04/10 and will look at it tomorrow.)
