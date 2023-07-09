@@ -2,83 +2,107 @@ Return-Path: <linux-alpha-owner@vger.kernel.org>
 X-Original-To: lists+linux-alpha@lfdr.de
 Delivered-To: lists+linux-alpha@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id C070E74BDB9
-	for <lists+linux-alpha@lfdr.de>; Sat,  8 Jul 2023 16:12:18 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 36F3874C4AC
+	for <lists+linux-alpha@lfdr.de>; Sun,  9 Jul 2023 16:12:18 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229899AbjGHOMR (ORCPT <rfc822;lists+linux-alpha@lfdr.de>);
-        Sat, 8 Jul 2023 10:12:17 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44592 "EHLO
+        id S229849AbjGIOMP (ORCPT <rfc822;lists+linux-alpha@lfdr.de>);
+        Sun, 9 Jul 2023 10:12:15 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41906 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229462AbjGHOMQ (ORCPT
-        <rfc822;linux-alpha@vger.kernel.org>); Sat, 8 Jul 2023 10:12:16 -0400
-Received: from elvis.franken.de (elvis.franken.de [193.175.24.41])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTP id D7F0A126;
-        Sat,  8 Jul 2023 07:12:14 -0700 (PDT)
-Received: from uucp by elvis.franken.de with local-rmail (Exim 3.36 #1)
-        id 1qI8fN-00023x-00; Sat, 08 Jul 2023 16:12:05 +0200
-Received: by alpha.franken.de (Postfix, from userid 1000)
-        id 11AC8C01C1; Sat,  8 Jul 2023 16:11:52 +0200 (CEST)
-Date:   Sat, 8 Jul 2023 16:11:52 +0200
-From:   Thomas Bogendoerfer <tsbogend@alpha.franken.de>
-To:     Arnd Bergmann <arnd@kernel.org>
-Cc:     Thomas Zimmermann <tzimmermann@suse.de>, javierm@redhat.com,
-        linux-fbdev@vger.kernel.org, linux-kernel@vger.kernel.org,
-        Russell King <linux@armlinux.org.uk>,
-        dri-devel@lists.freedesktop.org, Ard Biesheuvel <ardb@kernel.org>,
-        Helge Deller <deller@gmx.de>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Arnd Bergmann <arnd@arndb.de>,
-        Richard Henderson <richard.henderson@linaro.org>,
-        Ivan Kokshaysky <ink@jurassic.park.msu.ru>,
-        Matt Turner <mattst88@gmail.com>,
-        Huacai Chen <chenhuacai@kernel.org>,
-        WANG Xuerui <kernel@xen0n.name>,
-        Michael Ellerman <mpe@ellerman.id.au>,
-        Nicholas Piggin <npiggin@gmail.com>,
-        Christophe Leroy <christophe.leroy@csgroup.eu>,
-        Paul Walmsley <paul.walmsley@sifive.com>,
-        Palmer Dabbelt <palmer@dabbelt.com>,
-        Albert Ou <aou@eecs.berkeley.edu>, linux-alpha@vger.kernel.org,
-        linux-ia64@vger.kernel.org, loongarch@lists.linux.dev,
-        linux-mips@vger.kernel.org, linuxppc-dev@lists.ozlabs.org,
-        linux-riscv@lists.infradead.org
-Subject: Re: [PATCH 2/4] vgacon: rework screen_info #ifdef checks
-Message-ID: <ZKluqG2ZqKtAmnEG@alpha.franken.de>
-References: <20230707095415.1449376-1-arnd@kernel.org>
- <20230707095415.1449376-2-arnd@kernel.org>
+        with ESMTP id S231201AbjGIOMO (ORCPT
+        <rfc822;linux-alpha@vger.kernel.org>); Sun, 9 Jul 2023 10:12:14 -0400
+Received: from mail.208.org (unknown [183.242.55.162])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 011B1D1
+        for <linux-alpha@vger.kernel.org>; Sun,  9 Jul 2023 07:12:12 -0700 (PDT)
+Received: from mail.208.org (email.208.org [127.0.0.1])
+        by mail.208.org (Postfix) with ESMTP id 4QzTbW2fQ4zBJBg9
+        for <linux-alpha@vger.kernel.org>; Sun,  9 Jul 2023 22:12:07 +0800 (CST)
+Authentication-Results: mail.208.org (amavisd-new); dkim=pass
+        reason="pass (just generated, assumed good)" header.d=208.org
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=208.org; h=
+        content-transfer-encoding:content-type:message-id:user-agent
+        :references:in-reply-to:subject:to:from:date:mime-version; s=
+        dkim; t=1688911927; x=1691503928; bh=Oqo/UICIck48szuiKPT9stvme+K
+        S0oG33Dm89Cb0R5M=; b=ouCVcYW+dlaWJuZ4/JGQNmLInUVJNS52fCDxtVV2Igv
+        eJXE4A2Yi8HNE/r6GV9DGmvnOlGgRE69cxsL98jfggra0GFlw4M2MwlXlroFFJRI
+        PIHcMv8Qy6Pjrvmj1lFnFOrPnAm+2U43g1c1+RxdT52nvyi3WsC4SXgnGuuRaDBj
+        coR9qRMjIdJVgQ1zx+p4xFHVyKT1uJeghwkWIUguPf3AHC1U7UGjWnaYxUb5Y5ed
+        u0Hoh14oPl2Cdm/1iUGh3BNbEyo06V0q2wPJMBfFDnSOG+lQ3R2kLGSgIvpVOr5r
+        YIIiD6xJf2fhEtRG1qlBdYoiKTtCRkCgWJ+2gzpaHpw==
+X-Virus-Scanned: amavisd-new at mail.208.org
+Received: from mail.208.org ([127.0.0.1])
+        by mail.208.org (mail.208.org [127.0.0.1]) (amavisd-new, port 10026)
+        with ESMTP id 6ZeDqYjq9UzR for <linux-alpha@vger.kernel.org>;
+        Sun,  9 Jul 2023 22:12:07 +0800 (CST)
+Received: from localhost (email.208.org [127.0.0.1])
+        by mail.208.org (Postfix) with ESMTPSA id 4QzTbW04HrzBHXkb;
+        Sun,  9 Jul 2023 22:12:06 +0800 (CST)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20230707095415.1449376-2-arnd@kernel.org>
-X-Spam-Status: No, score=-2.6 required=5.0 tests=BAYES_00,RCVD_IN_DNSWL_LOW,
-        RCVD_IN_MSPIKE_H2,SPF_HELO_PASS,SPF_PASS,T_SCC_BODY_TEXT_LINE
-        autolearn=ham autolearn_force=no version=3.4.6
+Date:   Sun, 09 Jul 2023 22:12:06 +0800
+From:   xuanzhenggang001@208suo.com
+To:     richard.henderson@linaro.org, ink@jurassic.park.msu.ru
+Cc:     mattst88@gmail.com, viro@zeniv.linux.org.uk,
+        linux-alpha@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: [PATCH] alpha/boot/misc: prefer 'unsigned int' to bare use of
+ 'unsigned'
+In-Reply-To: <20230709141002.8229-1-denghuilong@cdjrlc.com>
+References: <20230709141002.8229-1-denghuilong@cdjrlc.com>
+User-Agent: Roundcube Webmail
+Message-ID: <60256ab738fe281c1fb3ec72fba62c60@208suo.com>
+X-Sender: xuanzhenggang001@208suo.com
+Content-Type: text/plain; charset=US-ASCII;
+ format=flowed
+Content-Transfer-Encoding: 7bit
+X-Spam-Status: No, score=-0.9 required=5.0 tests=BAYES_00,DKIM_INVALID,
+        DKIM_SIGNED,RDNS_NONE,SPF_HELO_FAIL,SPF_PASS,T_SCC_BODY_TEXT_LINE
+        autolearn=no autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-alpha.vger.kernel.org>
 X-Mailing-List: linux-alpha@vger.kernel.org
 
-On Fri, Jul 07, 2023 at 11:52:24AM +0200, Arnd Bergmann wrote:
-> diff --git a/arch/mips/jazz/setup.c b/arch/mips/jazz/setup.c
-> index ee044261eb223..3c14548353e47 100644
-> --- a/arch/mips/jazz/setup.c
-> +++ b/arch/mips/jazz/setup.c
-> @@ -76,7 +76,7 @@ void __init plat_mem_setup(void)
->  
->  	_machine_restart = jazz_machine_restart;
->  
-> -#ifdef CONFIG_VT
-> +#ifdef CONFIG_VGA_CONSOLE
->  	screen_info = (struct screen_info) {
->  		.orig_video_cols	= 160,
->  		.orig_video_lines	= 64,
+Fix the following warnings reported by checkpatch:
 
-that wssn't intended for VGA but for fbdev/g364fb, which doesn't use
-it. So removing it is probably the best thing.
+arch/alpha/boot/misc.c:48: WARNING: Prefer 'unsigned int' to bare use of 
+'unsigned'
+arch/alpha/boot/misc.c:49: WARNING: Prefer 'unsigned int' to bare use of 
+'unsigned'
+arch/alpha/boot/misc.c:50: WARNING: Prefer 'unsigned int' to bare use of 
+'unsigned'
+arch/alpha/boot/misc.c:124: WARNING: Prefer 'unsigned int' to bare use 
+of 'unsigned'
 
-Thomas.
+Signed-off-by: Zhenggang Xuan <xuanzhenggang001@208suo.com>
+---
+  arch/alpha/boot/misc.c | 8 ++++----
+  1 file changed, 4 insertions(+), 4 deletions(-)
 
--- 
-Crap can work. Given enough thrust pigs will fly, but it's not necessarily a
-good idea.                                                [ RFC1925, 2.3 ]
+diff --git a/arch/alpha/boot/misc.c b/arch/alpha/boot/misc.c
+index 1ab91852d9f7..7d3249972587 100644
+--- a/arch/alpha/boot/misc.c
++++ b/arch/alpha/boot/misc.c
+@@ -45,9 +45,9 @@ typedef unsigned long  ulg;
+  static uch *inbuf;        /* input buffer */
+  static uch *window;        /* Sliding window buffer */
+
+-static unsigned insize;        /* valid bytes in inbuf */
+-static unsigned inptr;        /* index of next byte to be processed in 
+inbuf */
+-static unsigned outcnt;        /* bytes in output buffer */
++static unsigned int insize;        /* valid bytes in inbuf */
++static unsigned int inptr;        /* index of next byte to be processed 
+in inbuf */
++static unsigned int outcnt;        /* bytes in output buffer */
+
+  /* gzip flag byte */
+  #define ASCII_FLAG   0x01 /* bit 0 set: file probably ascii text */
+@@ -121,7 +121,7 @@ int fill_inbuf(void)
+  void flush_window(void)
+  {
+      ulg c = crc;
+-    unsigned n;
++    unsigned int n;
+      uch *in, *out, ch;
+
+      in = window;
