@@ -2,126 +2,203 @@ Return-Path: <linux-alpha-owner@vger.kernel.org>
 X-Original-To: lists+linux-alpha@lfdr.de
 Delivered-To: lists+linux-alpha@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 1FD9D74DF7A
-	for <lists+linux-alpha@lfdr.de>; Mon, 10 Jul 2023 22:44:06 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 1A8CD74ECAD
+	for <lists+linux-alpha@lfdr.de>; Tue, 11 Jul 2023 13:28:09 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232291AbjGJUoE (ORCPT <rfc822;lists+linux-alpha@lfdr.de>);
-        Mon, 10 Jul 2023 16:44:04 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49328 "EHLO
+        id S231822AbjGKL2H convert rfc822-to-8bit (ORCPT
+        <rfc822;lists+linux-alpha@lfdr.de>); Tue, 11 Jul 2023 07:28:07 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52766 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230487AbjGJUn4 (ORCPT
+        with ESMTP id S229970AbjGKL2C (ORCPT
         <rfc822;linux-alpha@vger.kernel.org>);
-        Mon, 10 Jul 2023 16:43:56 -0400
-Received: from casper.infradead.org (casper.infradead.org [IPv6:2001:8b0:10b:1236::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7E526E69;
-        Mon, 10 Jul 2023 13:43:44 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-        d=infradead.org; s=casper.20170209; h=Content-Transfer-Encoding:MIME-Version:
-        References:In-Reply-To:Message-Id:Date:Subject:Cc:To:From:Sender:Reply-To:
-        Content-Type:Content-ID:Content-Description;
-        bh=NROTlL6IHKcHVr5IJzwMhJiAK5XHIL/ixXU1imRUdQ4=; b=E8a7/eIMgmOjsWrBHysNQXo1Ni
-        ggvEuhfIneD9rq41HR/VUHUxXTJXr/lSG839FvzdGonh++4SxvKlk43T6taeXoogmOYrwjQbJwbnH
-        E+5D6BjuHj4ufh0T8ojX9/RPH2n4+tDnWdrTf2UwwdZGxe/V04uHxgGLik7rPhCZstHGKAt7jbdQX
-        w49Chx2oydHYYjGyyXLvrCsLKhhb8ZMySs9Dnt44+D1TB7jlCCGiLYpHM78Ol1RFiA1yIwML3s9JR
-        6bhbxgAAtiAyQST7teIYKdsEOFVgso9+5RoiI7smGYFo9KanW2IL36S7lXKxlSJFLpuzp1Kfjr1ip
-        7p9jiTQw==;
-Received: from willy by casper.infradead.org with local (Exim 4.94.2 #2 (Red Hat Linux))
-        id 1qIxjR-00EuoR-Md; Mon, 10 Jul 2023 20:43:41 +0000
-From:   "Matthew Wilcox (Oracle)" <willy@infradead.org>
-To:     Andrew Morton <akpm@linux-foundation.org>
-Cc:     "Matthew Wilcox (Oracle)" <willy@infradead.org>,
-        linux-arch@vger.kernel.org, linux-mm@kvack.org,
-        linux-kernel@vger.kernel.org, Mike Rapoport <rppt@kernel.org>,
-        Richard Henderson <richard.henderson@linaro.org>,
-        Ivan Kokshaysky <ink@jurassic.park.msu.ru>,
-        Matt Turner <mattst88@gmail.com>, linux-alpha@vger.kernel.org
-Subject: [PATCH v5 07/38] alpha: Implement the new page table range API
-Date:   Mon, 10 Jul 2023 21:43:08 +0100
-Message-Id: <20230710204339.3554919-8-willy@infradead.org>
-X-Mailer: git-send-email 2.37.1
-In-Reply-To: <20230710204339.3554919-1-willy@infradead.org>
-References: <20230710204339.3554919-1-willy@infradead.org>
+        Tue, 11 Jul 2023 07:28:02 -0400
+Received: from us-smtp-delivery-44.mimecast.com (unknown [207.211.30.44])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 373BE127
+        for <linux-alpha@vger.kernel.org>; Tue, 11 Jul 2023 04:28:01 -0700 (PDT)
+Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
+ [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-417-EUMcl2VMMrinzt4tEM6SLg-1; Tue, 11 Jul 2023 07:26:15 -0400
+X-MC-Unique: EUMcl2VMMrinzt4tEM6SLg-1
+Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.rdu2.redhat.com [10.11.54.5])
+        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+        (No client certificate requested)
+        by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 3AAD23815F71;
+        Tue, 11 Jul 2023 11:26:13 +0000 (UTC)
+Received: from localhost.localdomain.com (unknown [10.45.225.44])
+        by smtp.corp.redhat.com (Postfix) with ESMTP id 1B08863F3C;
+        Tue, 11 Jul 2023 11:25:59 +0000 (UTC)
+From:   Alexey Gladkov <legion@kernel.org>
+To:     LKML <linux-kernel@vger.kernel.org>, Arnd Bergmann <arnd@arndb.de>,
+        linux-api@vger.kernel.org, linux-fsdevel@vger.kernel.org,
+        viro@zeniv.linux.org.uk
+Cc:     James.Bottomley@HansenPartnership.com, acme@kernel.org,
+        alexander.shishkin@linux.intel.com, axboe@kernel.dk,
+        benh@kernel.crashing.org, borntraeger@de.ibm.com, bp@alien8.de,
+        catalin.marinas@arm.com, christian@brauner.io, dalias@libc.org,
+        davem@davemloft.net, deepa.kernel@gmail.com, deller@gmx.de,
+        dhowells@redhat.com, fenghua.yu@intel.com, firoz.khan@linaro.org,
+        fweimer@redhat.com, geert@linux-m68k.org, glebfm@altlinux.org,
+        gor@linux.ibm.com, hare@suse.com, heiko.carstens@de.ibm.com,
+        hpa@zytor.com, ink@jurassic.park.msu.ru, jhogan@kernel.org,
+        kim.phillips@arm.com, ldv@altlinux.org,
+        linux-alpha@vger.kernel.org, linux-arch@vger.kernel.org,
+        linux-arm-kernel@lists.infradead.org, linux-ia64@vger.kernel.org,
+        linux-m68k@lists.linux-m68k.org, linux-mips@vger.kernel.org,
+        linux-parisc@vger.kernel.org, linux-s390@vger.kernel.org,
+        linux-sh@vger.kernel.org, linux@armlinux.org.uk,
+        linuxppc-dev@lists.ozlabs.org, luto@kernel.org, mattst88@gmail.com,
+        mingo@redhat.com, monstr@monstr.eu, mpe@ellerman.id.au,
+        namhyung@kernel.org, palmer@sifive.com, paul.burton@mips.com,
+        paulus@samba.org, peterz@infradead.org, ralf@linux-mips.org,
+        rth@twiddle.net, schwidefsky@de.ibm.com,
+        sparclinux@vger.kernel.org, stefan@agner.ch, tglx@linutronix.de,
+        tony.luck@intel.com, tycho@tycho.ws, will@kernel.org,
+        x86@kernel.org, ysato@users.sourceforge.jp
+Subject: [PATCH v3 0/5] Add a new fchmodat4() syscall
+Date:   Tue, 11 Jul 2023 13:25:41 +0200
+Message-Id: <cover.1689074739.git.legion@kernel.org>
+In-Reply-To: <87o8pscpny.fsf@oldenburg2.str.redhat.com>
+References: <87o8pscpny.fsf@oldenburg2.str.redhat.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_BLOCKED,
-        SPF_HELO_NONE,SPF_NONE,T_SCC_BODY_TEXT_LINE autolearn=ham
-        autolearn_force=no version=3.4.6
+X-Scanned-By: MIMEDefang 3.1 on 10.11.54.5
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: kernel.org
+Content-Transfer-Encoding: 8BIT
+Content-Type: text/plain; charset=WINDOWS-1252; x-default=true
+X-Spam-Status: No, score=-0.5 required=5.0 tests=BAYES_00,
+        RCVD_IN_DNSWL_BLOCKED,RDNS_NONE,SPF_HELO_NONE,SPF_SOFTFAIL,
+        T_SCC_BODY_TEXT_LINE autolearn=no autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-alpha.vger.kernel.org>
 X-Mailing-List: linux-alpha@vger.kernel.org
 
-Add PFN_PTE_SHIFT, update_mmu_cache_range() and flush_icache_pages().
+This patch set adds fchmodat4(), a new syscall. The actual
+implementation is super simple: essentially it's just the same as
+fchmodat(), but LOOKUP_FOLLOW is conditionally set based on the flags.
+I've attempted to make this match "man 2 fchmodat" as closely as
+possible, which says EINVAL is returned for invalid flags (as opposed to
+ENOTSUPP, which is currently returned by glibc for AT_SYMLINK_NOFOLLOW).
+I have a sketch of a glibc patch that I haven't even compiled yet, but
+seems fairly straight-forward:
 
-Signed-off-by: Matthew Wilcox (Oracle) <willy@infradead.org>
-Acked-by: Mike Rapoport (IBM) <rppt@kernel.org>
-Cc: Richard Henderson <richard.henderson@linaro.org>
-Cc: Ivan Kokshaysky <ink@jurassic.park.msu.ru>
-Cc: Matt Turner <mattst88@gmail.com>
-Cc: linux-alpha@vger.kernel.org
+    diff --git a/sysdeps/unix/sysv/linux/fchmodat.c b/sysdeps/unix/sysv/linux/fchmodat.c
+    index 6d9cbc1ce9e0..b1beab76d56c 100644
+    --- a/sysdeps/unix/sysv/linux/fchmodat.c
+    +++ b/sysdeps/unix/sysv/linux/fchmodat.c
+    @@ -29,12 +29,36 @@
+     int
+     fchmodat (int fd, const char *file, mode_t mode, int flag)
+     {
+    -  if (flag & ~AT_SYMLINK_NOFOLLOW)
+    -    return INLINE_SYSCALL_ERROR_RETURN_VALUE (EINVAL);
+    -#ifndef __NR_lchmod		/* Linux so far has no lchmod syscall.  */
+    +  /* There are four paths through this code:
+    +      - The flags are zero.  In this case it's fine to call fchmodat.
+    +      - The flags are non-zero and glibc doesn't have access to
+    +	__NR_fchmodat4.  In this case all we can do is emulate the error codes
+    +	defined by the glibc interface from userspace.
+    +      - The flags are non-zero, glibc has __NR_fchmodat4, and the kernel has
+    +	fchmodat4.  This is the simplest case, as the fchmodat4 syscall exactly
+    +	matches glibc's library interface so it can be called directly.
+    +      - The flags are non-zero, glibc has __NR_fchmodat4, but the kernel does
+    +	not.  In this case we must respect the error codes defined by the glibc
+    +	interface instead of returning ENOSYS.
+    +    The intent here is to ensure that the kernel is called at most once per
+    +    library call, and that the error types defined by glibc are always
+    +    respected.  */
+    +
+    +#ifdef __NR_fchmodat4
+    +  long result;
+    +#endif
+    +
+    +  if (flag == 0)
+    +    return INLINE_SYSCALL (fchmodat, 3, fd, file, mode);
+    +
+    +#ifdef __NR_fchmodat4
+    +  result = INLINE_SYSCALL (fchmodat4, 4, fd, file, mode, flag);
+    +  if (result == 0 || errno != ENOSYS)
+    +    return result;
+    +#endif
+    +
+       if (flag & AT_SYMLINK_NOFOLLOW)
+         return INLINE_SYSCALL_ERROR_RETURN_VALUE (ENOTSUP);
+    -#endif
+
+    -  return INLINE_SYSCALL (fchmodat, 3, fd, file, mode);
+    +  return INLINE_SYSCALL_ERROR_RETURN_VALUE (EINVAL);
+     }
+
+I've never added a new syscall before so I'm not really sure what the
+proper procedure to follow is.  Based on the feedback from my v1 patch
+set it seems this is somewhat uncontroversial.  At this point I don't
+think there's anything I'm missing, though note that I haven't gotten
+around to testing it this time because the diff from v1 is trivial for
+any platform I could reasonably test on.  The v1 patches suggest a
+simple test case, but I didn't re-run it because I don't want to reboot
+my laptop.
+
+Changes since v2 [20190717012719.5524-1-palmer@sifive.com]:
+
+* Rebased to master.
+* The lookup_flags passed to sys_fchmodat4 as suggested by Al Viro.
+* Selftest added.
+
+Changes since v1 [20190531191204.4044-1-palmer@sifive.com]:
+
+* All architectures are now supported, which support squashed into a
+  single patch.
+* The do_fchmodat() helper function has been removed, in favor of directly
+  calling do_fchmodat4().
+* The patches are based on 5.2 instead of 5.1.
+
 ---
- arch/alpha/include/asm/cacheflush.h | 10 ++++++++++
- arch/alpha/include/asm/pgtable.h    | 10 ++++++++--
- 2 files changed, 18 insertions(+), 2 deletions(-)
 
-diff --git a/arch/alpha/include/asm/cacheflush.h b/arch/alpha/include/asm/cacheflush.h
-index 9945ff483eaf..3956460e69e2 100644
---- a/arch/alpha/include/asm/cacheflush.h
-+++ b/arch/alpha/include/asm/cacheflush.h
-@@ -57,6 +57,16 @@ extern void flush_icache_user_page(struct vm_area_struct *vma,
- #define flush_icache_page(vma, page) \
- 	flush_icache_user_page((vma), (page), 0, 0)
- 
-+/*
-+ * Both implementations of flush_icache_user_page flush the entire
-+ * address space, so one call, no matter how many pages.
-+ */
-+static inline void flush_icache_pages(struct vm_area_struct *vma,
-+		struct page *page, unsigned int nr)
-+{
-+	flush_icache_user_page(vma, page, 0, 0);
-+}
-+
- #include <asm-generic/cacheflush.h>
- 
- #endif /* _ALPHA_CACHEFLUSH_H */
-diff --git a/arch/alpha/include/asm/pgtable.h b/arch/alpha/include/asm/pgtable.h
-index ba43cb841d19..747b5f706c47 100644
---- a/arch/alpha/include/asm/pgtable.h
-+++ b/arch/alpha/include/asm/pgtable.h
-@@ -26,7 +26,6 @@ struct vm_area_struct;
-  * hook is made available.
-  */
- #define set_pte(pteptr, pteval) ((*(pteptr)) = (pteval))
--#define set_pte_at(mm,addr,ptep,pteval) set_pte(ptep,pteval)
- 
- /* PMD_SHIFT determines the size of the area a second-level page table can map */
- #define PMD_SHIFT	(PAGE_SHIFT + (PAGE_SHIFT-3))
-@@ -189,7 +188,8 @@ extern unsigned long __zero_page(void);
-  * and a page entry and page directory to the page they refer to.
-  */
- #define page_to_pa(page)	(page_to_pfn(page) << PAGE_SHIFT)
--#define pte_pfn(pte)	(pte_val(pte) >> 32)
-+#define PFN_PTE_SHIFT		32
-+#define pte_pfn(pte)		(pte_val(pte) >> PFN_PTE_SHIFT)
- 
- #define pte_page(pte)	pfn_to_page(pte_pfn(pte))
- #define mk_pte(page, pgprot)						\
-@@ -303,6 +303,12 @@ extern inline void update_mmu_cache(struct vm_area_struct * vma,
- {
- }
- 
-+static inline void update_mmu_cache_range(struct vm_fault *vmf,
-+		struct vm_area_struct *vma, unsigned long address,
-+		pte_t *ptep, unsigned int nr)
-+{
-+}
-+
- /*
-  * Encode/decode swap entries and swap PTEs. Swap PTEs are all PTEs that
-  * are !pte_none() && !pte_present().
+Alexey Gladkov (1):
+  selftests: add fchmodat4(2) selftest
+
+Palmer Dabbelt (4):
+  Non-functional cleanup of a "__user * filename"
+  fs: Add fchmodat4()
+  arch: Register fchmodat4, usually as syscall 451
+  tools headers UAPI: Sync files changed by new fchmodat4 syscall
+
+ arch/alpha/kernel/syscalls/syscall.tbl        |   1 +
+ arch/arm/tools/syscall.tbl                    |   1 +
+ arch/arm64/include/asm/unistd32.h             |   2 +
+ arch/ia64/kernel/syscalls/syscall.tbl         |   1 +
+ arch/m68k/kernel/syscalls/syscall.tbl         |   1 +
+ arch/microblaze/kernel/syscalls/syscall.tbl   |   1 +
+ arch/mips/kernel/syscalls/syscall_n32.tbl     |   1 +
+ arch/mips/kernel/syscalls/syscall_n64.tbl     |   1 +
+ arch/mips/kernel/syscalls/syscall_o32.tbl     |   1 +
+ arch/parisc/kernel/syscalls/syscall.tbl       |   1 +
+ arch/powerpc/kernel/syscalls/syscall.tbl      |   1 +
+ arch/s390/kernel/syscalls/syscall.tbl         |   1 +
+ arch/sh/kernel/syscalls/syscall.tbl           |   1 +
+ arch/sparc/kernel/syscalls/syscall.tbl        |   1 +
+ arch/x86/entry/syscalls/syscall_32.tbl        |   1 +
+ arch/x86/entry/syscalls/syscall_64.tbl        |   1 +
+ arch/xtensa/kernel/syscalls/syscall.tbl       |   1 +
+ fs/open.c                                     |  18 ++-
+ include/linux/syscalls.h                      |   4 +-
+ include/uapi/asm-generic/unistd.h             |   5 +-
+ tools/include/uapi/asm-generic/unistd.h       |   5 +-
+ .../arch/mips/entry/syscalls/syscall_n64.tbl  |   1 +
+ .../arch/powerpc/entry/syscalls/syscall.tbl   |   1 +
+ .../perf/arch/s390/entry/syscalls/syscall.tbl |   1 +
+ .../arch/x86/entry/syscalls/syscall_64.tbl    |   1 +
+ tools/testing/selftests/Makefile              |   1 +
+ tools/testing/selftests/fchmodat4/.gitignore  |   2 +
+ tools/testing/selftests/fchmodat4/Makefile    |   6 +
+ .../selftests/fchmodat4/fchmodat4_test.c      | 151 ++++++++++++++++++
+ 29 files changed, 207 insertions(+), 7 deletions(-)
+ create mode 100644 tools/testing/selftests/fchmodat4/.gitignore
+ create mode 100644 tools/testing/selftests/fchmodat4/Makefile
+ create mode 100644 tools/testing/selftests/fchmodat4/fchmodat4_test.c
+
 -- 
-2.39.2
+2.33.8
 
