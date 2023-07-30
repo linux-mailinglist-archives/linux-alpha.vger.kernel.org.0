@@ -2,55 +2,57 @@ Return-Path: <linux-alpha-owner@vger.kernel.org>
 X-Original-To: lists+linux-alpha@lfdr.de
 Delivered-To: lists+linux-alpha@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 3153B767CDE
-	for <lists+linux-alpha@lfdr.de>; Sat, 29 Jul 2023 09:42:40 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 6696E768363
+	for <lists+linux-alpha@lfdr.de>; Sun, 30 Jul 2023 03:50:08 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230081AbjG2Hmi (ORCPT <rfc822;lists+linux-alpha@lfdr.de>);
-        Sat, 29 Jul 2023 03:42:38 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48510 "EHLO
+        id S229527AbjG3BuG (ORCPT <rfc822;lists+linux-alpha@lfdr.de>);
+        Sat, 29 Jul 2023 21:50:06 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57230 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229541AbjG2Hmi (ORCPT
+        with ESMTP id S229448AbjG3BuG (ORCPT
         <rfc822;linux-alpha@vger.kernel.org>);
-        Sat, 29 Jul 2023 03:42:38 -0400
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4C8A430FC;
-        Sat, 29 Jul 2023 00:42:37 -0700 (PDT)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-         key-exchange X25519 server-signature RSA-PSS (2048 bits))
-        (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id D4ADF60691;
-        Sat, 29 Jul 2023 07:42:36 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 20464C433C7;
-        Sat, 29 Jul 2023 07:42:33 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1690616556;
-        bh=ZKOq4dSq8LU22/XO77L6SVfNnBWbdQNZk2Y0aYMmtrk=;
-        h=From:To:Cc:Subject:Date:From;
-        b=oY8WlMg693/n1jO+IK3qR+BcpBifWVgXBOEoX2C0glibs2FGB4W6Bol3hKkW3axTX
-         4uSBPz6vxZSPODP6NpXJX2NHZ7opwX3XEIMe07AOkJj74D1aNaKZEoA48pdX/kcNIf
-         cG/vh0rd3JYWxz8X87Hkj9bshjXm/M3Jz978FESyJ8nSuWdTPL1KKfkNwu3eteP/tM
-         /cz1IERe/2fIP+cVP9TOeLeY2nECxDPyuH+uLcaMyo12Vdvvit+8IQGrd/0cnXgy4H
-         8mLISuJe7lo12xbGYwssti7nBvN9R/AtLWw+iXMCyi0iEzazmCw3RqHEnHR8Uz9guU
-         1tl4Ox9dG55mg==
-From:   Masahiro Yamada <masahiroy@kernel.org>
-To:     linux-kbuild@vger.kernel.org,
+        Sat, 29 Jul 2023 21:50:06 -0400
+Received: from bombadil.infradead.org (bombadil.infradead.org [IPv6:2607:7c80:54:3::133])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3BA6A2134;
+        Sat, 29 Jul 2023 18:50:04 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+        d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
+        Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
+        Message-ID:Sender:Reply-To:Content-ID:Content-Description;
+        bh=NbwbCQT8KMNRIPvq+q9lapcQ2h0sWsXj0fj9zqMOVKI=; b=O3JWKw4XNWjyAbDPQmLJilCOgX
+        eCSDsaDMyaSYoP1ehB6ebHPhygQWZsuv/uXlyeuu2uLa1dyCtL/nWtdlrNuKUsRDkW+fNQoWxYLPB
+        eyEmWr94Eqj5+vKictOKFtZM40gWI9jyNgbrEZY0WUnck1Z9MVyhmT8mmqNT0u7Ay+MGs9boK7eV5
+        +U885x4QsoQ9LaKaL36Al+sdqfhHvpSWDx+nHrfc+1BlHXcPvW7hRD0sAq0tfXC2n2A/05KKzF+Ee
+        9ZzZpNYDBYq95yoP+VGJPBQAflx5UPkEJ1L+zv35zRvS73LPNF6DRK2Qrd8fY2CwSJT+B1SUCtPOy
+        rcVDzpmQ==;
+Received: from [2601:1c2:980:9ec0:e65e:37ff:febd:ee53]
+        by bombadil.infradead.org with esmtpsa (Exim 4.96 #2 (Red Hat Linux))
+        id 1qPvZI-009Xez-06;
+        Sun, 30 Jul 2023 01:50:00 +0000
+Message-ID: <1c4b9496-2ac3-d271-0ef9-0c0979da55ae@infradead.org>
+Date:   Sat, 29 Jul 2023 18:49:58 -0700
+MIME-Version: 1.0
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.13.0
+Subject: Re: [PATCH] alpha: remove __init annotation from exported
+ page_is_ram()
+Content-Language: en-US
+To:     Masahiro Yamada <masahiroy@kernel.org>,
+        linux-kbuild@vger.kernel.org,
         Richard Henderson <richard.henderson@linaro.org>,
         Ivan Kokshaysky <ink@jurassic.park.msu.ru>,
         Matt Turner <mattst88@gmail.com>, linux-alpha@vger.kernel.org
 Cc:     linux-kernel@vger.kernel.org,
-        Masahiro Yamada <masahiroy@kernel.org>,
         Chen Gong <gong.chen@linux.intel.com>,
         Tony Luck <tony.luck@intel.com>
-Subject: [PATCH] alpha: remove __init annotation from exported page_is_ram()
-Date:   Sat, 29 Jul 2023 16:42:23 +0900
-Message-Id: <20230729074223.1457109-1-masahiroy@kernel.org>
-X-Mailer: git-send-email 2.39.2
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=-4.4 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,
-        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham
+References: <20230729074223.1457109-1-masahiroy@kernel.org>
+From:   Randy Dunlap <rdunlap@infradead.org>
+In-Reply-To: <20230729074223.1457109-1-masahiroy@kernel.org>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+X-Spam-Status: No, score=-4.5 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,RCVD_IN_DNSWL_MED,
+        SPF_HELO_NONE,SPF_NONE,T_SCC_BODY_TEXT_LINE autolearn=ham
         autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
@@ -58,38 +60,46 @@ Precedence: bulk
 List-ID: <linux-alpha.vger.kernel.org>
 X-Mailing-List: linux-alpha@vger.kernel.org
 
-EXPORT_SYMBOL and __init is a bad combination because the .init.text
-section is freed up after the initialization.
 
-Commit c5a130325f13 ("ACPI/APEI: Add parameter check before error
-injection") exported page_is_ram(), hence the __init annotation should
-be removed.
 
-This fixes the modpost warning in ARCH=alpha builds:
+On 7/29/23 00:42, Masahiro Yamada wrote:
+> EXPORT_SYMBOL and __init is a bad combination because the .init.text
+> section is freed up after the initialization.
+> 
+> Commit c5a130325f13 ("ACPI/APEI: Add parameter check before error
+> injection") exported page_is_ram(), hence the __init annotation should
+> be removed.
+> 
+> This fixes the modpost warning in ARCH=alpha builds:
+> 
+>   WARNING: modpost: vmlinux: page_is_ram: EXPORT_SYMBOL used for init symbol. Remove __init or EXPORT_SYMBOL.
+> 
+> Fixes: c5a130325f13 ("ACPI/APEI: Add parameter check before error injection")
+> Signed-off-by: Masahiro Yamada <masahiroy@kernel.org>
 
-  WARNING: modpost: vmlinux: page_is_ram: EXPORT_SYMBOL used for init symbol. Remove __init or EXPORT_SYMBOL.
+Reviewed-by: Randy Dunlap <rdunlap@infradead.org>
 
-Fixes: c5a130325f13 ("ACPI/APEI: Add parameter check before error injection")
-Signed-off-by: Masahiro Yamada <masahiroy@kernel.org>
----
+Thanks.
 
- arch/alpha/kernel/setup.c | 3 +--
- 1 file changed, 1 insertion(+), 2 deletions(-)
+> ---
+> 
+>  arch/alpha/kernel/setup.c | 3 +--
+>  1 file changed, 1 insertion(+), 2 deletions(-)
+> 
+> diff --git a/arch/alpha/kernel/setup.c b/arch/alpha/kernel/setup.c
+> index b650ff1cb022..3d7473531ab1 100644
+> --- a/arch/alpha/kernel/setup.c
+> +++ b/arch/alpha/kernel/setup.c
+> @@ -385,8 +385,7 @@ setup_memory(void *kernel_end)
+>  #endif /* CONFIG_BLK_DEV_INITRD */
+>  }
+>  
+> -int __init
+> -page_is_ram(unsigned long pfn)
+> +int page_is_ram(unsigned long pfn)
+>  {
+>  	struct memclust_struct * cluster;
+>  	struct memdesc_struct * memdesc;
 
-diff --git a/arch/alpha/kernel/setup.c b/arch/alpha/kernel/setup.c
-index b650ff1cb022..3d7473531ab1 100644
---- a/arch/alpha/kernel/setup.c
-+++ b/arch/alpha/kernel/setup.c
-@@ -385,8 +385,7 @@ setup_memory(void *kernel_end)
- #endif /* CONFIG_BLK_DEV_INITRD */
- }
- 
--int __init
--page_is_ram(unsigned long pfn)
-+int page_is_ram(unsigned long pfn)
- {
- 	struct memclust_struct * cluster;
- 	struct memdesc_struct * memdesc;
 -- 
-2.39.2
-
+~Randy
