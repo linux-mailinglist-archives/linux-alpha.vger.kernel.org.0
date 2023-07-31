@@ -2,104 +2,67 @@ Return-Path: <linux-alpha-owner@vger.kernel.org>
 X-Original-To: lists+linux-alpha@lfdr.de
 Delivered-To: lists+linux-alpha@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 6696E768363
-	for <lists+linux-alpha@lfdr.de>; Sun, 30 Jul 2023 03:50:08 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 2A3D476B3DD
+	for <lists+linux-alpha@lfdr.de>; Tue,  1 Aug 2023 13:52:41 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229527AbjG3BuG (ORCPT <rfc822;lists+linux-alpha@lfdr.de>);
-        Sat, 29 Jul 2023 21:50:06 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57230 "EHLO
+        id S234400AbjHALwk (ORCPT <rfc822;lists+linux-alpha@lfdr.de>);
+        Tue, 1 Aug 2023 07:52:40 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46330 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229448AbjG3BuG (ORCPT
-        <rfc822;linux-alpha@vger.kernel.org>);
-        Sat, 29 Jul 2023 21:50:06 -0400
-Received: from bombadil.infradead.org (bombadil.infradead.org [IPv6:2607:7c80:54:3::133])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3BA6A2134;
-        Sat, 29 Jul 2023 18:50:04 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-        d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
-        Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
-        Message-ID:Sender:Reply-To:Content-ID:Content-Description;
-        bh=NbwbCQT8KMNRIPvq+q9lapcQ2h0sWsXj0fj9zqMOVKI=; b=O3JWKw4XNWjyAbDPQmLJilCOgX
-        eCSDsaDMyaSYoP1ehB6ebHPhygQWZsuv/uXlyeuu2uLa1dyCtL/nWtdlrNuKUsRDkW+fNQoWxYLPB
-        eyEmWr94Eqj5+vKictOKFtZM40gWI9jyNgbrEZY0WUnck1Z9MVyhmT8mmqNT0u7Ay+MGs9boK7eV5
-        +U885x4QsoQ9LaKaL36Al+sdqfhHvpSWDx+nHrfc+1BlHXcPvW7hRD0sAq0tfXC2n2A/05KKzF+Ee
-        9ZzZpNYDBYq95yoP+VGJPBQAflx5UPkEJ1L+zv35zRvS73LPNF6DRK2Qrd8fY2CwSJT+B1SUCtPOy
-        rcVDzpmQ==;
-Received: from [2601:1c2:980:9ec0:e65e:37ff:febd:ee53]
-        by bombadil.infradead.org with esmtpsa (Exim 4.96 #2 (Red Hat Linux))
-        id 1qPvZI-009Xez-06;
-        Sun, 30 Jul 2023 01:50:00 +0000
-Message-ID: <1c4b9496-2ac3-d271-0ef9-0c0979da55ae@infradead.org>
-Date:   Sat, 29 Jul 2023 18:49:58 -0700
+        with ESMTP id S234402AbjHALwd (ORCPT
+        <rfc822;linux-alpha@vger.kernel.org>); Tue, 1 Aug 2023 07:52:33 -0400
+Received: from mail.cothiafon.pl (mail.cothiafon.pl [217.61.106.23])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id AE0691BDB
+        for <linux-alpha@vger.kernel.org>; Tue,  1 Aug 2023 04:52:30 -0700 (PDT)
+Received: by mail.cothiafon.pl (Postfix, from userid 1002)
+        id B351D835BF; Mon, 31 Jul 2023 10:36:13 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=cothiafon.pl; s=mail;
+        t=1690792588; bh=dwoca0X6C9VXklO/zRgFQCPapTk5LFz4tKaENdvy6Po=;
+        h=Date:From:To:Subject:From;
+        b=pwKi3xtKtXSLmQ4o8RLZNrn9S1qXO2HfeSKG8wpnn2gIiT/bt7hWb/7evHpgZBkPu
+         W7jmxiL3hnFha2IRl81vq3R5iHh7spAfDxa+2K+vF73IImCZ6PvBzp2ABDDBAmx1dU
+         ecDnDn+++3XqI772pbrrvg+t5UYDXRl02YxINvB2/x/7ZJpkkGUjgP4sdovzfxfRqz
+         bLiR5r+8INqK21FCWqlTfwbWGMtlgsxxXJ9Hj0ih6uTXtsGLhi9Q2tXC0Xf/sETpfe
+         4p/2QSYsNWwoBikHHzDCSwPNJ5m9Ukld/FhtbH7FuWfImg/E/1SJg+ZdlLO1qITSAu
+         mpDT0k5u2fYDw==
+Received: by mail.cothiafon.pl for <linux-alpha@vger.kernel.org>; Mon, 31 Jul 2023 08:35:48 GMT
+Message-ID: <20230731095940-0.1.28.on0r.0.569f4j9gen@cothiafon.pl>
+Date:   Mon, 31 Jul 2023 08:35:48 GMT
+From:   =?UTF-8?Q? "Rados=C5=82aw_Grabowski" ?= 
+        <radoslaw.grabowski@cothiafon.pl>
+To:     <linux-alpha@vger.kernel.org>
+Subject: W sprawie samochodu
+X-Mailer: mail.cothiafon.pl
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.13.0
-Subject: Re: [PATCH] alpha: remove __init annotation from exported
- page_is_ram()
-Content-Language: en-US
-To:     Masahiro Yamada <masahiroy@kernel.org>,
-        linux-kbuild@vger.kernel.org,
-        Richard Henderson <richard.henderson@linaro.org>,
-        Ivan Kokshaysky <ink@jurassic.park.msu.ru>,
-        Matt Turner <mattst88@gmail.com>, linux-alpha@vger.kernel.org
-Cc:     linux-kernel@vger.kernel.org,
-        Chen Gong <gong.chen@linux.intel.com>,
-        Tony Luck <tony.luck@intel.com>
-References: <20230729074223.1457109-1-masahiroy@kernel.org>
-From:   Randy Dunlap <rdunlap@infradead.org>
-In-Reply-To: <20230729074223.1457109-1-masahiroy@kernel.org>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-Spam-Status: No, score=-4.5 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,RCVD_IN_DNSWL_MED,
-        SPF_HELO_NONE,SPF_NONE,T_SCC_BODY_TEXT_LINE autolearn=ham
-        autolearn_force=no version=3.4.6
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_BLOCKED,
+        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE,URIBL_BLOCKED
+        autolearn=unavailable autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-alpha.vger.kernel.org>
 X-Mailing-List: linux-alpha@vger.kernel.org
 
+Dzie=C5=84 dobry,
+
+chcieliby=C5=9Bmy zapewni=C4=87 Pa=C5=84stwu kompleksowe rozwi=C4=85zania=
+, je=C5=9Bli chodzi o system monitoringu GPS.
+
+Precyzyjne monitorowanie pojazd=C3=B3w na mapach cyfrowych, =C5=9Bledzeni=
+e ich parametr=C3=B3w eksploatacyjnych w czasie rzeczywistym oraz kontrol=
+a paliwa to kluczowe funkcjonalno=C5=9Bci naszego systemu.=20
+
+Organizowanie pracy pracownik=C3=B3w jest dzi=C4=99ki temu prostsze i bar=
+dziej efektywne, a oszcz=C4=99dno=C5=9Bci i optymalizacja w zakresie pono=
+szonych koszt=C3=B3w, maj=C4=85 dla ka=C5=BCdego przedsi=C4=99biorcy ogro=
+mne znaczenie.
+
+Dopasujemy nasz=C4=85 ofert=C4=99 do Pa=C5=84stwa oczekiwa=C5=84 i potrze=
+b organizacji. Czy mogliby=C5=9Bmy porozmawia=C4=87 o naszej propozycji?
 
 
-On 7/29/23 00:42, Masahiro Yamada wrote:
-> EXPORT_SYMBOL and __init is a bad combination because the .init.text
-> section is freed up after the initialization.
-> 
-> Commit c5a130325f13 ("ACPI/APEI: Add parameter check before error
-> injection") exported page_is_ram(), hence the __init annotation should
-> be removed.
-> 
-> This fixes the modpost warning in ARCH=alpha builds:
-> 
->   WARNING: modpost: vmlinux: page_is_ram: EXPORT_SYMBOL used for init symbol. Remove __init or EXPORT_SYMBOL.
-> 
-> Fixes: c5a130325f13 ("ACPI/APEI: Add parameter check before error injection")
-> Signed-off-by: Masahiro Yamada <masahiroy@kernel.org>
-
-Reviewed-by: Randy Dunlap <rdunlap@infradead.org>
-
-Thanks.
-
-> ---
-> 
->  arch/alpha/kernel/setup.c | 3 +--
->  1 file changed, 1 insertion(+), 2 deletions(-)
-> 
-> diff --git a/arch/alpha/kernel/setup.c b/arch/alpha/kernel/setup.c
-> index b650ff1cb022..3d7473531ab1 100644
-> --- a/arch/alpha/kernel/setup.c
-> +++ b/arch/alpha/kernel/setup.c
-> @@ -385,8 +385,7 @@ setup_memory(void *kernel_end)
->  #endif /* CONFIG_BLK_DEV_INITRD */
->  }
->  
-> -int __init
-> -page_is_ram(unsigned long pfn)
-> +int page_is_ram(unsigned long pfn)
->  {
->  	struct memclust_struct * cluster;
->  	struct memdesc_struct * memdesc;
-
--- 
-~Randy
+Pozdrawiam
+Rados=C5=82aw Grabowski
