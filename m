@@ -2,83 +2,125 @@ Return-Path: <linux-alpha-owner@vger.kernel.org>
 X-Original-To: lists+linux-alpha@lfdr.de
 Delivered-To: lists+linux-alpha@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id E976876CE76
-	for <lists+linux-alpha@lfdr.de>; Wed,  2 Aug 2023 15:24:54 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id B3C4E76D13F
+	for <lists+linux-alpha@lfdr.de>; Wed,  2 Aug 2023 17:14:26 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232871AbjHBNYy (ORCPT <rfc822;lists+linux-alpha@lfdr.de>);
-        Wed, 2 Aug 2023 09:24:54 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56958 "EHLO
+        id S234826AbjHBPOX (ORCPT <rfc822;lists+linux-alpha@lfdr.de>);
+        Wed, 2 Aug 2023 11:14:23 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37288 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230239AbjHBNYx (ORCPT
-        <rfc822;linux-alpha@vger.kernel.org>); Wed, 2 Aug 2023 09:24:53 -0400
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 08DADDA;
-        Wed,  2 Aug 2023 06:24:53 -0700 (PDT)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-         key-exchange X25519 server-signature RSA-PSS (2048 bits))
-        (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id 92CA861994;
-        Wed,  2 Aug 2023 13:24:52 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3C4CCC433C8;
-        Wed,  2 Aug 2023 13:24:51 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1690982692;
-        bh=DDm1LEyHVrqgVPbORsJTPU+hVDJwprYsNNL9IHeL+5k=;
-        h=Date:From:To:Cc:Subject:From;
-        b=nWjglhibGmIAoJ0wRJHiguhdY/s9FGgXJNwpF0vJi9mJ8pofv2p7JYopQP/LkiAo2
-         SrzWDgQqEqxd+zUR8u/m4gwZH4DMVKXhPwjATpsaMIbE/csJS8XoMj36otYrK9WRIZ
-         qkcP3LbpzDOaGSitQOh2VAH/jqg5vdA9FTa1T49wj7DhBvRU4R9pG/WD/ME722baiR
-         VjIJVMlWetVgQP/RUfMmdqwZtvoQx6CspYJwak8pPv9rAzbhxdlDfWtqR8eMKU/7cm
-         Uc10RjfRmaThlihTV+AUKeNc6/c9NyFrzIGGSpUVo7Ij1DbCVdZbl8EWMeW342sz+c
-         psQ4JFmi/JWiQ==
-Date:   Wed, 2 Aug 2023 07:25:56 -0600
-From:   "Gustavo A. R. Silva" <gustavoars@kernel.org>
-To:     Richard Henderson <richard.henderson@linaro.org>,
+        with ESMTP id S234599AbjHBPOT (ORCPT
+        <rfc822;linux-alpha@vger.kernel.org>); Wed, 2 Aug 2023 11:14:19 -0400
+Received: from casper.infradead.org (casper.infradead.org [IPv6:2001:8b0:10b:1236::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4A1F92D71;
+        Wed,  2 Aug 2023 08:14:11 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+        d=infradead.org; s=casper.20170209; h=Content-Transfer-Encoding:MIME-Version:
+        References:In-Reply-To:Message-Id:Date:Subject:Cc:To:From:Sender:Reply-To:
+        Content-Type:Content-ID:Content-Description;
+        bh=Xj8uW5ewiXzjiHwdaA5q0RZjd8bQYNa27tcGV7uaG9M=; b=ErsQAAfPNLzKZrrz27+l/e+wy6
+        BRlxiIe+zLXT5mXV5cFWIEboUJ6BnrB5yv0oFf8XLudTqBOQ8vuMFArRVlPg6CMy6xdLTGXZj25GB
+        cA+4YTQNdvthbIM7znqC7ZK4OipL+Bhu83okxFpzmt/IbpD4YwaVfondLpy5ACNgdaOeN+VypLvsW
+        A8go5wSw1ynI53DpGOEi4nb4rjHEr7vedF81ySfd1CEs5A0eetrr5JeSt3h40UfQgmfHPKM4gzd3/
+        uDijD6XRj94ktjriYbUZ1KLUISWJZY582sTiQYZAvCJQH2ybUz/P9U2r8i0guxS4Sm49pUExzaYYs
+        7fapMlrQ==;
+Received: from willy by casper.infradead.org with local (Exim 4.94.2 #2 (Red Hat Linux))
+        id 1qRDY8-00Ffio-Id; Wed, 02 Aug 2023 15:14:08 +0000
+From:   "Matthew Wilcox (Oracle)" <willy@infradead.org>
+To:     Andrew Morton <akpm@linux-foundation.org>
+Cc:     "Matthew Wilcox (Oracle)" <willy@infradead.org>,
+        linux-arch@vger.kernel.org, linux-mm@kvack.org,
+        linux-kernel@vger.kernel.org, Mike Rapoport <rppt@kernel.org>,
+        Richard Henderson <richard.henderson@linaro.org>,
         Ivan Kokshaysky <ink@jurassic.park.msu.ru>,
-        Matt Turner <mattst88@gmail.com>
-Cc:     linux-alpha@vger.kernel.org, linux-kernel@vger.kernel.org,
-        "Gustavo A. R. Silva" <gustavoars@kernel.org>,
-        linux-hardening@vger.kernel.org
-Subject: [PATCH] alpha: Replace one-element array with flexible-array member
-Message-ID: <ZMpZZBShlLqyD3ax@work>
+        Matt Turner <mattst88@gmail.com>, linux-alpha@vger.kernel.org
+Subject: [PATCH v6 07/38] alpha: Implement the new page table range API
+Date:   Wed,  2 Aug 2023 16:13:35 +0100
+Message-Id: <20230802151406.3735276-8-willy@infradead.org>
+X-Mailer: git-send-email 2.37.1
+In-Reply-To: <20230802151406.3735276-1-willy@infradead.org>
+References: <20230802151406.3735276-1-willy@infradead.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,
-        RCVD_IN_DNSWL_BLOCKED,SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE
-        autolearn=ham autolearn_force=no version=3.4.6
+Content-Transfer-Encoding: 8bit
+X-Spam-Status: No, score=-4.4 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,SPF_HELO_NONE,
+        SPF_NONE,T_SCC_BODY_TEXT_LINE,URIBL_BLOCKED autolearn=ham
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-alpha.vger.kernel.org>
 X-Mailing-List: linux-alpha@vger.kernel.org
 
-One-element and zero-length arrays are deprecated. So, replace
-one-element array in struct osf_dirent with flexible-array
-member.
+Add PFN_PTE_SHIFT, update_mmu_cache_range() and flush_icache_pages().
 
-This results in no differences in binary output.
-
-Signed-off-by: Gustavo A. R. Silva <gustavoars@kernel.org>
+Signed-off-by: Matthew Wilcox (Oracle) <willy@infradead.org>
+Acked-by: Mike Rapoport (IBM) <rppt@kernel.org>
+Cc: Richard Henderson <richard.henderson@linaro.org>
+Cc: Ivan Kokshaysky <ink@jurassic.park.msu.ru>
+Cc: Matt Turner <mattst88@gmail.com>
+Cc: linux-alpha@vger.kernel.org
 ---
- arch/alpha/kernel/osf_sys.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ arch/alpha/include/asm/cacheflush.h | 10 ++++++++++
+ arch/alpha/include/asm/pgtable.h    | 10 ++++++++--
+ 2 files changed, 18 insertions(+), 2 deletions(-)
 
-diff --git a/arch/alpha/kernel/osf_sys.c b/arch/alpha/kernel/osf_sys.c
-index d98701ee36c6..5db88b627439 100644
---- a/arch/alpha/kernel/osf_sys.c
-+++ b/arch/alpha/kernel/osf_sys.c
-@@ -97,7 +97,7 @@ struct osf_dirent {
- 	unsigned int d_ino;
- 	unsigned short d_reclen;
- 	unsigned short d_namlen;
--	char d_name[1];
-+	char d_name[];
- };
+diff --git a/arch/alpha/include/asm/cacheflush.h b/arch/alpha/include/asm/cacheflush.h
+index 9945ff483eaf..3956460e69e2 100644
+--- a/arch/alpha/include/asm/cacheflush.h
++++ b/arch/alpha/include/asm/cacheflush.h
+@@ -57,6 +57,16 @@ extern void flush_icache_user_page(struct vm_area_struct *vma,
+ #define flush_icache_page(vma, page) \
+ 	flush_icache_user_page((vma), (page), 0, 0)
  
- struct osf_dirent_callback {
++/*
++ * Both implementations of flush_icache_user_page flush the entire
++ * address space, so one call, no matter how many pages.
++ */
++static inline void flush_icache_pages(struct vm_area_struct *vma,
++		struct page *page, unsigned int nr)
++{
++	flush_icache_user_page(vma, page, 0, 0);
++}
++
+ #include <asm-generic/cacheflush.h>
+ 
+ #endif /* _ALPHA_CACHEFLUSH_H */
+diff --git a/arch/alpha/include/asm/pgtable.h b/arch/alpha/include/asm/pgtable.h
+index ba43cb841d19..747b5f706c47 100644
+--- a/arch/alpha/include/asm/pgtable.h
++++ b/arch/alpha/include/asm/pgtable.h
+@@ -26,7 +26,6 @@ struct vm_area_struct;
+  * hook is made available.
+  */
+ #define set_pte(pteptr, pteval) ((*(pteptr)) = (pteval))
+-#define set_pte_at(mm,addr,ptep,pteval) set_pte(ptep,pteval)
+ 
+ /* PMD_SHIFT determines the size of the area a second-level page table can map */
+ #define PMD_SHIFT	(PAGE_SHIFT + (PAGE_SHIFT-3))
+@@ -189,7 +188,8 @@ extern unsigned long __zero_page(void);
+  * and a page entry and page directory to the page they refer to.
+  */
+ #define page_to_pa(page)	(page_to_pfn(page) << PAGE_SHIFT)
+-#define pte_pfn(pte)	(pte_val(pte) >> 32)
++#define PFN_PTE_SHIFT		32
++#define pte_pfn(pte)		(pte_val(pte) >> PFN_PTE_SHIFT)
+ 
+ #define pte_page(pte)	pfn_to_page(pte_pfn(pte))
+ #define mk_pte(page, pgprot)						\
+@@ -303,6 +303,12 @@ extern inline void update_mmu_cache(struct vm_area_struct * vma,
+ {
+ }
+ 
++static inline void update_mmu_cache_range(struct vm_fault *vmf,
++		struct vm_area_struct *vma, unsigned long address,
++		pte_t *ptep, unsigned int nr)
++{
++}
++
+ /*
+  * Encode/decode swap entries and swap PTEs. Swap PTEs are all PTEs that
+  * are !pte_none() && !pte_present().
 -- 
-2.34.1
+2.40.1
 
