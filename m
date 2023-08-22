@@ -2,83 +2,109 @@ Return-Path: <linux-alpha-owner@vger.kernel.org>
 X-Original-To: lists+linux-alpha@lfdr.de
 Delivered-To: lists+linux-alpha@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 9E940781C05
-	for <lists+linux-alpha@lfdr.de>; Sun, 20 Aug 2023 04:33:50 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id D99FF784E54
+	for <lists+linux-alpha@lfdr.de>; Wed, 23 Aug 2023 03:41:40 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229834AbjHTCdu (ORCPT <rfc822;lists+linux-alpha@lfdr.de>);
-        Sat, 19 Aug 2023 22:33:50 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56264 "EHLO
+        id S230025AbjHWBld (ORCPT <rfc822;lists+linux-alpha@lfdr.de>);
+        Tue, 22 Aug 2023 21:41:33 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52304 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229838AbjHTCdk (ORCPT
+        with ESMTP id S232069AbjHWBld (ORCPT
         <rfc822;linux-alpha@vger.kernel.org>);
-        Sat, 19 Aug 2023 22:33:40 -0400
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1939D88CFB;
-        Sat, 19 Aug 2023 16:34:08 -0700 (PDT)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-         key-exchange X25519 server-signature RSA-PSS (2048 bits))
-        (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id A056061A77;
-        Sat, 19 Aug 2023 23:34:07 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8378FC433C8;
-        Sat, 19 Aug 2023 23:34:05 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1692488047;
-        bh=94swkMMWtMWXwlQ0MRgkdCnBJXEwx0etvzk4fEwCRDY=;
-        h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=JsMv3/rggBxUAEy32zChNAPBOEk124vJgtFdFlqmhzojWGUfnGlmH6Dv0D7biSBGU
-         MfhY7jR5WQoXC7RaHkedup9FAPC3Yp/FcJYsRDRtWZhGUxs6VKkJA0GulpwgYdTqt1
-         glqQGzkihFlP0v7PsYiLUsEts+9sl2NbYYXwox5Gkjfd3G5Yig9l6GhGhUegCmEEIM
-         lULmSruHs4a9z5EMqm8m6WOK94P5TolXC9oIFJewviheEF6XiezAxgZtoNjWlVB8nh
-         NjOk2dED6IoyJT748l7aOqXD7gaTRXbi95OD0Lzq5QdJERcYSkX3l4JMndODHH/SBt
-         hs5iKuiYFfJPw==
-From:   Masahiro Yamada <masahiroy@kernel.org>
-To:     linux-kbuild@vger.kernel.org
-Cc:     linux-arch@vger.kernel.org, Masahiro Yamada <masahiroy@kernel.org>,
-        Ivan Kokshaysky <ink@jurassic.park.msu.ru>,
-        Matt Turner <mattst88@gmail.com>,
-        Richard Henderson <richard.henderson@linaro.org>,
-        linux-alpha@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: [PATCH 6/6] alpha: remove <asm/export.h>
-Date:   Sun, 20 Aug 2023 08:33:53 +0900
-Message-Id: <20230819233353.3683813-6-masahiroy@kernel.org>
-X-Mailer: git-send-email 2.39.2
-In-Reply-To: <20230819233353.3683813-1-masahiroy@kernel.org>
-References: <20230819233353.3683813-1-masahiroy@kernel.org>
+        Tue, 22 Aug 2023 21:41:33 -0400
+X-Greylist: delayed 918 seconds by postgrey-1.37 at lindbergh.monkeyblade.net; Tue, 22 Aug 2023 18:41:30 PDT
+Received: from symantec4.comsats.net.pk (symantec4.comsats.net.pk [203.124.41.30])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E6DE3E4A
+        for <linux-alpha@vger.kernel.org>; Tue, 22 Aug 2023 18:41:30 -0700 (PDT)
+X-AuditID: cb7c291e-06dff70000002aeb-55-64e54b4bd91a
+Received: from iesco.comsatshosting.com (iesco.comsatshosting.com [210.56.28.11])
+        (using TLS with cipher ECDHE-RSA-AES256-SHA (256/256 bits))
+        (Client did not present a certificate)
+        by symantec4.comsats.net.pk (Symantec Messaging Gateway) with SMTP id C9.6B.10987.B4B45E46; Wed, 23 Aug 2023 04:56:59 +0500 (PKT)
+DomainKey-Signature: a=rsa-sha1; c=nofws; q=dns;
+        d=iesco.com.pk; s=default;
+        h=received:content-type:mime-version:content-transfer-encoding
+          :content-description:subject:to:from:date:reply-to;
+        b=KsoLJGBHhmsBi8p6Lcw66U8X9cv3UnAHcngqMpAA8dFZFq+NAHM8W1FhD7AKf0EJ5
+          vr4uBs495ajQS0gVqvU28pC0/jDkCVT5zT0Qy8UnyEpuFmQAXLLKyF36K3yW8o9US
+          nz+vmXp+w0u348hq52zJxwx3ylDOVIaADoeCmmAJ4=
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=iesco.com.pk; s=default;
+        h=reply-to:date:from:to:subject:content-description
+          :content-transfer-encoding:mime-version:content-type;
+        bh=GMzYzcyTxDsE6wX/XHG6MHqAdAiHrhqbmmLQ/TZ1QnQ=;
+        b=bORwhfN7auS5/sDvaqMr4/duQSSBS9t9YGxA2rheSHP39m3Ss4kG86t8u7mjdrALe
+          0xZWn4o74vsRc4RDjT2ENjaFHjY0Mm6Ty9OCjr0UrCEDhJMj2xv/JbSVQDHZhDwEP
+          3UZjkm1zZ9upehHvO514EbkJeIiIJVv2xwjCawt+s=
+Received: from [94.156.6.90] (UnknownHost [94.156.6.90]) by iesco.comsatshosting.com with SMTP;
+   Wed, 23 Aug 2023 04:30:57 +0500
+Message-ID: <C9.6B.10987.B4B45E46@symantec4.comsats.net.pk>
+Content-Type: text/plain; charset="iso-8859-1"
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=-4.4 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,
-        SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
+Content-Transfer-Encoding: quoted-printable
+Content-Description: Mail message body
+Subject: Re; Interest,
+To:     linux-alpha@vger.kernel.org
+From:   "Chen Yun" <pso.chairmanbod@iesco.com.pk>
+Date:   Tue, 22 Aug 2023 16:31:12 -0700
+Reply-To: chnyne@gmail.com
+X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFlrDLMWRmVeSWpSXmKPExsVyyUKGW9fb+2mKwZYHMhbv7h5hdGD0+LxJ
+        LoAxissmJTUnsyy1SN8ugStjyboLLAW7mSva+hexNDA+Zupi5OSQEDCROHzyAiuILSSwh0mi
+        8URFFyMXB4vAamaJfV3fmSCch8wSzx99ZARxhASaGSU+3p8A1sIrYC0xs/8pO4jNLKAncWPq
+        FDaIuKDEyZlPWCDi2hLLFr5m7mLkALLVJL52lYCEhQXEJD5NWwbWKiIgLzHl4gJmEJtNQF9i
+        xddmRhCbRUBV4sCNeVDXSUlsvLKebQIj/ywk22Yh2TYLybZZCNsWMLKsYpQorsxNBIZasole
+        cn5ucWJJsV5eaoleQfYmRmAYnq7RlNvBuPRS4iFGAQ5GJR7en+uepAixJpYBdR1ilOBgVhLh
+        lf7+MEWINyWxsiq1KD++qDQntfgQozQHi5I4r63Qs2QhgfTEktTs1NSC1CKYLBMHp1QD433v
+        Asee/0nRXzvW+wSlbTboPLXzxZHsOfvUXx9ueVKz+1nlTLNfYTMnbJRTqhavSHfYM/V3z6N9
+        75+sV2CUC3m+UMVH++LO49MPu+xz7te7weS0Y1GB2pPL50oqMpddcsvXuTjvocmiheqrqhh4
+        V71Zu8dv3bTfW2RPVp80mqwcdjJWcuk2s11KLMUZiYZazEXFiQBExbAmPwIAAA==
+X-Spam-Status: Yes, score=5.5 required=5.0 tests=BAYES_50,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FORGED_REPLYTO,
+        RCVD_IN_DNSWL_LOW,RCVD_IN_SBL,RCVD_IN_SBL_CSS,SPF_HELO_NONE,SPF_PASS,
+        URIBL_BLOCKED autolearn=no autolearn_force=no version=3.4.6
+X-Spam-Report: *  0.0 URIBL_BLOCKED ADMINISTRATOR NOTICE: The query to URIBL was
+        *      blocked.  See
+        *      http://wiki.apache.org/spamassassin/DnsBlocklists#dnsbl-block
+        *      for more information.
+        *      [URIs: iesco.com.pk]
+        *  3.3 RCVD_IN_SBL_CSS RBL: Received via a relay in Spamhaus SBL-CSS
+        *      [94.156.6.90 listed in zen.spamhaus.org]
+        *  0.1 RCVD_IN_SBL RBL: Received via a relay in Spamhaus SBL
+        * -0.7 RCVD_IN_DNSWL_LOW RBL: Sender listed at https://www.dnswl.org/,
+        *       low trust
+        *      [203.124.41.30 listed in list.dnswl.org]
+        *  0.8 BAYES_50 BODY: Bayes spam probability is 40 to 60%
+        *      [score: 0.5000]
+        * -0.0 SPF_PASS SPF: sender matches SPF record
+        *  0.0 SPF_HELO_NONE SPF: HELO does not publish an SPF Record
+        * -0.1 DKIM_VALID Message has at least one valid DKIM or DK signature
+        * -0.1 DKIM_VALID_EF Message has a valid DKIM or DK signature from
+        *      envelope-from domain
+        *  0.1 DKIM_SIGNED Message has a DKIM or DK signature, not necessarily
+        *       valid
+        * -0.1 DKIM_VALID_AU Message has a valid DKIM or DK signature from
+        *      author's domain
+        *  2.1 FREEMAIL_FORGED_REPLYTO Freemail in Reply-To, but not From
+X-Spam-Level: *****
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-alpha.vger.kernel.org>
 X-Mailing-List: linux-alpha@vger.kernel.org
 
-All *.S files under arch/alpha/ have been converted to include
-<linux/export.h> instead of <asm/export.h>.
+Re; Interest,
 
-Remove <asm/export.h>.
+I am interested in discussing the Investment proposal as I explained
+in my previous mail. May you let me know your interest and the
+possibility of a cooperation aimed for mutual interest.
 
-Signed-off-by: Masahiro Yamada <masahiroy@kernel.org>
----
+Looking forward to your mail for further discussion.
 
- arch/alpha/include/asm/Kbuild | 1 -
- 1 file changed, 1 deletion(-)
+Regards
 
-diff --git a/arch/alpha/include/asm/Kbuild b/arch/alpha/include/asm/Kbuild
-index dd31e97edae8..396caece6d6d 100644
---- a/arch/alpha/include/asm/Kbuild
-+++ b/arch/alpha/include/asm/Kbuild
-@@ -3,6 +3,5 @@
- generated-y += syscall_table.h
- generic-y += agp.h
- generic-y += asm-offsets.h
--generic-y += export.h
- generic-y += kvm_para.h
- generic-y += mcs_spinlock.h
--- 
-2.39.2
+------
+Chen Yun - Chairman of CREC
+China Railway Engineering Corporation - CRECG
+China Railway Plaza, No.69 Fuxing Road, Haidian District, Beijing, P.R.
+China
 
