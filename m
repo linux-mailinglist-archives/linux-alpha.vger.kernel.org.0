@@ -2,93 +2,154 @@ Return-Path: <linux-alpha-owner@vger.kernel.org>
 X-Original-To: lists+linux-alpha@lfdr.de
 Delivered-To: lists+linux-alpha@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 6C4B478AA86
-	for <lists+linux-alpha@lfdr.de>; Mon, 28 Aug 2023 12:23:48 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 0FF5F7908C4
+	for <lists+linux-alpha@lfdr.de>; Sat,  2 Sep 2023 18:57:41 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231300AbjH1KXQ (ORCPT <rfc822;lists+linux-alpha@lfdr.de>);
-        Mon, 28 Aug 2023 06:23:16 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33864 "EHLO
+        id S234759AbjIBQ5m (ORCPT <rfc822;lists+linux-alpha@lfdr.de>);
+        Sat, 2 Sep 2023 12:57:42 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42930 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231286AbjH1KWo (ORCPT
-        <rfc822;linux-alpha@vger.kernel.org>);
-        Mon, 28 Aug 2023 06:22:44 -0400
-Received: from mail-pg1-x52f.google.com (mail-pg1-x52f.google.com [IPv6:2607:f8b0:4864:20::52f])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C2539132;
-        Mon, 28 Aug 2023 03:22:37 -0700 (PDT)
-Received: by mail-pg1-x52f.google.com with SMTP id 41be03b00d2f7-565dc391be3so2714441a12.0;
-        Mon, 28 Aug 2023 03:22:37 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20221208; t=1693218157; x=1693822957;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=yEaJWeBAVOoawr4c33mkvjoKOidJHOfAi0d6D3J7utQ=;
-        b=nVU2W7l+NmxVDoUJL2WyJAGvhjit71AAHto0Hp6vd4G3o3tDeOnth7/rtm5+CafRBa
-         FU3U4IbbtzjJjCAYNdlUnXH6Qj8Qep/bUf4KvB0lelGn7Mfoj68ULuvWwLzorZaYugdH
-         zo6JmPxza0/p/K9y1/utstUzy9tLotzQs7+IHqzYSsqSykziMqaf9bYzdXqg533TtDlC
-         zhUj7pc0ctVglVDy0VkYTk0Wwj3+F93yg8qP7HSKuF/uQhioRSMTd6PrqucIn8ItdWI4
-         tuiDwcLZx1zFttMJHGWhTcB3L9v+mmWkzdByUKdjDjU287NRKzWpPd2bOJCtao/ZANpT
-         lu5A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1693218157; x=1693822957;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=yEaJWeBAVOoawr4c33mkvjoKOidJHOfAi0d6D3J7utQ=;
-        b=Y4fokYsNw8yefM9v/04vYp/ykLCKnUl8IwJEXFVsEsuOhR7Egd73iDji9JIdbufG6S
-         l3f9qBzOWLkFcmtgCp1mOgfp85A2PxXC2Bq3qWvcBaa2WgVck37EbSTxV3u4VUi7xt8e
-         wYL1hucjbUQXAFOon16c9cy72lunDeFWKhMiWCDlOpQy0+fF8CVgoHE3iDh6zX3W9cCv
-         h44AMNALJxm5sA2/OxWRGmGpuG3ipt9eTsaT8wpjrOPjJoFSn2KOmguYlcJTs0xqfN3j
-         t8PK4IyP6TSHM7eXxeIpjulnxRooPTfPhUN8C73z+V4ynrvJXUlprZehSgUmTlCcaHGw
-         p2Zw==
-X-Gm-Message-State: AOJu0Yx7MqAH+7nJUwGSOOvY8PbrDfcEFdR11EeLyQMFbNws09FnFHWu
-        QVv/WzAfDf8MlYs+R8pxVaGSgwjP4acyMhb4FKY=
-X-Google-Smtp-Source: AGHT+IHunRJ8SKrwJgaP+51V2JJrecdxsMCTtZgn0eMB70U7pUC9syasL7KOaWROh+wvS8qj56tjawwSSP8Jbu9b7DA=
-X-Received: by 2002:a17:90a:2a48:b0:269:68e7:bbb9 with SMTP id
- d8-20020a17090a2a4800b0026968e7bbb9mr38051213pjg.23.1693218157096; Mon, 28
- Aug 2023 03:22:37 -0700 (PDT)
+        with ESMTP id S230113AbjIBQ5l (ORCPT
+        <rfc822;linux-alpha@vger.kernel.org>); Sat, 2 Sep 2023 12:57:41 -0400
+Received: from fanzine2.igalia.com (fanzine2.igalia.com [213.97.179.56])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 13DBDE4B;
+        Sat,  2 Sep 2023 09:57:38 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com;
+        s=20170329; h=Content-Transfer-Encoding:MIME-Version:Message-ID:Date:Subject:
+        Cc:To:From:Sender:Reply-To:Content-Type:Content-ID:Content-Description:
+        Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
+        In-Reply-To:References:List-Id:List-Help:List-Unsubscribe:List-Subscribe:
+        List-Post:List-Owner:List-Archive;
+        bh=vAo+LFd8P1VYayE/TRtQa6KVzenEdB+YZHq1dQ5Nrf4=; b=YGl8zWLC5Fw7FoYB9JWESmEblh
+        qaI2lzebLVQH5vC7Q0xhTBTyew0TOU/ZOYoE5rirY33nUgucZWm9wm3HCqb5V2uRJP1yodAYc+LZw
+        KTiunZr1Yk48zQZ0QyyRHS6xNScTwBzj0VF7IRXUiwtdiffK9yz7x6h7ZGsZUqn09kE1oUDY3/55J
+        F2A/auH2OK0cw2TBDPKkdOfKWIw8xT18+uf3CQl9mqYS02vX0lGHDwyCc1FYW89RsSTh7rA8WmZu6
+        6PxfkKf22KHyfYmm/bNLaPkc5Chn8vSFLn96/50WPy+DXlbUw6Es5sRtgMoPMBw868RAiS9rqS0YY
+        aQe2567Q==;
+Received: from [179.232.147.2] (helo=localhost)
+        by fanzine2.igalia.com with esmtpsa 
+        (Cipher TLS1.3:ECDHE_SECP256R1__RSA_PSS_RSAE_SHA256__AES_256_GCM:256) (Exim)
+        id 1qcTwC-001Q7M-Mp; Sat, 02 Sep 2023 18:57:33 +0200
+From:   "Guilherme G. Piccoli" <gpiccoli@igalia.com>
+To:     linux-alpha@vger.kernel.org, mattst88@gmail.com
+Cc:     linux-kernel@vger.kernel.org, kernel-dev@igalia.com,
+        kernel@gpiccoli.net, "Guilherme G. Piccoli" <gpiccoli@igalia.com>,
+        Ivan Kokshaysky <ink@jurassic.park.msu.ru>,
+        Richard Henderson <richard.henderson@linaro.org>,
+        Petr Mladek <pmladek@suse.com>
+Subject: [PATCH v5] alpha: Clean-up the panic notifier code
+Date:   Sat,  2 Sep 2023 13:44:15 -0300
+Message-ID: <20230902165725.3504046-1-gpiccoli@igalia.com>
+X-Mailer: git-send-email 2.41.0
 MIME-Version: 1.0
-References: <20230828071829.64366-1-anshulusr@gmail.com> <2023082827-craftily-citric-06fa@gregkh>
- <CAPwwkU7+zHo2jpt+ovJDE1ca=K8AKyowyA5Z9pOFAy6iifVEwA@mail.gmail.com> <2023082801-cost-radiance-95fa@gregkh>
-In-Reply-To: <2023082801-cost-radiance-95fa@gregkh>
-From:   Anshul <anshulusr@gmail.com>
-Date:   Mon, 28 Aug 2023 15:52:29 +0530
-Message-ID: <CAPwwkU77=FvjtEFM9gzoMRLdporY8F7y1zXNky1Rj4cL0UpXHQ@mail.gmail.com>
-Subject: Re: [PATCH] fixed formatting issues
-To:     Greg KH <gregkh@linuxfoundation.org>
-Cc:     richard.henderson@linaro.org, ink@jurassic.park.msu.ru,
-        mattst88@gmail.com, linux-alpha@vger.kernel.org,
-        linux-kernel-mentees@lists.linuxfoundation.org,
-        linux-kernel@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
 X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
-        RCVD_IN_DNSWL_BLOCKED,SPF_HELO_NONE,SPF_PASS autolearn=ham
-        autolearn_force=no version=3.4.6
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_BLOCKED,
+        SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-alpha.vger.kernel.org>
 X-Mailing-List: linux-alpha@vger.kernel.org
 
-> Why are you changing coding style issues in this portion of the kernel?
-> Do you have this hardware to test with?
+The alpha panic notifier has some code issues, not following
+the conventions of other notifiers. Also, it might halt the
+machine but still it is set to run as early as possible, which
+doesn't seem to be a good idea.
 
-I was exploring the source code and noticed a few discrepancies in the
-coding style and followed to run `scripts/checkpatch.pl`.
+So, let's clean the code and set the notifier to run as the
+latest, following the same approach other architectures are
+doing - also, remove the unnecessary include of a header already
+included indirectly.
 
-> Normally coding style cleanups like this are only allowed in the
-> drivers/staging/* portion of the kernel.  Unless you get approval from
-> the maintainer of the subsystem you are changing, I wouldn't work on
-> this as it's generally considered bad form.
+Cc: Ivan Kokshaysky <ink@jurassic.park.msu.ru>
+Cc: Matt Turner <mattst88@gmail.com>
+Cc: Richard Henderson <richard.henderson@linaro.org>
+Reviewed-by: Petr Mladek <pmladek@suse.com>
+Signed-off-by: Guilherme G. Piccoli <gpiccoli@igalia.com>
+---
 
-I was not aware of that. I apologise in case my actions caused any
-undue inconveniences, that was never my intention.
+V5: rebased against v6.5, build-tested using defconfig.
 
-> Your name is only 1 word?
-Yes, my legal name doesn't have a last name. I could change my From:
-or Signed-off-by: lines to have "Anshul A" or add my informal last name
-if that aligns better with kernel standards.
+V4: https://lore.kernel.org/lkml/20230220212245.153554-1-gpiccoli@igalia.com/
 
-I appreciate your feedback and apologise for any problems caused,
+Hi Matt, apologies for the annoyance. Seems that this one was never picked-up;
+let me know if there's anything missing.
 
-Anshul
+Thanks in advance,
+
+Guilherme
+
+
+ arch/alpha/kernel/setup.c | 36 +++++++++++++++---------------------
+ 1 file changed, 15 insertions(+), 21 deletions(-)
+
+diff --git a/arch/alpha/kernel/setup.c b/arch/alpha/kernel/setup.c
+index 3d7473531ab1..07afd2bf18d7 100644
+--- a/arch/alpha/kernel/setup.c
++++ b/arch/alpha/kernel/setup.c
+@@ -41,19 +41,11 @@
+ #include <linux/sysrq.h>
+ #include <linux/reboot.h>
+ #endif
+-#include <linux/notifier.h>
+ #include <asm/setup.h>
+ #include <asm/io.h>
+ #include <linux/log2.h>
+ #include <linux/export.h>
+ 
+-static int alpha_panic_event(struct notifier_block *, unsigned long, void *);
+-static struct notifier_block alpha_panic_block = {
+-	alpha_panic_event,
+-        NULL,
+-        INT_MAX /* try to do it first */
+-};
+-
+ #include <linux/uaccess.h>
+ #include <asm/hwrpb.h>
+ #include <asm/dma.h>
+@@ -434,6 +426,21 @@ static const struct sysrq_key_op srm_sysrq_reboot_op = {
+ };
+ #endif
+ 
++static int alpha_panic_event(struct notifier_block *this,
++			     unsigned long event, void *ptr)
++{
++	/* If we are using SRM and serial console, just hard halt here. */
++	if (alpha_using_srm && srmcons_output)
++		__halt();
++
++	return NOTIFY_DONE;
++}
++
++static struct notifier_block alpha_panic_block = {
++	.notifier_call = alpha_panic_event,
++	.priority = INT_MIN, /* may not return, do it last */
++};
++
+ void __init
+ setup_arch(char **cmdline_p)
+ {
+@@ -1426,19 +1433,6 @@ const struct seq_operations cpuinfo_op = {
+ 	.show	= show_cpuinfo,
+ };
+ 
+-
+-static int
+-alpha_panic_event(struct notifier_block *this, unsigned long event, void *ptr)
+-{
+-#if 1
+-	/* FIXME FIXME FIXME */
+-	/* If we are using SRM and serial console, just hard halt here. */
+-	if (alpha_using_srm && srmcons_output)
+-		__halt();
+-#endif
+-        return NOTIFY_DONE;
+-}
+-
+ static __init int add_pcspkr(void)
+ {
+ 	struct platform_device *pd;
+-- 
+2.41.0
+
