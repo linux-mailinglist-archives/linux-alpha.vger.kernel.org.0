@@ -2,154 +2,70 @@ Return-Path: <linux-alpha-owner@vger.kernel.org>
 X-Original-To: lists+linux-alpha@lfdr.de
 Delivered-To: lists+linux-alpha@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 0FF5F7908C4
-	for <lists+linux-alpha@lfdr.de>; Sat,  2 Sep 2023 18:57:41 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 490A379298D
+	for <lists+linux-alpha@lfdr.de>; Tue,  5 Sep 2023 18:52:49 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234759AbjIBQ5m (ORCPT <rfc822;lists+linux-alpha@lfdr.de>);
-        Sat, 2 Sep 2023 12:57:42 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42930 "EHLO
+        id S1344032AbjIEQ1L (ORCPT <rfc822;lists+linux-alpha@lfdr.de>);
+        Tue, 5 Sep 2023 12:27:11 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34970 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230113AbjIBQ5l (ORCPT
-        <rfc822;linux-alpha@vger.kernel.org>); Sat, 2 Sep 2023 12:57:41 -0400
-Received: from fanzine2.igalia.com (fanzine2.igalia.com [213.97.179.56])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 13DBDE4B;
-        Sat,  2 Sep 2023 09:57:38 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com;
-        s=20170329; h=Content-Transfer-Encoding:MIME-Version:Message-ID:Date:Subject:
-        Cc:To:From:Sender:Reply-To:Content-Type:Content-ID:Content-Description:
-        Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
-        In-Reply-To:References:List-Id:List-Help:List-Unsubscribe:List-Subscribe:
-        List-Post:List-Owner:List-Archive;
-        bh=vAo+LFd8P1VYayE/TRtQa6KVzenEdB+YZHq1dQ5Nrf4=; b=YGl8zWLC5Fw7FoYB9JWESmEblh
-        qaI2lzebLVQH5vC7Q0xhTBTyew0TOU/ZOYoE5rirY33nUgucZWm9wm3HCqb5V2uRJP1yodAYc+LZw
-        KTiunZr1Yk48zQZ0QyyRHS6xNScTwBzj0VF7IRXUiwtdiffK9yz7x6h7ZGsZUqn09kE1oUDY3/55J
-        F2A/auH2OK0cw2TBDPKkdOfKWIw8xT18+uf3CQl9mqYS02vX0lGHDwyCc1FYW89RsSTh7rA8WmZu6
-        6PxfkKf22KHyfYmm/bNLaPkc5Chn8vSFLn96/50WPy+DXlbUw6Es5sRtgMoPMBw868RAiS9rqS0YY
-        aQe2567Q==;
-Received: from [179.232.147.2] (helo=localhost)
-        by fanzine2.igalia.com with esmtpsa 
-        (Cipher TLS1.3:ECDHE_SECP256R1__RSA_PSS_RSAE_SHA256__AES_256_GCM:256) (Exim)
-        id 1qcTwC-001Q7M-Mp; Sat, 02 Sep 2023 18:57:33 +0200
-From:   "Guilherme G. Piccoli" <gpiccoli@igalia.com>
-To:     linux-alpha@vger.kernel.org, mattst88@gmail.com
-Cc:     linux-kernel@vger.kernel.org, kernel-dev@igalia.com,
-        kernel@gpiccoli.net, "Guilherme G. Piccoli" <gpiccoli@igalia.com>,
-        Ivan Kokshaysky <ink@jurassic.park.msu.ru>,
-        Richard Henderson <richard.henderson@linaro.org>,
-        Petr Mladek <pmladek@suse.com>
-Subject: [PATCH v5] alpha: Clean-up the panic notifier code
-Date:   Sat,  2 Sep 2023 13:44:15 -0300
-Message-ID: <20230902165725.3504046-1-gpiccoli@igalia.com>
-X-Mailer: git-send-email 2.41.0
+        with ESMTP id S1354067AbjIEJeT (ORCPT
+        <rfc822;linux-alpha@vger.kernel.org>); Tue, 5 Sep 2023 05:34:19 -0400
+X-Greylist: delayed 4140 seconds by postgrey-1.37 at lindbergh.monkeyblade.net; Tue, 05 Sep 2023 02:34:16 PDT
+Received: from mail.equinoxrise.pl (mail.equinoxrise.pl [217.61.112.157])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B28501A7
+        for <linux-alpha@vger.kernel.org>; Tue,  5 Sep 2023 02:34:16 -0700 (PDT)
+Received: by mail.equinoxrise.pl (Postfix, from userid 1002)
+        id 08E5C835CA; Mon,  4 Sep 2023 09:41:03 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=equinoxrise.pl;
+        s=mail; t=1693813285;
+        bh=v6OgBfK5dN7P5dQ0wCu59rOfZaiqziJeLNblJ8dOcGI=;
+        h=Date:From:To:Subject:From;
+        b=WxuuKC39UdWVWc/yR4nwS2bOlqlOlG9SftDjSaVEI+bwKpBcN83GiCnX0fKJAfDCU
+         +mrDVr7tIdBJBcb5/812ZqE65cuoYvDw7CUvcx8ujYPFCnrhP6wCiluG3wTyMgiLzY
+         Y69S+Ptos92uld41Me0vqnph/ccigt3vSZAE7aA/wAMSuktfw1pLpCaSvKiXhgLIXE
+         Da1SgWBUlD3GliJtpc+K+toXvGdLFr59lxSBE3/zr07jd96ZzhfEgifHkof6S2K83C
+         wtuz2T112su7/AV2bxPQ6BL79hDlh/l1kb5F1D9Q90nIrwfWwnoBmrtHuxtPY3toNs
+         q3njhHxc06xGQ==
+Received: by mail.equinoxrise.pl for <linux-alpha@vger.kernel.org>; Mon,  4 Sep 2023 07:40:34 GMT
+Message-ID: <20230904084500-0.1.7.qow.0.zj8mjhp27q@equinoxrise.pl>
+Date:   Mon,  4 Sep 2023 07:40:34 GMT
+From:   "Mateusz Talaga" <mateusz.talaga@equinoxrise.pl>
+To:     <linux-alpha@vger.kernel.org>
+Subject: Prezentacja
+X-Mailer: mail.equinoxrise.pl
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Spam-Status: No, score=3.8 required=5.0 tests=BAYES_00,DKIM_SIGNED,
         DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_BLOCKED,
-        SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
+        RCVD_IN_SBL_CSS,SPF_HELO_NONE,SPF_PASS,URIBL_CSS_A,URIBL_DBL_SPAM
+        autolearn=no autolearn_force=no version=3.4.6
+X-Spam-Level: ***
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-alpha.vger.kernel.org>
 X-Mailing-List: linux-alpha@vger.kernel.org
 
-The alpha panic notifier has some code issues, not following
-the conventions of other notifiers. Also, it might halt the
-machine but still it is set to run as early as possible, which
-doesn't seem to be a good idea.
+Dzie=C5=84 dobry!
 
-So, let's clean the code and set the notifier to run as the
-latest, following the same approach other architectures are
-doing - also, remove the unnecessary include of a header already
-included indirectly.
+Czy m=C3=B3g=C5=82bym przedstawi=C4=87 rozwi=C4=85zanie, kt=C3=B3re umo=C5=
+=BCliwia monitoring ka=C5=BCdego auta w czasie rzeczywistym w tym jego po=
+zycj=C4=99, zu=C5=BCycie paliwa i przebieg?
 
-Cc: Ivan Kokshaysky <ink@jurassic.park.msu.ru>
-Cc: Matt Turner <mattst88@gmail.com>
-Cc: Richard Henderson <richard.henderson@linaro.org>
-Reviewed-by: Petr Mladek <pmladek@suse.com>
-Signed-off-by: Guilherme G. Piccoli <gpiccoli@igalia.com>
----
+Dodatkowo nasze narz=C4=99dzie minimalizuje koszty utrzymania samochod=C3=
+=B3w, skraca czas przejazd=C3=B3w, a tak=C5=BCe tworzenie planu tras czy =
+dostaw.
 
-V5: rebased against v6.5, build-tested using defconfig.
+Z naszej wiedzy i do=C5=9Bwiadczenia korzysta ju=C5=BC ponad 49 tys. Klie=
+nt=C3=B3w. Monitorujemy 809 000 pojazd=C3=B3w na ca=C5=82ym =C5=9Bwiecie,=
+ co jest nasz=C4=85 najlepsz=C4=85 wizyt=C3=B3wk=C4=85.
 
-V4: https://lore.kernel.org/lkml/20230220212245.153554-1-gpiccoli@igalia.com/
-
-Hi Matt, apologies for the annoyance. Seems that this one was never picked-up;
-let me know if there's anything missing.
-
-Thanks in advance,
-
-Guilherme
+Bardzo prosz=C4=99 o e-maila zwrotnego, je=C5=9Bli mogliby=C5=9Bmy wsp=C3=
+=B3lnie om=C3=B3wi=C4=87 potencja=C5=82 wykorzystania takiego rozwi=C4=85=
+zania w Pa=C5=84stwa firmie.
 
 
- arch/alpha/kernel/setup.c | 36 +++++++++++++++---------------------
- 1 file changed, 15 insertions(+), 21 deletions(-)
-
-diff --git a/arch/alpha/kernel/setup.c b/arch/alpha/kernel/setup.c
-index 3d7473531ab1..07afd2bf18d7 100644
---- a/arch/alpha/kernel/setup.c
-+++ b/arch/alpha/kernel/setup.c
-@@ -41,19 +41,11 @@
- #include <linux/sysrq.h>
- #include <linux/reboot.h>
- #endif
--#include <linux/notifier.h>
- #include <asm/setup.h>
- #include <asm/io.h>
- #include <linux/log2.h>
- #include <linux/export.h>
- 
--static int alpha_panic_event(struct notifier_block *, unsigned long, void *);
--static struct notifier_block alpha_panic_block = {
--	alpha_panic_event,
--        NULL,
--        INT_MAX /* try to do it first */
--};
--
- #include <linux/uaccess.h>
- #include <asm/hwrpb.h>
- #include <asm/dma.h>
-@@ -434,6 +426,21 @@ static const struct sysrq_key_op srm_sysrq_reboot_op = {
- };
- #endif
- 
-+static int alpha_panic_event(struct notifier_block *this,
-+			     unsigned long event, void *ptr)
-+{
-+	/* If we are using SRM and serial console, just hard halt here. */
-+	if (alpha_using_srm && srmcons_output)
-+		__halt();
-+
-+	return NOTIFY_DONE;
-+}
-+
-+static struct notifier_block alpha_panic_block = {
-+	.notifier_call = alpha_panic_event,
-+	.priority = INT_MIN, /* may not return, do it last */
-+};
-+
- void __init
- setup_arch(char **cmdline_p)
- {
-@@ -1426,19 +1433,6 @@ const struct seq_operations cpuinfo_op = {
- 	.show	= show_cpuinfo,
- };
- 
--
--static int
--alpha_panic_event(struct notifier_block *this, unsigned long event, void *ptr)
--{
--#if 1
--	/* FIXME FIXME FIXME */
--	/* If we are using SRM and serial console, just hard halt here. */
--	if (alpha_using_srm && srmcons_output)
--		__halt();
--#endif
--        return NOTIFY_DONE;
--}
--
- static __init int add_pcspkr(void)
- {
- 	struct platform_device *pd;
--- 
-2.41.0
-
+Pozdrawiam
+Mateusz Talaga
