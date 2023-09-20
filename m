@@ -2,127 +2,116 @@ Return-Path: <linux-alpha-owner@vger.kernel.org>
 X-Original-To: lists+linux-alpha@lfdr.de
 Delivered-To: lists+linux-alpha@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id A15B67A8750
-	for <lists+linux-alpha@lfdr.de>; Wed, 20 Sep 2023 16:41:19 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id DC2E67A89CF
+	for <lists+linux-alpha@lfdr.de>; Wed, 20 Sep 2023 18:57:04 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235107AbjITOlW (ORCPT <rfc822;lists+linux-alpha@lfdr.de>);
-        Wed, 20 Sep 2023 10:41:22 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40418 "EHLO
+        id S234609AbjITQ5I (ORCPT <rfc822;lists+linux-alpha@lfdr.de>);
+        Wed, 20 Sep 2023 12:57:08 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57888 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S236823AbjITOlL (ORCPT
+        with ESMTP id S234457AbjITQ5H (ORCPT
         <rfc822;linux-alpha@vger.kernel.org>);
-        Wed, 20 Sep 2023 10:41:11 -0400
-Received: from www.kot-begemot.co.uk (ns1.kot-begemot.co.uk [217.160.28.25])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 619231BDC;
-        Wed, 20 Sep 2023 07:40:28 -0700 (PDT)
-Received: from [192.168.17.6] (helo=jain.kot-begemot.co.uk)
-        by www.kot-begemot.co.uk with esmtps  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
-        (Exim 4.94.2)
-        (envelope-from <anton.ivanov@cambridgegreys.com>)
-        id 1qiyLd-002W2U-3v; Wed, 20 Sep 2023 14:38:37 +0000
-Received: from jain.kot-begemot.co.uk ([192.168.3.3])
-        by jain.kot-begemot.co.uk with esmtp (Exim 4.94.2)
-        (envelope-from <anton.ivanov@cambridgegreys.com>)
-        id 1qiyLa-00HNGo-By; Wed, 20 Sep 2023 15:38:36 +0100
-Message-ID: <159b79fc-16d8-2d12-ed17-fb508879d791@cambridgegreys.com>
-Date:   Wed, 20 Sep 2023 15:38:33 +0100
+        Wed, 20 Sep 2023 12:57:07 -0400
+Received: from smtp-out2.suse.de (smtp-out2.suse.de [IPv6:2001:67c:2178:6::1d])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9E67F99;
+        Wed, 20 Sep 2023 09:57:01 -0700 (PDT)
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+         key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+        (No client certificate requested)
+        by smtp-out2.suse.de (Postfix) with ESMTPS id 54B642017D;
+        Wed, 20 Sep 2023 16:57:00 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
+        t=1695229020; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+         mime-version:mime-version:content-type:content-type:
+         content-transfer-encoding:content-transfer-encoding:
+         in-reply-to:in-reply-to:references:references;
+        bh=arrJUNtqjU/izONia38ns6kqz5a2Ljs8vzyYYK7Z784=;
+        b=B5zucAFR4XyR8/5tRFN24icRoW3Li46w9AYROy5fgeQHJjHHmWe1VBSTJAgJzltxBUTQfj
+        A2xO9YmlmCUAHIhnO6bcsmBlTch94Tqw9Zrs2J99gUVXgRrg7N5SnwIhK/ADmsG7DqDXb5
+        NyDsDzox8Vmqa0S6njAX9jt6GCL7qPo=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
+        s=susede2_ed25519; t=1695229020;
+        h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+         mime-version:mime-version:content-type:content-type:
+         content-transfer-encoding:content-transfer-encoding:
+         in-reply-to:in-reply-to:references:references;
+        bh=arrJUNtqjU/izONia38ns6kqz5a2Ljs8vzyYYK7Z784=;
+        b=TEI3317KDo5yb9aq6yYTvDHKSUd5zcn5XGrWvmgB48JFj1/RVX24vTZ5l0fScD+mlAMJpN
+        CaN28xdVs9HUPMBA==
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+         key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+        (No client certificate requested)
+        by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 420581333E;
+        Wed, 20 Sep 2023 16:57:00 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([192.168.254.65])
+        by imap2.suse-dmz.suse.de with ESMTPSA
+        id s1QXEFwkC2UDdgAAMHmgww
+        (envelope-from <jack@suse.cz>); Wed, 20 Sep 2023 16:57:00 +0000
+Received: by quack3.suse.cz (Postfix, from userid 1000)
+        id AE8E8A077D; Wed, 20 Sep 2023 18:56:59 +0200 (CEST)
+Date:   Wed, 20 Sep 2023 18:56:59 +0200
+From:   Jan Kara <jack@suse.cz>
+To:     Geert Uytterhoeven <geert@linux-m68k.org>
+Cc:     Peter Lafreniere <peter@n8pjl.ca>, segher@kernel.crashing.org,
+        anton.ivanov@cambridgegreys.com, ink@jurassic.park.msu.ru,
+        jack@suse.cz, johannes@sipsolutions.net,
+        linux-alpha@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+        linux-kernel@vger.kernel.org, linux-m68k@vger.kernel.org,
+        linux-mips@vger.kernel.org, linux-sh@vger.kernel.org,
+        linux-um@lists.infradead.org, linux@armlinux.org.uk,
+        linuxppc-dev@lists.ozlabs.org, reiserfs-devel@vger.kernel.org,
+        richard.henderson@linaro.org, richard@nod.at,
+        tsbogend@alpha.franken.de
+Subject: Re: [PATCH 0/7] arch/*: config: Remove ReiserFS from defconfig
+Message-ID: <20230920165659.coe7d2lydiaatoby@quack3>
+References: <20230918175529.19011-1-peter@n8pjl.ca>
+ <20230918234108.GN19790@gate.crashing.org>
+ <20230919000026.7409-1-peter@n8pjl.ca>
+ <20230919151630.GO19790@gate.crashing.org>
+ <20230919155832.4179-1-peter@n8pjl.ca>
+ <CAMuHMdXQ=xpeY3tmLXe1kgJbRtmVAn62rEhvzO+VB7GCgy4F8w@mail.gmail.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.10.0
-Subject: Re: Arches that don't support PREEMPT
-Content-Language: en-US
-To:     Peter Zijlstra <peterz@infradead.org>,
-        John Paul Adrian Glaubitz <glaubitz@physik.fu-berlin.de>
-Cc:     Matthew Wilcox <willy@infradead.org>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Linus Torvalds <torvalds@linux-foundation.org>,
-        Ankur Arora <ankur.a.arora@oracle.com>,
-        linux-kernel@vger.kernel.org, linux-mm@kvack.org, x86@kernel.org,
-        akpm@linux-foundation.org, luto@kernel.org, bp@alien8.de,
-        dave.hansen@linux.intel.com, hpa@zytor.com, mingo@redhat.com,
-        juri.lelli@redhat.com, vincent.guittot@linaro.org, mgorman@suse.de,
-        rostedt@goodmis.org, jon.grimm@amd.com, bharata@amd.com,
-        raghavendra.kt@amd.com, boris.ostrovsky@oracle.com,
-        konrad.wilk@oracle.com, jgross@suse.com, andrew.cooper3@citrix.com,
-        Geert Uytterhoeven <geert@linux-m68k.org>,
-        linux-m68k@lists.linux-m68k.org,
-        Richard Weinberger <richard@nod.at>,
-        Johannes Berg <johannes@sipsolutions.net>,
-        linux-um@lists.infradead.org, Brian Cain <bcain@quicinc.com>,
-        linux-hexagon@vger.kernel.org,
-        Richard Henderson <richard.henderson@linaro.org>,
-        Ivan Kokshaysky <ink@jurassic.park.msu.ru>,
-        Matt Turner <mattst88@gmail.com>, linux-alpha@vger.kernel.org
-References: <20230911150410.GC9098@noisy.programming.kicks-ass.net>
- <87h6o01w1a.fsf@oracle.com>
- <20230912082606.GB35261@noisy.programming.kicks-ass.net>
- <87cyyfxd4k.ffs@tglx>
- <CAHk-=whnwC01m_1f-gaM1xbvvwzwTiKitrWniA-ChZv+bM03dg@mail.gmail.com>
- <87led2wdj0.ffs@tglx> <ZQmbhoQIINs8rLHp@casper.infradead.org>
- <0e69f7df80dc5878071deb0d80938138d19de1d1.camel@physik.fu-berlin.de>
- <20230919134218.GA39281@noisy.programming.kicks-ass.net>
- <a6c84803274116ec827cd4bdd4e72a8d0c304c27.camel@physik.fu-berlin.de>
- <20230919141627.GB39281@noisy.programming.kicks-ass.net>
-From:   Anton Ivanov <anton.ivanov@cambridgegreys.com>
-In-Reply-To: <20230919141627.GB39281@noisy.programming.kicks-ass.net>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-Spam-Score: -2.0
-X-Spam-Score: -2.0
-X-Clacks-Overhead: GNU Terry Pratchett
-X-Spam-Status: No, score=-3.4 required=5.0 tests=BAYES_00,NICE_REPLY_A,
-        RCVD_IN_DNSWL_BLOCKED,SPF_HELO_NONE,SPF_PASS autolearn=ham
-        autolearn_force=no version=3.4.6
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <CAMuHMdXQ=xpeY3tmLXe1kgJbRtmVAn62rEhvzO+VB7GCgy4F8w@mail.gmail.com>
+X-Spam-Status: No, score=-1.4 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_BLOCKED,
+        SPF_HELO_NONE,SPF_SOFTFAIL autolearn=no autolearn_force=no
+        version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-alpha.vger.kernel.org>
 X-Mailing-List: linux-alpha@vger.kernel.org
 
-
-
-On 19/09/2023 15:16, Peter Zijlstra wrote:
-> On Tue, Sep 19, 2023 at 03:48:09PM +0200, John Paul Adrian Glaubitz wrote:
->> On Tue, 2023-09-19 at 15:42 +0200, Peter Zijlstra wrote:
->>>> The agreement to kill off ia64 wasn't an invitation to kill off other stuff
->>>> that people are still working on! Can we please not do this?
->>>
->>> If you're working on one of them, then surely it's a simple matter of
->>> working on adding CONFIG_PREEMPT support :-)
->>
->> As Geert poined out, I'm not seeing anything particular problematic with the
->> architectures lacking CONFIG_PREEMPT at the moment. This seems to be more
->> something about organizing KConfig files.
+On Tue 19-09-23 18:02:39, Geert Uytterhoeven wrote:
+> Hi Peter,
 > 
-> The plan in the parent thread is to remove PREEMPT_NONE and
-> PREEMPT_VOLUNTARY and only keep PREEMPT_FULL.
+> On Tue, Sep 19, 2023 at 5:58 PM Peter Lafreniere <peter@n8pjl.ca> wrote:
+> >  2) Stops building an obsolete and largely-unused filesystem unnecessarily.
+> >     Some hobbyist targets like m68k and alpha may prefer to keep all filesystems
+> >     available until total removal, but others like arm and UML have no need for
+> >     ReiserFS to be built unless specifically configured.
 > 
->> I find it a bit unfair that maintainers of architectures that have huge companies
->> behind them use their manpower to urge less popular architectures for removal just
->> because they don't have 150 people working on the port so they can keep up with
->> design changes quickly.
-> 
-> PREEMPT isn't something new. Also, I don't think the arch part for
-> actually supporting it is particularly hard, mostly it is sticking the
-> preempt_schedule_irq() call in return from interrupt code path.
+> As UML is used a lot for testing, isn't it actually counter-productive
+> to remove ReiserFS from the UML defconfig?  The less testing it
+> receives, the higher the chance of introducing regressions.
 
-That calls local_irq_enable() which does various signal related/irq pending work on UML. That in turn does no like being invoked again (as you may have already been invoked out of that) in the IRQ return path.
+The only testing I know about for reiserfs (besides build testing) is
+syzbot. And regarding the people / bots doing filesystem testing I know
+none of them uses UML. Rather it is x86 VMs these days where reiserfs is
+disabled in the defconfig for a *long* time (many years). Also when you do
+filesystem testing, you usually just test the few filesystems you care
+about and for which you have all the tools installed. So frankly I don't
+see a good reason to leave reiserfs enabled in defconfigs. But sure if
+m68k or other arch wants to keep reiserfs in it's defconfig for some
+consistency reasons, I'm fine with it. I just suspect that for most archs
+this is just a historical reason.
 
-So it is likely to end up being slightly more difficult than that for UML - it will need to be wrapped so it can be invoked from the "host" side signal code as well as invoked with some additional checks to avoid making a hash out of the IRQ handling.
-
-It may be necessary to modify some of the existing reentrancy prevention logic in the signal handlers as well and change it to make use of the preempt count instead of its own flags/counters.
-
-> 
-> If you convert the arch to generic-entry (a much larger undertaking)
-> then you get this for free.
-> 
-> _______________________________________________
-> linux-um mailing list
-> linux-um@lists.infradead.org
-> http://lists.infradead.org/mailman/listinfo/linux-um
-> 
-
+								Honza
 -- 
-Anton R. Ivanov
-Cambridgegreys Limited. Registered in England. Company Number 10273661
-https://www.cambridgegreys.com/
+Jan Kara <jack@suse.com>
+SUSE Labs, CR
