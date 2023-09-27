@@ -2,71 +2,62 @@ Return-Path: <linux-alpha-owner@vger.kernel.org>
 X-Original-To: lists+linux-alpha@lfdr.de
 Delivered-To: lists+linux-alpha@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 9C8697AAF18
-	for <lists+linux-alpha@lfdr.de>; Fri, 22 Sep 2023 12:06:27 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 5535E7AFDEA
+	for <lists+linux-alpha@lfdr.de>; Wed, 27 Sep 2023 10:13:25 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233114AbjIVKG2 (ORCPT <rfc822;lists+linux-alpha@lfdr.de>);
-        Fri, 22 Sep 2023 06:06:28 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38268 "EHLO
+        id S230102AbjI0INX (ORCPT <rfc822;lists+linux-alpha@lfdr.de>);
+        Wed, 27 Sep 2023 04:13:23 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60862 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232190AbjIVKG1 (ORCPT
+        with ESMTP id S230366AbjI0INF (ORCPT
         <rfc822;linux-alpha@vger.kernel.org>);
-        Fri, 22 Sep 2023 06:06:27 -0400
-Received: from mail.moosomin24.com (mail.moosomin24.com [217.61.112.134])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 24F5694
-        for <linux-alpha@vger.kernel.org>; Fri, 22 Sep 2023 03:06:20 -0700 (PDT)
-Received: by mail.moosomin24.com (Postfix, from userid 1002)
-        id C7A688285E; Fri, 22 Sep 2023 12:06:06 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=moosomin24.com;
-        s=mail; t=1695377178;
-        bh=sxkamsLepnJSy5ikFDKOiyq8RChcIfs44Djo0bti1MM=;
+        Wed, 27 Sep 2023 04:13:05 -0400
+Received: from mail.commercesolutions.pl (unknown [162.19.155.126])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9865B1B9
+        for <linux-alpha@vger.kernel.org>; Wed, 27 Sep 2023 01:11:35 -0700 (PDT)
+Received: by mail.commercesolutions.pl (Postfix, from userid 1002)
+        id A49BC23F9D; Wed, 27 Sep 2023 08:11:04 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=commercesolutions.pl;
+        s=mail; t=1695802268;
+        bh=PcMncQpBfIZCnTOfZJY5G1G+gaLn4c9QPfFvoXrE4rA=;
         h=Date:From:To:Subject:From;
-        b=ktaKwJyzdQEJ0X4HsRTHsCRRCvcRYkgbdggME5jLzeKTtzwkz+mwqaKvRLuqxBHtE
-         1M4hGs7SQguYAuP3qG9Pu/XFH+sqqqtO1SfUc0HMms9H9DkDIeGGwErNLt8PUPMo0R
-         u01prvaopvsMiaN1+JOO3xouJfjqL/gEqvVNd9xJ6eXR+Xo71MfYeZzwYUh03pujvG
-         d0CwGuk879R+6wTId6AwNw3Nt0f87F0aJW/5vwurrLsQ+aKsT7fKINqMAEGS495BhA
-         Rdy2Ec5iUSJO0JqdFVWYLeRoE9ZL0lZ2wsBA4EzPONe0yAti+t4JwBI1Q5F8CheTk9
-         2LUWghZZIJqPQ==
-Received: by mail.moosomin24.com for <linux-alpha@vger.kernel.org>; Fri, 22 Sep 2023 10:06:02 GMT
-Message-ID: <20230922104500-0.1.2f.333u.0.mtcr7e5qrs@moosomin24.com>
-Date:   Fri, 22 Sep 2023 10:06:02 GMT
-From:   "Philipp Raber" <philipp.raber@moosomin24.com>
+        b=XHiQ/7+YAEyX4yBlPDd9hfCGwJWhrBgJFRsi4k2ynmrjzHfOVXgPacFlNULUZApnX
+         ApCKCTaW+I9geiRiHcuncgznMT060tetibUAj4z6OBw853wPEt+JefB9H6r6C/5NDW
+         ju5P7AMMNfYZ56kifu5Evu2Z1Vv+H6mwk/nxDqC1/teIjNPKwLaH0VTARfKolFXRh7
+         cSKpc/Yct77u1W7JQlgQiq1p9laC6OCXRznzcC8eFK1ajTbQ2CFHyVVekuEudAxTb6
+         HUa7dj/ZxQ0w9npcbb8BX9aRERw8xicpEC43bC4Z9rtPrnFaCod5PzGMGTzOUdxqh3
+         +jfxVALQGpuBw==
+Received: by mail.commercesolutions.pl for <linux-alpha@vger.kernel.org>; Wed, 27 Sep 2023 08:11:00 GMT
+Message-ID: <20230927064500-0.1.8x.1pwx8.0.1s8kptzwe8@commercesolutions.pl>
+Date:   Wed, 27 Sep 2023 08:11:00 GMT
+From:   "Kamil Tralewski" <kamil.tralewski@commercesolutions.pl>
 To:     <linux-alpha@vger.kernel.org>
-Subject: Metalworking and welding
-X-Mailer: mail.moosomin24.com
+Subject: =?UTF-8?Q?S=C5=82owa_kluczowe_do_wypozycjonowania?=
+X-Mailer: mail.commercesolutions.pl
 MIME-Version: 1.0
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
-X-Spam-Status: No, score=1.9 required=5.0 tests=BAYES_50,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_BLOCKED,
-        SPF_HELO_NONE,SPF_PASS,URIBL_ABUSE_SURBL,URIBL_BLOCKED autolearn=no
+X-Spam-Status: No, score=-1.7 required=5.0 tests=BAYES_00,DKIM_INVALID,
+        DKIM_SIGNED,RCVD_IN_DNSWL_BLOCKED,SPF_HELO_NONE,SPF_PASS autolearn=no
         autolearn_force=no version=3.4.6
-X-Spam-Level: *
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-alpha.vger.kernel.org>
 X-Mailing-List: linux-alpha@vger.kernel.org
 
-Good morning,
+Dzie=C5=84 dobry,
 
-We specialize in serial production of metal elements.
+zapozna=C5=82em si=C4=99 z Pa=C5=84stwa ofert=C4=85 i z przyjemno=C5=9Bci=
+=C4=85 przyznaj=C4=99, =C5=BCe przyci=C4=85ga uwag=C4=99 i zach=C4=99ca d=
+o dalszych rozm=C3=B3w.=20
 
-You do not have to resort to the services of subcontractors - we offer yo=
-u comprehensive services
-Support from design to production to transportation, which guarantees sho=
-rt delivery times orders and lower costs.
+Pomy=C5=9Bla=C5=82em, =C5=BCe mo=C5=BCe m=C3=B3g=C5=82bym mie=C4=87 sw=C3=
+=B3j wk=C5=82ad w Pa=C5=84stwa rozw=C3=B3j i pom=C3=B3c dotrze=C4=87 z t=C4=
+=85 ofert=C4=85 do wi=C4=99kszego grona odbiorc=C3=B3w. Pozycjonuj=C4=99 =
+strony www, dzi=C4=99ki czemu generuj=C4=85 =C5=9Bwietny ruch w sieci.
 
-We have an extensive machine park and a large team of specialists, thanks=
- to which we can offer services such as laser sheet metal cutting, pipe a=
-nd profile bending, welding and powder coating.
+Mo=C5=BCemy porozmawia=C4=87 w najbli=C5=BCszym czasie?
 
-The main area of our production is currently storage and transport trolle=
-ys. We produce transport pallets, scissor lifts, furniture elements, buil=
-ding formwork and much more.
-
-If you have any need regarding this, please send me a message.
-
-
-Greetings
-Philipp Raber
+Pozdrawiam
+Kamil Tralewski
