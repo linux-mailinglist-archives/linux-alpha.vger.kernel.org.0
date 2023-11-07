@@ -1,82 +1,62 @@
-Return-Path: <linux-alpha-owner@vger.kernel.org>
+Return-Path: <linux-alpha+bounces-1-lists+linux-alpha=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-alpha@lfdr.de
 Delivered-To: lists+linux-alpha@lfdr.de
-Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 865207E173C
-	for <lists+linux-alpha@lfdr.de>; Sun,  5 Nov 2023 23:00:59 +0100 (CET)
-Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229715AbjKEWBA (ORCPT <rfc822;lists+linux-alpha@lfdr.de>);
-        Sun, 5 Nov 2023 17:01:00 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57502 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229836AbjKEWA6 (ORCPT
-        <rfc822;linux-alpha@vger.kernel.org>); Sun, 5 Nov 2023 17:00:58 -0500
-X-Greylist: delayed 5266 seconds by postgrey-1.37 at lindbergh.monkeyblade.net; Sun, 05 Nov 2023 14:00:55 PST
-Received: from SMTP-HCRC-200.brggroup.vn (unknown [42.112.212.144])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 71756FF;
-        Sun,  5 Nov 2023 14:00:55 -0800 (PST)
-Received: from SMTP-HCRC-200.brggroup.vn (localhost [127.0.0.1])
-        by SMTP-HCRC-200.brggroup.vn (SMTP-CTTV) with ESMTP id 476C918F3C;
-        Mon,  6 Nov 2023 01:57:32 +0700 (+07)
-Received: from zimbra.hcrc.vn (unknown [192.168.200.66])
-        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
-        (No client certificate requested)
-        by SMTP-HCRC-200.brggroup.vn (SMTP-CTTV) with ESMTPS id 408E118FB2;
-        Mon,  6 Nov 2023 01:57:32 +0700 (+07)
-Received: from localhost (localhost [127.0.0.1])
-        by zimbra.hcrc.vn (Postfix) with ESMTP id D0B071B82534;
-        Mon,  6 Nov 2023 01:57:33 +0700 (+07)
-Received: from zimbra.hcrc.vn ([127.0.0.1])
-        by localhost (zimbra.hcrc.vn [127.0.0.1]) (amavisd-new, port 10032)
-        with ESMTP id NtAJ_tgICXIo; Mon,  6 Nov 2023 01:57:33 +0700 (+07)
-Received: from localhost (localhost [127.0.0.1])
-        by zimbra.hcrc.vn (Postfix) with ESMTP id A0BA51B8250B;
-        Mon,  6 Nov 2023 01:57:33 +0700 (+07)
-DKIM-Filter: OpenDKIM Filter v2.10.3 zimbra.hcrc.vn A0BA51B8250B
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=hcrc.vn;
-        s=64D43D38-C7D6-11ED-8EFE-0027945F1BFA; t=1699210653;
-        bh=WOZURJ77pkiMUL2pPLC14ifVPRvyTQIBEQmxuN1ezAA=;
-        h=MIME-Version:To:From:Date:Message-Id;
-        b=YOy8yZ87Ub4WKFKYDINplZHRZyx1sgcDzIFfv1zy4zybkeXUCG2mgFYSaKOcaNvT0
-         RRqoHwEWc7KoGA1KdE5inp5cQNaiJbDCRTZrMOFWpSoIiKWkLHgVZ10ZCVYwXr3GVf
-         tRicHEXPvVLh6IuImfYb7IDkAi3xXjNNa68ShWJyacIrkBxwf8ZATwmFp6uJbAZXyE
-         4/rDgqUSAqna1xHmfdx4poRxgUBIAPxvDgud79L7ACaGaYkoVBrI8DldxRc1VqORqW
-         4YXsetZa12IwgC9GtSIOFK2b6s1AFDJ0I7W+YS5jLfvWp2IMsAY1//0cjNCJl1UdN1
-         7i9ANdVjQcskQ==
-X-Virus-Scanned: amavisd-new at hcrc.vn
-Received: from zimbra.hcrc.vn ([127.0.0.1])
-        by localhost (zimbra.hcrc.vn [127.0.0.1]) (amavisd-new, port 10026)
-        with ESMTP id H-M5VxO9owPN; Mon,  6 Nov 2023 01:57:33 +0700 (+07)
-Received: from [192.168.1.152] (unknown [51.179.100.52])
-        by zimbra.hcrc.vn (Postfix) with ESMTPSA id 54CC41B8253C;
-        Mon,  6 Nov 2023 01:57:27 +0700 (+07)
-Content-Type: text/plain; charset="utf-8"
-MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-Content-Description: Mail message body
-Subject: =?utf-8?b?4oKsIDEwMC4wMDAuMDAwPw==?=
-To:     Recipients <ch.31hamnghi@hcrc.vn>
-From:   ch.31hamnghi@hcrc.vn
-Date:   Sun, 05 Nov 2023 19:57:16 +0100
-Reply-To: joliushk@gmail.com
-Message-Id: <20231105185727.54CC41B8253C@zimbra.hcrc.vn>
-X-Spam-Status: No, score=2.7 required=5.0 tests=BAYES_50,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FORGED_REPLYTO,
-        RCVD_IN_DNSWL_BLOCKED,SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE,
-        URIBL_BLOCKED autolearn=no autolearn_force=no version=3.4.6
-X-Spam-Level: **
-X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
-        lindbergh.monkeyblade.net
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id EDD847E324D
+	for <lists+linux-alpha@lfdr.de>; Tue,  7 Nov 2023 01:40:06 +0100 (CET)
+Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 9F636280DA5
+	for <lists+linux-alpha@lfdr.de>; Tue,  7 Nov 2023 00:40:05 +0000 (UTC)
+Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 54DD517C9
+	for <lists+linux-alpha@lfdr.de>; Tue,  7 Nov 2023 00:40:05 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="2FYYS8MO"
+X-Original-To: linux-alpha@vger.kernel.org
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4E3AB18F;
+	Tue,  7 Nov 2023 00:00:53 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8E2A7C433C7;
+	Tue,  7 Nov 2023 00:00:53 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
+	s=korg; t=1699315253;
+	bh=gWSQwVS/DuFY8epvQLsUoxyqrJ0L53S7NX9Y3cpdBb4=;
+	h=Date:From:To:Subject:From;
+	b=2FYYS8MOF+g1KB68wRaTBLt4qdi1oVNOVrcDhGPFKyzvQpkvWgDuhvgDRlPv0wRJ9
+	 JnCnzHfzpUgAfDJzf3Ko047wJ9qpjDPxUaQ+vacrgU1ekeVhxA1SkM+w7u2PxssFC5
+	 3MfQ3cbwb3IY+DCqoN+XoJe/TnyNPHlODGXbQPMA=
+Date: Mon, 6 Nov 2023 19:00:52 -0500
+From: Konstantin Ryabitsev <konstantin@linuxfoundation.org>
+To: lartc@vger.kernel.org, linux-alpha@vger.kernel.org, 
+	linux-api@vger.kernel.org, linux-arch@vger.kernel.org, linux-arm-msm@vger.kernel.org, 
+	linux-assembly@vger.kernel.org, linux-bcache@vger.kernel.org, linux-bcachefs@vger.kernel.org, 
+	linux-block@vger.kernel.org, linux-bluetooth@vger.kernel.org, linux-btrace@vger.kernel.org, 
+	linux-btrfs@vger.kernel.org, linux-can@vger.kernel.org, linux-cifs@vger.kernel.org, 
+	linux-clk@vger.kernel.org, linux-crypto@vger.kernel.org, linux-csky@vger.kernel.org, 
+	linux-debuggers@vger.kernel.org, linux-edac@vger.kernel.org, linux-efi@vger.kernel.org
+Subject: PSA: this list has been migrated (no action required)
+Message-ID: <20231106-courageous-soft-caiman-7b3e6a@meerkat>
 Precedence: bulk
-List-ID: <linux-alpha.vger.kernel.org>
 X-Mailing-List: linux-alpha@vger.kernel.org
+List-Id: <linux-alpha.vger.kernel.org>
+List-Subscribe: <mailto:linux-alpha+subscribe@vger.kernel.org>
+List-Unsubscribe: <mailto:linux-alpha+unsubscribe@vger.kernel.org>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
 
-Goededag,
-Ik ben mevrouw Joanna Liu en een medewerker van Citi Bank Hong Kong.
-Kan ik =E2=82=AC 100.000.000 aan u overmaken? Kan ik je vertrouwen
+Hello:
 
+This list has been migrated to the new vger infrastructure. You should't need
+to change anything about how you participate with the list or how you receive
+mail.
 
-Ik wacht op jullie reacties
-Met vriendelijke groeten
-mevrouw Joanna Liu
+If something isn't working right, please reach out to helpdesk@kernel.org.
+
+Best regards,
+Konstantin
 
