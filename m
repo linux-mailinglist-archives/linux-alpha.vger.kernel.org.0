@@ -1,115 +1,136 @@
-Return-Path: <linux-alpha+bounces-388-lists+linux-alpha=lfdr.de@vger.kernel.org>
+Return-Path: <linux-alpha+bounces-386-lists+linux-alpha=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-alpha@lfdr.de
 Delivered-To: lists+linux-alpha@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4747C8BCBE4
-	for <lists+linux-alpha@lfdr.de>; Mon,  6 May 2024 12:22:18 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id D2C588BCBA1
+	for <lists+linux-alpha@lfdr.de>; Mon,  6 May 2024 12:07:04 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 8FE62B2353A
-	for <lists+linux-alpha@lfdr.de>; Mon,  6 May 2024 10:22:15 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 8D15B28485A
+	for <lists+linux-alpha@lfdr.de>; Mon,  6 May 2024 10:07:03 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 935A9144304;
-	Mon,  6 May 2024 10:20:50 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 7403B140366;
+	Mon,  6 May 2024 10:07:00 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=arndb.de header.i=@arndb.de header.b="eJffxJSd";
+	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="cFwo2u3F"
 X-Original-To: linux-alpha@vger.kernel.org
-Received: from smtp-2.orcon.net.nz (smtp-2.orcon.net.nz [60.234.4.43])
+Received: from wfout3-smtp.messagingengine.com (wfout3-smtp.messagingengine.com [64.147.123.146])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 897491442F7;
-	Mon,  6 May 2024 10:20:48 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=60.234.4.43
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BC73F4205F;
+	Mon,  6 May 2024 10:06:58 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=64.147.123.146
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1714990850; cv=none; b=O2hKKfG0oVsbc2VLBKNIeyAMt3GcX8vvz6u+c6MZByJ4hPEMnKkGp+pYIE+bnaZ/Yy629v6fLBCfd/NW0ToSBrtE02fMayVL7tSl3xztLVGSyNaLCk4hdtndCw2vjJyA1O88iJrABNUvfs9IwRa4ytSWNx3RhVauX6xAv7ZOo08=
+	t=1714990020; cv=none; b=Y8rWf/4khOgVmAWnX9nVylZapLVNCBUbh+uZKVXLZRFDCbnE9EO6jboInlLTOWWyXyz26a3SWYeDcrvAJaoNnMeNzRlpnSf11I+00CuS609pAQyv2f/g4sA9jgKfvO/bAjX/1A+5HAcJ0aN+5xM703Ttyx8MWu1fwn0M7TMASzQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1714990850; c=relaxed/simple;
-	bh=iMHW3BkixUYr+ZbXggRmQqhIfuthgKaRkXgSYbRcnIA=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=rU24f1zu12aiVxEO38cp68cwOlLxip/CfVdx5a+zL2kUjRGbLu091WPbG4nFf6XZWYRVfxceN851FBXn7olGkF8BkceLKiEGcEdURYemJxxBszTNVzInZ1FrzGoP+qQA0MYM1Cz72TEHtXoSPf7pMgLDQF8G9X/ajOj960+r3wI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=orcon.net.nz; spf=pass smtp.mailfrom=orcon.net.nz; arc=none smtp.client-ip=60.234.4.43
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=orcon.net.nz
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=orcon.net.nz
-Received: from [121.99.247.178] (port=47572 helo=creeky)
-	by smtp-2.orcon.net.nz with esmtpa (Exim 4.90_1)
-	(envelope-from <mcree@orcon.net.nz>)
-	id 1s3uS5-0000QS-Rp; Mon, 06 May 2024 21:16:06 +1200
-Date: Mon, 6 May 2024 21:16:00 +1200
-From: Michael Cree <mcree@orcon.net.nz>
-To: Arnd Bergmann <arnd@arndb.de>
-Cc: Matt Turner <mattst88@gmail.com>, Arnd Bergmann <arnd@kernel.org>,
-	linux-alpha@vger.kernel.org,
-	Richard Henderson <richard.henderson@linaro.org>,
-	Ivan Kokshaysky <ink@jurassic.park.msu.ru>,
-	Alexander Viro <viro@zeniv.linux.org.uk>,
-	Marc Zyngier <maz@kernel.org>,
-	Linus Torvalds <torvalds@linux-foundation.org>,
-	"Paul E. McKenney" <paulmck@kernel.org>,
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH 00/14] alpha: cleanups for 6.10
-Message-ID: <Zjif0B9RKNO6hKsL@creeky>
-Mail-Followup-To: Michael Cree <mcree@orcon.net.nz>,
-	Arnd Bergmann <arnd@arndb.de>, Matt Turner <mattst88@gmail.com>,
-	Arnd Bergmann <arnd@kernel.org>, linux-alpha@vger.kernel.org,
-	Richard Henderson <richard.henderson@linaro.org>,
-	Ivan Kokshaysky <ink@jurassic.park.msu.ru>,
-	Alexander Viro <viro@zeniv.linux.org.uk>,
-	Marc Zyngier <maz@kernel.org>,
-	Linus Torvalds <torvalds@linux-foundation.org>,
-	"Paul E. McKenney" <paulmck@kernel.org>,
-	linux-kernel@vger.kernel.org
-References: <20240503081125.67990-1-arnd@kernel.org>
- <CAEdQ38GNU_vCFgi-uuFCW_QVBObTdD8VwoyQ71Cm5dNfZ4+=JQ@mail.gmail.com>
- <b72c2b7a-a929-4c7c-9bef-b230630df882@app.fastmail.com>
+	s=arc-20240116; t=1714990020; c=relaxed/simple;
+	bh=paBKvWvbZg049IMoiC8LBBn2Tz7y+24lxrYze19WHAA=;
+	h=MIME-Version:Message-Id:In-Reply-To:References:Date:From:To:Cc:
+	 Subject:Content-Type; b=EcC/JLE9coa5mwcvqTPu3JpVn5EH9fV5767Vbw5gVSe7RPbcTceMBUFw78hcPg+zH1s0c6z8UgiRIL0hfB8kemJG/uLILFiAK9zzijqmiXYWcVZ3QWGyq/64bsX9LYtUEzDCa1E7OphVBkjsSg/lwcYX+kfbUSKefFQVBG/oktk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arndb.de; spf=pass smtp.mailfrom=arndb.de; dkim=pass (2048-bit key) header.d=arndb.de header.i=@arndb.de header.b=eJffxJSd; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=cFwo2u3F; arc=none smtp.client-ip=64.147.123.146
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arndb.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arndb.de
+Received: from compute5.internal (compute5.nyi.internal [10.202.2.45])
+	by mailfout.west.internal (Postfix) with ESMTP id 3E0631C000A2;
+	Mon,  6 May 2024 06:06:57 -0400 (EDT)
+Received: from imap51 ([10.202.2.101])
+  by compute5.internal (MEProxy); Mon, 06 May 2024 06:06:57 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=arndb.de; h=cc
+	:cc:content-type:content-type:date:date:from:from:in-reply-to
+	:in-reply-to:message-id:mime-version:references:reply-to:subject
+	:subject:to:to; s=fm2; t=1714990016; x=1715076416; bh=CqaP0eVcAT
+	gfq833M9wyW0TYYGCo8i6NE+7w7BSwBro=; b=eJffxJSdux1q9ArYzqjsFZ1WLK
+	fOph3jm+oxbyyiFAl64ebpo/GrZxTfarMGt5gXrGaMdKoNYoQCIUsImbutbbjnZ7
+	eoCpCBa7OgkVqtP0LESx4Plt149zs/eX55ZkeEwjwDUHrfuOm0mkXxQ5xRGfc7DN
+	BtzMuBYfeUaTW2+u9LTXORMWfaW8tvbcN3DKlWqcLuq/GDB96QVlL23k5SDjulEc
+	TqR0yiLadi/eduUGWi/BeNnC+V1sVjd5jXZ0mgDWYrfkZNqKeRkilfM93OIlhZV3
+	o/4VO/Tm0oZZbHhYyVO6AkUzIqIDHlMgIpJWkdSsKxH9umYKBg/pQN3701RA==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+	messagingengine.com; h=cc:cc:content-type:content-type:date:date
+	:feedback-id:feedback-id:from:from:in-reply-to:in-reply-to
+	:message-id:mime-version:references:reply-to:subject:subject:to
+	:to:x-me-proxy:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=
+	fm3; t=1714990016; x=1715076416; bh=CqaP0eVcATgfq833M9wyW0TYYGCo
+	8i6NE+7w7BSwBro=; b=cFwo2u3FMB23EwmYL73Cfg5sIA9x7bTtZrGxm3oMKdZy
+	mw9ZrViC7udWRe16o+r2AM9J+XFR2qgDBGOUQXPGVFy0VRX2qpsWw8wfzpR4B+BZ
+	EIidrvy2jf0k5CzIHlf35/eVfi7spC+LW0B1fzrIv0qP0MrASWg7ooDiNoX9icUz
+	2KqIZrd4zNDtG235USGrFkLG6zEIEyYkvMf1rUosWZB4ZlU3T4TqhgK+KpKz1YAD
+	4daqE/WbdxK2g+/zFEwK089yFv8cywaDpXjSfFiLAj3MMPzPCa6kmjavL1nEqGwy
+	UqoNK2wrV3wKHOa1PAdxszDK1nxxX0C6svBz3VhDLg==
+X-ME-Sender: <xms:v6s4ZsGdgSs2eBMBlRkZK3ZEBELsCquFsyOH0-3_qkahZSw3ovkuSw>
+    <xme:v6s4ZlWtzQ3fp2zgSjMAZAh9noQp6dVfq89bQrLVHiEwgylzPQ7FxLGgQf14qvgoe
+    k9TsaBmyZw1NwWFADk>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvledrvddviedgvdegucetufdoteggodetrfdotf
+    fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
+    uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
+    cujfgurhepofgfggfkjghffffhvfevufgtsehttdertderredtnecuhfhrohhmpedftehr
+    nhguuceuvghrghhmrghnnhdfuceorghrnhgusegrrhhnuggsrdguvgeqnecuggftrfgrth
+    htvghrnhepffehueegteeihfegtefhjefgtdeugfegjeelheejueethfefgeeghfektdek
+    teffnecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmrghilhhfrhhomheprg
+    hrnhgusegrrhhnuggsrdguvg
+X-ME-Proxy: <xmx:v6s4ZmKDCSLW6yb7iizeln0mhaYIdEnMBG64DcRQXEfgZvSZOnqfFg>
+    <xmx:v6s4ZuFoUmkHedJkyd9Ykqd26Px_SneJ2yVPG3FPxV24dRs897xB0w>
+    <xmx:v6s4ZiWSAOyDRUdA04l8jVkCjuUnYEbydPSfR2QtIX3Xf7-r6BdoeQ>
+    <xmx:v6s4ZhMUjlBaUsyi-elhX6ZJ6w5IjyN0mZuLizoyo9qUQZovZ-_siA>
+    <xmx:wKs4ZuSDx2XdjLFZsQazzxwbMyhFRwqQjej1o5XtyaMqIRCdONakvmen>
+Feedback-ID: i56a14606:Fastmail
+Received: by mailuser.nyi.internal (Postfix, from userid 501)
+	id 88251B6008D; Mon,  6 May 2024 06:06:55 -0400 (EDT)
+X-Mailer: MessagingEngine.com Webmail Interface
+User-Agent: Cyrus-JMAP/3.11.0-alpha0-437-gcad818a2a-fm-20240502.001-gcad818a2
 Precedence: bulk
 X-Mailing-List: linux-alpha@vger.kernel.org
 List-Id: <linux-alpha.vger.kernel.org>
 List-Subscribe: <mailto:linux-alpha+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-alpha+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <b72c2b7a-a929-4c7c-9bef-b230630df882@app.fastmail.com>
-X-GeoIP: NZ
-X-Spam_score: -2.9
-X-Spam_score_int: -28
-X-Spam_bar: --
+Message-Id: <ae56021f-1e85-4dd9-a4ca-5a8773d51ea1@app.fastmail.com>
+In-Reply-To: <31f1bbfb-733c-4027-834c-98f155562941@linaro.org>
+References: <20240503081125.67990-1-arnd@kernel.org>
+ <20240503081125.67990-15-arnd@kernel.org>
+ <31f1bbfb-733c-4027-834c-98f155562941@linaro.org>
+Date: Mon, 06 May 2024 12:06:35 +0200
+From: "Arnd Bergmann" <arnd@arndb.de>
+To: "Richard Henderson" <richard.henderson@linaro.org>,
+ "Arnd Bergmann" <arnd@kernel.org>, linux-alpha@vger.kernel.org
+Cc: "Ivan Kokshaysky" <ink@jurassic.park.msu.ru>,
+ "Matt Turner" <mattst88@gmail.com>,
+ "Alexander Viro" <viro@zeniv.linux.org.uk>, "Marc Zyngier" <maz@kernel.org>,
+ "Linus Torvalds" <torvalds@linux-foundation.org>,
+ "Paul E. McKenney" <paulmck@kernel.org>, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH 14/14] alpha: drop pre-EV56 support
+Content-Type: text/plain
 
-On Fri, May 03, 2024 at 10:15:10PM +0200, Arnd Bergmann wrote:
-> On Fri, May 3, 2024, at 18:06, Matt Turner wrote:
-> > On Fri, May 3, 2024 at 4:12 AM Arnd Bergmann <arnd@kernel.org> wrote:
-> >>
-> >> Al Viro did another series for alpha to address all the known build
-> >> issues. I rebased his patches without any further changes and included
-> >> it as a baseline for my work here to avoid conflicts.
-> 
-> I've pushed out the series with the additional Acks to
-> https://git.kernel.org/pub/scm/linux/kernel/git/arnd/asm-generic.git/log/?h=alpha-cleanup-6.9
-> and merged it into the main asm-generic branch for 6.10.
-> 
-> Can you give this a quick test on one of your machines to make
-> sure I didn't introduce a stupid regression somewhere?
+On Sat, May 4, 2024, at 17:00, Richard Henderson wrote:
+> On 5/3/24 01:11, Arnd Bergmann wrote:
+>>   
+>> -/* Flush just one page in the current TLB set.  We need to be very
+>> -   careful about the icache here, there is no way to invalidate a
+>> -   specific icache page.  */
+>> -
+>> -__EXTERN_INLINE void
+>> -ev4_flush_tlb_current_page(struct mm_struct * mm,
+>> -			   struct vm_area_struct *vma,
+>> -			   unsigned long addr)
+>> -{
+>> -	int tbi_flag = 2;
+>> -	if (vma->vm_flags & VM_EXEC) {
+>> -		__load_new_mm_context(mm);
+>> -		tbi_flag = 3;
+>> -	}
+>> -	tbi(tbi_flag, addr);
+>> -}
+>> -
+>>   __EXTERN_INLINE void
+>>   ev5_flush_tlb_current_page(struct mm_struct * mm,
+>>   			   struct vm_area_struct *vma,
+>
+> The comment being removed applied to both functions and still applies to 
+> ev5_flush_tlb_current_page.  (Thus __load_new_mm_context instead of a tbi.)
 
-I built a dp264 specific kernel and its working fine on an XP1000
-(EV67 arch).  Just built a generic kernel (as that's probably a more
-important test) and that is also working fine on the XP1000.
+Fixed now, thanks for taking a look!
 
-I also built a titan specific kernel to test on an ES45 (SMP EV68
-arch) but that OOPSes early in the boot process with a kernel null
-pointer access.  I suspect that has nothing to do with your patches
-as I have a recollection that I have seen that OOPS before. So I
-tried the same generic kernel that I have running on the XP1000 but
-that fails to unpack at the initial boot stage (!) with:
-
-aboot> 9
-aboot: loading uncompressed vmlinuz.test...
-aboot: loading compressed vmlinuz.test...
-aboot: Can't load kernel.
-  Memory at fffffc0000310000 - fffffc0000f45df7 (PHDR 0) is Busy (Reserved)
-
-unzip: invalid exec header
-aboot> 
-
-Cheers,
-Michael.
+     Arnd
 
