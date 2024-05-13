@@ -1,79 +1,110 @@
-Return-Path: <linux-alpha+bounces-447-lists+linux-alpha=lfdr.de@vger.kernel.org>
+Return-Path: <linux-alpha+bounces-449-lists+linux-alpha=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-alpha@lfdr.de
 Delivered-To: lists+linux-alpha@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id B5ABA8C45A2
-	for <lists+linux-alpha@lfdr.de>; Mon, 13 May 2024 19:06:09 +0200 (CEST)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id B5AE68C48F7
+	for <lists+linux-alpha@lfdr.de>; Mon, 13 May 2024 23:42:51 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 5D6DD287BC7
-	for <lists+linux-alpha@lfdr.de>; Mon, 13 May 2024 17:06:08 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 503C1B22668
+	for <lists+linux-alpha@lfdr.de>; Mon, 13 May 2024 21:42:49 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 6C34D1CAB1;
-	Mon, 13 May 2024 17:05:57 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 359AD83CD6;
+	Mon, 13 May 2024 21:42:45 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="lIDVf8tu"
+	dkim=fail reason="signature verification failed" (2048-bit key) header.d=fu-berlin.de header.i=@fu-berlin.de header.b="WOfNa72S"
 X-Original-To: linux-alpha@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from outpost1.zedat.fu-berlin.de (outpost1.zedat.fu-berlin.de [130.133.4.66])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3F0D0224CE;
-	Mon, 13 May 2024 17:05:57 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 86501175A6;
+	Mon, 13 May 2024 21:42:41 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=130.133.4.66
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1715619957; cv=none; b=tdwWRw1in916Q15UepDtYq+kb5WwS3FH1qnDU53rj1WM6OTc0erphs4RUzHxiP/FlpwsAJ5eT8qI41FUmTNH1uxLOknP4r8dplFygfRBedJ9n1zgRoY51v01GChjAhZQ3uIVmgg44PPp50FzeHaRGOoY0K2hAkDw+nGqIlVexCk=
+	t=1715636565; cv=none; b=Io0nV0zw5Qv3R0doBhMoAA9/RGx/DaOCcVMYBAkGsSTOILz3bwAdXABHbhDBdCrDlDQSsLX0PP6rT2Q8/0Do7ri3ypt6ceI6KFMd8+qklQrWkNfHA+RA9AfGFxjM9qypnyEaF79xmsnMHhE1MWFKfyt7garZQT+eNDNOq3NPgLg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1715619957; c=relaxed/simple;
-	bh=8bb7Cxrgw9uF7S2/7MJAxwk3N+w8Yw+IlliZbcd7F3Q=;
-	h=Subject:From:In-Reply-To:References:Message-Id:Date:To:Cc; b=oX3lBHwwmoaamhiB1gVlKfL4ZxfFhJuGfZLiYWUWxe7WnwhnuyW30dzrDG/49hl1sSeXHsJ6+s3zPZduE/L7EZ1Q+xOUzZv285rIFz68uTnyVUa8PGCoHYpoMj0OzP8EYz+RQsZOM/vXNESq/srKO6Jqf7J/dMLRKTXWyggYJUw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=lIDVf8tu; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPS id 180B5C113CC;
-	Mon, 13 May 2024 17:05:57 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1715619957;
-	bh=8bb7Cxrgw9uF7S2/7MJAxwk3N+w8Yw+IlliZbcd7F3Q=;
-	h=Subject:From:In-Reply-To:References:Date:To:Cc:From;
-	b=lIDVf8tuj5KYTZskU7fpeTDE6DD70KDLYKIBV2Iq/0r5sQxLVqTs6V9heR49i3ca+
-	 39gAfvBuhgg0lacUxOpch/jP0mHbGmwOz7xyeJzX5dmF9gdNxV9HDtfRqEE8UocB7O
-	 eUUqCcBnRqY6ALAJP0d99UaxB9UyRKRhIN/+Z40u12ayUBGcm21F9Tbp2G/ktd+3QO
-	 4iOcZwXglCuGV49PbAj5TghLhpsLP+iZ9Ro3gdieEnQ9nhXMzDQfFETbc4QmApchiA
-	 jNJkTSRN+pMyhKiJAnLn4O1VczNrtxz+OkaOZ0JPu+rGPOa9v/8oqfYdGMBuJHBfzx
-	 w5kiX3EI9JFhg==
-Received: from aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (Postfix) with ESMTP id 107F9C433E9;
-	Mon, 13 May 2024 17:05:57 +0000 (UTC)
+	s=arc-20240116; t=1715636565; c=relaxed/simple;
+	bh=CBBzXf2XlbvIjqTi00W41XD8zqaVqm+JP9BOU2COkbY=;
+	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
+	 Content-Type:MIME-Version; b=AsPMpmdr9g3ssFmjQ8hUvxscaxCiaXo5z0kw3A12UG5SHk8z2pB3QnRQD/pPnST4vpYY9I6ExtJZriUvuih7RBcIyxUcq54cBTHrpIpqpEtu4yWkT2M1xFRUfdQtD5hDx09wiuc3umlglIqwofo+G6cJEwmgw4zsKllm9nADyE4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=physik.fu-berlin.de; spf=pass smtp.mailfrom=zedat.fu-berlin.de; dkim=pass (2048-bit key) header.d=fu-berlin.de header.i=@fu-berlin.de header.b=WOfNa72S; arc=none smtp.client-ip=130.133.4.66
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=physik.fu-berlin.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=zedat.fu-berlin.de
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+	d=fu-berlin.de; s=fub01; h=MIME-Version:Content-Transfer-Encoding:
+	Content-Type:References:In-Reply-To:Date:Cc:To:From:Subject:Message-ID:Sender
+	:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
+	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:
+	List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
+	bh=QD2Hn4PiSFI1O5kOZF6pVg+j/auYbzCHkdsarZTYRnk=; t=1715636561; x=1716241361; 
+	b=WOfNa72SFXMlVbeoYenGtTclCUlrxNvv3q4n0bT8DReD/eh5caS6aKkyojGctkIhk88hVqpQE8d
+	U+eWJG2APWzeZhgVwldSSQjT+8awSjV6zo7lO+68Zrb0TwJbe2+4+4Mq38QSsF/n03iLkx+U/ghZe
+	QMuc6Wi4UP7CRMuRhGijTLFia35GXsgT2EQtNY8hwj3O74Gr+Mbrfe7UXrSd+yzHWB+hD1O/Yxhzb
+	Cwrdu+Egw6YBOn3Wyv//mHF5VMrvGAqmP80bse1WRLoRajJXPeLDbSzBaT7QNMJJzAFAEgRFsO/c3
+	rDZg+aWmfnPTpsVL3WUs7M6PTvSks0tPw1sw==;
+Received: from inpost2.zedat.fu-berlin.de ([130.133.4.69])
+          by outpost.zedat.fu-berlin.de (Exim 4.97)
+          with esmtps (TLS1.3)
+          tls TLS_AES_256_GCM_SHA384
+          (envelope-from <glaubitz@zedat.fu-berlin.de>)
+          id 1s6dRN-00000002UDW-48Xa; Mon, 13 May 2024 23:42:38 +0200
+Received: from p5b13a15c.dip0.t-ipconnect.de ([91.19.161.92] helo=suse-laptop.fritz.box)
+          by inpost2.zedat.fu-berlin.de (Exim 4.97)
+          with esmtpsa (TLS1.3)
+          tls TLS_AES_256_GCM_SHA384
+          (envelope-from <glaubitz@physik.fu-berlin.de>)
+          id 1s6dRN-00000003xHf-3AzV; Mon, 13 May 2024 23:42:37 +0200
+Message-ID: <c585d63e73453082ecbf7ddc19d5116abdcfba79.camel@physik.fu-berlin.de>
 Subject: Re: [GIT PULL] alpha: cleanups and build fixes for 6.10
-From: pr-tracker-bot@kernel.org
-In-Reply-To: <e383dfe5-814a-4a87-befc-4831a7788f42@app.fastmail.com>
-References: <71feb004-82ef-4c7b-9e21-0264607e4b20@app.fastmail.com> <e383dfe5-814a-4a87-befc-4831a7788f42@app.fastmail.com>
-X-PR-Tracked-List-Id: <linux-alpha.vger.kernel.org>
-X-PR-Tracked-Message-Id: <e383dfe5-814a-4a87-befc-4831a7788f42@app.fastmail.com>
-X-PR-Tracked-Remote: https://git.kernel.org/pub/scm/linux/kernel/git/arnd/asm-generic.git tags/asm-generic-alpha
-X-PR-Tracked-Commit-Id: a4184174be36369c3af8d937e165f28a43ef1e02
-X-PR-Merge-Tree: torvalds/linux.git
-X-PR-Merge-Refname: refs/heads/master
-X-PR-Merge-Commit-Id: 736676f5c3abd1fc01c41813a95246e892937f6d
-Message-Id: <171561995705.9638.8286642138765117973.pr-tracker-bot@kernel.org>
-Date: Mon, 13 May 2024 17:05:57 +0000
-To: Arnd Bergmann <arnd@arndb.de>
-Cc: Linus Torvalds <torvalds@linux-foundation.org>, linux-kernel@vger.kernel.org, Linux-Arch <linux-arch@vger.kernel.org>, linux-alpha@vger.kernel.org, Richard Henderson <richard.henderson@linaro.org>, Ivan Kokshaysky <ink@jurassic.park.msu.ru>, Matt Turner <mattst88@gmail.com>, Alexander Viro <viro@zeniv.linux.org.uk>, "Paul E. McKenney" <paulmck@kernel.org>
+From: John Paul Adrian Glaubitz <glaubitz@physik.fu-berlin.de>
+To: Linus Torvalds <torvalds@linux-foundation.org>, Arnd Bergmann
+	 <arnd@arndb.de>
+Cc: linux-kernel@vger.kernel.org, Linux-Arch <linux-arch@vger.kernel.org>, 
+ linux-alpha@vger.kernel.org, Richard Henderson
+ <richard.henderson@linaro.org>,  Ivan Kokshaysky
+ <ink@jurassic.park.msu.ru>, Matt Turner <mattst88@gmail.com>, Alexander
+ Viro <viro@zeniv.linux.org.uk>, "Paul E. McKenney" <paulmck@kernel.org>
+Date: Mon, 13 May 2024 23:42:37 +0200
+In-Reply-To: <CAHk-=wgZ_fCwC5iGri1KOEwdV90H-myv1gSfjHfCwt82ZXaCWQ@mail.gmail.com>
+References: <71feb004-82ef-4c7b-9e21-0264607e4b20@app.fastmail.com>
+	 <e383dfe5-814a-4a87-befc-4831a7788f42@app.fastmail.com>
+	 <CAHk-=wgZ_fCwC5iGri1KOEwdV90H-myv1gSfjHfCwt82ZXaCWQ@mail.gmail.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.52.1 
 Precedence: bulk
 X-Mailing-List: linux-alpha@vger.kernel.org
 List-Id: <linux-alpha.vger.kernel.org>
 List-Subscribe: <mailto:linux-alpha+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-alpha+unsubscribe@vger.kernel.org>
+MIME-Version: 1.0
+X-Original-Sender: glaubitz@physik.fu-berlin.de
+X-ZEDAT-Hint: PO
 
-The pull request you sent on Fri, 10 May 2024 23:19:56 +0200:
+On Mon, 2024-05-13 at 09:27 -0700, Linus Torvalds wrote:
+> On Fri, 10 May 2024 at 14:20, Arnd Bergmann <arnd@arndb.de> wrote:
+> >=20
+> >   https://git.kernel.org/pub/scm/linux/kernel/git/arnd/asm-generic.git =
+tags/asm-generic-alpha
+>=20
+> Well, despite the discussion about timing of this, I have pulled this.
+> I still have a fond spot for alpha, even if it has the worst memory
+> ordering ever devised, but the lack of byte operations was an
+> inexcusable "we can deal with that in the compiler" senior moment in
+> the design. So good riddance.
 
-> https://git.kernel.org/pub/scm/linux/kernel/git/arnd/asm-generic.git tags/asm-generic-alpha
+As someone who spends a lot of personal time and energy and even money into
+Linux, I have to say the way this change was steamrolled into the kernel
+without any real discussion actually hurts.
 
-has been merged into torvalds/linux.git:
-https://git.kernel.org/torvalds/c/736676f5c3abd1fc01c41813a95246e892937f6d
+It's days like these when I'm starting to question my efforts.
 
-Thank you!
+Adrian
 
--- 
-Deet-doot-dot, I am a bot.
-https://korg.docs.kernel.org/prtracker.html
+--=20
+ .''`.  John Paul Adrian Glaubitz
+: :' :  Debian Developer
+`. `'   Physicist
+  `-    GPG: 62FF 8A75 84E0 2956 9546  0006 7426 3B37 F5B5 F913
 
