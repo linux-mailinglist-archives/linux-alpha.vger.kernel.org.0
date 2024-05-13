@@ -1,105 +1,136 @@
-Return-Path: <linux-alpha+bounces-446-lists+linux-alpha=lfdr.de@vger.kernel.org>
+Return-Path: <linux-alpha+bounces-448-lists+linux-alpha=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-alpha@lfdr.de
 Delivered-To: lists+linux-alpha@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id C8B088C4513
-	for <lists+linux-alpha@lfdr.de>; Mon, 13 May 2024 18:27:56 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id 8D4CF8C4624
+	for <lists+linux-alpha@lfdr.de>; Mon, 13 May 2024 19:34:49 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 7D2A71F22101
-	for <lists+linux-alpha@lfdr.de>; Mon, 13 May 2024 16:27:56 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id BE5831C22DEA
+	for <lists+linux-alpha@lfdr.de>; Mon, 13 May 2024 17:34:48 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 7F80C1553A8;
-	Mon, 13 May 2024 16:27:47 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id D53C1200DB;
+	Mon, 13 May 2024 17:34:44 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linux-foundation.org header.i=@linux-foundation.org header.b="DX0JWVbf"
+	dkim=pass (2048-bit key) header.d=ulrich-teichert.org header.i=@ulrich-teichert.org header.b="mOlOjyy9"
 X-Original-To: linux-alpha@vger.kernel.org
-Received: from mail-lj1-f172.google.com (mail-lj1-f172.google.com [209.85.208.172])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from wp441.webpack.hosteurope.de (wp441.webpack.hosteurope.de [80.237.133.210])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B1B7423CB
-	for <linux-alpha@vger.kernel.org>; Mon, 13 May 2024 16:27:45 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.172
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D91532C190;
+	Mon, 13 May 2024 17:34:42 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=80.237.133.210
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1715617667; cv=none; b=VYfDt4Ox8bLU4NuV5x8Ku7MJjbl2UdRvUX/uZXDgk9l30gGIkV0/Hgmmgy/RGWHvdQ83rkSyXmI3Lq04ftlkdei7bCwKLBK3RcCSLAwQ5oeGiZk/YP5/2gSQEQnDyBIzEddWhGugxc8d3AZ+8jtXBeT9XaniC0yg75HVqTVsvKY=
+	t=1715621684; cv=none; b=hKcYx+Q6ItgkVqHOpuhsURyAPdR3S7txUCK/j1Yy/zBwS30ZUmE0xYrqkK+al1ekOtdVTeMi32Dv3qKnQ7a9yljyS1NXtQRQouQTAgePOCVh8IVPvpWbP17VklOMow75FT8PgF6grdCNWa9PvZpZ+vDwCDSnDzKhUkgXwKVui4Q=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1715617667; c=relaxed/simple;
-	bh=indKPqo7wgjPODxZ3n6dtvDts7VXZJSCW/Fui71Wi8o=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=DQcWJ73nDbEDaM+iz5oibQHrpiwe4ZNaFTwKql4PCFUyRpBmTbcqbfdAFaXpmIBBPS1xGC0NMx5VBdTARjyI3tT2qK9F/xJTCCT6xV7V6UF83UcL0jFjcnb7biF+yd4G7uMISjawOmJv4yT9XqtpFNzw3It7KQruOKzoTNfz1D0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-foundation.org; spf=pass smtp.mailfrom=linuxfoundation.org; dkim=pass (1024-bit key) header.d=linux-foundation.org header.i=@linux-foundation.org header.b=DX0JWVbf; arc=none smtp.client-ip=209.85.208.172
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-foundation.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linuxfoundation.org
-Received: by mail-lj1-f172.google.com with SMTP id 38308e7fff4ca-2e0b2ddc5d1so66312271fa.3
-        for <linux-alpha@vger.kernel.org>; Mon, 13 May 2024 09:27:45 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linux-foundation.org; s=google; t=1715617663; x=1716222463; darn=vger.kernel.org;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=AW+bcvxmWZZxt4c3Dh0r2wINUf+borweQyDfSngaYos=;
-        b=DX0JWVbfXP59s7PMdwmG75SAT+SER9lV7/d21VIYtCptWJwCG3SmW4+LdEtYjIu63G
-         fKIwf6GrOBdZwfhX3KfgL7YHwTvoJgGii967ctZHBirFL9aZrxBDmwERvxf0pjBKjZii
-         NNEN+t63kdhH+pub/VDBv81ikmGImoMXo9518=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1715617663; x=1716222463;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=AW+bcvxmWZZxt4c3Dh0r2wINUf+borweQyDfSngaYos=;
-        b=wAUrNqwww2+j8BHXCe25TJJgQ9yg3niXfQlURBsdL0i2tOkXkbeHFKdyc0Mx3z2KmE
-         eHnabSm+Z3Wm9tq3m/GDaQfQRuovmEVF/Vj43+/o/sB9VSp0Ya5MoYLfmnmKjVHzBZap
-         9KlJ283jtzSkZ39Ku76D9/hhaxsidC2cNek3EyfqsyLG72+LBRpYfAREiwm1oCCi4QtP
-         EI7cOM9QvJr8noCngaMz5ivLfqVhjdtRLB0XLQnWRfc/KN1HU3IJQNwx9kubYaTIc2iB
-         By3gjjL8vXrZIjd8ebtm4hoPjzE8Quo8qq1GaxOcRsXIotQQufoy2rLv86lNl8mnEwgt
-         tmkQ==
-X-Forwarded-Encrypted: i=1; AJvYcCUj6hwVhEomHjhfIR1ZmAoM+lT49dah6GIyFXsuyNSXCSWJUqBzu4aGtdZ8nTpZZRpR7Oz14wXiNFf91l6s+rRswPf0BQ0yUEYowdA=
-X-Gm-Message-State: AOJu0Ywf8IlQRFg3kVDcFfSSoXjQPNpbGgAvZG84a557FV2eK27fOez+
-	nHz1sr6XsEgzTK6Pva8GnaF2+L3QuKCQMgZWIhoWBFjP+vWjxAEdJfBBnf6ULvXo1Xcialcuy4f
-	IkRI=
-X-Google-Smtp-Source: AGHT+IFK9VB2AChLK/BpDFrWEMx+CL86MRC+fDa2QZO55WUHnGmM7BJ5d9rYKhVulp771FEkow2sbA==
-X-Received: by 2002:a05:6512:a83:b0:51b:e0f0:e4f8 with SMTP id 2adb3069b0e04-5220fc72fbemr7402825e87.31.1715617662515;
-        Mon, 13 May 2024 09:27:42 -0700 (PDT)
-Received: from mail-ej1-f44.google.com (mail-ej1-f44.google.com. [209.85.218.44])
-        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-a5a1787c699sm613066366b.53.2024.05.13.09.27.41
-        for <linux-alpha@vger.kernel.org>
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 13 May 2024 09:27:41 -0700 (PDT)
-Received: by mail-ej1-f44.google.com with SMTP id a640c23a62f3a-a59a9d66a51so1061701466b.2
-        for <linux-alpha@vger.kernel.org>; Mon, 13 May 2024 09:27:41 -0700 (PDT)
-X-Forwarded-Encrypted: i=1; AJvYcCU2JyeWjGt2IxrWMUcTsBkIVettK/UPxVjeR0WPYs9raZHSn8/Ld9OnahTNY0V/f3fXx0VsUkCDJu36Z1lFcZDZRhXxRgfF3XiamCY=
-X-Received: by 2002:a17:906:f88c:b0:a59:c52b:9938 with SMTP id
- a640c23a62f3a-a5a2d6653bamr696929366b.55.1715617661402; Mon, 13 May 2024
- 09:27:41 -0700 (PDT)
+	s=arc-20240116; t=1715621684; c=relaxed/simple;
+	bh=RjuB/bZTODZJ0KhRm7Wf7eYTPm6izVl1WgnIq448cKw=;
+	h=Message-Id:Subject:To:Date:Cc:In-Reply-To:From:MIME-Version:
+	 Content-Type; b=mQ1aeSHU8YjEQjWd3GQk1137fFHOso+WFBNExS+bPmyL/FGGpM7e+PPRlZDkXiXhrlPShkl9LjEbzX5GLOTvnrPtY6jr+aY/Gt0RxEFi8fcWQRpglCmBxAadoipkyJgQo61xhDhZB+OaCDbb5xm8xHh5G2mI/Edttccuy9CObe8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ulrich-teichert.org; spf=pass smtp.mailfrom=ulrich-teichert.org; dkim=pass (2048-bit key) header.d=ulrich-teichert.org header.i=@ulrich-teichert.org header.b=mOlOjyy9; arc=none smtp.client-ip=80.237.133.210
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ulrich-teichert.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ulrich-teichert.org
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+	d=ulrich-teichert.org; s=he219537; h=Content-Transfer-Encoding:Content-Type:
+	MIME-Version:From:In-Reply-To:Cc:Date:To:Subject:Message-Id:From:Sender:
+	Reply-To:Subject:Date:Message-ID:To:Cc:MIME-Version:Content-Type:
+	Content-Transfer-Encoding:Content-ID:Content-Description:In-Reply-To:
+	References; bh=HTaf2Q1Js0w1JEG7adnW654h8ouqk/EoSw1gVBmO+yU=; t=1715621683;
+	x=1716053683; b=mOlOjyy95u9CBBZm+rH+6W3dbYAsyHGwOHDas++2n9K8JX3Nfx1gXH5MJk/Go
+	R5Cpat9HplezFVRnvybxkhA0QEmQBpWy6/FlhXhHeOXnxaLPmY9U4rYOpqBvD7LvkY2MCoTDKsFw7
+	ecj0aOI+agl7XPkfo8WB6cWXkQusz5ke0rLXmM0if6DrMsojJyZeh9LOGznmnPF/5WUvaLxJuMT3f
+	JIL2Mdgf9SpZt46mfMepPjk1DBuMY8w89q2X0lAC8bFpfQV3uvbo8awamNQgVlsDt8znV9QMlZUdf
+	/NT+fnL0OuBJp3OTHd+V0WjkwnAjrKA72Ts3ed6W2zMVdxk9iA==;
+Received: from [2a03:7846:b79f:101:21c:c4ff:fe1f:fd93] (helo=valdese.nms-ulrich-teichert.org); authenticated
+	by wp441.webpack.hosteurope.de running ExIM with esmtpsa (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
+	id 1s6YuY-0005eL-4Z; Mon, 13 May 2024 18:52:26 +0200
+Received: from valdese.nms-ulrich-teichert.org (localhost [127.0.0.1])
+	by valdese.nms-ulrich-teichert.org (8.15.2/8.15.2/Debian-14~deb10u1) with ESMTPS id 44DGqNBm007654
+	(version=TLSv1.3 cipher=TLS_AES_256_GCM_SHA384 bits=256 verify=NOT);
+	Mon, 13 May 2024 18:52:23 +0200
+Received: (from ut@localhost)
+	by valdese.nms-ulrich-teichert.org (8.15.2/8.15.2/Submit) id 44DGqMjs007653;
+	Mon, 13 May 2024 18:52:22 +0200
+Message-Id: <202405131652.44DGqMjs007653@valdese.nms-ulrich-teichert.org>
+Subject: Re: [GIT PULL] alpha: cleanups and build fixes for 6.10
+To: akiyks@gmail.com (Akira Yokosawa)
+Date: Mon, 13 May 2024 18:52:22 +0200 (CEST)
+Cc: paulmck@kernel.org, arnd@arndb.de, glaubitz@physik.fu-berlin.de,
+        ink@jurassic.park.msu.ru, linux-alpha@vger.kernel.org,
+        linux-arch@vger.kernel.org, linux-kernel@vger.kernel.org,
+        mattst88@gmail.com, richard.henderson@linaro.org,
+        torvalds@linux-foundation.org, viro@zeniv.linux.org.uk,
+        krypton@ulrich-teichert.org (Ulrich Teichert),
+        akiyks@gmail.com (Akira Yokosawa)
+In-Reply-To: <99765904-3f35-4c78-998e-b444a6ab90e4@gmail.com>
+From: Ulrich Teichert <krypton@ulrich-teichert.org>
+X-Mailer: ELM [version 2.5 PL8]
 Precedence: bulk
 X-Mailing-List: linux-alpha@vger.kernel.org
 List-Id: <linux-alpha.vger.kernel.org>
 List-Subscribe: <mailto:linux-alpha+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-alpha+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <71feb004-82ef-4c7b-9e21-0264607e4b20@app.fastmail.com> <e383dfe5-814a-4a87-befc-4831a7788f42@app.fastmail.com>
-In-Reply-To: <e383dfe5-814a-4a87-befc-4831a7788f42@app.fastmail.com>
-From: Linus Torvalds <torvalds@linux-foundation.org>
-Date: Mon, 13 May 2024 09:27:25 -0700
-X-Gmail-Original-Message-ID: <CAHk-=wgZ_fCwC5iGri1KOEwdV90H-myv1gSfjHfCwt82ZXaCWQ@mail.gmail.com>
-Message-ID: <CAHk-=wgZ_fCwC5iGri1KOEwdV90H-myv1gSfjHfCwt82ZXaCWQ@mail.gmail.com>
-Subject: Re: [GIT PULL] alpha: cleanups and build fixes for 6.10
-To: Arnd Bergmann <arnd@arndb.de>
-Cc: linux-kernel@vger.kernel.org, Linux-Arch <linux-arch@vger.kernel.org>, 
-	linux-alpha@vger.kernel.org, Richard Henderson <richard.henderson@linaro.org>, 
-	Ivan Kokshaysky <ink@jurassic.park.msu.ru>, Matt Turner <mattst88@gmail.com>, 
-	Alexander Viro <viro@zeniv.linux.org.uk>, "Paul E. McKenney" <paulmck@kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+X-bounce-key: webpack.hosteurope.de;ut@ulrich-teichert.org;1715621683;92f8b63b;
+X-HE-SMSGID: 1s6YuY-0005eL-4Z
 
-On Fri, 10 May 2024 at 14:20, Arnd Bergmann <arnd@arndb.de> wrote:
->
->   https://git.kernel.org/pub/scm/linux/kernel/git/arnd/asm-generic.git tags/asm-generic-alpha
+Hi,
 
-Well, despite the discussion about timing of this, I have pulled this.
-I still have a fond spot for alpha, even if it has the worst memory
-ordering ever devised, but the lack of byte operations was an
-inexcusable "we can deal with that in the compiler" senior moment in
-the design. So good riddance.
+> On Sun, 12 May 2024 07:44:25 -0700, Paul E. McKenney wrote:
+> > On Sun, May 12, 2024 at 08:02:59AM +0200, John Paul Adrian Glaubitz wrote:
+> >> On Sat, 2024-05-11 at 18:26 -0700, Paul E. McKenney wrote:
+> >> > And that breaks things because it can clobber concurrent stores to
+> >> > other bytes in that enclosing machine word.
+> >> 
+> >> But pre-EV56 Alpha has always been like this. What makes it broken
+> >> all of a sudden?
+> > 
+> > I doubt if it was sudden.   Putting concurrently (but rarely) accessed
+> > small-value quantities into single bytes is a very natural thing to do,
+> > and I bet that there are quite a few places in the kernel where exactly
+> > this happens.  I happen to know of a specific instance that went into
+> > mainline about two years ago.
+> > 
+> > So why didn't the people running current mainline on pre-EV56 Alpha
+> > systems notice?  One possibility is that they are upgrading their
+> > kernels only occasionally.  Another possibility is that they are seeing
+> > the failures, but are not tracing the obtuse failure modes back to the
+> > change(s) in question.  Yet another possibility is that the resulting
+> > failures are very low probability, with mean times to failure that are
+> > so long that you won't notice anything on a single system.
+> 
+> Another possibility is that the Jensen system was booted into uni processer
+> mode.  Looking at the early boot log [1] provided by Ulrich (+CCed) back in
+> Sept. 2021, I see the following by running "grep -i cpu":
+> 
+> >> > [1] https://marc.info/?l=linux-alpha&m=163265555616841&w=2
+> 
+> [    0.000000] Memory: 90256K/131072K available (8897K kernel code, 9499K rwdata, \
+> 2704K rodata, 312K init, 437K bss, 40816K reserved, 0K cma-reserved) [    0.000000] \
+> random: get_random_u64 called from __kmem_cache_create+0x54/0x600 with crng_init=0 [  \
+> 0.000000] SLUB: HWalign=64, Order=0-3, MinObjects=0, CPUs=1, Nodes=1 [    0.000000]
+>                                                      ^^^^^^
+> 
+> Without any concurrent atomic updates, the "broken" atomic accesses won't
+> matter, I guess.
 
-            Linus
+I've probably disabled SMP in my test kernel, the jensen is a single CPU
+system. I never had the pleasure of owning an AlphaServer 2000 or 2100,
+which (according to https://en.wikipedia.org/wiki/AlphaServer and
+https://en.wikipedia.org/wiki/AlphaStation) are the only systems
+with EV4/EV45/EV5 multi-CPU setups (apart from the Cray T3{DE}), so
+the possibility of ever seeing an error concerning atomic concurrent
+updates is quite low.
+
+Anybody out there with an AlphaServer 2000/2100 willing to try ?-)
+
+CU,
+Uli
+-- 
+Dipl. Inf. Ulrich Teichert|e-mail: Ulrich.Teichert@gmx.de | Listening to:
+Stormweg 24               |The Hives: Two Kinds Of Trouble, The Chats: 6L GTR,
+24539 Neumuenster, Germany|La Fraction: Les Démons, Nightwatchers: On a Mission
 
