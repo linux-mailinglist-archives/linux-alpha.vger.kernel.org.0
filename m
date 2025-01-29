@@ -1,34 +1,34 @@
-Return-Path: <linux-alpha+bounces-1892-lists+linux-alpha=lfdr.de@vger.kernel.org>
+Return-Path: <linux-alpha+bounces-1890-lists+linux-alpha=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-alpha@lfdr.de
 Delivered-To: lists+linux-alpha@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 771A4A21A22
-	for <lists+linux-alpha@lfdr.de>; Wed, 29 Jan 2025 10:43:44 +0100 (CET)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id 51F6CA21A1E
+	for <lists+linux-alpha@lfdr.de>; Wed, 29 Jan 2025 10:43:37 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 23C607A122A
-	for <lists+linux-alpha@lfdr.de>; Wed, 29 Jan 2025 09:42:49 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id B58CA163269
+	for <lists+linux-alpha@lfdr.de>; Wed, 29 Jan 2025 09:43:35 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 776B51ACED9;
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 1F7581ACEAB;
 	Wed, 29 Jan 2025 09:43:32 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=fail reason="signature verification failed" (2048-bit key) header.d=unseen.parts header.i=@unseen.parts header.b="P5tFhuou"
+	dkim=fail reason="signature verification failed" (2048-bit key) header.d=unseen.parts header.i=@unseen.parts header.b="P6ztastu"
 X-Original-To: linux-alpha@vger.kernel.org
 Received: from minute.unseen.parts (minute.unseen.parts [139.162.151.61])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6D2C41AB6D4;
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6D3721AC448;
 	Wed, 29 Jan 2025 09:43:30 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=139.162.151.61
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1738143812; cv=none; b=EF78ZkYsBvj19Lt9J7t0DUTFLi/evzXq+w24llPl7aFkDt789dolLSRvuvKmRcIn5QY5IrsMP1nNtqYr3niwTdiAIpVQPkdZEM9iBmStsLhtxPnMItmsxlCCHTj60JcR6avlKyVEt9vZZANH6Hl1g3jS7c9MRJPEIXIkqPvTs/8=
+	t=1738143812; cv=none; b=kdonvKqYi8Ba04VDBx4zsSNxv+QUub7H0/5OKaakSYdMAgEPEo2In0M7oNeQCnefPJKrastc3k3hJeZqR84ZndNcgLyVVXwLQ02fteZGEFqcpyPA1oY1P6D0jwQebx71bJ7hgRUQdsJxd9yirioOyMDUS7XYVHugrTlxI3fDphQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
 	s=arc-20240116; t=1738143812; c=relaxed/simple;
-	bh=L0C4ZV8erupKdak6m1ncdX9RzFtc4QtjaG4cm1SE69o=;
+	bh=DI0hsQKSBth0HcOjTYmd0vSlA71BbKEJz3zGU40mDcM=;
 	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version; b=HpYkQDaJ/oOTXiOmuf7myzghU5gNb7tCUN+XRlyffxJ8g0SK5NsTEhMgdPiGUQZc6CEydN/R8sTqoGSkY6QF0ArnBtmuUvjVBzrNFhfVGO+UuvDwecPA3ps9jaPP2TqTFtWaPze9VPRrb5ZTdwaeiNAzkn+1T/sBOPo5OmswSB8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=unseen.parts; spf=pass smtp.mailfrom=unseen.parts; dkim=pass (2048-bit key) header.d=unseen.parts header.i=@unseen.parts header.b=P5tFhuou; arc=none smtp.client-ip=139.162.151.61
+	 MIME-Version; b=CSrJdYw4blohxmD2P7ZXmJBEMZKATjyQG3ixs28XVR3kJoVIb93jhjoG1YLPKCiu2AueTMnzT/r5LBScp03o43LVImDwLsROuDlSploCggaB381/xGTs2cowNPTX+WR4qTslXuRhs5hcTXpPvp1tUFR+1AcyQRk7OCLQKcHQu2g=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=unseen.parts; spf=pass smtp.mailfrom=unseen.parts; dkim=pass (2048-bit key) header.d=unseen.parts header.i=@unseen.parts header.b=P6ztastu; arc=none smtp.client-ip=139.162.151.61
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=unseen.parts
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=unseen.parts
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
@@ -37,15 +37,15 @@ DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
 	Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:
 	List-Subscribe:List-Post:List-Owner:List-Archive;
-	bh=OD+jn7jZjJoeIh4iCN5mIYrMiK0GdxmD2l7QkmZlHaY=; b=P5tFhuouTZjhAPHDtRYtHYy8Um
-	rMgKdUdMTTckZ/NzQYcpube3o5ByIJtZIlhlJPj0aIqCB/o5KPUQPUoXltNnxyKm8zcbWp2zaT/z/
-	lCy86a7s+UmE7xy3OhyZ//c40eXp8Fjue2Yhr2iYV63wD4YhSAqywMTXGKiWq7Z0ymTm1CWPuanZM
-	IKWSoTRCg++5v7QVw7xvVy/o5rezTKjYJAqZVBpgWgXOeRrVNnGjy78UZTTvmw3OBM9N13trIjIKp
-	LZDJpM8ysSOkjeADhA0pbUjc75fn12Cd+Yj+Qeiw6ii6eabvDxrUvt8V+59IUxK03ISRgqOWYRAj2
-	NGxjS+Aw==;
+	bh=QsJX2q4R1vVtgWZPKumYna8ezYIFmpagPEpx7dAVMdY=; b=P6ztastui7IkTdgb1eXG1dRXTU
+	hf6roInMc/xvUYnjoE5a+jnsTat9nmKzTI5661vHACPSbi9qy1csGm4LGnI67JDlReNckY8hEaLPM
+	NshIfIbotq7qF18EPIPXkxU2/TRBxYdrlHpm7bKdNaURyGeIiNAyD82k30pz/LtN3FcZXNKBIpcbk
+	Oy4PUA/bSDggoaSjhE1WMrFdlJmv4qjD0nBgnjnH9SSEtgMAkJZJEjcRJpO/aSzO56xdgQvirAs8R
+	3qy17uPF8WBRtyhdoF/CGJstj9po2UGivKvCguWsWpSqEM1Bt6ug9bcQa9b2772FPhmaBVtqe2bdw
+	L72dAHIQ==;
 Received: from ink by minute.unseen.parts with local (Exim 4.96)
 	(envelope-from <ink@unseen.parts>)
-	id 1td4bI-000787-1Q;
+	id 1td4bI-00078C-1j;
 	Wed, 29 Jan 2025 10:43:12 +0100
 From: Ivan Kokshaysky <ink@unseen.parts>
 To: Richard Henderson <richard.henderson@linaro.org>,
@@ -58,9 +58,9 @@ Cc: "Maciej W. Rozycki" <macro@orcam.me.uk>,
 	Magnus Lindholm <linmag7@gmail.com>,
 	linux-alpha@vger.kernel.org,
 	linux-kernel@vger.kernel.org
-Subject: [PATCH 1/4] alpha/uapi: do not expose kernel-only stack frame structures
-Date: Wed, 29 Jan 2025 10:43:09 +0100
-Message-Id: <20250129094312.27399-2-ink@unseen.parts>
+Subject: [PATCH 2/4] alpha: replace hardcoded stack offsets with autogenerated ones
+Date: Wed, 29 Jan 2025 10:43:10 +0100
+Message-Id: <20250129094312.27399-3-ink@unseen.parts>
 X-Mailer: git-send-email 2.39.5
 In-Reply-To: <20250129094312.27399-1-ink@unseen.parts>
 References: <20250129094312.27399-1-ink@unseen.parts>
@@ -72,177 +72,45 @@ List-Unsubscribe: <mailto:linux-alpha+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Parts of asm/ptrace.h went into UAPI with commit 96433f6ee490
-("UAPI: (Scripted) Disintegrate arch/alpha/include/asm") back in 2012.
-At first glance it looked correct, as many other architectures expose
-'struct pt_regs' for ptrace(2) PTRACE_GETREGS/PTRACE_SETREGS requests.
-On Alpha, however, these requests have never been implemented;
-'struct pt_regs' describes internal kernel stack frame which has
-nothing to do with userspace. Same applies to 'struct switch_stack',
-as PTRACE_GETFPREG/PTRACE_SETFPREG are not implemented either.
-
-Move this stuff back into internal asm, where we can ajust it
-without causing a lot of confusion about possible UAPI breakage.
-
-Fixes: 96433f6ee490 ("UAPI: (Scripted) Disintegrate arch/alpha/include/asm")
 Signed-off-by: Ivan Kokshaysky <ink@unseen.parts>
 ---
- arch/alpha/include/asm/ptrace.h      | 62 +++++++++++++++++++++++++-
- arch/alpha/include/uapi/asm/ptrace.h | 66 +---------------------------
- 2 files changed, 62 insertions(+), 66 deletions(-)
+ arch/alpha/kernel/asm-offsets.c | 4 ++++
+ arch/alpha/kernel/entry.S       | 4 ----
+ 2 files changed, 4 insertions(+), 4 deletions(-)
 
-diff --git a/arch/alpha/include/asm/ptrace.h b/arch/alpha/include/asm/ptrace.h
-index 3557ce64ed21..693d4c5b4dc7 100644
---- a/arch/alpha/include/asm/ptrace.h
-+++ b/arch/alpha/include/asm/ptrace.h
-@@ -2,8 +2,68 @@
- #ifndef _ASMAXP_PTRACE_H
- #define _ASMAXP_PTRACE_H
+diff --git a/arch/alpha/kernel/asm-offsets.c b/arch/alpha/kernel/asm-offsets.c
+index 4cfeae42c79a..e9dad60b147f 100644
+--- a/arch/alpha/kernel/asm-offsets.c
++++ b/arch/alpha/kernel/asm-offsets.c
+@@ -19,9 +19,13 @@ static void __used foo(void)
+ 	DEFINE(TI_STATUS, offsetof(struct thread_info, status));
+ 	BLANK();
  
--#include <uapi/asm/ptrace.h>
-+/*
-+ * This struct defines the way the registers are stored on the
-+ * kernel stack during a system call or other kernel entry
-+ *
-+ * NOTE! I want to minimize the overhead of system calls, so this
-+ * struct has as little information as possible. It does not have
-+ *
-+ *  - floating point regs: the kernel doesn't change those
-+ *  - r9-15: saved by the C compiler
-+ *
-+ * This makes "fork()" and "exec()" a bit more complex, but should
-+ * give us low system call latency.
-+ */
++	DEFINE(SP_OFF, offsetof(struct pt_regs, ps));
+ 	DEFINE(SIZEOF_PT_REGS, sizeof(struct pt_regs));
+ 	BLANK();
  
-+struct pt_regs {
-+	unsigned long r0;
-+	unsigned long r1;
-+	unsigned long r2;
-+	unsigned long r3;
-+	unsigned long r4;
-+	unsigned long r5;
-+	unsigned long r6;
-+	unsigned long r7;
-+	unsigned long r8;
-+	unsigned long r19;
-+	unsigned long r20;
-+	unsigned long r21;
-+	unsigned long r22;
-+	unsigned long r23;
-+	unsigned long r24;
-+	unsigned long r25;
-+	unsigned long r26;
-+	unsigned long r27;
-+	unsigned long r28;
-+	unsigned long hae;
-+/* JRP - These are the values provided to a0-a2 by PALcode */
-+	unsigned long trap_a0;
-+	unsigned long trap_a1;
-+	unsigned long trap_a2;
-+/* These are saved by PAL-code: */
-+	unsigned long ps;
-+	unsigned long pc;
-+	unsigned long gp;
-+	unsigned long r16;
-+	unsigned long r17;
-+	unsigned long r18;
-+};
++	DEFINE(SWITCH_STACK_SIZE, sizeof(struct switch_stack));
++	BLANK();
 +
-+/*
-+ * This is the extended stack used by signal handlers and the context
-+ * switcher: it's pushed after the normal "struct pt_regs".
-+ */
-+struct switch_stack {
-+	unsigned long r9;
-+	unsigned long r10;
-+	unsigned long r11;
-+	unsigned long r12;
-+	unsigned long r13;
-+	unsigned long r14;
-+	unsigned long r15;
-+	unsigned long r26;
-+};
+ 	DEFINE(HAE_CACHE, offsetof(struct alpha_machine_vector, hae_cache));
+ 	DEFINE(HAE_REG, offsetof(struct alpha_machine_vector, hae_register));
+ }
+diff --git a/arch/alpha/kernel/entry.S b/arch/alpha/kernel/entry.S
+index dd26062d75b3..6fb38365539d 100644
+--- a/arch/alpha/kernel/entry.S
++++ b/arch/alpha/kernel/entry.S
+@@ -15,10 +15,6 @@
+ 	.set noat
+ 	.cfi_sections	.debug_frame
  
- #define arch_has_single_step()		(1)
- #define user_mode(regs) (((regs)->ps & 8) != 0)
-diff --git a/arch/alpha/include/uapi/asm/ptrace.h b/arch/alpha/include/uapi/asm/ptrace.h
-index 5ca45934fcbb..2c08d74deac5 100644
---- a/arch/alpha/include/uapi/asm/ptrace.h
-+++ b/arch/alpha/include/uapi/asm/ptrace.h
-@@ -2,72 +2,8 @@
- #ifndef _UAPI_ASMAXP_PTRACE_H
- #define _UAPI_ASMAXP_PTRACE_H
- 
+-/* Stack offsets.  */
+-#define SP_OFF			184
+-#define SWITCH_STACK_SIZE	64
 -
--/*
-- * This struct defines the way the registers are stored on the
-- * kernel stack during a system call or other kernel entry
-- *
-- * NOTE! I want to minimize the overhead of system calls, so this
-- * struct has as little information as possible. It does not have
-- *
-- *  - floating point regs: the kernel doesn't change those
-- *  - r9-15: saved by the C compiler
-- *
-- * This makes "fork()" and "exec()" a bit more complex, but should
-- * give us low system call latency.
-- */
--
--struct pt_regs {
--	unsigned long r0;
--	unsigned long r1;
--	unsigned long r2;
--	unsigned long r3;
--	unsigned long r4;
--	unsigned long r5;
--	unsigned long r6;
--	unsigned long r7;
--	unsigned long r8;
--	unsigned long r19;
--	unsigned long r20;
--	unsigned long r21;
--	unsigned long r22;
--	unsigned long r23;
--	unsigned long r24;
--	unsigned long r25;
--	unsigned long r26;
--	unsigned long r27;
--	unsigned long r28;
--	unsigned long hae;
--/* JRP - These are the values provided to a0-a2 by PALcode */
--	unsigned long trap_a0;
--	unsigned long trap_a1;
--	unsigned long trap_a2;
--/* These are saved by PAL-code: */
--	unsigned long ps;
--	unsigned long pc;
--	unsigned long gp;
--	unsigned long r16;
--	unsigned long r17;
--	unsigned long r18;
--};
--
- /*
-- * This is the extended stack used by signal handlers and the context
-- * switcher: it's pushed after the normal "struct pt_regs".
-+ * We have nothing to say to userspace.
-  */
--struct switch_stack {
--	unsigned long r9;
--	unsigned long r10;
--	unsigned long r11;
--	unsigned long r12;
--	unsigned long r13;
--	unsigned long r14;
--	unsigned long r15;
--	unsigned long r26;
--#ifndef __KERNEL__
--	unsigned long fp[32];	/* fp[31] is fpcr */
--#endif
--};
--
- 
- #endif /* _UAPI_ASMAXP_PTRACE_H */
+ .macro	CFI_START_OSF_FRAME	func
+ 	.align	4
+ 	.globl	\func
 -- 
 2.39.5
 
