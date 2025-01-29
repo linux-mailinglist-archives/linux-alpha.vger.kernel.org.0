@@ -1,198 +1,158 @@
-Return-Path: <linux-alpha+bounces-1893-lists+linux-alpha=lfdr.de@vger.kernel.org>
+Return-Path: <linux-alpha+bounces-1895-lists+linux-alpha=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-alpha@lfdr.de
 Delivered-To: lists+linux-alpha@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
-	by mail.lfdr.de (Postfix) with ESMTPS id EF342A21A24
-	for <lists+linux-alpha@lfdr.de>; Wed, 29 Jan 2025 10:43:49 +0100 (CET)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id A86A7A21AAF
+	for <lists+linux-alpha@lfdr.de>; Wed, 29 Jan 2025 11:06:38 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 42F267A1BF6
-	for <lists+linux-alpha@lfdr.de>; Wed, 29 Jan 2025 09:42:52 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 0AA76162AEE
+	for <lists+linux-alpha@lfdr.de>; Wed, 29 Jan 2025 10:06:37 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id BB4651ADC7B;
-	Wed, 29 Jan 2025 09:43:32 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 69F991991A4;
+	Wed, 29 Jan 2025 10:06:34 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=fail reason="signature verification failed" (2048-bit key) header.d=unseen.parts header.i=@unseen.parts header.b="dmeoVkEo"
+	dkim=fail reason="signature verification failed" (2048-bit key) header.d=fu-berlin.de header.i=@fu-berlin.de header.b="UmKn8KfZ"
 X-Original-To: linux-alpha@vger.kernel.org
-Received: from minute.unseen.parts (minute.unseen.parts [139.162.151.61])
+Received: from outpost1.zedat.fu-berlin.de (outpost1.zedat.fu-berlin.de [130.133.4.66])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6D30F1AC435;
-	Wed, 29 Jan 2025 09:43:30 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=139.162.151.61
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A428117C68;
+	Wed, 29 Jan 2025 10:06:30 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=130.133.4.66
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1738143812; cv=none; b=EY/w7FsYu1bf9/vfoZJqyl+FJumAyc7n7rhVMyVKioa+E5LKkL/swx3VRyNWsmDHvDXy8pn0h4+oDD9I7yH0KYO41xpYckDPpJ6PbwNNusdGK24M2oCgtzfrm+vXNahZn0dKPs1WjBp0EJLSznxlbBmrQ6Dr8xGRjoe8m8iDOWA=
+	t=1738145194; cv=none; b=s8oheAttQ0WPaZqZIaRe9WOGyAGQxZBzxl+B95Nz7UsrUnfvYO3VG2GPCYLOLiZ4vHQWjXX07fzipyqxU0tzUJMxmzm74pN0NajAPXb+dwNC5iRDZksgMRnyVRidQmXe/H6K8zdOZXRQ2DyG4YtmpIUAGjkAoyrBnh3oZNXsDF0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1738143812; c=relaxed/simple;
-	bh=p2uhanelv7qsZpfJXBK0S36RMVEZuXUJqLRcvcXikhA=;
-	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version; b=SU75Qw0Fx00/rOro+61iR0WKqQSZZO3fJonUhOZdq478WXgufDvK7V/piamJwoT6OeLuCHr0lHn/I82gEn905tIl38WGyujH+ft8rQA8IFSP4J28GDe4Ze0QYOClx60QTOZzV8z/4CyA3bx11/TCXpWCmVHVbJ+eMb5N7ZXetUI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=unseen.parts; spf=pass smtp.mailfrom=unseen.parts; dkim=pass (2048-bit key) header.d=unseen.parts header.i=@unseen.parts header.b=dmeoVkEo; arc=none smtp.client-ip=139.162.151.61
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=unseen.parts
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=unseen.parts
+	s=arc-20240116; t=1738145194; c=relaxed/simple;
+	bh=oTD8wZT6oiymDkyC73ITR8aoRHvo0FF1abTWNSTxInk=;
+	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
+	 Content-Type:MIME-Version; b=FIPa4//QbnH2BW4kq8Xx+712EwbNdFA38cVbkg9WQrLpOxVBuJQruWaOnwutCsEKIj6b3wYDrUR0pGYshiMPboFXqBnQkuUfYFFbtjRu4iEJy4aQoe5W4sKZD1VeMYoAREgnrpZRvYvPc3h+xcdHXk4tB7g4tts+IqQmjyFV+Ck=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=physik.fu-berlin.de; spf=pass smtp.mailfrom=zedat.fu-berlin.de; dkim=pass (2048-bit key) header.d=fu-berlin.de header.i=@fu-berlin.de header.b=UmKn8KfZ; arc=none smtp.client-ip=130.133.4.66
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=physik.fu-berlin.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=zedat.fu-berlin.de
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=unseen.parts; s=sig; h=Content-Transfer-Encoding:MIME-Version:References:
-	In-Reply-To:Message-Id:Date:Subject:Cc:To:From:Sender:Reply-To:Content-Type:
-	Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
-	Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:
-	List-Subscribe:List-Post:List-Owner:List-Archive;
-	bh=larSKlkEg2xtqBgjn/o8lwLLZDMJ4sGjTlyhg8pLA88=; b=dmeoVkEo0+NehmKZMYuUTxi0Hg
-	44ikWqmsdcWf6Z6X6zYOGpDv4aqKWuLpcup/RNpN6H8VOfK2bx6mcW8YE/XBBrfj9HZKY+pEfzgES
-	qCxXNUbZUNW1R2gT4fS1s75j7XS3+SrdeIPToZxA/5tAZ7xmyX3OcOPS/0sQQNMVSckLJz3E8tgJN
-	X/8Rdj76xAlqPAtxTcCVdet9a7N/iphMPDbrpnopM2oaOT6Q9g/gryWNBmqgQURKNqlNDwhqiGgS+
-	ySQITYNavp4UNtAAR8/5t5YVC5tov1ygbEvqeoCztNiLE8O/UjjBcINFQuwEoSz14IDcwPm5iydJI
-	iomrsT4A==;
-Received: from ink by minute.unseen.parts with local (Exim 4.96)
-	(envelope-from <ink@unseen.parts>)
-	id 1td4bI-00078M-27;
-	Wed, 29 Jan 2025 10:43:12 +0100
-From: Ivan Kokshaysky <ink@unseen.parts>
-To: Richard Henderson <richard.henderson@linaro.org>,
-	Matt Turner <mattst88@gmail.com>,
-	Oleg Nesterov <oleg@redhat.com>,
-	Al Viro <viro@zeniv.linux.org.uk>,
-	Arnd Bergmann <arnd@arndb.de>,
-	"Paul E. McKenney" <paulmck@kernel.org>
-Cc: "Maciej W. Rozycki" <macro@orcam.me.uk>,
-	Magnus Lindholm <linmag7@gmail.com>,
-	linux-alpha@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: [PATCH 4/4] alpha: align stack for page fault and user unaligned trap handlers
-Date: Wed, 29 Jan 2025 10:43:12 +0100
-Message-Id: <20250129094312.27399-5-ink@unseen.parts>
-X-Mailer: git-send-email 2.39.5
+	d=fu-berlin.de; s=fub01; h=MIME-Version:Content-Transfer-Encoding:
+	Content-Type:References:In-Reply-To:Date:Cc:To:From:Subject:Message-ID:Sender
+	:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
+	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:
+	List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
+	bh=CjPIGnsWoTPpzHPEgH99fG7ygeqh4g0v1gP+7o8pSf4=; t=1738145190; x=1738749990; 
+	b=UmKn8KfZa9DjlRtSQCyRFg54wFB4Swfa3cUEA+7XIF69RPiWlVGkCO8KgNnvBJwM50vNxOHGdrI
+	9HgBhsIQlAvwUZdy2vy868hKIFNy9Q2cQZOjOfjlPEQ1S2W1Dc0E/X5e+LSInlJ2kQLfuxdsWm1tM
+	8VyW6QI6uo1blEUS74hn/3nE90JCgwGa5KX/f4a7qhOIgv3+hcXk+5LXi2+y66WRblYR7QiEIdR0Q
+	7awXkobg3yLhmCrbDQCe9ji0C5P+GlMF1yYfFEn6Rykbim+3za+tforR6ksMfeLpAQD7ndO4sHI9k
+	JgmyFkvYTH/ZsgwFuwolckgkU9xKaff5BvWQ==;
+Received: from inpost2.zedat.fu-berlin.de ([130.133.4.69])
+          by outpost.zedat.fu-berlin.de (Exim 4.98)
+          with esmtps (TLS1.3)
+          tls TLS_AES_256_GCM_SHA384
+          (envelope-from <glaubitz@zedat.fu-berlin.de>)
+          id 1td4xd-00000001ACk-2wmh; Wed, 29 Jan 2025 11:06:17 +0100
+Received: from p5dc55cec.dip0.t-ipconnect.de ([93.197.92.236] helo=[192.168.178.61])
+          by inpost2.zedat.fu-berlin.de (Exim 4.98)
+          with esmtpsa (TLS1.3)
+          tls TLS_AES_256_GCM_SHA384
+          (envelope-from <glaubitz@physik.fu-berlin.de>)
+          id 1td4xd-00000002oec-1w49; Wed, 29 Jan 2025 11:06:17 +0100
+Message-ID: <a0ad082b740824d6589769f9d9b3531f087cfcfa.camel@physik.fu-berlin.de>
+Subject: Re: [PATCH 0/4] alpha: stack fixes
+From: John Paul Adrian Glaubitz <glaubitz@physik.fu-berlin.de>
+To: Ivan Kokshaysky <ink@unseen.parts>, Richard Henderson	
+ <richard.henderson@linaro.org>, Matt Turner <mattst88@gmail.com>, Oleg
+ Nesterov	 <oleg@redhat.com>, Al Viro <viro@zeniv.linux.org.uk>, Arnd
+ Bergmann	 <arnd@arndb.de>, "Paul E. McKenney" <paulmck@kernel.org>
+Cc: "Maciej W. Rozycki" <macro@orcam.me.uk>, Magnus Lindholm
+ <linmag7@gmail.com>, 	linux-alpha@vger.kernel.org,
+ linux-kernel@vger.kernel.org
+Date: Wed, 29 Jan 2025 11:06:16 +0100
 In-Reply-To: <20250129094312.27399-1-ink@unseen.parts>
 References: <20250129094312.27399-1-ink@unseen.parts>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.54.3 
 Precedence: bulk
 X-Mailing-List: linux-alpha@vger.kernel.org
 List-Id: <linux-alpha.vger.kernel.org>
 List-Subscribe: <mailto:linux-alpha+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-alpha+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+X-Original-Sender: glaubitz@physik.fu-berlin.de
+X-ZEDAT-Hint: PO
 
-do_page_fault() and do_entUna() are special because they use
-non-standard stack frame layout. Fix them manually.
+Hi Ivan,
 
-Tested-by: Magnus Lindholm <linmag7@gmail.com>
-Suggested-by: "Maciej W. Rozycki" <macro@orcam.me.uk>
-Signed-off-by: Ivan Kokshaysky <ink@unseen.parts>
----
- arch/alpha/kernel/entry.S | 20 ++++++++++----------
- arch/alpha/kernel/traps.c |  2 +-
- arch/alpha/mm/fault.c     |  4 ++--
- 3 files changed, 13 insertions(+), 13 deletions(-)
+On Wed, 2025-01-29 at 10:43 +0100, Ivan Kokshaysky wrote:
+> This series fixes oopses on Alpha/SMP observed since kernel v6.9. [1]
+> Thanks to Magnus Lindholm for identifying that remarkably longstanding
+> bug.
+>=20
+> The problem is that GCC expects 16-byte alignment of the incoming stack
+> since early 2004, as Maciej found out [2]:
+>   Having actually dug speculatively I can see that the psABI was changed =
+in
+>  GCC 3.5 with commit e5e10fb4a350 ("re PR target/14539 (128-bit long doub=
+le
+>  improperly aligned)") back in Mar 2004, when the stack pointer alignment
+>  was increased from 8 bytes to 16 bytes, and arch/alpha/kernel/entry.S ha=
+s
+>  various suspicious stack pointer adjustments, starting with SP_OFF which
+>  is not a whole multiple of 16.
+>=20
+> Also, as Magnus noted, "ALPHA Calling Standard" [3] required the same:
+>  D.3.1 Stack Alignment
+>   This standard requires that stacks be octaword aligned at the time a
+>   new procedure is invoked.
+>=20
+> However:
+> - the "normal" kernel stack is always misaligned by 8 bytes, thanks to
+>   the odd number of 64-bit words in 'struct pt_regs', which is the very
+>   first thing pushed onto the kernel thread stack;
+> - syscall, fault, interrupt etc. handlers may, or may not, receive aligne=
+d
+>   stack depending on numerous factors.
+>=20
+> Somehow we got away with it until recently, when we ended up with
+> a stack corruption in kernel/smp.c:smp_call_function_single() due to
+> its use of 32-byte aligned local data and the compiler doing clever
+> things allocating it on the stack.
+>=20
+> Patches 1-2 are preparatory; 3 - the main fix; 4 - fixes remaining
+> special cases.
+>=20
+> Ivan.
+>=20
+> [1] https://lore.kernel.org/rcu/CA+=3DFv5R9NG+1SHU9QV9hjmavycHKpnNyerQ=3D=
+Ei90G98ukRcRJA@mail.gmail.com/#r
+> [2] https://lore.kernel.org/rcu/alpine.DEB.2.21.2501130248010.18889@angie=
+.orcam.me.uk/
+> [3] https://bitsavers.org/pdf/dec/alpha/Alpha_Calling_Standard_Rev_2.0_19=
+900427.pdf
+> ---
+> Ivan Kokshaysky (4):
+>   alpha/uapi: do not expose kernel-only stack frame structures
+>   alpha: replace hardcoded stack offsets with autogenerated ones
+>   alpha: make stack 16-byte aligned (most cases)
+>   alpha: align stack for page fault and user unaligned trap handlers
+>=20
+>  arch/alpha/include/asm/ptrace.h      | 64 ++++++++++++++++++++++++++-
+>  arch/alpha/include/uapi/asm/ptrace.h | 66 +---------------------------
+>  arch/alpha/kernel/asm-offsets.c      |  4 ++
+>  arch/alpha/kernel/entry.S            | 24 +++++-----
+>  arch/alpha/kernel/traps.c            |  2 +-
+>  arch/alpha/mm/fault.c                |  4 +-
+>  6 files changed, 81 insertions(+), 83 deletions(-)
 
-diff --git a/arch/alpha/kernel/entry.S b/arch/alpha/kernel/entry.S
-index 6fb38365539d..f4d41b4538c2 100644
---- a/arch/alpha/kernel/entry.S
-+++ b/arch/alpha/kernel/entry.S
-@@ -194,8 +194,8 @@ CFI_END_OSF_FRAME entArith
- CFI_START_OSF_FRAME entMM
- 	SAVE_ALL
- /* save $9 - $15 so the inline exception code can manipulate them.  */
--	subq	$sp, 56, $sp
--	.cfi_adjust_cfa_offset	56
-+	subq	$sp, 64, $sp
-+	.cfi_adjust_cfa_offset	64
- 	stq	$9, 0($sp)
- 	stq	$10, 8($sp)
- 	stq	$11, 16($sp)
-@@ -210,7 +210,7 @@ CFI_START_OSF_FRAME entMM
- 	.cfi_rel_offset	$13, 32
- 	.cfi_rel_offset	$14, 40
- 	.cfi_rel_offset	$15, 48
--	addq	$sp, 56, $19
-+	addq	$sp, 64, $19
- /* handle the fault */
- 	lda	$8, 0x3fff
- 	bic	$sp, $8, $8
-@@ -223,7 +223,7 @@ CFI_START_OSF_FRAME entMM
- 	ldq	$13, 32($sp)
- 	ldq	$14, 40($sp)
- 	ldq	$15, 48($sp)
--	addq	$sp, 56, $sp
-+	addq	$sp, 64, $sp
- 	.cfi_restore	$9
- 	.cfi_restore	$10
- 	.cfi_restore	$11
-@@ -231,7 +231,7 @@ CFI_START_OSF_FRAME entMM
- 	.cfi_restore	$13
- 	.cfi_restore	$14
- 	.cfi_restore	$15
--	.cfi_adjust_cfa_offset	-56
-+	.cfi_adjust_cfa_offset	-64
- /* finish up the syscall as normal.  */
- 	br	ret_from_sys_call
- CFI_END_OSF_FRAME entMM
-@@ -378,8 +378,8 @@ entUnaUser:
- 	.cfi_restore	$0
- 	.cfi_adjust_cfa_offset	-256
- 	SAVE_ALL		/* setup normal kernel stack */
--	lda	$sp, -56($sp)
--	.cfi_adjust_cfa_offset	56
-+	lda	$sp, -64($sp)
-+	.cfi_adjust_cfa_offset	64
- 	stq	$9, 0($sp)
- 	stq	$10, 8($sp)
- 	stq	$11, 16($sp)
-@@ -395,7 +395,7 @@ entUnaUser:
- 	.cfi_rel_offset	$14, 40
- 	.cfi_rel_offset	$15, 48
- 	lda	$8, 0x3fff
--	addq	$sp, 56, $19
-+	addq	$sp, 64, $19
- 	bic	$sp, $8, $8
- 	jsr	$26, do_entUnaUser
- 	ldq	$9, 0($sp)
-@@ -405,7 +405,7 @@ entUnaUser:
- 	ldq	$13, 32($sp)
- 	ldq	$14, 40($sp)
- 	ldq	$15, 48($sp)
--	lda	$sp, 56($sp)
-+	lda	$sp, 64($sp)
- 	.cfi_restore	$9
- 	.cfi_restore	$10
- 	.cfi_restore	$11
-@@ -413,7 +413,7 @@ entUnaUser:
- 	.cfi_restore	$13
- 	.cfi_restore	$14
- 	.cfi_restore	$15
--	.cfi_adjust_cfa_offset	-56
-+	.cfi_adjust_cfa_offset	-64
- 	br	ret_from_sys_call
- CFI_END_OSF_FRAME entUna
- 
-diff --git a/arch/alpha/kernel/traps.c b/arch/alpha/kernel/traps.c
-index a9a38c80c4a7..7004397937cf 100644
---- a/arch/alpha/kernel/traps.c
-+++ b/arch/alpha/kernel/traps.c
-@@ -649,7 +649,7 @@ s_reg_to_mem (unsigned long s_reg)
- static int unauser_reg_offsets[32] = {
- 	R(r0), R(r1), R(r2), R(r3), R(r4), R(r5), R(r6), R(r7), R(r8),
- 	/* r9 ... r15 are stored in front of regs.  */
--	-56, -48, -40, -32, -24, -16, -8,
-+	-64, -56, -48, -40, -32, -24, -16,	/* padding at -8 */
- 	R(r16), R(r17), R(r18),
- 	R(r19), R(r20), R(r21), R(r22), R(r23), R(r24), R(r25), R(r26),
- 	R(r27), R(r28), R(gp),
-diff --git a/arch/alpha/mm/fault.c b/arch/alpha/mm/fault.c
-index 8c9850437e67..a9816bbc9f34 100644
---- a/arch/alpha/mm/fault.c
-+++ b/arch/alpha/mm/fault.c
-@@ -78,8 +78,8 @@ __load_new_mm_context(struct mm_struct *next_mm)
- 
- /* Macro for exception fixup code to access integer registers.  */
- #define dpf_reg(r)							\
--	(((unsigned long *)regs)[(r) <= 8 ? (r) : (r) <= 15 ? (r)-16 :	\
--				 (r) <= 18 ? (r)+10 : (r)-10])
-+	(((unsigned long *)regs)[(r) <= 8 ? (r) : (r) <= 15 ? (r)-17 :	\
-+				 (r) <= 18 ? (r)+11 : (r)-10])
- 
- asmlinkage void
- do_page_fault(unsigned long address, unsigned long mmcsr,
--- 
-2.39.5
+Thanks a lot for the series! I just applied them on top of Debian's current
+6.12.11 kernel in unstable and will thoroughly test the patches. Will repor=
+t
+back the results later this week.
 
+Adrian
+
+--=20
+ .''`.  John Paul Adrian Glaubitz
+: :' :  Debian Developer
+`. `'   Physicist
+  `-    GPG: 62FF 8A75 84E0 2956 9546  0006 7426 3B37 F5B5 F913
 
