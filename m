@@ -1,77 +1,136 @@
-Return-Path: <linux-alpha+bounces-2709-lists+linux-alpha=lfdr.de@vger.kernel.org>
+Return-Path: <linux-alpha+bounces-2711-lists+linux-alpha=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-alpha@lfdr.de
 Delivered-To: lists+linux-alpha@lfdr.de
 Received: from sea.lore.kernel.org (sea.lore.kernel.org [172.234.253.10])
-	by mail.lfdr.de (Postfix) with ESMTPS id 52AF6CB4347
-	for <lists+linux-alpha@lfdr.de>; Thu, 11 Dec 2025 00:12:30 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 76297CC6E7A
+	for <lists+linux-alpha@lfdr.de>; Wed, 17 Dec 2025 10:56:39 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id 522F0302B121
-	for <lists+linux-alpha@lfdr.de>; Wed, 10 Dec 2025 23:11:04 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id E43A93067D35
+	for <lists+linux-alpha@lfdr.de>; Wed, 17 Dec 2025 09:55:27 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id CC163245008;
-	Wed, 10 Dec 2025 23:11:02 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id B267733D6D4;
+	Wed, 17 Dec 2025 09:47:09 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="D+C6uEEk"
+	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="MRO4qPIx"
 X-Original-To: linux-alpha@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from out-171.mta1.migadu.com (out-171.mta1.migadu.com [95.215.58.171])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 97A6B23E356;
-	Wed, 10 Dec 2025 23:11:02 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7297F33D6D1
+	for <linux-alpha@vger.kernel.org>; Wed, 17 Dec 2025 09:47:05 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=95.215.58.171
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1765408262; cv=none; b=HIAKWBVA1Ivt505KHRV1DfExU1BX4tDVbKH4S22BvmJmCGaUjHJ0yAOw5EH8T2y2cRORco8hfMiaxAjdlopAwqPkBWAMrl+/VNNVzpZYJ21iIXAeWXIkmph9D7rfBjfamibZULgyADPBXbGWsdcSeSU2O6yeBwUal5yY1/ZDRVY=
+	t=1765964829; cv=none; b=K2jHSw0pSOCaJqFgY7wUkPUxwWOm8OaAvggvDDjM46hesWbEvrNSNDzOskmb+ejShC0O+Lgo/nsdbJSuKfQKHvKwE5cnzEs3TSxBxfjEnOw0Ka/THe4ysvszrukXAXh8YcpQ5vnesy6oSr6ixcKxEfpqzRk76oi1WcAZjyMhNlE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1765408262; c=relaxed/simple;
-	bh=x3W5f4hIc0/Em7EVfkqO4dpF78Aa48KA756A92pHi38=;
-	h=Subject:From:In-Reply-To:References:Message-Id:Date:To:Cc; b=cgV1CLDH56ABqnZ7ozP+GRWCTI2dx4+r3wyHOzgzzWnchPUKY4a2y7I9ABQPm9t1KIkZImO7v8+VsaLm9iToIKUeW211BEpzDh41NIbBbOZGCZjgRaO6Hb+Emr2/mi47PfeuIfN4rAjnhnQTrV4Omh6o798gZt7GFg7aqsJhFac=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=D+C6uEEk; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0193EC4CEF1;
-	Wed, 10 Dec 2025 23:11:02 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1765408262;
-	bh=x3W5f4hIc0/Em7EVfkqO4dpF78Aa48KA756A92pHi38=;
-	h=Subject:From:In-Reply-To:References:Date:To:Cc:From;
-	b=D+C6uEEkDXKgae0mJGaZ9Ym0JCnsYENaSjMlXO/4PpqMqW+o6YlPzdKB/AH/E8NUe
-	 al7sLPEsurdu4clfbo9n+lr5jZHxaSvh/q+/l17aR91WqUG7sbwsh8TtO1h8TypYgC
-	 EpH0LodX4OOSbqZ8ob6tIoi4JBridesjn9jIzKFcfRSMCUZZyGPCChCDypqgR/bZ9u
-	 sZkDpJ+cbXowMVTeeZ9+Mw1AuLMa/Bn/F8kIrSIp6TUz/Gx9t4XAd3mQoXQP9XaMV+
-	 zxEkvEMZZjgaJAo//35BKYXnjgSpXhGBgDADTDGo+eeFD/ev249SjSUPfNpZykzB/Z
-	 BGfllKAUhwh+Q==
-Received: from [10.30.226.235] (localhost [IPv6:::1])
-	by aws-us-west-2-korg-oddjob-rhel9-1.codeaurora.org (Postfix) with ESMTP id 78A393809A23;
-	Wed, 10 Dec 2025 23:07:57 +0000 (UTC)
-Subject: Re: [GIT PULL] alpha updates for v6.19
-From: pr-tracker-bot@kernel.org
-In-Reply-To: <aTn38tM2PIn8g3VT@z440.darklands.se>
-References: <aTn38tM2PIn8g3VT@z440.darklands.se>
-X-PR-Tracked-List-Id: <linux-alpha.vger.kernel.org>
-X-PR-Tracked-Message-Id: <aTn38tM2PIn8g3VT@z440.darklands.se>
-X-PR-Tracked-Remote: git://git.kernel.org/pub/scm/linux/kernel/git/lindholm/alpha.git tags/alpha-for-v6.19-tag
-X-PR-Tracked-Commit-Id: 9aeed9041929812a10a6d693af050846942a1d16
-X-PR-Merge-Tree: torvalds/linux.git
-X-PR-Merge-Refname: refs/heads/master
-X-PR-Merge-Commit-Id: 5c179cac051943f673c8baa53214e2566bfe69dc
-Message-Id: <176540807607.755906.10107362199616246461.pr-tracker-bot@kernel.org>
-Date: Wed, 10 Dec 2025 23:07:56 +0000
-To: Magnus Lindholm <linmag7@gmail.com>
-Cc: torvalds@linux-foundation.org, linux-alpha@vger.kernel.org, linux-kernel@vger.kernel.org, richard.henderson@linaro.org, mattst88@gmail.com, sam@gentoo.org, lindholm@kernel.org
+	s=arc-20240116; t=1765964829; c=relaxed/simple;
+	bh=2TdWibhf5ZP3VSAv96FB5mOfcfdZyF1zBRAuRMzN4h4=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=tnmiZDMCOVgY+ac/mBrN1ul7zMFa1lwVmTu73iH17buI3GVpmXG3LWLTQPPwqR4antOQILJTuBcbOD6l8Puk+CqgDSLsbsbc7oMtcVmAKvzMD7hh7+Qvf9fCaNuFj80iLaBxJHtrpPaMm3scGsSwh/Z80DRpuNHAWyJIn7EBfkI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=MRO4qPIx; arc=none smtp.client-ip=95.215.58.171
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
+X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
+	t=1765964813;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:
+	 content-transfer-encoding:content-transfer-encoding;
+	bh=oN9R7byRGmHEs6T0OtpuwOuRpbJv46Zq9CpZBf5+XJg=;
+	b=MRO4qPIxxsVdDqwXzC7u9PLqRjNXx7wnrDSDf1lYyiYd50PIXjJACLh+SJDhboDde2AFBp
+	xudEn7lhZost3Ms/RAgSJ4rwmF9QHLUnd5iBfmp1YPdZeHPAwkC3Dg4lXkpK8Qt3kXk60G
+	KOm9TW1XYyMer/EiQIPn82zf46FXx9c=
+From: Qi Zheng <qi.zheng@linux.dev>
+To: will@kernel.org,
+	aneesh.kumar@kernel.org,
+	npiggin@gmail.com,
+	peterz@infradead.org,
+	dev.jain@arm.com,
+	akpm@linux-foundation.org,
+	david@kernel.org,
+	ioworker0@gmail.com,
+	linmag7@gmail.com
+Cc: linux-arch@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	linux-mm@kvack.org,
+	linux-alpha@vger.kernel.org,
+	loongarch@lists.linux.dev,
+	linux-mips@vger.kernel.org,
+	linux-parisc@vger.kernel.org,
+	linux-um@lists.infradead.org,
+	Qi Zheng <zhengqi.arch@bytedance.com>
+Subject: [PATCH v3 0/7] enable PT_RECLAIM on all 64-bit architectures
+Date: Wed, 17 Dec 2025 17:45:41 +0800
+Message-ID: <cover.1765963770.git.zhengqi.arch@bytedance.com>
 Precedence: bulk
 X-Mailing-List: linux-alpha@vger.kernel.org
 List-Id: <linux-alpha.vger.kernel.org>
 List-Subscribe: <mailto:linux-alpha+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-alpha+unsubscribe@vger.kernel.org>
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
+X-Migadu-Flow: FLOW_OUT
 
-The pull request you sent on Wed, 10 Dec 2025 23:45:06 +0100:
+From: Qi Zheng <zhengqi.arch@bytedance.com>
 
-> git://git.kernel.org/pub/scm/linux/kernel/git/lindholm/alpha.git tags/alpha-for-v6.19-tag
+Changes in v3:
+ - modify the commit message in [PATCH v3 1/7] (suggested by David Hildenbrand)
+ - make PT_RECLAIM depends on MMU_GATHER_RCU_TABLE_FREE instead of 64BIT
+ - collect Acked-by
+ - rebase onto the next-20251217
 
-has been merged into torvalds/linux.git:
-https://git.kernel.org/torvalds/c/5c179cac051943f673c8baa53214e2566bfe69dc
+Changelog in v2:
+ - fix compilation errors (reported by Magnus Lindholm and kernel test robot)
+ - adjust some code style (suggested by Huacai Chen)
+ - make PT_RECLAIM user-unselectable (suggested by David Hildenbrand)
+ - rebase onto the next-20251119
 
-Thank you!
+Hi all,
+
+This series aims to enable PT_RECLAIM on all 64-bit architectures.
+
+On a 64-bit system, madvise(MADV_DONTNEED) may cause a large number of empty PTE
+page table pages (such as 100GB+). To resolve this problem, we need to enable
+PT_RECLAIM, which depends on MMU_GATHER_RCU_TABLE_FREE.
+
+Therefore, this series first enables MMU_GATHER_RCU_TABLE_FREE on all 64-bit
+architectures, and finally makes PT_RECLAIM depend on MMU_GATHER_RCU_TABLE_FREE.
+This way, PT_RECLAIM can be enabled by default on all 64-bit architectures.
+
+Of course, this will also be enabled on some 32-bit architectures that already
+support MMU_GATHER_RCU_TABLE_FREE. That's fine, PT_RECLAIM works well on all
+32-bit architectures as well. Although the benefit isn't significant, there's
+still memory that can be reclaimed. Perhaps PT_RECLAIM can be enabled on all
+32-bit architectures in the future.
+
+Comments and suggestions are welcome!
+
+Thanks,
+Qi
+
+Qi Zheng (7):
+  mm: change mm/pt_reclaim.c to use asm/tlb.h instead of
+    asm-generic/tlb.h
+  alpha: mm: enable MMU_GATHER_RCU_TABLE_FREE
+  LoongArch: mm: enable MMU_GATHER_RCU_TABLE_FREE
+  mips: mm: enable MMU_GATHER_RCU_TABLE_FREE
+  parisc: mm: enable MMU_GATHER_RCU_TABLE_FREE
+  um: mm: enable MMU_GATHER_RCU_TABLE_FREE
+  mm: make PT_RECLAIM depends on MMU_GATHER_RCU_TABLE_FREE
+
+ arch/alpha/Kconfig                   | 1 +
+ arch/alpha/include/asm/tlb.h         | 6 +++---
+ arch/loongarch/Kconfig               | 1 +
+ arch/loongarch/include/asm/pgalloc.h | 7 +++----
+ arch/mips/Kconfig                    | 1 +
+ arch/mips/include/asm/pgalloc.h      | 7 +++----
+ arch/parisc/Kconfig                  | 1 +
+ arch/parisc/include/asm/tlb.h        | 4 ++--
+ arch/um/Kconfig                      | 1 +
+ arch/x86/Kconfig                     | 1 -
+ mm/Kconfig                           | 9 ++-------
+ mm/pt_reclaim.c                      | 2 +-
+ 12 files changed, 19 insertions(+), 22 deletions(-)
 
 -- 
-Deet-doot-dot, I am a bot.
-https://korg.docs.kernel.org/prtracker.html
+2.20.1
+
 
