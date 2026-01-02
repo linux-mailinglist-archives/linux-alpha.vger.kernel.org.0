@@ -1,44 +1,44 @@
-Return-Path: <linux-alpha+bounces-2789-lists+linux-alpha=lfdr.de@vger.kernel.org>
+Return-Path: <linux-alpha+bounces-2792-lists+linux-alpha=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-alpha@lfdr.de
 Delivered-To: lists+linux-alpha@lfdr.de
-Received: from tor.lore.kernel.org (tor.lore.kernel.org [172.105.105.114])
-	by mail.lfdr.de (Postfix) with ESMTPS id 640B8CEDDC9
-	for <lists+linux-alpha@lfdr.de>; Fri, 02 Jan 2026 08:11:38 +0100 (CET)
+Received: from tor.lore.kernel.org (tor.lore.kernel.org [IPv6:2600:3c04:e001:36c::12fc:5321])
+	by mail.lfdr.de (Postfix) with ESMTPS id 7A305CEDE6B
+	for <lists+linux-alpha@lfdr.de>; Fri, 02 Jan 2026 08:12:37 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by tor.lore.kernel.org (Postfix) with ESMTP id 385B63004F37
-	for <lists+linux-alpha@lfdr.de>; Fri,  2 Jan 2026 07:11:37 +0000 (UTC)
+	by tor.lore.kernel.org (Postfix) with ESMTP id 0634530133D7
+	for <lists+linux-alpha@lfdr.de>; Fri,  2 Jan 2026 07:12:05 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id BC9DA2DF13A;
-	Fri,  2 Jan 2026 07:03:31 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 167C32E54DE;
+	Fri,  2 Jan 2026 07:04:15 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="c+po2WfJ"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="LzgeyCu4"
 X-Original-To: linux-alpha@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7E7E52DF126;
-	Fri,  2 Jan 2026 07:03:31 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C66152DC78F;
+	Fri,  2 Jan 2026 07:04:14 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1767337411; cv=none; b=r5HOzKPYnV64UsdzeoD2KIaaNPzqRnRYJocyQTli3vvop2ZKhTwtMOQdgBF/wDJkbamtP7wKME4IIvw0Sx6mcewpPX0TWs6g0GgM6rmDXgx13iaOH8gj5AUKeweQ93eHevMJmAPIt97+YpfT/2iqqMnOZeKdJB9xc1BrW2fVlJw=
+	t=1767337455; cv=none; b=KYIp+JLLaXAXYL4e/zghTmf7sifnnW/L0ZaLOK9o1uusL+nJB9kagEWXiGW3PXQlysX0emmlTfRy1YRBCi3SqSKYlVI7mUtDUFXLFGxlU2wgEraq8i0EOIyCcbjLpR9ZmAxR+qhKd03Ydt2hUb6ua/KL/DnD8jeHxXwpRRbPGsw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1767337411; c=relaxed/simple;
-	bh=QDpPHL1GPSMeFEARdEipDTbBSW8I0pBG6cArIIAQB88=;
+	s=arc-20240116; t=1767337455; c=relaxed/simple;
+	bh=hFJveYfaCrIw0+iDVEP3vQL9fd/XBHyX+JYd2Rm0RhA=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=X7mONTk7oM/Id+eKGFGIQww+WtXE6Fd7Y+qtCNRmgymKDTOapEclJ3PhGCRt/8kZZuicstZsyQpOOJgfOHTM8UjdQJv/KpgOGOJx9rLquA9Nu6Yc8ivQnq5CGFyI+xKsXOwN+QWwbTq5U5HAw933gBxlNKssGwvA0idkGNSujSI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=c+po2WfJ; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 86A1FC116D0;
-	Fri,  2 Jan 2026 07:03:17 +0000 (UTC)
+	 MIME-Version; b=kPNRSCshSMWTpxy79/LGk+vdlaTBu33WC1WXi3gihZeDiqFrypNjcQyqA0sh7PaZy2LHKRs4r4EenrtajDySs9XcusY5IG3xSRccwW+J4V9g7S5gQtweqFpjVpcpsL1gaVGYdlhD644CJJkqgZMnnnj8E56W5PIr8C4FFm8jn2c=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=LzgeyCu4; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 9489AC116B1;
+	Fri,  2 Jan 2026 07:04:00 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1767337411;
-	bh=QDpPHL1GPSMeFEARdEipDTbBSW8I0pBG6cArIIAQB88=;
+	s=k20201202; t=1767337454;
+	bh=hFJveYfaCrIw0+iDVEP3vQL9fd/XBHyX+JYd2Rm0RhA=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=c+po2WfJ5cf6Y//AOAe02jsKCXLL1vmZoxuQ1QHcBvThXBKTFEQQ2OnGwxTOkmmIw
-	 j4tzubZIqYEK7dRkiyIikFmnnyvXkd7McLgLBkp+K2QPwvdpxhnyk05gqTi34xwrvH
-	 AUQTsnMF8v0vz/rUkG/myY/O6NPP9P6zB5AvSlXDH0jyaAXOaCAmujV+5S9z64t+Zc
-	 z1uw8GcOCKnLIlwsVK2vFCMVLFiCIxxqeq7T4jQ6ku69bwg4Bo+lmmqqz+ng+UMbt1
-	 xT/vHjxJBRXmMHCojw/k2DTg6RnLsqUbGkQVdt0owk5pNwGBzW2iAePwwxGNIYhBx6
-	 z4vj6qkfA9hdg==
+	b=LzgeyCu4tQubrTKtvs34G1LIbvPSfWcug9h6n8ZnurA/OZo0SL4EiW+RhJfIMsVbN
+	 6qs+6wI+dAhn4AXYB3TCsenNnM2pD9lgkbKN8HUEkLaTXaERBE4eH62J2otaLZPvvo
+	 YfvsWRC4P7RMmakWoZYfT/7eJLOcmiZchjlXHXyJHM/9dD7DNryMUZcig74jKnnp7O
+	 Eqkmozvn5OkGUKhT26ipcF9xHIodKB9ZSsrSF+gY+nHDbiWFN81dgjKg2jTAywYSyv
+	 FAv2UuNc++l2TIFLmhufUSCXUdrPJ79EA9gNVdKL5ZjVooYOcrw679Uo1JZYEQHezQ
+	 wesYIpKlfAIPA==
 From: Mike Rapoport <rppt@kernel.org>
 To: Andrew Morton <akpm@linux-foundation.org>
 Cc: Alex Shi <alexs@kernel.org>,
@@ -105,9 +105,9 @@ Cc: Alex Shi <alexs@kernel.org>,
 	linuxppc-dev@lists.ozlabs.org,
 	loongarch@lists.linux.dev,
 	sparclinux@vger.kernel.org
-Subject: [PATCH v2 13/28] parisc: introduce arch_zone_limits_init()
-Date: Fri,  2 Jan 2026 08:59:49 +0200
-Message-ID: <20260102070005.65328-14-rppt@kernel.org>
+Subject: [PATCH v2 16/28] s390: introduce arch_zone_limits_init()
+Date: Fri,  2 Jan 2026 08:59:52 +0200
+Message-ID: <20260102070005.65328-17-rppt@kernel.org>
 X-Mailer: git-send-email 2.51.0
 In-Reply-To: <20260102070005.65328-1-rppt@kernel.org>
 References: <20260102070005.65328-1-rppt@kernel.org>
@@ -129,32 +129,35 @@ during nodes and zones initialization and thus there won't be a need to
 call free_area_init() from every architecture.
 
 Signed-off-by: Mike Rapoport (Microsoft) <rppt@kernel.org>
-Acked-by: Helge Deller <deller@gmx.de>
 ---
- arch/parisc/mm/init.c | 8 ++++++--
- 1 file changed, 6 insertions(+), 2 deletions(-)
+ arch/s390/mm/init.c | 9 +++++++--
+ 1 file changed, 7 insertions(+), 2 deletions(-)
 
-diff --git a/arch/parisc/mm/init.c b/arch/parisc/mm/init.c
-index 14270715d754..dc5bd3efe738 100644
---- a/arch/parisc/mm/init.c
-+++ b/arch/parisc/mm/init.c
-@@ -693,12 +693,16 @@ static void __init fixmap_init(void)
- 	} while (addr < end);
+diff --git a/arch/s390/mm/init.c b/arch/s390/mm/init.c
+index e4953453d254..1c11ad84dddb 100644
+--- a/arch/s390/mm/init.c
++++ b/arch/s390/mm/init.c
+@@ -86,6 +86,12 @@ static void __init setup_zero_pages(void)
+ 	zero_page_mask = ((PAGE_SIZE << order) - 1) & PAGE_MASK;
  }
  
 +void __init arch_zone_limits_init(unsigned long *max_zone_pfns)
 +{
-+	max_zone_pfns[ZONE_NORMAL] = PFN_DOWN(memblock_end_of_DRAM());
++	max_zone_pfns[ZONE_DMA] = virt_to_pfn(MAX_DMA_ADDRESS);
++	max_zone_pfns[ZONE_NORMAL] = max_low_pfn;
 +}
 +
- static void __init parisc_bootmem_free(void)
- {
- 	unsigned long max_zone_pfn[MAX_NR_ZONES] = { 0, };
- 
--	max_zone_pfn[0] = memblock_end_of_DRAM();
--
-+	arch_zone_limits_init(max_zone_pfn);
- 	free_area_init(max_zone_pfn);
+ /*
+  * paging_init() sets up the page tables
+  */
+@@ -97,8 +103,7 @@ void __init paging_init(void)
+ 	sparse_init();
+ 	zone_dma_limit = DMA_BIT_MASK(31);
+ 	memset(max_zone_pfns, 0, sizeof(max_zone_pfns));
+-	max_zone_pfns[ZONE_DMA] = virt_to_pfn(MAX_DMA_ADDRESS);
+-	max_zone_pfns[ZONE_NORMAL] = max_low_pfn;
++	arch_zone_limits_init(max_zone_pfns);
+ 	free_area_init(max_zone_pfns);
  }
  
 -- 
