@@ -1,66 +1,106 @@
-Return-Path: <linux-alpha+bounces-2825-lists+linux-alpha=lfdr.de@vger.kernel.org>
+Return-Path: <linux-alpha+bounces-2827-lists+linux-alpha=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-alpha@lfdr.de
 Delivered-To: lists+linux-alpha@lfdr.de
-Received: from sea.lore.kernel.org (sea.lore.kernel.org [172.234.253.10])
-	by mail.lfdr.de (Postfix) with ESMTPS id 544C6CF8827
-	for <lists+linux-alpha@lfdr.de>; Tue, 06 Jan 2026 14:29:16 +0100 (CET)
+Received: from sin.lore.kernel.org (sin.lore.kernel.org [IPv6:2600:3c15:e001:75::12fc:5321])
+	by mail.lfdr.de (Postfix) with ESMTPS id 29845CF8EA6
+	for <lists+linux-alpha@lfdr.de>; Tue, 06 Jan 2026 15:57:09 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id D874F30390F7
-	for <lists+linux-alpha@lfdr.de>; Tue,  6 Jan 2026 13:18:08 +0000 (UTC)
+	by sin.lore.kernel.org (Postfix) with ESMTP id D4254302769D
+	for <lists+linux-alpha@lfdr.de>; Tue,  6 Jan 2026 14:56:51 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id AAFA4324B1E;
-	Tue,  6 Jan 2026 13:18:07 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 68DDF32D0E3;
+	Tue,  6 Jan 2026 14:56:37 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="bjHvd4Ac"
 X-Original-To: linux-alpha@vger.kernel.org
-Received: from angie.orcam.me.uk (angie.orcam.me.uk [78.133.224.34])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 49D981F0E29;
-	Tue,  6 Jan 2026 13:18:05 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=78.133.224.34
+Received: from desiato.infradead.org (desiato.infradead.org [90.155.92.199])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6F3373203B5;
+	Tue,  6 Jan 2026 14:56:32 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=90.155.92.199
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1767705487; cv=none; b=fq8cRGZcYNF/Y6rRQyZou/oI50Tye1d3Ct4MrFCCM7z2xLSfOqaQqJSdL30jWnLl/nVopvcihhqlHvC1tmyQAetFbimt7rXcv9sEgN8K5chbRyIwvGSfkiYim3qYXNR3r8fuQIHP2SBdLuBpZZweq1y1p8yZB0h8lOVpsKdvxso=
+	t=1767711396; cv=none; b=jCG0jlZmBDV+JJfvZ1N5geWQ5H4wh9PnvlyPUfQ3TeuniEKGpaVVW6Ks9iwrNvJQUz6h4gPCFi9HPKPRFhROwhcfmC8Lc9mwhbKapLrKkd4fxESC7trFCg60wFeTyaxF2XQpV96QiqNGOlgE4WiNvo0g1Rl2EaowcfNaLqyE728=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1767705487; c=relaxed/simple;
-	bh=FvgYQCSMaEmREp2BIkvfdZGmDkPftaOHaA5gRT1oBcE=;
-	h=Date:From:To:cc:Subject:In-Reply-To:Message-ID:References:
-	 MIME-Version:Content-Type; b=d3shtHc38yy8McdatnKHa5CxYCLXI9O4ExZlz7lASscSfo7vAia+eTkch7rxLYU1PJX1Dg0hUfCQdU9Oe+Aui6gfEurVN5/QMV8zOhJEPgNCg/s2C4AW7I21O5BlIxwmlAFGFmSxNqvPLy7i2qpXM5FI3R2dPTAo8eYTWjKZo8Y=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=orcam.me.uk; spf=none smtp.mailfrom=orcam.me.uk; arc=none smtp.client-ip=78.133.224.34
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=orcam.me.uk
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=orcam.me.uk
-Received: by angie.orcam.me.uk (Postfix, from userid 500)
-	id 84D7192009D; Tue,  6 Jan 2026 14:17:57 +0100 (CET)
-Received: from localhost (localhost [127.0.0.1])
-	by angie.orcam.me.uk (Postfix) with ESMTP id 8234992009C;
-	Tue,  6 Jan 2026 13:17:57 +0000 (GMT)
-Date: Tue, 6 Jan 2026 13:17:57 +0000 (GMT)
-From: "Maciej W. Rozycki" <macro@orcam.me.uk>
-To: Magnus Lindholm <linmag7@gmail.com>
-cc: Askar Safin <safinaskar@gmail.com>, 
-    Richard Henderson <richard.henderson@linaro.org>, 
-    Matt Turner <mattst88@gmail.com>, linux-alpha@vger.kernel.org, 
-    kernel-janitors@vger.kernel.org, linux-kernel@vger.kernel.org, 
-    patches@lists.linux.dev
-Subject: Re: [PATCH 1/1] alpha: trivial: remove ^L chars
-In-Reply-To: <CA+=Fv5Ra7fFTd2wA77iM_6X7NooApfoMJX5z1j60cXex_uxm7w@mail.gmail.com>
-Message-ID: <alpine.DEB.2.21.2601061310110.45251@angie.orcam.me.uk>
-References: <20251228063440.2623595-1-safinaskar@gmail.com> <20251228063440.2623595-2-safinaskar@gmail.com> <CA+=Fv5Ra7fFTd2wA77iM_6X7NooApfoMJX5z1j60cXex_uxm7w@mail.gmail.com>
-User-Agent: Alpine 2.21 (DEB 202 2017-01-01)
+	s=arc-20240116; t=1767711396; c=relaxed/simple;
+	bh=F++X+waLmj9d+5eJ7s+Pnye5YZ3oIpFoEnARYztMaTU=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=AvPSIQwmkY6CcDJ+O8MkuhrOfoKYoBgbgswyNjUaNkfURE2oT4rw3j1jyTScYIEqQZKDGPqDFdO7M6wquqqVBNPn4Ce0LKeeMeXXM/o/9bcIAZmhPHeWArxmWCxhLc3/F1534lgUKJniTP8xMz7oqltkI7w0w+2wWTfojzpAA0E=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org; spf=none smtp.mailfrom=infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=bjHvd4Ac; arc=none smtp.client-ip=90.155.92.199
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=infradead.org
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+	d=infradead.org; s=desiato.20200630; h=In-Reply-To:Content-Type:MIME-Version:
+	References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
+	Content-Transfer-Encoding:Content-ID:Content-Description;
+	bh=F++X+waLmj9d+5eJ7s+Pnye5YZ3oIpFoEnARYztMaTU=; b=bjHvd4AchX4OX8btHy3c3ti0E5
+	XWujH7TztZmJyVjlONn5y71LDgfkcktFr0sinUGsypZwk/GUVna+Y7uMEwBz9AuqYd3k8AuJAf9hn
+	NvLtdAGw5LES1uKJxpe/fNY0O5h9yBc2ToLxQa3pR8vtdS+F9l2IeqnOpHrBD2iKOWIwJQB1BBrx4
+	b7KTF5tOfUEONpp8MsqyTKoLhfDnU5nuE8REZm1bugTHwhKvawElhw4q/x5HKbeDnvcqTHipyia+t
+	Uo8yDnf4EThWU4Ge3KcULO3c0bMFvzkKzc199VwrTVJc/4uiyRjj1g3NUb8wtIxm99vaBZVe56v/7
+	UCHPmwCg==;
+Received: from 77-249-17-252.cable.dynamic.v4.ziggo.nl ([77.249.17.252] helo=noisy.programming.kicks-ass.net)
+	by desiato.infradead.org with esmtpsa (Exim 4.98.2 #2 (Red Hat Linux))
+	id 1vd8Tv-00000009uwx-2Ndu;
+	Tue, 06 Jan 2026 14:56:23 +0000
+Received: by noisy.programming.kicks-ass.net (Postfix, from userid 1000)
+	id 15B0030056B; Tue, 06 Jan 2026 15:56:22 +0100 (CET)
+Date: Tue, 6 Jan 2026 15:56:22 +0100
+From: Peter Zijlstra <peterz@infradead.org>
+To: Boqun Feng <boqun.feng@gmail.com>
+Cc: Andreas Hindborg <a.hindborg@kernel.org>,
+	Alice Ryhl <aliceryhl@google.com>, Gary Guo <gary@garyguo.net>,
+	Will Deacon <will@kernel.org>,
+	"Paul E. McKenney" <paulmck@kernel.org>,
+	Richard Henderson <richard.henderson@linaro.org>,
+	Matt Turner <mattst88@gmail.com>,
+	Magnus Lindholm <linmag7@gmail.com>,
+	Catalin Marinas <catalin.marinas@arm.com>,
+	Miguel Ojeda <ojeda@kernel.org>,
+	=?iso-8859-1?Q?Bj=F6rn?= Roy Baron <bjorn3_gh@protonmail.com>,
+	Benno Lossin <lossin@kernel.org>, Trevor Gross <tmgross@umich.edu>,
+	Danilo Krummrich <dakr@kernel.org>,
+	Mark Rutland <mark.rutland@arm.com>,
+	FUJITA Tomonori <fujita.tomonori@gmail.com>,
+	Frederic Weisbecker <frederic@kernel.org>,
+	Lyude Paul <lyude@redhat.com>, Thomas Gleixner <tglx@linutronix.de>,
+	Anna-Maria Behnsen <anna-maria@linutronix.de>,
+	John Stultz <jstultz@google.com>, Stephen Boyd <sboyd@kernel.org>,
+	Alexander Viro <viro@zeniv.linux.org.uk>,
+	Christian Brauner <brauner@kernel.org>, Jan Kara <jack@suse.cz>,
+	linux-kernel@vger.kernel.org, linux-alpha@vger.kernel.org,
+	linux-arm-kernel@lists.infradead.org,
+	rust-for-linux@vger.kernel.org, linux-fsdevel@vger.kernel.org
+Subject: Re: [PATCH 0/5] Add READ_ONCE and WRITE_ONCE to Rust
+Message-ID: <20260106145622.GB3707837@noisy.programming.kicks-ass.net>
+References: <20251231-rwonce-v1-0-702a10b85278@google.com>
+ <20251231151216.23446b64.gary@garyguo.net>
+ <aVXFk0L-FegoVJpC@google.com>
+ <OFUIwAYmy6idQxDq-A3A_s2zDlhfKE9JmkSgcK40K8okU1OE_noL1rN6nUZD03AX6ixo4Xgfhi5C4XLl5RJlfA==@protonmail.internalid>
+ <aVXKP8vQ6uAxtazT@tardis-2.local>
+ <87fr8ij4le.fsf@t14s.mail-host-address-is-not-set>
+ <aV0JkZdrZn97-d7d@tardis-2.local>
 Precedence: bulk
 X-Mailing-List: linux-alpha@vger.kernel.org
 List-Id: <linux-alpha.vger.kernel.org>
 List-Subscribe: <mailto:linux-alpha+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-alpha+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <aV0JkZdrZn97-d7d@tardis-2.local>
 
-On Mon, 5 Jan 2026, Magnus Lindholm wrote:
+On Tue, Jan 06, 2026 at 09:09:37PM +0800, Boqun Feng wrote:
 
-> For a v2, please consider adjusting the commit message rationale away from
-> personal tooling and towards general readability and editor/tool compatibility.
+> Some C code believes a plain write to a properly aligned location is
+> atomic (see KCSAN_ASSUME_PLAIN_WRITES_ATOMIC, and no, this doesn't mean
+> it's recommended to assume such), and I guess that's the case for
+> hrtimer, if it's not much a trouble you can replace the plain write with
+> WRITE_ONCE() on C side ;-)
 
- As a matter of interest, why would the presence of ^L characters cause 
-any issues?  That is just another instance of white space and it has been 
-commonly used across some source code to separate functional parts, e.g. 
-in the GNU toolchain.  It can be ignored unless you actually send the code 
-to a printer (which I suppose hardly anyone does nowadays).
+GCC used to provide this guarantee, some of the older code was written
+on that. GCC no longer provides that guarantee (there are known cases
+where it breaks and all that) and newer code should not rely on this.
 
-  Maciej
+All such places *SHOULD* be updated to use READ_ONCE/WRITE_ONCE.
 
