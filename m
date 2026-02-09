@@ -1,140 +1,203 @@
-Return-Path: <linux-alpha+bounces-2957-lists+linux-alpha=lfdr.de@vger.kernel.org>
+Return-Path: <linux-alpha+bounces-2958-lists+linux-alpha=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-alpha@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id SHa/Istjh2knXgQAu9opvQ
-	(envelope-from <linux-alpha+bounces-2957-lists+linux-alpha=lfdr.de@vger.kernel.org>)
-	for <lists+linux-alpha@lfdr.de>; Sat, 07 Feb 2026 17:09:47 +0100
+	id MCBGD7OdiWlU/wQAu9opvQ
+	(envelope-from <linux-alpha+bounces-2958-lists+linux-alpha=lfdr.de@vger.kernel.org>)
+	for <lists+linux-alpha@lfdr.de>; Mon, 09 Feb 2026 09:41:23 +0100
 X-Original-To: lists+linux-alpha@lfdr.de
-Received: from sin.lore.kernel.org (sin.lore.kernel.org [IPv6:2600:3c15:e001:75::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id 97B49106781
-	for <lists+linux-alpha@lfdr.de>; Sat, 07 Feb 2026 17:09:46 +0100 (CET)
+Received: from tor.lore.kernel.org (tor.lore.kernel.org [IPv6:2600:3c04:e001:36c::12fc:5321])
+	by mail.lfdr.de (Postfix) with ESMTPS id B452210D142
+	for <lists+linux-alpha@lfdr.de>; Mon, 09 Feb 2026 09:41:22 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sin.lore.kernel.org (Postfix) with ESMTP id 26D573003BDF
-	for <lists+linux-alpha@lfdr.de>; Sat,  7 Feb 2026 16:09:43 +0000 (UTC)
+	by tor.lore.kernel.org (Postfix) with ESMTP id A8CBE3005651
+	for <lists+linux-alpha@lfdr.de>; Mon,  9 Feb 2026 08:41:21 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 31D71279908;
-	Sat,  7 Feb 2026 16:09:38 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 712AE318B8B;
+	Mon,  9 Feb 2026 08:41:20 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="RWwRA8u9"
+	dkim=fail reason="key not found in DNS" (0-bit key) header.d=gaisler.com header.i=@gaisler.com header.b="OzGhPxF4"
 X-Original-To: linux-alpha@vger.kernel.org
-Received: from mail-wm1-f50.google.com (mail-wm1-f50.google.com [209.85.128.50])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp-out3.simply.com (smtp-out3.simply.com [94.231.106.210])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BAAF229D26C
-	for <linux-alpha@vger.kernel.org>; Sat,  7 Feb 2026 16:09:37 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.50
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B311D30C626;
+	Mon,  9 Feb 2026 08:41:19 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=94.231.106.210
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1770480578; cv=none; b=UoOBLaOSr0WutVGPksVI8oAvZxICxsOEV+15jFEAZLIlZoTPADCqz599CFOHuTcMZ4OcCd78pWa/vqpP6TLySxMY4OkoYkW5LdLTHheHJLjUOqaOXq7wJMtC4iGLBlDYv9Ptxnqs79AZATS2MQmTpKbZ/yOm+oIkrsXEElUcPKk=
+	t=1770626480; cv=none; b=RvoOAdtG3QwHhSb55a5y00/ryqZqjD1ZIgYnCpKRNhPqowwMnNKvBPW8ZoBFBal0P2s4YwEZlMMJaHUo3zQuZ3SvmfaktwNZPHRzUu255Wtp32XzK9XYyT5/OxZaY7GujGgrGEfAT3+ceWXaYCfuIvSa7UgC07TIcwneqnl2PeE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1770480578; c=relaxed/simple;
-	bh=Go6o+fPW2vfcvS7DHrVPUB1C51P0F8I280rZ9fGZJFA=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=ee0CwMNIim3VQxxIj+9GhHKoHeFY32ukwl4uNdIbxhgBUNgbJwX7fATawJaKA5nHICTU7NkCpXemXVUlY4JxdZHgZ4GmY1mh7pvizty77Tz42b17I2cL+zeKbH2L712wgIDdJRbymYvnqtmYKT5atDO+iTCbN/Qbf2d4ZA9jJwE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=RWwRA8u9; arc=none smtp.client-ip=209.85.128.50
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-wm1-f50.google.com with SMTP id 5b1f17b1804b1-47ee76e8656so47326115e9.0
-        for <linux-alpha@vger.kernel.org>; Sat, 07 Feb 2026 08:09:37 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1770480576; x=1771085376; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=zh0gpgjFwNimG3qav3V/O/Bh53M5i2Ji+XR/lDx+9ZI=;
-        b=RWwRA8u9yflEh7ctzWU4XW/z29rIJeU9I6iAXB4qow5IofvLXzKSoOmrDOxu28BjCI
-         +ubZe4SVGDfA2N9Tvjly3wlp+XIlXLkuJg55zFLAIsVl19V5ixz1MFSgllf28spUyNL8
-         Kw3HqzQUGMxIwa1JUgtVWDtjEmj4u6Aj1t3pp7adtwd9Plm2nMxdNhbniYBeXAmQMr1i
-         ccYGZ57RMYq68WiplSd6MscI/qYYmwdQmAs1TPjSSdLNev+rKFrjR0bDeDtCX6cVHV9h
-         pQHwEgEC4rr/ueFwV7dSNa6+YR+4rtobwEqBpK/F8VQCQu8Mc0bC1oWJTTsRnDIEJrRD
-         xTvQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1770480576; x=1771085376;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=zh0gpgjFwNimG3qav3V/O/Bh53M5i2Ji+XR/lDx+9ZI=;
-        b=scFND4APTkEQMFCKywE6/eQwe/HVc3NdITRTyfrmQ45IZlBLK5tA+I2oZ2Bk5UCH64
-         4fyah7Oy6EnlwYoEJ5PiZ0CvT4fq0ltmWlIZ1u/eX1DJa8K+F1OQ5TRrpPLeZEDhwPko
-         sV+LtztuhFFJxtH/NXIzKxKHM7k7Rql12M+Wnv2AYDHQaeearktUIGWGeStp2Bv0Ar/b
-         O8CFgS/G6jCD1XihwGMHR2MnJU22jbRDwv+FswzbnDxQ+cO8H9eFTeXdOMW4yvY4XUsA
-         mLOJp689ZQevOlOPxdkG14zYew+kzoR/y/8a754sNo0zWg4+LMEBSKUzkaIV9G40ssM7
-         gZKA==
-X-Gm-Message-State: AOJu0YwC5EFJ5Vd+NkGJkehiOxbuhB/L7W2sGH1UJ/L2O7j0w5HL4HTr
-	ZbnHu9ZSgWBcc2TArXLuwudWxF43RmFJyKnlX8HT7JqTA4jLJg3Nh5MyHFkZZA==
-X-Gm-Gg: AZuq6aJxiqNqOoKI+JgNCQQtJ+4iP0379oZMZzsoDY8CWrrsuUyYhMDAyukXLOjxCme
-	JhTzhi9BqHtnHya1Vl9rmkOkzANK9LRcWOR8gNO1mwU11lyPaFnFIgM4kd2gd1s76KgmVXZgpNM
-	CocyjjSoR2Y4uwwJ9jwoOUDws6ymfdv2GIvjSv4z5YIeJnMXdMTp7epuvV218kqOAjeXNCVJRd7
-	0qbsB89A5K51xsLvwfR6Ck0y+v64ftEorSCbqlNf2dFbpljXn69P1DMqJN/mmMmRPomAaSzXvyv
-	t26ghcq6OKMay0xNrYUhN07dNNkqWviPr3BYhqegcMUvBJ768yLD9Kq8wvSST0bY6mvnt8XSGY6
-	pa4xlwU0Nen2gpwCKWvPhNh8aERX0Vs9KfRA0Y9fRVAcQNCM4FlGyzCwPvxxcVtrRk+aZipEXe5
-	jmg59lSQ4=
-X-Received: by 2002:a05:600c:3b20:b0:47a:9560:ec28 with SMTP id 5b1f17b1804b1-4832020df6amr83848325e9.13.1770480575641;
-        Sat, 07 Feb 2026 08:09:35 -0800 (PST)
-Received: from localhost ([212.73.77.104])
-        by smtp.gmail.com with UTF8SMTPSA id 5b1f17b1804b1-48323c12d74sm77930395e9.2.2026.02.07.08.09.33
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Sat, 07 Feb 2026 08:09:34 -0800 (PST)
-From: Askar Safin <safinaskar@gmail.com>
-To: linux-alpha@vger.kernel.org
-Cc: kernel-janitors@vger.kernel.org,
-	linmag7@gmail.com,
-	linux-kernel@vger.kernel.org,
-	macro@orcam.me.uk,
-	mattst88@gmail.com,
-	patches@lists.linux.dev,
-	richard.henderson@linaro.org
-Subject: Re: [PATCH v2 0/1] alpha: trivial: remove ^L chars
-Date: Sat,  7 Feb 2026 19:09:16 +0300
-Message-ID: <20260207160929.705315-1-safinaskar@gmail.com>
-X-Mailer: git-send-email 2.47.3
-In-Reply-To: <20260111112217.2126872-1-safinaskar@gmail.com>
-References: <20260111112217.2126872-1-safinaskar@gmail.com>
+	s=arc-20240116; t=1770626480; c=relaxed/simple;
+	bh=Ur8MMKMlRrHxc9ho6lhi1t4ZwOyO4jvvkEb91o2ZzHM=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=c/1DDSOKATLtUPkMZz0MHo1q+Wp7JLC3Ako9KI/BGVp78EJSKWdS8Izu9DpDKJ94oN+JoCBsl5LBexPOaIb+vKJV089rRQYqt2//SCh/hcG+Eui+VcHJIkg+NsEkfZuZgkM/VzfymajhM4PAPzL/0ma0hcUw8dNfuTtNeGhHsTc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gaisler.com; spf=pass smtp.mailfrom=gaisler.com; dkim=fail (0-bit key) header.d=gaisler.com header.i=@gaisler.com header.b=OzGhPxF4 reason="key not found in DNS"; arc=none smtp.client-ip=94.231.106.210
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gaisler.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gaisler.com
+Received: from localhost (localhost [127.0.0.1])
+	by smtp.simply.com (Simply.com) with ESMTP id 4f8dT36VdGz1DDdY;
+	Mon,  9 Feb 2026 09:41:11 +0100 (CET)
+Received: from [10.10.15.18] (h-98-128-223-123.NA.cust.bahnhof.se [98.128.223.123])
+	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	(Client did not present a certificate)
+	by smtp.simply.com (Simply.com) with ESMTPSA id 4f8dT110xZz1DDXf;
+	Mon,  9 Feb 2026 09:41:09 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gaisler.com;
+	s=simplycom2; t=1770626471;
+	bh=RbC+RKpRL3vyZA9rhFwXc+s3LnlBOMIWZ1+a+rfNhok=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To;
+	b=OzGhPxF4b1JTlL0uvUgojBuLGl/d8Dy9MJzVSCLeT/MydG7knOZy+3rxTsSLXE0fa
+	 Fe8HpYTWVqRUTnGYcY3oAZB1G1mG+IVuTFOS7+WqJBz1ilC5nvTR8TovjKYRzf+P2w
+	 Ww4xwxi029qA+7zIuREjyi1oyTjnneeeu19Nl05HHLco+NvnhYBsugXIxVmZ8+yauy
+	 xXkbpOW82Lh5ONVHEwDikWUcNveQWPl7uCMf/FTqxIDhDMLT/JU43EG3ChwZ3W9qcL
+	 8U/FowPM9gwj9XED74iSkSmiVCadg33Ys0HHbcY4Truz0z7WWFA4WvlePWVs4XcxTs
+	 tU6jXEQEdNbzw==
+Message-ID: <55bef6c2-de81-4b60-b6df-5ef733b54dee@gaisler.com>
+Date: Mon, 9 Feb 2026 09:41:08 +0100
 Precedence: bulk
 X-Mailing-List: linux-alpha@vger.kernel.org
 List-Id: <linux-alpha.vger.kernel.org>
 List-Subscribe: <mailto:linux-alpha+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-alpha+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH mm-unstable] arch, mm: consolidate empty_zero_page
+To: Mike Rapoport <rppt@kernel.org>
+Cc: Andrew Morton <akpm@linux-foundation.org>, Borislav Petkov
+ <bp@alien8.de>, Brian Cain <bcain@kernel.org>,
+ Catalin Marinas <catalin.marinas@arm.com>,
+ "David S. Miller" <davem@davemloft.net>,
+ Dave Hansen <dave.hansen@linux.intel.com>,
+ David Hildenbrand <david@kernel.org>, Dinh Nguyen <dinguyen@kernel.org>,
+ Geert Uytterhoeven <geert@linux-m68k.org>, Guo Ren <guoren@kernel.org>,
+ Helge Deller <deller@gmx.de>, Huacai Chen <chenhuacai@kernel.org>,
+ Ingo Molnar <mingo@redhat.com>, Johannes Berg <johannes@sipsolutions.net>,
+ John Paul Adrian Glaubitz <glaubitz@physik.fu-berlin.de>,
+ "Liam R. Howlett" <Liam.Howlett@oracle.com>,
+ Lorenzo Stoakes <lorenzo.stoakes@oracle.com>,
+ Madhavan Srinivasan <maddy@linux.ibm.com>,
+ Magnus Lindholm <linmag7@gmail.com>, Matt Turner <mattst88@gmail.com>,
+ Max Filippov <jcmvbkbc@gmail.com>, Michael Ellerman <mpe@ellerman.id.au>,
+ Michal Hocko <mhocko@suse.com>, Michal Simek <monstr@monstr.eu>,
+ Palmer Dabbelt <palmer@dabbelt.com>, Richard Weinberger <richard@nod.at>,
+ Russell King <linux@armlinux.org.uk>, Stafford Horne <shorne@gmail.com>,
+ Suren Baghdasaryan <surenb@google.com>, Thomas Gleixner <tglx@kernel.org>,
+ Vineet Gupta <vgupta@kernel.org>, Vlastimil Babka <vbabka@suse.cz>,
+ Will Deacon <will@kernel.org>, linux-alpha@vger.kernel.org,
+ linux-kernel@vger.kernel.org, linux-snps-arc@lists.infradead.org,
+ linux-arm-kernel@lists.infradead.org, linux-csky@vger.kernel.org,
+ linux-hexagon@vger.kernel.org, loongarch@lists.linux.dev,
+ linux-m68k@lists.linux-m68k.org, linux-openrisc@vger.kernel.org,
+ linux-parisc@vger.kernel.org, linuxppc-dev@lists.ozlabs.org,
+ linux-riscv@lists.infradead.org, linux-sh@vger.kernel.org,
+ sparclinux@vger.kernel.org, linux-um@lists.infradead.org,
+ linux-mm@kvack.org, x86@kernel.org
+References: <20260124095628.668870-1-rppt@kernel.org>
+ <2157220c-0394-40fa-9918-a8514171bd10@gaisler.com>
+ <aXj_x5CyUeys7ONM@kernel.org>
+ <ec965a79-dad8-4358-a8e9-ebc9f330b67b@gaisler.com>
+ <aYcVu7gs65S1CeST@kernel.org>
+Content-Language: en-US
+From: Andreas Larsson <andreas@gaisler.com>
+In-Reply-To: <aYcVu7gs65S1CeST@kernel.org>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 X-Rspamd-Server: lfdr
-X-Spamd-Result: default: False [-0.66 / 15.00];
+X-Spamd-Result: default: False [-1.36 / 15.00];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
-	MID_CONTAINS_FROM(1.00)[];
-	DMARC_POLICY_ALLOW(-0.50)[gmail.com,none];
-	R_MISSING_CHARSET(0.50)[];
-	R_SPF_ALLOW(-0.20)[+ip6:2600:3c15:e001:75::/64];
-	R_DKIM_ALLOW(-0.20)[gmail.com:s=20230601];
+	R_SPF_ALLOW(-0.20)[+ip6:2600:3c04:e001:36c::/64:c];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
+	DMARC_POLICY_SOFTFAIL(0.10)[gaisler.com : SPF not aligned (relaxed),none];
 	HAS_LIST_UNSUB(-0.01)[];
-	RCVD_TLS_LAST(0.00)[];
-	TAGGED_FROM(0.00)[bounces-2957-lists,linux-alpha=lfdr.de];
-	FREEMAIL_CC(0.00)[vger.kernel.org,gmail.com,orcam.me.uk,lists.linux.dev,linaro.org];
-	RCVD_COUNT_FIVE(0.00)[5];
+	FREEMAIL_CC(0.00)[linux-foundation.org,alien8.de,kernel.org,arm.com,davemloft.net,linux.intel.com,linux-m68k.org,gmx.de,redhat.com,sipsolutions.net,physik.fu-berlin.de,oracle.com,linux.ibm.com,gmail.com,ellerman.id.au,suse.com,monstr.eu,dabbelt.com,nod.at,armlinux.org.uk,google.com,suse.cz,vger.kernel.org,lists.infradead.org,lists.linux.dev,lists.linux-m68k.org,lists.ozlabs.org,kvack.org];
+	R_DKIM_PERMFAIL(0.00)[gaisler.com:s=simplycom2];
+	TO_DN_SOME(0.00)[];
+	TAGGED_FROM(0.00)[bounces-2958-lists,linux-alpha=lfdr.de];
 	RECEIVED_HELO_LOCALHOST(0.00)[];
-	FORGED_SENDER_MAILLIST(0.00)[];
-	FROM_HAS_DN(0.00)[];
 	MIME_TRACE(0.00)[0:+];
-	FROM_NEQ_ENVFROM(0.00)[safinaskar@gmail.com,linux-alpha@vger.kernel.org];
+	RCVD_TLS_LAST(0.00)[];
+	DKIM_TRACE(0.00)[gaisler.com:~];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	FROM_HAS_DN(0.00)[];
+	FORGED_SENDER_MAILLIST(0.00)[];
+	RCVD_COUNT_FIVE(0.00)[5];
 	PRECEDENCE_BULK(0.00)[];
-	NEURAL_HAM(-0.00)[-1.000];
-	TO_DN_NONE(0.00)[];
-	DKIM_TRACE(0.00)[gmail.com:+];
-	RCPT_COUNT_SEVEN(0.00)[8];
-	FREEMAIL_FROM(0.00)[gmail.com];
+	FROM_NEQ_ENVFROM(0.00)[andreas@gaisler.com,linux-alpha@vger.kernel.org];
+	ASN(0.00)[asn:63949, ipnet:2600:3c04::/32, country:SG];
+	RCPT_COUNT_GT_50(0.00)[51];
+	MID_RHS_MATCH_FROM(0.00)[];
+	NEURAL_HAM(-0.00)[-0.972];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
 	TAGGED_RCPT(0.00)[linux-alpha];
-	ASN(0.00)[asn:63949, ipnet:2600:3c15::/32, country:SG];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[sin.lore.kernel.org:helo,sin.lore.kernel.org:rdns]
-X-Rspamd-Queue-Id: 97B49106781
+	DBL_BLOCKED_OPENRESOLVER(0.00)[gaisler.com:mid,tor.lore.kernel.org:helo,tor.lore.kernel.org:rdns]
+X-Rspamd-Queue-Id: B452210D142
 X-Rspamd-Action: no action
 
-Askar Safin <safinaskar@gmail.com>:
-> Remove ^L (a. k. a. \f a. k. a. form feed a. k. a. \x0c) from arch/alpha.
+On 2026-02-07 11:36, Mike Rapoport wrote:
+>> Unfortunately, that does not help. The LDOM goes down in the same fashion.
+> 
+> Apparently something is wrong with my pointer arithmetics :/
+> 
+> Can you try this one instead?
+> 
+> diff --git a/arch/sparc/include/asm/pgtable_64.h b/arch/sparc/include/asm/pgtable_64.h
+> index 74ede706fb32..615f460c50af 100644
+> --- a/arch/sparc/include/asm/pgtable_64.h
+> +++ b/arch/sparc/include/asm/pgtable_64.h
+> @@ -210,6 +210,9 @@ extern unsigned long _PAGE_CACHE;
+>  extern unsigned long pg_iobits;
+>  extern unsigned long _PAGE_ALL_SZ_BITS;
+>  
+> +extern struct page *mem_map_zero;
+> +#define ZERO_PAGE(vaddr)	(mem_map_zero)
+> +
+>  /* PFNs are real physical page numbers.  However, mem_map only begins to record
+>   * per-page information starting at pfn_base.  This is to handle systems where
+>   * the first physical page in the machine is at some huge physical address,
+> diff --git a/arch/sparc/mm/init_64.c b/arch/sparc/mm/init_64.c
+> index 2bd99944176d..aa1f9f071fb2 100644
+> --- a/arch/sparc/mm/init_64.c
+> +++ b/arch/sparc/mm/init_64.c
+> @@ -177,6 +177,9 @@ extern unsigned long sparc_ramdisk_image64;
+>  extern unsigned int sparc_ramdisk_image;
+>  extern unsigned int sparc_ramdisk_size;
+>  
+> +struct page *mem_map_zero __read_mostly;
+> +EXPORT_SYMBOL(mem_map_zero);
+> +
+>  unsigned int sparc64_highest_unlocked_tlb_ent __read_mostly;
+>  
+>  unsigned long sparc64_kern_pri_context __read_mostly;
+> @@ -2495,6 +2498,9 @@ static void __init register_page_bootmem_info(void)
+>  }
+>  void __init mem_init(void)
+>  {
+> +	phys_addr_t zero_page_pa = kern_base +
+> +		((unsigned long)&empty_zero_page[0] - KERNBASE);
+> +
+>  	/*
+>  	 * Must be done after boot memory is put on freelist, because here we
+>  	 * might set fields in deferred struct pages that have not yet been
+> @@ -2503,6 +2509,12 @@ void __init mem_init(void)
+>  	 */
+>  	register_page_bootmem_info();
+>  
+> +	/*
+> +	 * Set up the zero page, mark it reserved, so that page count
+> +	 * is not manipulated when freeing the page from user ptes.
+> +	 */
+> +	mem_map_zero = pfn_to_page(PHYS_PFN(zero_page_pa));
+> +
+>  	if (tlb_type == cheetah || tlb_type == cheetah_plus)
+>  		cheetah_ecache_flush_init();
+>  }
+> 
 
-So? You missed this patch?
+With that one, things work fine.
 
--- 
-Askar Safin
+Cheers,
+Andreas
+
 
