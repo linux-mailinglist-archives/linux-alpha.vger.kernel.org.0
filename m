@@ -1,42 +1,42 @@
-Return-Path: <linux-alpha+bounces-2970-lists+linux-alpha=lfdr.de@vger.kernel.org>
+Return-Path: <linux-alpha+bounces-2971-lists+linux-alpha=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-alpha@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id UJ8RE7FIi2liTwAAu9opvQ
-	(envelope-from <linux-alpha+bounces-2970-lists+linux-alpha=lfdr.de@vger.kernel.org>)
-	for <lists+linux-alpha@lfdr.de>; Tue, 10 Feb 2026 16:03:13 +0100
+	id qLORK51Ji2l1TwAAu9opvQ
+	(envelope-from <linux-alpha+bounces-2971-lists+linux-alpha=lfdr.de@vger.kernel.org>)
+	for <lists+linux-alpha@lfdr.de>; Tue, 10 Feb 2026 16:07:09 +0100
 X-Original-To: lists+linux-alpha@lfdr.de
-Received: from sea.lore.kernel.org (sea.lore.kernel.org [IPv6:2600:3c0a:e001:db::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9D1EC11C391
-	for <lists+linux-alpha@lfdr.de>; Tue, 10 Feb 2026 16:03:12 +0100 (CET)
+Received: from sin.lore.kernel.org (sin.lore.kernel.org [IPv6:2600:3c15:e001:75::12fc:5321])
+	by mail.lfdr.de (Postfix) with ESMTPS id C9A8911C3F0
+	for <lists+linux-alpha@lfdr.de>; Tue, 10 Feb 2026 16:07:08 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id D6149307DD22
-	for <lists+linux-alpha@lfdr.de>; Tue, 10 Feb 2026 15:00:24 +0000 (UTC)
+	by sin.lore.kernel.org (Postfix) with ESMTP id 3795F30060B6
+	for <lists+linux-alpha@lfdr.de>; Tue, 10 Feb 2026 15:07:06 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id B462F3815CE;
-	Tue, 10 Feb 2026 15:00:24 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 1DA0E31A545;
+	Tue, 10 Feb 2026 15:07:04 +0000 (UTC)
 X-Original-To: linux-alpha@vger.kernel.org
 Received: from foss.arm.com (foss.arm.com [217.140.110.172])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id C775E3806D3;
-	Tue, 10 Feb 2026 15:00:21 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 6D693367F25;
+	Tue, 10 Feb 2026 15:07:01 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.140.110.172
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1770735624; cv=none; b=VbCEWn7Y32oSzyJ/Jq8leGUJ+R9a3hHsdrlU8pqnYw6u7drVGT7pOoUqaJWnB/Ut1OPNYdvMT2cn7rSx6Od1lJ5tcelSmEGKF+E5+6xqiX2LMeOmUvRWP7zRnesLXM0eBh0ijLnYUUhwPQVZSYq+YmjLOHUm6zl1/41RSrQBPE0=
+	t=1770736024; cv=none; b=axHj9ZxQSW6r6Ja5b9ogu+4oxI81IuouScC1Oq0IKaXSAqoZrv5IDHZg6UYJ9+fORyAuogle4OkGhD/QdHo9r47zzEo/EM2CSr/tW7xvj9IASYgPHCErBguw1Uk4PYBuhOWrcXlIPCTIbVQbC4tYi4FX8xiJ5CU7pRZRrjkK3+E=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1770735624; c=relaxed/simple;
-	bh=czM21Lq5nK/0d9Xo6OVZaGq2Rf8BTtXmA3v07qWPoj0=;
+	s=arc-20240116; t=1770736024; c=relaxed/simple;
+	bh=W95p4VhCTCQaRY027oJYrb08jjxns6gg54ZGyTfK2N4=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=ICC6Dj+BUoAWkkbo2ccopVg6I7FwcqLOzcdK1amobyY6EY1cM99pg5hA6y2PB2YJ0Pdi2upBoFqCH/hn0F/EjHZRxAhL2AfCsViDvocy8D8AXDF+jM5zm5yd489+fuYJ67f0wFVmIQtwzsfqV20+m5XmZhOW8CbstuTS6m6IQLw=
+	 Content-Type:Content-Disposition:In-Reply-To; b=VVwNsdWpQn/zeQ2ReheKH1fGE8/S8oaZRq75TADDmnzoD0GL/rvNnO1CaKzMDg2sN0pMhBpllYiG2PcJPEAh4EcS3kxdx9mbBgzsYr3uxD/4Fj7NA7tFoDqOs3ZWGTZ38DhZZJPdfDN42DCQaIrSWJk3u6otLUZOxrWa4cJZ3sU=
 ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com; spf=pass smtp.mailfrom=arm.com; arc=none smtp.client-ip=217.140.110.172
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
 Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id C3B86339;
-	Tue, 10 Feb 2026 07:00:14 -0800 (PST)
+	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 83A22150C;
+	Tue, 10 Feb 2026 07:06:54 -0800 (PST)
 Received: from arm.com (usa-sjc-mx-foss1.foss.arm.com [172.31.20.19])
-	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id E8D253F63F;
-	Tue, 10 Feb 2026 07:00:13 -0800 (PST)
-Date: Tue, 10 Feb 2026 15:00:11 +0000
+	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id B054A3F63F;
+	Tue, 10 Feb 2026 07:06:53 -0800 (PST)
+Date: Tue, 10 Feb 2026 15:06:51 +0000
 From: Catalin Marinas <catalin.marinas@arm.com>
 To: Mike Rapoport <rppt@kernel.org>
 Cc: Andrew Morton <akpm@linux-foundation.org>,
@@ -75,10 +75,11 @@ Cc: Andrew Morton <akpm@linux-foundation.org>,
 	linux-riscv@lists.infradead.org, linux-sh@vger.kernel.org,
 	sparclinux@vger.kernel.org, linux-um@lists.infradead.org,
 	linux-mm@kvack.org, x86@kernel.org
-Subject: Re: [PATCH v2 3/4] arch, mm: consolidate empty_zero_page
-Message-ID: <aYtH-466xOfghuck@arm.com>
+Subject: Re: [PATCH v2 4/4] mm: cache struct page for empty_zero_page and
+ return it from ZERO_PAGE()
+Message-ID: <aYtJi4uNcpoCTK_x@arm.com>
 References: <20260209144058.2092871-1-rppt@kernel.org>
- <20260209144058.2092871-4-rppt@kernel.org>
+ <20260209144058.2092871-5-rppt@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-alpha@vger.kernel.org
 List-Id: <linux-alpha.vger.kernel.org>
@@ -87,11 +88,11 @@ List-Unsubscribe: <mailto:linux-alpha+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20260209144058.2092871-4-rppt@kernel.org>
+In-Reply-To: <20260209144058.2092871-5-rppt@kernel.org>
 X-Rspamd-Server: lfdr
 X-Spamd-Result: default: False [-1.36 / 15.00];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
-	R_SPF_ALLOW(-0.20)[+ip6:2600:3c0a:e001:db::/64:c];
+	R_SPF_ALLOW(-0.20)[+ip6:2600:3c15:e001:75::/64:c];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	DMARC_POLICY_SOFTFAIL(0.10)[arm.com : SPF not aligned (relaxed), No valid DKIM,none];
@@ -101,10 +102,10 @@ X-Spamd-Result: default: False [-1.36 / 15.00];
 	FREEMAIL_CC(0.00)[linux-foundation.org,gaisler.com,alien8.de,kernel.org,davemloft.net,linux.intel.com,linux-m68k.org,gmx.de,redhat.com,sipsolutions.net,physik.fu-berlin.de,oracle.com,linux.ibm.com,gmail.com,ellerman.id.au,suse.com,monstr.eu,dabbelt.com,nod.at,armlinux.org.uk,google.com,suse.cz,vger.kernel.org,lists.infradead.org,lists.linux.dev,lists.linux-m68k.org,lists.ozlabs.org,kvack.org];
 	FROM_HAS_DN(0.00)[];
 	RCVD_TLS_LAST(0.00)[];
-	TAGGED_FROM(0.00)[bounces-2970-lists,linux-alpha=lfdr.de];
+	TAGGED_FROM(0.00)[bounces-2971-lists,linux-alpha=lfdr.de];
 	MIME_TRACE(0.00)[0:+];
 	FORGED_SENDER_MAILLIST(0.00)[];
-	ASN(0.00)[asn:63949, ipnet:2600:3c0a::/32, country:SG];
+	ASN(0.00)[asn:63949, ipnet:2600:3c15::/32, country:SG];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
 	TAGGED_RCPT(0.00)[linux-alpha];
 	PRECEDENCE_BULK(0.00)[];
@@ -114,53 +115,29 @@ X-Spamd-Result: default: False [-1.36 / 15.00];
 	R_DKIM_NA(0.00)[];
 	RCPT_COUNT_GT_50(0.00)[52];
 	MID_RHS_MATCH_FROM(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[gmx.de:email,sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns,arm.com:mid,arm.com:email]
-X-Rspamd-Queue-Id: 9D1EC11C391
+	DBL_BLOCKED_OPENRESOLVER(0.00)[sin.lore.kernel.org:helo,sin.lore.kernel.org:rdns,arm.com:mid,arm.com:email]
+X-Rspamd-Queue-Id: C9A8911C3F0
 X-Rspamd-Action: no action
 
-On Mon, Feb 09, 2026 at 04:40:56PM +0200, Mike Rapoport wrote:
+On Mon, Feb 09, 2026 at 04:40:57PM +0200, Mike Rapoport wrote:
 > From: "Mike Rapoport (Microsoft)" <rppt@kernel.org>
 > 
-> Reduce 22 declarations of empty_zero_page to 3 and 23 declarations of
-> ZERO_PAGE() to 4.
+> For most architectures every invocation of ZERO_PAGE() does
+> virt_to_page(empty_zero_page). But empty_zero_page is in BSS and it is
+> enough to get its struct page once at initialization time and then use
+> it whenever a zero page should be accessed.
 > 
-> Every architecture defines empty_zero_page that way or another, but for the
-> most of them it is always a page aligned page in BSS and most definitions
-> of ZERO_PAGE do virt_to_page(empty_zero_page).
+> Add yet another __zero_page variable that will be initialized as
+> virt_to_page(empty_zero_page) for most architectures in a weak
+> arch_setup_zero_pages() function.
 > 
-> Move Linus vetted x86 definition of empty_zero_page and ZERO_PAGE() to the
-> core MM and drop these definitions in architectures that do not implement
-> colored zero page (MIPS and s390).
+> For architectures that use colored zero pages (MIPS and s390) rename their
+> setup_zero_pages() to arch_setup_zero_pages() and make it global rather
+> than static.
 > 
-> ZERO_PAGE() remains a macro because turning it to a wrapper for a static
-> inline causes severe pain in header dependencies.
+> For architectures that cannot use virt_to_page() for BSS (arm64 and
+> sparc64) add override of arch_setup_zero_pages().
 > 
-> For the most part the change is mechanical, with these being noteworthy:
-> 
-> * alpha: aliased empty_zero_page with ZERO_PGE that was also used for boot
->   parameters. Switching to a generic empty_zero_page removes the aliasing
->   and keeps ZERO_PGE for boot parameters only
-> * arm64: uses __pa_symbol() in ZERO_PAGE() so that definition of
->   ZERO_PAGE() is kept intact.
-> * m68k/parisc/um: allocated empty_zero_page from memblock,
->   although they do not support zero page coloring and having it in BSS
->   will work fine.
-> * sparc64 can have empty_zero_page in BSS rather allocate it, but it
->   can't use virt_to_page() for BSS. Keep it's definition of ZERO_PAGE()
->   but instead of allocating it, make mem_map_zero point to
->   empty_zero_page.
-> * sh: used empty_zero_page for boot parameters at the very early boot.
->   Rename the parameters page to boot_params_page and let sh use the generic
->   empty_zero_page.
-> * hexagon: had an amusing comment about empty_zero_page
-> 
-> 	/* A handy thing to have if one has the RAM. Declared in head.S */
-> 
->   that unfortunately had to go :)
-> 
-> Acked-by: Helge Deller <deller@gmx.de>   # parisc
-> Tested-by: Helge Deller <deller@gmx.de>  # parisc
-> Reviewed-by: Christophe Leroy (CS GROUP) <chleroy@kernel.org>
 > Signed-off-by: Mike Rapoport (Microsoft) <rppt@kernel.org>
 
 For arm64:
