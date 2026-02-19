@@ -1,125 +1,158 @@
-Return-Path: <linux-alpha+bounces-3004-lists+linux-alpha=lfdr.de@vger.kernel.org>
+Return-Path: <linux-alpha+bounces-3003-lists+linux-alpha=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-alpha@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id AKlWKDKal2mK2QIAu9opvQ
-	(envelope-from <linux-alpha+bounces-3004-lists+linux-alpha=lfdr.de@vger.kernel.org>)
-	for <lists+linux-alpha@lfdr.de>; Fri, 20 Feb 2026 00:18:10 +0100
+	id UDDTFayXl2nB1wIAu9opvQ
+	(envelope-from <linux-alpha+bounces-3003-lists+linux-alpha=lfdr.de@vger.kernel.org>)
+	for <lists+linux-alpha@lfdr.de>; Fri, 20 Feb 2026 00:07:24 +0100
 X-Original-To: lists+linux-alpha@lfdr.de
-Received: from tor.lore.kernel.org (tor.lore.kernel.org [IPv6:2600:3c04:e001:36c::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id 190EA16381F
-	for <lists+linux-alpha@lfdr.de>; Fri, 20 Feb 2026 00:18:10 +0100 (CET)
+Received: from sea.lore.kernel.org (sea.lore.kernel.org [172.234.253.10])
+	by mail.lfdr.de (Postfix) with ESMTPS id B08E7163769
+	for <lists+linux-alpha@lfdr.de>; Fri, 20 Feb 2026 00:07:23 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by tor.lore.kernel.org (Postfix) with ESMTP id C997C30120FE
-	for <lists+linux-alpha@lfdr.de>; Thu, 19 Feb 2026 23:18:08 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id B0625301B72E
+	for <lists+linux-alpha@lfdr.de>; Thu, 19 Feb 2026 23:07:04 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 3C6452E7BB4;
-	Thu, 19 Feb 2026 23:18:08 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 21B3B32D45E;
+	Thu, 19 Feb 2026 23:07:04 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=fu-berlin.de header.i=@fu-berlin.de header.b="pEGR71Ga"
 X-Original-To: linux-alpha@vger.kernel.org
-Received: from smtp-3.orcon.net.nz (smtp-3.orcon.net.nz [60.234.4.44])
+Received: from outpost1.zedat.fu-berlin.de (outpost1.zedat.fu-berlin.de [130.133.4.66])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B78F62E6CAB;
-	Thu, 19 Feb 2026 23:18:06 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=60.234.4.44
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0E8FE328B4E;
+	Thu, 19 Feb 2026 23:07:00 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=130.133.4.66
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1771543088; cv=none; b=aveRc6yU9SYHHjpP15NFjQIg5y64SbZOpUvjTKaNiGnZ+NFIfNoByY9TDsEXhGB5NhcBFQ6iKPRCU0vSvlbNKsDo7aIIzr/t65lKLv2j9xGfW0BRczbSgELKggNzuQ139EckWPeNqijYR8s5SsUl1SXkxT/MS+FHMvDcVdpxlfA=
+	t=1771542424; cv=none; b=kpFludo4dS5ICr9I8xnhfuYyfYKB3ngsqxk59zFEnr5FYRnCPIDU2VKHODNHIHq6RQHwxX+UPf280QU7yqSwzrURHEXUxufDqHoFrQB0AraXjlKK2WtJdsC0eSPb5tBxEEOIkGCbef55CWcEgQVPHouATopduzV0rUP8FjwSKGo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1771543088; c=relaxed/simple;
-	bh=Lq5B60TlQprADFuVhO0Bq/rarb2VpXfwiKluKTH9VOo=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=sYwkUply+n0HlU3qw8jZEznfOfm3+3FRuhQJS4zsC1lkmK3KYs+QdKsrv3MkuT9n9f4BqvjQ8iQRBdItdY32Wff40aMxJxS/7mW3Cq6P20jNs0zi65knI0pKBwvGQgfqrjgm8KV5e/YMevv8lGHggMkUUa08MV/NbeVHlmT+0nk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=orcon.net.nz; spf=pass smtp.mailfrom=orcon.net.nz; arc=none smtp.client-ip=60.234.4.44
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=orcon.net.nz
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=orcon.net.nz
-Received: from [121.99.247.178] (port=59140 helo=creeky)
-	by smtp-3.orcon.net.nz with esmtpa (Exim 4.90_1)
-	(envelope-from <mcree@orcon.net.nz>)
-	id 1vtCrl-0002UB-0W; Fri, 20 Feb 2026 11:51:25 +1300
-Date: Fri, 20 Feb 2026 11:51:20 +1300
-From: Michael Cree <mcree@orcon.net.nz>
-To: Magnus Lindholm <linmag7@gmail.com>
-Cc: John Paul Adrian Glaubitz <glaubitz@physik.fu-berlin.de>,
-	richard.henderson@linaro.org, mattst88@gmail.com, macro@orcam.me.uk,
-	macro@redhat.com, ink@unseen.parts, linux-kernel@vger.kernel.org,
-	linux-alpha@vger.kernel.org, kees@kernel.org
+	s=arc-20240116; t=1771542424; c=relaxed/simple;
+	bh=xsI0s6FNFFPpvVYAT/uhP4XWeVCL+X8mORQNizMUO6Y=;
+	h=Message-ID:Subject:From:To:Date:In-Reply-To:References:
+	 Content-Type:MIME-Version; b=BTIFqdAbfbf+9jZwY3cf30jr2E7N+kPEtrh7pCjykA2wrIsS8RATUE2RLm25/f++at0mFoPXBonqFnjvWJnAk9T3Ar8Aln0Bxf8EcljNAm2mGGLf/oACn+OgoWZCI1oxJPeOyRmzUKJoOL7ZuZCRFk0wUwbCXnoNeZsgeugXBJc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=physik.fu-berlin.de; spf=pass smtp.mailfrom=zedat.fu-berlin.de; dkim=pass (2048-bit key) header.d=fu-berlin.de header.i=@fu-berlin.de header.b=pEGR71Ga; arc=none smtp.client-ip=130.133.4.66
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=physik.fu-berlin.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=zedat.fu-berlin.de
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+	d=fu-berlin.de; s=fub01; h=MIME-Version:Content-Transfer-Encoding:
+	Content-Type:References:In-Reply-To:Date:To:From:Subject:Message-ID:From:
+	Reply-To:Subject:Date:Message-ID:To:Cc:MIME-Version:Content-Type:
+	Content-Transfer-Encoding:Content-ID:Content-Description:In-Reply-To:
+	References; bh=OvfvVq+4rzmQ+KD8tPq8v+UgsshfuMshmtv8dgdEFQk=; t=1771542421;
+	x=1772147221; b=pEGR71GaSrGytk5BY4Jltj2Yggzr+PMEJSaO0gmh8kqdKujlg46dKulz3fw/j
+	bmamU/zmVhCaHHDGV6sok8Kn+pCeFruaYFB2MBNZ3HiJt7jnGF+yj0hk6p98/BAL2MVVh/ZFzUgUa
+	VfH2h8ZbzOJrVmYw4pDCE70UvND1U5USv37t3gJrBqWRPhxE5rIX5NbzLLTRCPWOh+csSuUYyXaN8
+	NDhi1gMNyS8ItPHBYdTodAdfRJXMlfx/kabQwUVcHpEwMGBip2oxNm2vNFRx/EvTYZk8td6D6brBo
+	YwaQdUcJouiq01FeZ3HveW9leq8tjq0wZtT08aSMXTqOlE96fw==;
+Received: from inpost2.zedat.fu-berlin.de ([130.133.4.69])
+          by outpost.zedat.fu-berlin.de (Exim 4.99)
+          with esmtps (TLS1.3)
+          tls TLS_AES_256_GCM_SHA384
+          (envelope-from <glaubitz@zedat.fu-berlin.de>)
+          id 1vtD6h-00000001fDn-2Sso; Fri, 20 Feb 2026 00:06:51 +0100
+Received: from p5dc55f29.dip0.t-ipconnect.de ([93.197.95.41] helo=suse-laptop.fritz.box)
+          by inpost2.zedat.fu-berlin.de (Exim 4.99)
+          with esmtpsa (TLS1.3)
+          tls TLS_AES_256_GCM_SHA384
+          (envelope-from <glaubitz@physik.fu-berlin.de>)
+          id 1vtD6h-00000000Nez-1GxE; Fri, 20 Feb 2026 00:06:51 +0100
+Message-ID: <bb4b7c070951103dec13d39a0a675e547ab711f9.camel@physik.fu-berlin.de>
 Subject: Re: [PATCH 1/1] alpha: add support for SECCOMP and SECCOMP_FILTER
-Message-ID: <aZeT6DcS8u1Qbq58@creeky>
-Mail-Followup-To: Michael Cree <mcree@orcon.net.nz>,
-	Magnus Lindholm <linmag7@gmail.com>,
-	John Paul Adrian Glaubitz <glaubitz@physik.fu-berlin.de>,
-	richard.henderson@linaro.org, mattst88@gmail.com, macro@orcam.me.uk,
-	macro@redhat.com, ink@unseen.parts, linux-kernel@vger.kernel.org,
+From: John Paul Adrian Glaubitz <glaubitz@physik.fu-berlin.de>
+To: Michael Cree <mcree@orcon.net.nz>, Magnus Lindholm <linmag7@gmail.com>, 
+	richard.henderson@linaro.org, mattst88@gmail.com, macro@orcam.me.uk, 
+	macro@redhat.com, ink@unseen.parts, linux-kernel@vger.kernel.org, 
 	linux-alpha@vger.kernel.org, kees@kernel.org
+Date: Fri, 20 Feb 2026 00:06:50 +0100
+In-Reply-To: <aZeT6DcS8u1Qbq58@creeky>
 References: <20260205133049.526-1-linmag7@gmail.com>
- <20260205133049.526-2-linmag7@gmail.com>
- <14bcd6dd3475d97b030ecb7044646f1b10d3205f.camel@physik.fu-berlin.de>
- <CA+=Fv5SPxzvJ3OCwfawOtUkBNmHJF=CS_9_m=a7QoHCn5UbUvA@mail.gmail.com>
+	 <20260205133049.526-2-linmag7@gmail.com>
+	 <14bcd6dd3475d97b030ecb7044646f1b10d3205f.camel@physik.fu-berlin.de>
+	 <CA+=Fv5SPxzvJ3OCwfawOtUkBNmHJF=CS_9_m=a7QoHCn5UbUvA@mail.gmail.com>
+	 <aZeT6DcS8u1Qbq58@creeky>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.58.3 
 Precedence: bulk
 X-Mailing-List: linux-alpha@vger.kernel.org
 List-Id: <linux-alpha.vger.kernel.org>
 List-Subscribe: <mailto:linux-alpha+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-alpha+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <CA+=Fv5SPxzvJ3OCwfawOtUkBNmHJF=CS_9_m=a7QoHCn5UbUvA@mail.gmail.com>
-X-GeoIP: NZ
-X-Spam_score: -2.9
-X-Spam_score_int: -28
-X-Spam_bar: --
+X-Original-Sender: glaubitz@physik.fu-berlin.de
+X-ZEDAT-Hint: PO
 X-Rspamd-Server: lfdr
-X-Spamd-Result: default: False [-0.86 / 15.00];
+X-Spamd-Result: default: False [-2.16 / 15.00];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
-	MID_RHS_NOT_FQDN(0.50)[];
-	R_SPF_ALLOW(-0.20)[+ip6:2600:3c04:e001:36c::/64:c];
+	DMARC_POLICY_ALLOW(-0.50)[fu-berlin.de,none];
+	R_DKIM_ALLOW(-0.20)[fu-berlin.de:s=fub01];
+	R_SPF_ALLOW(-0.20)[+ip4:172.234.253.10:c];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
-	DMARC_POLICY_SOFTFAIL(0.10)[orcon.net.nz : SPF not aligned (relaxed), No valid DKIM,none];
 	HAS_LIST_UNSUB(-0.01)[];
-	TAGGED_FROM(0.00)[bounces-3004-lists,linux-alpha=lfdr.de];
-	FREEMAIL_CC(0.00)[physik.fu-berlin.de,linaro.org,gmail.com,orcam.me.uk,redhat.com,unseen.parts,vger.kernel.org,kernel.org];
-	RCVD_COUNT_THREE(0.00)[4];
-	FORGED_SENDER_MAILLIST(0.00)[];
-	FREEMAIL_TO(0.00)[gmail.com];
-	RCVD_TLS_LAST(0.00)[];
-	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	MISSING_XM_UA(0.00)[];
+	DKIM_TRACE(0.00)[fu-berlin.de:+];
+	TAGGED_FROM(0.00)[bounces-3003-lists,linux-alpha=lfdr.de];
 	FROM_HAS_DN(0.00)[];
+	FREEMAIL_TO(0.00)[orcon.net.nz,gmail.com,linaro.org,orcam.me.uk,redhat.com,unseen.parts,vger.kernel.org,kernel.org];
+	RCVD_TLS_LAST(0.00)[];
 	MIME_TRACE(0.00)[0:+];
-	NEURAL_HAM(-0.00)[-0.968];
-	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[mcree@orcon.net.nz,linux-alpha@vger.kernel.org];
-	ASN(0.00)[asn:63949, ipnet:2600:3c04::/32, country:SG];
-	R_DKIM_NA(0.00)[];
-	TAGGED_RCPT(0.00)[linux-alpha];
-	RCPT_COUNT_SEVEN(0.00)[10];
+	FORGED_SENDER_MAILLIST(0.00)[];
+	FORGED_RECIPIENTS_MAILLIST(0.00)[];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
-	TO_DN_SOME(0.00)[]
-X-Rspamd-Queue-Id: 190EA16381F
+	TO_DN_SOME(0.00)[];
+	RCVD_COUNT_FIVE(0.00)[5];
+	PRECEDENCE_BULK(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[glaubitz@physik.fu-berlin.de,linux-alpha@vger.kernel.org];
+	ASN(0.00)[asn:63949, ipnet:172.234.224.0/19, country:SG];
+	NEURAL_HAM(-0.00)[-0.999];
+	RCPT_COUNT_SEVEN(0.00)[10];
+	MID_RHS_MATCH_FROM(0.00)[];
+	TAGGED_RCPT(0.00)[linux-alpha];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns,fu-berlin.de:dkim,physik.fu-berlin.de:mid]
+X-Rspamd-Queue-Id: B08E7163769
 X-Rspamd-Action: no action
 
-On Thu, Feb 19, 2026 at 10:10:38PM +0100, Magnus Lindholm wrote:
-> >
-> > Thanks so much for working on this! Alpha and SPARC are the last two architectures
-> > in Debian that are missing full support for SECCOMP filter. Great to see that Alpha
-> > is now being worked on.
-> >
-> > FWIW, I haven't tested your patches yet, but I think you should also update the
-> > documentation in Documentation/features/seccomp/seccomp-filter/arch-support.txt.
-> >
-> 
-> Thanks for taking a look! I'll put out a v2 of this patch, including
-> an update to the
-> documentation.
-> 
-> > I will try to add support for Alpha in libseccomp over the weekend to test your patch.
-> >
-> 
-> Btw. I've tested your libseccomp with updated alpha support, real nice progress
+Hi Michael,
 
-Where is this updated libseccomp?  I would like to test it too.
+On Fri, 2026-02-20 at 11:51 +1300, Michael Cree wrote:
+> On Thu, Feb 19, 2026 at 10:10:38PM +0100, Magnus Lindholm wrote:
+> > >=20
+> > > Thanks so much for working on this! Alpha and SPARC are the last two =
+architectures
+> > > in Debian that are missing full support for SECCOMP filter. Great to =
+see that Alpha
+> > > is now being worked on.
+> > >=20
+> > > FWIW, I haven't tested your patches yet, but I think you should also =
+update the
+> > > documentation in Documentation/features/seccomp/seccomp-filter/arch-s=
+upport.txt.
+> > >=20
+> >=20
+> > Thanks for taking a look! I'll put out a v2 of this patch, including
+> > an update to the
+> > documentation.
+> >=20
+> > > I will try to add support for Alpha in libseccomp over the weekend to=
+ test your patch.
+> > >=20
+> >=20
+> > Btw. I've tested your libseccomp with updated alpha support, real nice =
+progress
+>=20
+> Where is this updated libseccomp?  I would like to test it too.
 
-Cheers
-Michael.
+See: https://github.com/glaubitz/libseccomp/tree/alpha-support
+
+Had some issues with updating syscalls.csv though, see: https://github.com/=
+seccomp/libseccomp/issues/480
+
+Adrian
+
+--=20
+ .''`.  John Paul Adrian Glaubitz
+: :' :  Debian Developer
+`. `'   Physicist
+  `-    GPG: 62FF 8A75 84E0 2956 9546  0006 7426 3B37 F5B5 F913
 
