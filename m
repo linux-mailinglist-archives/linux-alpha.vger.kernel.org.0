@@ -1,158 +1,204 @@
-Return-Path: <linux-alpha+bounces-3003-lists+linux-alpha=lfdr.de@vger.kernel.org>
+Return-Path: <linux-alpha+bounces-3005-lists+linux-alpha=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-alpha@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id UDDTFayXl2nB1wIAu9opvQ
-	(envelope-from <linux-alpha+bounces-3003-lists+linux-alpha=lfdr.de@vger.kernel.org>)
-	for <lists+linux-alpha@lfdr.de>; Fri, 20 Feb 2026 00:07:24 +0100
+	id OOfcEuLel2ni9gIAu9opvQ
+	(envelope-from <linux-alpha+bounces-3005-lists+linux-alpha=lfdr.de@vger.kernel.org>)
+	for <lists+linux-alpha@lfdr.de>; Fri, 20 Feb 2026 05:11:14 +0100
 X-Original-To: lists+linux-alpha@lfdr.de
-Received: from sea.lore.kernel.org (sea.lore.kernel.org [172.234.253.10])
-	by mail.lfdr.de (Postfix) with ESMTPS id B08E7163769
-	for <lists+linux-alpha@lfdr.de>; Fri, 20 Feb 2026 00:07:23 +0100 (CET)
+Received: from sin.lore.kernel.org (sin.lore.kernel.org [104.64.211.4])
+	by mail.lfdr.de (Postfix) with ESMTPS id 7802A164854
+	for <lists+linux-alpha@lfdr.de>; Fri, 20 Feb 2026 05:11:13 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id B0625301B72E
-	for <lists+linux-alpha@lfdr.de>; Thu, 19 Feb 2026 23:07:04 +0000 (UTC)
+	by sin.lore.kernel.org (Postfix) with ESMTP id 54B45300B2A9
+	for <lists+linux-alpha@lfdr.de>; Fri, 20 Feb 2026 04:10:50 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 21B3B32D45E;
-	Thu, 19 Feb 2026 23:07:04 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 5BD0B30148B;
+	Fri, 20 Feb 2026 04:10:34 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=fu-berlin.de header.i=@fu-berlin.de header.b="pEGR71Ga"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="BY31bXLu"
 X-Original-To: linux-alpha@vger.kernel.org
-Received: from outpost1.zedat.fu-berlin.de (outpost1.zedat.fu-berlin.de [130.133.4.66])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0E8FE328B4E;
-	Thu, 19 Feb 2026 23:07:00 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=130.133.4.66
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 30B37301002;
+	Fri, 20 Feb 2026 04:10:34 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1771542424; cv=none; b=kpFludo4dS5ICr9I8xnhfuYyfYKB3ngsqxk59zFEnr5FYRnCPIDU2VKHODNHIHq6RQHwxX+UPf280QU7yqSwzrURHEXUxufDqHoFrQB0AraXjlKK2WtJdsC0eSPb5tBxEEOIkGCbef55CWcEgQVPHouATopduzV0rUP8FjwSKGo=
+	t=1771560634; cv=none; b=Yb+Zx5ZVSzcIqFe22v+A00Xb/+RqOJhVXdngDb508ICx//stbUJHo7AVayxKszk32v/MSYpmFxUOGFbWPTc6ytMGCCnJLs4o3rJHFPIOzOU5ednRb6utQHuB0+TlNEBdMnaxLhbO6MLQeOERMioROMrimU01taG9+uEYtKkY4jk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1771542424; c=relaxed/simple;
-	bh=xsI0s6FNFFPpvVYAT/uhP4XWeVCL+X8mORQNizMUO6Y=;
-	h=Message-ID:Subject:From:To:Date:In-Reply-To:References:
-	 Content-Type:MIME-Version; b=BTIFqdAbfbf+9jZwY3cf30jr2E7N+kPEtrh7pCjykA2wrIsS8RATUE2RLm25/f++at0mFoPXBonqFnjvWJnAk9T3Ar8Aln0Bxf8EcljNAm2mGGLf/oACn+OgoWZCI1oxJPeOyRmzUKJoOL7ZuZCRFk0wUwbCXnoNeZsgeugXBJc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=physik.fu-berlin.de; spf=pass smtp.mailfrom=zedat.fu-berlin.de; dkim=pass (2048-bit key) header.d=fu-berlin.de header.i=@fu-berlin.de header.b=pEGR71Ga; arc=none smtp.client-ip=130.133.4.66
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=physik.fu-berlin.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=zedat.fu-berlin.de
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=fu-berlin.de; s=fub01; h=MIME-Version:Content-Transfer-Encoding:
-	Content-Type:References:In-Reply-To:Date:To:From:Subject:Message-ID:From:
-	Reply-To:Subject:Date:Message-ID:To:Cc:MIME-Version:Content-Type:
-	Content-Transfer-Encoding:Content-ID:Content-Description:In-Reply-To:
-	References; bh=OvfvVq+4rzmQ+KD8tPq8v+UgsshfuMshmtv8dgdEFQk=; t=1771542421;
-	x=1772147221; b=pEGR71GaSrGytk5BY4Jltj2Yggzr+PMEJSaO0gmh8kqdKujlg46dKulz3fw/j
-	bmamU/zmVhCaHHDGV6sok8Kn+pCeFruaYFB2MBNZ3HiJt7jnGF+yj0hk6p98/BAL2MVVh/ZFzUgUa
-	VfH2h8ZbzOJrVmYw4pDCE70UvND1U5USv37t3gJrBqWRPhxE5rIX5NbzLLTRCPWOh+csSuUYyXaN8
-	NDhi1gMNyS8ItPHBYdTodAdfRJXMlfx/kabQwUVcHpEwMGBip2oxNm2vNFRx/EvTYZk8td6D6brBo
-	YwaQdUcJouiq01FeZ3HveW9leq8tjq0wZtT08aSMXTqOlE96fw==;
-Received: from inpost2.zedat.fu-berlin.de ([130.133.4.69])
-          by outpost.zedat.fu-berlin.de (Exim 4.99)
-          with esmtps (TLS1.3)
-          tls TLS_AES_256_GCM_SHA384
-          (envelope-from <glaubitz@zedat.fu-berlin.de>)
-          id 1vtD6h-00000001fDn-2Sso; Fri, 20 Feb 2026 00:06:51 +0100
-Received: from p5dc55f29.dip0.t-ipconnect.de ([93.197.95.41] helo=suse-laptop.fritz.box)
-          by inpost2.zedat.fu-berlin.de (Exim 4.99)
-          with esmtpsa (TLS1.3)
-          tls TLS_AES_256_GCM_SHA384
-          (envelope-from <glaubitz@physik.fu-berlin.de>)
-          id 1vtD6h-00000000Nez-1GxE; Fri, 20 Feb 2026 00:06:51 +0100
-Message-ID: <bb4b7c070951103dec13d39a0a675e547ab711f9.camel@physik.fu-berlin.de>
-Subject: Re: [PATCH 1/1] alpha: add support for SECCOMP and SECCOMP_FILTER
-From: John Paul Adrian Glaubitz <glaubitz@physik.fu-berlin.de>
-To: Michael Cree <mcree@orcon.net.nz>, Magnus Lindholm <linmag7@gmail.com>, 
-	richard.henderson@linaro.org, mattst88@gmail.com, macro@orcam.me.uk, 
-	macro@redhat.com, ink@unseen.parts, linux-kernel@vger.kernel.org, 
-	linux-alpha@vger.kernel.org, kees@kernel.org
-Date: Fri, 20 Feb 2026 00:06:50 +0100
-In-Reply-To: <aZeT6DcS8u1Qbq58@creeky>
-References: <20260205133049.526-1-linmag7@gmail.com>
-	 <20260205133049.526-2-linmag7@gmail.com>
-	 <14bcd6dd3475d97b030ecb7044646f1b10d3205f.camel@physik.fu-berlin.de>
-	 <CA+=Fv5SPxzvJ3OCwfawOtUkBNmHJF=CS_9_m=a7QoHCn5UbUvA@mail.gmail.com>
-	 <aZeT6DcS8u1Qbq58@creeky>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.58.3 
+	s=arc-20240116; t=1771560634; c=relaxed/simple;
+	bh=im5T2AhfGDyXaPXyhpLfgJGQ91DbQgM5VZmwKBunt1A=;
+	h=Content-Type:MIME-Version:Subject:From:Message-Id:Date:References:
+	 In-Reply-To:To:Cc; b=dEI4sm+VOycTpuitjCQ/wrmNPOcbOz2yr5KO/k2xCthHTHHiIMT1/qms04XsEHuG4qu+JnaHBCmZqGidapT4BEWh1gwMHAimws//u+C0OQg2vzBpRqoDB/aBqCk+oV24azh38cq+n4rPukrfIZnlVxQl6lbA6K80PlI6549GMno=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=BY31bXLu; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id E3828C19421;
+	Fri, 20 Feb 2026 04:10:33 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1771560633;
+	bh=im5T2AhfGDyXaPXyhpLfgJGQ91DbQgM5VZmwKBunt1A=;
+	h=Subject:From:Date:References:In-Reply-To:To:Cc:From;
+	b=BY31bXLuYwaDNUvbU0KhmqMJP3M/Awj2XilOUUrqfd5tse5Bs+Sof47ei7f2ySnfn
+	 tFNi7q7K9gluSvI0HlMVWVeaLxpkyoeKBDi/rrNOewr0OuAFpDC7j/iRqwMKPlJ5Wa
+	 P3ScJYlX18vFMmmARgpPLIChzrvUE2kp6Q3jnE9jYkAe7srv3PTOOcxMtCzqbU7qAw
+	 IToOjDmvHez/A8mTg3Q3sBsLUBSNAWxLa0iZsksGoJ/G/rax+WVfDfh7lH4OceXS15
+	 qVM1jLAxgENfoZP8fJU+Wp+4V3bOt53kAg6T75fF/G3mbGiObvL/fXyvhcTJ2XNYm0
+	 uwW0QrKe9zoGw==
+Received: from [10.30.226.235] (localhost [IPv6:::1])
+	by aws-us-west-2-korg-oddjob-rhel9-1.codeaurora.org (Postfix) with ESMTP id 7CFE83809A88;
+	Fri, 20 Feb 2026 04:10:43 +0000 (UTC)
+Content-Type: text/plain; charset="utf-8"
 Precedence: bulk
 X-Mailing-List: linux-alpha@vger.kernel.org
 List-Id: <linux-alpha.vger.kernel.org>
 List-Subscribe: <mailto:linux-alpha+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-alpha+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-Original-Sender: glaubitz@physik.fu-berlin.de
-X-ZEDAT-Hint: PO
+Content-Transfer-Encoding: 8bit
+Subject: Re: [PATCH v3 00/29] arch, mm: consolidate hugetlb early reservation
+From: patchwork-bot+linux-riscv@kernel.org
+Message-Id: 
+ <177156064229.189817.6698956997773300471.git-patchwork-notify@kernel.org>
+Date: Fri, 20 Feb 2026 04:10:42 +0000
+References: <20260111082105.290734-1-rppt@kernel.org>
+In-Reply-To: <20260111082105.290734-1-rppt@kernel.org>
+To: Mike Rapoport <rppt@kernel.org>
+Cc: linux-riscv@lists.infradead.org, akpm@linux-foundation.org,
+ alexs@kernel.org, agordeev@linux.ibm.com, andreas@gaisler.com, bp@alien8.de,
+ bcain@kernel.org, chleroy@kernel.org, catalin.marinas@arm.com,
+ davem@davemloft.net, dave.hansen@linux.intel.com, david@kernel.org,
+ dinguyen@kernel.org, geert@linux-m68k.org, guoren@kernel.org,
+ hca@linux.ibm.com, deller@gmx.de, chenhuacai@kernel.org, mingo@redhat.com,
+ johannes@sipsolutions.net, glaubitz@physik.fu-berlin.de, corbet@lwn.net,
+ klarasmodin@gmail.com, Liam.Howlett@oracle.com, lorenzo.stoakes@oracle.com,
+ linmag7@gmail.com, mattst88@gmail.com, jcmvbkbc@gmail.com,
+ mpe@ellerman.id.au, mhocko@suse.com, monstr@monstr.eu, muchun.song@linux.dev,
+ osalvador@suse.de, palmer@dabbelt.com, pratyush@kernel.org, richard@nod.at,
+ ritesh.list@gmail.com, linux@armlinux.org.uk, shorne@gmail.com,
+ surenb@google.com, tsbogend@alpha.franken.de, tglx@linutronix.de,
+ gor@linux.ibm.com, vgupta@kernel.org, vbabka@suse.cz, will@kernel.org,
+ x86@kernel.org, linux-alpha@vger.kernel.org,
+ linux-arm-kernel@lists.infradead.org, linux-csky@vger.kernel.org,
+ linux-cxl@vger.kernel.org, linux-doc@vger.kernel.org,
+ linux-hexagon@vger.kernel.org, linux-kernel@vger.kernel.org,
+ linux-m68k@lists.linux-m68k.org, linux-mips@vger.kernel.org,
+ linux-mm@kvack.org, linux-openrisc@vger.kernel.org,
+ linux-parisc@vger.kernel.org, linux-s390@vger.kernel.org,
+ linux-sh@vger.kernel.org, linux-snps-arc@lists.infradead.org,
+ linux-um@lists.infradead.org, linuxppc-dev@lists.ozlabs.org,
+ loongarch@lists.linux.dev, sparclinux@vger.kernel.org
 X-Rspamd-Server: lfdr
-X-Spamd-Result: default: False [-2.16 / 15.00];
+X-Spamd-Result: default: False [-0.66 / 15.00];
+	SUSPICIOUS_RECIPS(1.50)[];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
-	DMARC_POLICY_ALLOW(-0.50)[fu-berlin.de,none];
-	R_DKIM_ALLOW(-0.20)[fu-berlin.de:s=fub01];
-	R_SPF_ALLOW(-0.20)[+ip4:172.234.253.10:c];
+	DMARC_POLICY_ALLOW(-0.50)[kernel.org,quarantine];
+	R_SPF_ALLOW(-0.20)[+ip4:104.64.211.4:c];
+	R_DKIM_ALLOW(-0.20)[kernel.org:s=k20201202];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	DKIM_TRACE(0.00)[fu-berlin.de:+];
-	TAGGED_FROM(0.00)[bounces-3003-lists,linux-alpha=lfdr.de];
-	FROM_HAS_DN(0.00)[];
-	FREEMAIL_TO(0.00)[orcon.net.nz,gmail.com,linaro.org,orcam.me.uk,redhat.com,unseen.parts,vger.kernel.org,kernel.org];
+	FREEMAIL_CC(0.00)[lists.infradead.org,linux-foundation.org,kernel.org,linux.ibm.com,gaisler.com,alien8.de,arm.com,davemloft.net,linux.intel.com,linux-m68k.org,gmx.de,redhat.com,sipsolutions.net,physik.fu-berlin.de,lwn.net,gmail.com,oracle.com,ellerman.id.au,suse.com,monstr.eu,linux.dev,suse.de,dabbelt.com,nod.at,armlinux.org.uk,google.com,alpha.franken.de,linutronix.de,suse.cz,vger.kernel.org,lists.linux-m68k.org,kvack.org,lists.ozlabs.org,lists.linux.dev];
+	FROM_NEQ_ENVFROM(0.00)[patchwork-bot@kernel.org,linux-alpha@vger.kernel.org];
 	RCVD_TLS_LAST(0.00)[];
+	DKIM_TRACE(0.00)[kernel.org:+];
+	TAGGED_FROM(0.00)[bounces-3005-lists,linux-alpha=lfdr.de,linux-riscv];
 	MIME_TRACE(0.00)[0:+];
 	FORGED_SENDER_MAILLIST(0.00)[];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	TO_DN_SOME(0.00)[];
+	ASN(0.00)[asn:63949, ipnet:104.64.192.0/19, country:SG];
+	FROM_NO_DN(0.00)[];
+	RCPT_COUNT_GT_50(0.00)[67];
 	RCVD_COUNT_FIVE(0.00)[5];
 	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[glaubitz@physik.fu-berlin.de,linux-alpha@vger.kernel.org];
-	ASN(0.00)[asn:63949, ipnet:172.234.224.0/19, country:SG];
+	MISSING_XM_UA(0.00)[];
 	NEURAL_HAM(-0.00)[-0.999];
-	RCPT_COUNT_SEVEN(0.00)[10];
-	MID_RHS_MATCH_FROM(0.00)[];
 	TAGGED_RCPT(0.00)[linux-alpha];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns,fu-berlin.de:dkim,physik.fu-berlin.de:mid]
-X-Rspamd-Queue-Id: B08E7163769
+	MID_RHS_MATCH_FROM(0.00)[];
+	TO_DN_SOME(0.00)[];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[linux-foundation.org:email]
+X-Rspamd-Queue-Id: 7802A164854
 X-Rspamd-Action: no action
 
-Hi Michael,
+Hello:
 
-On Fri, 2026-02-20 at 11:51 +1300, Michael Cree wrote:
-> On Thu, Feb 19, 2026 at 10:10:38PM +0100, Magnus Lindholm wrote:
-> > >=20
-> > > Thanks so much for working on this! Alpha and SPARC are the last two =
-architectures
-> > > in Debian that are missing full support for SECCOMP filter. Great to =
-see that Alpha
-> > > is now being worked on.
-> > >=20
-> > > FWIW, I haven't tested your patches yet, but I think you should also =
-update the
-> > > documentation in Documentation/features/seccomp/seccomp-filter/arch-s=
-upport.txt.
-> > >=20
-> >=20
-> > Thanks for taking a look! I'll put out a v2 of this patch, including
-> > an update to the
-> > documentation.
-> >=20
-> > > I will try to add support for Alpha in libseccomp over the weekend to=
- test your patch.
-> > >=20
-> >=20
-> > Btw. I've tested your libseccomp with updated alpha support, real nice =
-progress
->=20
-> Where is this updated libseccomp?  I would like to test it too.
+This series was applied to riscv/linux.git (fixes)
+by Andrew Morton <akpm@linux-foundation.org>:
 
-See: https://github.com/glaubitz/libseccomp/tree/alpha-support
+On Sun, 11 Jan 2026 10:20:34 +0200 you wrote:
+> From: "Mike Rapoport (Microsoft)" <rppt@kernel.org>
+> 
+> Hi,
+> 
+> Order in which early memory reservation for hugetlb happens depends on
+> architecture, on configuration options and on command line parameters.
+> 
+> [...]
 
-Had some issues with updating syscalls.csv though, see: https://github.com/=
-seccomp/libseccomp/issues/480
+Here is the summary with links:
+  - [v3,01/29] alpha: introduce arch_zone_limits_init()
+    https://git.kernel.org/riscv/c/ba1c86874e25
+  - [v3,02/29] arc: introduce arch_zone_limits_init()
+    https://git.kernel.org/riscv/c/7988e8518904
+  - [v3,03/29] arm: introduce arch_zone_limits_init()
+    https://git.kernel.org/riscv/c/30a66f8a8cd3
+  - [v3,04/29] arm: make initialization of zero page independent of the memory map
+    https://git.kernel.org/riscv/c/18b7cc70dea8
+  - [v3,05/29] arm64: introduce arch_zone_limits_init()
+    https://git.kernel.org/riscv/c/60b35af0a6aa
+  - [v3,06/29] csky: introduce arch_zone_limits_init()
+    https://git.kernel.org/riscv/c/37318eb97f23
+  - [v3,07/29] hexagon: introduce arch_zone_limits_init()
+    https://git.kernel.org/riscv/c/934afdf7f4cc
+  - [v3,08/29] loongarch: introduce arch_zone_limits_init()
+    https://git.kernel.org/riscv/c/63cadcb731c9
+  - [v3,09/29] m68k: introduce arch_zone_limits_init()
+    https://git.kernel.org/riscv/c/41b08a7abf89
+  - [v3,10/29] microblaze: introduce arch_zone_limits_init()
+    https://git.kernel.org/riscv/c/2ce38c9ae840
+  - [v3,11/29] mips: introduce arch_zone_limits_init()
+    https://git.kernel.org/riscv/c/f61385e29444
+  - [v3,12/29] nios2: introduce arch_zone_limits_init()
+    https://git.kernel.org/riscv/c/3b1b0e5797bd
+  - [v3,13/29] openrisc: introduce arch_zone_limits_init()
+    https://git.kernel.org/riscv/c/1d28b1142383
+  - [v3,14/29] parisc: introduce arch_zone_limits_init()
+    https://git.kernel.org/riscv/c/950696afe400
+  - [v3,15/29] powerpc: introduce arch_zone_limits_init()
+    https://git.kernel.org/riscv/c/27bebe446f8d
+  - [v3,16/29] riscv: introduce arch_zone_limits_init()
+    https://git.kernel.org/riscv/c/db8cdb0ad603
+  - [v3,17/29] s390: introduce arch_zone_limits_init()
+    https://git.kernel.org/riscv/c/76c4c463bbc0
+  - [v3,18/29] sh: introduce arch_zone_limits_init()
+    https://git.kernel.org/riscv/c/8bfa6c2259f4
+  - [v3,19/29] sparc: introduce arch_zone_limits_init()
+    https://git.kernel.org/riscv/c/6ad7ea22cf6f
+  - [v3,20/29] um: introduce arch_zone_limits_init()
+    https://git.kernel.org/riscv/c/531de7f02d51
+  - [v3,21/29] x86: introduce arch_zone_limits_init()
+    https://git.kernel.org/riscv/c/34f6b9c6e417
+  - [v3,22/29] xtensa: introduce arch_zone_limits_init()
+    https://git.kernel.org/riscv/c/2d3c8c5f33e0
+  - [v3,23/29] arch, mm: consolidate initialization of nodes, zones and memory map
+    https://git.kernel.org/riscv/c/d49004c5f0c1
+  - [v3,24/29] arch, mm: consolidate initialization of SPARSE memory model
+    https://git.kernel.org/riscv/c/4267739cabb8
+  - [v3,25/29] mips: drop paging_init()
+    https://git.kernel.org/riscv/c/5dea39496c68
+  - [v3,26/29] x86: don't reserve hugetlb memory in setup_arch()
+    https://git.kernel.org/riscv/c/6632314fddc4
+  - [v3,27/29] mm, arch: consolidate hugetlb CMA reservation
+    https://git.kernel.org/riscv/c/9fac145b6d3f
+  - [v3,28/29] mm/hugetlb: drop hugetlb_cma_check()
+    https://git.kernel.org/riscv/c/7a9c0bf0aec6
+  - [v3,29/29] Revert "mm/hugetlb: deal with multiple calls to hugetlb_bootmem_alloc"
+    https://git.kernel.org/riscv/c/743758ccf8be
 
-Adrian
+You are awesome, thank you!
+-- 
+Deet-doot-dot, I am a bot.
+https://korg.docs.kernel.org/patchwork/pwbot.html
 
---=20
- .''`.  John Paul Adrian Glaubitz
-: :' :  Debian Developer
-`. `'   Physicist
-  `-    GPG: 62FF 8A75 84E0 2956 9546  0006 7426 3B37 F5B5 F913
+
 
