@@ -1,281 +1,205 @@
-Return-Path: <linux-alpha+bounces-3044-lists+linux-alpha=lfdr.de@vger.kernel.org>
+Return-Path: <linux-alpha+bounces-3046-lists+linux-alpha=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-alpha@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id 0A/xJLtmoGkejQQAu9opvQ
-	(envelope-from <linux-alpha+bounces-3044-lists+linux-alpha=lfdr.de@vger.kernel.org>)
-	for <lists+linux-alpha@lfdr.de>; Thu, 26 Feb 2026 16:28:59 +0100
+	id 2JypHVJvoGk3jgQAu9opvQ
+	(envelope-from <linux-alpha+bounces-3046-lists+linux-alpha=lfdr.de@vger.kernel.org>)
+	for <lists+linux-alpha@lfdr.de>; Thu, 26 Feb 2026 17:05:38 +0100
 X-Original-To: lists+linux-alpha@lfdr.de
 Received: from sea.lore.kernel.org (sea.lore.kernel.org [172.234.253.10])
-	by mail.lfdr.de (Postfix) with ESMTPS id 38C3B1A8BA0
-	for <lists+linux-alpha@lfdr.de>; Thu, 26 Feb 2026 16:28:59 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 23A441A9940
+	for <lists+linux-alpha@lfdr.de>; Thu, 26 Feb 2026 17:05:38 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id F1255316C16B
-	for <lists+linux-alpha@lfdr.de>; Thu, 26 Feb 2026 15:18:20 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id ED8F83130571
+	for <lists+linux-alpha@lfdr.de>; Thu, 26 Feb 2026 15:43:57 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 5FCF8425CFD;
-	Thu, 26 Feb 2026 15:12:20 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 9CD1C410D30;
+	Thu, 26 Feb 2026 15:43:57 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="0lLke88Z"
+	dkim=pass (2048-bit key) header.d=arndb.de header.i=@arndb.de header.b="BFOz5yqx";
+	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="Fc2ByHch"
 X-Original-To: linux-alpha@vger.kernel.org
-Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
+Received: from flow-a8-smtp.messagingengine.com (flow-a8-smtp.messagingengine.com [103.168.172.143])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 656C2421F04;
-	Thu, 26 Feb 2026 15:12:14 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.137.202.133
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 40E7B3F23D7;
+	Thu, 26 Feb 2026 15:43:56 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=103.168.172.143
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1772118739; cv=none; b=Po2iQX/FxA/1lxtEAKGi3HXa4MZyzbVPedg9jKO/WgOdKNhaPNbyU3GekdKBSV2zLsFA/MPAcaZoGxt8/IKkIPn0stybnaxXleKv5JoKQ58pwgiXTc2ZNJruTfYArKtvY+CThu2d5QQ5PXzHZ8I9K3u6vKmvZzPyxUbj64blBCY=
+	t=1772120637; cv=none; b=exhMYR5bVN8UZgvJSA5f+PegLIJHmhGAHGggwdTb+8sgyz9kx3Q8c5PWsnl9mDux5wRAuWqLm0YD1PtKj8AjpcSDLDlarY9rR556lgkxJ+KvLeKh9OJ84p5OpgmA/V+4ldXaNoae24g5nP/sf2a5ZycqZplnJH+DATwvgiQmuJc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1772118739; c=relaxed/simple;
-	bh=r43Ot/Gf+AkJHCAymfFONDwegkg1nJgXhSbrXGuVbME=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=ZJsLytBnb+WHPrA0V+iFd3qAmPDK9+z4JGMXsJFRLMSSrqhvnnWgOlqKzRPQ2ZESTIYsMY7wcDghykfEPqObH7+QGtERTQ+qkp5e5PhypdT3sVHeOInIBRzlG7wxHV+jQ4je+gKUyd1YTqE+j2JSG5tCbRaZXH88cYmz6K/ej+E=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=lst.de; spf=none smtp.mailfrom=bombadil.srs.infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=0lLke88Z; arc=none smtp.client-ip=198.137.202.133
-Authentication-Results: smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=lst.de
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=bombadil.srs.infradead.org
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
-	MIME-Version:References:In-Reply-To:Message-ID:Date:Subject:Cc:To:From:Sender
-	:Reply-To:Content-Type:Content-ID:Content-Description;
-	bh=dnAqm1mQgBL7YCaDnwjea9MVbvJi6fB59bRdgxzHRfQ=; b=0lLke88ZORd7FsP4CXpACuAHde
-	G+oGLjzsBhaZHraeqqDivfxfZWCm4ROZxEFdgYr1SqqrHyaZMGKmnU0TC9tNkr4CT420xJEzxh9Lx
-	K/RLoOseLaA94JEjz/WZ9ATki+rNhCPZRBNOnEn8lXDJCqZOClP5EWYyzrJC9gyWYIy3CnZitFvtH
-	k3HWnv0fDpBhz5YMPmXsLWiQQkOdYZWJnJ8CX2ukw7Pg8kW8rslvn913bFW6BP4sSazhwrve1Ld2Q
-	EOgMxPX5svvrd6cMQB6Uov1O9PUtVxtVdVUoj9XmVxFNfJaXZemUFGVQSO215kU+ZiD9757bDT/dH
-	BXSJUfgQ==;
-Received: from [4.28.11.157] (helo=localhost)
-	by bombadil.infradead.org with esmtpsa (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1vvd1q-00000006Qsd-3Nhg;
-	Thu, 26 Feb 2026 15:11:50 +0000
-From: Christoph Hellwig <hch@lst.de>
-To: Andrew Morton <akpm@linux-foundation.org>
-Cc: Richard Henderson <richard.henderson@linaro.org>,
-	Matt Turner <mattst88@gmail.com>,
-	Magnus Lindholm <linmag7@gmail.com>,
-	Russell King <linux@armlinux.org.uk>,
-	Catalin Marinas <catalin.marinas@arm.com>,
-	Will Deacon <will@kernel.org>,
-	Huacai Chen <chenhuacai@kernel.org>,
-	WANG Xuerui <kernel@xen0n.name>,
-	Madhavan Srinivasan <maddy@linux.ibm.com>,
-	Michael Ellerman <mpe@ellerman.id.au>,
-	Nicholas Piggin <npiggin@gmail.com>,
-	"Christophe Leroy (CS GROUP)" <chleroy@kernel.org>,
-	Paul Walmsley <pjw@kernel.org>,
-	Palmer Dabbelt <palmer@dabbelt.com>,
-	Albert Ou <aou@eecs.berkeley.edu>,
-	Alexandre Ghiti <alex@ghiti.fr>,
-	Heiko Carstens <hca@linux.ibm.com>,
-	Vasily Gorbik <gor@linux.ibm.com>,
-	Alexander Gordeev <agordeev@linux.ibm.com>,
-	Christian Borntraeger <borntraeger@linux.ibm.com>,
-	Sven Schnelle <svens@linux.ibm.com>,
-	"David S. Miller" <davem@davemloft.net>,
-	Andreas Larsson <andreas@gaisler.com>,
-	Richard Weinberger <richard@nod.at>,
-	Anton Ivanov <anton.ivanov@cambridgegreys.com>,
-	Johannes Berg <johannes@sipsolutions.net>,
-	Thomas Gleixner <tglx@kernel.org>,
-	Ingo Molnar <mingo@redhat.com>,
-	Borislav Petkov <bp@alien8.de>,
-	Dave Hansen <dave.hansen@linux.intel.com>,
-	x86@kernel.org,
-	"H. Peter Anvin" <hpa@zytor.com>,
-	Herbert Xu <herbert@gondor.apana.org.au>,
-	Dan Williams <dan.j.williams@intel.com>,
-	Chris Mason <clm@fb.com>,
-	David Sterba <dsterba@suse.com>,
-	Arnd Bergmann <arnd@arndb.de>,
-	Song Liu <song@kernel.org>,
-	Yu Kuai <yukuai@fnnas.com>,
-	Li Nan <linan122@huawei.com>,
-	linux-alpha@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	linux-arm-kernel@lists.infradead.org,
-	loongarch@lists.linux.dev,
-	linuxppc-dev@lists.ozlabs.org,
-	linux-riscv@lists.infradead.org,
-	linux-s390@vger.kernel.org,
-	sparclinux@vger.kernel.org,
-	linux-um@lists.infradead.org,
-	linux-crypto@vger.kernel.org,
-	linux-btrfs@vger.kernel.org,
-	linux-arch@vger.kernel.org,
-	linux-raid@vger.kernel.org
-Subject: [PATCH 25/25] xor: use static_call for xor_gen
-Date: Thu, 26 Feb 2026 07:10:37 -0800
-Message-ID: <20260226151106.144735-26-hch@lst.de>
-X-Mailer: git-send-email 2.47.3
-In-Reply-To: <20260226151106.144735-1-hch@lst.de>
-References: <20260226151106.144735-1-hch@lst.de>
+	s=arc-20240116; t=1772120637; c=relaxed/simple;
+	bh=zaIt+6c5Z6aF5nOzcYBB7QJkaXuFxNxAQjsZxA8CeFs=;
+	h=MIME-Version:Date:From:To:Cc:Message-Id:In-Reply-To:References:
+	 Subject:Content-Type; b=g+6q2aNlB2JwDgGhAh/NfCTcvMCUSyFcfJn+E2sTopOVyXh/fRZ7nKXEqeCZKtcHAkSFXogZKe1+BxlTVCPlAUFzsGt/6Z1yuuTWQCn11Bm9t6wUdokmgaI99e0UGasH//0Msd/TyR2Y3EcaqDi1fo+ujYsDSHznm2QzYeSBfS8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arndb.de; spf=pass smtp.mailfrom=arndb.de; dkim=pass (2048-bit key) header.d=arndb.de header.i=@arndb.de header.b=BFOz5yqx; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=Fc2ByHch; arc=none smtp.client-ip=103.168.172.143
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arndb.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arndb.de
+Received: from phl-compute-04.internal (phl-compute-04.internal [10.202.2.44])
+	by mailflow.phl.internal (Postfix) with ESMTP id 702FC1380BA9;
+	Thu, 26 Feb 2026 10:43:55 -0500 (EST)
+Received: from phl-imap-02 ([10.202.2.81])
+  by phl-compute-04.internal (MEProxy); Thu, 26 Feb 2026 10:43:55 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=arndb.de; h=cc
+	:cc:content-transfer-encoding:content-type:content-type:date
+	:date:from:from:in-reply-to:in-reply-to:message-id:mime-version
+	:references:reply-to:subject:subject:to:to; s=fm3; t=1772120635;
+	 x=1772127835; bh=5NKb8s5uQsJxGoQ2AVBEtObpQ/CvaKcz4OqTIpIkbmc=; b=
+	BFOz5yqxSmg9S50IsSdLRGyQHw6zGY1eOdKa+Po1ZziBbN2GJ+4j9GfSK2vBzpb8
+	jke/0DjjeJ1N27rCrrDV17hYarBNm1Yv5Ef3DpswEsW5lXmy5P2MpCy6/j4n03oF
+	6AXtPA/NP2OgKRV62bfh5y074ZgZyuVK80kBotJiI5viaax3nK4TDXtsz7/fmWKi
+	Idb44puvspjnRxIVW8rRiXroKSe3UOJgw6SBDrDW/b4nrdVt9gRrGH0VYyTCCFI+
+	MaLql0ByGC1lAPGvtsNQy7knHDrJrYmiw6Z0TH7LP/fMQ/mbjchvlBUub+fpzM0z
+	AwgDVPMDWtHsSHNybdc70Q==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+	messagingengine.com; h=cc:cc:content-transfer-encoding
+	:content-type:content-type:date:date:feedback-id:feedback-id
+	:from:from:in-reply-to:in-reply-to:message-id:mime-version
+	:references:reply-to:subject:subject:to:to:x-me-proxy
+	:x-me-sender:x-me-sender:x-sasl-enc; s=fm3; t=1772120635; x=
+	1772127835; bh=5NKb8s5uQsJxGoQ2AVBEtObpQ/CvaKcz4OqTIpIkbmc=; b=F
+	c2ByHch3ij59MUwgdS2tUPIb02ImNYf+PdWdDaqtx5ATw62eUpliVMY8iV5D7hR3
+	wYi0CHEzfkgh/mmBuCbJYAChbEOC/Yi8PJeN5l62Iy2psmFsZrqPUq0n/+vZEsQO
+	qYjytQD72iqh1ghXwEeBJ+WUnvc4Fp1Jeo/4mgECJRniva5kBNFlm6iANF8sqab6
+	oNPUlMV1dQUyv+GQi7/PfCZFIvgRRn3B9r6NcepO1/wYvQBeHCR1LEsGxh1+Og4p
+	FYPE0U4hjheq9evedYJAexwrwIPKQjOD7fllTYCzxyIBPwHANOFBQd6w9WsyZAmJ
+	opoR4yIXQlrQwxqExmjlA==
+X-ME-Sender: <xms:N2qgaaQjbD4lDTTpYYJW04n5-N_REynhDJNOjDcAsLpq8XoFDTIP1Q>
+    <xme:N2qgaalYz6oAwIkXti0ilmTZ4SAWzxEhI78J-NBiOcz8jBnpIMTvnyc8aM72hc_ES
+    ARSAHBEQvzfvqva9WEslWopqCs96M2xP3m79vrzlriTC5w2htjwEyM>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeefgedrtddtgddvgeeigeefucetufdoteggodetrf
+    dotffvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfurfetoffkrfgpnffqhgenuceu
+    rghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmnecujf
+    gurhepofggfffhvfevkfgjfhfutgfgsehtjeertdertddtnecuhfhrohhmpedftehrnhgu
+    uceuvghrghhmrghnnhdfuceorghrnhgusegrrhhnuggsrdguvgeqnecuggftrfgrthhtvg
+    hrnhephfdthfdvtdefhedukeetgefggffhjeeggeetfefggfevudegudevledvkefhvdei
+    necuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmrghilhhfrhhomheprghrnh
+    gusegrrhhnuggsrdguvgdpnhgspghrtghpthhtohephedtpdhmohguvgepshhmthhpohhu
+    thdprhgtphhtthhopegsphesrghlihgvnhekrdguvgdprhgtphhtthhopegtrghtrghlih
+    hnrdhmrghrihhnrghssegrrhhmrdgtohhmpdhrtghpthhtoheplhhinhhugiesrghrmhhl
+    ihhnuhigrdhorhhgrdhukhdprhgtphhtthhopegrnhhtohhnrdhivhgrnhhovhestggrmh
+    gsrhhiughgvghgrhgvhihsrdgtohhmpdhrtghpthhtohepphgrlhhmvghrsegurggssggv
+    lhhtrdgtohhmpdhrtghpthhtohepuggrvhgvmhesuggrvhgvmhhlohhfthdrnhgvthdprh
+    gtphhtthhopegrohhusegvvggtshdrsggvrhhkvghlvgihrdgvughupdhrtghpthhtohep
+    mhhpvgesvghllhgvrhhmrghnrdhiugdrrghupdhrtghpthhtoheptghlmhesfhgsrdgtoh
+    hm
+X-ME-Proxy: <xmx:N2qgaUJWUEXUlLEjkxtJWtWBvZvargLkJYDYLT1WCObuQQIhrpl4jg>
+    <xmx:N2qgabuNvv7e3NmdoP0u_IPqZN1TMDnyqD0tO35lBUa_NaOCzbSmCg>
+    <xmx:N2qgaRqz5OOPUoSW-rsw8dZEHVicCLZG3p0s42DHReFDaNuct761aw>
+    <xmx:N2qgafV0jsQUaX0mdJgZVSo50cBCHJXR9outsNs-5KBrOO1PzPsRXw>
+    <xmx:O2qgafUJmIOfDaRuA5FfQ3utukV1YK4slK3UAvn21GEOucPhAX52tGfc>
+Feedback-ID: i56a14606:Fastmail
+Received: by mailuser.phl.internal (Postfix, from userid 501)
+	id A0F9D700065; Thu, 26 Feb 2026 10:43:51 -0500 (EST)
+X-Mailer: MessagingEngine.com Webmail Interface
 Precedence: bulk
 X-Mailing-List: linux-alpha@vger.kernel.org
 List-Id: <linux-alpha.vger.kernel.org>
 List-Subscribe: <mailto:linux-alpha+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-alpha+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-SRS-Rewrite: SMTP reverse-path rewritten from <hch@infradead.org> by bombadil.infradead.org. See http://www.infradead.org/rpr.html
+X-ThreadId: AQu7KcbS869J
+Date: Thu, 26 Feb 2026 16:40:21 +0100
+From: "Arnd Bergmann" <arnd@arndb.de>
+To: "Christoph Hellwig" <hch@lst.de>,
+ "Andrew Morton" <akpm@linux-foundation.org>
+Cc: "Richard Henderson" <richard.henderson@linaro.org>,
+ "Matt Turner" <mattst88@gmail.com>,
+ "Magnus Lindholm" <linmag7@gmail.com>,
+ "Russell King" <linux@armlinux.org.uk>,
+ "Catalin Marinas" <catalin.marinas@arm.com>,
+ "Will Deacon" <will@kernel.org>, "Huacai Chen" <chenhuacai@kernel.org>,
+ "WANG Xuerui" <kernel@xen0n.name>,
+ "Madhavan Srinivasan" <maddy@linux.ibm.com>,
+ "Michael Ellerman" <mpe@ellerman.id.au>,
+ "Nicholas Piggin" <npiggin@gmail.com>,
+ "Christophe Leroy" <chleroy@kernel.org>,
+ "Paul Walmsley" <pjw@kernel.org>, "Palmer Dabbelt" <palmer@dabbelt.com>,
+ "Albert Ou" <aou@eecs.berkeley.edu>, "Alexandre Ghiti" <alex@ghiti.fr>,
+ "Heiko Carstens" <hca@linux.ibm.com>,
+ "Vasily Gorbik" <gor@linux.ibm.com>,
+ "Alexander Gordeev" <agordeev@linux.ibm.com>,
+ "Christian Borntraeger" <borntraeger@linux.ibm.com>,
+ "Sven Schnelle" <svens@linux.ibm.com>,
+ "David S . Miller" <davem@davemloft.net>,
+ "Andreas Larsson" <andreas@gaisler.com>,
+ "Richard Weinberger" <richard@nod.at>,
+ "Anton Ivanov" <anton.ivanov@cambridgegreys.com>,
+ "Johannes Berg" <johannes@sipsolutions.net>,
+ "Thomas Gleixner" <tglx@kernel.org>, "Ingo Molnar" <mingo@redhat.com>,
+ "Borislav Petkov" <bp@alien8.de>,
+ "Dave Hansen" <dave.hansen@linux.intel.com>, x86@kernel.org,
+ "H. Peter Anvin" <hpa@zytor.com>,
+ "Herbert Xu" <herbert@gondor.apana.org.au>,
+ "Dan Williams" <dan.j.williams@intel.com>, "Chris Mason" <clm@fb.com>,
+ "David Sterba" <dsterba@suse.com>, "Song Liu" <song@kernel.org>,
+ "Yu Kuai" <yukuai@fnnas.com>, "Li Nan" <linan122@huawei.com>,
+ linux-alpha@vger.kernel.org, linux-kernel@vger.kernel.org,
+ linux-arm-kernel@lists.infradead.org, loongarch@lists.linux.dev,
+ linuxppc-dev@lists.ozlabs.org, linux-riscv@lists.infradead.org,
+ linux-s390@vger.kernel.org, sparclinux@vger.kernel.org,
+ linux-um@lists.infradead.org, linux-crypto@vger.kernel.org,
+ linux-btrfs@vger.kernel.org, Linux-Arch <linux-arch@vger.kernel.org>,
+ linux-raid@vger.kernel.org
+Message-Id: <29afa24a-f659-481b-b5a8-7b8b9e009755@app.fastmail.com>
+In-Reply-To: <20260226151106.144735-10-hch@lst.de>
+References: <20260226151106.144735-1-hch@lst.de>
+ <20260226151106.144735-10-hch@lst.de>
+Subject: Re: [PATCH 09/25] xor: move generic implementations out of asm-generic/xor.h
+Content-Type: text/plain
+Content-Transfer-Encoding: 7bit
 X-Rspamd-Server: lfdr
-X-Spamd-Result: default: False [-0.06 / 15.00];
-	MID_CONTAINS_FROM(1.00)[];
+X-Spamd-Result: default: False [-2.15 / 15.00];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
-	R_MISSING_CHARSET(0.50)[];
-	R_DKIM_ALLOW(-0.20)[infradead.org:s=bombadil.20210309];
+	DMARC_POLICY_ALLOW(-0.50)[arndb.de,none];
 	R_SPF_ALLOW(-0.20)[+ip4:172.234.253.10:c];
+	R_DKIM_ALLOW(-0.20)[arndb.de:s=fm3,messagingengine.com:s=fm3];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
-	DMARC_POLICY_SOFTFAIL(0.10)[lst.de : SPF not aligned (relaxed), DKIM not aligned (relaxed),none];
 	HAS_LIST_UNSUB(-0.01)[];
-	MIME_TRACE(0.00)[0:+];
-	FREEMAIL_CC(0.00)[linaro.org,gmail.com,armlinux.org.uk,arm.com,kernel.org,xen0n.name,linux.ibm.com,ellerman.id.au,dabbelt.com,eecs.berkeley.edu,ghiti.fr,davemloft.net,gaisler.com,nod.at,cambridgegreys.com,sipsolutions.net,redhat.com,alien8.de,linux.intel.com,zytor.com,gondor.apana.org.au,intel.com,fb.com,suse.com,arndb.de,fnnas.com,huawei.com,vger.kernel.org,lists.infradead.org,lists.linux.dev,lists.ozlabs.org];
-	TAGGED_FROM(0.00)[bounces-3044-lists,linux-alpha=lfdr.de];
+	XM_UA_NO_VERSION(0.01)[];
+	FREEMAIL_CC(0.00)[linaro.org,gmail.com,armlinux.org.uk,arm.com,kernel.org,xen0n.name,linux.ibm.com,ellerman.id.au,dabbelt.com,eecs.berkeley.edu,ghiti.fr,davemloft.net,gaisler.com,nod.at,cambridgegreys.com,sipsolutions.net,redhat.com,alien8.de,linux.intel.com,zytor.com,gondor.apana.org.au,intel.com,fb.com,suse.com,fnnas.com,huawei.com,vger.kernel.org,lists.infradead.org,lists.linux.dev,lists.ozlabs.org];
+	TAGGED_FROM(0.00)[bounces-3046-lists,linux-alpha=lfdr.de];
+	FROM_HAS_DN(0.00)[];
 	FORGED_SENDER_MAILLIST(0.00)[];
 	RCVD_TLS_LAST(0.00)[];
-	RCVD_COUNT_THREE(0.00)[4];
-	DKIM_TRACE(0.00)[infradead.org:+];
+	MIME_TRACE(0.00)[0:+];
+	DKIM_TRACE(0.00)[arndb.de:+,messagingengine.com:+];
 	ASN(0.00)[asn:63949, ipnet:172.234.224.0/19, country:SG];
 	TO_DN_SOME(0.00)[];
 	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[hch@lst.de,linux-alpha@vger.kernel.org];
-	FROM_HAS_DN(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[arnd@arndb.de,linux-alpha@vger.kernel.org];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	RCVD_COUNT_FIVE(0.00)[6];
+	NEURAL_HAM(-0.00)[-1.000];
 	RCPT_COUNT_GT_50(0.00)[54];
 	TAGGED_RCPT(0.00)[linux-alpha];
-	NEURAL_HAM(-0.00)[-0.999];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[lst.de:mid,lst.de:email,sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns,infradead.org:dkim]
-X-Rspamd-Queue-Id: 38C3B1A8BA0
+	DBL_BLOCKED_OPENRESOLVER(0.00)[sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns,app.fastmail.com:mid,arndb.de:email,arndb.de:dkim,messagingengine.com:dkim,lst.de:email]
+X-Rspamd-Queue-Id: 23A441A9940
 X-Rspamd-Action: no action
 
-Avoid the indirect call for xor_generation by using a static_call.
+On Thu, Feb 26, 2026, at 16:10, Christoph Hellwig wrote:
+> Move the generic implementations from asm-generic/xor.h to
+> per-implementaion .c files in lib/raid.
+>
+> Note that this would cause the second xor_block_8regs instance created by
+> arch/arm/lib/xor-neon.c to be generated instead of discarded as dead
+> code, so add a NO_TEMPLATE symbol to disable it for this case.
+>
+> Signed-off-by: Christoph Hellwig <hch@lst.de>
 
-Signed-off-by: Christoph Hellwig <hch@lst.de>
----
- lib/raid/xor/xor-32regs.c |  2 +-
- lib/raid/xor/xor-core.c   | 29 ++++++++++++++---------------
- lib/raid/xor/xor_impl.h   |  4 ++++
- 3 files changed, 19 insertions(+), 16 deletions(-)
+Acked-by: Arnd Bergmann <arnd@arndb.de> # for asm-generic
+> 
+> -#pragma GCC diagnostic ignored "-Wunused-variable"
+> -#include <asm-generic/xor.h>
+> +#define NO_TEMPLATE
+> +#include "../../../lib/raid/xor/xor-8regs.c"
 
-diff --git a/lib/raid/xor/xor-32regs.c b/lib/raid/xor/xor-32regs.c
-index acb4a10d1e95..759a31f76414 100644
---- a/lib/raid/xor/xor-32regs.c
-+++ b/lib/raid/xor/xor-32regs.c
-@@ -209,7 +209,7 @@ xor_32regs_5(unsigned long bytes, unsigned long * __restrict p1,
- 	} while (--lines > 0);
- }
- 
--DO_XOR_BLOCKS(32regs, xor_32regs_2, xor_32regs_3, xor_32regs_4, xor_32regs_5);
-+__DO_XOR_BLOCKS(32regs, xor_32regs_2, xor_32regs_3, xor_32regs_4, xor_32regs_5);
- 
- struct xor_block_template xor_block_32regs = {
- 	.name		= "32regs",
-diff --git a/lib/raid/xor/xor-core.c b/lib/raid/xor/xor-core.c
-index f18dcc57004b..2ab03dd294bf 100644
---- a/lib/raid/xor/xor-core.c
-+++ b/lib/raid/xor/xor-core.c
-@@ -11,10 +11,14 @@
- #include <linux/raid/xor.h>
- #include <linux/jiffies.h>
- #include <linux/preempt.h>
-+#include <linux/static_call.h>
- #include "xor_impl.h"
- 
--/* The xor routine to use.  */
--static struct xor_block_template *active_template;
-+/*
-+ * Provide a temporary default until the fastest or forced implementation is
-+ * picked.
-+ */
-+DEFINE_STATIC_CALL(xor_gen_impl, xor_gen_32regs);
- 
- /**
-  * xor_gen - generate RAID-style XOR information
-@@ -32,13 +36,13 @@ static struct xor_block_template *active_template;
- void xor_gen(void *dest, void **srcs, unsigned int src_cnt, unsigned int bytes)
- {
- 	WARN_ON_ONCE(in_interrupt());
--	active_template->xor_gen(dest, srcs, src_cnt, bytes);
-+	static_call(xor_gen_impl)(dest, srcs, src_cnt, bytes);
- }
- EXPORT_SYMBOL(xor_gen);
- 
- /* Set of all registered templates.  */
- static struct xor_block_template *__initdata template_list;
--static int __initdata xor_forced = false;
-+static struct xor_block_template *forced_template;
- 
- /**
-  * xor_register - register a XOR template
-@@ -64,7 +68,7 @@ void __init xor_register(struct xor_block_template *tmpl)
-  */
- void __init xor_force(struct xor_block_template *tmpl)
- {
--	active_template = tmpl;
-+	forced_template = tmpl;
- }
- 
- #define BENCH_SIZE	4096
-@@ -106,7 +110,7 @@ static int __init calibrate_xor_blocks(void)
- 	void *b1, *b2;
- 	struct xor_block_template *f, *fastest;
- 
--	if (xor_forced)
-+	if (forced_template)
- 		return 0;
- 
- 	b1 = (void *) __get_free_pages(GFP_KERNEL, 2);
-@@ -123,7 +127,7 @@ static int __init calibrate_xor_blocks(void)
- 		if (f->speed > fastest->speed)
- 			fastest = f;
- 	}
--	active_template = fastest;
-+	static_call_update(xor_gen_impl, fastest->xor_gen);
- 	pr_info("xor: using function: %s (%d MB/sec)\n",
- 	       fastest->name, fastest->speed);
- 
-@@ -151,21 +155,16 @@ static int __init xor_init(void)
- 	 * If this arch/cpu has a short-circuited selection, don't loop through
- 	 * all the possible functions, just use the best one.
- 	 */
--	if (active_template) {
-+	if (forced_template) {
- 		pr_info("xor: automatically using best checksumming function   %-10s\n",
--			active_template->name);
--		xor_forced = true;
-+			forced_template->name);
-+		static_call_update(xor_gen_impl, forced_template->xor_gen);
- 		return 0;
- 	}
- 
- #ifdef MODULE
- 	return calibrate_xor_blocks();
- #else
--	/*
--	 * Pick the first template as the temporary default until calibration
--	 * happens.
--	 */
--	active_template = template_list;
- 	return 0;
- #endif
- }
-diff --git a/lib/raid/xor/xor_impl.h b/lib/raid/xor/xor_impl.h
-index 968dd07df627..f11910162b08 100644
---- a/lib/raid/xor/xor_impl.h
-+++ b/lib/raid/xor/xor_impl.h
-@@ -50,6 +50,10 @@ extern struct xor_block_template xor_block_32regs;
- extern struct xor_block_template xor_block_8regs_p;
- extern struct xor_block_template xor_block_32regs_p;
- 
-+/* default call until updated */
-+void xor_gen_32regs(void *dest, void **srcs, unsigned int src_cnt,
-+		unsigned int bytes);
-+
- void __init xor_register(struct xor_block_template *tmpl);
- void __init xor_force(struct xor_block_template *tmpl);
- 
--- 
-2.47.3
+The #include is slightly ugly, but I see it gets better in a later patch,
+and is clearly worth it either way.
 
+The rest of the series looks good to me as well. I had a brief
+look at each patch, but nothing to complain about.
+
+     Arnd
 
