@@ -1,49 +1,49 @@
-Return-Path: <linux-alpha+bounces-3291-lists+linux-alpha=lfdr.de@vger.kernel.org>
+Return-Path: <linux-alpha+bounces-3292-lists+linux-alpha=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-alpha@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id 6HtXA8mP2GksfQgAu9opvQ
-	(envelope-from <linux-alpha+bounces-3291-lists+linux-alpha=lfdr.de@vger.kernel.org>)
-	for <lists+linux-alpha@lfdr.de>; Fri, 10 Apr 2026 07:51:05 +0200
+	id 8CFmKBqQ2GlHfQgAu9opvQ
+	(envelope-from <linux-alpha+bounces-3292-lists+linux-alpha=lfdr.de@vger.kernel.org>)
+	for <lists+linux-alpha@lfdr.de>; Fri, 10 Apr 2026 07:52:26 +0200
 X-Original-To: lists+linux-alpha@lfdr.de
-Received: from sin.lore.kernel.org (sin.lore.kernel.org [IPv6:2600:3c15:e001:75::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0295E3D2635
-	for <lists+linux-alpha@lfdr.de>; Fri, 10 Apr 2026 07:51:03 +0200 (CEST)
+Received: from sea.lore.kernel.org (sea.lore.kernel.org [172.234.253.10])
+	by mail.lfdr.de (Postfix) with ESMTPS id 314B83D2746
+	for <lists+linux-alpha@lfdr.de>; Fri, 10 Apr 2026 07:52:25 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sin.lore.kernel.org (Postfix) with ESMTP id 283DF300E185
-	for <lists+linux-alpha@lfdr.de>; Fri, 10 Apr 2026 05:51:01 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id 3C026302BBBA
+	for <lists+linux-alpha@lfdr.de>; Fri, 10 Apr 2026 05:51:04 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 80035322B9F;
-	Fri, 10 Apr 2026 05:50:59 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 1C5F9322B9F;
+	Fri, 10 Apr 2026 05:51:03 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="fFgo48Kh"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Y9ryeqGM"
 X-Original-To: linux-alpha@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5C5B230BF5C;
-	Fri, 10 Apr 2026 05:50:59 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EDECB30F52A;
+	Fri, 10 Apr 2026 05:51:02 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1775800259; cv=none; b=XeZZ4uEKjnhngw5FDnwzqne9ubyv70UUC+9vbuDWxoVDDbiKOs/konKu3Cb/9gD3eAH3zeZ3+HxtUHLYE4Yuk+jSMs3yaKqPnAGWHqUSLPomqM4+jAQ8fla7gA74KHswaFqsLcjP4aIDx5e1AXUpVxufsfvJModdUrTTDwXHxKE=
+	t=1775800263; cv=none; b=J51YN9n6+jPOWTtqiKrcI6o1RLy2MTlg845LhS7eZJZfkAGbEr/g5t5lXTH7ZXgZ8lEtn0DSN7MUSxmsGml+MPliaXgIjiA3YyVWKoeJ3kTzD3T209eKji98Hnee3JMAATbX+US5j3FD+SKlTZmY9pcw/0JGJ+QrjqPg0bbU7eQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1775800259; c=relaxed/simple;
-	bh=SoGJBLsBAedU3UkQnFKz0LBvzv23roF9wHFr+0WZ14I=;
+	s=arc-20240116; t=1775800263; c=relaxed/simple;
+	bh=Jl/CqRDCeCLI+hvaYW9X7cU2GJJVSRyyY/vEVWNYR6U=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=ehPQpaoDe7l0xuOG9AkQwoLApJIpbAyAvtwCg9R4Faxum2OSkv969fn142+4czwnRiFh2+gc30anilMu9+weaWU9wp1UlB460Uee4fxEAvRNPqu8X6aedHGAdtllYYlaVV78SKriiQ5RQvX/bZjsBGzdsENEspaPRAfbdBkIsSQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=fFgo48Kh; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id CFB7FC2BC9E;
-	Fri, 10 Apr 2026 05:50:55 +0000 (UTC)
+	 MIME-Version:Content-Type; b=lN7JqPtdYmmQbs2+0ugTQjccSvtdxoZRRAwmxSnzWIJNIAOX31nZtmYt86ICZDLxhn4VphXaykfD4SPrwp88vu0F+j3SSRZ8KQ7zSlvhMbWdbG5fMdYhsq1f9fVfn7HNr8QvD9dtkhVdPH55PAoiGilkgc5EV+nHpMoZkxxT6VA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Y9ryeqGM; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 5B023C19424;
+	Fri, 10 Apr 2026 05:50:59 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1775800259;
-	bh=SoGJBLsBAedU3UkQnFKz0LBvzv23roF9wHFr+0WZ14I=;
+	s=k20201202; t=1775800262;
+	bh=Jl/CqRDCeCLI+hvaYW9X7cU2GJJVSRyyY/vEVWNYR6U=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=fFgo48KhP2UwDP+v7nBAAQpFvOcYKzZLYUpNrDbkMijA1CB/EOL/wf0hnZlc+76nA
-	 QsgNEHBftINlrHeVEVCM5cfdhpaa2UA20qtkNr3ImV/HC/36UrrDrZu1vqo3Q8KvHH
-	 8igsFPxntEMEia0YELY/E2uyNxICaOnxIC5jIi1ROZv8KDzNFgIncJy6+XVY/KlGVt
-	 hBUfxONpEMROdiKXuWSdcPvqOrOEmz5Tlvi5RZ7lP8ZW+WbtPwfj6HZ7o+ZSkR2k5I
-	 lKraDdD1mdbrwxowYEuiId6ylp90u/2drCdw7XYpIg3MuyfilzxfGOPlCH6FY0sPJl
-	 GaMDcCMe1ufsA==
+	b=Y9ryeqGMhfUQt6iNjkMXN+tFxZqVheQae+upre/T2m6AjawDlXhjV6HYvVyaI7EGo
+	 2ZpxrTWLNwAHa+rQVcfyucCEuha+govFmDAe3UCLb6/X4E3egZmibWhGz+1sIuZis0
+	 dyp/xArjE2f8Nvtq2b05CuE/K5gPJ9BaNvMidTC81SacrhQvO8poGWvEIiUoSKjAow
+	 +Obvt2GnVRLgz/5LB/wWnlcyy72zk/Kfr865EYjx5Oq6vpqexLv85znTJYrpFdJ0s5
+	 nwAGUXr6W43glUhueOuPgN/KMgcr426lM+dlQQnzJkTaREBQ58GRjfejEaZh4FdqB/
+	 Xyxicu/sDHRsA==
 From: =?UTF-8?q?Krzysztof=20Wilczy=C5=84ski?= <kwilczynski@kernel.org>
 To: Bjorn Helgaas <bhelgaas@google.com>
 Cc: Bjorn Helgaas <helgaas@kernel.org>,
@@ -67,9 +67,9 @@ Cc: Bjorn Helgaas <helgaas@kernel.org>,
 	linux-pci@vger.kernel.org,
 	linux-alpha@vger.kernel.org,
 	linuxppc-dev@lists.ozlabs.org
-Subject: [PATCH 04/20] PCI/sysfs: Add CAP_SYS_ADMIN check to __resource_resize_store()
-Date: Fri, 10 Apr 2026 05:50:24 +0000
-Message-ID: <20260410055040.39233-5-kwilczynski@kernel.org>
+Subject: [PATCH 05/20] PCI/sysfs: Add static PCI resource attribute macros
+Date: Fri, 10 Apr 2026 05:50:25 +0000
+Message-ID: <20260410055040.39233-6-kwilczynski@kernel.org>
 X-Mailer: git-send-email 2.53.0
 In-Reply-To: <20260410055040.39233-1-kwilczynski@kernel.org>
 References: <20260410055040.39233-1-kwilczynski@kernel.org>
@@ -85,18 +85,17 @@ X-Spamd-Result: default: False [-1.16 / 15.00];
 	MID_CONTAINS_FROM(1.00)[];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
 	DMARC_POLICY_ALLOW(-0.50)[kernel.org,quarantine];
-	R_SPF_ALLOW(-0.20)[+ip6:2600:3c15:e001:75::/64:c];
+	R_SPF_ALLOW(-0.20)[+ip4:172.234.253.10:c];
 	R_DKIM_ALLOW(-0.20)[kernel.org:s=k20201202];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
+	TAGGED_FROM(0.00)[bounces-3292-lists,linux-alpha=lfdr.de];
 	FREEMAIL_CC(0.00)[kernel.org,gmail.com,linaro.org,linux.ibm.com,ellerman.id.au,microsoft.com,piap.pl,wunner.de,bytedance.com,linux.intel.com,vger.kernel.org,lists.ozlabs.org];
-	URIBL_MULTI_FAIL(0.00)[sin.lore.kernel.org:server fail];
-	TAGGED_FROM(0.00)[bounces-3291-lists,linux-alpha=lfdr.de];
 	MIME_TRACE(0.00)[0:+];
-	FORGED_SENDER_MAILLIST(0.00)[];
 	RCVD_TLS_LAST(0.00)[];
 	RCVD_COUNT_THREE(0.00)[4];
+	FORGED_SENDER_MAILLIST(0.00)[];
 	FROM_HAS_DN(0.00)[];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
 	RCPT_COUNT_TWELVE(0.00)[22];
@@ -106,43 +105,81 @@ X-Spamd-Result: default: False [-1.16 / 15.00];
 	NEURAL_HAM(-0.00)[-1.000];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
 	TAGGED_RCPT(0.00)[linux-alpha];
-	ASN(0.00)[asn:63949, ipnet:2600:3c15::/32, country:SG];
+	ASN(0.00)[asn:63949, ipnet:172.234.224.0/19, country:SG];
 	TO_DN_SOME(0.00)[]
-X-Rspamd-Queue-Id: 0295E3D2635
+X-Rspamd-Queue-Id: 314B83D2746
 X-Rspamd-Action: no action
 X-Rspamd-Server: lfdr
 
-Currently, the __resource_resize_store() allows writing to the
-resourceN_resize sysfs attribute to change a BAR's size without
-checking for capabilities, currently relying only on the file
-access check.
+Add three macros for declaring static binary attributes for PCI
+resource files:
 
-Resizing a BAR modifies PCI device configuration and can disrupt
-active drivers.  After the upcoming conversion to static attributes,
-it will also trigger resource file updates via sysfs_update_groups().
+  - pci_dev_resource_io_attr(), for I/O BAR resources (read/write)
+  - pci_dev_resource_uc_attr(), for memory BAR resources (mmap uncached)
+  - pci_dev_resource_wc_attr(), for write-combine resources (mmap WC)
 
-Thus, add a CAP_SYS_ADMIN check to prevent unprivileged users from
-performing BAR resize operations.
+Each macro only sets the callbacks its resource type needs.  The I/O
+macro conditionally includes mmap support via __PCI_RESOURCE_IO_MMAP_ATTRS
+on architectures where arch_can_pci_mmap_io() is true at compile time
+(such as PowerPC, SPARC, and Xtensa).
 
 Signed-off-by: Krzysztof Wilczyński <kwilczynski@kernel.org>
 ---
- drivers/pci/pci-sysfs.c | 3 +++
- 1 file changed, 3 insertions(+)
+ drivers/pci/pci-sysfs.c | 41 +++++++++++++++++++++++++++++++++++++++++
+ 1 file changed, 41 insertions(+)
 
 diff --git a/drivers/pci/pci-sysfs.c b/drivers/pci/pci-sysfs.c
-index ac4e7c516e78..6b8c8e62f68a 100644
+index 6b8c8e62f68a..d29d79be8ee5 100644
 --- a/drivers/pci/pci-sysfs.c
 +++ b/drivers/pci/pci-sysfs.c
-@@ -1619,6 +1619,9 @@ static ssize_t __resource_resize_store(struct device *dev, int n,
- 	int ret;
- 	u16 cmd;
+@@ -1220,6 +1220,47 @@ static ssize_t pci_write_resource_io(struct file *filp, struct kobject *kobj,
+ 	return pci_resource_io(filp, kobj, attr, buf, off, count, true);
+ }
  
-+	if (!capable(CAP_SYS_ADMIN))
-+		return -EPERM;
++/*
++ * generic_file_llseek() consults f_mapping->host to determine
++ * the file size. As iomem_inode knows nothing about the
++ * attribute, it's not going to work, so override it as well.
++ */
++#if arch_can_pci_mmap_io()
++# define __PCI_RESOURCE_IO_MMAP_ATTRS		\
++	.f_mapping = iomem_get_mapping,		\
++	.llseek = pci_llseek_resource,		\
++	.mmap = pci_mmap_resource_uc,
++#else
++# define __PCI_RESOURCE_IO_MMAP_ATTRS
++#endif
 +
- 	if (kstrtoul(buf, 0, &size) < 0)
- 		return -EINVAL;
- 
++#define pci_dev_resource_io_attr(_bar)					\
++static const struct bin_attribute dev_resource##_bar##_io_attr = {	\
++	.attr = { .name = "resource" __stringify(_bar), .mode = 0600 },	\
++	.private = (void *)(unsigned long)(_bar),			\
++	.read = pci_read_resource,					\
++	.write = pci_write_resource,					\
++	__PCI_RESOURCE_IO_MMAP_ATTRS					\
++}
++
++#define pci_dev_resource_uc_attr(_bar)					\
++static const struct bin_attribute dev_resource##_bar##_uc_attr = {	\
++	.attr = { .name = "resource" __stringify(_bar), .mode = 0600 },	\
++	.private = (void *)(unsigned long)(_bar),			\
++	.f_mapping = iomem_get_mapping,					\
++	.llseek = pci_llseek_resource,					\
++	.mmap = pci_mmap_resource_uc,					\
++}
++
++#define pci_dev_resource_wc_attr(_bar)						\
++static const struct bin_attribute dev_resource##_bar##_wc_attr = {		\
++	.attr = { .name = "resource" __stringify(_bar) "_wc", .mode = 0600 },	\
++	.private = (void *)(unsigned long)(_bar),				\
++	.f_mapping = iomem_get_mapping,						\
++	.llseek = pci_llseek_resource,						\
++	.mmap = pci_mmap_resource_wc,						\
++}
++
+ /**
+  * pci_remove_resource_files - cleanup resource files
+  * @pdev: dev to cleanup
 -- 
 2.53.0
 
