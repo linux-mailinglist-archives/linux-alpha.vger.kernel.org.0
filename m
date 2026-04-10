@@ -1,49 +1,49 @@
-Return-Path: <linux-alpha+bounces-3303-lists+linux-alpha=lfdr.de@vger.kernel.org>
+Return-Path: <linux-alpha+bounces-3304-lists+linux-alpha=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-alpha@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id GADsHvGP2GksfQgAu9opvQ
-	(envelope-from <linux-alpha+bounces-3303-lists+linux-alpha=lfdr.de@vger.kernel.org>)
-	for <lists+linux-alpha@lfdr.de>; Fri, 10 Apr 2026 07:51:45 +0200
+	id 4I/VAPaP2GksfQgAu9opvQ
+	(envelope-from <linux-alpha+bounces-3304-lists+linux-alpha=lfdr.de@vger.kernel.org>)
+	for <lists+linux-alpha@lfdr.de>; Fri, 10 Apr 2026 07:51:50 +0200
 X-Original-To: lists+linux-alpha@lfdr.de
-Received: from tor.lore.kernel.org (tor.lore.kernel.org [IPv6:2600:3c04:e001:36c::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id 304273D26A4
-	for <lists+linux-alpha@lfdr.de>; Fri, 10 Apr 2026 07:51:45 +0200 (CEST)
+Received: from tor.lore.kernel.org (tor.lore.kernel.org [172.105.105.114])
+	by mail.lfdr.de (Postfix) with ESMTPS id AB9933D26B3
+	for <lists+linux-alpha@lfdr.de>; Fri, 10 Apr 2026 07:51:49 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by tor.lore.kernel.org (Postfix) with ESMTP id 919BC3014C7C
-	for <lists+linux-alpha@lfdr.de>; Fri, 10 Apr 2026 05:51:43 +0000 (UTC)
+	by tor.lore.kernel.org (Postfix) with ESMTP id 9821A3012C86
+	for <lists+linux-alpha@lfdr.de>; Fri, 10 Apr 2026 05:51:48 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 61867331A56;
-	Fri, 10 Apr 2026 05:51:43 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id E5972331A56;
+	Fri, 10 Apr 2026 05:51:46 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="fKo56qqF"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="L9KhOCvw"
 X-Original-To: linux-alpha@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3EB1230BF5C;
-	Fri, 10 Apr 2026 05:51:43 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C27AF30F52A;
+	Fri, 10 Apr 2026 05:51:46 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1775800303; cv=none; b=vAsslezcazQm9G7xeKWvyLkOlXvkngVc4FkTTrKJ/bMMxRFPfHMvQvIrdik61oaK/K5OeXfq+/GafPReJGGkoOjSM3qdZdiUtVoxLirwpvLCWt2sfBY3zDehPOCmfMUWeAuIwqfc0wVrJyibpPqnFsVmnILJuP23xr11bYjII3A=
+	t=1775800306; cv=none; b=Kj18TsN8Vn3HGcns/ye8oYa6XpsNWijUzry8XWBezvUhs0vj/Wt6QPONjCZzEfNwaUaLU9gTDBVk+rJcne4bHxcOpJN4IKUCQvdR7V59Mof4WVVdv0tFKT/YkUuWE7R0++jR42VOH/vmua4G1Ds++HkAA9n+/U7oHcZoIFOdFs4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1775800303; c=relaxed/simple;
-	bh=lMntqWv4FJlC5Eob4H2wN2PzFM5mxJOGAsB5cVrnmM4=;
+	s=arc-20240116; t=1775800306; c=relaxed/simple;
+	bh=RaLaicXdVd13BfmiGv2VaH4swf8eCOhEtaGCnbo0iIg=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=ghpsq/4IylUbkMZ4tYp5X3raHjreJPaayCOlSxFGTnu43T8qEDLhTT55InGdtuJUILyrXDhxwKcZ+aNu6mFwNUor5p7JOzHC9TZ3mL0f4jEcGRaT6HD9qVftB5/gR0n0lWJIGhCSA6vvFLuR2Rdphez9NJfXVFAW77+FgQ04T9o=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=fKo56qqF; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id BEE0EC2BCAF;
-	Fri, 10 Apr 2026 05:51:39 +0000 (UTC)
+	 MIME-Version:Content-Type; b=k48TmxHHgG3uyiXhjGzdqC04+T3xsapgBn0viThYVftM+ha672VhcCp3GEeWnxrGIrdISu7G2ljgLi0+/MzplMJKnGPemI+wJix22iaNiS4e80QeaQy8huW46YEn0jgRTb0QCV2U+//gRFik1rbvZ4ImhjAFlXNYIA+mQOsYYn8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=L9KhOCvw; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 79227C19421;
+	Fri, 10 Apr 2026 05:51:43 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1775800303;
-	bh=lMntqWv4FJlC5Eob4H2wN2PzFM5mxJOGAsB5cVrnmM4=;
+	s=k20201202; t=1775800306;
+	bh=RaLaicXdVd13BfmiGv2VaH4swf8eCOhEtaGCnbo0iIg=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=fKo56qqFu7ujSnOWOqagKgX3VWv0GT5NKAEujmYnOzF9h0sRpa8zJ3on/SH6oj1kL
-	 xp5QljIGWbZEzixMNHy8hUhJbn+QBGR01XazochBtVcwgbDdTEI0mBQYDCJMKEtog7
-	 2Q86p32GVBMbeUQaRIxEPrCsO8CKU2MZn0ma7X3v62w4WVEf1XqA8HQ/ulDtcG+H6M
-	 BE0Gw9zYvNdQUzAdNKZXcWDa7MX/D1jeWiGNjNJ+nDjom79bErOIVjtm0lkpzQZqz8
-	 gXJoTFNXUcJEsJ20VbYQZ3goYpRJWcYt8/dGZfrJ92dEpS5nYvzHoQAr/D3H8Y/q1E
-	 yjOKLgrOifclw==
+	b=L9KhOCvwhQBtoVpNr6HLSFDBoXOpjGQuwTz5mSKRMKHFJpTYUVqBAQbaySh5U/2c6
+	 SN44v4MFI2F7H8mEXNOvh7jTGhAh50/IkSeVwCDEPIPKv20uDiusCSdfc/BSpG9QHP
+	 YBGH0h4FMkgUZxvnpLFjQSMJHnYmJyVLRfptvRgl1MvTA0xUpcLDWOQffjysbKv2uF
+	 w+8TwLGglwIBY8Us/Km9F1tr4EGd0DKquEmHy9UcAzhCSt66wVtWFKYS/0/3m59ISp
+	 AfIgqbwJDk9Wo0Aiv4q36+2MA0J24+dk5j22Lj+MFY2PXNYq/fVP/AoUdu/hVm1lCu
+	 8bWvlMrIwMmpQ==
 From: =?UTF-8?q?Krzysztof=20Wilczy=C5=84ski?= <kwilczynski@kernel.org>
 To: Bjorn Helgaas <bhelgaas@google.com>
 Cc: Bjorn Helgaas <helgaas@kernel.org>,
@@ -67,9 +67,9 @@ Cc: Bjorn Helgaas <helgaas@kernel.org>,
 	linux-pci@vger.kernel.org,
 	linux-alpha@vger.kernel.org,
 	linuxppc-dev@lists.ozlabs.org
-Subject: [PATCH 16/20] PCI/sysfs: Remove pci_{create,remove}_sysfs_dev_files()
-Date: Fri, 10 Apr 2026 05:50:36 +0000
-Message-ID: <20260410055040.39233-17-kwilczynski@kernel.org>
+Subject: [PATCH 17/20] alpha/PCI: Compute legacy size in pci_mmap_legacy_page_range()
+Date: Fri, 10 Apr 2026 05:50:37 +0000
+Message-ID: <20260410055040.39233-18-kwilczynski@kernel.org>
 X-Mailer: git-send-email 2.53.0
 In-Reply-To: <20260410055040.39233-1-kwilczynski@kernel.org>
 References: <20260410055040.39233-1-kwilczynski@kernel.org>
@@ -85,14 +85,14 @@ X-Spamd-Result: default: False [-1.16 / 15.00];
 	MID_CONTAINS_FROM(1.00)[];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
 	DMARC_POLICY_ALLOW(-0.50)[kernel.org,quarantine];
-	R_SPF_ALLOW(-0.20)[+ip6:2600:3c04:e001:36c::/64:c];
+	R_SPF_ALLOW(-0.20)[+ip4:172.105.105.114:c];
 	R_DKIM_ALLOW(-0.20)[kernel.org:s=k20201202];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
 	FREEMAIL_CC(0.00)[kernel.org,gmail.com,linaro.org,linux.ibm.com,ellerman.id.au,microsoft.com,piap.pl,wunner.de,bytedance.com,linux.intel.com,vger.kernel.org,lists.ozlabs.org];
 	URIBL_MULTI_FAIL(0.00)[tor.lore.kernel.org:server fail];
-	TAGGED_FROM(0.00)[bounces-3303-lists,linux-alpha=lfdr.de];
+	TAGGED_FROM(0.00)[bounces-3304-lists,linux-alpha=lfdr.de];
 	MIME_TRACE(0.00)[0:+];
 	FORGED_SENDER_MAILLIST(0.00)[];
 	RCVD_TLS_LAST(0.00)[];
@@ -106,196 +106,43 @@ X-Spamd-Result: default: False [-1.16 / 15.00];
 	NEURAL_HAM(-0.00)[-1.000];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
 	TAGGED_RCPT(0.00)[linux-alpha];
-	ASN(0.00)[asn:63949, ipnet:2600:3c04::/32, country:SG];
+	ASN(0.00)[asn:63949, ipnet:172.105.96.0/20, country:SG];
 	TO_DN_SOME(0.00)[]
-X-Rspamd-Queue-Id: 304273D26A4
+X-Rspamd-Queue-Id: AB9933D26B3
 X-Rspamd-Action: no action
 X-Rspamd-Server: lfdr
 
-Currently, pci_create_sysfs_dev_files() and pci_remove_sysfs_dev_files()
-are no-op stubs.  With both the generic and Alpha resource files now
-handled by static attribute groups, no platform needs dynamic per-device
-sysfs file creation.
+Currently, pci_mmap_legacy_page_range() reads the legacy resource
+size from bus->legacy_mem->size or bus->legacy_io->size.  This
+couples the mmap bounds check to the struct pci_bus fields that
+will be removed when legacy attributes are converted to static
+definitions.
 
-Thus, remove both functions, their declarations, and the call sites in
-pci_bus_add_device() and pci_stop_bus_device().
-
-Remove __weak pci_create_resource_files() and pci_remove_resource_files()
-stubs and their declarations in pci.h, as no architecture overrides them
-anymore.
-
-Remove the res_attr[] and res_attr_wc[] fields from struct pci_dev
-which were used to track dynamically allocated resource attributes.
-
-Finally, simplify pci_sysfs_init() to only handle legacy file creation
-under HAVE_PCI_LEGACY, removing the per-device loop and the
-HAVE_PCI_SYSFS_INIT helper added earlier.
+Compute the size directly from the known constants (0x100000 for
+memory, 0xffff for I/O) and shift by 5 bits for sparse systems.
 
 Signed-off-by: Krzysztof Wilczyński <kwilczynski@kernel.org>
 ---
- drivers/pci/bus.c       |  1 -
- drivers/pci/pci-sysfs.c | 53 ++---------------------------------------
- drivers/pci/pci.h       |  4 ----
- drivers/pci/remove.c    |  1 -
- include/linux/pci.h     |  9 -------
- 5 files changed, 2 insertions(+), 66 deletions(-)
+ arch/alpha/kernel/pci-sysfs.c | 6 ++++--
+ 1 file changed, 4 insertions(+), 2 deletions(-)
 
-diff --git a/drivers/pci/bus.c b/drivers/pci/bus.c
-index 6c1ad1f542d9..655ed53436d3 100644
---- a/drivers/pci/bus.c
-+++ b/drivers/pci/bus.c
-@@ -354,7 +354,6 @@ void pci_bus_add_device(struct pci_dev *dev)
- 	pci_fixup_device(pci_fixup_final, dev);
- 	if (pci_is_bridge(dev))
- 		of_pci_make_dev_node(dev);
--	pci_create_sysfs_dev_files(dev);
- 	pci_proc_attach_device(dev);
- 	pci_bridge_d3_update(dev);
+diff --git a/arch/alpha/kernel/pci-sysfs.c b/arch/alpha/kernel/pci-sysfs.c
+index 27adfe6dbd5e..2da95d965e9c 100644
+--- a/arch/alpha/kernel/pci-sysfs.c
++++ b/arch/alpha/kernel/pci-sysfs.c
+@@ -180,8 +180,10 @@ int pci_mmap_legacy_page_range(struct pci_bus *bus, struct vm_area_struct *vma,
+ 	int sparse = has_sparse(hose, mmap_type);
+ 	unsigned long res_size;
  
-diff --git a/drivers/pci/pci-sysfs.c b/drivers/pci/pci-sysfs.c
-index 062921d5df9b..40b5e21d77f3 100644
---- a/drivers/pci/pci-sysfs.c
-+++ b/drivers/pci/pci-sysfs.c
-@@ -37,12 +37,7 @@
- #define ARCH_PCI_DEV_GROUPS
- #endif
+-	res_size = (mmap_type == pci_mmap_mem) ? bus->legacy_mem->size :
+-						 bus->legacy_io->size;
++	res_size = (mmap_type == pci_mmap_mem) ? 0x100000 : 0xffff;
++	if (sparse)
++		res_size <<= 5;
++
+ 	if (!__legacy_mmap_fits(hose, vma, res_size, sparse))
+ 		return -EINVAL;
  
--#if defined(HAVE_PCI_LEGACY) || \
--	!defined(HAVE_PCI_MMAP) && !defined(ARCH_GENERIC_PCI_MMAP_RESOURCE)
--#define HAVE_PCI_SYSFS_INIT
--#endif
--
--#ifdef HAVE_PCI_SYSFS_INIT
-+#ifdef HAVE_PCI_LEGACY
- static int sysfs_initialized;	/* = 0 */
- #endif
- 
-@@ -1399,9 +1394,6 @@ static const struct attribute_group *pci_dev_resource_attr_groups[] = {
- 	&pci_dev_resource_wc_attr_group,
- 	NULL,
- };
--#else
--int __weak pci_create_resource_files(struct pci_dev *dev) { return 0; }
--void __weak pci_remove_resource_files(struct pci_dev *dev) { }
- #endif
- 
- /**
-@@ -1771,54 +1763,13 @@ static const struct attribute_group pci_dev_resource_resize_attr_group = {
- };
- #endif
- 
--#if defined(HAVE_PCI_MMAP) || defined(ARCH_GENERIC_PCI_MMAP_RESOURCE)
--int pci_create_sysfs_dev_files(struct pci_dev *pdev) { return 0; }
--void pci_remove_sysfs_dev_files(struct pci_dev *pdev) { }
--#else
--int __must_check pci_create_sysfs_dev_files(struct pci_dev *pdev)
--{
--	if (!sysfs_initialized)
--		return -EACCES;
--
--	return pci_create_resource_files(pdev);
--}
--
--/**
-- * pci_remove_sysfs_dev_files - cleanup PCI specific sysfs files
-- * @pdev: device whose entries we should free
-- *
-- * Cleanup when @pdev is removed from sysfs.
-- */
--void pci_remove_sysfs_dev_files(struct pci_dev *pdev)
--{
--	if (!sysfs_initialized)
--		return;
--
--	pci_remove_resource_files(pdev);
--}
--#endif
--
--#ifdef HAVE_PCI_SYSFS_INIT
-+#ifdef HAVE_PCI_LEGACY
- static int __init pci_sysfs_init(void)
- {
--#if defined(HAVE_PCI_MMAP) || defined(ARCH_GENERIC_PCI_MMAP_RESOURCE)
- 	struct pci_bus *pbus = NULL;
- 
- 	sysfs_initialized = 1;
--#else
--	struct pci_dev *pdev = NULL;
--	struct pci_bus *pbus = NULL;
--	int retval;
- 
--	sysfs_initialized = 1;
--	for_each_pci_dev(pdev) {
--		retval = pci_create_sysfs_dev_files(pdev);
--		if (retval) {
--			pci_dev_put(pdev);
--			return retval;
--		}
--	}
--#endif
- 	while ((pbus = pci_find_next_bus(pbus)))
- 		pci_create_legacy_files(pbus);
- 
-diff --git a/drivers/pci/pci.h b/drivers/pci/pci.h
-index 13d998fbacce..1bf165595583 100644
---- a/drivers/pci/pci.h
-+++ b/drivers/pci/pci.h
-@@ -391,16 +391,12 @@ static inline int pci_no_d1d2(struct pci_dev *dev)
- }
- 
- #ifdef CONFIG_SYSFS
--int pci_create_sysfs_dev_files(struct pci_dev *pdev);
--void pci_remove_sysfs_dev_files(struct pci_dev *pdev);
- extern const struct attribute_group *pci_dev_groups[];
- extern const struct attribute_group *pci_dev_attr_groups[];
- extern const struct attribute_group *pcibus_groups[];
- extern const struct attribute_group *pci_bus_groups[];
- extern const struct attribute_group pci_doe_sysfs_group;
- #else
--static inline int pci_create_sysfs_dev_files(struct pci_dev *pdev) { return 0; }
--static inline void pci_remove_sysfs_dev_files(struct pci_dev *pdev) { }
- #define pci_dev_groups NULL
- #define pci_dev_attr_groups NULL
- #define pcibus_groups NULL
-diff --git a/drivers/pci/remove.c b/drivers/pci/remove.c
-index e9d519993853..6e796dbc5b29 100644
---- a/drivers/pci/remove.c
-+++ b/drivers/pci/remove.c
-@@ -26,7 +26,6 @@ static void pci_stop_dev(struct pci_dev *dev)
- 
- 	device_release_driver(&dev->dev);
- 	pci_proc_detach_device(dev);
--	pci_remove_sysfs_dev_files(dev);
- 	of_pci_remove_node(dev);
- }
- 
-diff --git a/include/linux/pci.h b/include/linux/pci.h
-index 2940c80fd7c5..5a418fbe5a5f 100644
---- a/include/linux/pci.h
-+++ b/include/linux/pci.h
-@@ -507,10 +507,6 @@ struct pci_dev {
- 	spinlock_t	pcie_cap_lock;		/* Protects RMW ops in capability accessors */
- 	u32		saved_config_space[16]; /* Config space saved at suspend time */
- 	struct hlist_head saved_cap_space;
--#if !defined(HAVE_PCI_MMAP) && !defined(ARCH_GENERIC_PCI_MMAP_RESOURCE)
--	struct bin_attribute *res_attr[DEVICE_COUNT_RESOURCE]; /* sysfs file for resources */
--	struct bin_attribute *res_attr_wc[DEVICE_COUNT_RESOURCE]; /* sysfs file for WC mapping of resources */
--#endif
- 
- #ifdef CONFIG_HOTPLUG_PCI_PCIE
- 	unsigned int	broken_cmd_compl:1;	/* No compl for some cmds */
-@@ -2503,11 +2499,6 @@ int pcibios_alloc_irq(struct pci_dev *dev);
- void pcibios_free_irq(struct pci_dev *dev);
- resource_size_t pcibios_default_alignment(void);
- 
--#if !defined(HAVE_PCI_MMAP) && !defined(ARCH_GENERIC_PCI_MMAP_RESOURCE)
--extern int pci_create_resource_files(struct pci_dev *dev);
--extern void pci_remove_resource_files(struct pci_dev *dev);
--#endif
--
- #if defined(CONFIG_PCI_MMCONFIG) || defined(CONFIG_ACPI_MCFG)
- void __init pci_mmcfg_early_init(void);
- void __init pci_mmcfg_late_init(void);
 -- 
 2.53.0
 
