@@ -1,49 +1,49 @@
-Return-Path: <linux-alpha+bounces-3385-lists+linux-alpha=lfdr.de@vger.kernel.org>
+Return-Path: <linux-alpha+bounces-3386-lists+linux-alpha=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-alpha@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id kFWDNyUA2mnxxggAu9opvQ
-	(envelope-from <linux-alpha+bounces-3385-lists+linux-alpha=lfdr.de@vger.kernel.org>)
-	for <lists+linux-alpha@lfdr.de>; Sat, 11 Apr 2026 10:02:45 +0200
+	id 8OqJJykA2mnxxggAu9opvQ
+	(envelope-from <linux-alpha+bounces-3386-lists+linux-alpha=lfdr.de@vger.kernel.org>)
+	for <lists+linux-alpha@lfdr.de>; Sat, 11 Apr 2026 10:02:49 +0200
 X-Original-To: lists+linux-alpha@lfdr.de
-Received: from tor.lore.kernel.org (tor.lore.kernel.org [IPv6:2600:3c04:e001:36c::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9884B3DECC5
-	for <lists+linux-alpha@lfdr.de>; Sat, 11 Apr 2026 10:02:45 +0200 (CEST)
+Received: from tor.lore.kernel.org (tor.lore.kernel.org [172.105.105.114])
+	by mail.lfdr.de (Postfix) with ESMTPS id 3AF943DECE4
+	for <lists+linux-alpha@lfdr.de>; Sat, 11 Apr 2026 10:02:49 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by tor.lore.kernel.org (Postfix) with ESMTP id 8E4B13031B33
-	for <lists+linux-alpha@lfdr.de>; Sat, 11 Apr 2026 08:02:44 +0000 (UTC)
+	by tor.lore.kernel.org (Postfix) with ESMTP id 61C053041D51
+	for <lists+linux-alpha@lfdr.de>; Sat, 11 Apr 2026 08:02:46 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id A8D6923C8C7;
-	Sat, 11 Apr 2026 08:02:42 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 3084723C8C7;
+	Sat, 11 Apr 2026 08:02:46 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="ZQCKsrLR"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="URmQWa3q"
 X-Original-To: linux-alpha@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 865DE1C5D7D;
-	Sat, 11 Apr 2026 08:02:42 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0DEB11C5D7D;
+	Sat, 11 Apr 2026 08:02:46 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1775894562; cv=none; b=S8o3CRDUeoACm1Aqh7n+FvyeYe/FXzFz/VagSWTpmIe3co1IMzx9O49ADAijpNfqhoCdLPCiX3LsElKYNT9Iqzex6HqnEWhWqqTWYa8jQu2y5F171VVzc4I3UcpycAGSmclpk0tGAj70uip8vBhDVTRQO61SSpOxlF2m+xsTfIM=
+	t=1775894566; cv=none; b=E4jkltX170RMPvoACBiSGDzA3R7gYI7UXNhKyauP3qownYHa72VTJ43wmmj1Mzg4NnSXYLeL/0DUtZt4RJkbvf6CLZLCrHIF8b9iMSTNWyBSr6fZYQbYC0jIrAZ6dQOGWdFVpsFKS6XtDa/IX7+IqjGsY9EQEoYOlySgeMgM/V8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1775894562; c=relaxed/simple;
-	bh=kjKATkMwwBWbUVCzi5pJZe7y0tUywHculflz6sXXOSE=;
+	s=arc-20240116; t=1775894566; c=relaxed/simple;
+	bh=DXESaPnzd7c3JQ2Cj6QdfGEnPi+ZFUUE0vNpiijc+CQ=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=fjhCkG8beP73NKT21wPRxuPmXavp38CEnjvZfCtkBTR2ovsBFQGfNMMqMhk8WNrAaW3xFaznjIluidx+VHNlUHG+iwvR6fke/QwCDw00IkHE4cvqdqrEtKoSz/y4LX96DBaukDk2VMauQZYHh57TgvuVm0FgWlXg0dB15bEyFO8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=ZQCKsrLR; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2A5FAC19425;
-	Sat, 11 Apr 2026 08:02:39 +0000 (UTC)
+	 MIME-Version:Content-Type; b=RrZZYzCF2cm57lKQuRKUQoHCqUSgTbz6LFk7dY/amY2E5kE1gabnd6T0O2D+pwlNPQ5ur8JHxc9ub+JbL5H80fi+LOwzcLksGHj12V33Rvw+FumS6LVaZ04qvhNImwpiy/K9r82bGz19uT/xQU6w7kKsYDRCNn9kHoQNQy4hanc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=URmQWa3q; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id B9153C2BC9E;
+	Sat, 11 Apr 2026 08:02:42 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1775894562;
-	bh=kjKATkMwwBWbUVCzi5pJZe7y0tUywHculflz6sXXOSE=;
+	s=k20201202; t=1775894565;
+	bh=DXESaPnzd7c3JQ2Cj6QdfGEnPi+ZFUUE0vNpiijc+CQ=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=ZQCKsrLRkN12ZbR9aGp2kKcZGxvt4/l5tWCBRwAh2B1eRIMB7FVeK0bf6EmGuhXX0
-	 mmik6M6SR717IuW0RdFd2VBrCNbz8+YrSXrJDTSp47zSsONrNPCW7fBUbHhtpigIyI
-	 v9zgzAAZYXB6hCeDZ9f9sf75a6khYrB3SD+nW7Oj2XWtZ2kBUj5ZKxhS2y+P4kUkm7
-	 p917fcsouobfBSBjIqF/zM0ZXfr/j0rtnXR2KAduqvdnO9E7E2BILFU2kQuL0utfnN
-	 vaY2fsDC6QMUctK+k/4PNkXc3ewmn/z1zg7dCYXF/uo4xlv6TdImKVObZGSyJDJzTI
-	 rhwsblmw2MaCg==
+	b=URmQWa3q2QkaBIhjekHwjkIQ6ygmAcCk5P7N+qFY0DtVxyE4GgfwvJ3JEPbkiTZo0
+	 OTIcElHxkmygEAmNHNZNqL58DBxmbgmSiRDcnnK9pATkqoFX11xo6/LTtY16Azxdck
+	 nPSw8oAsZf1/hN1NkW8rubQCLJH3CBftLKXXREIbbTKUVKN5BEOi94irqitjc/w6+d
+	 pRY5BdvzfBn/a8vSMcBxYI32ElWedqiNvwXzpJ8C7HHpOzIkl2ONIBwgq1Tzoex5y/
+	 3YyA+tPjvODPYccpayyfAriUwS/JE8X9pyCPNvMWzzI43+Mq4+tzaFzDNiUcCnyjw1
+	 xdZXqbiut/HmA==
 From: =?UTF-8?q?Krzysztof=20Wilczy=C5=84ski?= <kwilczynski@kernel.org>
 To: Bjorn Helgaas <bhelgaas@google.com>
 Cc: Bjorn Helgaas <helgaas@kernel.org>,
@@ -67,9 +67,9 @@ Cc: Bjorn Helgaas <helgaas@kernel.org>,
 	linux-pci@vger.kernel.org,
 	linux-alpha@vger.kernel.org,
 	linuxppc-dev@lists.ozlabs.org
-Subject: [PATCH v4 14/24] alpha/PCI: Clean up pci_mmap_resource()
-Date: Sat, 11 Apr 2026 08:01:38 +0000
-Message-ID: <20260411080148.471335-15-kwilczynski@kernel.org>
+Subject: [PATCH v4 15/24] alpha/PCI: Fix __pci_mmap_fits() overflow for zero-length BARs
+Date: Sat, 11 Apr 2026 08:01:39 +0000
+Message-ID: <20260411080148.471335-16-kwilczynski@kernel.org>
 X-Mailer: git-send-email 2.53.0
 In-Reply-To: <20260411080148.471335-1-kwilczynski@kernel.org>
 References: <20260411080148.471335-1-kwilczynski@kernel.org>
@@ -86,13 +86,13 @@ X-Spamd-Result: default: False [-1.16 / 15.00];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
 	DMARC_POLICY_ALLOW(-0.50)[kernel.org,quarantine];
 	R_DKIM_ALLOW(-0.20)[kernel.org:s=k20201202];
-	R_SPF_ALLOW(-0.20)[+ip6:2600:3c04:e001:36c::/64:c];
+	R_SPF_ALLOW(-0.20)[+ip4:172.105.105.114:c];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
 	RCVD_TLS_LAST(0.00)[];
 	FREEMAIL_CC(0.00)[kernel.org,gmail.com,linaro.org,linux.ibm.com,ellerman.id.au,microsoft.com,piap.pl,wunner.de,bytedance.com,linux.intel.com,vger.kernel.org,lists.ozlabs.org];
-	TAGGED_FROM(0.00)[bounces-3385-lists,linux-alpha=lfdr.de];
+	TAGGED_FROM(0.00)[bounces-3386-lists,linux-alpha=lfdr.de];
 	RCVD_COUNT_THREE(0.00)[4];
 	MIME_TRACE(0.00)[0:+];
 	FORGED_SENDER_MAILLIST(0.00)[];
@@ -106,53 +106,47 @@ X-Spamd-Result: default: False [-1.16 / 15.00];
 	NEURAL_HAM(-0.00)[-1.000];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
 	TAGGED_RCPT(0.00)[linux-alpha];
-	ASN(0.00)[asn:63949, ipnet:2600:3c04::/32, country:SG];
+	ASN(0.00)[asn:63949, ipnet:172.105.96.0/20, country:SG];
 	DBL_BLOCKED_OPENRESOLVER(0.00)[tor.lore.kernel.org:helo,tor.lore.kernel.org:rdns]
-X-Rspamd-Queue-Id: 9884B3DECC5
+X-Rspamd-Queue-Id: 3AF943DECE4
 X-Rspamd-Action: no action
 X-Rspamd-Server: lfdr
 
-Replace open-coded res->flags type checks with new pci_resource_is_mem()
-and pci_resource_start() helpers.  Move the pci_resource_n() call into
-pcibios_resource_to_bus() and drop the local struct resource pointer.
+Currently, __pci_mmap_fits() computes the BAR size using
+pci_resource_len() - 1, which wraps to a large value when the
+BAR length is zero, causing the bounds check to incorrectly
+succeed.
 
+Thus, add an early return for empty resources.
+
+Fixes: 10a0ef39fbd1 ("PCI/alpha: pci sysfs resources")
 Signed-off-by: Krzysztof Wilczyński <kwilczynski@kernel.org>
 ---
- arch/alpha/kernel/pci-sysfs.c | 8 ++++----
- 1 file changed, 4 insertions(+), 4 deletions(-)
+ arch/alpha/kernel/pci-sysfs.c | 6 +++++-
+ 1 file changed, 5 insertions(+), 1 deletion(-)
 
 diff --git a/arch/alpha/kernel/pci-sysfs.c b/arch/alpha/kernel/pci-sysfs.c
-index 7aac5e76dcd6..6c011dab326d 100644
+index 6c011dab326d..2748000a7486 100644
 --- a/arch/alpha/kernel/pci-sysfs.c
 +++ b/arch/alpha/kernel/pci-sysfs.c
-@@ -70,7 +70,6 @@ static int pci_mmap_resource(struct kobject *kobj,
+@@ -37,12 +37,16 @@ static int hose_mmap_page_range(struct pci_controller *hose,
+ static int __pci_mmap_fits(struct pci_dev *pdev, int num,
+ 			   struct vm_area_struct *vma, int sparse)
  {
- 	struct pci_dev *pdev = to_pci_dev(kobj_to_dev(kobj));
- 	int barno = (unsigned long)attr->private;
--	struct resource *res = pci_resource_n(pdev, barno);
- 	enum pci_mmap_state mmap_type;
- 	struct pci_bus_region bar;
- 	int ret;
-@@ -79,15 +78,16 @@ static int pci_mmap_resource(struct kobject *kobj,
- 	if (ret)
- 		return ret;
++	resource_size_t len = pci_resource_len(pdev, num);
+ 	unsigned long nr, start, size;
+ 	int shift = sparse ? 5 : 0;
  
--	if ((res->flags & IORESOURCE_MEM) && iomem_is_exclusive(res->start))
-+	if (pci_resource_is_mem(pdev, barno) &&
-+	    iomem_is_exclusive(pci_resource_start(pdev, barno)))
- 		return -EINVAL;
++	if (!len)
++		return 0;
++
+ 	nr = vma_pages(vma);
+ 	start = vma->vm_pgoff;
+-	size = ((pci_resource_len(pdev, num) - 1) >> (PAGE_SHIFT - shift)) + 1;
++	size = ((len - 1) >> (PAGE_SHIFT - shift)) + 1;
  
- 	if (!__pci_mmap_fits(pdev, barno, vma, sparse))
- 		return -EINVAL;
- 
--	pcibios_resource_to_bus(pdev->bus, &bar, res);
-+	pcibios_resource_to_bus(pdev->bus, &bar, pci_resource_n(pdev, barno));
- 	vma->vm_pgoff += bar.start >> (PAGE_SHIFT - (sparse ? 5 : 0));
--	mmap_type = res->flags & IORESOURCE_MEM ? pci_mmap_mem : pci_mmap_io;
-+	mmap_type = pci_resource_is_mem(pdev, barno) ? pci_mmap_mem : pci_mmap_io;
- 
- 	return hose_mmap_page_range(pdev->sysdata, vma, mmap_type, sparse);
- }
+ 	if (start < size && size - start >= nr)
+ 		return 1;
 -- 
 2.53.0
 
