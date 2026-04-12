@@ -1,56 +1,55 @@
-Return-Path: <linux-alpha+bounces-3397-lists+linux-alpha=lfdr.de@vger.kernel.org>
+Return-Path: <linux-alpha+bounces-3398-lists+linux-alpha=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-alpha@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id 65+XOtA922ko+wgAu9opvQ
-	(envelope-from <linux-alpha+bounces-3397-lists+linux-alpha=lfdr.de@vger.kernel.org>)
-	for <lists+linux-alpha@lfdr.de>; Sun, 12 Apr 2026 08:38:08 +0200
+	id MNiNBSc+22ko+wgAu9opvQ
+	(envelope-from <linux-alpha+bounces-3398-lists+linux-alpha=lfdr.de@vger.kernel.org>)
+	for <lists+linux-alpha@lfdr.de>; Sun, 12 Apr 2026 08:39:35 +0200
 X-Original-To: lists+linux-alpha@lfdr.de
-Received: from sea.lore.kernel.org (sea.lore.kernel.org [172.234.253.10])
-	by mail.lfdr.de (Postfix) with ESMTPS id 349523E2EDB
-	for <lists+linux-alpha@lfdr.de>; Sun, 12 Apr 2026 08:38:07 +0200 (CEST)
+Received: from sin.lore.kernel.org (sin.lore.kernel.org [104.64.211.4])
+	by mail.lfdr.de (Postfix) with ESMTPS id 1B6943E2EF3
+	for <lists+linux-alpha@lfdr.de>; Sun, 12 Apr 2026 08:39:34 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id 7511F3016CBA
-	for <lists+linux-alpha@lfdr.de>; Sun, 12 Apr 2026 06:38:06 +0000 (UTC)
+	by sin.lore.kernel.org (Postfix) with ESMTP id 2C5C1300BC82
+	for <lists+linux-alpha@lfdr.de>; Sun, 12 Apr 2026 06:39:31 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 17A1F275AEB;
-	Sun, 12 Apr 2026 06:38:06 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 36E8C33F591;
+	Sun, 12 Apr 2026 06:39:30 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="P5VfRa+f"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="fzDgUNaO"
 X-Original-To: linux-alpha@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E6A6E1A275;
-	Sun, 12 Apr 2026 06:38:05 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 13B472BEC2B;
+	Sun, 12 Apr 2026 06:39:29 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1775975886; cv=none; b=ORd4f25Y6pOo69FHMrqW5Nah8CuQZCf92IsVmFPhmE+ox6KIU3AhXv43zDpaEjBai0srTG+pG6n/VmC4Etvp+jOC7yMdRHZLS5qYaA7oiqfoxnmq6UUCI2Af97QQ6opD1+anxfU8xjZE9Ac1cNpXV4qSdn0VrJoVWTyptlhDGdM=
+	t=1775975970; cv=none; b=hkUIhVJF5Td4l5juz62ZXWqTPCWLusqMSxJHZp1cRj7S1hARaogrGVpz3jbIQ/EV2yRws0skpQlrSYlWr70yPeH0dk7A8YIR8PrBs1OZvLqF70+zt6s+qpddX79SNpn0G4YToBXkjM9bFzvvFTgc/THrqvq2AlosApf59HxnoL8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1775975886; c=relaxed/simple;
-	bh=sTTFTGEFAtVBl1AdOtumfXjQUbSRjk8/CzL0mvAKNBU=;
+	s=arc-20240116; t=1775975970; c=relaxed/simple;
+	bh=6Gfvk1vJ2dWhGGDn2YFpAnYsydfbb+BI5a9oo2uq30E=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=Y0uU0+KrmOB+331DQhB4QGsrgstjCkgEJMw2yDhakZcBxAsuoqL/g9vRymBiAh7H5bJgqKxg7MKQHWV7fiPSwBOr961jUlO4C+XcpwtL+xTVE1vKBgM9//dWpF58kdrQcbBcuC82ucQiCkxcHuU/vjMtuX1A/P7aFlEyn+TOlhg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=P5VfRa+f; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 24957C19424;
-	Sun, 12 Apr 2026 06:38:05 +0000 (UTC)
+	 Content-Type:Content-Disposition:In-Reply-To; b=HUJA+jHV2uh70lVxqXNGso5h9xXevKLXcnLKsz9os4lJ/Dc7IYlP5PqFX8lQ8NjI9zq8s2MKu673PhgGGEBd3pGARwEsZ+wjs5VA1rFjRNCN++2/EV1CVfh2dJninKLWExZ4tF1xR9OYwGw9OmkekuU0hD2Wk2IG/IdAYfhQOik=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=fzDgUNaO; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 5D572C19424;
+	Sun, 12 Apr 2026 06:39:29 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1775975885;
-	bh=sTTFTGEFAtVBl1AdOtumfXjQUbSRjk8/CzL0mvAKNBU=;
+	s=k20201202; t=1775975969;
+	bh=6Gfvk1vJ2dWhGGDn2YFpAnYsydfbb+BI5a9oo2uq30E=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=P5VfRa+f8Bq9oWoKaDhwdknQhKG1iG4zqj8NDKZCwDkCRnFuMMtzbLsYJ8ZAkCO7J
-	 1NTU9Ns9AyZ78ETJA5JsSiDLVJTjWhRly1gI7ROcrNjI5svAVdmCuzivmqDB+/sf2+
-	 gn6YLD8CzuODxIw77WI72qIfRwsz8M6xWenUrgrvgwFHnZO9KLKf6EOG5wGDNmv9+/
-	 VFuxPdCyAMqun5yluXF/5J2+vJyY2e6IKlBGFVJh3OEUEGFAtHvvdYQNVsT8imj8qr
-	 gNk5WoFPNJ6bQ8vrKRzLl9Uv8jYidJCInvkefrkbLmapzgVFWX5RQ0dGB+V2FcS0e5
-	 2K2SF97vJwIoA==
-Date: Sun, 12 Apr 2026 15:38:03 +0900
+	b=fzDgUNaOpqjoITWmDRNxW4jtZPGtgJ7WfRkMr5BJ41p7XiNmc8SOh0oCq4J2j7rTo
+	 NLoLDHRbHh0ni4t2ntideLvnua/072uDENzgIqhbS0RaxWVW55BtBmzAFmIzCUU3mn
+	 IEPrzVC/2RLvIq8EEBIOw/UwRuls+qzyw9rP21KECkimIYAzCXeGf/29CFFOqIfk1q
+	 toob/klVXFfK/YjkeEBJmZrGOZt05PUE1NRMqFqJoYl2gDzwZpzLhJgxzIBkZhe5H5
+	 B6RiLd2mV6WsFlTWMuctrbIuLo4s3TxoPbGl0M1VhYnzWpa11NuiBKcFEjUq5504Ff
+	 xDQ5Ux/em3l4w==
+Date: Sun, 12 Apr 2026 15:39:27 +0900
 From: Krzysztof =?utf-8?Q?Wilczy=C5=84ski?= <kwilczynski@kernel.org>
-To: Bjorn Helgaas <bhelgaas@google.com>
-Cc: Bjorn Helgaas <helgaas@kernel.org>,
+To: Magnus Lindholm <linmag7@gmail.com>
+Cc: Bjorn Helgaas <bhelgaas@google.com>, Bjorn Helgaas <helgaas@kernel.org>,
 	Manivannan Sadhasivam <mani@kernel.org>,
 	Lorenzo Pieralisi <lpieralisi@kernel.org>,
-	Magnus Lindholm <linmag7@gmail.com>,
 	Matt Turner <mattst88@gmail.com>,
 	Richard Henderson <richard.henderson@linaro.org>,
 	Christophe Leroy <chleroy@kernel.org>,
@@ -69,8 +68,9 @@ Cc: Bjorn Helgaas <helgaas@kernel.org>,
 	linuxppc-dev@lists.ozlabs.org
 Subject: Re: [PATCH v4 00/24] PCI: Convert all dynamic sysfs attributes to
  static
-Message-ID: <20260412063803.GA2085076@rocinante>
+Message-ID: <20260412063927.GB2085076@rocinante>
 References: <20260411080148.471335-1-kwilczynski@kernel.org>
+ <CA+=Fv5Q1tZQwnanw99NbvzT-QenfYz7vUdY02_TuPqHX32ZAiA@mail.gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-alpha@vger.kernel.org
 List-Id: <linux-alpha.vger.kernel.org>
@@ -79,24 +79,25 @@ List-Unsubscribe: <mailto:linux-alpha+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20260411080148.471335-1-kwilczynski@kernel.org>
+In-Reply-To: <CA+=Fv5Q1tZQwnanw99NbvzT-QenfYz7vUdY02_TuPqHX32ZAiA@mail.gmail.com>
 X-Spamd-Result: default: False [-1.66 / 15.00];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
 	MID_RHS_NOT_FQDN(0.50)[];
 	DMARC_POLICY_ALLOW(-0.50)[kernel.org,quarantine];
-	R_SPF_ALLOW(-0.20)[+ip4:172.234.253.10];
 	R_DKIM_ALLOW(-0.20)[kernel.org:s=k20201202];
+	R_SPF_ALLOW(-0.20)[+ip4:104.64.211.4:c];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
 	RCVD_TLS_LAST(0.00)[];
-	TAGGED_FROM(0.00)[bounces-3397-lists,linux-alpha=lfdr.de];
-	RCVD_COUNT_THREE(0.00)[4];
-	FORGED_SENDER_MAILLIST(0.00)[];
-	FREEMAIL_CC(0.00)[kernel.org,gmail.com,linaro.org,linux.ibm.com,ellerman.id.au,microsoft.com,piap.pl,wunner.de,bytedance.com,linux.intel.com,vger.kernel.org,lists.ozlabs.org];
-	RCPT_COUNT_TWELVE(0.00)[22];
-	MIME_TRACE(0.00)[0:+];
+	TAGGED_FROM(0.00)[bounces-3398-lists,linux-alpha=lfdr.de];
 	FROM_HAS_DN(0.00)[];
+	FREEMAIL_TO(0.00)[gmail.com];
+	RCPT_COUNT_TWELVE(0.00)[22];
+	RCVD_COUNT_THREE(0.00)[4];
+	MIME_TRACE(0.00)[0:+];
+	FORGED_SENDER_MAILLIST(0.00)[];
+	FREEMAIL_CC(0.00)[google.com,kernel.org,gmail.com,linaro.org,linux.ibm.com,ellerman.id.au,microsoft.com,piap.pl,wunner.de,bytedance.com,linux.intel.com,vger.kernel.org,lists.ozlabs.org];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
 	TO_DN_SOME(0.00)[];
 	NEURAL_HAM(-0.00)[-1.000];
@@ -104,53 +105,33 @@ X-Spamd-Result: default: False [-1.66 / 15.00];
 	FROM_NEQ_ENVFROM(0.00)[kwilczynski@kernel.org,linux-alpha@vger.kernel.org];
 	DKIM_TRACE(0.00)[kernel.org:+];
 	TAGGED_RCPT(0.00)[linux-alpha];
-	ASN(0.00)[asn:63949, ipnet:172.234.224.0/19, country:SG];
+	ASN(0.00)[asn:63949, ipnet:104.64.192.0/19, country:SG];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
 	MISSING_XM_UA(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[kernelci.org:url,sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns]
-X-Rspamd-Queue-Id: 349523E2EDB
+	DBL_BLOCKED_OPENRESOLVER(0.00)[sin.lore.kernel.org:helo,sin.lore.kernel.org:rdns]
+X-Rspamd-Queue-Id: 1B6943E2EF3
 X-Rspamd-Action: no action
 X-Rspamd-Server: lfdr
 
 Hello,
 
-> This series converts every dynamically allocated PCI sysfs attribute to
-> a static const definition.  After the full series, pci_sysfs_init() and
-> sysfs_initialized are gone, and every sysfs file is created by the
-> driver model at device_add() time.
+> > This series converts every dynamically allocated PCI sysfs attribute to
+> > a static const definition.  After the full series, pci_sysfs_init() and
+> > sysfs_initialized are gone, and every sysfs file is created by the
+> > driver model at device_add() time.
 
-A note on testing:
+[...]
+> Applied the series on an Alpha UP2000+, built and booted
+> successfully. PCI enumeration and device initialization looked
+> normal, I saw no relevant sysfs/PCI warnings in dmesg, and PCI
+> sysfs resource files for tested devices looked sane.
+> 
+> >From the Alpha side, this looks good to me.
+> 
+> Tested-by: Magnus Lindholm <linmag7@gmail.com>
+> Acked-by: Magnus Lindholm <linmag7@gmail.com>
 
-  0-day bot (recent test runs; newer builds will arrive later):
-    - https://lore.kernel.org/linux-pci/202604121312.sF0Ua4gP-lkp@intel.com
-    - https://lore.kernel.org/linux-pci/202604111631.lrwAylMM-lkp@intel.com
-    - https://lore.kernel.org/linux-pci/202603170336.zSLrDvlj-lkp@intel.com
-    - https://lore.kernel.org/linux-pci/202603122052.tMV5rzNq-lkp@intel.com
-    - https://lore.kernel.org/linux-pci/202603081334.b91RGVS6-lkp@intel.com
-    - https://lore.kernel.org/linux-pci/202603060207.pnGfKgGa-lkp@intel.com
-
-  KernelCI (for the "for-kernelci" branch):
-    - https://dashboard.kernelci.org/tree/linux-pci/for-kernelci/209e2cfd205a8aad4bae32e6f82b96b20902aa74
-    - https://dashboard.kernelci.org/tree/linux-pci/for-kernelci/70293477e2c0ae8cbc250098818e726e1d658b53
-    - https://dashboard.kernelci.org/tree?ts=pci
-
-  Sashiko's feedback:
-    - https://sashiko.dev/#/patchset/20260411080148.471335-1-kwilczynski%40kernel.org
-    - https://sashiko.dev/#/patchset/20260410055040.39233-1-kwilczynski%40kernel.org
-
-I sadly do not own any Alpha or PowerPC hardware, so when I was testing
-these architectures while working on the series, it would be only under
-QEMU.
-
-That said, Magnus Lindholm was able to test the series on the Alpha
-hardware he owns, see:
-
-  - https://lore.kernel.org/linux-pci/CA+=Fv5Q1tZQwnanw99NbvzT-QenfYz7vUdY02_TuPqHX32ZAiA@mail.gmail.com
-
-Lorenzo Pieralisi did some testing reported outside the mailing list (we
-talked on IRC), on the platform he had issues before, and while the issues
-were more with procfs races, similar to the sysfs ones this series aims to
-fix, he didn't notice regressions when having this series applied.
+I appreciate you taking the time to test this.
 
 Thank you!
 
