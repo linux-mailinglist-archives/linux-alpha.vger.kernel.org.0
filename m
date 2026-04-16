@@ -1,49 +1,49 @@
-Return-Path: <linux-alpha+bounces-3439-lists+linux-alpha=lfdr.de@vger.kernel.org>
+Return-Path: <linux-alpha+bounces-3440-lists+linux-alpha=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-alpha@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id YPhVKWYl4WkBpgAAu9opvQ
-	(envelope-from <linux-alpha+bounces-3439-lists+linux-alpha=lfdr.de@vger.kernel.org>)
-	for <lists+linux-alpha@lfdr.de>; Thu, 16 Apr 2026 20:07:34 +0200
+	id cH54OW0l4WkBpgAAu9opvQ
+	(envelope-from <linux-alpha+bounces-3440-lists+linux-alpha=lfdr.de@vger.kernel.org>)
+	for <lists+linux-alpha@lfdr.de>; Thu, 16 Apr 2026 20:07:41 +0200
 X-Original-To: lists+linux-alpha@lfdr.de
 Received: from sea.lore.kernel.org (sea.lore.kernel.org [172.234.253.10])
-	by mail.lfdr.de (Postfix) with ESMTPS id 11BE2413889
-	for <lists+linux-alpha@lfdr.de>; Thu, 16 Apr 2026 20:07:34 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 909494138A9
+	for <lists+linux-alpha@lfdr.de>; Thu, 16 Apr 2026 20:07:41 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id 4C4E431EA2A5
-	for <lists+linux-alpha@lfdr.de>; Thu, 16 Apr 2026 18:01:20 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id 644253033519
+	for <lists+linux-alpha@lfdr.de>; Thu, 16 Apr 2026 18:01:23 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id B73E4331A63;
-	Thu, 16 Apr 2026 18:01:19 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 190802EC0A7;
+	Thu, 16 Apr 2026 18:01:23 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="jhDIn5ob"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="mkUmjDr3"
 X-Original-To: linux-alpha@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7C6C63128B6;
-	Thu, 16 Apr 2026 18:01:19 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E8A5F291C10;
+	Thu, 16 Apr 2026 18:01:22 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1776362479; cv=none; b=lrrtr7HR37gWW4LPeMYFkRoRZlKY5YFg+g7krVYdNBBEl2CzXLy53InguSqhS7klE4yBELCp2lUaiZ+CaAmQ1V/RbfHu2KmkHEJhxHffEPqXwZyLpGpm1wymZtz9yPkptx1GYYDSfMG4h+ESuAD8ge6No3Iz+92iuLPLJ1FUGTU=
+	t=1776362483; cv=none; b=mIdBIxNswsuoR0Hy2UDKgCaBPmTin7W5C/8XXlUwRqvRYID3B3+x3vX0u1JyulL1JguvDcKoU4u+dXwvhrTpBywr/FgVsbox/rib+7tO2bdj+TPRiZevCPGXhS10qqM+OHZ8yJouhUNv7knOpxbwW3q8yzNZ58tizBB1enxLvN0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1776362479; c=relaxed/simple;
-	bh=YIttpolP3T9Rtoh+8QuVP7we/qYNmLLFIkVz3rrJ9lw=;
+	s=arc-20240116; t=1776362483; c=relaxed/simple;
+	bh=RmFbxvo7Bj/hud/UhBoRkQf2eC0ZxfrFYB6cjbtRANE=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=kGd+jHUlLdKLHcElwM0xQJB63ktDkwxtHxTxIO9nV8e0e7+y91YF31uStUE8tOpuxzpWR0BmfnNWWzwTqH7Tes9zVtKFNvQfxhNTlLXVWqgpNTVGwrQlJL3eu8YUH8TF2dNfJYm+5DKaOPdhuJQf8iz7TPN7Kq9NB/Ele8Pb3kM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=jhDIn5ob; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id E1BBBC2BCB0;
-	Thu, 16 Apr 2026 18:01:15 +0000 (UTC)
+	 MIME-Version:Content-Type; b=KMiSpWOe2hY2vNtPI3Lo4+sC2/Fx7RHAF8xTwW3eCAzB+ANK2REakNGeXKqJDqlbD/aP8Qe91rO0rgkD9dZlRzSOQwog5lB6cIxHXNu20hY7iq8Mf2YUrsyQGugZ5h89Nzo2JDupVsCY19oPSeR7uZhf+1ZjaL8vqVPXz1PnOKE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=mkUmjDr3; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6D777C2BCB7;
+	Thu, 16 Apr 2026 18:01:19 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1776362479;
-	bh=YIttpolP3T9Rtoh+8QuVP7we/qYNmLLFIkVz3rrJ9lw=;
+	s=k20201202; t=1776362482;
+	bh=RmFbxvo7Bj/hud/UhBoRkQf2eC0ZxfrFYB6cjbtRANE=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=jhDIn5obw6IeC6kdhLIU1ClJzw1Dr2WgI1dbwmIhd5yqn2IFH9T2gmeK99KftJ2or
-	 qJqvziaHui3mdEWT+BHowEqfYxImPAaJFWAO1bTUI8b6f0DUxfqgL7/fCy0sdxsEOc
-	 n4rqYBPJXgYYUeptAJ0i+YVSdWLJv7EYW7HZGqjGDyS1DzrdXeG1EDdWfkZh/2PY/j
-	 Srf3zyKLVpNA70sai3tgkwUWUkepPO4jygfHFetI9lnJ4nPspy1AKTqJlx6jb16LNp
-	 +B+s5HaBabtB4zfjEB3MYZxM6BzLfARSA2liAMTCMmBW45CsIXWZzV1q85HpyufFpQ
-	 3RRVoLhXnNLeg==
+	b=mkUmjDr3/9ZYeL95iqy9ZqTDnfc9AxEYtijgnV6K2ZCT1eTuIl8bHkzwk0yy3E9iB
+	 Eun4ZyB7qZ6+FhL9b0/UaURWsCS+8ff0THH7vQGAc/Bl/9I8rCJTDrruZbDOdNU+Cf
+	 L+ry06KZrOBkBx77wFWXDyDOvxq64Bhwabt41LFfNjugYuYBo5SB3aK2D+SQGjJClI
+	 S0FQBLnTg3aKHf6cQc+Bg2g05pdZ1kT4DFB3omGdwid+Y+vW8DjB/fLLAJnrrwiWFu
+	 g3Ico4QldbadDZGnH3pGkt788/LmHihg6Sv0M6+vn0pQ9C/je6RuoKCd0M6sJCOqYd
+	 aemCCPa3Vw7iw==
 From: =?UTF-8?q?Krzysztof=20Wilczy=C5=84ski?= <kwilczynski@kernel.org>
 To: Bjorn Helgaas <bhelgaas@google.com>
 Cc: Bjorn Helgaas <helgaas@kernel.org>,
@@ -67,9 +67,9 @@ Cc: Bjorn Helgaas <helgaas@kernel.org>,
 	linux-pci@vger.kernel.org,
 	linux-alpha@vger.kernel.org,
 	linuxppc-dev@lists.ozlabs.org
-Subject: [PATCH v5 02/23] PCI: Add pci_resource_is_io() and pci_resource_is_mem() helpers
-Date: Thu, 16 Apr 2026 18:00:46 +0000
-Message-ID: <20260416180107.777065-3-kwilczynski@kernel.org>
+Subject: [PATCH v5 03/23] PCI/sysfs: Only allow supported resource types in I/O and MMIO helpers
+Date: Thu, 16 Apr 2026 18:00:47 +0000
+Message-ID: <20260416180107.777065-4-kwilczynski@kernel.org>
 X-Mailer: git-send-email 2.53.0
 In-Reply-To: <20260416180107.777065-1-kwilczynski@kernel.org>
 References: <20260416180107.777065-1-kwilczynski@kernel.org>
@@ -92,7 +92,7 @@ X-Spamd-Result: default: False [-1.16 / 15.00];
 	HAS_LIST_UNSUB(-0.01)[];
 	RCVD_TLS_LAST(0.00)[];
 	FREEMAIL_CC(0.00)[kernel.org,gmail.com,linaro.org,linux.ibm.com,ellerman.id.au,microsoft.com,piap.pl,wunner.de,bytedance.com,linux.intel.com,vger.kernel.org,lists.ozlabs.org];
-	TAGGED_FROM(0.00)[bounces-3439-lists,linux-alpha=lfdr.de];
+	TAGGED_FROM(0.00)[bounces-3440-lists,linux-alpha=lfdr.de];
 	RCVD_COUNT_THREE(0.00)[4];
 	MIME_TRACE(0.00)[0:+];
 	FORGED_SENDER_MAILLIST(0.00)[];
@@ -108,58 +108,76 @@ X-Spamd-Result: default: False [-1.16 / 15.00];
 	TAGGED_RCPT(0.00)[linux-alpha];
 	ASN(0.00)[asn:63949, ipnet:172.234.224.0/19, country:SG];
 	DBL_BLOCKED_OPENRESOLVER(0.00)[sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns,intel.com:email]
-X-Rspamd-Queue-Id: 11BE2413889
+X-Rspamd-Queue-Id: 909494138A9
 X-Rspamd-Action: no action
 X-Rspamd-Server: lfdr
 
-Add helpers to check whether a PCI resource is of I/O port or
-memory type.  These replace the open-coded pci_resource_flags()
-with IORESOURCE_IO and IORESOURCE_MEM pattern used across the
-tree.
+Currently, when the sysfs attributes for PCI resources are added
+dynamically, the resource access callbacks are only set when the
+underlying BAR type matches, using .read and .write for IORESOURCE_IO,
+and .mmap for IORESOURCE_MEM or IORESOURCE_IO with arch_can_pci_mmap_io()
+support.  As such, when the callback is not set, the operation inherently
+fails.
 
-Suggested-by: Ilpo Järvinen <ilpo.jarvinen@linux.intel.com>
+After the conversion to static attributes, visibility callbacks will
+control which resource files appear for each BAR, but the callbacks
+themselves will always be set.
+
+Thus, add a type check to pci_resource_io() and pci_mmap_resource()
+to return -EIO for an unsupported resource type.
+
+Use the new pci_resource_is_io() and pci_resource_is_mem() helpers
+for the type checks, replacing the open-coded bitwise flag tests and
+also drop the local struct resource pointer in pci_mmap_resource().
+
 Reviewed-by: Ilpo Järvinen <ilpo.jarvinen@linux.intel.com>
 Signed-off-by: Krzysztof Wilczyński <kwilczynski@kernel.org>
 ---
- include/linux/pci.h | 25 +++++++++++++++++++++++++
- 1 file changed, 25 insertions(+)
+ drivers/pci/pci-sysfs.c | 13 ++++++++++---
+ 1 file changed, 10 insertions(+), 3 deletions(-)
 
-diff --git a/include/linux/pci.h b/include/linux/pci.h
-index 1c270f1d5123..05aceb7f1f37 100644
---- a/include/linux/pci.h
-+++ b/include/linux/pci.h
-@@ -2295,6 +2295,31 @@ int pci_iobar_pfn(struct pci_dev *pdev, int bar, struct vm_area_struct *vma);
- 	CONCATENATE(__pci_dev_for_each_res, COUNT_ARGS(__VA_ARGS__)) 	\
- 		    (dev, res, __VA_ARGS__)
+diff --git a/drivers/pci/pci-sysfs.c b/drivers/pci/pci-sysfs.c
+index ad3c17f86c7f..6783c6168445 100644
+--- a/drivers/pci/pci-sysfs.c
++++ b/drivers/pci/pci-sysfs.c
+@@ -1108,20 +1108,24 @@ static int pci_mmap_resource(struct kobject *kobj, const struct bin_attribute *a
+ 	struct pci_dev *pdev = to_pci_dev(kobj_to_dev(kobj));
+ 	int bar = (unsigned long)attr->private;
+ 	enum pci_mmap_state mmap_type;
+-	struct resource *res = pci_resource_n(pdev, bar);
+ 	int ret;
  
-+/**
-+ * pci_resource_is_io - check if a PCI resource is of I/O port type.
-+ * @dev: PCI device to check.
-+ * @resno: The resource number (BAR index) to check.
-+ *
-+ * Returns true if the resource type is I/O port.
-+ */
-+static inline bool pci_resource_is_io(const struct pci_dev *dev, int resno)
-+{
-+	return resource_type(pci_resource_n(dev, resno)) == IORESOURCE_IO;
-+}
+ 	ret = security_locked_down(LOCKDOWN_PCI_ACCESS);
+ 	if (ret)
+ 		return ret;
+ 
+-	if (res->flags & IORESOURCE_MEM && iomem_is_exclusive(res->start))
++	if (!pci_resource_is_mem(pdev, bar) &&
++	    !(pci_resource_is_io(pdev, bar) && arch_can_pci_mmap_io()))
++		return -EIO;
 +
-+/**
-+ * pci_resource_is_mem - check if a PCI resource is of memory type.
-+ * @dev: PCI device to check.
-+ * @resno: The resource number (BAR index) to check.
-+ *
-+ * Returns true if the resource type is memory, including
-+ * prefetchable memory.
-+ */
-+static inline bool pci_resource_is_mem(const struct pci_dev *dev, int resno)
-+{
-+	return resource_type(pci_resource_n(dev, resno)) == IORESOURCE_MEM;
-+}
++	if (pci_resource_is_mem(pdev, bar) &&
++	    iomem_is_exclusive(pci_resource_start(pdev, bar)))
+ 		return -EINVAL;
+ 
+ 	if (!pci_mmap_fits(pdev, bar, vma, PCI_MMAP_SYSFS))
+ 		return -EINVAL;
+ 
+-	mmap_type = res->flags & IORESOURCE_MEM ? pci_mmap_mem : pci_mmap_io;
++	mmap_type = pci_resource_is_mem(pdev, bar) ? pci_mmap_mem : pci_mmap_io;
+ 
+ 	return pci_mmap_resource_range(pdev, bar, vma, mmap_type, write_combine);
+ }
+@@ -1149,6 +1153,9 @@ static ssize_t pci_resource_io(struct file *filp, struct kobject *kobj,
+ 	int bar = (unsigned long)attr->private;
+ 	unsigned long port = off;
+ 
++	if (!pci_resource_is_io(pdev, bar))
++		return -EIO;
 +
- /*
-  * Similar to the helpers above, these manipulate per-pci_dev
-  * driver-specific data.  They are really just a wrapper around
+ 	port += pci_resource_start(pdev, bar);
+ 
+ 	if (port > pci_resource_end(pdev, bar))
 -- 
 2.53.0
 
