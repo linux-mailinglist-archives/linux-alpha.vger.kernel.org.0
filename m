@@ -1,130 +1,183 @@
-Return-Path: <linux-alpha+bounces-3540-lists+linux-alpha=lfdr.de@vger.kernel.org>
+Return-Path: <linux-alpha+bounces-3541-lists+linux-alpha=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-alpha@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id AAWLAXLy72nYMgEAu9opvQ
-	(envelope-from <linux-alpha+bounces-3540-lists+linux-alpha=lfdr.de@vger.kernel.org>)
-	for <lists+linux-alpha@lfdr.de>; Tue, 28 Apr 2026 01:34:10 +0200
+	id oM9RAuyG8GnuUQEAu9opvQ
+	(envelope-from <linux-alpha+bounces-3541-lists+linux-alpha=lfdr.de@vger.kernel.org>)
+	for <lists+linux-alpha@lfdr.de>; Tue, 28 Apr 2026 12:07:40 +0200
 X-Original-To: lists+linux-alpha@lfdr.de
-Received: from sin.lore.kernel.org (sin.lore.kernel.org [104.64.211.4])
-	by mail.lfdr.de (Postfix) with ESMTPS id EB05E47BDED
-	for <lists+linux-alpha@lfdr.de>; Tue, 28 Apr 2026 01:34:08 +0200 (CEST)
+Received: from sea.lore.kernel.org (sea.lore.kernel.org [172.234.253.10])
+	by mail.lfdr.de (Postfix) with ESMTPS id 55FAF4823C1
+	for <lists+linux-alpha@lfdr.de>; Tue, 28 Apr 2026 12:07:38 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sin.lore.kernel.org (Postfix) with ESMTP id D4E353007288
-	for <lists+linux-alpha@lfdr.de>; Mon, 27 Apr 2026 23:34:05 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id 43BD2313E5E1
+	for <lists+linux-alpha@lfdr.de>; Tue, 28 Apr 2026 09:25:36 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 21B193B19B1;
-	Mon, 27 Apr 2026 23:34:04 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="K+mRV2AS"
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 0D2FA37F8DD;
+	Tue, 28 Apr 2026 09:25:35 +0000 (UTC)
 X-Original-To: linux-alpha@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ej1-f50.google.com (mail-ej1-f50.google.com [209.85.218.50])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F13922DF153;
-	Mon, 27 Apr 2026 23:34:03 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9C1BE37E31F
+	for <linux-alpha@vger.kernel.org>; Tue, 28 Apr 2026 09:25:28 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.50
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1777332844; cv=none; b=NptzeSmLXDIQtHUefVgaHMnPaE3Rm7blg3RTfPFHKkW11jxxN+WXSe+9/eT7ChBl2JyoOJqY/Wgt7++SEl0ziIjlrf+QFjcaLPKPW+x5fs1uOwDRrOUHBMqrFx9elbqM9i0cWCFQbFJ45P+D5tJMXy9iLUN6HpAdNwi6B/YGwl0=
+	t=1777368332; cv=none; b=pq+8tC4gexb08MPWEtsRAlllg1wKYKxd1hAY9UTEmfjlSUrmXALR7TTEb20DFPZJXj4Ma4upvAMTI9uIJ+wKBuF6oHr2E5QXUs/fFf3csuyVfnmOVDnmlMRZCpViY4xPFV0/s4rjtLEZ5kbp7CPGA0DFrZ6mGYBJc6h5Y9iaKmc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1777332844; c=relaxed/simple;
-	bh=+Mz+K9V9xVnzkN7jC1vFBVIkFBsNppLIc/gwkfZtBgE=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=OztgCuiWgYHKBaMDcA99vCuPyxR5SawQEHhpjDoQ4WaxlyggV3Elaan/kxxQK9mPjWv9ITlXQgww3OopIhAU1eZSMe+IwMj0ZlVfElpbPbeUcbfih+uZt87H9kpwDu5rgcKfpbEbnhfZO+6bnU48ggox2aG+PuRvWp8o48r9d4Q=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=K+mRV2AS; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6E7C5C19425;
-	Mon, 27 Apr 2026 23:34:03 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1777332843;
-	bh=+Mz+K9V9xVnzkN7jC1vFBVIkFBsNppLIc/gwkfZtBgE=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=K+mRV2ASzEe1cwMUzJcq40wHQOH8FRWxflpZrmvVnBTQ1fOl8fCWS6FHJqKhQO5Pg
-	 UYYsiK58BIxOWwjZLHEjS7P0xRfZKXtMg7FfR7yMSLIEWGkd46SMd8IGxx58zp3cPB
-	 OKvnPDfWDpkdFMQ/z40YvvQRhhV2LzOM1KgWYeWYfK280OO7pML+nPcHQ2ovjtElkY
-	 IF12LfpwalDJkDrtZPhkdW+jy7RBVGjuIgQqtlUasppV9J2EFUUokyspv4WhKFYM9d
-	 iqJjIvqMHQ8tv+vynUPHqhBSHs4iIG/KUffr+xlzxliv9VshLYpjaEI9dmBtZcOrMt
-	 YdPINto2m8qfw==
-Date: Tue, 28 Apr 2026 08:34:01 +0900
-From: Krzysztof =?utf-8?Q?Wilczy=C5=84ski?= <kwilczynski@kernel.org>
-To: Shivaprasad G Bhat <sbhat@linux.ibm.com>
-Cc: Bjorn Helgaas <bhelgaas@google.com>, 
-	Bjorn Helgaas <helgaas@kernel.org>, Manivannan Sadhasivam <mani@kernel.org>, 
-	Lorenzo Pieralisi <lpieralisi@kernel.org>, Magnus Lindholm <linmag7@gmail.com>, 
-	Matt Turner <mattst88@gmail.com>, Richard Henderson <richard.henderson@linaro.org>, 
-	Christophe Leroy <chleroy@kernel.org>, Madhavan Srinivasan <maddy@linux.ibm.com>, 
-	Michael Ellerman <mpe@ellerman.id.au>, Nicholas Piggin <npiggin@gmail.com>, 
-	Dexuan Cui <decui@microsoft.com>, Krzysztof =?utf-8?Q?Ha=C5=82asa?= <khalasa@piap.pl>, 
-	Lukas Wunner <lukas@wunner.de>, Oliver O'Halloran <oohall@gmail.com>, 
-	Saurabh Singh Sengar <ssengar@microsoft.com>, Shuan He <heshuan@bytedance.com>, 
-	Srivatsa Bhat <srivatsabhat@microsoft.com>, Ilpo =?utf-8?B?SsOkcnZpbmVu?= <ilpo.jarvinen@linux.intel.com>, 
-	linux-pci@vger.kernel.org, linux-alpha@vger.kernel.org, linuxppc-dev@lists.ozlabs.org
-Subject: Re: [PATCH v6 00/24] PCI: Convert all dynamic sysfs attributes to
- static
-Message-ID: <20260427232320.GA865293@rocinante>
-References: <20260422161407.118748-1-kwilczynski@kernel.org>
- <20260423172200.GA2271460@rocinante>
- <56ce57ca-b5ce-415c-b17e-bdcddf93770e@linux.ibm.com>
+	s=arc-20240116; t=1777368332; c=relaxed/simple;
+	bh=WZ0dv++aH+AeLwkvbNXxLqu7wJ3mA6GpS63WG1N27Uc=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=Vjvit6Xj9DTAOzjQeIIi+Or4JWnmLxJsoi5sKdwkgxWRvVRt1manUKYnsktb8A85+AGKo72p6f+uEQj2nbhL57vqWeFG7Slua7LI3IkAbkjyqqpt0u8tS9zzPgQY3zSWE/Wi2O+hLGh8uXLWkl9HqISpg+hqcDm40iUxZzV5b/w=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.218.50
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-ej1-f50.google.com with SMTP id a640c23a62f3a-b886fc047d5so2001837666b.3
+        for <linux-alpha@vger.kernel.org>; Tue, 28 Apr 2026 02:25:28 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1777368326; x=1777973126;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=Al22kA6RCf7FSEzj29cZLSkjdM9EgXxihmBX7/SeSVI=;
+        b=injlz00GwwSdnCmtFF4Hy+Ob1CYsRFdaQANE3cQG/cZfWpgkusdZmeKAKx9g/K47tB
+         FE063E0Au91Lleo/QtHa3/Qbke+CFWinlDcxIxki3lziYSl+kI+2PSV8cTwx4b4yH8hf
+         rbagGNpYy/Gb/S3rLrMk4URjwUlvopLHG0TAyEF/qlH7Ln5BWFutcbMuUdJUrN9xjFEl
+         wgcm7K1UPYYzHIVh3+pCSiZm82TidE4Hk4Op+Y8ojJzk/ylW+upPKJu3AUbUimQ33yIT
+         lsaBg8zaI52P/3RoHfqdEGUWhf9/nTTNafGy5ZwywOmDcyDxlSYWnLkJc/6+gqEL2ryR
+         eeng==
+X-Forwarded-Encrypted: i=1; AFNElJ9L7VcaLdnhnv7jCDbmOxfgnCwX8u81+UAW99f+gIUxBqhOlNSHhcS+j7CYD+Qm3lcPv3NvPSOe9zIGmg==@vger.kernel.org
+X-Gm-Message-State: AOJu0YzcWau2OA+Ozm51L6Keg0RpD6JkXPm9mBWtZ94IW8pQw9rbqdLs
+	tBgRVTsvrNSvshOe458U90FcXbvWznbuHLgZIL9bBH7EnqKQmGoWOCeHHZwialXSVnU=
+X-Gm-Gg: AeBDiesbvFbSd8X9EpdS8fPF1QT8WpCSSOkWYuLMYFFYIMVzsdCgG997hnP+xnJR8rK
+	gJEabRJWqLV+Vn6pPoAZ/2MwRAC8ccEa6WyrAVGkaAtwJZ50UqSnO+zVZp2RD7H6bh1UIJbUXiC
+	/MlGljft+ETSnHZZFp2A0pEG7A6gcQBPhjQ7rgqzwLSJdxkdnGES8iMj0WOwcUTATBGCRzF82ug
+	Ti2THAi5t1jxpczZP+I81mjjfbcUIjE0/DVkjeZE+q/TY0inJrb+sHY8jszUoLGM+x2GeZEQQau
+	eIDgvHEUWNufNJ/Tk+JE8qKrCf+XieIPVfsuT3Nso/n7o1H176qgmmOl1yM3VcU4Q+GypZXMht5
+	eEbmOmRd1nszN0y+K0s1bk9ZO7mIk+DxSSUtcX+PQiAjP3gnIaCNAs1+rCaVDZBnfbtwvzu9qKM
+	zdMaCYZZHaVa/gLIcFAuF9v+83sz75Oga9m8rRPjgyaEF5RMiwESNQP1s9W9mUCh0byRg4Rf8=
+X-Received: by 2002:a17:907:cb06:b0:bae:9dc6:607a with SMTP id a640c23a62f3a-bb8020ca244mr98319566b.4.1777368325754;
+        Tue, 28 Apr 2026 02:25:25 -0700 (PDT)
+Received: from mail-ed1-f49.google.com (mail-ed1-f49.google.com. [209.85.208.49])
+        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-bb809023ecesm71954866b.26.2026.04.28.02.25.24
+        for <linux-alpha@vger.kernel.org>
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Tue, 28 Apr 2026 02:25:24 -0700 (PDT)
+Received: by mail-ed1-f49.google.com with SMTP id 4fb4d7f45d1cf-67389cf78b0so19496966a12.2
+        for <linux-alpha@vger.kernel.org>; Tue, 28 Apr 2026 02:25:24 -0700 (PDT)
+X-Forwarded-Encrypted: i=1; AFNElJ+R32xs70fgyuEjX+Z8IEybnL8o/5dpCDE11uezT63UlqraID+ipyqqEvIj5VYKSEwPVSk8SbLaIeC3rw==@vger.kernel.org
+X-Received: by 2002:a05:6402:5056:b0:676:d8a1:7a04 with SMTP id
+ 4fb4d7f45d1cf-679bb09a4admr915149a12.23.1777368324094; Tue, 28 Apr 2026
+ 02:25:24 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-alpha@vger.kernel.org
 List-Id: <linux-alpha.vger.kernel.org>
 List-Subscribe: <mailto:linux-alpha+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-alpha+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <56ce57ca-b5ce-415c-b17e-bdcddf93770e@linux.ibm.com>
-X-Rspamd-Queue-Id: EB05E47BDED
+References: <cover.1777306795.git.chleroy@kernel.org> <c73b90236f2810edd47c84edd2a8d8e8e0c816da.1777306795.git.chleroy@kernel.org>
+In-Reply-To: <c73b90236f2810edd47c84edd2a8d8e8e0c816da.1777306795.git.chleroy@kernel.org>
+From: Geert Uytterhoeven <geert@linux-m68k.org>
+Date: Tue, 28 Apr 2026 11:25:11 +0200
+X-Gmail-Original-Message-ID: <CAMuHMdUvTBWoDN_wUo2n8-gkoheJ+-rbwew53OvoAwo8G5n1qg@mail.gmail.com>
+X-Gm-Features: AVHnY4JEWBVPw4tSjHgbQTia8gZd2WGJ1sv6qLdKJbtvs4hms1blpvc35yb0VWw
+Message-ID: <CAMuHMdUvTBWoDN_wUo2n8-gkoheJ+-rbwew53OvoAwo8G5n1qg@mail.gmail.com>
+Subject: Re: [RFC PATCH v1 4/9] uaccess: Introduce copy_{to/from}_user_partial()
+To: "Christophe Leroy (CS GROUP)" <chleroy@kernel.org>
+Cc: Yury Norov <ynorov@nvidia.com>, Andrew Morton <akpm@linux-foundation.org>, 
+	Linus Torvalds <torvalds@linux-foundation.org>, David Laight <david.laight.linux@gmail.com>, 
+	Thomas Gleixner <tglx@linutronix.de>, linux-alpha@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, linux-snps-arc@lists.infradead.org, 
+	linux-arm-kernel@lists.infradead.org, linux-mips@vger.kernel.org, 
+	linuxppc-dev@lists.ozlabs.org, kvm@vger.kernel.org, 
+	linux-riscv@lists.infradead.org, linux-s390@vger.kernel.org, 
+	sparclinux@vger.kernel.org, linux-um@lists.infradead.org, 
+	dmaengine@vger.kernel.org, linux-efi@vger.kernel.org, 
+	linux-fsi@lists.ozlabs.org, amd-gfx@lists.freedesktop.org, 
+	dri-devel@lists.freedesktop.org, intel-gfx@lists.freedesktop.org, 
+	linux-wpan@vger.kernel.org, netdev@vger.kernel.org, 
+	linux-wireless@vger.kernel.org, linux-spi@vger.kernel.org, 
+	linux-media@vger.kernel.org, linux-staging@lists.linux.dev, 
+	linux-serial@vger.kernel.org, linux-usb@vger.kernel.org, 
+	xen-devel@lists.xenproject.org, linux-fsdevel@vger.kernel.org, 
+	ocfs2-devel@lists.linux.dev, bpf@vger.kernel.org, kasan-dev@googlegroups.com, 
+	linux-mm@kvack.org, linux-x25@vger.kernel.org, rust-for-linux@vger.kernel.org, 
+	linux-sound@vger.kernel.org, sound-open-firmware@alsa-project.org, 
+	linux-csky@vger.kernel.org, linux-hexagon@vger.kernel.org, 
+	loongarch@lists.linux.dev, linux-m68k@lists.linux-m68k.org, 
+	linux-openrisc@vger.kernel.org, linux-parisc@vger.kernel.org, 
+	linux-sh@vger.kernel.org, linux-arch@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+X-Rspamd-Queue-Id: 55FAF4823C1
 X-Rspamd-Action: no action
 X-Rspamd-Server: lfdr
-X-Spamd-Result: default: False [-1.66 / 15.00];
+X-Spamd-Result: default: False [0.04 / 15.00];
+	SUSPICIOUS_RECIPS(1.50)[];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
-	MID_RHS_NOT_FQDN(0.50)[];
-	DMARC_POLICY_ALLOW(-0.50)[kernel.org,quarantine];
-	R_DKIM_ALLOW(-0.20)[kernel.org:s=k20201202];
-	R_SPF_ALLOW(-0.20)[+ip4:104.64.211.4:c];
+	R_SPF_ALLOW(-0.20)[+ip4:172.234.253.10:c];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
+	FREEMAIL_CC(0.00)[nvidia.com,linux-foundation.org,gmail.com,linutronix.de,vger.kernel.org,lists.infradead.org,lists.ozlabs.org,lists.freedesktop.org,lists.linux.dev,lists.xenproject.org,googlegroups.com,kvack.org,alsa-project.org,lists.linux-m68k.org];
+	TAGGED_FROM(0.00)[bounces-3541-lists,linux-alpha=lfdr.de];
 	RCVD_TLS_LAST(0.00)[];
-	TAGGED_FROM(0.00)[bounces-3540-lists,linux-alpha=lfdr.de];
-	FROM_HAS_DN(0.00)[];
-	FUZZY_RATELIMITED(0.00)[rspamd.com];
-	RCPT_COUNT_TWELVE(0.00)[23];
-	RCVD_COUNT_THREE(0.00)[4];
-	MIME_TRACE(0.00)[0:+];
+	DMARC_NA(0.00)[linux-m68k.org];
 	FORGED_SENDER_MAILLIST(0.00)[];
-	FREEMAIL_CC(0.00)[google.com,kernel.org,gmail.com,linaro.org,linux.ibm.com,ellerman.id.au,microsoft.com,piap.pl,wunner.de,bytedance.com,linux.intel.com,vger.kernel.org,lists.ozlabs.org];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	TO_DN_SOME(0.00)[];
-	NEURAL_HAM(-0.00)[-1.000];
-	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[kwilczynski@kernel.org,linux-alpha@vger.kernel.org];
-	DKIM_TRACE(0.00)[kernel.org:+];
-	TAGGED_RCPT(0.00)[linux-alpha];
-	ASN(0.00)[asn:63949, ipnet:104.64.192.0/19, country:SG];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
+	RCPT_COUNT_TWELVE(0.00)[49];
+	MIME_TRACE(0.00)[0:+];
 	MISSING_XM_UA(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[sin.lore.kernel.org:helo,sin.lore.kernel.org:rdns]
+	FROM_HAS_DN(0.00)[];
+	TO_DN_SOME(0.00)[];
+	RCVD_COUNT_FIVE(0.00)[6];
+	PRECEDENCE_BULK(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[geert@linux-m68k.org,linux-alpha@vger.kernel.org];
+	ASN(0.00)[asn:63949, ipnet:172.234.224.0/19, country:SG];
+	NEURAL_HAM(-0.00)[-0.060];
+	TAGGED_RCPT(0.00)[linux-alpha];
+	R_DKIM_NA(0.00)[];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns,linux-m68k.org:email,mail.gmail.com:mid]
 
-Hello,
+Hi Christophe,
 
-> > I sadly do not own any Alpha or PowerPC hardware, so when I was testing
-> > these architectures while working on the series, it would be only under
-> > QEMU.
-> 
-> I tested the patches on PPC64 machines running as pSeries(on PowerVM and
-> KVM) also PowerNV.
-> 
-> The sysfs attributes looks normal on boot, and on hotplug/unplug of devices
-> and SRIOV use cases.
-> 
-> I see no warnings/errors in dmesg during PCI scans, initialization.
+Thanks for your patch!
 
-I appreciate that you took the time to test this on a real hardware.
- 
-> Tested-By: Shivaprasad G Bhat <sbhat@linux.ibm.com>
+On Mon, 27 Apr 2026 at 19:18, Christophe Leroy (CS GROUP)
+<chleroy@kernel.org> wrote:
+> Today there are approximately 3000 calls for copy_to_user() and
+> 3000 calls to copy_from_user().
+>
+> The majority of callers of copy_{to/from}_user() don't care about the
+> return value, they only check whether it is 0 or not, and when it is
+> not 0 they handle it as a -EACCES.
 
-Thank you!
+I think the "a" can be dropped.
 
-	Krzysztof
+> In order to allow better optimisation of copy_{to/from}_user() when
+> the size of the copy is known at build time, create new fonctions
+
+functions
+
+> named copy_{to/from}_user_partial() to be used by the few callers
+> that are interested in partial copies and need to now how many
+
+know
+
+> bytes remain at the end of the copy.
+>
+> For the time being it is just the same as copy_{to/from}_user().
+>
+> Signed-off-by: Christophe Leroy (CS GROUP) <chleroy@kernel.org>
+
+Gr{oetje,eeting}s,
+
+                        Geert
+
+-- 
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
+
+In personal conversations with technical people, I call myself a hacker. But
+when I'm talking to journalists I just say "programmer" or something like that.
+                                -- Linus Torvalds
 
