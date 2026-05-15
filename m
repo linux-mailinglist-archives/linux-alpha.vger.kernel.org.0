@@ -1,196 +1,200 @@
-Return-Path: <linux-alpha+bounces-3593-lists+linux-alpha=lfdr.de@vger.kernel.org>
+Return-Path: <linux-alpha+bounces-3599-lists+linux-alpha=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-alpha@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id QPEiM+/TBWpUbwIAu9opvQ
-	(envelope-from <linux-alpha+bounces-3593-lists+linux-alpha=lfdr.de@vger.kernel.org>)
-	for <lists+linux-alpha@lfdr.de>; Thu, 14 May 2026 15:53:51 +0200
+	id UDQxIgMtB2oLsgIAu9opvQ
+	(envelope-from <linux-alpha+bounces-3599-lists+linux-alpha=lfdr.de@vger.kernel.org>)
+	for <lists+linux-alpha@lfdr.de>; Fri, 15 May 2026 16:26:11 +0200
 X-Original-To: lists+linux-alpha@lfdr.de
 Received: from sto.lore.kernel.org (sto.lore.kernel.org [IPv6:2600:3c09:e001:a7::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7165854285D
-	for <lists+linux-alpha@lfdr.de>; Thu, 14 May 2026 15:53:51 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 283E95515EE
+	for <lists+linux-alpha@lfdr.de>; Fri, 15 May 2026 16:26:11 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sto.lore.kernel.org (Postfix) with ESMTP id D5579300D1EE
-	for <lists+linux-alpha@lfdr.de>; Thu, 14 May 2026 13:53:50 +0000 (UTC)
+	by sto.lore.kernel.org (Postfix) with ESMTP id 9E5513002B3C
+	for <lists+linux-alpha@lfdr.de>; Fri, 15 May 2026 14:23:26 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 7ED003D7D9C;
-	Thu, 14 May 2026 13:53:50 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 0AD023AF64B;
+	Fri, 15 May 2026 14:23:14 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gourry.net header.i=@gourry.net header.b="SLvnJSqG"
+	dkim=pass (2048-bit key) header.d=ibm.com header.i=@ibm.com header.b="Jpe7yWrR"
 X-Original-To: linux-alpha@vger.kernel.org
-Received: from mail-qk1-f180.google.com (mail-qk1-f180.google.com [209.85.222.180])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mx0b-001b2d01.pphosted.com (mx0b-001b2d01.pphosted.com [148.163.158.5])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AB6C83E5ED6
-	for <linux-alpha@vger.kernel.org>; Thu, 14 May 2026 13:53:47 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.222.180
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0E9F33B3C15;
+	Fri, 15 May 2026 14:23:11 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=148.163.158.5
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1778766830; cv=none; b=kkEYEnsunSrWmslYv2GBZgyNjMGy59xkI9PbcLrH+dWqgUYCclpjrB6BCJzwtH++ZrdB82d1bcd9GfRo1oeet5++vYbu6l+JaSGmKet+BGvnH3f3ZvRWL8pJUTEsQqzKsYmoe+XT2UncG8B1MUJUhm/FIu3vIEUKJ8PZa14mHis=
+	t=1778854993; cv=none; b=QZsmMcciUqDwJ83OFMLkX6wh0Qy/ytkW+54ouDWWY7iv7EEb6Y4Cy07mGfeBIYOBC5j9vc8yIT8AdHBtDN6oetjJLc63DKb+JYW7Pm8IsOuyM+SvdQRLIZGr1JbX8O9WABrJcxQTE1oyWReiCDyFXS158bNyrnn31K5bryxOP0s=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1778766830; c=relaxed/simple;
-	bh=csuW3myMDRTwfSkVr/fGJ+LdsWf9iBuZuAecKJ3RvRg=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=pCYuBxggmk51eXYkBGls6uJ8XJsNR3GOmw91k3mgqVZL/J+ye4qK5u/bzLH13PWhIiwJm54Jz5TDBQoas8BZEO6r/JRzm1woW5tLy4t2UdJo46WAIxSoYZ7N0rakX1tnxw+LPYG8RAdxc37jVjfEImVzAZC46AcyfRMMYEsSAY0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=gourry.net; spf=pass smtp.mailfrom=gourry.net; dkim=pass (2048-bit key) header.d=gourry.net header.i=@gourry.net header.b=SLvnJSqG; arc=none smtp.client-ip=209.85.222.180
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=gourry.net
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gourry.net
-Received: by mail-qk1-f180.google.com with SMTP id af79cd13be357-90cbb2b50ccso238747085a.0
-        for <linux-alpha@vger.kernel.org>; Thu, 14 May 2026 06:53:47 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gourry.net; s=google; t=1778766827; x=1779371627; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=P+SudBIcbJEYVdXIJisNlY3md8aZgEue8Fntr+vI0eA=;
-        b=SLvnJSqGYHVg8h76hYJGqLa/UBEquprmQ+54IoOJ8tLTQsMjASRA5VOoUvFJGAr4jR
-         IIdXJmTD0senACMG7slIzQpY3Q8AEF711ZcdzHKrnpkAQbvCIaQfZQYMm0kQX0XeBq5c
-         vsk3U/0Obh+72vcKHuYT5MXeNSxKw31q5aEoKg4DzvhlKhwZJlHrVV+gYdtw+UlsAsNb
-         fGhMiILm4xIi+Jnl9UVYHzy0zvNRW7EBsEbfYIbu+V4to+vlXz6QuUatvabGYU/glFLN
-         IB5Z6J6pk6UbxejQngIXueO3oyJKQ3l2hGy2DcSmjbTW1qcZyEmWe8R+6ukeLoNgt2pE
-         nmfg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1778766827; x=1779371627;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=P+SudBIcbJEYVdXIJisNlY3md8aZgEue8Fntr+vI0eA=;
-        b=AAgYgK+jl7uT4E3vrqj+AmHqFXQHHG24oF5quzZm71Dhk3KvvXtkXOQL60SSdO4MQf
-         03lUac60ITEZLy2xq97UpeYf/abI4DdwFhGccD1W7Bgyfg7tAza1C2fmXZ7Cw2JV24Og
-         AakEsLlsHKee33ZxKEolW2CFUAcythoC7S1e2IkLZsi+coRTY6Vkr2eOaA3Ayc8Rsz5I
-         m2dsDoxUTIdPR+TPsQ6aDSWbgGB0NUggWIIaQqWPWQSh35lJ0g9kYGXdwVxEZrqmhPPD
-         F6znVzSdGCEv7n3VM/HaGnPci9Xag2VHSOGz4aSLoosSGECzzUgvW54JSKuirhvD3u0S
-         wNAQ==
-X-Forwarded-Encrypted: i=1; AFNElJ8gQMKzXMSsYF/WrO/P4HrWcMOMj5CJFhg8GrEoBGDY3CLUCziBTdb+wI4TJRoRMew7BjgfAi8297J2qg==@vger.kernel.org
-X-Gm-Message-State: AOJu0YzieZq4IJzuWYo9mp+rpuxN2xpuC88O41qI0hj5qA3XgqFe87mu
-	e0sIRIBx4z8KpbMvhH5tirV5Zo1GhlL98gy8XJfXBokFb6HdMM5VGxl03N5l0X60D0Y=
-X-Gm-Gg: Acq92OHc+eH5qRFn8SRw0hf01JqJfaue+RxxoW/Qd9NarhagYvG7bKYMgeABI2Ym4ku
-	/x9x+jrFSRo2jzLJs2iXsA9wAmNKSrP6PeHAnJDQsm38/uLyOxzgCrF5EbKTP07ZocCYlpjNF2p
-	dP8MGGhkWLURleOCf5NXgpev6ooTzHeMbUz0FlfKxR19nQNHHwhXEvO+vvEWLzv6NYIoAfKHb2I
-	LlFsS32Is4ciHy7Pm2GRyLDMLBPCsOy08NR9um4wavRC9/eurjb9ghh9Nsp+U2bcZlEtCd+3Z6n
-	hzX06wZcbVuN/T85fbbtd7R8ZsFYVh4K+jRlTC6Hecmm//gIWR1m5D6tWDz0BFqoYu4z+EIyhqv
-	yB6H0SUOA5/VRPeHDJFNWHKiAPeJQjw0HNTeA0AAf9W4jITRnyOiHmx5/dufq9irV6OUbL8VBBh
-	qI7Jx7qTkdT1iY2n1udAeH/a7ol5sxP8m455CLhGQKSCHv23+2Ufkoy/Zj6JfMd2sGXSmGlRW2J
-	qezhcfWlMyO
-X-Received: by 2002:a05:620a:7283:b0:90f:d004:5480 with SMTP id af79cd13be357-90fd0045772mr809098685a.6.1778766826553;
-        Thu, 14 May 2026 06:53:46 -0700 (PDT)
-Received: from gourry-fedora-PF4VCD3F (pool-100-36-248-188.washdc.fios.verizon.net. [100.36.248.188])
-        by smtp.gmail.com with ESMTPSA id af79cd13be357-910ba9454basm253697485a.12.2026.05.14.06.53.45
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 14 May 2026 06:53:46 -0700 (PDT)
-Date: Thu, 14 May 2026 09:53:42 -0400
-From: Gregory Price <gourry@gourry.net>
-To: "Michael S. Tsirkin" <mst@redhat.com>
-Cc: linux-kernel@vger.kernel.org,
-	"David Hildenbrand (Arm)" <david@kernel.org>,
-	Jason Wang <jasowang@redhat.com>,
-	Xuan Zhuo <xuanzhuo@linux.alibaba.com>,
-	Eugenio =?iso-8859-1?Q?P=E9rez?= <eperezma@redhat.com>,
-	Muchun Song <muchun.song@linux.dev>,
-	Oscar Salvador <osalvador@suse.de>,
-	Andrew Morton <akpm@linux-foundation.org>,
-	Lorenzo Stoakes <ljs@kernel.org>,
-	"Liam R. Howlett" <liam@infradead.org>,
-	Vlastimil Babka <vbabka@kernel.org>,
-	Mike Rapoport <rppt@kernel.org>,
-	Suren Baghdasaryan <surenb@google.com>,
-	Michal Hocko <mhocko@suse.com>,
-	Brendan Jackman <jackmanb@google.com>,
-	Johannes Weiner <hannes@cmpxchg.org>, Zi Yan <ziy@nvidia.com>,
-	Baolin Wang <baolin.wang@linux.alibaba.com>,
-	Nico Pache <npache@redhat.com>, Ryan Roberts <ryan.roberts@arm.com>,
-	Dev Jain <dev.jain@arm.com>, Barry Song <baohua@kernel.org>,
-	Lance Yang <lance.yang@linux.dev>, Hugh Dickins <hughd@google.com>,
-	Matthew Brost <matthew.brost@intel.com>,
-	Joshua Hahn <joshua.hahnjy@gmail.com>, Rakie Kim <rakie.kim@sk.com>,
-	Byungchul Park <byungchul@sk.com>,
-	Ying Huang <ying.huang@linux.alibaba.com>,
-	Alistair Popple <apopple@nvidia.com>,
-	Christoph Lameter <cl@gentwo.org>,
-	David Rientjes <rientjes@google.com>,
-	Roman Gushchin <roman.gushchin@linux.dev>,
-	Harry Yoo <harry.yoo@oracle.com>,
-	Axel Rasmussen <axelrasmussen@google.com>,
-	Yuanchu Xie <yuanchu@google.com>, Wei Xu <weixugc@google.com>,
-	Chris Li <chrisl@kernel.org>, Kairui Song <kasong@tencent.com>,
-	Kemeng Shi <shikemeng@huaweicloud.com>,
-	Nhat Pham <nphamcs@gmail.com>, Baoquan He <bhe@redhat.com>,
-	virtualization@lists.linux.dev, linux-mm@kvack.org,
-	Andrea Arcangeli <aarcange@redhat.com>,
-	Magnus Lindholm <linmag7@gmail.com>,
-	Greg Ungerer <gerg@linux-m68k.org>,
-	Geert Uytterhoeven <geert@linux-m68k.org>,
-	Richard Henderson <richard.henderson@linaro.org>,
-	Matt Turner <mattst88@gmail.com>,
-	Heiko Carstens <hca@linux.ibm.com>,
-	Vasily Gorbik <gor@linux.ibm.com>,
-	Alexander Gordeev <agordeev@linux.ibm.com>,
-	Christian Borntraeger <borntraeger@linux.ibm.com>,
-	Sven Schnelle <svens@linux.ibm.com>,
-	Thomas Gleixner <tglx@kernel.org>, Ingo Molnar <mingo@redhat.com>,
-	Borislav Petkov <bp@alien8.de>,
-	Dave Hansen <dave.hansen@linux.intel.com>, x86@kernel.org,
-	"H. Peter Anvin" <hpa@zytor.com>, linux-alpha@vger.kernel.org,
-	linux-m68k@lists.linux-m68k.org, linux-s390@vger.kernel.org
-Subject: Re: [PATCH v7 11/31] mm: remove arch vma_alloc_zeroed_movable_folio
- overrides
-Message-ID: <agXT5s4FLL54MS-e@gourry-fedora-PF4VCD3F>
-References: <cover.1778616612.git.mst@redhat.com>
- <7d637bcac4bb5705388136a75f0fdfe2881e5f20.1778616612.git.mst@redhat.com>
+	s=arc-20240116; t=1778854993; c=relaxed/simple;
+	bh=GxB52n+bccQgWw1J7PtaLU/8C4d2aMZq34tOTChw92E=;
+	h=From:Subject:Date:Message-Id:MIME-Version:Content-Type:To:Cc; b=H+v8Q8/DiZsCRFX9ZQO7+KDwTZhFpOeWnaf3t0siPzyrN5F7kqQtDwrE3mJj3d3e/mdGXmYWYrxWcR4FJz4lrrdkwxbX4fOLi69+cJhmoVQ0mCjELA4pObwQqO6O0UyaF1t3FrNBO1yDCxldGYEuAppKubN7pc18CHrxDfN/9D4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.ibm.com; spf=pass smtp.mailfrom=linux.ibm.com; dkim=pass (2048-bit key) header.d=ibm.com header.i=@ibm.com header.b=Jpe7yWrR; arc=none smtp.client-ip=148.163.158.5
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.ibm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.ibm.com
+Received: from pps.filterd (m0360072.ppops.net [127.0.0.1])
+	by mx0a-001b2d01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 64FAe4wY4193977;
+	Fri, 15 May 2026 14:22:28 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com; h=cc
+	:content-transfer-encoding:content-type:date:from:message-id
+	:mime-version:subject:to; s=pp1; bh=hlkm53EkOwBFPaDIOKZBSELdA8nH
+	YftS688xEuOoghU=; b=Jpe7yWrR8pmsxBAomkb7A8nSDqw87mI8kHQ7yDJe49Py
+	VpBgiArLXfLuAHCzt1eS3bwAZcLv72q6thYXwsF8FygOLqT0r9EeuVHDMRjANeHv
+	HfTRYVp+qEFfDQG13wEbLTb+ZywWOVWjffNt5Qz7YoiDwYFasG2iV0+fjfHc8E1b
+	fXZHA90876Kk6UqjxzTIhg6Pj+9Cqit+wC3jY9ISzAazQOblJAV0XvjPUqXh5VpQ
+	AeUpISsK9hfy8JPjD+fAhjoB99xqam5KPFbBN4NKylP5Hq5D9QIiD9j/ugdNrJqK
+	V1EqiJ6d5P9EDtVCKJN5X+IEcuIUWrzZ5B904HhHSA==
+Received: from ppma13.dal12v.mail.ibm.com (dd.9e.1632.ip4.static.sl-reverse.com [50.22.158.221])
+	by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 4e5m8y3f7r-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Fri, 15 May 2026 14:22:28 +0000 (GMT)
+Received: from pps.filterd (ppma13.dal12v.mail.ibm.com [127.0.0.1])
+	by ppma13.dal12v.mail.ibm.com (8.18.1.7/8.18.1.7) with ESMTP id 64FE9aaL006591;
+	Fri, 15 May 2026 14:22:27 GMT
+Received: from smtprelay04.fra02v.mail.ibm.com ([9.218.2.228])
+	by ppma13.dal12v.mail.ibm.com (PPS) with ESMTPS id 4e5kvckve3-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Fri, 15 May 2026 14:22:26 +0000 (GMT)
+Received: from smtpav04.fra02v.mail.ibm.com (smtpav04.fra02v.mail.ibm.com [10.20.54.103])
+	by smtprelay04.fra02v.mail.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id 64FEMNDm17236336
+	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+	Fri, 15 May 2026 14:22:23 GMT
+Received: from smtpav04.fra02v.mail.ibm.com (unknown [127.0.0.1])
+	by IMSVA (Postfix) with ESMTP id 71F5A2004B;
+	Fri, 15 May 2026 14:22:23 +0000 (GMT)
+Received: from smtpav04.fra02v.mail.ibm.com (unknown [127.0.0.1])
+	by IMSVA (Postfix) with ESMTP id 4C71220043;
+	Fri, 15 May 2026 14:22:22 +0000 (GMT)
+Received: from [192.168.178.55] (unknown [9.87.148.246])
+	by smtpav04.fra02v.mail.ibm.com (Postfix) with ESMTP;
+	Fri, 15 May 2026 14:22:22 +0000 (GMT)
+From: Gerd Bayer <gbayer@linux.ibm.com>
+Subject: [PATCH 0/5] PCI: Finally make pci_root_buses private
+Date: Fri, 15 May 2026 16:22:02 +0200
+Message-Id: <20260515-priv_root_buses-v1-0-f8e393c57390@linux.ibm.com>
 Precedence: bulk
 X-Mailing-List: linux-alpha@vger.kernel.org
 List-Id: <linux-alpha.vger.kernel.org>
 List-Subscribe: <mailto:linux-alpha+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-alpha+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <7d637bcac4bb5705388136a75f0fdfe2881e5f20.1778616612.git.mst@redhat.com>
-X-Rspamd-Queue-Id: 7165854285D
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-B4-Tracking: v=1; b=H4sIAAAAAAAC/x2MSQqAMAwAv1JytlArrl8REZeoudiSqAji3w0eZ
+ 2DmAUEmFGjMA4wXCYVdIU0MTNuwr2hpVgbvfOFyV9nIdPUcwtGPp6BY9RkuvijrYQatIuNC939
+ su/f9ABjl6/xhAAAA
+X-Change-ID: 20260508-priv_root_buses-0263ef2679ad
+To: Richard Henderson <richard.henderson@linaro.org>,
+        Matt Turner <mattst88@gmail.com>, Magnus Lindholm <linmag7@gmail.com>,
+        Russell King <linux@armlinux.org.uk>,
+        Madhavan Srinivasan <maddy@linux.ibm.com>,
+        Michael Ellerman <mpe@ellerman.id.au>,
+        Nicholas Piggin <npiggin@gmail.com>,
+        "Christophe Leroy (CS GROUP)" <chleroy@kernel.org>,
+        Bjorn Helgaas <bhelgaas@google.com>, Thomas Gleixner <tglx@kernel.org>,
+        Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
+        Dave Hansen <dave.hansen@linux.intel.com>, x86@kernel.org,
+        "H. Peter Anvin" <hpa@zytor.com>
+Cc: Yinghai Lu <yinghai@kernel.org>, linux-alpha@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+        linuxppc-dev@lists.ozlabs.org, linux-pci@vger.kernel.org,
+        Gerd Bayer <gbayer@linux.ibm.com>
+X-Mailer: b4 0.14.3
+X-TM-AS-GCONF: 00
+X-Proofpoint-Reinject: loops=2 maxloops=12
+X-Proofpoint-GUID: BhW0i5iCtwRYcCsYhKF1TLTEACXv-Cab
+X-Authority-Analysis: v=2.4 cv=RemgzVtv c=1 sm=1 tr=0 ts=6a072c24 cx=c_pps
+ a=AfN7/Ok6k8XGzOShvHwTGQ==:117 a=AfN7/Ok6k8XGzOShvHwTGQ==:17
+ a=IkcTkHD0fZMA:10 a=NGcC8JguVDcA:10 a=VkNPw1HP01LnGYTKEx00:22
+ a=RnoormkPH1_aCDwRdu11:22 a=RzCfie-kr_QcCd8fBx8p:22 a=bC-a23v3AAAA:8
+ a=VwQbUJbxAAAA:8 a=VnNF1IyMAAAA:8 a=3TEdfphp4t-7w4sqoLwA:9 a=QEXdDO2ut3YA:10
+ a=FO4_E8m0qiDe52t0p3_H:22
+X-Proofpoint-ORIG-GUID: b_iyl63R7uRxWrlAjKplQflIOIoOa8Gj
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwNTE1MDE0MyBTYWx0ZWRfX5lRW9LSZwXbw
+ 5DmQmgWZLmEcf0d1PjSDDl0zFQGVRV8b0nwaU92OLakcli5f8x6KAN5xqitcTW0qp6aemQsBops
+ a/S0t9NsynbCGPow9aQ/veAC86+piUom6Okaw345o4J3QFSEm5JuxK3K2HtXcdWGXf2eMqFXHsi
+ HTbp+tlQ8jJGYnl5mMCErBUmHRKiLKA4TrsOItR0AB7JC1nqk2m9Ap18w47o+ah2v8wWEOSlQ37
+ PjPwXqJrz+tcP02lT4vxAEYwcd76SDX0IuN1ldo+jamTwHSjWH4pwGRLerjAg+x3HUnNDF6bpW9
+ RxsS0smz5JxyvL1NGw0wrmv9cuMY/8lmQc3mJ5Y/AqVxvEWbam86Iu58739vi6qBaVZT6h+82kS
+ +cMPP+BrBtFbxrPzq3oJ/k8RUY1d4liuOb2Vf427Xjn8WQkSZDWUVotXBEiECzFmdlbdpBGG4CL
+ 9rlTXdY/YkTgDlm1UxA==
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1143,Hydra:6.1.51,FMLib:17.12.100.49
+ definitions=2026-05-15_03,2026-05-13_01,2025-10-01_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ lowpriorityscore=0 clxscore=1011 suspectscore=0 adultscore=0
+ priorityscore=1501 bulkscore=0 phishscore=0 spamscore=0 impostorscore=0
+ malwarescore=0 classifier=typeunknown authscore=0 authtc= authcc=
+ route=outbound adjust=0 reason=mlx scancount=1 engine=8.22.0-2605130000
+ definitions=main-2605150143
+X-Rspamd-Queue-Id: 283E95515EE
 X-Rspamd-Server: lfdr
-X-Spamd-Result: default: False [0.34 / 15.00];
-	SUSPICIOUS_RECIPS(1.50)[];
+X-Spamd-Result: default: False [-2.16 / 15.00];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
-	MID_RHS_NOT_FQDN(0.50)[];
-	R_DKIM_ALLOW(-0.20)[gourry.net:s=google];
+	DMARC_POLICY_ALLOW(-0.50)[ibm.com,none];
 	R_SPF_ALLOW(-0.20)[+ip6:2600:3c09:e001:a7::/64:c];
+	R_DKIM_ALLOW(-0.20)[ibm.com:s=pp1];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	TAGGED_FROM(0.00)[bounces-3593-lists,linux-alpha=lfdr.de];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[linux.ibm.com:mid,sto.lore.kernel.org:helo,sto.lore.kernel.org:rdns,msgid.link:url];
+	TAGGED_FROM(0.00)[bounces-3599-lists,linux-alpha=lfdr.de];
 	RCVD_TLS_LAST(0.00)[];
-	FROM_HAS_DN(0.00)[];
-	DMARC_NA(0.00)[gourry.net];
-	FREEMAIL_CC(0.00)[vger.kernel.org,kernel.org,redhat.com,linux.alibaba.com,linux.dev,suse.de,linux-foundation.org,infradead.org,google.com,suse.com,cmpxchg.org,nvidia.com,arm.com,intel.com,gmail.com,sk.com,gentwo.org,oracle.com,tencent.com,huaweicloud.com,lists.linux.dev,kvack.org,linux-m68k.org,linaro.org,linux.ibm.com,alien8.de,linux.intel.com,zytor.com,lists.linux-m68k.org];
+	FREEMAIL_TO(0.00)[linaro.org,gmail.com,armlinux.org.uk,linux.ibm.com,ellerman.id.au,kernel.org,google.com,redhat.com,alien8.de,linux.intel.com,zytor.com];
 	MIME_TRACE(0.00)[0:+];
 	FORGED_SENDER_MAILLIST(0.00)[];
-	DKIM_TRACE(0.00)[gourry.net:+];
+	RCPT_COUNT_TWELVE(0.00)[22];
+	DKIM_TRACE(0.00)[ibm.com:+];
 	ASN(0.00)[asn:63949, ipnet:2600:3c09::/32, country:SG];
-	MISSING_XM_UA(0.00)[];
-	RCVD_COUNT_FIVE(0.00)[5];
-	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[gourry@gourry.net,linux-alpha@vger.kernel.org];
-	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	RCPT_COUNT_GT_50(0.00)[65];
-	TAGGED_RCPT(0.00)[linux-alpha];
-	NEURAL_HAM(-0.00)[-1.000];
 	TO_DN_SOME(0.00)[];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[sto.lore.kernel.org:helo,sto.lore.kernel.org:rdns,linux-m68k.org:email]
+	FROM_NEQ_ENVFROM(0.00)[gbayer@linux.ibm.com,linux-alpha@vger.kernel.org];
+	FROM_HAS_DN(0.00)[];
+	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	PRECEDENCE_BULK(0.00)[];
+	MID_RHS_MATCH_FROM(0.00)[];
+	NEURAL_HAM(-0.00)[-1.000];
+	TAGGED_RCPT(0.00)[linux-alpha];
+	RCVD_COUNT_SEVEN(0.00)[11]
 X-Rspamd-Action: no action
 
-On Tue, May 12, 2026 at 05:06:04PM -0400, Michael S. Tsirkin wrote:
-> Now that the generic vma_alloc_zeroed_movable_folio() uses
-> __GFP_ZERO, the arch-specific macros on alpha, m68k, s390, and
-> x86 that did the same thing are redundant.  Remove them.
-> 
-> arm64 is not affected: it has a real function override that
-> handles MTE tag zeroing, not just __GFP_ZERO.
-> 
-> Suggested-by: David Hildenbrand <david@kernel.org>
-> Acked-by: Magnus Lindholm <linmag7@gmail.com>
-> Acked-by: Greg Ungerer <gerg@linux-m68k.org>
-> Acked-by: Geert Uytterhoeven <geert@linux-m68k.org> # m68k
-> Signed-off-by: Michael S. Tsirkin <mst@redhat.com>
+Hi all!
 
-Reviewed-by: Gregory Price <gourry@gourry.net>
+The ominous warning about pci_root_buses in drivers/pci/probe.c caught
+my attention. Looking closer, I found that there are uses in four
+arch-specific files left before we can stop exposing that symbol outside
+of drivers/pci.
+
+Finish off the job that Yinghai Lu started in 2013 - see
+https://msgid.link/1359265003-16166-23-git-send-email-yinghai@kernel.org/
+
+The entire series has been compile-tested only - with defconfigs on
+alpha, arm, powerpc, and x86.
+
+Signed-off-by: Gerd Bayer <gbayer@linux.ibm.com>
+---
+Gerd Bayer (5):
+      alpha/pci: Use official API to iterate over PCI buses
+      arm/pci: Use official API to iterate over PCI buses
+      powerpc/pci: Use official API to iterate over PCI buses
+      x86/pci: Use official API to iterate over PCI buses
+      PCI: Make pci_root_buses private to PCI core
+
+ arch/alpha/kernel/pci.c          |  4 ++--
+ arch/arm/kernel/bios32.c         |  4 ++--
+ arch/powerpc/kernel/pci-common.c |  7 ++++---
+ arch/powerpc/kernel/pci_64.c     |  4 ++--
+ arch/x86/pci/i386.c              | 14 ++++++++------
+ drivers/pci/pci.h                |  3 +++
+ drivers/pci/probe.c              |  2 --
+ include/linux/pci.h              |  4 ----
+ 8 files changed, 21 insertions(+), 21 deletions(-)
+---
+base-commit: 5d6919055dec134de3c40167a490f33c74c12581
+change-id: 20260508-priv_root_buses-0263ef2679ad
+
+Best regards,
+-- 
+Gerd Bayer <gbayer@linux.ibm.com>
 
 
