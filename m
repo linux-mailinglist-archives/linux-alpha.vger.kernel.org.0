@@ -1,51 +1,51 @@
-Return-Path: <linux-alpha+bounces-3680-lists+linux-alpha=lfdr.de@vger.kernel.org>
+Return-Path: <linux-alpha+bounces-3681-lists+linux-alpha=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-alpha@lfdr.de
 Received: from mail.lfdr.de
 	by mail.lfdr.de with LMTP
-	id BYlhMmMDNWr5lwYAu9opvQ
-	(envelope-from <linux-alpha+bounces-3680-lists+linux-alpha=lfdr.de@vger.kernel.org>)
-	for <lists+linux-alpha@lfdr.de>; Fri, 19 Jun 2026 10:52:51 +0200
+	id w5FYMGcDNWr+lwYAu9opvQ
+	(envelope-from <linux-alpha+bounces-3681-lists+linux-alpha=lfdr.de@vger.kernel.org>)
+	for <lists+linux-alpha@lfdr.de>; Fri, 19 Jun 2026 10:52:55 +0200
 X-Original-To: lists+linux-alpha@lfdr.de
-Received: from sea.lore.kernel.org (sea.lore.kernel.org [172.234.253.10])
-	by mail.lfdr.de (Postfix) with ESMTPS id 63CFC6A4BD4
-	for <lists+linux-alpha@lfdr.de>; Fri, 19 Jun 2026 10:52:51 +0200 (CEST)
+Received: from sea.lore.kernel.org (sea.lore.kernel.org [IPv6:2600:3c0a:e001:db::12fc:5321])
+	by mail.lfdr.de (Postfix) with ESMTPS id 5DCFE6A4BE0
+	for <lists+linux-alpha@lfdr.de>; Fri, 19 Jun 2026 10:52:55 +0200 (CEST)
 Authentication-Results: mail.lfdr.de;
-	dkim=pass header.d=kernel.org header.s=k20260515 header.b=H1ZMOHhM;
-	spf=pass (mail.lfdr.de: domain of "linux-alpha+bounces-3680-lists+linux-alpha=lfdr.de@vger.kernel.org" designates 172.234.253.10 as permitted sender) smtp.mailfrom="linux-alpha+bounces-3680-lists+linux-alpha=lfdr.de@vger.kernel.org";
+	dkim=pass header.d=kernel.org header.s=k20260515 header.b=BXpDljBG;
+	spf=pass (mail.lfdr.de: domain of "linux-alpha+bounces-3681-lists+linux-alpha=lfdr.de@vger.kernel.org" designates 2600:3c0a:e001:db::12fc:5321 as permitted sender) smtp.mailfrom="linux-alpha+bounces-3681-lists+linux-alpha=lfdr.de@vger.kernel.org";
 	dmarc=pass (policy=quarantine) header.from=kernel.org;
 	arc=pass ("subspace.kernel.org:s=arc-20240116:i=1")
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id 305E730247ED
-	for <lists+linux-alpha@lfdr.de>; Fri, 19 Jun 2026 08:52:43 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id E88513024CBC
+	for <lists+linux-alpha@lfdr.de>; Fri, 19 Jun 2026 08:52:46 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 8838E31B80D;
-	Fri, 19 Jun 2026 08:52:42 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 740AE332610;
+	Fri, 19 Jun 2026 08:52:46 +0000 (UTC)
 X-Original-To: linux-alpha@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8192318FDBD;
-	Fri, 19 Jun 2026 08:52:41 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 682D618FDBD;
+	Fri, 19 Jun 2026 08:52:45 +0000 (UTC)
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1781859162; cv=none; b=bbf0mxDn0W5ahxBfS6mJ3cPcXfPWri5toLUWS/TTHDOAyKemdQF/3QjOEjWIA+ibWHNncKmZy7/OefZ9H2ChgYpEq34W7nBhigsIDUHDlm0DXornKGr8rtqqOX+vyBTkEsEaZ258MzW2tY01UepkrZta18RFLHJzIHsTfhcnCJs=
+	t=1781859166; cv=none; b=VaxOiwYEHckMOzpJWpkzyDFMqDHFT7XhLd5NdFtUEtVDKGjwkeI7T6cK5I6KF7xCSoxTRZj9d5yKI3+vMTJDw+/HWdB4lnJc4bEuTT8fP3rELK+70xfdXQ9uwqZiCLaY6TpW+LAdigaKm3T67ikmWrO/vYxzty+1av+HwyQw42Q=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1781859162; c=relaxed/simple;
-	bh=/wlqGYVuuaEQlDlolQ/yGz4+9vnxYImWi5k+LH64SDU=;
+	s=arc-20240116; t=1781859166; c=relaxed/simple;
+	bh=E3tfvAE5/RgXcJHgVGPP0ui+GO/m1px+JjWaS1Ub+oM=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=Ep04hDr7oVK5B49nlESJtAobv+q24/YAAYSU7JRj+dPplGo43ce4nec/qV1HL82uUTC0YanwlCB9bsLMqhyeLSF7vPLsLGi3nCuyJQPJZRZyDwuzO1YGvjQNltcVAWR7sKXX3RGs9+dhU9IpAZjaouiCDcz6W3SrEXS+JouthAA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=H1ZMOHhM; arc=none smtp.client-ip=100.103.45.18
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2A9BB1F00AC4;
-	Fri, 19 Jun 2026 08:52:38 +0000 (UTC)
+	 MIME-Version:Content-Type; b=efuNSdLUklCSv+uGe1BrxXShmySjZ6tfbzILex4O9Omfv1lHCWihJOFLM1f+8zm6/cXM1bEXw9K3+sucgp0o73EQNg8ACH0+8oSvg0G+4EY/TJJqzGmnn+UJUGb/E0vUDKcmR5UkUUXjsgE8n+y9ciMV/WatXYBfz1ChFUL8vmk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=BXpDljBG; arc=none smtp.client-ip=100.103.45.18
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id BEA9F1F00A3A;
+	Fri, 19 Jun 2026 08:52:41 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1781859161;
-	bh=hZpSQCgMlKTKZQdytllooM44So4t4sr5jU9EJXYUHVc=;
+	s=k20260515; t=1781859165;
+	bh=pMuVQQr2pWe9V9DOF5+KI8VOApNtmpAfW/aKio6l7sQ=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References;
-	b=H1ZMOHhMl+y1+Dw1MeuXMLFbr5eQDs6bYt4mPEeMYE0+tCyo4Lse8Wpo9pgtcpS01
-	 shrYlFlpaQWcEVBAxThHaQBTVmwGlLqvdHQbR4k+RCOhmVThTC5c1wsNCM7zrvnv3e
-	 uP2vf5UMwsykYQo9EA5NV7n9heStDbsN0Ltx6kiMPElumWMJNPk06p8GeIaP44lNyV
-	 e+G7djMnqKu4tDzVRtjs67K5dgbZB/MJM0qLeChO0wYikGmtvuqJJsTJrZId/yDzwf
-	 ehMto8Hh3ZsgiCfKM/g/VuK5HrVery5hw2skk+BrRY15aU1hyDWPwKH6e2YQsT9P8l
-	 6QZnT1n9wz/KQ==
+	b=BXpDljBGNZeba421cMa3DpdGQLCzdvMElFNkXNEMLYam7fvP9xHJTCk1VvxhMyQQs
+	 kIauTb9QjedYsJW1pXTlYf1vWQ8y0fzFoTvi4xFG6GOqbh6gz9KpxLOMh3AY7qboQz
+	 CyOWIIMqcSnxHTcPBnoON07cKdHnzCRDIhrcjCFVkB8mwX9HrA5T5Vt2eBG7AD1tSS
+	 6g4HDxkQaglP7krBlk1zN0RNi5iW6Q/9K1b+gfA5+uAQaZaAIf6LFklO8G8pr6kR6O
+	 NNjR2zQa9xeYOzyO+eRlOX636zSN4vjre1o6nyvrvxjw2fsVwXbddLAW/h/1OYVJ7Q
+	 08QdsqhvJYtsA==
 From: =?UTF-8?q?Krzysztof=20Wilczy=C5=84ski?= <kwilczynski@kernel.org>
 To: Bjorn Helgaas <bhelgaas@google.com>
 Cc: Bjorn Helgaas <helgaas@kernel.org>,
@@ -70,9 +70,9 @@ Cc: Bjorn Helgaas <helgaas@kernel.org>,
 	linux-pci@vger.kernel.org,
 	linux-alpha@vger.kernel.org,
 	linuxppc-dev@lists.ozlabs.org
-Subject: [PATCH v8 10/25] PCI/sysfs: Limit pci_sysfs_init() late_initcall compile scope
-Date: Fri, 19 Jun 2026 08:51:45 +0000
-Message-ID: <20260619085200.3729431-11-kwilczynski@kernel.org>
+Subject: [PATCH v8 11/25] alpha/PCI: Add security_locked_down() check to pci_mmap_resource()
+Date: Fri, 19 Jun 2026 08:51:46 +0000
+Message-ID: <20260619085200.3729431-12-kwilczynski@kernel.org>
 X-Mailer: git-send-email 2.54.0
 In-Reply-To: <20260619085200.3729431-1-kwilczynski@kernel.org>
 References: <20260619085200.3729431-1-kwilczynski@kernel.org>
@@ -91,7 +91,7 @@ X-Spamd-Result: default: False [-4.16 / 15.00];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
 	DMARC_POLICY_ALLOW(-0.50)[kernel.org,quarantine];
 	R_DKIM_ALLOW(-0.20)[kernel.org:s=k20260515];
-	R_SPF_ALLOW(-0.20)[+ip4:172.234.253.10:c];
+	R_SPF_ALLOW(-0.20)[+ip6:2600:3c0a:e001:db::/64:c];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
@@ -104,7 +104,7 @@ X-Spamd-Result: default: False [-4.16 / 15.00];
 	FORGED_SENDER(0.00)[kwilczynski@kernel.org,linux-alpha@vger.kernel.org];
 	MIME_TRACE(0.00)[0:+];
 	FORWARDED(0.00)[lists@lfdr.de];
-	TAGGED_FROM(0.00)[bounces-3680-lists,linux-alpha=lfdr.de];
+	TAGGED_FROM(0.00)[bounces-3681-lists,linux-alpha=lfdr.de];
 	DKIM_TRACE(0.00)[kernel.org:+];
 	TO_DN_SOME(0.00)[];
 	FORGED_SENDER_FORWARDING(0.00)[];
@@ -116,70 +116,56 @@ X-Spamd-Result: default: False [-4.16 / 15.00];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
 	TAGGED_RCPT(0.00)[linux-alpha];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	ASN(0.00)[asn:63949, ipnet:172.234.224.0/19, country:SG];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[vger.kernel.org:from_smtp,sea.lore.kernel.org:rdns,sea.lore.kernel.org:helo]
+	ASN(0.00)[asn:63949, ipnet:2600:3c0a::/32, country:SG];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[sea.lore.kernel.org:rdns,sea.lore.kernel.org:helo,intel.com:email,vger.kernel.org:from_smtp]
 X-Rspamd-Server: lfdr
-X-Rspamd-Queue-Id: 63CFC6A4BD4
+X-Rspamd-Queue-Id: 5DCFE6A4BE0
 
-Currently, pci_sysfs_init() and sysfs_initialized compile
-unconditionally, even on platforms where static attribute
-groups handle all resource file creation.
+Currently, Alpha's pci_mmap_resource() does not check
+security_locked_down(LOCKDOWN_PCI_ACCESS) before allowing
+userspace to mmap PCI BARs.
 
-Thus, place them behind a new HAVE_PCI_SYSFS_INIT macro,
-especially as the late_initcall is only needed when:
+The generic version has had this check since commit eb627e17727e
+("PCI: Lock down BAR access when the kernel is locked down") to
+prevent DMA attacks when the kernel is locked down.
 
-  - HAVE_PCI_LEGACY is set, to iterate buses and create legacy
-    I/O and memory files.
+Add the same check to Alpha's pci_mmap_resource().
 
-  - Neither HAVE_PCI_MMAP nor ARCH_GENERIC_PCI_MMAP_RESOURCE is
-    set, to iterate devices and create resource files via the
-    __weak pci_create_resource_files() stub override (this is
-    how the Alpha architecture handles this currently).
-
-On most systems both conditions are false and the entire
-late_initcall compiles away.
-
+Fixes: eb627e17727e ("PCI: Lock down BAR access when the kernel is locked down")
+Tested-by: Magnus Lindholm <linmag7@gmail.com>
 Tested-by: Shivaprasad G Bhat <sbhat@linux.ibm.com>
+Reviewed-by: Ilpo Järvinen <ilpo.jarvinen@linux.intel.com>
+Acked-by: Magnus Lindholm <linmag7@gmail.com>
 Signed-off-by: Krzysztof Wilczyński <kwilczynski@kernel.org>
 ---
- drivers/pci/pci-sysfs.c | 9 +++++++++
- 1 file changed, 9 insertions(+)
+ arch/alpha/kernel/pci-sysfs.c | 7 ++++++-
+ 1 file changed, 6 insertions(+), 1 deletion(-)
 
-diff --git a/drivers/pci/pci-sysfs.c b/drivers/pci/pci-sysfs.c
-index 208ec7057b50..57d89e12bfec 100644
---- a/drivers/pci/pci-sysfs.c
-+++ b/drivers/pci/pci-sysfs.c
-@@ -37,7 +37,14 @@
- #define ARCH_PCI_DEV_GROUPS
- #endif
+diff --git a/arch/alpha/kernel/pci-sysfs.c b/arch/alpha/kernel/pci-sysfs.c
+index 3048758304b5..2324720c3e83 100644
+--- a/arch/alpha/kernel/pci-sysfs.c
++++ b/arch/alpha/kernel/pci-sysfs.c
+@@ -11,6 +11,7 @@
+  */
  
-+#if defined(HAVE_PCI_LEGACY) || \
-+	!defined(HAVE_PCI_MMAP) && !defined(ARCH_GENERIC_PCI_MMAP_RESOURCE)
-+#define HAVE_PCI_SYSFS_INIT
-+#endif
+ #include <linux/sched.h>
++#include <linux/security.h>
+ #include <linux/stat.h>
+ #include <linux/slab.h>
+ #include <linux/pci.h>
+@@ -71,7 +72,11 @@ static int pci_mmap_resource(struct kobject *kobj,
+ 	struct resource *res = attr->private;
+ 	enum pci_mmap_state mmap_type;
+ 	struct pci_bus_region bar;
+-	int i;
++	int i, ret;
 +
-+#ifdef HAVE_PCI_SYSFS_INIT
- static int sysfs_initialized;	/* = 0 */
-+#endif
++	ret = security_locked_down(LOCKDOWN_PCI_ACCESS);
++	if (ret)
++		return ret;
  
- /* show configuration fields */
- #define pci_config_attr(field, format_string)				\
-@@ -1768,6 +1775,7 @@ void pci_remove_sysfs_dev_files(struct pci_dev *pdev)
- }
- #endif
- 
-+#ifdef HAVE_PCI_SYSFS_INIT
- static int __init pci_sysfs_init(void)
- {
- #if defined(HAVE_PCI_MMAP) || defined(ARCH_GENERIC_PCI_MMAP_RESOURCE)
-@@ -1794,6 +1802,7 @@ static int __init pci_sysfs_init(void)
- 	return 0;
- }
- late_initcall(pci_sysfs_init);
-+#endif
- 
- static struct attribute *pci_dev_dev_attrs[] = {
- 	&dev_attr_boot_vga.attr,
+ 	for (i = 0; i < PCI_STD_NUM_BARS; i++)
+ 		if (res == &pdev->resource[i])
 -- 
 2.54.0
 
