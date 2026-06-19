@@ -1,51 +1,51 @@
-Return-Path: <linux-alpha+bounces-3674-lists+linux-alpha=lfdr.de@vger.kernel.org>
+Return-Path: <linux-alpha+bounces-3675-lists+linux-alpha=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-alpha@lfdr.de
 Received: from mail.lfdr.de
 	by mail.lfdr.de with LMTP
-	id aDvhBUoDNWrllwYAu9opvQ
-	(envelope-from <linux-alpha+bounces-3674-lists+linux-alpha=lfdr.de@vger.kernel.org>)
-	for <lists+linux-alpha@lfdr.de>; Fri, 19 Jun 2026 10:52:26 +0200
+	id QWcFE00DNWrolwYAu9opvQ
+	(envelope-from <linux-alpha+bounces-3675-lists+linux-alpha=lfdr.de@vger.kernel.org>)
+	for <lists+linux-alpha@lfdr.de>; Fri, 19 Jun 2026 10:52:29 +0200
 X-Original-To: lists+linux-alpha@lfdr.de
-Received: from sea.lore.kernel.org (sea.lore.kernel.org [IPv6:2600:3c0a:e001:db::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id AB8986A4B91
-	for <lists+linux-alpha@lfdr.de>; Fri, 19 Jun 2026 10:52:25 +0200 (CEST)
+Received: from sin.lore.kernel.org (sin.lore.kernel.org [104.64.211.4])
+	by mail.lfdr.de (Postfix) with ESMTPS id 7D5BC6A4B99
+	for <lists+linux-alpha@lfdr.de>; Fri, 19 Jun 2026 10:52:28 +0200 (CEST)
 Authentication-Results: mail.lfdr.de;
-	dkim=pass header.d=kernel.org header.s=k20260515 header.b=YW4kBCdi;
-	spf=pass (mail.lfdr.de: domain of "linux-alpha+bounces-3674-lists+linux-alpha=lfdr.de@vger.kernel.org" designates 2600:3c0a:e001:db::12fc:5321 as permitted sender) smtp.mailfrom="linux-alpha+bounces-3674-lists+linux-alpha=lfdr.de@vger.kernel.org";
+	dkim=pass header.d=kernel.org header.s=k20260515 header.b=DvxGXdYR;
+	spf=pass (mail.lfdr.de: domain of "linux-alpha+bounces-3675-lists+linux-alpha=lfdr.de@vger.kernel.org" designates 104.64.211.4 as permitted sender) smtp.mailfrom="linux-alpha+bounces-3675-lists+linux-alpha=lfdr.de@vger.kernel.org";
 	dmarc=pass (policy=quarantine) header.from=kernel.org;
 	arc=pass ("subspace.kernel.org:s=arc-20240116:i=1")
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id 6444B302415F
-	for <lists+linux-alpha@lfdr.de>; Fri, 19 Jun 2026 08:52:21 +0000 (UTC)
+	by sin.lore.kernel.org (Postfix) with ESMTP id 82F1F30055CE
+	for <lists+linux-alpha@lfdr.de>; Fri, 19 Jun 2026 08:52:25 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 02BE4332610;
-	Fri, 19 Jun 2026 08:52:21 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 7A875332610;
+	Fri, 19 Jun 2026 08:52:24 +0000 (UTC)
 X-Original-To: linux-alpha@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DF6E318FDBD;
-	Fri, 19 Jun 2026 08:52:19 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 77D6A18FDBD;
+	Fri, 19 Jun 2026 08:52:23 +0000 (UTC)
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1781859140; cv=none; b=s/cYQBwJ/RoJdzUbNHCbVSJRMbgCv6kvkrTCgR/38ZkcfucEG5RkYkxGJxgPOrxXztlJ6Wxxc/pCf9R4p9WgNMWn30spFs9oqyc7BG21Wj9zQOXdGqeFp31ugvQKNmvB40X8bodB901ebs4XjR0c3cAbhOGd2PhOlIvEA4bmaf4=
+	t=1781859144; cv=none; b=NKpvWoOhO1FTrqlEsGM+VnYN7t0msdjW4i2V9y44GcpP2mj+JdbHzFr4y2C0lvOg0f6Gn2BS8pkyT+20FxnamvaOIeoRiDj8Xc1VgDokpZO4Tz3XyoF6zd7Mq7gXXT1r+m8v2j0+fjUDmNesiz4+kMkA/PS+S7q4sWbXV90GFUU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1781859140; c=relaxed/simple;
-	bh=im9Vn3gtovnQ43+zgtWx6f84+VVW78Es3AfaAKaONdk=;
+	s=arc-20240116; t=1781859144; c=relaxed/simple;
+	bh=9KXLrBNGT0ToNu4fHZqX/w3XLpky3ur23Tmkqe8TgNA=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=e7xjyrPgRp/nGPp/WNAPs4t9AdAIQwCcZicT84tS/modcLQk9u4kRlvHjtm8z6N0HMIt4Z4I9klEUrMzgbuLerUjITI3wtu5l/l46U6pCE5uhq+QIGs+v00vVDsZtOZqU4YZeE/2YTkaNmtgXrHLZnfWh0g2yfeRgdRnH4SoP14=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=YW4kBCdi; arc=none smtp.client-ip=100.103.45.18
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7F07C1F00AC4;
-	Fri, 19 Jun 2026 08:52:16 +0000 (UTC)
+	 MIME-Version:Content-Type; b=a7f4P8hge1VQ1zVUW6x5N4Kx5w9Ti5yPrb4DrzTkGnp7/lwG+5I0KH935luB1WYL5Ji6q4mYepNLFbMZk2p9KWdg7520UST9FgseFBZV053yYvqmltq88gmzymdlrb6KNaiDlni8dGIoMNndKGd+2KxKXmiRvJq7w/136K1aOCI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=DvxGXdYR; arc=none smtp.client-ip=100.103.45.18
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 1F9AA1F00A3E;
+	Fri, 19 Jun 2026 08:52:19 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1781859139;
-	bh=hL5eYVsSUY1Is3NsEHFXNssm619EpveDtS/ShwL5AvQ=;
+	s=k20260515; t=1781859143;
+	bh=5ptdizEpjuYqeg2f+U9wBoigKTE1I9tlh/xOEI1cGXU=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References;
-	b=YW4kBCdiHYTHfFH9rK5KUGN4rtaCMSSInNBjv7DcP5WkWPht3N2qGueMytdws5nXX
-	 wqMq9vGI4qNnSP9f0T0vnfGiq8eS0q4Uk/qeGyFd9WhH8DIq/d6s7+AHUZklaRBqHf
-	 AB/SkwQtgEtnNem5jiDpyPO4ptHfePEKSntBMWDTQ27ZMeSDwFhPlSyUG1rUPWJws0
-	 bG1knsJofLCS9DyL6HYWNFZH3Es8wnBTGz0X01JQTMeJwsZQ2oBR4g11Nfyw0g/INJ
-	 0D3znnyEXRLfWWWUS7eH3HC5e+oaBBWJPPDf1ij+8WwNIiJGqXFhoVHVYmOhyxisaf
-	 bWJSI7LUfkMUA==
+	b=DvxGXdYRZjBwhtVt/XLBkqSTeCA0na6LMV/FEykjBxTTXIpdpGWpDMbt2Qr1JrFaI
+	 9zcMQqINYRYbFYbOmCk6uxlrR59Z8oUF0zMZSjA0744Nf+0q7c1kRxUBd0+JfO5cD8
+	 NrVGqhiifnFMswHAo/XCr9a7q3fquugELxBQPQ+G7Qkq1qOdKcWQjegvhtw3G3G8HT
+	 zbzGY/4+qv7mltC2Fkjnw8lxtrPI5WDMg42QqMasw8hXkQPko5gmTa6n5PssupNK2I
+	 NYl3sFq0q0Wvm+drBSR/10OAwxFsSLJOyB2aHRQICMf58Su3BVUDBklbC9A5qz48x7
+	 vp6ayPc+xT4Rg==
 From: =?UTF-8?q?Krzysztof=20Wilczy=C5=84ski?= <kwilczynski@kernel.org>
 To: Bjorn Helgaas <bhelgaas@google.com>
 Cc: Bjorn Helgaas <helgaas@kernel.org>,
@@ -70,9 +70,9 @@ Cc: Bjorn Helgaas <helgaas@kernel.org>,
 	linux-pci@vger.kernel.org,
 	linux-alpha@vger.kernel.org,
 	linuxppc-dev@lists.ozlabs.org
-Subject: [PATCH v8 04/25] PCI/sysfs: Split pci_llseek_resource() for device and legacy attributes
-Date: Fri, 19 Jun 2026 08:51:39 +0000
-Message-ID: <20260619085200.3729431-5-kwilczynski@kernel.org>
+Subject: [PATCH v8 05/25] PCI/sysfs: Add CAP_SYS_ADMIN check to __resource_resize_store()
+Date: Fri, 19 Jun 2026 08:51:40 +0000
+Message-ID: <20260619085200.3729431-6-kwilczynski@kernel.org>
 X-Mailer: git-send-email 2.54.0
 In-Reply-To: <20260619085200.3729431-1-kwilczynski@kernel.org>
 References: <20260619085200.3729431-1-kwilczynski@kernel.org>
@@ -91,7 +91,7 @@ X-Spamd-Result: default: False [-4.16 / 15.00];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
 	DMARC_POLICY_ALLOW(-0.50)[kernel.org,quarantine];
 	R_DKIM_ALLOW(-0.20)[kernel.org:s=k20260515];
-	R_SPF_ALLOW(-0.20)[+ip6:2600:3c0a:e001:db::/64:c];
+	R_SPF_ALLOW(-0.20)[+ip4:104.64.211.4:c];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
@@ -104,7 +104,7 @@ X-Spamd-Result: default: False [-4.16 / 15.00];
 	FORGED_SENDER(0.00)[kwilczynski@kernel.org,linux-alpha@vger.kernel.org];
 	MIME_TRACE(0.00)[0:+];
 	FORWARDED(0.00)[lists@lfdr.de];
-	TAGGED_FROM(0.00)[bounces-3674-lists,linux-alpha=lfdr.de];
+	TAGGED_FROM(0.00)[bounces-3675-lists,linux-alpha=lfdr.de];
 	DKIM_TRACE(0.00)[kernel.org:+];
 	TO_DN_SOME(0.00)[];
 	FORGED_SENDER_FORWARDING(0.00)[];
@@ -116,95 +116,44 @@ X-Spamd-Result: default: False [-4.16 / 15.00];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
 	TAGGED_RCPT(0.00)[linux-alpha];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	ASN(0.00)[asn:63949, ipnet:2600:3c0a::/32, country:SG];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[vger.kernel.org:from_smtp,sea.lore.kernel.org:rdns,sea.lore.kernel.org:helo]
+	ASN(0.00)[asn:63949, ipnet:104.64.192.0/19, country:SG];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[sin.lore.kernel.org:rdns,sin.lore.kernel.org:helo,intel.com:email,vger.kernel.org:from_smtp]
 X-Rspamd-Server: lfdr
-X-Rspamd-Queue-Id: AB8986A4B91
+X-Rspamd-Queue-Id: 7D5BC6A4B99
 
-Both legacy and resource attributes set .f_mapping = iomem_get_mapping,
-so the default generic_file_llseek() would consult iomem_inode for the
-file size, which knows nothing about the attribute.  That is why custom
-llseek callbacks exist.
+Currently, the __resource_resize_store() allows writing to the
+resourceN_resize sysfs attribute to change a BAR's size without
+checking for capabilities, currently relying only on the file
+access check.
 
-Currently, the legacy and resource attributes have .size set at creation
-time, as such, using the attr->size is sufficient.  However, the upcoming
-static resource attributes will have .size == 0 set, since they are const,
-and the .bin_size callback will be used to provide the real size to kernfs
-instead.
+Resizing a BAR modifies PCI device configuration and can disrupt
+active drivers.  After the upcoming conversion to static attributes,
+it will also trigger resource file updates via sysfs_update_groups().
 
-The legacy attributes operate on a struct pci_bus, not struct pci_dev,
-so calling to_pci_dev() on them would be invalid.
-
-Thus, split pci_llseek_resource() into two functions:
-
-  - pci_llseek_resource(), which derives the file size from the BAR
-    using pci_resource_len().
-
-  - pci_llseek_resource_legacy(), which uses attr->size directly.
-
-Update the dynamic legacy attribute creation to use the new
-pci_llseek_resource_legacy() callback.
-
-The original pci_llseek_resource() was added in commit 24de09c16f97
-("PCI: Implement custom llseek for sysfs resource entries").
+Thus, add a CAP_SYS_ADMIN check to prevent unprivileged users from
+performing BAR resize operations.
 
 Tested-by: Shivaprasad G Bhat <sbhat@linux.ibm.com>
+Reviewed-by: Ilpo Järvinen <ilpo.jarvinen@linux.intel.com>
 Signed-off-by: Krzysztof Wilczyński <kwilczynski@kernel.org>
 ---
- drivers/pci/pci-sysfs.c | 21 +++++++++++++++++----
- 1 file changed, 17 insertions(+), 4 deletions(-)
+ drivers/pci/pci-sysfs.c | 3 +++
+ 1 file changed, 3 insertions(+)
 
 diff --git a/drivers/pci/pci-sysfs.c b/drivers/pci/pci-sysfs.c
-index 2e4e226e78d4..2280b7edb41f 100644
+index 2280b7edb41f..dac780597727 100644
 --- a/drivers/pci/pci-sysfs.c
 +++ b/drivers/pci/pci-sysfs.c
-@@ -881,13 +881,26 @@ static const struct attribute_group pci_dev_config_attr_group = {
-  * llseek operation for mmappable PCI resources.
-  * May be left unused if the arch doesn't provide them.
-  */
-+static __maybe_unused loff_t
-+pci_llseek_resource_legacy(struct file *filep,
-+			   struct kobject *kobj __always_unused,
-+			   const struct bin_attribute *attr,
-+			   loff_t offset, int whence)
-+{
-+	return fixed_size_llseek(filep, offset, whence, attr->size);
-+}
-+
- static __maybe_unused loff_t
- pci_llseek_resource(struct file *filep,
--		    struct kobject *kobj __always_unused,
-+		    struct kobject *kobj,
- 		    const struct bin_attribute *attr,
- 		    loff_t offset, int whence)
- {
--	return fixed_size_llseek(filep, offset, whence, attr->size);
-+	struct pci_dev *pdev = to_pci_dev(kobj_to_dev(kobj));
-+	int bar = (unsigned long)attr->private;
-+
-+	return fixed_size_llseek(filep, offset, whence,
-+				 pci_resource_len(pdev, bar));
- }
+@@ -1596,6 +1596,9 @@ static ssize_t __resource_resize_store(struct device *dev, int n,
+ 	int ret;
+ 	u16 cmd;
  
- #ifdef HAVE_PCI_LEGACY
-@@ -1022,7 +1035,7 @@ void pci_create_legacy_files(struct pci_bus *b)
- 	b->legacy_io->read = pci_read_legacy_io;
- 	b->legacy_io->write = pci_write_legacy_io;
- 	/* See pci_create_attr() for motivation */
--	b->legacy_io->llseek = pci_llseek_resource;
-+	b->legacy_io->llseek = pci_llseek_resource_legacy;
- 	b->legacy_io->mmap = pci_mmap_legacy_io;
- 	b->legacy_io->f_mapping = iomem_get_mapping;
- 	pci_adjust_legacy_attr(b, pci_mmap_io);
-@@ -1038,7 +1051,7 @@ void pci_create_legacy_files(struct pci_bus *b)
- 	b->legacy_mem->attr.mode = 0600;
- 	b->legacy_mem->mmap = pci_mmap_legacy_mem;
- 	/* See pci_create_attr() for motivation */
--	b->legacy_mem->llseek = pci_llseek_resource;
-+	b->legacy_mem->llseek = pci_llseek_resource_legacy;
- 	b->legacy_mem->f_mapping = iomem_get_mapping;
- 	pci_adjust_legacy_attr(b, pci_mmap_mem);
- 	error = device_create_bin_file(&b->dev, b->legacy_mem);
++	if (!capable(CAP_SYS_ADMIN))
++		return -EPERM;
++
+ 	if (kstrtoul(buf, 0, &size) < 0)
+ 		return -EINVAL;
+ 
 -- 
 2.54.0
 
