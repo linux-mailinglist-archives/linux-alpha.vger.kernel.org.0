@@ -1,51 +1,51 @@
-Return-Path: <linux-alpha+bounces-3675-lists+linux-alpha=lfdr.de@vger.kernel.org>
+Return-Path: <linux-alpha+bounces-3676-lists+linux-alpha=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-alpha@lfdr.de
 Received: from mail.lfdr.de
 	by mail.lfdr.de with LMTP
-	id QWcFE00DNWrolwYAu9opvQ
-	(envelope-from <linux-alpha+bounces-3675-lists+linux-alpha=lfdr.de@vger.kernel.org>)
-	for <lists+linux-alpha@lfdr.de>; Fri, 19 Jun 2026 10:52:29 +0200
+	id D4rPGlIDNWrulwYAu9opvQ
+	(envelope-from <linux-alpha+bounces-3676-lists+linux-alpha=lfdr.de@vger.kernel.org>)
+	for <lists+linux-alpha@lfdr.de>; Fri, 19 Jun 2026 10:52:34 +0200
 X-Original-To: lists+linux-alpha@lfdr.de
-Received: from sin.lore.kernel.org (sin.lore.kernel.org [104.64.211.4])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7D5BC6A4B99
-	for <lists+linux-alpha@lfdr.de>; Fri, 19 Jun 2026 10:52:28 +0200 (CEST)
+Received: from sea.lore.kernel.org (sea.lore.kernel.org [IPv6:2600:3c0a:e001:db::12fc:5321])
+	by mail.lfdr.de (Postfix) with ESMTPS id E89AF6A4BA9
+	for <lists+linux-alpha@lfdr.de>; Fri, 19 Jun 2026 10:52:33 +0200 (CEST)
 Authentication-Results: mail.lfdr.de;
-	dkim=pass header.d=kernel.org header.s=k20260515 header.b=DvxGXdYR;
-	spf=pass (mail.lfdr.de: domain of "linux-alpha+bounces-3675-lists+linux-alpha=lfdr.de@vger.kernel.org" designates 104.64.211.4 as permitted sender) smtp.mailfrom="linux-alpha+bounces-3675-lists+linux-alpha=lfdr.de@vger.kernel.org";
+	dkim=pass header.d=kernel.org header.s=k20260515 header.b=nvaIjJfN;
+	spf=pass (mail.lfdr.de: domain of "linux-alpha+bounces-3676-lists+linux-alpha=lfdr.de@vger.kernel.org" designates 2600:3c0a:e001:db::12fc:5321 as permitted sender) smtp.mailfrom="linux-alpha+bounces-3676-lists+linux-alpha=lfdr.de@vger.kernel.org";
 	dmarc=pass (policy=quarantine) header.from=kernel.org;
 	arc=pass ("subspace.kernel.org:s=arc-20240116:i=1")
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sin.lore.kernel.org (Postfix) with ESMTP id 82F1F30055CE
-	for <lists+linux-alpha@lfdr.de>; Fri, 19 Jun 2026 08:52:25 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id BED5D3024136
+	for <lists+linux-alpha@lfdr.de>; Fri, 19 Jun 2026 08:52:28 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 7A875332610;
-	Fri, 19 Jun 2026 08:52:24 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 283CB332610;
+	Fri, 19 Jun 2026 08:52:28 +0000 (UTC)
 X-Original-To: linux-alpha@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 77D6A18FDBD;
-	Fri, 19 Jun 2026 08:52:23 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 186AA18FDBD;
+	Fri, 19 Jun 2026 08:52:27 +0000 (UTC)
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1781859144; cv=none; b=NKpvWoOhO1FTrqlEsGM+VnYN7t0msdjW4i2V9y44GcpP2mj+JdbHzFr4y2C0lvOg0f6Gn2BS8pkyT+20FxnamvaOIeoRiDj8Xc1VgDokpZO4Tz3XyoF6zd7Mq7gXXT1r+m8v2j0+fjUDmNesiz4+kMkA/PS+S7q4sWbXV90GFUU=
+	t=1781859148; cv=none; b=uFShPgaLTfrtKUkEUbfZHESCcqGcXtUwa3ibE87F4v8fZyIbUd8gRzk4GDcSSVq3+koOHfWxEJ3W9pFTFGiGx02NkvJRG4TbIHR2bYAqry1YErkDmn2+HUDqKT0Q/xgrX/8tBdNiXrlb1pAJQP+7eIk1XzeK3v7YNXgndIHgirE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1781859144; c=relaxed/simple;
-	bh=9KXLrBNGT0ToNu4fHZqX/w3XLpky3ur23Tmkqe8TgNA=;
+	s=arc-20240116; t=1781859148; c=relaxed/simple;
+	bh=xh394xl6hj009oj73Jh1qdPVRKa2+d8UCyUyXbiBWdo=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=a7f4P8hge1VQ1zVUW6x5N4Kx5w9Ti5yPrb4DrzTkGnp7/lwG+5I0KH935luB1WYL5Ji6q4mYepNLFbMZk2p9KWdg7520UST9FgseFBZV053yYvqmltq88gmzymdlrb6KNaiDlni8dGIoMNndKGd+2KxKXmiRvJq7w/136K1aOCI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=DvxGXdYR; arc=none smtp.client-ip=100.103.45.18
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 1F9AA1F00A3E;
-	Fri, 19 Jun 2026 08:52:19 +0000 (UTC)
+	 MIME-Version:Content-Type; b=hV2b0hrCKM+2v4CNr7PC/JOe1OE2zD21I5mgWcp3tMzQNTYIzPXSAbO465b8y7ECvdhNSQvWJCEFVpxJ/3xUvhlwOxz54n80aZxxNWkqONPixSpiDFaa97HgAgyPYsqpKhIoaUuI8ZYHBFUDQQm1/WgK9pJhHwxqN1CLjkDyaEY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=nvaIjJfN; arc=none smtp.client-ip=100.103.45.18
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id B550C1F00AC4;
+	Fri, 19 Jun 2026 08:52:23 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1781859143;
-	bh=5ptdizEpjuYqeg2f+U9wBoigKTE1I9tlh/xOEI1cGXU=;
+	s=k20260515; t=1781859147;
+	bh=hM5qeklrD0x72qjMI/3h7So0yMxuHIlhjvDyGB7qa5I=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References;
-	b=DvxGXdYRZjBwhtVt/XLBkqSTeCA0na6LMV/FEykjBxTTXIpdpGWpDMbt2Qr1JrFaI
-	 9zcMQqINYRYbFYbOmCk6uxlrR59Z8oUF0zMZSjA0744Nf+0q7c1kRxUBd0+JfO5cD8
-	 NrVGqhiifnFMswHAo/XCr9a7q3fquugELxBQPQ+G7Qkq1qOdKcWQjegvhtw3G3G8HT
-	 zbzGY/4+qv7mltC2Fkjnw8lxtrPI5WDMg42QqMasw8hXkQPko5gmTa6n5PssupNK2I
-	 NYl3sFq0q0Wvm+drBSR/10OAwxFsSLJOyB2aHRQICMf58Su3BVUDBklbC9A5qz48x7
-	 vp6ayPc+xT4Rg==
+	b=nvaIjJfN2Ud7W9XBDfbFiawTVjdU0u66V5RNDenUSGB7lCgfuRrQVUQ/J9BpFmtNf
+	 GvlCbqjpPahlafmTz9U7oCg7ZOxqO4/lJnitOOOqihQ2mOyohQcaXkLZdQNxHCcu2b
+	 PtBN41cCVYRHsmeMN+5017AU/L1B0rI9HLkOgTTy6fiuVWbWUfLlsbZv20nSEg9r6B
+	 rTwkBjHDI6mEuL7p3zlGd8NuiUIPp3IVDaRmrKbVLcVjW1bBq6upZO2xRYYe/0Xk5Y
+	 jyPZsv0VNibSO6ZbSw/y2K0SknIsgz1ViUZU9O0PvuLEqeYYZd+s4rFoTuoAITwKm7
+	 /rwxYk8tUKIkA==
 From: =?UTF-8?q?Krzysztof=20Wilczy=C5=84ski?= <kwilczynski@kernel.org>
 To: Bjorn Helgaas <bhelgaas@google.com>
 Cc: Bjorn Helgaas <helgaas@kernel.org>,
@@ -70,9 +70,9 @@ Cc: Bjorn Helgaas <helgaas@kernel.org>,
 	linux-pci@vger.kernel.org,
 	linux-alpha@vger.kernel.org,
 	linuxppc-dev@lists.ozlabs.org
-Subject: [PATCH v8 05/25] PCI/sysfs: Add CAP_SYS_ADMIN check to __resource_resize_store()
-Date: Fri, 19 Jun 2026 08:51:40 +0000
-Message-ID: <20260619085200.3729431-6-kwilczynski@kernel.org>
+Subject: [PATCH v8 06/25] PCI/sysfs: Add static PCI resource attribute macros
+Date: Fri, 19 Jun 2026 08:51:41 +0000
+Message-ID: <20260619085200.3729431-7-kwilczynski@kernel.org>
 X-Mailer: git-send-email 2.54.0
 In-Reply-To: <20260619085200.3729431-1-kwilczynski@kernel.org>
 References: <20260619085200.3729431-1-kwilczynski@kernel.org>
@@ -91,7 +91,7 @@ X-Spamd-Result: default: False [-4.16 / 15.00];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
 	DMARC_POLICY_ALLOW(-0.50)[kernel.org,quarantine];
 	R_DKIM_ALLOW(-0.20)[kernel.org:s=k20260515];
-	R_SPF_ALLOW(-0.20)[+ip4:104.64.211.4:c];
+	R_SPF_ALLOW(-0.20)[+ip6:2600:3c0a:e001:db::/64:c];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
@@ -104,7 +104,7 @@ X-Spamd-Result: default: False [-4.16 / 15.00];
 	FORGED_SENDER(0.00)[kwilczynski@kernel.org,linux-alpha@vger.kernel.org];
 	MIME_TRACE(0.00)[0:+];
 	FORWARDED(0.00)[lists@lfdr.de];
-	TAGGED_FROM(0.00)[bounces-3675-lists,linux-alpha=lfdr.de];
+	TAGGED_FROM(0.00)[bounces-3676-lists,linux-alpha=lfdr.de];
 	DKIM_TRACE(0.00)[kernel.org:+];
 	TO_DN_SOME(0.00)[];
 	FORGED_SENDER_FORWARDING(0.00)[];
@@ -116,44 +116,81 @@ X-Spamd-Result: default: False [-4.16 / 15.00];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
 	TAGGED_RCPT(0.00)[linux-alpha];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	ASN(0.00)[asn:63949, ipnet:104.64.192.0/19, country:SG];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[sin.lore.kernel.org:rdns,sin.lore.kernel.org:helo,intel.com:email,vger.kernel.org:from_smtp]
+	ASN(0.00)[asn:63949, ipnet:2600:3c0a::/32, country:SG];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[vger.kernel.org:from_smtp,sea.lore.kernel.org:rdns,sea.lore.kernel.org:helo]
 X-Rspamd-Server: lfdr
-X-Rspamd-Queue-Id: 7D5BC6A4B99
+X-Rspamd-Queue-Id: E89AF6A4BA9
 
-Currently, the __resource_resize_store() allows writing to the
-resourceN_resize sysfs attribute to change a BAR's size without
-checking for capabilities, currently relying only on the file
-access check.
+Add three macros for declaring static binary attributes for PCI
+resource files:
 
-Resizing a BAR modifies PCI device configuration and can disrupt
-active drivers.  After the upcoming conversion to static attributes,
-it will also trigger resource file updates via sysfs_update_groups().
+  - pci_dev_resource_io_attr(), for I/O BAR resources (read/write)
+  - pci_dev_resource_uc_attr(), for memory BAR resources (mmap uncached)
+  - pci_dev_resource_wc_attr(), for write-combine resources (mmap WC)
 
-Thus, add a CAP_SYS_ADMIN check to prevent unprivileged users from
-performing BAR resize operations.
+Each macro only sets the callbacks its resource type needs.  The I/O
+macro conditionally includes mmap support via __PCI_RESOURCE_IO_MMAP_ATTRS
+on architectures where arch_can_pci_mmap_io() is true at compile time
+(such as PowerPC, SPARC, and Xtensa).
 
 Tested-by: Shivaprasad G Bhat <sbhat@linux.ibm.com>
-Reviewed-by: Ilpo Järvinen <ilpo.jarvinen@linux.intel.com>
 Signed-off-by: Krzysztof Wilczyński <kwilczynski@kernel.org>
 ---
- drivers/pci/pci-sysfs.c | 3 +++
- 1 file changed, 3 insertions(+)
+ drivers/pci/pci-sysfs.c | 41 +++++++++++++++++++++++++++++++++++++++++
+ 1 file changed, 41 insertions(+)
 
 diff --git a/drivers/pci/pci-sysfs.c b/drivers/pci/pci-sysfs.c
-index 2280b7edb41f..dac780597727 100644
+index dac780597727..793d149fe157 100644
 --- a/drivers/pci/pci-sysfs.c
 +++ b/drivers/pci/pci-sysfs.c
-@@ -1596,6 +1596,9 @@ static ssize_t __resource_resize_store(struct device *dev, int n,
- 	int ret;
- 	u16 cmd;
+@@ -1197,6 +1197,47 @@ static ssize_t pci_write_resource_io(struct file *filp, struct kobject *kobj,
+ 	return pci_resource_io(filp, kobj, attr, buf, off, count, true);
+ }
  
-+	if (!capable(CAP_SYS_ADMIN))
-+		return -EPERM;
++/*
++ * generic_file_llseek() consults f_mapping->host to determine
++ * the file size. As iomem_inode knows nothing about the
++ * attribute, it's not going to work, so override it as well.
++ */
++#if arch_can_pci_mmap_io()
++# define __PCI_RESOURCE_IO_MMAP_ATTRS	\
++	.f_mapping = iomem_get_mapping,	\
++	.llseek = pci_llseek_resource,	\
++	.mmap = pci_mmap_resource_uc,
++#else
++# define __PCI_RESOURCE_IO_MMAP_ATTRS
++#endif
 +
- 	if (kstrtoul(buf, 0, &size) < 0)
- 		return -EINVAL;
- 
++#define pci_dev_resource_io_attr(_bar)					\
++static const struct bin_attribute pci_dev_resource##_bar##_io_attr = {	\
++	.attr = { .name = "resource" __stringify(_bar), .mode = 0600 },	\
++	.private = (void *)(unsigned long)(_bar),			\
++	.read = pci_read_resource_io,					\
++	.write = pci_write_resource_io,					\
++	__PCI_RESOURCE_IO_MMAP_ATTRS					\
++}
++
++#define pci_dev_resource_uc_attr(_bar)					\
++static const struct bin_attribute pci_dev_resource##_bar##_uc_attr = {	\
++	.attr = { .name = "resource" __stringify(_bar), .mode = 0600 },	\
++	.private = (void *)(unsigned long)(_bar),			\
++	.f_mapping = iomem_get_mapping,					\
++	.llseek = pci_llseek_resource,					\
++	.mmap = pci_mmap_resource_uc,					\
++}
++
++#define pci_dev_resource_wc_attr(_bar)						\
++static const struct bin_attribute pci_dev_resource##_bar##_wc_attr = {		\
++	.attr = { .name = "resource" __stringify(_bar) "_wc", .mode = 0600 },	\
++	.private = (void *)(unsigned long)(_bar),				\
++	.f_mapping = iomem_get_mapping,						\
++	.llseek = pci_llseek_resource,						\
++	.mmap = pci_mmap_resource_wc,						\
++}
++
+ /**
+  * pci_remove_resource_files - cleanup resource files
+  * @pdev: dev to cleanup
 -- 
 2.54.0
 
