@@ -1,80 +1,82 @@
-Return-Path: <linux-alpha+bounces-3730-lists+linux-alpha=lfdr.de@vger.kernel.org>
+Return-Path: <linux-alpha+bounces-3733-lists+linux-alpha=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-alpha@lfdr.de
 Received: from mail.lfdr.de
 	by mail.lfdr.de with LMTP
-	id NmxcO8D3S2pEdwEAu9opvQ
-	(envelope-from <linux-alpha+bounces-3730-lists+linux-alpha=lfdr.de@vger.kernel.org>)
-	for <lists+linux-alpha@lfdr.de>; Mon, 06 Jul 2026 20:45:20 +0200
+	id ZE2UN/rhS2oScAEAu9opvQ
+	(envelope-from <linux-alpha+bounces-3733-lists+linux-alpha=lfdr.de@vger.kernel.org>)
+	for <lists+linux-alpha@lfdr.de>; Mon, 06 Jul 2026 19:12:26 +0200
 X-Original-To: lists+linux-alpha@lfdr.de
-Received: from sea.lore.kernel.org (sea.lore.kernel.org [IPv6:2600:3c0a:e001:db::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4874B714A1D
-	for <lists+linux-alpha@lfdr.de>; Mon, 06 Jul 2026 20:45:20 +0200 (CEST)
+Received: from tor.lore.kernel.org (tor.lore.kernel.org [172.105.105.114])
+	by mail.lfdr.de (Postfix) with ESMTPS id 26410713B7D
+	for <lists+linux-alpha@lfdr.de>; Mon, 06 Jul 2026 19:12:26 +0200 (CEST)
 Authentication-Results: mail.lfdr.de;
-	dkim=pass header.d=gmail.com header.s=20251104 header.b=KwwYkvaJ;
+	dkim=pass header.d=gmail.com header.s=20251104 header.b=NtT5AJ7t;
 	dmarc=pass (policy=none) header.from=gmail.com;
-	spf=pass (mail.lfdr.de: domain of "linux-alpha+bounces-3730-lists+linux-alpha=lfdr.de@vger.kernel.org" designates 2600:3c0a:e001:db::12fc:5321 as permitted sender) smtp.mailfrom="linux-alpha+bounces-3730-lists+linux-alpha=lfdr.de@vger.kernel.org";
+	spf=pass (mail.lfdr.de: domain of "linux-alpha+bounces-3733-lists+linux-alpha=lfdr.de@vger.kernel.org" designates 172.105.105.114 as permitted sender) smtp.mailfrom="linux-alpha+bounces-3733-lists+linux-alpha=lfdr.de@vger.kernel.org";
 	arc=pass ("subspace.kernel.org:s=arc-20240116:i=1")
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id 2FF3034623D5
-	for <lists+linux-alpha@lfdr.de>; Mon,  6 Jul 2026 17:00:34 +0000 (UTC)
+	by tor.lore.kernel.org (Postfix) with ESMTP id 91A63305EA70
+	for <lists+linux-alpha@lfdr.de>; Mon,  6 Jul 2026 17:00:44 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 10B422D94AF;
-	Mon,  6 Jul 2026 17:00:34 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id DB5182EEE71;
+	Mon,  6 Jul 2026 17:00:36 +0000 (UTC)
 X-Original-To: linux-alpha@vger.kernel.org
 Received: from mail-lf1-f51.google.com (mail-lf1-f51.google.com [209.85.167.51])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1C3872E8DE3
-	for <linux-alpha@vger.kernel.org>; Mon,  6 Jul 2026 17:00:31 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 51D4424BBFD
+	for <linux-alpha@vger.kernel.org>; Mon,  6 Jul 2026 17:00:33 +0000 (UTC)
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1783357234; cv=none; b=td4QAhb9DKrqfMnGeSiHR4/FauOkCzCn7gE5W0+35rrshjO3GWxwaSVehps1xgCvzsafCvSklE+/q4F3pGsODz1gUtf8kRGnGKDud00OUHdXXxF93ygz6p4SWiDZ8TX6ECjWLvCNvSX1lY2JLRczn4cEs012DMRhDiFp42DO76E=
+	t=1783357236; cv=none; b=uiZLGHAFoW4OgYoIZYG8rINL+1BsCzYBXLmx6R3VVNEAJn31B1QwOnvAwCiGrKgf84w1rjZ3Tx79znmmpltuL36ZguoHChmZF9CAEZ8OdSKSQ45PiPiuQ4H+XxhiTJImZG6N1Xjk/5VmO5zuvorOWOdq2Muh++B0T2xkQSXQaGk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1783357234; c=relaxed/simple;
-	bh=+l6e+VeRLW7xzJmxVInFSOsqx9LIi5Wt5E8ntYb1c4U=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=Nl8bK5roEotFY7HphWAcFpakRP3zkJ/hFz+J/3hJhOfOSMjJLP8pkS8KPbq/9G+ts39Eje0BuAP5PAQln1ZT/eHlrhUb99Cs2P8AAxEHt7jkXjho2g2oEHBKqX3ALNfPYJ40e8C3Z8yYxBMShCrL275EduxAJ/5sNqeZ01QhfAs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=KwwYkvaJ; arc=none smtp.client-ip=209.85.167.51
-Received: by mail-lf1-f51.google.com with SMTP id 2adb3069b0e04-5aeb5e85378so3659866e87.1
-        for <linux-alpha@vger.kernel.org>; Mon, 06 Jul 2026 10:00:31 -0700 (PDT)
+	s=arc-20240116; t=1783357236; c=relaxed/simple;
+	bh=ZIqojplvi/uynuAsCT80iAjWSa0lrTllK4vrfKeteFE=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version; b=PkG7aBQ152/s1eElMU7Ay8iBML/+Aq//YmnxiF5m/2Rqnf2MJ6CMJTku+ePRXmgGb3tx9hiEJLNgkS2wauGEng+4jWOs081lNqU0fjBblBdedMECtmPFkq1lE3kyHdp4xFo2o7USOYjzEYbbKqAgYr36e2ZzxB7DfMJ7OsMkitQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=NtT5AJ7t; arc=none smtp.client-ip=209.85.167.51
+Received: by mail-lf1-f51.google.com with SMTP id 2adb3069b0e04-5aeb8c19017so3131462e87.0
+        for <linux-alpha@vger.kernel.org>; Mon, 06 Jul 2026 10:00:33 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1783357230; x=1783962030; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=0V25XMahcmii4A05+ZXdyvVIS5DOaF/YxXJrya9TUv0=;
-        b=KwwYkvaJ8rakiMYzBvwhurSSB1kNDdlmFSxJQsjutWfh6MqK1e5SeDQuyoWArc1bdk
-         9IgBqXkQ4KC9FfQ0bVR+rX2xjt5odbBjxUnmeM6k1ZhAFBZbO+sxpaZ1oabuKhgrMevN
-         r6WJcoTLs9YPjejw7Qe0lOTwdHEjH4q4rW8z0d4tMSXiYeE7PlcB32aEePMzecxfbIUs
-         lQdRFsbFCMqHErgwWyvxIPVis1MV7S2h8wGTquMWg1Pa79dB3nXOWHLcN0VwK/esLBB1
-         JwRNc1f9X8cQuOnUzZuq9FX3ae+2mixSSGUQqyMhWZ1HejKvTkqUExChLYtl1I4GBNKW
-         W7IA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1783357230; x=1783962030;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+        d=gmail.com; s=20251104; t=1783357232; x=1783962032; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=0V25XMahcmii4A05+ZXdyvVIS5DOaF/YxXJrya9TUv0=;
-        b=Aajc5bHt5uNpUYldcG27TBpFMOVHplAQ7Hf66dDt0wDMYSptSosdlw3Dd0DbaP2T5P
-         DJOG8z+fu7SeL2WP5peqg98vPsSG2CQ3avdnzJoHttaJGRPjYQSPKVRiUYFEz0I7UY1t
-         IKzxjYT5ACMG1uZrgyJgUJuf4To3lcml06eP2y6n8AW5h7XIRBzLC8Q3P0ZGUtN2gtaC
-         uUEjjlNp3JFNrtIg9Pj2iAemlOAQDwCywDesp5iwaN0lVg/cU2zC+e6h3Vx8J7C+j9At
-         Dv1K3wovG44BYVMCBDMBYeKiCW7oXgiH0VF2JZcRNOAGVNYBjpRGd8hPK1GqYzNvS5fc
-         j4hA==
-X-Forwarded-Encrypted: i=1; AHgh+RqcJRmXuXCzXWSUnK1gGyg+IqOCfMRQXU7zhPWC/T/dqlrmPJ+GaVpCt2QiGoflqqZBG7jG23fgdvvxgQ==@vger.kernel.org
-X-Gm-Message-State: AOJu0Yx3Gw77zEZ6PEi8eenAP6OazONFRlsm3z5NGAfjuXHq/XhIwQhR
-	z6QmciLmg9o/9VgQCazx2TlEU5iKhTQ9Qw8/uFnnzxJE5BwBwqBuIrd4
-X-Gm-Gg: AfdE7ckOh6Afp195GdfyGQBWzIapy7Q92ZtuU4Zm5yCdZ+n4OfTZUQWFeIJolsjW6Eg
-	XqkpzZt13lpd2JoO8tFePfPkhckk7c35+ZQYC7avSNnhLSU4+Qpzlx799il4ZZgPi0AGMNV+BMj
-	L5jPzSDKIJIl1DDbiMxaS9n22wqmICb2GTBJuA7jRlaWSGfJ1K0xWZdna2VCO2GROT5v2yxJQhb
-	8JDQJIZRirbL8E6e+u8Bjq00e9oGzS8oZ+KpzV1+pWivhfuMHI2D2YFbHazn+KTzc640S4UOHEu
-	tC8asNgLiCRALhiGmzI6u9bVEmjmo2vjmhy3THzF6oLu5LajVohuRToCiIEG/Zo8PCTMV/KtHu9
-	0kGiJYWaI+UGIKqS3PLHSKmazt1jmbb+kKSicJ2w+DwixDW4YTgKoI2f8sDcnCMzp7ZNN2DbNS3
-	abZKC2WDf3sOuwzkG3DG0gxCh2Rm6FIHDDqveRM4IB0s6LMm2MFvvspILGU7pTIk2w7xYNIKH7M
-	aBwh9ri7iWaTttYS4kK6JfpRrY=
-X-Received: by 2002:a05:6512:6885:10b0:5ae:b8f2:a63d with SMTP id 2adb3069b0e04-5b007c59167mr177353e87.65.1783357229947;
-        Mon, 06 Jul 2026 10:00:29 -0700 (PDT)
+        bh=85rK8q32WsUeJ1zbVuWWcE1CQT5m99X52+bhf1RKrc0=;
+        b=NtT5AJ7t1PlZjmem75vbriglLj5Ev/Ix+YLsFET6kD3zDe0mr9pCshWx2BLUwzQl59
+         S5bSlceRZXDMYf5o5bDABW5+MFXSLJAwLESqtUB1CTuRomTJtm5bvmUYCgCqMXADZeux
+         rbqXR+7UPcnOxS0vRYaudugIcdbLkiQrBnDg2cif1ttyJmTCUW54+8dREUFLn4i6HXR4
+         V8kM+3hFYO07wTo6JZeWhC/mG/5RxbMgY81It80Fn8gbt8QJN931z3wYS85m8l/ZYMOK
+         i5H0I+sBKN+t1e9jzsvRi/ajTGLj/N1D3OfU5I38oDH9v2g7UEomI4gb4HeuTORJqPJU
+         7Ljg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1783357232; x=1783962032;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=85rK8q32WsUeJ1zbVuWWcE1CQT5m99X52+bhf1RKrc0=;
+        b=qB7CKgI/dF+clCfk4o+9c1XpPE6H9wU6fKRZVptiGmqxaI1ELSX4D6/thO1LrtviUy
+         qFpKoRE7v8hG/mvm4a6xRc1CBAnjS1reGOlNktrvPMFWpzCfGvbHTKkx8LnjR+J+GVsg
+         Hj7zFHyZjGbEM6BBltmeejpMlw2Em5Vgo0qLVaAPiqpK2C28ADqXlmdjNV7mv4wHN6RV
+         4ehkMKYi/t3jBmGpzEpYiRT++x2Cp12U1PdE2rQOKsOzIAWPy8bVX8kZ+543gIxDCGVg
+         d/QQLdyVIJaFFMJ5ji21aEUKBvlbAtiVpyd5LtcAqkxCcaV1G/dz8t1CPUVuw/8bhcYd
+         w1zA==
+X-Forwarded-Encrypted: i=1; AHgh+RrspDcCLUeUZ9mRRYwe2rWaw2JXl3bQqdGE8piQWDtKaRpfaNtIUBOM1bjC81394vB2gEujiYQZUgkzzQ==@vger.kernel.org
+X-Gm-Message-State: AOJu0YyG7nqfWN0+WXHUowgCLbafXZll0C1ee3hg/Uh04cebEK/yJJ9h
+	Nu6dpLTi44GvQJoO7686F5RZ5UuuZfiI40kfFHcoPvOdwB6D0Ao5KGfS
+X-Gm-Gg: AfdE7cmeA4OqtiSwotMopg9X8D7Mr+hgiS7C4lQzJVPe7QT9Wy6x4xtKiSPGtmFkXeJ
+	iekdN3M9yk3E4kjbXDZssFqDU3OeMz0T9d8WNQDKLYj+sChxCG94y0gemG8XV7eJpY2tgDQg33s
+	bicZ9lDa3w786Q6fJxZIkZuZAuCkZeoeD3rnFjTt4DhCtqw4k9PpF3z5D0talU6LDtHFZrFja7h
+	/1kl4VUfZ/sfUflUpMQ22LJbrdX0oAPCSzYgnCL16fq8N9N03XbcIznMM5Eaj468di9/He2gyF1
+	A7UzA5AuZet88Qr+ndNnqtud8WLptyOSNRqqatG1T/C47blKxuwy/qaeukaK1MU5MShYu9VzGHX
+	YekK5vQgAVPfSzP5ztFlrNDVLx9hFUe4vsGDE6kxzgeynLpLKR2L80S11K/ynDU+R1Pb22OY3xp
+	teznuxTrWZ5Pf1fwxpNfq46kS4gTG9GVGyDRxewN046HFKmXH2RYu+/6LkU1b+GeJOCcymb6X2m
+	gfFGuVrm6N7HGz3tm3cXAH2jMU=
+X-Received: by 2002:a05:6512:66cc:20b0:5ae:bb19:1864 with SMTP id 2adb3069b0e04-5b007b7681cmr232218e87.21.1783357231136;
+        Mon, 06 Jul 2026 10:00:31 -0700 (PDT)
 Received: from buildhost.darklands.se (h-158-174-102-211.A469.priv.bahnhof.se. [158.174.102.211])
-        by smtp.gmail.com with ESMTPSA id 2adb3069b0e04-5aed13bfd1fsm2961021e87.55.2026.07.06.10.00.28
+        by smtp.gmail.com with ESMTPSA id 2adb3069b0e04-5aed13bfd1fsm2961021e87.55.2026.07.06.10.00.30
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 06 Jul 2026 10:00:29 -0700 (PDT)
+        Mon, 06 Jul 2026 10:00:30 -0700 (PDT)
 From: Magnus Lindholm <linmag7@gmail.com>
 To: richard.henderson@linaro.org,
 	mattst88@gmail.com,
@@ -85,10 +87,12 @@ Cc: glaubitz@physik.fu-berlin.de,
 	ink@unseen.parts,
 	macro@orcam.me.uk,
 	Magnus Lindholm <linmag7@gmail.com>
-Subject: [PATCH v4 0/7] alpha: enable generic entry infrastructure
-Date: Mon,  6 Jul 2026 18:56:41 +0200
-Message-ID: <20260706170019.2941459-1-linmag7@gmail.com>
+Subject: [PATCH v4 1/7] alpha: enable regset-based ptrace and core dumps
+Date: Mon,  6 Jul 2026 18:56:42 +0200
+Message-ID: <20260706170019.2941459-2-linmag7@gmail.com>
 X-Mailer: git-send-email 2.53.0
+In-Reply-To: <20260706170019.2941459-1-linmag7@gmail.com>
+References: <20260706170019.2941459-1-linmag7@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-alpha@vger.kernel.org
 List-Id: <linux-alpha.vger.kernel.org>
@@ -103,13 +107,13 @@ X-Spamd-Result: default: False [-0.66 / 15.00];
 	R_MISSING_CHARSET(0.50)[];
 	DMARC_POLICY_ALLOW(-0.50)[gmail.com,none];
 	R_DKIM_ALLOW(-0.20)[gmail.com:s=20251104];
-	R_SPF_ALLOW(-0.20)[+ip6:2600:3c0a:e001:db::/64:c];
+	R_SPF_ALLOW(-0.20)[+ip4:172.105.105.114:c];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
 	FORGED_SENDER(0.00)[linmag7@gmail.com,linux-alpha@vger.kernel.org];
 	FREEMAIL_CC(0.00)[physik.fu-berlin.de,orcon.net.nz,unseen.parts,orcam.me.uk,gmail.com];
-	TAGGED_FROM(0.00)[bounces-3730-lists,linux-alpha=lfdr.de];
+	TAGGED_FROM(0.00)[bounces-3733-lists,linux-alpha=lfdr.de];
 	TO_DN_SOME(0.00)[];
 	RCVD_TLS_LAST(0.00)[];
 	FORGED_RECIPIENTS(0.00)[m:richard.henderson@linaro.org,m:mattst88@gmail.com,m:linux-kernel@vger.kernel.org,m:linux-alpha@vger.kernel.org,m:glaubitz@physik.fu-berlin.de,m:mcree@orcon.net.nz,m:ink@unseen.parts,m:macro@orcam.me.uk,m:linmag7@gmail.com,s:lists@lfdr.de];
@@ -117,7 +121,7 @@ X-Spamd-Result: default: False [-0.66 / 15.00];
 	FREEMAIL_TO(0.00)[linaro.org,gmail.com,vger.kernel.org];
 	MIME_TRACE(0.00)[0:+];
 	FORGED_SENDER_MAILLIST(0.00)[];
-	ASN(0.00)[asn:63949, ipnet:2600:3c0a::/32, country:SG];
+	ASN(0.00)[asn:63949, ipnet:172.105.96.0/20, country:SG];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
 	FORGED_SENDER_FORWARDING(0.00)[];
 	RCVD_COUNT_FIVE(0.00)[5];
@@ -131,204 +135,610 @@ X-Spamd-Result: default: False [-0.66 / 15.00];
 	RCPT_COUNT_SEVEN(0.00)[9];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
 	TAGGED_RCPT(0.00)[linux-alpha];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns,vger.kernel.org:from_smtp]
+	DBL_BLOCKED_OPENRESOLVER(0.00)[vger.kernel.org:from_smtp,tor.lore.kernel.org:helo,tor.lore.kernel.org:rdns]
 X-Rspamd-Server: lfdr
-X-Rspamd-Queue-Id: 4874B714A1D
+X-Rspamd-Queue-Id: 26410713B7D
 
-Hi,
+Add a user_regset_view for Alpha and switch ELF core dumping to
+CORE_DUMP_USE_REGSET.  General-purpose registers are exported in
+ELF gregs layout, including callee-saved registers and a correct
+user stack pointer.
 
-This series moves Alpha closer to the common architecture infrastructure
-and enables GENERIC_ENTRY. This is v4 of this patch
-series, please see below for changes since v1, v2 and v3.
+The user stack pointer is not preserved in pt_regs on Alpha, so expose
+it from the PCB, or via rdusp() for the current task, when building the
+ELF register image.  This makes the user stack pointer consistent for
+core dumps, ptrace regsets, and PTRACE_GET_SYSCALL_INFO.
 
-The main motivation is to reduce Alpha-specific syscall tracing, ptrace,
-seccomp, and return-to-user handling where common code already provides
-the required infrastructure. Alpha still has ABI-sensitive syscall
-details, most notably the assembly syscall invocation and the r0/r19
-return-value encoding, so those remain Alpha-specific. The surrounding
-entry/exit decisions are moved towards common code.
+Implement regset get/set callbacks for both NT_PRSTATUS and NT_PRFPREG.
+The callbacks translate between Alpha's pt_regs/thread state and the
+ELF-visible register layouts, while the common ptrace regset code handles
+PTRACE_GETREGSET and PTRACE_SETREGSET iovec semantics.  This avoids
+duplicating subtle short-buffer and oversized-buffer behavior in
+arch_ptrace().
 
-The series first adds regset-based ptrace and core dump support. Alpha
-now provides a user_regset_view for NT_PRSTATUS and NT_PRFPREG, exports
-the ELF-visible general and floating-point register layouts, and uses the
-common ptrace regset implementation for PTRACE_GETREGSET and
-PTRACE_SETREGSET instead of open-coding iovec handling in arch_ptrace().
-This also provides the basis for HAVE_ARCH_TRACEHOOK and common ptrace
-syscall-info support.
+With these changes Alpha satisfies the requirements for
+HAVE_ARCH_TRACEHOOK and selects it, enabling generic tracehook and
+ptrace syscall-info code paths without changing the existing syscall
+entry ABI.
 
-It then adds ARCH_STACKWALK support. The implementation uses a simple
-kernel stack scanning walker, starting after pt_regs for current tasks
-and using the saved PCB kernel stack pointer for blocked tasks. This
-enables common stacktrace users such as dump_stack(), /proc/*/stack, and
-SysRq backtraces, without introducing a frame-pointer-based unwinder. It
-also avoids relying on the legacy weak save_stack_trace_*() fallbacks,
-which is needed by the later generic IRQ-entry configuration in this
-series.
-
-The next group of patches prepares Alpha for lockdep IRQ-state tracking.
-Alpha interrupt masking is controlled by the PAL IPL state, so the
-irqflags helpers are made to operate on IPL state rather than treating
-the full processor status word as the saved interrupt state. The series
-also provides ftrace return-address support for lockdep call-site
-reporting and converts low-level platform locks to raw spinlocks where
-regular spinlock instrumentation is not appropriate for the hardware and
-interrupt paths involved.
-
-The lockdep patch then adds hardirq state tracking in Alpha's low-level
-entry/exit paths. It annotates PAL IPL transitions and the shared return
-path so lockdep can keep its interrupt state in sync with the hardware
-IPL state. This allows CONFIG_PROVE_LOCKING to remain useful on Alpha
-instead of quickly disabling debug_locks due to IRQ state mismatches.
-
-The final patch enables GENERIC_ENTRY and. Syscall
-entry now uses C helpers built around syscall_enter_from_user_mode().
-The C entry helper handles the common syscall-entry work, including
-ptrace/seccomp entry processing, skip decisions, syscall-number
-shadowing, and syscall table lookup. It returns the selected syscall
-function pointer to assembly.
-
-Assembly then performs only the Alpha-specific dispatch: it reloads the
-syscall arguments, preserves the required GP/stack conventions, and
-performs the indirect call through the function pointer returned by C.
-Skipped syscalls bypass that dispatch and return through the Alpha
-syscall-exit helper.
-
-Syscall exit is split in the same way. Alpha first performs its
-ABI-specific result handling: r0/v0 carries the return value or positive
-errno, and r19/a3 carries the error flag. It also handles skipped
-syscall restart state and successful syscalls whose return values may
-look like negative errnos, such as legacy ptrace PEEK requests. Once the
-Alpha-specific r0/r19 state is encoded, the path enters
-syscall_exit_to_user_mode() for the common syscall-exit and
-exit-to-user-mode work.
-
-The syscall number used by generic entry is kept separately from the
-return-value register. entSys copies the raw r0 syscall number into r1,
-and r1 is used as Alpha's generic-entry syscall-number shadow. Restart
-bookkeeping that used to be carried by low-level assembly state is now
-kept explicitly in thread_info. This avoids using user-visible general
-registers as hidden restart state while preserving Alpha's restart and
-ptrace semantics.
-
-Testing was performed on an Alpha EV68/Tsunami SMP system (UP2000+) as
-well as an Alphaserver 4100 (rawhide) system.
-
-For the regset, ptrace, tracehook, and generic-entry changes, testing
-included:
-
-  - custom ptrace/regset round-trip tests for both GPR and FPR regsets
-  - PTRACE_GET_SYSCALL_INFO validation, including the reported user
-    stack pointer
-  - ELF core dump inspection with readelf
-  - strace testsuite (make check), with the remaining failures comparable
-    to the pre-series baseline on the same system.
-
-Kernel tools/testing/selftests:
-  - ptrace: syscall-info tests improved over the baseline.
-  - seccomp: seccomp_bpf passes all applicable tests.
-  - exec: check-exec now passes once loop block-device support is enabled.
-  - ipc: ipc selftests improved over the baseline.
-  - acct: acct selftests improved over the baseline.
-
-Overall, the selftest comparison did not show an obvious regression
-introduced by this series. Instead, the patched kernel reduced the
-number of failing top-level selftests and fixed several failures in areas
-that exercise the new ptrace, tracehook, seccomp, and generic-entry
-paths. Some unrelated failures remain and need separate investigation,
-but they are either also present in the baseline run or explained by
-missing kernel configuration or test-environment support.
-
-For the stacktrace changes, the following scenarios were verified:
-
-  - SysRq 'l' prints backtraces for all CPUs, including syscall and
-    interrupt contexts
-  - /proc/<pid>/stack returns sensible call chains for both the current
-    task and sleeping tasks, such as nanosleep
-  - stack traces remain stable under scheduler and I/O load, including
-    ping, ext4 writes, and background workqueues
-  - no crashes, lockups, or obvious mis-unwinds were observed
-
-For the lockdep changes, /proc/lockdep_stats shows debug_locks remaining
-enabled, with no redundant hardirq or softirq on/off annotations observed
-during testing.
-
-Review feedback is very welcome. Additional testing on other Alpha
-systems, CPU variants, and workloads would also be much appreciated.
-
-Patches:
-
-  1. alpha: enable regset-based ptrace and core dumps
-  2. alpha: add ARCH_STACKWALK-based stacktrace support
-  3. alpha: make irqflags helpers operate on IPL state
-  4. alpha: provide ftrace return address support for lockdep
-  5. alpha: convert low-level platform locks to raw spinlocks
-  6. alpha: enable lockdep hardirq state tracking
-  7. alpha: enable GENERIC_ENTRY
-
-Thanks,
-
-Magnus
-
+Reviewed-by: Matt Turner <mattst88@gmail.com>
+Tested-by: Matt Turner <mattst88@gmail.com>
+Signed-off-by: Magnus Lindholm <linmag7@gmail.com>
 ---
-Changes since v1:
- - Fixed skipped-syscall exit handling so PTRACE_SET_SYSCALL_INFO and legacy
-   POKEUSR skips return ENOSYS/a3=1 only when no ptrace/seccomp return value
-   was installed.
-Changes since v2:
- - patch 8: add PTRACE_PEEKUSR support for FP registers and PC
- - patch 8: add/fix focused ptrace single-step validation
- - patches 1-7: add Reviewed-by and Tested-by tag
-Changes since v3:
- - Rebase on v7.2-rc1
- - Restored Alpha's explicit FPU save before signal delivery in the generic
-   return-to-user path, fixing FP state corruption seen with asynchronous
-   signals and FP-heavy userspace.
- - Dropped the explicit GENERIC_IRQ_ENTRY select from Kconfig, since
-   GENERIC_ENTRY already selects it.
- - Dropped the pci-sysfs bin_attribute initialization patch; it is no longer
-   needed after rebasing onto v7.2-rc1, where Alpha PCI resource attributes
-   are static attribute-group entries rather than dynamically allocated
-   bin_attributes.
-
-Magnus Lindholm (7):
-  alpha: enable regset-based ptrace and core dumps
-  alpha: add ARCH_STACKWALK-based stacktrace support
-  alpha: make irqflags helpers operate on IPL state
-  alpha: provide ftrace return address support for lockdep
-  alpha: use raw spinlocks for low-level platform locks
-  alpha: enable lockdep hardirq state tracking
-  alpha: enable GENERIC_ENTRY
-
  .../features/core/tracehook/arch-support.txt  |   2 +-
- .../features/locking/lockdep/arch-support.txt |   2 +-
- arch/alpha/Kconfig                            |  12 +
+ arch/alpha/Kconfig                            |   1 +
  arch/alpha/include/asm/elf.h                  |   1 +
- arch/alpha/include/asm/entry-common.h         |  14 +
- arch/alpha/include/asm/ftrace.h               |  30 +-
- arch/alpha/include/asm/irqflags.h             |   6 +-
- arch/alpha/include/asm/ptrace.h               |  21 +-
- arch/alpha/include/asm/stacktrace.h           |  20 +
- arch/alpha/include/asm/syscall.h              |  18 +-
- arch/alpha/include/asm/thread_info.h          |  31 +-
+ arch/alpha/include/asm/ptrace.h               |   7 +
+ arch/alpha/include/asm/syscall.h              |   7 +
+ arch/alpha/include/asm/thread_info.h          |   7 +-
  arch/alpha/include/uapi/asm/ptrace.h          |   2 +-
- arch/alpha/kernel/Makefile                    |   3 +-
- arch/alpha/kernel/asm-offsets.c               |   6 +
- arch/alpha/kernel/entry.S                     | 328 +++++---------
- arch/alpha/kernel/irq_alpha.c                 |  78 +++-
- arch/alpha/kernel/irq_i8259.c                 |  19 +-
- arch/alpha/kernel/proto.h                     |  13 +-
- arch/alpha/kernel/ptrace.c                    | 400 ++++++++++++++----
- arch/alpha/kernel/signal.c                    | 149 ++++++-
- arch/alpha/kernel/stacktrace.c                |  61 +++
- arch/alpha/kernel/sys_dp264.c                 |  38 +-
- arch/alpha/kernel/sys_rawhide.c               |  17 +-
+ arch/alpha/kernel/asm-offsets.c               |   1 +
+ arch/alpha/kernel/entry.S                     |  15 +-
+ arch/alpha/kernel/ptrace.c                    | 320 +++++++++++++++---
  arch/alpha/kernel/traps.c                     |   8 +
- arch/alpha/kernel/vmlinux.lds.S               |   2 +
- 25 files changed, 860 insertions(+), 421 deletions(-)
- create mode 100644 arch/alpha/include/asm/entry-common.h
- create mode 100644 arch/alpha/include/asm/stacktrace.h
- create mode 100644 arch/alpha/kernel/stacktrace.c
+ 11 files changed, 312 insertions(+), 59 deletions(-)
 
+diff --git a/Documentation/features/core/tracehook/arch-support.txt b/Documentation/features/core/tracehook/arch-support.txt
+index 4f36fcbfb6d5..654f38413d16 100644
+--- a/Documentation/features/core/tracehook/arch-support.txt
++++ b/Documentation/features/core/tracehook/arch-support.txt
+@@ -6,7 +6,7 @@
+     -----------------------
+     |         arch |status|
+     -----------------------
+-    |       alpha: | TODO |
++    |       alpha: |  ok  |
+     |         arc: |  ok  |
+     |         arm: |  ok  |
+     |       arm64: |  ok  |
+diff --git a/arch/alpha/Kconfig b/arch/alpha/Kconfig
+index 7b7dafe7d9df..f3b882835617 100644
+--- a/arch/alpha/Kconfig
++++ b/arch/alpha/Kconfig
+@@ -33,6 +33,7 @@ config ALPHA
+ 	select HAVE_ARCH_AUDITSYSCALL
+ 	select HAVE_ARCH_SECCOMP
+ 	select HAVE_ARCH_SECCOMP_FILTER
++	select HAVE_ARCH_TRACEHOOK
+ 	select HAVE_MOD_ARCH_SPECIFIC
+ 	select LOCK_MM_AND_FIND_VMA
+ 	select MODULES_USE_ELF_RELA
+diff --git a/arch/alpha/include/asm/elf.h b/arch/alpha/include/asm/elf.h
+index 50c82187e60e..b15946621d57 100644
+--- a/arch/alpha/include/asm/elf.h
++++ b/arch/alpha/include/asm/elf.h
+@@ -53,6 +53,7 @@
+ 
+ #define EF_ALPHA_32BIT		1	/* All addresses are below 2GB */
+ 
++#define CORE_DUMP_USE_REGSET	1
+ /*
+  * ELF register definitions..
+  */
+diff --git a/arch/alpha/include/asm/ptrace.h b/arch/alpha/include/asm/ptrace.h
+index 3557ce64ed21..8e0a589e2d15 100644
+--- a/arch/alpha/include/asm/ptrace.h
++++ b/arch/alpha/include/asm/ptrace.h
+@@ -24,4 +24,11 @@ static inline unsigned long regs_return_value(struct pt_regs *regs)
+ 	return regs->r0;
+ }
+ 
++/* Helpers for working with the user stack pointer */
++static inline unsigned long user_stack_pointer(struct pt_regs *regs)
++{
++	/* Valid for user-mode regs */
++	return regs->usp;
++}
++
+ #endif
+diff --git a/arch/alpha/include/asm/syscall.h b/arch/alpha/include/asm/syscall.h
+index 584b1ab2e325..1e78cbd46faf 100644
+--- a/arch/alpha/include/asm/syscall.h
++++ b/arch/alpha/include/asm/syscall.h
+@@ -19,6 +19,13 @@ static inline long syscall_get_return_value(struct task_struct *task,
+ 	return regs->r19 ? -(long)regs->r0 : (long)regs->r0;
+ }
+ 
++static inline long syscall_get_error(struct task_struct *task,
++				     struct pt_regs *regs)
++{
++	return regs->r19 ? -(long)regs->r0 : 0;
++}
++
++
+ /*
+  * Alpha syscall ABI / kernel conventions:
+  *  - PAL provides syscall number in r0 on entry.
+diff --git a/arch/alpha/include/asm/thread_info.h b/arch/alpha/include/asm/thread_info.h
+index 94ef9cfa30f5..1552ecca8520 100644
+--- a/arch/alpha/include/asm/thread_info.h
++++ b/arch/alpha/include/asm/thread_info.h
+@@ -66,6 +66,7 @@ register unsigned long *current_stack_pointer __asm__ ("$30");
+ #define TIF_SYSCALL_AUDIT	4	/* syscall audit active */
+ #define TIF_NOTIFY_SIGNAL	5	/* signal notifications exist */
+ #define TIF_SECCOMP		6	/* seccomp syscall filtering active */
++#define	TIF_SYSCALL_TRACEPOINT	7	/* syscall tracepoint instrumentation */
+ #define TIF_DIE_IF_KERNEL	9	/* dik recursion lock */
+ #define TIF_MEMDIE		13	/* is terminating due to OOM killer */
+ #define TIF_POLLING_NRFLAG	14	/* idle is polling for TIF_NEED_RESCHED */
+@@ -78,6 +79,7 @@ register unsigned long *current_stack_pointer __asm__ ("$30");
+ #define _TIF_NOTIFY_SIGNAL	(1<<TIF_NOTIFY_SIGNAL)
+ #define _TIF_SECCOMP		(1<<TIF_SECCOMP)
+ #define _TIF_POLLING_NRFLAG	(1<<TIF_POLLING_NRFLAG)
++#define _TIF_SYSCALL_TRACEPOINT	(1<<TIF_SYSCALL_TRACEPOINT)
+ 
+ /*
+  * Work to do on syscall entry (in entry.S).
+@@ -85,9 +87,10 @@ register unsigned long *current_stack_pointer __asm__ ("$30");
+  * with the mask used before branching to syscall_trace_enter().
+  */
+ #ifdef CONFIG_AUDITSYSCALL
+-# define _TIF_SYSCALL_WORK	(_TIF_SYSCALL_TRACE | _TIF_SYSCALL_AUDIT | _TIF_SECCOMP)
++# define _TIF_SYSCALL_WORK	(_TIF_SYSCALL_TRACE | _TIF_SYSCALL_AUDIT | _TIF_SECCOMP \
++				| _TIF_SYSCALL_TRACEPOINT)
+ #else
+-# define _TIF_SYSCALL_WORK	(_TIF_SYSCALL_TRACE | _TIF_SECCOMP)
++# define _TIF_SYSCALL_WORK	(_TIF_SYSCALL_TRACE | _TIF_SECCOMP | _TIF_SYSCALL_TRACEPOINT)
+ #endif
+ 
+ /* Work to do on interrupt/exception return.  */
+diff --git a/arch/alpha/include/uapi/asm/ptrace.h b/arch/alpha/include/uapi/asm/ptrace.h
+index 72ed913a910f..9d86b2a1526e 100644
+--- a/arch/alpha/include/uapi/asm/ptrace.h
++++ b/arch/alpha/include/uapi/asm/ptrace.h
+@@ -43,7 +43,7 @@ struct pt_regs {
+ 	unsigned long trap_a1;
+ 	unsigned long trap_a2;
+ /* This makes the stack 16-byte aligned as GCC expects */
+-	unsigned long __pad0;
++	unsigned long usp;
+ /* These are saved by PAL-code: */
+ 	unsigned long ps;
+ 	unsigned long pc;
+diff --git a/arch/alpha/kernel/asm-offsets.c b/arch/alpha/kernel/asm-offsets.c
+index 1ebb05890499..1d3bfca319ae 100644
+--- a/arch/alpha/kernel/asm-offsets.c
++++ b/arch/alpha/kernel/asm-offsets.c
+@@ -29,4 +29,5 @@ static void __used foo(void)
+ 
+ 	DEFINE(HAE_CACHE, offsetof(struct alpha_machine_vector, hae_cache));
+ 	DEFINE(HAE_REG, offsetof(struct alpha_machine_vector, hae_register));
++	DEFINE(PT_REGS_USP, offsetof(struct pt_regs, usp));
+ }
+diff --git a/arch/alpha/kernel/entry.S b/arch/alpha/kernel/entry.S
+index fcfd06529b12..449092a31eef 100644
+--- a/arch/alpha/kernel/entry.S
++++ b/arch/alpha/kernel/entry.S
+@@ -520,6 +520,12 @@ entSys:
+         ldq     $1, 0($sp)          /* syscall nr from saved r0 */
+         stq     $1, 8($sp)          /* regs->r1 = shadow syscall nr */
+         stq     $1, 16($sp)         /* regs->r2 = restart syscall nr */
++	/* Syscalls always enter from user mode: snapshot USP into pt_regs->usp */
++	mov	$0, $8
++	call_pal PAL_rdusp
++	stq      $0, PT_REGS_USP($sp)
++	mov	$8, $0
++
+ 
+ 	lda	$8, 0x3fff
+ 	bic	$sp, $8, $8
+@@ -535,15 +541,10 @@ entSys:
+ 	.cfi_rel_offset	$16, SP_OFF+24
+ 	.cfi_rel_offset	$17, SP_OFF+32
+ 	.cfi_rel_offset	$18, SP_OFF+40
+-#ifdef CONFIG_AUDITSYSCALL
+-	lda     $6, _TIF_SYSCALL_TRACE | _TIF_SYSCALL_AUDIT | _TIF_SECCOMP
+-	and     $3, $6, $3
+-	bne     $3, strace
+-#else
+-	lda     $6, _TIF_SYSCALL_TRACE | _TIF_SECCOMP
++	lda     $6, _TIF_SYSCALL_WORK
+ 	and     $3, $6, $3
+ 	bne     $3, strace
+-#endif
++
+ 	beq	$4, 1f
+ 	ldq	$27, 0($5)
+ 1:	ldq	$0, 8($sp)		/* syscall nr shadow (regs->r1) */
+diff --git a/arch/alpha/kernel/ptrace.c b/arch/alpha/kernel/ptrace.c
+index 0687760ea466..69eb337347df 100644
+--- a/arch/alpha/kernel/ptrace.c
++++ b/arch/alpha/kernel/ptrace.c
+@@ -24,10 +24,15 @@
+ 
+ #include "proto.h"
+ #include <linux/uio.h>
++#include <linux/regset.h>
+ 
+ #define DEBUG	DBG_MEM
+ #undef DEBUG
+ 
++#ifndef NT_FPREGSET
++#define NT_FPREGSET NT_PRFPREG
++#endif
++
+ #ifdef DEBUG
+ enum {
+ 	DBG_MEM		= (1<<0),
+@@ -143,19 +148,163 @@ get_reg(struct task_struct * task, unsigned long regno)
+ 	return *get_reg_addr(task, regno);
+ }
+ 
++static void alpha_elf_fpregs_get(struct task_struct *target,
++			 elf_fpreg_t *fpregs)  /* points to ELF_NFPREG entries */
++{
++	memcpy(fpregs, task_thread_info(target)->fp, sizeof(elf_fpregset_t));
++}
++
++static void alpha_elf_fpregs_set(struct task_struct *target,
++			 const elf_fpreg_t *fpregs,
++			 size_t nwords)
++{
++	size_t n = min_t(size_t, nwords, ELF_NFPREG);
++
++	memcpy(task_thread_info(target)->fp, fpregs, n * sizeof(elf_fpreg_t));
++}
++
++static void alpha_elf_gregs_set(struct task_struct *child,
++			const elf_greg_t *src,
++			size_t nwords)
++{
++	struct pt_regs *pt = task_pt_regs(child);
++	struct thread_info *ti = task_thread_info(child);
++	struct switch_stack *sw = ((struct switch_stack *)pt) - 1;
++
++	/* GPRs r0..r8 live in pt_regs */
++	if (nwords > 0)
++		pt->r0 = src[0];
++	if (nwords > 1)
++		pt->r1 = src[1];
++	if (nwords > 2)
++		pt->r2 = src[2];
++	if (nwords > 3)
++		pt->r3 = src[3];
++	if (nwords > 4)
++		pt->r4 = src[4];
++	if (nwords > 5)
++		pt->r5 = src[5];
++	if (nwords > 6)
++		pt->r6 = src[6];
++	if (nwords > 7)
++		pt->r7 = src[7];
++	if (nwords > 8)
++		pt->r8 = src[8];
++
++	/* r9..r15 live in switch_stack */
++	if (nwords > 9)
++		sw->r9 = src[9];
++	if (nwords > 10)
++		sw->r10 = src[10];
++	if (nwords > 11)
++		sw->r11 = src[11];
++	if (nwords > 12)
++		sw->r12 = src[12];
++	if (nwords > 13)
++		sw->r13 = src[13];
++	if (nwords > 14)
++		sw->r14 = src[14];
++	if (nwords > 15)
++		sw->r15 = src[15];
++
++	/* r16..r28 live in pt_regs */
++	if (nwords > 16)
++		pt->r16 = src[16];
++	if (nwords > 17)
++		pt->r17 = src[17];
++	if (nwords > 18)
++		pt->r18 = src[18];
++	if (nwords > 19)
++		pt->r19 = src[19];
++	if (nwords > 20)
++		pt->r20 = src[20];
++	if (nwords > 21)
++		pt->r21 = src[21];
++	if (nwords > 22)
++		pt->r22 = src[22];
++	if (nwords > 23)
++		pt->r23 = src[23];
++	if (nwords > 24)
++		pt->r24 = src[24];
++	if (nwords > 25)
++		pt->r25 = src[25];
++	if (nwords > 26)
++		pt->r26 = src[26];
++	if (nwords > 27)
++		pt->r27 = src[27];
++	if (nwords > 28)
++		pt->r28 = src[28];
++
++	/* gp, usp, pc, unique */
++	if (nwords > 29)
++		pt->gp = src[29];
++
++	if (nwords > 30) {
++		ti->pcb.usp = src[30];
++		/*
++		 * If someone ever does this to current (rare), keep the
++		 * hardware usp consistent.
++		 */
++		if (child == current)
++			wrusp(src[30]);
++	}
++
++	if (nwords > 31)
++		pt->pc = src[31];
++
++	if (nwords > 32)
++		ti->pcb.unique = src[32];
++
++/*
++ * PTRACE_SETREGSET can be used at a syscall-entry stop to skip the
++ * syscall by setting the syscall number to -1.  The seccomp/ptrace
++ * selftests use this to synthesize errno returns.
++ *
++ * Alpha uses r19/a3 as the error flag, so a skipped syscall with a
++ * small positive r0 and a clear r19 must be normalized to an error
++ * return.
++ */
++	if (pt->r1 == (unsigned long)-1 &&
++	    pt->r19 == 0 &&
++	    pt->r0 > 0 &&
++	    pt->r0 < MAX_ERRNO)
++		pt->r19 = 1;
++}
++
++
+ /*
+  * Write contents of register REGNO in task TASK.
+  */
+ static int
+ put_reg(struct task_struct *task, unsigned long regno, unsigned long data)
+ {
++	struct pt_regs *regs = task_pt_regs(task);
++
+ 	if (regno == 63) {
+ 		task_thread_info(task)->ieee_state
+ 		  = ((task_thread_info(task)->ieee_state & ~IEEE_SW_MASK)
+ 		     | (data & IEEE_SW_MASK));
+ 		data = (data & FPCR_DYN_MASK) | ieee_swcr_to_fpcr(data);
+ 	}
++
+ 	*get_reg_addr(task, regno) = data;
++
++	/*
++	 * Alpha historically exposes r0/v0 as the syscall number at a
++	 * syscall-entry stop.  The generic-entry conversion keeps the
++	 * mutable syscall number in regs->r1, so old ptrace users such
++	 * as strace that skip a syscall by poking r0 to -1 must also
++	 * update the internal shadow syscall number.
++	 *
++	 * Do not mirror other r0 writes.  strace later pokes r0 to the
++	 * injected return value, e.g. 42, while r1 must remain -1.
++	 */
++
++	if (regno == 0 && data == (unsigned long)-1) {
++		regs->r1 = data;
++		regs->r19 = 0;
++	}
++
+ 	return 0;
+ }
+ 
+@@ -315,54 +464,6 @@ long arch_ptrace(struct task_struct *child, long request,
+ 		DBG(DBG_MEM, ("poke $%lu<-%#lx\n", addr, data));
+ 		ret = put_reg(child, addr, data);
+ 		break;
+-	case PTRACE_GETREGSET:
+-	case PTRACE_SETREGSET: {
+-		struct iovec __user *uiov = (struct iovec __user *)data;
+-		struct iovec iov;
+-		struct pt_regs *regs;
+-		size_t len;
+-
+-		/* Only support NT_PRSTATUS (general registers) for now. */
+-		if (addr != NT_PRSTATUS) {
+-			ret = -EIO;
+-			break;
+-		}
+-
+-		if (copy_from_user(&iov, uiov, sizeof(iov))) {
+-			ret = -EFAULT;
+-			break;
+-		}
+-
+-		regs = task_pt_regs(child);
+-		len = min_t(size_t, iov.iov_len, sizeof(*regs));
+-
+-		if (request == PTRACE_GETREGSET) {
+-			if (copy_to_user(iov.iov_base, regs, len)) {
+-				ret = -EFAULT;
+-				break;
+-			}
+-		} else {
+-		/*
+-		 * Allow writing back regs. This is needed by the TRACE_syscall
+-		 * tests (they change PC/syscall nr/retval).
+-		 */
+-			if (copy_from_user(regs, iov.iov_base, len)) {
+-				ret = -EFAULT;
+-				break;
+-			}
+-		}
+-
+-		/* Per API, update iov_len with amount transferred. */
+-		iov.iov_len = len;
+-		if (copy_to_user(uiov, &iov, sizeof(iov))) {
+-			ret = -EFAULT;
+-			break;
+-		}
+-
+-		ret = 0;
+-		break;
+-	}
+-
+ 	default:
+ 		ret = ptrace_request(child, request, addr, data);
+ 		break;
+@@ -410,3 +511,126 @@ syscall_trace_leave(void)
+ 	if (test_thread_flag(TIF_SYSCALL_TRACE))
+ 		ptrace_report_syscall_exit(current_pt_regs(), 0);
+ }
++
++/*
++ * Minimal regset support for Alpha.
++ *
++ * Alpha-specific notes:
++ *  - Do NOT use ELF_CORE_COPY_REGS(): it uses current_thread_info(),
++ *    which is wrong for non-current tasks.
++ *  - dump_elf_task() returns 1 unconditionally in this tree, while
++ *    regset_get should return 0 on success. So call dump_elf_thread()
++ *    directly and return membuf_write()'s result.
++ */
++
++static int alpha_regset_set(struct task_struct *target,
++			    const struct user_regset *regset,
++			    unsigned int pos, unsigned int count,
++			    const void *kbuf,
++			    const void __user *ubuf)
++{
++	elf_gregset_t gregs;
++	unsigned int nwords;
++
++	if (pos + count > sizeof(gregs))
++		return -EIO;
++
++	/*
++	 * Preserve registers outside the written range.
++	 */
++	dump_elf_thread(gregs, task_pt_regs(target),
++			task_thread_info(target));
++
++	if (user_regset_copyin(&pos, &count, &kbuf, &ubuf,
++				gregs, 0, sizeof(gregs)))
++		return -EFAULT;
++
++	nwords = sizeof(gregs) / sizeof(elf_greg_t);
++	alpha_elf_gregs_set(target, gregs, nwords);
++
++	return 0;
++}
++
++static int alpha_fpregset_set(struct task_struct *target,
++			      const struct user_regset *regset,
++			      unsigned int pos, unsigned int count,
++			      const void *kbuf,
++			      const void __user *ubuf)
++{
++	elf_fpregset_t fpregs;
++	unsigned int nwords;
++
++	if (pos + count > sizeof(fpregs))
++		return -EIO;
++
++	alpha_elf_fpregs_get(target, fpregs);
++
++	if (user_regset_copyin(&pos, &count, &kbuf, &ubuf,
++				fpregs, 0, sizeof(fpregs)))
++		return -EFAULT;
++
++	nwords = sizeof(fpregs) / sizeof(elf_fpreg_t);
++	alpha_elf_fpregs_set(target, fpregs, nwords);
++
++	return 0;
++}
++
++static int alpha_regset_get(struct task_struct *target,
++			    const struct user_regset *regset,
++			    struct membuf to)
++{
++	struct pt_regs *pt = task_pt_regs(target);
++	struct thread_info *ti = task_thread_info(target);
++	elf_gregset_t gregs;
++
++	dump_elf_thread(gregs, pt, ti);
++	return membuf_write(&to, gregs, sizeof(gregs));
++}
++
++static int alpha_fpregset_get(struct task_struct *target,
++			      const struct user_regset *regset,
++			      struct membuf to)
++{
++	elf_fpregset_t fpregs;
++
++	alpha_elf_fpregs_get(target, fpregs);
++	return membuf_write(&to, fpregs, sizeof(fpregs));
++}
++
++enum alpha_regset {
++	REGSET_GPR,
++	REGSET_FPR,
++};
++
++static const struct user_regset alpha_user_regsets[] = {
++	[REGSET_GPR] = {
++		.core_note_type	= NT_PRSTATUS,
++		.n		= ELF_NGREG,
++		.size		= sizeof(elf_greg_t),
++		.align		= sizeof(elf_greg_t),
++		.regset_get	= alpha_regset_get,
++		.set		= alpha_regset_set,
++	},
++	[REGSET_FPR] = {
++		.core_note_type	= NT_PRFPREG,
++		.core_note_name	= "CORE",
++		.n		= ELF_NFPREG,
++		.size		= sizeof(elf_fpreg_t),
++		.align		= sizeof(elf_fpreg_t),
++		.regset_get	= alpha_fpregset_get,
++		.set		= alpha_fpregset_set,
++	},
++};
++
++static const struct user_regset_view user_alpha_view = {
++	.name		= "alpha",
++	.e_machine	= EM_ALPHA,
++	.ei_osabi	= ELF_OSABI,
++	.regsets	= alpha_user_regsets,
++	.n		= ARRAY_SIZE(alpha_user_regsets),
++};
++
++const struct user_regset_view *task_user_regset_view(struct task_struct *task)
++{
++	return &user_alpha_view;
++}
+diff --git a/arch/alpha/kernel/traps.c b/arch/alpha/kernel/traps.c
+index 7004397937cf..7631129ac914 100644
+--- a/arch/alpha/kernel/traps.c
++++ b/arch/alpha/kernel/traps.c
+@@ -30,6 +30,12 @@
+ 
+ #include "proto.h"
+ 
++static __always_inline void alpha_snapshot_usp(struct pt_regs *regs)
++{
++	if (user_mode(regs))
++		regs->usp = rdusp();
++}
++
+ void
+ dik_show_regs(struct pt_regs *regs, unsigned long *r9_15)
+ {
+@@ -180,6 +186,7 @@ do_entArith(unsigned long summary, unsigned long write_mask,
+ {
+ 	long si_code = FPE_FLTINV;
+ 
++	alpha_snapshot_usp(regs);
+ 	if (summary & 1) {
+ 		/* Software-completion summary bit is set, so try to
+ 		   emulate the instruction.  If the processor supports
+@@ -201,6 +208,7 @@ do_entIF(unsigned long type, struct pt_regs *regs)
+ {
+ 	int signo, code;
+ 
++	alpha_snapshot_usp(regs);
+ 	if (type == 3) { /* FEN fault */
+ 		/* Irritating users can call PAL_clrfen to disable the
+ 		   FPU for the process.  The kernel will then trap in
 -- 
 2.53.0
 
