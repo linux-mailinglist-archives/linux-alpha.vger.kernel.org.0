@@ -1,89 +1,89 @@
-Return-Path: <linux-alpha+bounces-3819-lists+linux-alpha=lfdr.de@vger.kernel.org>
+Return-Path: <linux-alpha+bounces-3820-lists+linux-alpha=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-alpha@lfdr.de
 Received: from mail.lfdr.de
 	by mail.lfdr.de with LMTP
-	id T6/SAIPrT2oaqQIAu9opvQ
-	(envelope-from <linux-alpha+bounces-3819-lists+linux-alpha=lfdr.de@vger.kernel.org>)
-	for <lists+linux-alpha@lfdr.de>; Thu, 09 Jul 2026 20:42:11 +0200
+	id PIqxJNbtT2oUqgIAu9opvQ
+	(envelope-from <linux-alpha+bounces-3820-lists+linux-alpha=lfdr.de@vger.kernel.org>)
+	for <lists+linux-alpha@lfdr.de>; Thu, 09 Jul 2026 20:52:06 +0200
 X-Original-To: lists+linux-alpha@lfdr.de
 Received: from sin.lore.kernel.org (sin.lore.kernel.org [104.64.211.4])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4674D7345FC
-	for <lists+linux-alpha@lfdr.de>; Thu, 09 Jul 2026 20:42:10 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8316973489F
+	for <lists+linux-alpha@lfdr.de>; Thu, 09 Jul 2026 20:52:05 +0200 (CEST)
 Authentication-Results: mail.lfdr.de;
-	dkim=pass header.d=gmail.com header.s=20251104 header.b=hSxrzxxE;
+	dkim=pass header.d=gmail.com header.s=20251104 header.b=AVAXJFFm;
 	dmarc=pass (policy=none) header.from=gmail.com;
-	spf=pass (mail.lfdr.de: domain of "linux-alpha+bounces-3819-lists+linux-alpha=lfdr.de@vger.kernel.org" designates 104.64.211.4 as permitted sender) smtp.mailfrom="linux-alpha+bounces-3819-lists+linux-alpha=lfdr.de@vger.kernel.org";
+	spf=pass (mail.lfdr.de: domain of "linux-alpha+bounces-3820-lists+linux-alpha=lfdr.de@vger.kernel.org" designates 104.64.211.4 as permitted sender) smtp.mailfrom="linux-alpha+bounces-3820-lists+linux-alpha=lfdr.de@vger.kernel.org";
 	arc=pass ("subspace.kernel.org:s=arc-20240116:i=1")
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sin.lore.kernel.org (Postfix) with ESMTP id 6DC793038FAF
-	for <lists+linux-alpha@lfdr.de>; Thu,  9 Jul 2026 18:40:42 +0000 (UTC)
+	by sin.lore.kernel.org (Postfix) with ESMTP id 97A12307EECA
+	for <lists+linux-alpha@lfdr.de>; Thu,  9 Jul 2026 18:43:24 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 6C4614DD6CB;
-	Thu,  9 Jul 2026 18:40:22 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 25042444715;
+	Thu,  9 Jul 2026 18:41:28 +0000 (UTC)
 X-Original-To: linux-alpha@vger.kernel.org
-Received: from mail-pg1-f175.google.com (mail-pg1-f175.google.com [209.85.215.175])
+Received: from mail-pl1-f179.google.com (mail-pl1-f179.google.com [209.85.214.179])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8B5A1437468
-	for <linux-alpha@vger.kernel.org>; Thu,  9 Jul 2026 18:40:19 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D4D2343B48B
+	for <linux-alpha@vger.kernel.org>; Thu,  9 Jul 2026 18:41:25 +0000 (UTC)
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1783622422; cv=none; b=BFMLM0Yj41C4xHr0IhfKGiAkF5kjFH+jlVT/CxwglsEFrYd2AsZsXmu5HxJincn/WuYf/m0G1riGGZ2Ht1Uho1Fpb2DvRrKj7v8k30Hcr/qLtzqhPGlcvSaGwVTX4wYp8xkP2MGXXd+96g9uCn1CBezqE9kx2wjaVTabHSVCP8M=
+	t=1783622487; cv=none; b=Edky1pQ5B3zVuJAsotNE6z8A+BbCsa5BsmlJuWuyPsWD+91wO0SF9oOqigFeDYJCiGCk2cWmLm7Hqn5/TogDTo6Nm2FPtVMU7pgaV4eMw1aIiuZqDXqkYBqKD75ZF47mGl5ZpTKSOzhudQHj3pQSAMEKD0K2BNlYrd1enYTIjQ4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1783622422; c=relaxed/simple;
-	bh=rnI8Mtk7zFh67ToOxrITQJjhD2smVc7SMC3A0Srfn7A=;
+	s=arc-20240116; t=1783622487; c=relaxed/simple;
+	bh=x/B73ZAx/OZvPWDOjgMBsyCuVlSuIzuC3lusVvx1Is4=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=G14pEQF+ipxnGOAQvGcMSZA4IBXUMZu16pdyp/pjB6n8aAWbyBNwgtVSJ8GkrJpdmodtnV93DFYHmkwI9T7nzEb68cj6ZHWxf6kCjTulzmkDE+h1YOz+jrN1ScFLMt5tl/fbg3RuKfyCUVNdLEB8Q3qHRRtz8B7gtZx2CNH85Wc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=hSxrzxxE; arc=none smtp.client-ip=209.85.215.175
-Received: by mail-pg1-f175.google.com with SMTP id 41be03b00d2f7-c9aea40d799so77814a12.0
-        for <linux-alpha@vger.kernel.org>; Thu, 09 Jul 2026 11:40:19 -0700 (PDT)
+	 Content-Type:Content-Disposition:In-Reply-To; b=fzUM6Z45UFmnHVyIeqJkU6TOURVIb5c2shc+57sckEESKLVA08jRdwQmVVqOmr5fCR0uQEOeyzCdsobM2/97JD2k16iMjf4aYBtUF2HczqJY3/jFTgZfikOf9Qm6jSZJUOLcqwS45ZaYgH+YnL2foJsN/33/xv3lf6yxi1Y3yr8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=AVAXJFFm; arc=none smtp.client-ip=209.85.214.179
+Received: by mail-pl1-f179.google.com with SMTP id d9443c01a7336-2cc6dd436c6so956505ad.2
+        for <linux-alpha@vger.kernel.org>; Thu, 09 Jul 2026 11:41:25 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1783622419; x=1784227219; darn=vger.kernel.org;
+        d=gmail.com; s=20251104; t=1783622485; x=1784227285; darn=vger.kernel.org;
         h=in-reply-to:content-disposition:content-type:mime-version
          :references:message-id:subject:cc:to:from:date:from:to:cc:subject
          :date:message-id:reply-to:content-type;
-        bh=v3NWG3nzWzn0lD5brSEphHHDIxNRitNNFv0e1po41sA=;
-        b=hSxrzxxEgcIPpX4HGktg5ZBZPXnANJ73MP3lQU8dB8IP7Qadq7oJ8G+4+MWybMR345
-         8CD1MkedcDdfN9mmArcgE/028EQezgTd0kAfl421CaxIudItiKKE10qi8Hx/9r62yEyx
-         L94i9XpzAPgVLVw5oRo/Cu4zV80C73sGdWFgFhGCzziH+NX//k6+57HkXCDPFDDUBWZc
-         ASWX5fCCg0oURezyLULnlaLxVPoPewDbOh1Y8+e6IUs/KO6/S3FQwLZwN/3FF0sAVTqs
-         pcWyaUPVyMBfu+h0C/SdPiDsIEvJVLAXiECIbVjHMA/BigcVj3icz30PkDlWEhhKpoRQ
-         lmjA==
+        bh=aq4oHRjffhbqNLpraCJHXQbfXmiONMD/vVc6qcgWJtk=;
+        b=AVAXJFFmK0nNQhIep2Zx7bQdFMVddMSEs+L4Gx9GRroa0HtOoGG79MHkpkbb+yGdq9
+         mMa24LFtE6V2hXx+q5AovfFeAZSs/VC6/AeG9dU48X7N3xSCHS4uqGNtj17QWFTJdJSe
+         JB1/zywZB5SQMADKuoiUUPLFcYWeOOFBCpUjBEr3aGMRxM3D4MNpkS+ANOiGWTtXyZkC
+         if6xGjcnc8pBFlVWHJb9XXQOdHLeb2JwsQH4YA+0ivE+gjgRfvDY2hsDr0jpUu6miCVx
+         yVF1GgWIDOlyJipWCi8tIkQKFScHFAiDOIXyB8qnWiDKSR3Uw3k6deV1NZVpP7BL0p10
+         mCmA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1783622419; x=1784227219;
+        d=1e100.net; s=20251104; t=1783622485; x=1784227285;
         h=in-reply-to:content-disposition:content-type:mime-version
          :references:message-id:subject:cc:to:from:date:x-gm-gg
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
          :content-type;
-        bh=v3NWG3nzWzn0lD5brSEphHHDIxNRitNNFv0e1po41sA=;
-        b=NWSjbfllQGRF5+SUIg8miq9mRJZ/NcjQpM98WT1DXjOrdyi58rQj9dFHNS7QsyVkgV
-         VlB+eiSV883jqPfGdFrb3mSnf+s99iMyxaeULk6qRqV/i4eKMV4+fT4MV0U1fsnGIXep
-         ogFK+gFXW7H2lHABd4kRiLRDXGJEsK5Na6zugnmxfDQ/7X786gRR45b9Sl+QUBOBIIX/
-         O/KNAPUX/ZmdMjHSOT4qhg9outEgA57jPod6u+p8mATAbZKiSVFzOpbpodyDWRKryWq9
-         PSjwjhLy3WUDA45Z6T8bNA2BKUAdMV+k65KbmlnAVZn9O8L2bk8DNHs35+KiXB3iknvB
-         QFnA==
-X-Forwarded-Encrypted: i=1; AHgh+RrRFTMLuBxR3r34LfO8V9cfYuLPOTWUKkhypjgDRZwYzbkCvBRsET5xJ3r0p9x14hDK8CFiXG1pgt+G2A==@vger.kernel.org
-X-Gm-Message-State: AOJu0YxuqOdUTmaHpK4UqLfdzuH4LRikqlwWBsOS4DLQ3w5EwRaOhZmc
-	bv+qb7zjQJ7yafBSvte733pTe5e3DGlcx9EyDPZSHLhbbESgfN5X2AZN
-X-Gm-Gg: AfdE7ckTP5bmOyKQ13gtsIhoy9Pl//4VlHbbMR3yED5J9dAGyvfGVICvtrMDvcQ1UZX
-	PaSY6H5y5Rt6iQbVJ4DW7i47mApKEKlYmJcADNqzNp572yyb/YgqjNB4L6TUX/x6Co76dDgCxaN
-	GTqmWRs8JP5c9gQwJGdZhNdX5J5zA+LZxXXQnH3BYeVrzT9RCliWARGTR27NcAq/P11IiHk94km
-	6h+fVITcJHAL9Izc8NgTlX/0fTzotn83wVcOWUlGD2S1LpFxmLJaumwd8t8nJV8qK1cZh8R5oRo
-	SBxUMCPqPboDm5iyvphfJinfgFzXsa/bL9CiKufSBYpO+ZvF7N8lyrVL0g5dpK5ljv7eN+sgVWz
-	dSqNOFFDdsSaNFQXXhMEQOquuiYjF/LuIPe18tyiXUMXjyIld5OPHIhEDS8Loj02V19FjBqW96G
-	WzAokvt+z4zJfFMI60Dd9LVr2lrCXAHoTSy/FqddEqb3/XOw2e4UloUeFKuhrI
-X-Received: by 2002:a05:6a21:4902:b0:3b4:8300:7019 with SMTP id adf61e73a8af0-3c0bcf656a1mr10343651637.18.1783622418932;
-        Thu, 09 Jul 2026 11:40:18 -0700 (PDT)
+        bh=aq4oHRjffhbqNLpraCJHXQbfXmiONMD/vVc6qcgWJtk=;
+        b=JajuNO94CU0fulpLbVulFw34x/nfuhvz5mg3V1qL6J5gPA1rRQ0IHnFs/phriFc/0H
+         9TQY1Km952Fm3g1c+ci6MW+NnU7ZoavAGp61H5Ekq7Cl1V46qYMP683yG338IH9L9asv
+         iqBtyo6JbXGTNCB6xrDo+hJnr/eDZjk4GRiao8E4ysjz/k/idrKw+Am4BDK4blj+Ns8/
+         2FGuQBRijTTUeTY+iKh1Bz2Kxy4QElcANxxMl9ld2po5obFZTdj0ZuZfQi99xyQuxpY2
+         pAfGk14ifjuZgAlF36dAsGen4lmNHkzOvRHFXVOufc0FdTKtE3beXo0qY5GcSQYdrXbV
+         Zllw==
+X-Forwarded-Encrypted: i=1; AHgh+Ro3PQzrJY5UA5551vI4nZnhCKbQc0FkI5Y/ZXHfjpSDg9ai0ko8ToENubeJtqras42WEYvgGzUJT9ijgg==@vger.kernel.org
+X-Gm-Message-State: AOJu0YyiNjHKxsehZTXKKP40vxjTsMyvDrSPCJ83ifLIkHZ80rTcBLZ7
+	/MT0rOrOGA3hs0TEXEHcqW2XilMJmQb9INZ+Fs4DKWSvUI+20E3i+RPi
+X-Gm-Gg: AfdE7clBB2MryG9+PboMvFPvLlpRYHvKZtadTBTC4UieqSmHiJcbM/zlk4NRyn5c+VW
+	kYhXRz7JrisAi8i7K0TUxQruzcfImoelLSo3ZIzyLdiuISzunCzFsAAIfdJ/NsoYT72OAmQcsLn
+	pX3dxSYba/SdxaWwxLw/XKdHgh8abN8xhE5jekHo6wYjPUWk7zqI2f13v51r7z8SCZyUxvJMg0Y
+	Je6P0bB+yUMLUAPJgnxOKh3ZIXnWGV8JHkSNr9RtajV+64tsbxw7LU3O+b/8IRu6RGsnUwCpAJm
+	9DC8Py4I773u/BjGFTl47A5DGOfe3HbpZWJDkGJrIsDhXlgDq7MMfzPuXH5gCsCZzJkME0sshuv
+	oeZJ7zB5rekFz45BRXYZMwgYk79cx5eJ4kDSfU6YI+ak7KwfywnDk00TD/5gAo7Ou/sHMNSFynt
+	HFhsaKInJx9+Z8pjqi8x7rOzKsSLmr2OigRPSOlBz8zEwIFw/7W1g/les+G1j7
+X-Received: by 2002:a05:6a20:3d0c:b0:3bf:80b8:9c8a with SMTP id adf61e73a8af0-3c0bcead1e2mr9967332637.6.1783622485265;
+        Thu, 09 Jul 2026 11:41:25 -0700 (PDT)
 Received: from li-1a3e774c-28e4-11b2-a85c-acc9f2883e29.ibm.com ([106.51.160.236])
-        by smtp.gmail.com with ESMTPSA id 5a478bee46e88-3118ee6091dsm28653518eec.14.2026.07.09.11.40.03
+        by smtp.gmail.com with ESMTPSA id a92af1059eb24-13b659d7c8bsm35321002c88.12.2026.07.09.11.41.07
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 09 Jul 2026 11:40:18 -0700 (PDT)
-Date: Fri, 10 Jul 2026 00:10:01 +0530
+        Thu, 09 Jul 2026 11:41:24 -0700 (PDT)
+Date: Fri, 10 Jul 2026 00:11:04 +0530
 From: Mukesh Kumar Chaurasiya <mkchauras@gmail.com>
 To: Thomas Gleixner <tglx@kernel.org>
 Cc: LKML <linux-kernel@vger.kernel.org>, 
-	Peter Zijlstra <peterz@infradead.org>, Huacai Chen <chenhuacai@kernel.org>, loongarch@lists.linux.dev, 
-	Michael Ellerman <mpe@ellerman.id.au>, Shrikanth Hegde <sshegde@linux.ibm.com>, 
-	linuxppc-dev@lists.ozlabs.org, Kees Cook <kees@kernel.org>, Paul Walmsley <pjw@kernel.org>, 
+	Peter Zijlstra <peterz@infradead.org>, Michael Ellerman <mpe@ellerman.id.au>, 
+	Shrikanth Hegde <sshegde@linux.ibm.com>, linuxppc-dev@lists.ozlabs.org, Kees Cook <kees@kernel.org>, 
+	Huacai Chen <chenhuacai@kernel.org>, loongarch@lists.linux.dev, Paul Walmsley <pjw@kernel.org>, 
 	Palmer Dabbelt <palmer@dabbelt.com>, linux-riscv@lists.infradead.org, 
 	Sven Schnelle <svens@linux.ibm.com>, linux-s390@vger.kernel.org, x86@kernel.org, 
 	Mark Rutland <mark.rutland@arm.com>, Jinjie Ruan <ruanjinjie@huawei.com>, 
@@ -102,11 +102,11 @@ Cc: LKML <linux-kernel@vger.kernel.org>,
 	linux-snps-arc@lists.infradead.org, linux-hexagon@vger.kernel.org, linux-openrisc@vger.kernel.org, 
 	sparclinux@vger.kernel.org, linux-arch@vger.kernel.org, 
 	Michal =?utf-8?B?U3VjaMOhbmVr?= <msuchanek@suse.de>, Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org
-Subject: Re: [patch 04/18] loongarch/syscall: Use
+Subject: Re: [patch 05/18] powerpc/syscall: Use
  syscall_enter_from_user_mode_randomize_stack()
-Message-ID: <ak_q9qWuifFdo_9S@li-1a3e774c-28e4-11b2-a85c-acc9f2883e29.ibm.com>
+Message-ID: <ak_rL1RfdQVJ6zeq@li-1a3e774c-28e4-11b2-a85c-acc9f2883e29.ibm.com>
 References: <20260707181957.433213175@kernel.org>
- <20260707190253.865955911@kernel.org>
+ <20260707190253.918861529@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-alpha@vger.kernel.org
 List-Id: <linux-alpha.vger.kernel.org>
@@ -115,7 +115,7 @@ List-Unsubscribe: <mailto:linux-alpha+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20260707190253.865955911@kernel.org>
+In-Reply-To: <20260707190253.918861529@kernel.org>
 X-Rspamd-Action: no action
 X-Spamd-Result: default: False [-2.16 / 15.00];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
@@ -125,11 +125,11 @@ X-Spamd-Result: default: False [-2.16 / 15.00];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	TAGGED_FROM(0.00)[bounces-3819-lists,linux-alpha=lfdr.de];
+	TAGGED_FROM(0.00)[bounces-3820-lists,linux-alpha=lfdr.de];
 	RCVD_TLS_LAST(0.00)[];
-	FREEMAIL_CC(0.00)[vger.kernel.org,infradead.org,kernel.org,lists.linux.dev,ellerman.id.au,linux.ibm.com,lists.ozlabs.org,dabbelt.com,lists.infradead.org,arm.com,huawei.com,redhat.com,linaro.org,armlinux.org.uk,linux-m68k.org,alpha.franken.de,gmx.de,users.sourceforge.jp,nod.at,zankel.net,lists.linux-m68k.org,arndb.de,monstr.eu,davemloft.net,gaisler.com,suse.de,lwn.net];
+	FREEMAIL_CC(0.00)[vger.kernel.org,infradead.org,ellerman.id.au,linux.ibm.com,lists.ozlabs.org,kernel.org,lists.linux.dev,dabbelt.com,lists.infradead.org,arm.com,huawei.com,redhat.com,linaro.org,armlinux.org.uk,linux-m68k.org,alpha.franken.de,gmx.de,users.sourceforge.jp,nod.at,zankel.net,lists.linux-m68k.org,arndb.de,monstr.eu,davemloft.net,gaisler.com,suse.de,lwn.net];
 	FROM_HAS_DN(0.00)[];
-	FORGED_RECIPIENTS(0.00)[m:tglx@kernel.org,m:linux-kernel@vger.kernel.org,m:peterz@infradead.org,m:chenhuacai@kernel.org,m:loongarch@lists.linux.dev,m:mpe@ellerman.id.au,m:sshegde@linux.ibm.com,m:linuxppc-dev@lists.ozlabs.org,m:kees@kernel.org,m:pjw@kernel.org,m:palmer@dabbelt.com,m:linux-riscv@lists.infradead.org,m:svens@linux.ibm.com,m:linux-s390@vger.kernel.org,m:x86@kernel.org,m:mark.rutland@arm.com,m:ruanjinjie@huawei.com,m:luto@kernel.org,m:oleg@redhat.com,m:richard.henderson@linaro.org,m:linux@armlinux.org.uk,m:catalin.marinas@arm.com,m:guoren@kernel.org,m:geert@linux-m68k.org,m:tsbogend@alpha.franken.de,m:deller@gmx.de,m:ysato@users.sourceforge.jp,m:richard@nod.at,m:chris@zankel.net,m:linux-arm-kernel@lists.infradead.org,m:linux-alpha@vger.kernel.org,m:linux-csky@vger.kernel.org,m:linux-m68k@lists.linux-m68k.org,m:linux-mips@vger.kernel.org,m:linux-parisc@vger.kernel.org,m:linux-sh@vger.kernel.org,m:linux-um@lists.infradead.org,m:arnd@arndb.de,m:vgupta@kernel.org,m:will@kerne
+	FORGED_RECIPIENTS(0.00)[m:tglx@kernel.org,m:linux-kernel@vger.kernel.org,m:peterz@infradead.org,m:mpe@ellerman.id.au,m:sshegde@linux.ibm.com,m:linuxppc-dev@lists.ozlabs.org,m:kees@kernel.org,m:chenhuacai@kernel.org,m:loongarch@lists.linux.dev,m:pjw@kernel.org,m:palmer@dabbelt.com,m:linux-riscv@lists.infradead.org,m:svens@linux.ibm.com,m:linux-s390@vger.kernel.org,m:x86@kernel.org,m:mark.rutland@arm.com,m:ruanjinjie@huawei.com,m:luto@kernel.org,m:oleg@redhat.com,m:richard.henderson@linaro.org,m:linux@armlinux.org.uk,m:catalin.marinas@arm.com,m:guoren@kernel.org,m:geert@linux-m68k.org,m:tsbogend@alpha.franken.de,m:deller@gmx.de,m:ysato@users.sourceforge.jp,m:richard@nod.at,m:chris@zankel.net,m:linux-arm-kernel@lists.infradead.org,m:linux-alpha@vger.kernel.org,m:linux-csky@vger.kernel.org,m:linux-m68k@lists.linux-m68k.org,m:linux-mips@vger.kernel.org,m:linux-parisc@vger.kernel.org,m:linux-sh@vger.kernel.org,m:linux-um@lists.infradead.org,m:arnd@arndb.de,m:vgupta@kernel.org,m:will@kerne
  l.org,m:bcain@kernel.org,m:monstr@monstr.eu,m:dinguyen@kernel.org,m:davem@davemloft.net,m:andreas@gaisler.com,m:linux-snps-arc@lists.infradead.org,m:linux-hexagon@vger.kernel.org,m:linux-openrisc@vger.kernel.org,m:sparclinux@vger.kernel.org,m:linux-arch@vger.kernel.org,m:msuchanek@suse.de,m:corbet@lwn.net,m:linux-doc@vger.kernel.org,s:lists@lfdr.de];
 	FORGED_SENDER_MAILLIST(0.00)[];
 	TO_DN_SOME(0.00)[];
@@ -150,11 +150,11 @@ X-Spamd-Result: default: False [-2.16 / 15.00];
 	ALIAS_RESOLVED(0.00)[];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
 	TAGGED_RCPT(0.00)[linux-alpha];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[infradead.org:url,infradead.org:email,linux.dev:email,li-1a3e774c-28e4-11b2-a85c-acc9f2883e29.ibm.com:mid,sin.lore.kernel.org:helo,sin.lore.kernel.org:rdns,vger.kernel.org:from_smtp]
+	DBL_BLOCKED_OPENRESOLVER(0.00)[li-1a3e774c-28e4-11b2-a85c-acc9f2883e29.ibm.com:mid,sin.lore.kernel.org:helo,sin.lore.kernel.org:rdns,vger.kernel.org:from_smtp,ellerman.id.au:email,ozlabs.org:email]
 X-Rspamd-Server: lfdr
-X-Rspamd-Queue-Id: 4674D7345FC
+X-Rspamd-Queue-Id: 8316973489F
 
-On Tue, Jul 07, 2026 at 09:06:11PM +0200, Thomas Gleixner wrote:
+On Tue, Jul 07, 2026 at 09:06:15PM +0200, Thomas Gleixner wrote:
 > syscall_enter_from_user_mode_randomize_stack() replaces
 > syscall_enter_from_user_mode() and the subsequent invocation of
 > add_random_kstack_offset().
@@ -166,38 +166,33 @@ On Tue, Jul 07, 2026 at 09:06:11PM +0200, Thomas Gleixner wrote:
 > No functional change.
 > 
 > Signed-off-by: Thomas Gleixner <tglx@kernel.org>
-> Cc: Huacai Chen <chenhuacai@kernel.org>
-> Cc: loongarch@lists.linux.dev
+> Cc: Michael Ellerman <mpe@ellerman.id.au>
+> Cc: Shrikanth Hegde <sshegde@linux.ibm.com>
+> Cc: linuxppc-dev@lists.ozlabs.org
 > ---
->  arch/loongarch/kernel/syscall.c |    5 +----
->  1 file changed, 1 insertion(+), 4 deletions(-)
+>  arch/powerpc/kernel/syscall.c |    4 +---
+>  1 file changed, 1 insertion(+), 3 deletions(-)
 > 
-> --- a/arch/loongarch/kernel/syscall.c
-> +++ b/arch/loongarch/kernel/syscall.c
-> @@ -11,7 +11,6 @@
->  #include <linux/linkage.h>
->  #include <linux/nospec.h>
->  #include <linux/objtool.h>
+> --- a/arch/powerpc/kernel/syscall.c
+> +++ b/arch/powerpc/kernel/syscall.c
+> @@ -2,7 +2,6 @@
+>  
+>  #include <linux/compat.h>
+>  #include <linux/context_tracking.h>
 > -#include <linux/randomize_kstack.h>
->  #include <linux/syscalls.h>
->  #include <linux/unistd.h>
+>  #include <linux/entry-common.h>
 >  
-> @@ -70,9 +69,7 @@ void noinstr __no_stack_protector do_sys
->  	regs->orig_a0 = regs->regs[4];
->  	regs->regs[4] = -ENOSYS;
+>  #include <asm/interrupt.h>
+> @@ -19,8 +18,7 @@ notrace long system_call_exception(struc
+>  	long ret;
+>  	syscall_fn f;
 >  
-> -	nr = syscall_enter_from_user_mode(regs, nr);
-> -
+> -	r0 = syscall_enter_from_user_mode(regs, r0);
 > -	add_random_kstack_offset();
-> +	nr = syscall_enter_from_user_mode_randomize_stack(regs, nr);
+> +	r0 = syscall_enter_from_user_mode_randomize_stack(regs, r0);
 >  
->  	if (nr < NR_syscalls) {
->  		syscall_fn = sys_call_table[array_index_nospec(nr, NR_syscalls)];
-> 
+>  	if (unlikely(r0 >= NR_syscalls)) {
+>  		if (unlikely(trap_is_unsupported_scv(regs))) {
 > 
 Reviewed-by: Mukesh Kumar Chaurasiya (IBM) <mkchauras@gmail.com>
-> _______________________________________________
-> linux-snps-arc mailing list
-> linux-snps-arc@lists.infradead.org
-> http://lists.infradead.org/mailman/listinfo/linux-snps-arc
 
