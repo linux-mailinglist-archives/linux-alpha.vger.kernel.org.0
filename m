@@ -1,171 +1,247 @@
-Return-Path: <linux-alpha+bounces-3803-lists+linux-alpha=lfdr.de@vger.kernel.org>
+Return-Path: <linux-alpha+bounces-3804-lists+linux-alpha=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-alpha@lfdr.de
 Received: from mail.lfdr.de
 	by mail.lfdr.de with LMTP
-	id R7pbMpRgT2r2fQIAu9opvQ
-	(envelope-from <linux-alpha+bounces-3803-lists+linux-alpha=lfdr.de@vger.kernel.org>)
-	for <lists+linux-alpha@lfdr.de>; Thu, 09 Jul 2026 10:49:24 +0200
+	id t2CIIeuDT2o3igIAu9opvQ
+	(envelope-from <linux-alpha+bounces-3804-lists+linux-alpha=lfdr.de@vger.kernel.org>)
+	for <lists+linux-alpha@lfdr.de>; Thu, 09 Jul 2026 13:20:11 +0200
 X-Original-To: lists+linux-alpha@lfdr.de
-Received: from tor.lore.kernel.org (tor.lore.kernel.org [IPv6:2600:3c04:e001:36c::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id 335C972E787
-	for <lists+linux-alpha@lfdr.de>; Thu, 09 Jul 2026 10:49:24 +0200 (CEST)
+Received: from sin.lore.kernel.org (sin.lore.kernel.org [IPv6:2600:3c15:e001:75::12fc:5321])
+	by mail.lfdr.de (Postfix) with ESMTPS id 8A733730319
+	for <lists+linux-alpha@lfdr.de>; Thu, 09 Jul 2026 13:20:10 +0200 (CEST)
 Authentication-Results: mail.lfdr.de;
-	dkim=none;
-	dmarc=none;
-	spf=pass (mail.lfdr.de: domain of "linux-alpha+bounces-3803-lists+linux-alpha=lfdr.de@vger.kernel.org" designates 2600:3c04:e001:36c::12fc:5321 as permitted sender) smtp.mailfrom="linux-alpha+bounces-3803-lists+linux-alpha=lfdr.de@vger.kernel.org";
+	dkim=pass header.d=qualcomm.com header.s=qcppdkim1 header.b=jqvWJK8P;
+	dkim=pass header.d=oss.qualcomm.com header.s=google header.b=iG0CDJi3;
+	dmarc=pass (policy=reject) header.from=qualcomm.com;
+	spf=pass (mail.lfdr.de: domain of "linux-alpha+bounces-3804-lists+linux-alpha=lfdr.de@vger.kernel.org" designates 2600:3c15:e001:75::12fc:5321 as permitted sender) smtp.mailfrom="linux-alpha+bounces-3804-lists+linux-alpha=lfdr.de@vger.kernel.org";
 	arc=pass ("subspace.kernel.org:s=arc-20240116:i=1")
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by tor.lore.kernel.org (Postfix) with ESMTP id 93C5F3008282
-	for <lists+linux-alpha@lfdr.de>; Thu,  9 Jul 2026 08:49:09 +0000 (UTC)
+	by sin.lore.kernel.org (Postfix) with ESMTP id 38967300118B
+	for <lists+linux-alpha@lfdr.de>; Thu,  9 Jul 2026 11:13:10 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 0429028D8DA;
-	Thu,  9 Jul 2026 08:49:09 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id F3409410D01;
+	Thu,  9 Jul 2026 11:13:08 +0000 (UTC)
 X-Original-To: linux-alpha@vger.kernel.org
-Received: from mail-pf1-f169.google.com (mail-pf1-f169.google.com [209.85.210.169])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C017E301471
-	for <linux-alpha@vger.kernel.org>; Thu,  9 Jul 2026 08:49:07 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8D00740FDAA
+	for <linux-alpha@vger.kernel.org>; Thu,  9 Jul 2026 11:13:04 +0000 (UTC)
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1783586948; cv=none; b=NUuMO/bN6j68WMz4miyCtkOAGIPcppzaWVKbF9Vj1hEEjGFXPv7LjgbdhLwMnQgYWBUfyzHEzi7YB9e/9NamLIpdaASGkRGqaxZAXPhvz2Q6zqS3Xsq5rc7H1bUyhGPh8zgLlX9Icou6yFtdB2dyDMxWQl5GwmOvIf8lZLmR2nM=
+	t=1783595588; cv=none; b=qOG3GeNV7f2/+PuJrAWw0QQ1jLRelNscs9BTbO1/GO4iNivYABes+1UMlMLsy8vk1bXhxI437qxz1FaztTLo8tu/brN6pYN0c4P6KVW7fuAl8HOzpyYM0U5sfcsoazWZMl1MeM06iazvjVMq3/nwIuU5QExipqEIUj2TzVMb7to=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1783586948; c=relaxed/simple;
-	bh=vcIYcFn8wOu64JToHCd3V3ghUBsco6aWxPDuriYHfZc=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=FCT9jzyhdf9UC4fBYmE6ZdYRWCBgUc1uKU28hUZ+oQaLWbNPXhg0EsGQzQQmEhFYB0RbC1Y5riABejIeVyvvlRfWhA+g852w4HJmZXtW1JR24L5IRpjiRIOgcdqNQJfM1yQs3HwNQ6DnRfBh5QKKBiVuQGhczXYyuXc3uR8B+DE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.210.169
-Received: by mail-pf1-f169.google.com with SMTP id d2e1a72fcca58-847aa193d98so1352857b3a.3
-        for <linux-alpha@vger.kernel.org>; Thu, 09 Jul 2026 01:49:07 -0700 (PDT)
+	s=arc-20240116; t=1783595588; c=relaxed/simple;
+	bh=HqXh4BfYQkZLyAofgdtRXqw9mAcQUWbFiU48fKsf49U=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=Izl91W+p4p/RdPICEiSYwn84UtiqwSCqCOrO7vuqrdZquo5F/9JcPgrLnsRSfUFOiQ5hPLPQDdzFN64dqV7v0JntLz9kHK0sJE6m235LqB0UYA/wixApw9GlFgBNqDMmjlQH5LFGi3X/FB9CHVpvcGxELde1d2Q2YX5XurSTwaQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com; spf=pass smtp.mailfrom=oss.qualcomm.com; dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b=jqvWJK8P; dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b=iG0CDJi3; arc=none smtp.client-ip=205.220.180.131
+Received: from pps.filterd (m0279869.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 669B03vW1620682
+	for <linux-alpha@vger.kernel.org>; Thu, 9 Jul 2026 11:13:03 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
+	cc:content-transfer-encoding:content-type:date:from:in-reply-to
+	:message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
+	Tx1kSZXz579iItxHsi1/8Nt3maK8vpLohSpfVXF4Ysw=; b=jqvWJK8PLEi8s+Po
+	PkAhOcF1EZ0TGn8umnL5kgryJ/tFquXm2xFzKz63mEvAAckXJG2v/bBhmyd/J+vv
+	w606gHPQkOOhu8auM9bbQnd68PLYN5DhMVRn/TQO3SYM9ZXEOEAB8F2FTaHvyyzL
+	/gj6GXZOaZ7Kqn5MccKMlGU9Y/8NaD7WUS1XOInbClq4x0wSv71WFJfHopsmfL88
+	joRiOO1NBxKuiVXV4p/tSPunQ9pAf4nwUwhwVoGhXqa2d3YUXy3NiFuuL84Sr5z0
+	sFBM3VIfsHX5R32LvKrkWCid7sj7it6qPECFAQp6EaOHyXV68SwSVXRcZbVTi1ag
+	vIF6OQ==
+Received: from mail-qt1-f198.google.com (mail-qt1-f198.google.com [209.85.160.198])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4f9sqsbx0h-1
+	(version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NOT)
+	for <linux-alpha@vger.kernel.org>; Thu, 09 Jul 2026 11:13:03 +0000 (GMT)
+Received: by mail-qt1-f198.google.com with SMTP id d75a77b69052e-51a8c689b5fso13213181cf.0
+        for <linux-alpha@vger.kernel.org>; Thu, 09 Jul 2026 04:13:03 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=oss.qualcomm.com; s=google; t=1783595583; x=1784200383; darn=vger.kernel.org;
+        h=content-transfer-encoding:content-type:in-reply-to:from:references
+         :cc:to:content-language:subject:user-agent:mime-version:date
+         :message-id:from:to:cc:subject:date:message-id:reply-to:content-type;
+        bh=Tx1kSZXz579iItxHsi1/8Nt3maK8vpLohSpfVXF4Ysw=;
+        b=iG0CDJi3fEdX0+CvpLHa3ZPfVRJBQiHYA56w/vMcyBgF2+hpy32q3CU1HZq6nPC6xy
+         UmjDZFf4CwiqV+QRBUVkridGTJW9uiQzqQdFVGemCQ+fVOre4X736H4qF6HV/I/Mg0mm
+         4mQQgA3UOxLee/+tn5H8iVMGP5DDnyDMYlMIM9yoA1vaqRiHEh4xDXOiyTrPenIWL3Xv
+         eEl3zNhexfGNgmBPVd+rnFNzwmYjP+AaruVL6dHO/2bvZ+hVBZIQCV8e7So3Wmx1wRIW
+         WODuJ0vTVTLLQ2w4X1BNziAAkXp95D3RtzBpcq8BLOHS2Nfw+jtRug1n/63Y//6MSIFB
+         fkwA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1783586947; x=1784191747;
-        h=content-type:cc:to:subject:message-id:date:from:in-reply-to
-         :references:mime-version:x-gm-gg:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to:content-type;
-        bh=O3mkBNkViagFAJs3obyg41kBlrTMtmvpPUP/R2gZOPo=;
-        b=NrgjRaGiFlJjOQ/PvmRvoQUjZr3/0jP618RjipgRi0b1Hh5TvlVNoAE5NthfPTRe8q
-         8iE63RKxsXMJbob4lb8rpumYzZZL53ptuapwGAa58Rbbl9S/RWxXbS4SZbf6T5GKmn9T
-         rBvQMgAcZwsLFEHDKZBPzcMMsKHeC9VAPMLQh0ijqt/4ER0LinW/yXm7dpKk7dwIaT5w
-         GPT4dT/AEkT2tNyy437a6faylK1h13K/WR2umPjfphWRT/QAvvEmgwmJIeesiWzMV1Os
-         lIR7LYnMUDV8h13H1kPGRCrnprUj+C20gpR9QhEvbGLJR0VKoEobC4IQPi7fAmEylQNh
-         5QVg==
-X-Forwarded-Encrypted: i=1; AHgh+RqB5NwVer80wh+2QfUs3BlnH048YKtpmyx7+h1Int61uza2DaoVLBq+zL/1Piug8Ed4gW4ltgZPBx739g==@vger.kernel.org
-X-Gm-Message-State: AOJu0Yy8QyaYcdAc1ywgJnNje89jPWAaSoPpfq/LcjwMd7zEydt8uk1f
-	6YQUJUIdwWcR5G4I0I4usTCpopjG++sYGRfx1qv4NOzKFuTP+Uqy02Q7rxQj5f3SbPk=
-X-Gm-Gg: AfdE7cnrBfFmFvKgvCg2vNTOXHuFycq5soJTrENFivpQa8SBC0JjCb3FHnL/v+iSVFa
-	Rz56OxtWOyAks2OveHmijxHrzkJ/BShZXH6fHWkOhzVj7y3RkEiNtCoNLVSME5b+afUDjm/ddnn
-	jksOGIfJDpcyJmVzyy1vzsR3yCbiiDqDoPkSG8KncBPVJS0J68aL22l+1+7SkQa8DDdjr6nFFRA
-	/vJDPlKaDMpvrGC467xdFbeT7r41XJsqoDyKq7jh2E6iGKn42u6biaRKH4ZmctATNf+pK3/qkWZ
-	3CtiV5h4AVSeIlJ4O7r84KDZ1T3eMB1N4Im2AIGtPdE2sjAqCcf7/uwH2cje85BD/tkAV65NyrP
-	SIUJGLsS9pfNaqH/eeiqLRl+S6kinu9dvvxnvmGRWFpOFbBCgfDUdIF6B3yVTTfS/r2kKzmqPrM
-	8sE+rwvlxVlxeD74eQGsqrdF0WxVkFnyLQhKvbjtzsaJ3PWXN7qDkGrA==
-X-Received: by 2002:a05:6a00:418e:b0:848:2f73:8ffb with SMTP id d2e1a72fcca58-848436754f1mr6262035b3a.68.1783586946902;
-        Thu, 09 Jul 2026 01:49:06 -0700 (PDT)
-Received: from mail-pf1-f169.google.com (mail-pf1-f169.google.com. [209.85.210.169])
-        by smtp.gmail.com with ESMTPSA id 41be03b00d2f7-ca5b36448e7sm3395637a12.23.2026.07.09.01.49.06
-        for <linux-alpha@vger.kernel.org>
+        d=1e100.net; s=20251104; t=1783595583; x=1784200383;
+        h=content-transfer-encoding:content-type:in-reply-to:from:references
+         :cc:to:content-language:subject:user-agent:mime-version:date
+         :message-id:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=Tx1kSZXz579iItxHsi1/8Nt3maK8vpLohSpfVXF4Ysw=;
+        b=ZCq1y/j5K0mGWFLgqIaGgUEnOLrAZn6RlRdM7ErgKT7vukzaF3wTrDOcmjWAVJW8Ml
+         c/H25UX+umN2k029e0TTiuMNgY/NIO+h1MICBuV8J4URLTwh9OdsPLoYBoG0W0s4OAk4
+         8QYMzqXOrXTq8A2Ir6kabMzVuJqdZH51YyEt6AQDoBrce29PtGtVtMOXOnGxeAFAfNng
+         SucyMFU/iFLo9ABk43mtwvWjXkIxoIeM5pvphWOBWQMpg1w4x5RJx+/zvaehZKt4LhwA
+         OyO6yPRCxwLDGdilHu1q8zteKR3owQrNMBS+NTOvsS6hyuC2dblaFvw917MvL4EE6TWY
+         bTTg==
+X-Forwarded-Encrypted: i=1; AHgh+RqwOfY268YHnU2ZLcIm3LnRCT/Fa1og8ujNU/r/rmBGX05WxQoyrfhRprx05quChtVTPBn1gMfwsgPz9Q==@vger.kernel.org
+X-Gm-Message-State: AOJu0YwKALJJbSaYI4JrCzo96sSze6W6Y1cNfGYKMaDCAlERRIXhR0zH
+	TixiGCvBNgL/c6+31BVnBqWJKt/eEZG5riE5MS9DTRPnTgkrYaelFtjJVvcmM0cjeBpgWqVhbsA
+	Tj9HHUrUvgSmSECu7e14TYbPUgMcalPJ65N3ZWzFryuBQECuKDqi97IZiiqDKcTZUjA==
+X-Gm-Gg: AfdE7ck1jwd1yBm8xhJRqjZbGwKqfwz4Fi47sQournoRqL2JM+KDi9JMY2lBqvDFVDT
+	9yT5nV0CqQ0l88rmmmU+G3MWrSm5IOkmsj4VEQYJ6moRmOgBRMBTLfVfYpsF2uGCyyr9kfXCOYX
+	58+NAaAEpaTNt8CLqlK8zcMz9KTuSX1ebL/7mgYKiaSh2aSo+CBYXRjPKm45AqqnVvy2QDkRxDv
+	uI3Hti772VXIb3PkH4BY2yER+ATmk0u8gnp9AYA1Io2m/c/hkqhSp2QhrOam50bwbF64qchEJRl
+	2oo8HNU0FbFZ1C4bXexPc999p8UkGchLqkWh08zsH9hISsBaaFqiMMoB3mF8veXi9W4EGsBAg37
+	n9+1cEyPvPFxDHUyRStqA3u2qb2mGK31NrlGPjRzQbaOvqMpAJu/Cr7t2JarmlQ==
+X-Received: by 2002:ac8:7d14:0:b0:517:61d5:2f7b with SMTP id d75a77b69052e-51c8b4d596amr63974311cf.56.1783595582872;
+        Thu, 09 Jul 2026 04:13:02 -0700 (PDT)
+X-Received: by 2002:ac8:7d14:0:b0:517:61d5:2f7b with SMTP id d75a77b69052e-51c8b4d596amr63973951cf.56.1783595582395;
+        Thu, 09 Jul 2026 04:13:02 -0700 (PDT)
+Received: from [192.168.69.219] (88-187-86-199.subs.proxad.net. [88.187.86.199])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-47aa0f213e8sm48543085f8f.34.2026.07.09.04.12.58
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 09 Jul 2026 01:49:06 -0700 (PDT)
-Received: by mail-pf1-f169.google.com with SMTP id d2e1a72fcca58-848643382fcso147389b3a.1
-        for <linux-alpha@vger.kernel.org>; Thu, 09 Jul 2026 01:49:06 -0700 (PDT)
-X-Forwarded-Encrypted: i=1; AHgh+Rou40rP4hSmlNb+uLaC5rCTLxwhswRvqlXqpnjn3vGeli2ob5MF9KdWPfMWwf3iPDxHrieGartGCKKiVQ==@vger.kernel.org
-X-Received: by 2002:a05:6102:6895:b0:738:9dd5:9b03 with SMTP id
- ada2fe7eead31-744e03a337dmr3306957137.20.1783586528282; Thu, 09 Jul 2026
- 01:42:08 -0700 (PDT)
+        Thu, 09 Jul 2026 04:13:01 -0700 (PDT)
+Message-ID: <835e2f62-3b66-45d4-a614-dc2198a715ad@oss.qualcomm.com>
+Date: Thu, 9 Jul 2026 13:12:57 +0200
 Precedence: bulk
 X-Mailing-List: linux-alpha@vger.kernel.org
 List-Id: <linux-alpha.vger.kernel.org>
 List-Subscribe: <mailto:linux-alpha+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-alpha+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20260707181957.433213175@kernel.org> <20260707190254.280015701@kernel.org>
-In-Reply-To: <20260707190254.280015701@kernel.org>
-From: Geert Uytterhoeven <geert@linux-m68k.org>
-Date: Thu, 9 Jul 2026 10:41:56 +0200
-X-Gmail-Original-Message-ID: <CAMuHMdWe1D0CZrav5h6EhDDbeJzgJcHvT89jrs6109Bdj-pdTw@mail.gmail.com>
-X-Gm-Features: AUfX_mw8w2Kp5VuAYozzfDNS6gDbdKhQdYzfXsv-G72F3LS58UBytbGwOmplITc
-Message-ID: <CAMuHMdWe1D0CZrav5h6EhDDbeJzgJcHvT89jrs6109Bdj-pdTw@mail.gmail.com>
-Subject: Re: [patch 12/18] ptrace, treewide: Rename ptrace_report_syscall_entry()
- to ptrace_report_syscall_permit_entry()
-To: Thomas Gleixner <tglx@kernel.org>
-Cc: LKML <linux-kernel@vger.kernel.org>, Peter Zijlstra <peterz@infradead.org>, 
-	Arnd Bergmann <arnd@arndb.de>, Oleg Nesterov <oleg@redhat.com>, 
-	Richard Henderson <richard.henderson@linaro.org>, Vineet Gupta <vgupta@kernel.org>, 
-	Russell King <linux@armlinux.org.uk>, Catalin Marinas <catalin.marinas@arm.com>, 
-	Will Deacon <will@kernel.org>, Guo Ren <guoren@kernel.org>, Brian Cain <bcain@kernel.org>, 
-	Michal Simek <monstr@monstr.eu>, Thomas Bogendoerfer <tsbogend@alpha.franken.de>, 
-	Dinh Nguyen <dinguyen@kernel.org>, Helge Deller <deller@gmx.de>, 
-	Yoshinori Sato <ysato@users.sourceforge.jp>, "David S. Miller" <davem@davemloft.net>, 
-	Andreas Larsson <andreas@gaisler.com>, Chris Zankel <chris@zankel.net>, linux-alpha@vger.kernel.org, 
-	linux-snps-arc@lists.infradead.org, linux-arm-kernel@lists.infradead.org, 
-	linux-csky@vger.kernel.org, linux-hexagon@vger.kernel.org, 
-	linux-m68k@lists.linux-m68k.org, linux-mips@vger.kernel.org, 
-	linux-openrisc@vger.kernel.org, linux-parisc@vger.kernel.org, 
-	linux-sh@vger.kernel.org, sparclinux@vger.kernel.org, 
-	linux-um@lists.infradead.org, linux-arch@vger.kernel.org, 
-	Michael Ellerman <mpe@ellerman.id.au>, Shrikanth Hegde <sshegde@linux.ibm.com>, 
-	linuxppc-dev@lists.ozlabs.org, Kees Cook <kees@kernel.org>, 
-	Huacai Chen <chenhuacai@kernel.org>, loongarch@lists.linux.dev, 
-	Paul Walmsley <pjw@kernel.org>, Palmer Dabbelt <palmer@dabbelt.com>, linux-riscv@lists.infradead.org, 
-	Sven Schnelle <svens@linux.ibm.com>, linux-s390@vger.kernel.org, x86@kernel.org, 
-	Mark Rutland <mark.rutland@arm.com>, Jinjie Ruan <ruanjinjie@huawei.com>, 
-	Andy Lutomirski <luto@kernel.org>, Richard Weinberger <richard@nod.at>, =?UTF-8?Q?Michal_Such=C3=A1nek?= <msuchanek@suse.de>, 
-	Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
+User-Agent: Mozilla Thunderbird
+Subject: Re: [patch 01/18] powerpc: Move stack randomization after
+ syscall_enter_from_user_mode()
+Content-Language: en-US
+To: Thomas Gleixner <tglx@kernel.org>, LKML <linux-kernel@vger.kernel.org>
+Cc: Peter Zijlstra <peterz@infradead.org>,
+        Michael Ellerman <mpe@ellerman.id.au>,
+        Shrikanth Hegde <sshegde@linux.ibm.com>, linuxppc-dev@lists.ozlabs.org,
+        Kees Cook <kees@kernel.org>, Huacai Chen <chenhuacai@kernel.org>,
+        loongarch@lists.linux.dev, Paul Walmsley <pjw@kernel.org>,
+        Palmer Dabbelt <palmer@dabbelt.com>, linux-riscv@lists.infradead.org,
+        Sven Schnelle <svens@linux.ibm.com>, linux-s390@vger.kernel.org,
+        x86@kernel.org, Mark Rutland <mark.rutland@arm.com>,
+        Jinjie Ruan <ruanjinjie@huawei.com>, Andy Lutomirski <luto@kernel.org>,
+        Oleg Nesterov <oleg@redhat.com>,
+        Richard Henderson <richard.henderson@linaro.org>,
+        Russell King <linux@armlinux.org.uk>,
+        Catalin Marinas <catalin.marinas@arm.com>, Guo Ren <guoren@kernel.org>,
+        Geert Uytterhoeven <geert@linux-m68k.org>,
+        Thomas Bogendoerfer <tsbogend@alpha.franken.de>,
+        Helge Deller
+ <deller@gmx.de>,
+        Yoshinori Sato <ysato@users.sourceforge.jp>,
+        Richard Weinberger <richard@nod.at>, Chris Zankel <chris@zankel.net>,
+        linux-arm-kernel@lists.infradead.org, linux-alpha@vger.kernel.org,
+        linux-csky@vger.kernel.org, linux-m68k@lists.linux-m68k.org,
+        linux-mips@vger.kernel.org, linux-parisc@vger.kernel.org,
+        linux-sh@vger.kernel.org, linux-um@lists.infradead.org,
+        Arnd Bergmann <arnd@arndb.de>, Vineet Gupta <vgupta@kernel.org>,
+        Will Deacon <will@kernel.org>, Brian Cain <bcain@kernel.org>,
+        Michal Simek <monstr@monstr.eu>, Dinh Nguyen <dinguyen@kernel.org>,
+        "David S. Miller" <davem@davemloft.net>,
+        Andreas Larsson <andreas@gaisler.com>,
+        linux-snps-arc@lists.infradead.org, linux-hexagon@vger.kernel.org,
+        linux-openrisc@vger.kernel.org, sparclinux@vger.kernel.org,
+        linux-arch@vger.kernel.org,
+        =?UTF-8?Q?Michal_Such=C3=A1nek?= <msuchanek@suse.de>,
+        Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org
+References: <20260707181957.433213175@kernel.org>
+ <20260707190253.718191130@kernel.org>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=C3=A9?= <philmd@oss.qualcomm.com>
+In-Reply-To: <20260707190253.718191130@kernel.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+X-Proofpoint-Spam-Info: AW1haW4tMjYwNzA5MDEwOCBTYWx0ZWRfXxGIdCI59PDQb
+ 8lazPtaNLxPA4o7n3wagRaGiwoUF4XpkQwuqp7FbCSJ+vGKcyjH+TI7UJBLcKOb4MdsTHg2oVIz
+ jh/IXAwdUcQu2zCcpKFB23WJMGe6jrk=
+X-Proofpoint-GUID: yri4SZtncjH5hx_yIulLEX0SWSP9bJXT
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwNzA5MDEwOCBTYWx0ZWRfX5y+3xW+0b6Wp
+ YfKOha+XTaDMjvw3rhApR2Wu+OnBV6W1Ui1Cx3/o3/wg7NxDCbZmSnUMbBr7apUhNBNi7PaXW+6
+ jfdbenFcAQhuQL/os+iSso3H3W6orZUxBK18/VCrcy15hbBFuNNQUBkvPFNinMuNVR8mPLXj2qf
+ Ca5fDyg1D50vbEzi2SDcEzVYVl8Vp47frKh9ZSc5+EfAYZxFlGgYOoOORU70puUjnF5itnmwtBb
+ JkXBsgxGONf03CWRzOGqnREcjDACRle3gJckMmSCGCmHOfxdNHyzcjBbXjM+pW+JvglqNHgEPMl
+ 9qP0fqfFmiILSZm/73po9fUME1yBgq1FpBtwW7C8vRSa3f3Y9fwTFcK6HHRZUiYyu0STXGOp2eE
+ oqBXevnNXoQWdV8FjmiydheOHAtaOy25l+oWVhUtaHEJlusFIqhzU4WBCjG9aReKlpM8OpdO4rB
+ D4FQkVNbUa77SeL+J7Q==
+X-Authority-Analysis: v=2.4 cv=Sv2gLvO0 c=1 sm=1 tr=0 ts=6a4f823f cx=c_pps
+ a=mPf7EqFMSY9/WdsSgAYMbA==:117 a=4s3hRJSeHn4rkQlkrse1kQ==:17
+ a=IkcTkHD0fZMA:10 a=RAioF0-LDSMA:10 a=M51BFTxLslgA:10 a=s4-Qcg_JpJYA:10
+ a=VkNPw1HP01LnGYTKEx00:22 a=u7WPNUs3qKkmUXheDGA7:22 a=_glEPmIy2e8OvE2BGh3C:22
+ a=VwQbUJbxAAAA:8 a=VnNF1IyMAAAA:8 a=voM4FWlXAAAA:8 a=EUspDBNiAAAA:8
+ a=63ny2n9c4_t8xnV3ltYA:9 a=3ZKOabzyN94A:10 a=QEXdDO2ut3YA:10
+ a=dawVfQjAaf238kedN5IG:22 a=IC2XNlieTeVoXbcui8wp:22
+X-Proofpoint-ORIG-GUID: yri4SZtncjH5hx_yIulLEX0SWSP9bJXT
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1143,Hydra:6.1.134,FMLib:17.12.100.49
+ definitions=2026-07-09_02,2026-07-09_01,2025-10-01_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ spamscore=0 adultscore=0 priorityscore=1501 suspectscore=0 malwarescore=0
+ impostorscore=0 lowpriorityscore=0 clxscore=1011 bulkscore=0 phishscore=0
+ classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
+ reason=mlx scancount=1 engine=8.22.0-2606150000 definitions=main-2607090108
 X-Rspamd-Action: no action
-X-Spamd-Result: default: False [0.04 / 15.00];
-	SUSPICIOUS_RECIPS(1.50)[];
+X-Spamd-Result: default: False [-2.16 / 15.00];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
-	R_SPF_ALLOW(-0.20)[+ip6:2600:3c04:e001:36c::/64];
+	DMARC_POLICY_ALLOW(-0.50)[qualcomm.com,reject];
+	R_SPF_ALLOW(-0.20)[+ip6:2600:3c15:e001:75::/64:c];
+	R_DKIM_ALLOW(-0.20)[qualcomm.com:s=qcppdkim1,oss.qualcomm.com:s=google];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	TAGGED_FROM(0.00)[bounces-3803-lists,linux-alpha=lfdr.de];
-	FROM_HAS_DN(0.00)[];
-	FREEMAIL_CC(0.00)[vger.kernel.org,infradead.org,arndb.de,redhat.com,linaro.org,kernel.org,armlinux.org.uk,arm.com,monstr.eu,alpha.franken.de,gmx.de,users.sourceforge.jp,davemloft.net,gaisler.com,zankel.net,lists.infradead.org,lists.linux-m68k.org,ellerman.id.au,linux.ibm.com,lists.ozlabs.org,lists.linux.dev,dabbelt.com,huawei.com,nod.at,suse.de,lwn.net];
-	RCVD_TLS_LAST(0.00)[];
-	DMARC_NA(0.00)[linux-m68k.org];
-	FORGED_RECIPIENTS(0.00)[m:tglx@kernel.org,m:linux-kernel@vger.kernel.org,m:peterz@infradead.org,m:arnd@arndb.de,m:oleg@redhat.com,m:richard.henderson@linaro.org,m:vgupta@kernel.org,m:linux@armlinux.org.uk,m:catalin.marinas@arm.com,m:will@kernel.org,m:guoren@kernel.org,m:bcain@kernel.org,m:monstr@monstr.eu,m:tsbogend@alpha.franken.de,m:dinguyen@kernel.org,m:deller@gmx.de,m:ysato@users.sourceforge.jp,m:davem@davemloft.net,m:andreas@gaisler.com,m:chris@zankel.net,m:linux-alpha@vger.kernel.org,m:linux-snps-arc@lists.infradead.org,m:linux-arm-kernel@lists.infradead.org,m:linux-csky@vger.kernel.org,m:linux-hexagon@vger.kernel.org,m:linux-m68k@lists.linux-m68k.org,m:linux-mips@vger.kernel.org,m:linux-openrisc@vger.kernel.org,m:linux-parisc@vger.kernel.org,m:linux-sh@vger.kernel.org,m:sparclinux@vger.kernel.org,m:linux-um@lists.infradead.org,m:linux-arch@vger.kernel.org,m:mpe@ellerman.id.au,m:sshegde@linux.ibm.com,m:linuxppc-dev@lists.ozlabs.org,m:kees@kernel.org,m:chenhuacai@kernel.org,m:l
- oongarch@lists.linux.dev,m:pjw@kernel.org,m:palmer@dabbelt.com,m:linux-riscv@lists.infradead.org,m:svens@linux.ibm.com,m:linux-s390@vger.kernel.org,m:x86@kernel.org,m:mark.rutland@arm.com,m:ruanjinjie@huawei.com,m:luto@kernel.org,m:richard@nod.at,m:msuchanek@suse.de,m:corbet@lwn.net,m:linux-doc@vger.kernel.org,s:lists@lfdr.de];
-	MIME_TRACE(0.00)[0:+];
-	FORGED_RECIPIENTS_MAILLIST(0.00)[];
 	FORWARDED(0.00)[lists@lfdr.de];
-	FORGED_SENDER(0.00)[geert@linux-m68k.org,linux-alpha@vger.kernel.org];
+	FORGED_SENDER(0.00)[philmd@oss.qualcomm.com,linux-alpha@vger.kernel.org];
+	MIME_TRACE(0.00)[0:+];
+	FREEMAIL_CC(0.00)[infradead.org,ellerman.id.au,linux.ibm.com,lists.ozlabs.org,kernel.org,lists.linux.dev,dabbelt.com,lists.infradead.org,vger.kernel.org,arm.com,huawei.com,redhat.com,linaro.org,armlinux.org.uk,linux-m68k.org,alpha.franken.de,gmx.de,users.sourceforge.jp,nod.at,zankel.net,lists.linux-m68k.org,arndb.de,monstr.eu,davemloft.net,gaisler.com,suse.de,lwn.net];
+	TAGGED_FROM(0.00)[bounces-3804-lists,linux-alpha=lfdr.de];
+	RCVD_TLS_LAST(0.00)[];
+	DKIM_TRACE(0.00)[qualcomm.com:+,oss.qualcomm.com:+];
 	FORGED_SENDER_MAILLIST(0.00)[];
-	FORGED_RECIPIENTS_FORWARDING(0.00)[];
-	ASN(0.00)[asn:63949, ipnet:2600:3c04::/32, country:SG];
+	FORGED_RECIPIENTS(0.00)[m:tglx@kernel.org,m:linux-kernel@vger.kernel.org,m:peterz@infradead.org,m:mpe@ellerman.id.au,m:sshegde@linux.ibm.com,m:linuxppc-dev@lists.ozlabs.org,m:kees@kernel.org,m:chenhuacai@kernel.org,m:loongarch@lists.linux.dev,m:pjw@kernel.org,m:palmer@dabbelt.com,m:linux-riscv@lists.infradead.org,m:svens@linux.ibm.com,m:linux-s390@vger.kernel.org,m:x86@kernel.org,m:mark.rutland@arm.com,m:ruanjinjie@huawei.com,m:luto@kernel.org,m:oleg@redhat.com,m:richard.henderson@linaro.org,m:linux@armlinux.org.uk,m:catalin.marinas@arm.com,m:guoren@kernel.org,m:geert@linux-m68k.org,m:tsbogend@alpha.franken.de,m:deller@gmx.de,m:ysato@users.sourceforge.jp,m:richard@nod.at,m:chris@zankel.net,m:linux-arm-kernel@lists.infradead.org,m:linux-alpha@vger.kernel.org,m:linux-csky@vger.kernel.org,m:linux-m68k@lists.linux-m68k.org,m:linux-mips@vger.kernel.org,m:linux-parisc@vger.kernel.org,m:linux-sh@vger.kernel.org,m:linux-um@lists.infradead.org,m:arnd@arndb.de,m:vgupta@kernel.org,m:will@kerne
+ l.org,m:bcain@kernel.org,m:monstr@monstr.eu,m:dinguyen@kernel.org,m:davem@davemloft.net,m:andreas@gaisler.com,m:linux-snps-arc@lists.infradead.org,m:linux-hexagon@vger.kernel.org,m:linux-openrisc@vger.kernel.org,m:sparclinux@vger.kernel.org,m:linux-arch@vger.kernel.org,m:msuchanek@suse.de,m:corbet@lwn.net,m:linux-doc@vger.kernel.org,s:lists@lfdr.de];
+	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[oss.qualcomm.com:from_mime,oss.qualcomm.com:dkim,oss.qualcomm.com:mid,vger.kernel.org:from_smtp,qualcomm.com:email,qualcomm.com:dkim,ellerman.id.au:email,ozlabs.org:email,sin.lore.kernel.org:helo,sin.lore.kernel.org:rdns];
 	TO_DN_SOME(0.00)[];
-	FORGED_SENDER_FORWARDING(0.00)[];
-	RCVD_COUNT_FIVE(0.00)[6];
 	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[geert@linux-m68k.org,linux-alpha@vger.kernel.org];
-	MISSING_XM_UA(0.00)[];
-	RCPT_COUNT_GT_50(0.00)[52];
-	R_DKIM_NA(0.00)[];
-	ALIAS_RESOLVED(0.00)[];
+	FORGED_SENDER_FORWARDING(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[philmd@oss.qualcomm.com,linux-alpha@vger.kernel.org];
+	FROM_HAS_DN(0.00)[];
+	ASN(0.00)[asn:63949, ipnet:2600:3c15::/32, country:SG];
+	RCPT_COUNT_GT_50(0.00)[53];
+	MID_RHS_MATCH_FROM(0.00)[];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
+	ALIAS_RESOLVED(0.00)[];
 	TAGGED_RCPT(0.00)[linux-alpha];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[mail.gmail.com:mid,tor.lore.kernel.org:helo,tor.lore.kernel.org:rdns,vger.kernel.org:from_smtp,linux-m68k.org:from_mime,linux-m68k.org:email]
+	FORGED_RECIPIENTS_FORWARDING(0.00)[];
+	RCVD_COUNT_SEVEN(0.00)[7]
 X-Rspamd-Server: lfdr
-X-Rspamd-Queue-Id: 335C972E787
+X-Rspamd-Queue-Id: 8A733730319
 
-On Tue, 7 Jul 2026 at 21:06, Thomas Gleixner <tglx@kernel.org> wrote:
-> The return value of that function is boolean and tells the caller whether
-> to permit the syscall processing or not.
->
-> Rename the function so the purpose is clear and make the return type bool.
-
->  arch/m68k/kernel/ptrace.c       |    2 +-
-
-Acked-by: Geert Uytterhoeven <geert@linux-m68k.org> # m68k
-
-Gr{oetje,eeting}s,
-
-                        Geert
-
--- 
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
-
-In personal conversations with technical people, I call myself a hacker. But
-when I'm talking to journalists I just say "programmer" or something like that.
-                                -- Linus Torvalds
+On 7/7/26 21:05, Thomas Gleixner wrote:
+> add_random_kstack_offset() is invoked before syscall_enter_from_user_mode()
+> establishes state. That's wrong because add_random_kstack_offset() calls
+> into instrumentable code.
+> 
+> Move it after syscall_enter_from_user_mode() to ensure that state is
+> correctly established.
+> 
+> Signed-off-by: Thomas Gleixner <tglx@kernel.org>
+> Cc: Michael Ellerman <mpe@ellerman.id.au>
+> Cc: Shrikanth Hegde <sshegde@linux.ibm.com>
+> Cc: linuxppc-dev@lists.ozlabs.org
+> ---
+>   arch/powerpc/kernel/syscall.c |    2 +-
+>   1 file changed, 1 insertion(+), 1 deletion(-)
+> 
+> --- a/arch/powerpc/kernel/syscall.c
+> +++ b/arch/powerpc/kernel/syscall.c
+> @@ -19,8 +19,8 @@ notrace long system_call_exception(struc
+>   	long ret;
+>   	syscall_fn f;
+>   
+> -	add_random_kstack_offset();
+>   	r0 = syscall_enter_from_user_mode(regs, r0);
+> +	add_random_kstack_offset();
+>   
+>   	if (unlikely(r0 >= NR_syscalls)) {
+>   		if (unlikely(trap_is_unsupported_scv(regs))) {
+> 
+Reviewed-by: Philippe Mathieu-Daudé <philmd@oss.qualcomm.com>
 
